@@ -23,6 +23,7 @@
 
         const { without, keys, last } = require('ramda');
         const { Money } = require('@waves/data-entities');
+        const { BigNumber } = require('@waves/bignumber');
         const ds = require('data-service');
         const analytics = require('@waves/event-sender');
 
@@ -145,6 +146,18 @@
              * @type {Money}
              */
             maxAmount = null;
+            /**
+             * @type {Array<Money>}
+             */
+            feeList = [];
+            /**
+             * @type {Object}
+             */
+            matcherSettings = {};
+            /**
+             * @type {Poll}
+             */
+            feePoll = null;
 
 
             constructor() {
@@ -182,8 +195,17 @@
                  * @type {Poll}
                  */
                 const spreadPoll = createPoll(this, this._getData, this._setData, 1000);
+                /**
+                 * @type {Poll}
+                 */
 
-                this.receive(balanceWatcher.change, this._updateBalances, this);
+                const onChangeBalanceWatcher = () => {
+                    this._updateBalances();
+                    if (this.matcherSettings.mode === 'dynamic') {
+                        this._updateFeeList();
+                    }
+                };
+                this.receive(balanceWatcher.change, onChangeBalanceWatcher, this);
                 this._updateBalances();
 
                 const lastTradePromise = new Promise((resolve) => {
@@ -191,18 +213,6 @@
                         lastTraderPoll = createPoll(this, this._getLastPrice, 'lastTradePrice', 1000);
                         resolve();
                     });
-                });
-
-                const currentFee = () => Promise.all([
-                    ds.api.pairs.get(this._assetIdPair.amount, this._assetIdPair.price),
-                    ds.fetch(ds.config.get('matcher'))
-                ]).then(([pair, matcherPublicKey]) => waves.matcher.getCreateOrderFee({
-                    amount: new Money(0, pair.amountAsset),
-                    price: new Money(0, pair.priceAsset),
-                    matcherPublicKey
-                })).then(fee => {
-                    this.fee = fee;
-                    $scope.$apply();
                 });
 
                 Promise.all([
@@ -243,7 +253,7 @@
                             $scope.$apply();
                         }
                     }));
-                    currentFee();
+                    this._setMatcherSettings();
                 });
 
                 this.observe(['priceBalance', 'total', 'maxPriceBalance'], this._setIfCanBuyOrder);
@@ -269,7 +279,23 @@
                     this._userList = list;
                 });
 
-                currentFee();
+                this._setMatcherSettings();
+                this.observe('matcherSettings', () => {
+                    if (this.matcherSettings.feeMode === 'dynamic') {
+                        this._updateFeeList();
+                        if (!this.feePoll) {
+                            this.feePoll = createPoll(this, this._getFeeRates, this._updateFeeList, 20000);
+                        }
+                    } else {
+                        this.fee = this.matcherSettings.fee;
+                        this.feeList = [];
+                        if (this.feePoll) {
+                            this.feePoll.destroy();
+                            this.feePoll = null;
+                        }
+                    }
+                    $scope.$apply();
+                });
             }
 
             /**
@@ -283,14 +309,14 @@
                     return false;
                 }
 
-                return this.maxAmount.cloneWithTokens(this.maxAmount.getTokens().times(factor)).eq(amount);
+                return this.maxAmount.cloneWithTokens(this.maxAmount.getTokens().mul(factor)).eq(amount);
             }
 
             /**
              * @param {number} factor
              */
             setAmountByBalance(factor) {
-                const amount = this.maxAmount.cloneWithTokens(this.maxAmount.getTokens().times(factor));
+                const amount = this.maxAmount.cloneWithTokens(this.maxAmount.getTokens().mul(factor));
                 this._updateField({ amount });
                 return Promise.resolve();
             }
@@ -355,7 +381,7 @@
             setMaxPrice() {
                 const amount = this.maxAmount;
                 const total = this.priceBalance.cloneWithTokens(
-                    this.price.getTokens().times(amount.getTokens())
+                    this.price.getTokens().mul(amount.getTokens())
                 );
                 const price = this.price;
                 this._updateField({ amount, total, price });
@@ -490,7 +516,7 @@
                 const isBuy = orderData.orderType === 'buy';
                 const factor = isBuy ? 1 : -1;
                 const limit = 1 + factor * (Number(user.getSetting('orderLimit')) || 0);
-                const price = (new BigNumber(isBuy ? this.ask.price : this.bid.price)).times(limit);
+                const price = (new BigNumber(isBuy ? this.ask.price : this.bid.price)).mul(limit);
                 const orderPrice = orderData.price.getTokens();
 
                 if (price.isNaN() || price.eq(0)) {
@@ -500,7 +526,7 @@
                 /**
                  * @type {BigNumber}
                  */
-                const delta = isBuy ? orderPrice.minus(price) : price.minus(orderPrice);
+                const delta = isBuy ? orderPrice.sub(price) : price.sub(orderPrice);
 
                 if (delta.isNegative()) {
                     return Promise.resolve();
@@ -599,7 +625,7 @@
                         .toNonNegative()
                         .getTokens()
                         .div(this.price.getTokens())
-                        .dp(this.amountBalance.asset.precision)
+                        .roundTo(this.amountBalance.asset.precision)
                 );
             }
 
@@ -760,7 +786,7 @@
                 const price = this._validPrice();
                 const amount = this._validAmount();
                 this._setDirtyField('total', this.priceBalance.cloneWithTokens(
-                    price.times(amount)
+                    price.mul(amount)
                 ));
                 this._silenceNow = true;
             }
@@ -885,6 +911,82 @@
                 }
                 this[field] = value;
                 this.order.$setDirty();
+            }
+
+            /**
+             *
+             * @return {Promise<T | never>}
+             * @private
+             */
+            _updateFeeList() {
+                return this._getFeeRates()
+                    .then(list => {
+                        const { baseFee, otherFee } = Object.keys(list).reduce((acc, id) => {
+                            if (id === WavesApp.defaultAssets.WAVES) {
+                                acc.baseFee.push(id);
+                            } else {
+                                acc.otherFee.push(id);
+                            }
+                            return acc;
+                        }, { baseFee: [], otherFee: [] });
+                        const assetsId = [...baseFee, ...otherFee];
+
+                        Promise.all(
+                            assetsId.map(id => balanceWatcher.getBalanceByAssetId(id))
+                        ).then(balances => {
+                            const basedCustomFee = this.matcherSettings.basedCustomFee;
+
+                            const feeList = balances
+                                .map(balance => {
+                                    const id = balance.asset.id;
+                                    const rate = new BigNumber(list[id]);
+                                    return balance.cloneWithCoins(
+                                        rate.mul(basedCustomFee[id])
+                                    );
+                                });
+
+                            const filteredFeeList = feeList.filter((fee, i) => fee.lte(balances[i]));
+
+                            if (!filteredFeeList.length) {
+                                this.fee = feeList[0];
+                                this.feeList = [];
+                            } else if (filteredFeeList.length === 1) {
+                                this.fee = filteredFeeList[0];
+                                this.feeList = [];
+                            } else {
+                                this.fee = filteredFeeList[0];
+                                this.feeList = filteredFeeList;
+                            }
+                        });
+
+                    })
+                    .catch(() => {
+                        this.feeList = [];
+                    });
+            }
+
+            /**
+             * @return {Promise<Matcher.IFeeMap>}
+             * @private
+             */
+            _getFeeRates() {
+                return waves.matcher.getFeeRates();
+            }
+
+            /**
+             * @return {Promise<T | never>}
+             * @private
+             */
+            _setMatcherSettings() {
+                return Promise.all([
+                    ds.api.pairs.get(this._assetIdPair.amount, this._assetIdPair.price),
+                    ds.fetch(ds.config.get('matcher'))
+                ]).then(([pair, matcherPublicKey]) => {
+                    waves.matcher.getCreateOrderSettings(pair, matcherPublicKey)
+                        .then(data => {
+                            this.matcherSettings = data;
+                        });
+                });
             }
 
             static _animateNotification($element) {

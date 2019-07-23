@@ -426,7 +426,7 @@ w-layout {
 
     .orderbook-table w-row:hover,
     .smart-table__cell[data-column-id="volume"]:hover {
-      .tooltip-dex {
+      .tooltip-dex.active {
         display: flex;
       }
     }
@@ -765,6 +765,16 @@ html body.dex-demo .notifications {
 }
 
 // responsive
+@media screen and (min-width: 660px) {
+  w-layout {
+    .dex-layout__orderbook {
+      w-dex-layout-side-bar-toggle[side="left"] {
+        width: 0;
+      }
+    }
+  }
+}
+
 @media screen and (min-width: 660px) and (max-width: 1024px) {
 
   .dex.main .main-content,
@@ -843,7 +853,6 @@ html body.dex-demo .notifications {
         }
 
         w-dex-layout-side-bar-toggle[side="left"] {
-          width: 0;
           .dex-layout {
             &__sidebar-toggle {
               left: -19px;

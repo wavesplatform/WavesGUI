@@ -3,7 +3,7 @@
     'use strict';
 
     const { equals } = require('ramda');
-    const { utils: generatorUtils } = require('@waves/signature-generator');
+    const { isValidAddress } = require('@waves/signature-adapter');
 
     /* global
         Mousetrap
@@ -54,13 +54,6 @@
          * @class User
          */
         class User {
-
-            /**
-             * @type {Signal<string>} setting path
-             */
-            get changeSetting() {
-                return this._settings.change;
-            }
 
             /**
              * @type {Signal<{}>}
@@ -204,6 +197,13 @@
 
                 });
 
+            }
+
+            /**
+             * @type {Signal<string>} setting path
+             */
+            get changeSetting() {
+                return this._settings.change;
             }
 
             setScam(hash) {
@@ -467,21 +467,30 @@
                     .then(list => {
                         list = list || [];
 
-                        list.sort((a, b) => {
-                            return a.lastLogin - b.lastLogin;
-                        })
-                            .reverse();
+                        list.sort((a, b) => a.lastLogin - b.lastLogin).reverse();
 
                         return list;
                     });
             }
 
             /**
+             * @param address
+             */
+            isValidAddress(address) {
+                try {
+                    return isValidAddress(address, WavesApp.network.code.charCodeAt(0));
+                } catch (e) {
+                    return false;
+                }
+            }
+
+            /**
              * @return {Promise}
              */
             getFilteredUserList() {
-                return this.getUserList()
-                    .then(list => list.filter(user => generatorUtils.crypto.isValidAddress(user.address)));
+                return this.getUserList().then(
+                    list => list.filter(user => this.isValidAddress(user.address))
+                );
             }
 
             removeUserByAddress(removeAddress) {

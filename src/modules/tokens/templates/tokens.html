@@ -121,6 +121,15 @@
                     <w-range-slider ng-model="$ctrl.precision" max="::8">
                 </div>
 
+                <div ng-if="$ctrl.isNFT" class="row">
+                    <div class="plate-warning">
+                        <div class="body-2 margin-05 warning-500"
+                             w-i18n="NFT.title"></div>
+                        <div class="footnote-1 basic-500"
+                             w-i18n="NFT.description"></div>
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="body-2 basic-900 margin-1 relative">
                         <span w-i18n="script"></span>

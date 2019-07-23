@@ -4,6 +4,7 @@
     const { SIGN_TYPE } = require('@waves/signature-adapter');
     const { filter, whereEq, uniqBy, prop, where, gt, pick, __, map } = require('ramda');
     const ds = require('data-service');
+    const { BigNumber } = require('@waves/bignumber');
     const MAX_EXCHANGE_COUNT = 2000;
 
     /**
@@ -323,29 +324,27 @@
                             )
                             .then(result => {
                                 const lastOrder = result.slice().reverse().find(where({ progress: gt(__, 0) }));
+                                const exchanges = lastOrder ?
+                                    DexMyOrders._loadTransactions(lastOrder.timestamp.getTime()) :
+                                    Promise.resolve([]);
 
-                                if (!lastOrder) {
-                                    return result;
-                                }
+                                return exchanges.then(txList => {
+                                    const hash = DexMyOrders._getTransactionsByOrderIdHash(txList);
+                                    this.loadingError = false;
+                                    return result.map(order => {
+                                        if (!hash[order.id]) {
+                                            hash[order.id] = [];
+                                        }
+                                        order.exchange = hash[order.id];
+                                        order.average =
+                                            DexMyOrders._getAveragePriceByExchange(order, order.exchange);
+                                        order.filledTotal = order.price.cloneWithTokens(
+                                            order.average.getTokens().mul(order.filled.getTokens())
+                                        );
 
-                                return DexMyOrders._loadTransactions(lastOrder.timestamp.getTime())
-                                    .then(txList => {
-                                        const hash = DexMyOrders._getTransactionsByOrderIdHash(txList);
-                                        this.loadingError = false;
-                                        return result.map(order => {
-                                            if (!hash[order.id]) {
-                                                hash[order.id] = [];
-                                            }
-                                            order.exchange = hash[order.id];
-                                            order.average =
-                                                DexMyOrders._getAveragePriceByExchange(order, order.exchange);
-                                            order.filledTotal = order.price.cloneWithTokens(
-                                                order.average.getTokens().times(order.filled.getTokens())
-                                            );
-
-                                            return order;
-                                        });
-                                    }).catch(() => result);
+                                        return order;
+                                    });
+                                }).catch(() => result);
                             });
                     })
                     .catch(() => {
@@ -403,8 +402,8 @@
                         total: tx.total.getTokens()
                     }))
                     .reduce((acc, item) => ({
-                        amount: acc.amount.plus(item.amount),
-                        total: acc.total.plus(item.total)
+                        amount: acc.amount.add(item.amount),
+                        total: acc.total.add(item.total)
                     }), {
                         amount: new BigNumber(0),
                         total: new BigNumber(0)
@@ -477,7 +476,7 @@
                     const assetPair = order.assetPair;
                     const pair = `${assetPair.amountAsset.displayName} / ${assetPair.priceAsset.displayName}`;
                     const isNew = DexMyOrders._isNewOrder(order.timestamp.getTime());
-                    const percent = new BigNumber(order.progress * 100).dp(2).toFixed();
+                    const percent = new BigNumber(order.progress * 100).toFixed(2);
                     return waves.matcher.getCreateOrderFee({ ...order, matcherPublicKey })
                         .then(fee => ({ ...order, isNew, percent, pair, fee }));
                 };

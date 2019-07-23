@@ -2,7 +2,8 @@
 (function () {
     'use strict';
 
-    const entities = require('@waves/data-entities');
+    const { Money } = require('@waves/data-entities');
+    const { BigNumber } = require('@waves/bignumber');
 
     /**
      * @param {BaseNodeComponent} BaseNodeComponent
@@ -147,9 +148,6 @@
             }
 
             stopScam() {
-                // if (this._pollScam) {
-                //     return null;
-                // }
                 /**
                  * @type {Poll}
                  * @private
@@ -223,18 +221,7 @@
              */
             _getEmptyBalanceList(idList) {
                 return ds.api.assets.get(idList)
-                    .then((list) => list.map(asset => new entities.Money(0, asset)));
-            }
-
-            /**
-             * @param props
-             * @return {*}
-             * @private
-             */
-            static _remapAssetProps(props) {
-                props.precision = props.decimals;
-                delete props.decimals;
-                return props;
+                    .then((list) => list.map(asset => new Money(0, asset)));
             }
 
             /**
