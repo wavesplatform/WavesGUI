@@ -128,6 +128,7 @@ timeout(time:20, unit:'MINUTES') {
                     currentBuild.result,
                     "Built images:\n${Constants.DOCKER_REGISTRY_ADDRESS - 'https://'}/waves/wallet:${branch}-build${env.BUILD_NUMBER}" +
                     "\n${Constants.DOCKER_REGISTRY_ADDRESS - 'https://'}/waves/wallet-electron:${branch}-build${env.BUILD_NUMBER}")
+                cleanWs()
             }
         }
     }
