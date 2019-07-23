@@ -36,6 +36,7 @@
         <w-input-container ng-if="!$ctrl.toBankMode">
             <div class="read-address-wrap">
                 <w-input type="text"
+                         class="input"
                          name="recipient"
                          ng-model="$ctrl.state.singleSend.recipient"
                          placeholder="modal.send.placeholderRecipient"
@@ -128,6 +129,7 @@
         <w-input-container class="row">
             <div>
                 <w-input type="text"
+                         class="input"
                          name="payment-id"
                          ng-model="$ctrl.state.paymentId"
                          placeholder="modal.send.moneroPaymentIdPlaceholder"
@@ -225,6 +227,7 @@
             </w-help-icon>
         </div>
         <w-input required
+                 class="input"
                  w-validate
                  ng-disabled="!$ctrl.termsAccepted"
                  w-validator-pattern="\d*"
@@ -241,6 +244,7 @@
         <div class="body-2 margin-05" w-i18n="modal.send.description"></div>
         <w-input-container>
             <w-input textarea="true"
+                     class="input"
                      name="attachment"
                      ng-model="$ctrl.state.singleSend.attachment"
                      w-i18n-attr="placeholder"

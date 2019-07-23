@@ -1,7 +1,8 @@
 <div w-i18n-ns="app.ui" class="input-wrap" ng-if="$ctrl.name">
     <w-input type="text"
              w-validate
-             class="no-validate-icons {{::$ctrl.inputClasses}}"
+             class="input no-validate-icons"
+             ng-class="[$ctrl.inputClasses]"
              w-validator-gt="{{$ctrl.min}}"
              w-validator-lte="{{$ctrl.realMaxBalance}}"
              w-validator-asset="{{$ctrl.asset}}"

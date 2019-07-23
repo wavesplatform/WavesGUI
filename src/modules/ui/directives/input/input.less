@@ -20,6 +20,7 @@ input[type="checkbox"] {
   appearance: none;
   -moz-appearance: none;
   -webkit-appearance: none;
+  transition: all 0.3s;
 
   &.blue {
     background: @color-basic-200;
@@ -96,10 +97,11 @@ input[type="checkbox"] {
       }
     }
 
-    w-input .w-input-wrap {
+    .input__wrap {
       width: 50%;
     }
-    w-input .w-input-wrap input[type="text"] {
+
+    .input__value[type="text"] {
       display: block;
       //width: 50%;
 
@@ -118,8 +120,6 @@ input[type="checkbox"] {
 
   @media screen and (min-width: 769px) {
     &.big {
-      height: @height-control-big;
-      padding: @padding-control-big;
       font-size: @font-size-control-big;
 
       &::placeholder {
@@ -141,51 +141,51 @@ input[type="checkbox"] {
   }
 }
 
-w-input {
+.input {
   display: block;
   width: 100%;
   transform: translate3d(0, 0, 0);
 
-  .w-input-wrap {
+  &__wrap {
     position: relative;
     width: 100%;
+  }
+  
+  &__value[type="text"],
+  &__value[type="password"],
+  &__value[type="number"],
+  textarea {
+    resize: vertical;
+    .input-like();
 
-    input[type="text"],
-    input[type="password"],
-    input[type="number"],
-    textarea {
-      resize: vertical;
-      .input-like();
-
-      &:not(.embed):not(.no-validate) {
-        &:focus, &.focus {
-          background-color: @color-white;
-          color: @color-basic-900;
-          border-color: @input-focused-border;
-        }
-
-        &.disabled {
-          background: @color-basic-50;
-        }
-
-        &.ng-touched {
-          &.ng-valid:not(:focus):not(.focus):not(.ng-empty) {
-            border-color: @color-success-300;
-          }
-          &.ng-invalid:not(:focus):not(.focus) {
-            border-color: @color-error-200;
-          }
-        }
+    &:not(.embed):not(.no-validate) {
+      &:focus, &.focus {
+        background-color: @color-white;
+        color: @color-basic-900;
+        border-color: @input-focused-border;
       }
 
-      &.no-validate:focus,
-      &.embed:focus {
-        border: 1px solid @color-submit-400;
+      &.disabled {
+        background: @color-basic-50;
       }
 
-      &[disabled="disabled"] {
-        background-color: @color-basic-50;
+      &.ng-touched {
+        &.ng-valid:not(:focus):not(.focus):not(.ng-empty) {
+          border-color: @color-success-300;
+        }
+        &.ng-invalid:not(:focus):not(.focus) {
+          border-color: @color-error-200;
+        }
       }
+    }
+
+    &.no-validate:focus,
+    &.embed:focus {
+      border: 1px solid @color-submit-400;
+    }
+
+    &[disabled="disabled"] {
+      background-color: @color-basic-50;
     }
   }
 
@@ -205,29 +205,27 @@ w-input {
       min-height: 80px;
     }
 
-    .w-input-wrap {
+    .input__wrap {
       &::after {
         display: none;
       }
     }
   }
 
-  &:not(.no-icon) .w-input-wrap {
-    &.input-type-password {
-      input[type="password"] {
-        padding-right: 50px;
-      }
+  &:not(.no-icon) {
+    .input__value[type="password"] {
+      padding-right: 50px;
+    }
 
-      &::after {
-        background: url(/img/icons/input-password-icon.svg) no-repeat center center;
-        width: 15px;
-        height: 10px;
-      }
+    &::after {
+      background: url(/img/icons/input-password-icon.svg) no-repeat center center;
+      width: 15px;
+      height: 10px;
     }
   }
 
-  &:not(.no-validate-icons) .w-input-wrap {
-    &.input-type-password input[type="password"] {
+  &:not(.no-validate-icons) {
+    .input__value[type="password"] {
       padding-right: 50px;
     }
   }
@@ -254,9 +252,34 @@ w-input {
 }
 
 form.ng-submitted {
-  input[type="text"], input[type="password"], input[type="number"], textarea {
+  .input__value[type="text"],
+  .input__value[type="password"],
+  .input__value[type="number"],
+  textarea {
     &.ng-touched.ng-invalid:not(.embed):not(:focus):not(.focus):not(.no-validate) {
       border-color: @color-error-200;
+    }
+  }
+}
+
+.seed-block {
+  .input__value {
+    border-radius: @border-radius;
+    border: none;
+    padding: 16px;
+    min-height: 86px;
+    max-height: 150px;
+    resize: vertical;
+  }
+}
+
+.fields {
+  .input {
+    width: 50%;
+
+    .input__value {
+      height: 28px;
+      border: none;
     }
   }
 }

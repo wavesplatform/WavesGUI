@@ -169,7 +169,7 @@
                         <a class="settings-copy" w-copy="$ctrl.node" w-i18n="modal.settings.network.copy"></a>
                     </div>
                     <div class="data-field">
-                        <w-input ng-model="$ctrl.node"></w-input>
+                        <w-input class="input" ng-model="$ctrl.node"></w-input>
                     </div>
                 </div>
 
@@ -179,7 +179,7 @@
                         <a class="settings-copy" w-copy="$ctrl.matcher" w-i18n="modal.settings.network.copy"></a>
                     </div>
                     <div class="data-field">
-                        <w-input ng-model="$ctrl.matcher"></w-input>
+                        <w-input class="input" ng-model="$ctrl.matcher"></w-input>
                     </div>
                 </div>
 
@@ -216,7 +216,8 @@
 
                         <form novalidate name="dataProvider">
                             <w-input-container class="relative">
-                                <w-input name="dataProviderInput"
+                                <w-input class="input"
+                                         name="dataProviderInput"
                                          w-validate
                                          w-validator-custom="{{!$ctrl.oracleError}}"
                                          ng-model="$ctrl.assetsOracleTmp"></w-input>
@@ -248,7 +249,7 @@
                         <a class="settings-copy" w-copy="$ctrl.api" w-i18n="modal.settings.network.copy"></a>
                     </div>
                     <div class="data-field has-helper">
-                        <w-input ng-model="$ctrl.api"></w-input>
+                        <w-input class="input" ng-model="$ctrl.api"></w-input>
                         <w-help-icon>
                             <div class="help-icon__row headline-3" w-i18n="modal.settings.network.apiAddressHelp"></div>
                         </w-help-icon>
@@ -262,7 +263,7 @@
                     </div>
 
                     <div class="data-field has-helper">
-                        <w-input ng-model="$ctrl.scamListUrl"></w-input>
+                        <w-input class="input" ng-model="$ctrl.scamListUrl"></w-input>
                         <w-help-icon class="info">
                             <div class="help-icon__row headline-3" w-i18n="modal.settings.network.spamListHelp"></div>
                             <div class="help-icon__row" w-i18n="modal.settings.network.forDisableClear"></div>

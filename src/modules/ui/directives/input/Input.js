@@ -26,9 +26,9 @@
                 });
 
                 if ('textarea' in $data) {
-                    return `<div class="w-input-wrap ${typeClass}"><textarea ${attrs.join(' ')}></textarea></div>`;
+                    return `<div class="input__wrap ${typeClass}"><textarea ${attrs.join(' ')}></textarea></div>`;
                 } else {
-                    return `<div class="w-input-wrap ${typeClass}"><input ${attrs.join(' ')}></div>`;
+                    return `<div class="input__wrap ${typeClass}"><input ${attrs.join(' ')}></div>`;
                 }
             },
             /**
@@ -83,7 +83,7 @@
                      */
                     _initialize() {
                         this._$input = $element.find('input,textarea');
-                        this._$inputWrap = $element.find('.w-input-wrap');
+                        this._$inputWrap = $element.find('.input__wrap');
 
                         const name = this._name = this._getName();
                         const formName = $element.closest('form').attr('name');
@@ -104,6 +104,9 @@
                         if ($attrs.autoFocus) {
                             this._$input.focus();
                         }
+
+                        this._$input.addClass('input__value');
+                        this._$input.removeClass('input');
                     }
 
                     /**
