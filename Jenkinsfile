@@ -21,8 +21,9 @@ def buildTasks = [:]
 def repo_url = 'https://github.com/wavesplatform/WavesGUI.git'
 
 properties([
-    [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', daysToKeepStr: '14', numToKeepStr: '30']], 
-    [$class: 'ScannerJobProperty', doNotScan: false],
+
+    [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '14', numToKeepStr: '30']],
+
     parameters([
         listGitBranches(
             branchFilter: 'origin/(.*)',
