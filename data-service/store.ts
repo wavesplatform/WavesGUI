@@ -33,6 +33,13 @@ function removeFromStoreById<T>(container: TStore<T>, idKey: keyof T, item: Part
     }
 }
 
+function removeFromStoreAll<T>(container: TStore<T>) {
+    for (let i = container.length - 1; i >= 0; i--) {
+        window.clearTimeout(container[i].expiration);
+        container.splice(i, 1);
+    }
+}
+
 function createClearStore<T>(addContainer: TStore<T>, addRemoveF: IRemoveOrderFunc<Partial<T>>, idKey: keyof T) {
     return (item: Partial<T> | Array<Partial<T>>) => {
         toArray(item).forEach((item) => {
@@ -42,6 +49,13 @@ function createClearStore<T>(addContainer: TStore<T>, addRemoveF: IRemoveOrderFu
         return item;
     };
 }
+
+function createClearStoreAll<T>(container: TStore<T>, addRemoveF: IRemoveOrderFunc<Partial<T>>) {
+    return () => {
+        removeFromStoreAll(container);
+    };
+}
+
 
 function createProcessStore<T>(toAddContainer: TStore<T>, toRemoveContainer: TStore<T>, idKey: string): (list: Array<T>) => Array<T> {
     return pipe(
@@ -54,6 +68,7 @@ function createProcessStore<T>(toAddContainer: TStore<T>, toRemoveContainer: TSt
 const addToRemoveStore = createAddStore(toRemoveOrders, 3000);
 export const addOrderToStore = createAddStore(ordersStore, 3000);
 export const removeOrderFromStore = createClearStore(ordersStore, addToRemoveStore, 'id');
+export const removeAllOrdersFromStore = createClearStoreAll(ordersStore, addToRemoveStore);
 export const processOrdersWithStore = createProcessStore(ordersStore, toRemoveOrders, 'id');
 
 export interface IStoreContainerItem<T> {
