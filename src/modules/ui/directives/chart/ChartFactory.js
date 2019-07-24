@@ -457,7 +457,7 @@
                     };
                 });
 
-                i18next.on('languageChanged', this.changeLanguageHandler);
+                this.listenEventEmitter(i18next, 'languageChanged', this.changeLanguageHandler);
             }
 
             /**

@@ -73,10 +73,9 @@
                 this.plate.addClass('visible');
                 this.marker.addClass('visible');
 
-                if (typeof this.markerColor === 'string') {
-                    this.marker.css('border-color', this.markerColor);
-                } else if (this.markerColor && this.markerColor[id]) {
-                    this.marker.css('border-color', this.markerColor[id]);
+                const color = typeof this.markerColor === 'string' && this.markerColor || this.markerColor[id];
+                if (color) {
+                    this.marker.css('border-color', color);
                 }
             }
 

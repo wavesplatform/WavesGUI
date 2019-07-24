@@ -126,11 +126,7 @@
 
                 return waves.utils.getRateHistory(assetId, baseAssetId, startDate)
                     .then(map(item => ({ ...item, rate: Number(item.rate.toFixed()) })))
-                    .then(data => {
-                        return ({
-                            rate: data
-                        });
-                    });
+                    .then(rate => ({ rate }));
             }
 
             /**
