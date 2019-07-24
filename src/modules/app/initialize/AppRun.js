@@ -358,14 +358,14 @@
                         return $state.target(START_STATES[0]);
                     }
 
+                    if (waiting) {
+                        return null;
+                    }
+
                     if (toState.name === 'main.dex-demo') {
                         tryDesktop = Promise.resolve();
                     } else {
                         tryDesktop = this._initTryDesktop();
-                    }
-
-                    if (waiting) {
-                        return null;
                     }
 
                     waiting = true;
