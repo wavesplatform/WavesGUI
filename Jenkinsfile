@@ -20,11 +20,9 @@ ut = new utils()
 def buildTasks = [:]
 def repo_url = 'https://github.com/wavesplatform/WavesGUI.git'
 
-properties []
-
 properties([
     [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', daysToKeepStr: '14', numToKeepStr: '30']], 
-    [$class: 'ScannerJobProperty', doNotScan: false]
+    [$class: 'ScannerJobProperty', doNotScan: false],
     parameters([
         listGitBranches(
             branchFilter: 'origin/(.*)',
