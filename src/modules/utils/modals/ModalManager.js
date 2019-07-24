@@ -237,7 +237,7 @@
 
                 return api.getSeed()
                     .then((phrase) => {
-                        const seed = new ds.Seed(phrase);
+                        const seed = new ds.Seed(phrase, window.WavesApp.network.code);
                         return this._getModal({
                             id: 'seed-backup',
                             title: 'modal.backup.title.{{$ctrl.titleLiteral}}',

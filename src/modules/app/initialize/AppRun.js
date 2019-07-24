@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-/* global openInBrowser, BigNumber */
+/* global openInBrowser */
 (function () {
     'use strict';
 

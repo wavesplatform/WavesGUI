@@ -3,7 +3,7 @@
     'use strict';
 
     const { equals } = require('ramda');
-    const { utils: generatorUtils } = require('@waves/signature-generator');
+    const { isValidAddress } = require('@waves/signature-adapter');
 
     const NOT_SYNC_FIELDS = [
         'changeSetting',
@@ -14,7 +14,9 @@
         'setScamSignal',
         'scam',
         'loginSignal',
-        'logoutSignal'
+        'logoutSignal',
+        'setTokensNameSignal',
+        'tokensName'
     ];
 
     /**
@@ -116,9 +118,17 @@
              */
             setScamSignal;
             /**
+             * @type {Signal<void>}
+             */
+            setTokensNameSignal = new tsUtils.Signal();
+            /**
              * @type {Record<string, boolean>}
              */
             scam;
+            /**
+             * @type {Record<string, boolean>}
+             */
+            tokensName = Object.create(null);
             /**
              * @type {DefaultSettings}
              * @private
@@ -186,6 +196,13 @@
                 if (!equals(hash, this.scam)) {
                     this.scam = hash;
                     this.setScamSignal.dispatch();
+                }
+            }
+
+            setTokensNameList(hash) {
+                if (!equals(hash, this.tokensName)) {
+                    this.tokensName = hash;
+                    this.setTokensNameSignal.dispatch();
                 }
             }
 
@@ -448,21 +465,30 @@
                     .then(list => {
                         list = list || [];
 
-                        list.sort((a, b) => {
-                            return a.lastLogin - b.lastLogin;
-                        })
-                            .reverse();
+                        list.sort((a, b) => a.lastLogin - b.lastLogin).reverse();
 
                         return list;
                     });
             }
 
             /**
+             * @param address
+             */
+            isValidAddress(address) {
+                try {
+                    return isValidAddress(address, WavesApp.network.code.charCodeAt(0));
+                } catch (e) {
+                    return false;
+                }
+            }
+
+            /**
              * @return {Promise}
              */
             getFilteredUserList() {
-                return this.getUserList()
-                    .then(list => list.filter(user => generatorUtils.crypto.isValidAddress(user.address)));
+                return this.getUserList().then(
+                    list => list.filter(user => this.isValidAddress(user.address))
+                );
             }
 
             removeUserByAddress(removeAddress) {
