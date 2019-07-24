@@ -144,7 +144,7 @@
              */
             @decorators.cachable(60)
             getVolume(pair) {
-                return ds.api.pairs.info(matcher.currentMatcherAddress, pair)
+                return ds.api.pairs.info(matcher.currentMatcherAddress, [pair])
                     .then((data) => {
                         const [pair = {}] = data.filter(Boolean);
                         return pair && String(pair.volume) || '0';
@@ -167,7 +167,7 @@
                 };
 
                 return ds.api.pairs.get(from, to)
-                    .then(pair => ds.api.pairs.info(matcher.currentMatcherAddress, pair)
+                    .then(pair => ds.api.pairs.info(matcher.currentMatcherAddress, [pair])
                         .then(([data]) => {
 
                             if (!data || data.status === 'error') {

@@ -179,7 +179,7 @@
                 const startDate = utils.moment().add().day(-7);
                 Promise.all(PAIRS_IN_SLIDER.map(pair => ds.api.pairs.get(pair.amount, pair.price)))
                     .then(pairs => Promise.all(pairs.map(
-                        pair => ds.api.pairs.info(matcher.currentMatcherAddress, pair)))
+                        pair => ds.api.pairs.info(matcher.currentMatcherAddress, [pair])))
                     )
                     .then(infoList => {
                         const flattenInfoList = flatten(infoList);
