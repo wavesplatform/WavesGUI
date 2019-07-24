@@ -9,18 +9,21 @@
      * @param {BaseNodeComponent} BaseNodeComponent
      * @param {app.utils} utils
      * @param {User} user
-     * @param {EventManager} eventManager
      * @param {app.utils.decorators} decorators
      * @param {IPollCreate} createPoll
      * @return {Assets}
      */
-    const factory = function (BaseNodeComponent, utils, user, eventManager, decorators, createPoll) {
+    const factory = function (BaseNodeComponent, utils, user, decorators, createPoll) {
 
         class Assets extends BaseNodeComponent {
 
             constructor() {
                 super();
+
                 user.onLogin().then(() => {
+                    this._handleLogin();
+                    user.loginSignal.on(this._handleLogin, this);
+
                     if (user.getSetting('scamListUrl')) {
                         this.stopScam();
                     } else {
@@ -188,6 +191,17 @@
             }
 
             /**
+             * @private
+             */
+            _handleLogin() {
+                if (user.getSetting('scamListUrl')) {
+                    this.stopScam();
+                } else {
+                    this.giveMyScamBack();
+                }
+            }
+
+            /**
              * @return {Promise<Object.<string, boolean>>}
              * @private
              */
@@ -243,7 +257,6 @@
         'BaseNodeComponent',
         'utils',
         'user',
-        'eventManager',
         'decorators',
         'createPoll'
     ];
