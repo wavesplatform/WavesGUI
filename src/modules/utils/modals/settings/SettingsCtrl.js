@@ -61,6 +61,7 @@
             matcher = '';
             api = '';
             scamListUrl = '';
+            tokensNameListUrl = '';
             dontShowSpam = true;
             theme = user.getSetting('theme');
             candle = user.getSetting('candle');
@@ -100,6 +101,7 @@
                     api: 'network.api',
                     logoutAfterMin: 'logoutAfterMin',
                     scamListUrl: 'scamListUrl',
+                    tokensNameListUrl: 'tokensNameListUrl',
                     dontShowSpam: 'dontShowSpam',
                     theme: 'theme',
                     candle: 'candle',
@@ -171,6 +173,13 @@
                     waves.node.assets.stopScam();
                 });
 
+                this.observe('tokensNameListUrl', () => {
+                    ds.config.setConfig({
+                        tokensNameListUrl: this.tokensNameListUrl
+                    });
+                    waves.node.assets.tokensNameList();
+                });
+
                 this.observe(['node', 'matcher', 'api'], () => {
                     ds.config.setConfig({
                         node: this.node,
@@ -222,6 +231,7 @@
                 this.matcher = WavesApp.network.matcher;
                 this.dontShowSpam = true;
                 this.scamListUrl = WavesApp.network.scamListUrl;
+                this.tokensNameListUrl = WavesApp.network.tokensNameListUrl;
                 this.oracleWaves = WavesApp.oracles.waves;
                 this.api = WavesApp.network.api;
             }

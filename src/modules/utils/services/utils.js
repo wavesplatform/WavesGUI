@@ -300,7 +300,7 @@
                 pipe(
                     identity,
                     bytesToString,
-                    isNil,
+                    isNil
                 ),
                 pipe(
                     identity,
@@ -1816,6 +1816,37 @@
                 } catch (e) {
                     return Promise.reject(e);
                 }
+            },
+
+            /**
+             * @param {String} name
+             * @return {Promise<boolean>}
+             */
+            assetNameWarning(name) {
+                /**
+                 * @type {User}
+                 */
+                const user = $injector.get('user');
+                name = (name || '').toLowerCase().trim();
+
+                if (!name) {
+                    return Promise.resolve(false);
+                }
+
+                if (name && Object.keys(user.tokensName).some(item => name === item.toLowerCase())) {
+                    return Promise.resolve(true);
+                }
+
+                const api = user.getSetting('api') || WavesApp.network.api;
+
+                return ds.fetch(`${api}/v0/assets?search=${encodeURIComponent(name)}`)
+                    .then(({ data }) => data.some(
+                        ({ data }) => (
+                            (data.name || '').toLowerCase() === name ||
+                            (data.ticker || '').toLowerCase() === name
+                        ))
+                    )
+                    .catch(() => false);
             },
 
             /**
