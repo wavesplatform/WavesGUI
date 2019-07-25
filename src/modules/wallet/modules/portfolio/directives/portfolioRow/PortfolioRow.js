@@ -440,7 +440,7 @@
                         params: { Currency: this.balance.asset.id },
                         target: 'ui'
                     });
-                    this.modalManager.showReceiveModal(this.user, this.balance.asset);
+                    this.modalManager.showReceiveModal(this.balance.asset);
                 });
 
                 this.$node.on('click', `.${SELECTORS.BUTTONS.TOGGLE_SPAM}`, () => {
@@ -467,7 +467,7 @@
                         params: { Currency: this.balance.asset.id },
                         target: 'ui'
                     });
-                    this.modalManager.showReceiveModal(this.user, this.balance.asset);
+                    this.modalManager.showReceiveModal(this.balance.asset);
                 });
 
                 this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.BURN}`, () => {

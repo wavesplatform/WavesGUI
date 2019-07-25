@@ -50,10 +50,10 @@
 
                 this._setHandlers();
 
-                user.onLogin().then(() => {
-                    this._addSession();
-                    this._addUserData();
-                });
+                user.onLogin().then(
+                    () => this._handleLogin(),
+                    () => this._handleLogout()
+                );
             }
 
             /**
@@ -100,6 +100,19 @@
                  */
                 const master = this._getMasterSessionId(user.address);
                 return this._runCommand('sign', master && master.id, { type, tx });
+            }
+
+            _handleLogin() {
+                this._addSession();
+                this._addUserData();
+
+                user.logoutSignal.once(this._handleLogout, this);
+            }
+
+            _handleLogout() {
+                this._destroy();
+
+                user.loginSignal.once(this._handleLogin, this);
             }
 
             /**
