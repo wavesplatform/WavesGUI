@@ -13,13 +13,10 @@
                             <i class="promo-icon-min promo-icon-arrow-right"></i>
                         </span>
                     </a>
-<<<<<<< HEAD
-                    <a ng-show="$ctrl.hasUsers" ui-sref="signIn" class="fake-button"
-                       w-analytics event="'Sign In Click'" event-target="ui">
-=======
+
                     <a ng-if="$ctrl.userList.length" ui-sref="signIn" class="fake-button"
                         w-analytics event="'Sign In Click'" event-target="ui">
->>>>>>> 399b70a7524608cd257b9e968d8aa51379e9cc83
+
                         <span class="fake-button-content big submit-light" w-i18n="welcome.signIn"></span>
                     </a>
                 </div>
@@ -86,12 +83,9 @@
             <div class="section-wrapper">
 
                 <h2 class="margin-1 center" w-i18n="welcome.markets"></h2>
-<<<<<<< HEAD
+
                 <div class="basic-500 margin-05 body-2 center section-markets-description"
                      w-i18n="welcome.marketsDescription"></div>
-=======
-                <div class="basic-500 margin-05 body-2 center section-markets-description" w-i18n="welcome.marketsDescription"></div>
->>>>>>> 399b70a7524608cd257b9e968d8aa51379e9cc83
 
                 <div class="table-markets margin-top-3 margin-3">
                     <div class="row row-header">
@@ -111,12 +105,8 @@
                          ng-click="$ctrl.goToDexDemo({ assetId1: pair.amountAsset.id, assetId2: pair.priceAsset.id })"
                          class="row row-content">
                         <div class="cell pair">
-<<<<<<< HEAD
                             {{pair.amountAsset.ticker || pair.amountAsset.displayName }} / {{pair.priceAsset.ticker ||
                             pair.priceAsset.displayName}}
-=======
-                            {{pair.amountAsset.ticker || pair.amountAsset.displayName }} / {{pair.priceAsset.ticker || pair.priceAsset.displayName}}
->>>>>>> 399b70a7524608cd257b9e968d8aa51379e9cc83
                         </div>
                         <div class="cell last-price">
                             <w-balance money="pair.lastPrice"></w-balance>
@@ -138,7 +128,6 @@
                         </div>
                         <div class="cell graph"></div>
                     </div>
-<<<<<<< HEAD
 
                 </div>
 
@@ -149,17 +138,6 @@
             </div>
         </section>
 
-=======
-
-                </div>
-
-                <div class="center margin-05 body-2 basic-500 markets-table-description">
-                    <span w-i18n="welcome.marketsTableDescription"></span> <a ui-sref="main.dex-demo" w-i18n="welcome.marketsTableDescriptionLink"></a>
-                </div>
-            </div>
-        </section>
-
->>>>>>> 399b70a7524608cd257b9e968d8aa51379e9cc83
         <div class="section-roadmap">
             <h2 class="margin-1 text-center" w-i18n="welcome.roadmap"></h2>
             <div class="basic-500 margin-05 body-2 text-center" w-i18n="welcome.roadmapOpportunitiesAhead"></div>
