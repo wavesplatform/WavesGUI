@@ -4,6 +4,7 @@
     const { SIGN_TYPE } = require('@waves/signature-adapter');
     const { filter, whereEq, uniqBy, prop, where, gt, pick, __, map } = require('ramda');
     const ds = require('data-service');
+    const { BigNumber } = require('@waves/bignumber');
     const MAX_EXCHANGE_COUNT = 2000;
 
     /**
@@ -203,10 +204,35 @@
                     return null;
                 }
 
-                this.orders.filter(whereEq({ isActive: true }))
-                    .forEach((order) => this.dropOrder(order));
+                ds.cancelAllOrders({
+                    sender: user.publicKey,
+                    timestamp: user.matcherSign.timestamp,
+                    signature: user.matcherSign.signature
+                })
+                    .then(() => {
+                        notification.info({
+                            ns: 'app.dex',
+                            title: { literal: 'directives.myOrders.notifications.canceledAll' }
+                        });
+
+                        if (this.poll) {
+                            this.poll.restart();
+                        }
+                    })
+                    .catch(e => {
+                        const error = utils.parseError(e);
+                        notification.error({
+                            ns: 'app.dex',
+                            title: { literal: 'directives.myOrders.notifications.somethingWentWrong' },
+                            body: { literal: error && error.message || error }
+                        });
+                    });
             }
 
+            /**
+             * @param data
+             * @return {number}
+             */
             round(data) {
                 return Math.round(Number(data));
             }
@@ -220,6 +246,11 @@
                     this._assetIdPair.price === order.price.asset.id;
             }
 
+            /**
+             *
+             * @param order
+             * @return {Promise<Object | never>}
+             */
             dropOrderGetSignData(order) {
                 const { id } = order;
                 const data = { id };
@@ -338,7 +369,7 @@
                                         order.average =
                                             DexMyOrders._getAveragePriceByExchange(order, order.exchange);
                                         order.filledTotal = order.price.cloneWithTokens(
-                                            order.average.getTokens().times(order.filled.getTokens())
+                                            order.average.getTokens().mul(order.filled.getTokens())
                                         );
 
                                         return order;
@@ -401,8 +432,8 @@
                         total: tx.total.getTokens()
                     }))
                     .reduce((acc, item) => ({
-                        amount: acc.amount.plus(item.amount),
-                        total: acc.total.plus(item.total)
+                        amount: acc.amount.add(item.amount),
+                        total: acc.total.add(item.total)
                     }), {
                         amount: new BigNumber(0),
                         total: new BigNumber(0)
@@ -475,7 +506,7 @@
                     const assetPair = order.assetPair;
                     const pair = `${assetPair.amountAsset.displayName} / ${assetPair.priceAsset.displayName}`;
                     const isNew = DexMyOrders._isNewOrder(order.timestamp.getTime());
-                    const percent = new BigNumber(order.progress * 100).dp(2).toFixed();
+                    const percent = new BigNumber(order.progress * 100).toFixed(2);
                     return waves.matcher.getCreateOrderFee({ ...order, matcherPublicKey })
                         .then(fee => ({ ...order, isNew, percent, pair, fee }));
                 };
