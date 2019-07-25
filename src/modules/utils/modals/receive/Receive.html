@@ -1,10 +1,10 @@
 <md-dialog class="modal-receive" w-i18n-ns="app.utils" aria-label="modal">
-    <md-dialog-content>
+    <md-dialog-content class="dialog-content dialog-content_modal-receive">
         <div class="modal-content">
             <div class="btn icon-close ng-scope" w-modal-close></div>
 
-            <w-tabs class="tabs" ng-model="$ctrl.activeTab">
-                <w-tab ng-if="$ctrl.tabs.cryptocurrency" title-name="::'modal.receive.cryptocurrency.title'" id="::'cryptocurrency'">
+            <w-tabs class="tabs tabs_send-form" ng-model="$ctrl.activeTab">
+                <w-tab ng-if="$ctrl.tabs.cryptocurrency" title-name="::'modal.receive.cryptocurrency.title'" id="::'cryptocurrency'" class="tab">
                     <w-receive-cryptocurrency
                         asset="$ctrl.asset"
                         cryptocurrencies="::$ctrl.cryptocurrencies"
@@ -13,7 +13,7 @@
                     ></w-receive-cryptocurrency>
                 </w-tab>
 
-                <w-tab ng-if="$ctrl.tabs.invoice" title-name="::'modal.receive.invoice.title'" id="::'invoice'">
+                <w-tab ng-if="$ctrl.tabs.invoice" title-name="::'modal.receive.invoice.title'" id="::'invoice'" class="tab">
                     <w-receive-invoice
                         asset="$ctrl.asset"
                         invoicables="::$ctrl.invoicables"
@@ -22,7 +22,7 @@
                     ></w-receive-invoice>
                 </w-tab>
 
-                <w-tab ng-if="$ctrl.tabs.card" title-name="::'modal.receive.card.title'" id="::'card'">
+                <w-tab ng-if="$ctrl.tabs.card" title-name="::'modal.receive.card.title'" id="::'card'" class="tab">
                     <w-receive-card
                         asset="$ctrl.asset"
                         purchasables-by-cards="::$ctrl.purchasablesByCards"
@@ -31,7 +31,7 @@
                     ></w-receive-card>
                 </w-tab>
 
-                <w-tab ng-if="$ctrl.tabs.bank" title-name="::'modal.receive.bank.title'" id="::'bank'">
+                <w-tab ng-if="$ctrl.tabs.bank" title-name="::'modal.receive.bank.title'" id="::'bank'" class="tab">
                     <w-receive-bank
                         asset="$ctrl.asset"
                         fiats="::$ctrl.fiats"

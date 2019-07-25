@@ -73,7 +73,7 @@
         <span w-i18n="modal.deposit.or"></span>
     </div>
 
-    <div class="qr-wrapper center margin-2" ng-if="!$ctrl.gatewayServerError" w-toggle-class-container>
+    <div class="qr-wrapper center margin-4" ng-if="!$ctrl.gatewayServerError" w-toggle-class-container>
         <div class="body-2 basic-900 margin-05" w-i18n="modal.deposit.scanQrCode"></div>
 
         <w-qr-code size="200" url="$ctrl.gatewayAddress" w-toggle-class="zoomed-in"></w-qr-code>

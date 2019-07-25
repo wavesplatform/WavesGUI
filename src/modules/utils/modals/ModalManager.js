@@ -514,7 +514,7 @@
              * @return {Promise}
              */
             showDialogModal(options) {
-                const contentUrl = 'modules/utils/modals/templates/dialog-content.html';
+                const contentUrl = 'modules/utils/modals/templates/md-dialog-content.html';
 
                 const ns = options.ns || DEFAULT_OPTIONS.ns;
                 options.message.ns = options.message.ns || ns;

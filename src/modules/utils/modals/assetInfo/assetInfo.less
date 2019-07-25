@@ -7,7 +7,7 @@
   height: 100%;
 
   &__head {
-    padding-top: @padding-main-layout * 4;
+    padding: @padding-main-layout * 4 40px;
     height: 170px;
     position: relative;
   }
@@ -84,8 +84,8 @@
 html body md-dialog.asset-info-modal {
 
   md-dialog-content {
-    padding: 0 40px;
     overflow-y: hidden;
+    padding: 0;
 
     &::after {
       display: none;
@@ -95,12 +95,6 @@ html body md-dialog.asset-info-modal {
   .asset-description {
     word-wrap: break-word;
     word-break: break-word;
-  }
-
-  .tab-tem {
-    .footnote-1();
-    overflow-y: auto;
-    max-height: calc(~'90vh - 280px');
   }
 
   @media screen and (max-width: 768px) {
@@ -119,114 +113,108 @@ html body md-dialog.asset-info-modal {
     }
   }
 
-  .padding-content .tab-tem {
-    padding: 40px;
+  .tab:not(.tab-transactions) .line {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-bottom: 1px solid @color-basic-100;
+    padding: 5px 0;
+    align-items: center;
 
-    .line {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      border-bottom: 1px solid @color-basic-100;
-      padding: 5px 0;
-      align-items: center;
+    &-description {
+      width: 100%;
+      padding: 13px 16px;
+      border: 1px dashed @color-basic-100;
+      border-radius: @border-radius;
+      background: @color-basic-50;
+    }
 
-      &-description {
-        width: 100%;
-        padding: 13px 16px;
-        border: 1px dashed @color-basic-100;
-        border-radius: @border-radius;
-        background: @color-basic-50;
-      }
+    &:first-child {
+      margin-top: -10px;
+    }
 
-      &:first-child {
-        margin-top: -10px;
-      }
-
-      &.chart-container {
-        .legend-item {
-          white-space: nowrap;
-        }
-
-        & > div:first-child {
-          width: 140px;
-          flex-grow: 0;
-        }
-
-        & > div:last-child {
-          width: calc(100% ~'- 140px');
-          flex-grow: 1;
-          margin-left: 30px;
-        }
-      }
-
-      &-description {
-        padding-top: 20px;
-
-        div:last-child {
-          padding-top: 6px;
-          min-height: 30px;
-        }
-      }
-
-      &:last-child {
-        border-bottom: 0 none;
+    &.chart-container {
+      .legend-item {
+        white-space: nowrap;
       }
 
       & > div:first-child {
-        align-items: center;
-        display: flex;
+        width: 140px;
+        flex-grow: 0;
       }
 
       & > div:last-child {
-        align-items: center;
-        display: flex;
-        flex-direction: column;
-        text-align: right;
-        margin-left: 20px;
-
-        .legend-item, .total {
-          display: flex;
-          width: 100%;
-          border-bottom: 1px solid @color-basic-100;
-          align-items: center;
-
-          & > div {
-            flex-basis: 50%;
-
-            &:first-child {
-              text-align: left;
-            }
-            &:last-child {
-              text-align: right;
-            }
-
-            .legend-color {
-              width: 12px;
-              height: 12px;
-              border-radius: 50%;
-              display: inline-block;
-              margin: -3px 7px 0 0;
-              vertical-align: middle;
-            }
-          }
-        }
-
-        .total {
-          border-bottom: 0 none;
-          font-family: @font-roboto-medium;
-
-          div:first-child {
-            color: @color-basic-500;
-          }
-        }
-
+        width: calc(100% ~'- 140px');
+        flex-grow: 1;
+        margin-left: 30px;
       }
     }
 
+    &-description {
+      padding-top: 20px;
+
+      div:last-child {
+        padding-top: 6px;
+        min-height: 30px;
+      }
+    }
+
+    &:last-child {
+      border-bottom: 0 none;
+    }
+
+    & > div:first-child {
+      align-items: center;
+      display: flex;
+    }
+
+    & > div:last-child {
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      text-align: right;
+      margin-left: 20px;
+
+      .legend-item, .total {
+        display: flex;
+        width: 100%;
+        border-bottom: 1px solid @color-basic-100;
+        align-items: center;
+
+        & > div {
+          flex-basis: 50%;
+
+          &:first-child {
+            text-align: left;
+          }
+          &:last-child {
+            text-align: right;
+          }
+
+          .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin: -3px 7px 0 0;
+            vertical-align: middle;
+          }
+        }
+      }
+
+      .total {
+        border-bottom: 0 none;
+        font-family: @font-roboto-medium;
+
+        div:first-child {
+          color: @color-basic-500;
+        }
+      }
+
+    }
   }
 
-  .padding-content.tab-details .tab-tem {
-    .footnote-1();
+  .tab-details {
     .line {
       min-height: 38px;
     }
@@ -235,33 +223,31 @@ html body md-dialog.asset-info-modal {
     }
   }
 
-  .tabs__wrap {
-    w-transaction-list ul {
-      border-top: none;
+  w-transaction-list ul {
+    border-top: none;
 
-      .transaction-item {
-        .date {
-          padding-left: 40px;
-          letter-spacing: 2px;
-        }
+    .transaction-item {
+      .date {
+        padding-left: 40px;
+        letter-spacing: 2px;
+      }
 
-        .row {
-          padding-left: 20px;
+      .row {
+        padding-left: 20px;
 
-          .line:last-child {
-            padding-right: 40px;
-          }
+        .line:last-child {
+          padding-right: 40px;
         }
       }
     }
+  }
 
-    .locale-address {
-      display: none;
-    }
+  .locale-address {
+    display: none;
+  }
 
-    w-actions {
-      display: none;
-    }
+  w-actions {
+    display: none;
   }
 
   .no-transactions {
@@ -275,7 +261,7 @@ html body md-dialog.asset-info-modal {
 @media screen and (max-width: 768px) {
 
   html body md-dialog.asset-info-modal {
-    .tabs__wrap w-transaction-list {
+    w-transaction-list {
       .w-visible {
         height: 91px;
       }
@@ -305,27 +291,6 @@ html body md-dialog.asset-info-modal {
     md-dialog-content {
       overflow-y: auto;
       height: auto;
-      padding: 0 20px;
-    }
-
-    .padding-content .tab-tem {
-      padding: 40px 20px;
-    }
-
-    .tab-tem {
-      overflow-y: visible;
-      max-height: 100%;
-      padding: 0;
-
-      .line {
-        w-circle-chart {
-          margin: 0 auto;
-        }
-      }
-
-      .footnote-1.fs-mobile {
-        font-size: @mobile-low-fsize;
-      }
     }
 
     .tabs__wrap {
@@ -333,22 +298,25 @@ html body md-dialog.asset-info-modal {
         padding-left: 23px;
       }
     }
+
+    .asset-modal__head {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
   }
 }
 
 @media screen and (max-width: 420px) {
   html body md-dialog.asset-info-modal {
-    .padding-content .tab-tem {
-      .line.chart-container {
-        flex-direction: column;
+    .line.chart-container {
+      flex-direction: column;
 
-        & > div:first-child {
-          width: 100%;
-        }
-        & > div:last-child {
-          margin: 0;
-          width: 100%;
-        }
+      & > div:first-child {
+        width: 100%;
+      }
+      & > div:last-child {
+        margin: 0;
+        width: 100%;
       }
     }
   }

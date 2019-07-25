@@ -13,15 +13,8 @@
   }
 
   &__body {
-    max-height: calc(90vh ~'- 60px');
     overflow: auto;
     height: 100%;
-
-    .tab-tem {
-      height: 100%;
-      box-sizing: border-box;
-      position: relative;
-    }
   }
 
   &__header {
@@ -30,11 +23,8 @@
     justify-content: flex-start;
     position: relative;
     width: 100%;
-    padding: 0 40px;
-    z-index: 10;
-    height: 60px;
+    z-index: 5;
     background: @color-white;
-    margin: 0;
 
     &:after {
       content: "";
@@ -50,206 +40,51 @@
 
   &__title {
     .headline-2();
-    line-height: 30px;
-    padding: 20px 0 10px;
-    margin: 0 40px 0 0;
+    padding: 0 10px;
     color: @color-info-500;
-    min-height: 60px;
     cursor: pointer;
     position: relative;
+    display: inline-flex;
+    align-items: center;
 
-    // &_active {
-    //   color: @color-submit-400;
+    &::after {
+      display: none;
+      position: absolute;
+      z-index: 1;
+      content: '';
+      left: 0;
+      right: 0;
+      height: 1px;
+      bottom: 0;
+      background: @color-submit-400;
+    }
 
-    //   &::after {
-    //     position: absolute;
-    //     z-index: 1;
-    //     content: '';
-    //     width: 100%;
-    //     height: 1px;
-    //     display: block;
-    //     bottom: 0;
-    //     background: @color-submit-400;
-    //   }
-    // }
-  }
-}
-
-.stand {
-  .tabs {
-    box-shadow: 0 0 3px #ccc;
-    max-height: 190px;
-  }
-}
-
-.modal-send {
-  .send-form {
-    .tabs__body {
-      @media screen and (min-width: 541px) {
-        padding: 40px 40px 0;
+    &_active {
+      &::after {
+        display: block;
       }
     }
   }
 }
+
+
 
 w-confirm-transaction {
-  .tabs__header {
-    margin: 0 -40px 40px;
-    width: auto;
-  }
+  //.tabs__header {
+  //  margin: 0 -40px 40px;
+  //  width: auto;
+  //}
 }
 
-.dex-layout__tradehistory {
-  .tabs {
-    &__body {
-      height: calc(100% ~'- 39px');
-    }
 
-    &__header {
-      overflow-y: hidden;
-      overflow-x: auto;
-      height: 39px;
-      padding: 0;
-  
-      &::before {
-        display: none;
-      }
-  
-      &:after {
-        content: '';
-        display: block;
-        position: absolute;
-        width: 100%;
-        height: 1px;
-        left: 0;
-        bottom: 0;
-        background: @color-basic-100;
-      }
-    }
-  
-    &__title {
-      color: @color-basic-700;
-      height: 38px;
-      font-size: 13px;
-      margin: 0;
-      padding: 0 20px;
-      line-height: 40px;
-      min-height: 40px;
-      border: 0 none;
-      border-left: 1px solid transparent;
-      border-right: 1px solid transparent;
-      white-space: nowrap;
-  
-      &:first-child {
-        border-left: 1px solid @color-white;
-      }
-    }
-  }
-}
-
-.asset-info-modal {
-  .tabs {
-    margin: -1px 0 0 -40px;
-    width: calc(100% ~'+ 80px');
-  }
-}
-
-@media screen and (min-width: 2400px) {
-  .dex-layout__tradehistory {
-    .tabs__header {
-      height: 42px;
-    }
-  }
-}
-
-@media screen and (max-width: 1024px) {
-  .dex-layout__tradehistory {
-    .tabs {
-      ::-webkit-scrollbar {
-        height: 0;
-      }
-
-      :hover::-webkit-scrollbar {
-        height: 0;
-      }
-
-      ::-webkit-scrollbar-thumb {
-        height: 0;
-      }
-
-      ::-webkit-scrollbar-thumb:window-inactive {
-        height: 0;
-      }
-
-      &__body {
-        height: calc(100% ~'- 48px');
-      }
-
-      &__header {
-        height: 48px;
-        box-shadow: @shadow-menu-top;
-        z-index: 6;
-    
-        &::after {
-          display: none;
-        }
-      }
-  
-      &__title {
-        height: 48px;
-        line-height: 48px;
-        min-height: 48px;
-      }
-    }
-  }
-}
 
 @media screen and (max-width: 540px) {
-
-  .asset-info-modal {
-    .tabs {
-      margin: 0;
-      width: 100%;
-
-      &__wrap {
-        width: calc(100% ~'+ 40px');
-        margin-left: -20px;
-      }
-    }
-  }
-
-  w-confirm-gateway-transaction,
-  w-confirm-transaction {
-    .tabs__header {
-      margin: 0 -20px;
-    }
-  }
-
   .tabs {
-    &__body {
-      max-height: none;
-    }
-
-    &__header {
-      width: 100%;
-      padding: 0 20px;
-      margin: 0;
-    }
-
     &__title {
       .body-2();
-      margin: 0;
       margin-right: 20px;
       font-family: @font-roboto-medium;
       color: @color-info-500;
-      padding: 30px 0 0;
-      position: relative;
-      min-height: auto;
-    }
-
-    .tabs__body .tab-tem {
-      padding: 20px 0 0;
-      max-height: 100%;
     }
   }
 }

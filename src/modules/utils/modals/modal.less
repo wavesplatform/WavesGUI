@@ -23,10 +23,10 @@ md-dialog {
   }
 
   md-dialog-content {
-    display: block;
-    overflow-x: hidden;
     padding-left: 40px;
     padding-right: 40px;
+    display: block;
+    overflow-x: hidden;
     min-height: 360px;
 
     //FF padding bottom fix
@@ -125,7 +125,8 @@ md-toolbar:not(.md-menu-toolbar) {
       border-radius: 0;
 
       md-dialog-content {
-        padding: 20px 20px 0;
+        padding-left: 20px;
+        padding-right: 20px;
         height: 100%;
         color: @color-disabled-900;
       }

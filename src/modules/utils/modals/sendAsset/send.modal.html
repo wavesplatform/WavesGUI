@@ -1,12 +1,12 @@
 <md-dialog class="modal-send" w-i18n-ns="app.utils" aria-label="modal">
-    <md-dialog-content>
+    <md-dialog-content class="dialog-content dialog-content_modal-send">
         <div class="modal-content">
             <div class="btn icon-close ng-scope" w-modal-close></div>
             <w-step-by-step active-step="$ctrl.step" ng-if="!$ctrl.errorOccured">
                 <w-step class="send-form">
 
-                    <w-tabs class="tabs" ng-model="$ctrl.tab">
-                        <w-tab title-name="::'modal.send.sendTitle'" id="::'singleSend'">
+                    <w-tabs class="tabs tabs_send-form" ng-model="$ctrl.tab">
+                        <w-tab title-name="::'modal.send.sendTitle'" id="::'singleSend'" class="tab">
                             <w-permit name="CAN_TRANSFER_TRANSACTION" mode="on">
                                 <w-single-send state="$ctrl.state"
                                                on-continue="$ctrl.nextStep(signable)">
@@ -34,7 +34,7 @@
                             </w-permit>
                         </w-tab>
 
-                        <w-tab title-name="::'modal.send.massSendTitle'" id="::'massSend'">
+                        <w-tab title-name="::'modal.send.massSendTitle'" id="::'massSend'" class="tab">
                             <w-permit name="CAN_MASS_TRANSFER_TRANSACTION" mode="on">
                                 <w-mass-send state="$ctrl.state"
                                              on-continue="$ctrl.nextStep(signable)">
