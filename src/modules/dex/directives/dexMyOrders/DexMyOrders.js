@@ -6,6 +6,7 @@
     const ds = require('data-service');
     const { BigNumber } = require('@waves/bignumber');
     const MAX_EXCHANGE_COUNT = 2000;
+    const { Money } = require('@waves/data-entities');
 
     /**
      * @param Base
@@ -507,6 +508,15 @@
                     const pair = `${assetPair.amountAsset.displayName} / ${assetPair.priceAsset.displayName}`;
                     const isNew = DexMyOrders._isNewOrder(order.timestamp.getTime());
                     const percent = new BigNumber(order.progress * 100).toFixed(2);
+                    const feeAsset = order.feeAsset || 'WAVES';
+
+                    if (order.fee) {
+                        return ds.api.assets.get(feeAsset).then(asset => {
+                            const fee = new Money(order.fee, asset);
+                            return { ...order, isNew, percent, pair, fee };
+                        });
+                    }
+
                     return waves.matcher.getCreateOrderFee({ ...order, matcherPublicKey })
                         .then(fee => ({ ...order, isNew, percent, pair, fee }));
                 };
