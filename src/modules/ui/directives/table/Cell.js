@@ -41,7 +41,7 @@
                 row: '^wRow'
             },
             transclude: true,
-            template: '<div ng-transclude class="table-cell"></div>',
+            template: '<div ng-transclude class="table__cell-wrap"></div>',
             controller
         });
 })();

@@ -83,7 +83,7 @@
                 selected: '='
             },
             transclude: true,
-            template: '<div class="table" ng-transclude></div>',
+            template: '<div class="table__wrap" ng-transclude></div>',
             controller
         });
 })();

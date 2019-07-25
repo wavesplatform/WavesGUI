@@ -61,7 +61,7 @@
             },
             transclude: true,
             template: '<div ng-click="$ctrl.select()" ng-transclude ng-class="{selected: $ctrl.selected}"' +
-            ' class="table-row"></div>',
+            ' class="table__row-wrap"></div>',
             controller
         });
 })();

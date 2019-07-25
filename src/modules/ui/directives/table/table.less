@@ -1,34 +1,253 @@
 @import (reference) 'config';
+@import (reference) '../../../app/less/typography';
+@import (reference) 'icons';
 
-w-table {
-  display: flex;
+.table {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  display: block;
 
-  .table {
+  &__wrap {
     width: 100%;
     height: 100%;
   }
 
-  w-t-head {
+  &__thead {
     display: block;
-  }
-
-  w-row {
-    display: block;
-  }
-
-  w-cell {
-    display: block;
-    height: 100%;
-  }
-
-  .table-row {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    width: 100%;
-
-    &.selected {
-      background-color: #eee; // TODO Color from config. Author Tsigel at 02/11/2017 08:16
+    color: @color-basic-600;
+    border-bottom: 1px solid @color-disabled-100;
+    
+    .table__row {
+      padding: 0 14px 0 5px;
+      background: @color-white;
+      height: 28px;
+      width: 100%;
+      border-bottom: 1px solid @color-basic-100;
+      
+      &:hover {
+        background: @color-white;
+        border-bottom: 1px solid @color-basic-100;
+      }
     }
+
+    .table__cell {
+      text-transform: capitalize;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .table__cell-wrap {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 27px;
+    }
+  }
+  
+  &__row {
+    display: block;
+    padding: 0 10px 0 5px;
+    position: relative;
+    height: 22px;
+    line-height: 23px;
+    font-size: @font-size-caption-2;
+
+    &[data-price]:hover {
+      background-color: @hover-default;
+      border-color: @color-basic-200;
+    }
+
+    &.active::before {
+      background-repeat: no-repeat;
+      width: 10px;
+      height: 10px;
+      left: 6px;
+      top: 50%;
+      display: block;
+      content: '';
+      z-index: 3;
+      transform: translateY(-50%);
+      position: absolute;
+    }
+
+    &-wrap {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      width: 100%;
+      height: 100%;
+  
+      &.selected {
+        background-color: #eee; // TODO Color from config. Author Tsigel at 02/11/2017 08:16
+      }
+    }
+  }
+
+  &__asks ,
+  &__bids {
+    overflow: hidden;
+
+    .table__row {
+      &[data-price] {
+        cursor: pointer;
+      }
+
+      .tooltip-dex,
+      .tooltip-dex::before {
+        right: 50%;
+        transform: translate(50%,0);
+        color: @color-white;
+      }
+    }
+  }
+  
+  &__asks .table__row {
+    .active::before {
+      background-image: url(/img/icons/active-order-arrow-ask.svg);
+    }
+
+    .tooltip-bid {
+      display: none;
+    }
+    
+    .cell-1 {
+      color: @color-error-400;
+    }
+  }
+
+  &__bids .table__row {
+    .active::before {
+      background-image: url(/img/icons/active-order-arrow-bid.svg);
+    }
+
+    .tooltip-ask {
+      display: none;
+    }
+    
+    .cell-1 {
+      color: @color-submit-600;
+    }
+  }
+  
+  &__cell {
+    z-index: 2;
+    display: block;
+    height: 100%;
+  }
+
+  &__tbody {
+    overflow-y: auto;
+    display: block;
+    height: 100%;
+  }
+
+  &__scroll-box {
+    height: calc(100% ~'- 28px');
+    max-height: calc(100% ~'- 28px');
+    background: none transparent;
+    display: block;
+
+    .dex-layout__line-graph {
+      height: 100%;
+      width: 100%;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      position: absolute;
+
+      &-fill {
+        height: 100%;
+      }
+    }
+
+    .table__asks .table__row {
+      .dex-layout__line-graph-fill {
+        background-color: @color-graph-ask;
+      }
+    }
+
+    .table__bids .table__row {
+      .dex-layout__line-graph-fill {
+        background-color: @color-graph-bid;
+      }
+    }
+  }
+
+  &__info {
+    border-top: 1px solid @color-basic-100;
+    border-bottom: 1px solid @color-basic-100;
+    background: @color-white;
+    display: flex;
+    align-items: center;
+    text-align: right;
+    font-size: 9px;
+    width: 100%;
+    min-height: 43px;
+    padding-right: 10px;
+    text-transform: uppercase;
+
+    &-title {
+      flex-basis: 33.3%;
+    }
+
+    .spread {
+      &::after {
+        content: '%';
+        display: inline-block;
+      }
+    }
+  }
+
+  .decimal-muted {
+    opacity: 0.5;
+  }
+
+  &__last-price {
+    .body-1();
+    font-family: @font-roboto-regular;
+    font-weight: bold;
+    font-size: 15px;
+    position: relative;
+    white-space: nowrap;
+    padding-left: 5px;
+
+    &:after {
+      background-repeat: no-repeat;
+      background-position: center;
+      position: absolute;
+      content: '';
+      width: 18px;
+      height: 18px;
+      display: block;
+      right: -18px;
+      top: 2px;
+    }
+
+    &.buy {
+      color: @color-submit-300;
+
+      &:after {
+        background-image: @arrow-orderbook-top-icon;
+      }
+    }
+
+    &.sell {
+      color: @color-error-400;
+
+      &:after {
+        background-image: @arrow-orderbook-down-icon;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 659px) {
+  .table__scroll-box {
+    max-height: 155px;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 }

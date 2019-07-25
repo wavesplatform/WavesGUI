@@ -27,11 +27,11 @@
                                  transactions) {
 
         const SECTIONS = {
-            ASKS: '.asks',
-            INFO: '.info',
-            BIDS: '.bids',
+            ASKS: '.table__asks',
+            INFO: '.table__info',
+            BIDS: '.table__bids',
             SCROLLBOX: 'w-scroll-box',
-            LAST_PRICE: '.last-price',
+            LAST_PRICE: '.table__last-price',
             SPREAD: '.spread'
         };
 

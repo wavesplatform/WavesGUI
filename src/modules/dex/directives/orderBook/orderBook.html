@@ -3,33 +3,33 @@
     <w-empty-block ng-show="$ctrl.nothingFound()"></w-empty-block>
     <w-error-block ng-show="$ctrl.loadingError"></w-error-block>
 
-    <w-table class="orderbook-table">
-        <w-thead>
-            <w-row>
-                <w-cell>
+    <w-table class="table">
+        <w-thead class="table__thead">
+            <w-row class="table__row">
+                <w-cell class="table__cell">
                     <span w-i18n="directives.orderBook.amount"
                           params="{assetName: $ctrl.amountAsset.displayName}"></span>
                 </w-cell>
-                <w-cell>
+                <w-cell class="table__cell">
                     <span w-i18n="directives.orderBook.price" params="{assetName: $ctrl.priceAsset.displayName}"></span>
                 </w-cell>
-                <w-cell>
+                <w-cell class="table__cell">
                     <span w-i18n="directives.orderBook.sum" params="{assetName: $ctrl.priceAsset.displayName}"></span>
                 </w-cell>
             </w-row>
         </w-thead>
-        <w-tbody>
-            <w-scroll-box>
-                <div class="asks"></div>
-                <div class="info">
-                    <div w-i18n="directives.orderBook.lastprice"></div>
-                    <div class="last-price body-2 margin-05"></div>
-                    <div>
+        <w-tbody class="table__tbody">
+            <w-scroll-box class="table__scroll-box">
+                <div class="table__asks"></div>
+                <div class="table__info">
+                    <div class="table__info-title" w-i18n="directives.orderBook.lastprice"></div>
+                    <div class="table__last-price margin-05"></div>
+                    <div class="table__info-title">
                         <span w-i18n="directives.orderBook.spread"></span>
                         <span class="spread"></span>
                     </div>
                 </div>
-                <div class="bids"></div>
+                <div class="table__bids"></div>
             </w-scroll-box>
         </w-tbody>
     </w-table>
