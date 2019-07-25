@@ -9,5 +9,5 @@ export function getAliasesByAddress(address: string): Promise<Array<string>> {
 
 export function getAddressByAlias(alias: string): Promise<{ address: string }> {
     const ds = getDataService();
-    return request({ method: () => ds.aliases.getById(alias).then(r => r.data) });
+    return request({ method: () => ds.aliases.getById(alias).then(r => r.data as any) });
 }

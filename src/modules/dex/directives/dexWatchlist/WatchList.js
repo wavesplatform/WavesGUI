@@ -25,10 +25,11 @@
      * @param {JQuery} $element
      * @param {ModalManager} modalManager
      * @param {ConfigService} configService
+     * @param {Matcher} matcher
      * @returns {WatchList}
      */
     const controller = function (Base, $scope, utils, waves, stService, PromiseControl, createPoll, $element,
-                                 modalManager, configService) {
+                                 modalManager, configService, matcher) {
 
         const {
             equals, uniq, not,
@@ -740,7 +741,7 @@
                     })
                     .then((pairs) => {
                         const promiseList = splitEvery(20, pairs).map((pairs) => {
-                            return ds.api.pairs.info(...pairs)
+                            return ds.api.pairs.info(matcher.currentMatcherAddress, pairs)
                                 .then(infoList => infoList.map((data, i) => ({
                                     ...data,
                                     pairNames:
@@ -823,7 +824,8 @@
         'createPoll',
         '$element',
         'modalManager',
-        'configService'
+        'configService',
+        'matcher'
     ];
 
     angular.module('app.dex')
