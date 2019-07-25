@@ -50,11 +50,7 @@
                  */
                 this._counter = 0;
 
-                state.signals.changeRouterStateStart.on((event) => {
-                    if (event.defaultPrevented) {
-                        return null;
-                    }
-
+                state.signals.changeRouterStateStart.on(() => {
                     const counter = this._counter;
 
                     for (let i = 0; i < counter; i++) {
@@ -241,7 +237,7 @@
 
                 return api.getSeed()
                     .then((phrase) => {
-                        const seed = new ds.Seed(phrase);
+                        const seed = new ds.Seed(phrase, window.WavesApp.network.code);
                         return this._getModal({
                             id: 'seed-backup',
                             title: 'modal.backup.title.{{$ctrl.titleLiteral}}',
@@ -324,18 +320,15 @@
             }
 
             /**
-             * @param {User} user
              * @param {Asset} [asset]
              * @return {Promise}
              */
-            showReceiveModal(user, asset) {
-                return user.onLogin().then(() => {
-                    return this._getModal({
-                        id: 'receive-popup',
-                        locals: { address: user.address, asset },
-                        templateUrl: 'modules/utils/modals/receive/Receive.html',
-                        controller: 'ReceiveCtrl'
-                    });
+            showReceiveModal(asset) {
+                return this._getModal({
+                    id: 'receive-popup',
+                    locals: { asset },
+                    templateUrl: 'modules/utils/modals/receive/Receive.html',
+                    controller: 'ReceiveCtrl'
                 });
             }
 
@@ -345,16 +338,14 @@
              * @return {Promise}
              */
             showDepositAsset(user, asset) {
-                return user.onLogin().then(() => {
-                    return this._getModal({
-                        id: 'deposit-asset',
-                        locals: { address: user.address, asset },
-                        title: 'modal.deposit.title',
-                        titleParams: { assetName: asset.name },
-                        contentUrl: 'modules/utils/modals/depositAsset/deposit-asset.modal.html',
-                        controller: 'DepositAsset',
-                        mod: 'modal-deposit-asset'
-                    });
+                return this._getModal({
+                    id: 'deposit-asset',
+                    locals: { address: user.address, asset },
+                    title: 'modal.deposit.title',
+                    titleParams: { assetName: asset.name },
+                    contentUrl: 'modules/utils/modals/depositAsset/deposit-asset.modal.html',
+                    controller: 'DepositAsset',
+                    mod: 'modal-deposit-asset'
                 });
             }
 
@@ -364,16 +355,14 @@
              * @return {Promise}
              */
             showSepaAsset(user, asset) {
-                return user.onLogin().then(() => {
-                    return this._getModal({
-                        id: 'sepa-asset',
-                        locals: { address: user.address, asset },
-                        title: 'modal.sepa.title',
-                        titleParams: { assetName: asset.name },
-                        contentUrl: 'modules/utils/modals/sepaAsset/sepa-asset.modal.html',
-                        controller: 'SepaAsset',
-                        mod: 'modal-sepa-asset'
-                    });
+                return this._getModal({
+                    id: 'sepa-asset',
+                    locals: { address: user.address, asset },
+                    title: 'modal.sepa.title',
+                    titleParams: { assetName: asset.name },
+                    contentUrl: 'modules/utils/modals/sepaAsset/sepa-asset.modal.html',
+                    controller: 'SepaAsset',
+                    mod: 'modal-sepa-asset'
                 });
             }
 

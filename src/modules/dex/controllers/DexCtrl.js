@@ -14,22 +14,19 @@
      * @param {Waves} waves
      * @param {utils} utils
      * @param {ModalManager} modalManager
-     * // TODO: delete after contest
-     * @param {PermissionManager} permissionManager
-     * // TODO: delete after contest
      * @return {DexCtrl}
      */
-    const controller = function (Base,
-                                 $element,
-                                 $state,
-                                 $location,
-                                 user,
-                                 $scope,
-                                 createPoll,
-                                 waves,
-                                 modalManager,
-                                 permissionManager,
-                                 utils) {
+    const controller = function (
+        Base,
+        $element,
+        $state,
+        $location,
+        user,
+        $scope,
+        createPoll,
+        waves,
+        utils,
+        modalManager) {
 
         const analytics = require('@waves/event-sender');
 
@@ -203,16 +200,10 @@
                                 }))
                                 .then(({ amountAsset, priceAsset }) => {
                                     const activeTab = user.getSetting('dex.watchlist.activeTab');
-                                    const activeTabIsTrading = activeTab === 'trading';
-                                    const activeTabIsTradingAndContestEnd = activeTabIsTrading &&
-                                        !permissionManager.isPermitted('CONTEST_TIME');
 
                                     if (activeTab !== 'all' &&
                                         activeTab !== amountAsset.id &&
-                                        activeTab !== priceAsset.id &&
-                                        !activeTabIsTrading ||
-                                        activeTabIsTradingAndContestEnd
-                                    ) {
+                                        activeTab !== priceAsset.id) {
                                         user.setSetting('dex.watchlist.activeTab', 'all');
                                     }
 
@@ -286,9 +277,8 @@
         '$scope',
         'createPoll',
         'waves',
-        'modalManager',
-        'permissionManager',
-        'utils'
+        'utils',
+        'modalManager'
     ];
 
     angular.module('app.dex')

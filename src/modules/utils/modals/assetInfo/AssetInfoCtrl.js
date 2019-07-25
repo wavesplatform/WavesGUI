@@ -1,14 +1,6 @@
 (function () {
     'use strict';
 
-    // TODO: delete after contest
-    const CONTEST_ASSET_ID_LIST = [
-        '7eMpAC1CVLeZq7Mi16AkvkY2BmLytyApLaUG4TxNFew5',
-        '8ouNBeYFxJMaeyPBwF8jY86R457CyEjAY98HaNLFox7N',
-        'BFWboD9xC64tSmirFbCNARR1NSu6Ep9rP4SRoLkQhBUF'
-    ];
-    // TODO: delete after contest
-
     /**
      * @param Base
      * @param {$rootScope.Scope} $scope
@@ -21,6 +13,7 @@
     const controller = function (Base, $scope, user, createPoll, utils, waves) {
 
         const ds = require('data-service');
+        const { BigNumber } = require('@waves/bignumber');
 
         class AssetInfoCtrl extends Base {
 
@@ -37,7 +30,6 @@
                 const assetList = user.getSetting('pinnedAssetIdList');
                 this.assetList = assetList;
                 this.pinned = assetList.indexOf(asset.id) !== -1;
-                this.chartData = null;
                 this.circleChartData = null;
                 this.totalBalance = null;
                 this.transactions = [];
@@ -49,12 +41,6 @@
 
                 // this.ticker = path(['ticker'], data); // TODO STEP 2=
                 this.link = link;
-
-                // TODO: delete after contest
-                if (CONTEST_ASSET_ID_LIST.indexOf(this.asset.id) > -1) {
-                    this.link = 'https://wsoc.io';
-                }
-                // TODO: delete after contest
 
                 this.email = email;
 
@@ -89,7 +75,6 @@
                     startFrom: Math.PI / 2
                 };
 
-                createPoll(this, this._getGraphData, 'chartData', 15000);
                 if (!this.isDemo) {
                     const isBalance = true;
                     createPoll(this, this._getCircleGraphData, this._setCircleGraphData, 15000);
@@ -142,17 +127,6 @@
                             return false;
                     }
                 });
-            }
-
-            /**
-             * @return {Promise<{values: {rate: number, timestamp: Date}[]}>}
-             * @private
-             */
-            _getGraphData() {
-                const startDate = utils.moment().add().day(-100);
-                return waves.utils.getRateHistory(this.asset.id, user.getSetting('baseAssetId'), startDate)
-                    .then((values) => ({ values }))
-                    .catch(() => ({ values: null }));
             }
 
             /**

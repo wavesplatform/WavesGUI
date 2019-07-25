@@ -3,8 +3,6 @@
 
     const controller = function (Base, user, $scope, angularUtils) {
 
-        const { utils } = require('@waves/signature-generator');
-
         class GetStartedLinkCtrl extends Base {
 
             /**
@@ -23,9 +21,9 @@
              * @private
              */
             _initUserList() {
-                user.getUserList()
+                user.getFilteredUserList()
                     .then((list) => {
-                        this._userList = list.filter(user => utils.crypto.isValidAddress(user.address));
+                        this._userList = list;
                         angularUtils.postDigest($scope).then(() => {
                             $scope.$apply();
                         });

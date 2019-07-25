@@ -5,15 +5,18 @@
      * @param {Assets} assets
      * @param {app.utils} utils
      * @param {app.utils.decorators} decorators
+     * @param {Transactions} transactions
+     * @param {Matcher} matcher
      * @return {WavesUtils}
      */
-    const factory = function (assets, utils, decorators) {
+    const factory = function (assets, utils, decorators, transactions, matcher) {
 
         const ds = require('data-service');
         const entities = require('@waves/data-entities');
+        const { BigNumber } = require('@waves/bignumber');
         const {
             flatten, pipe, map,
-            where, prop, gt, gte, allPass,
+            where, prop, gte, allPass,
             lte, filter, length, equals,
             __
         } = require('ramda');
@@ -79,7 +82,7 @@
              * @param {string|Asset} assetTo
              * @param {Date|number|Moment} from
              * @param {Date|number|Moment} [to]
-             * @return {Promise<{rate: number, timestamp: Date}[]>}
+             * @return {Promise<{rate: BigNumber, timestamp: Date}[]>}
              */
             @decorators.cachable(60)
             getRateHistory(assetFrom, assetTo, from, to) {
@@ -109,7 +112,7 @@
 
                             return from.reduce((result, item) => {
                                 if (hash[item.timestamp.valueOf()]) {
-                                    item.rate /= hash[item.timestamp.valueOf()].rate;
+                                    item.rate = item.rate.div(hash[item.timestamp.valueOf()].rate);
                                     result.push(item);
                                 }
                                 return result;
@@ -141,7 +144,7 @@
              */
             @decorators.cachable(60)
             getVolume(pair) {
-                return ds.api.pairs.info(pair)
+                return ds.api.pairs.info(matcher.currentMatcherAddress, [pair])
                     .then((data) => {
                         const [pair = {}] = data.filter(Boolean);
                         return pair && String(pair.volume) || '0';
@@ -159,12 +162,12 @@
                     if (open.eq(0)) {
                         return new BigNumber(0);
                     } else {
-                        return close.minus(open).div(open).times(100).dp(2);
+                        return close.sub(open).div(open).mul(100).roundTo(2);
                     }
                 };
 
                 return ds.api.pairs.get(from, to)
-                    .then(pair => ds.api.pairs.info(pair)
+                    .then(pair => ds.api.pairs.info(matcher.currentMatcherAddress, [pair])
                         .then(([data]) => {
 
                             if (!data || data.status === 'error') {
@@ -173,7 +176,7 @@
 
                             const open = data.firstPrice || new entities.Money(0, pair.priceAsset);
                             const close = data.lastPrice || new entities.Money(0, pair.priceAsset);
-                            const change24 = getChange(open.getTokens(), close.getTokens()).toNumber();
+                            const change24 = Number(getChange(open.getTokens(), close.getTokens()).toFixed());
 
                             if (pair.amountAsset.id === from) {
                                 return change24;
@@ -196,7 +199,7 @@
                     return (
                         trades
                             .reduce((result, item) => {
-                                return result.plus(new BigNumber(item.price.getTokens()));
+                                return result.add(new BigNumber(item.price.getTokens()));
                             }, new BigNumber(0))
                             .div(trades.length)
                     );
@@ -208,7 +211,7 @@
 
                 return ds.api.pairs.get(fromId, toId)
                     .then((pair) => {
-                        return ds.api.transactions.getExchangeTxList({
+                        return transactions.getExchangeTxList({
                             limit: 5,
                             amountAsset: pair.amountAsset,
                             priceAsset: pair.priceAsset
@@ -230,7 +233,7 @@
              * @param {string} toId
              * @param {Moment} from
              * @param {Moment} to
-             * @return {Promise<{rate: number, timestamp: Date}[]>}
+             * @return {Promise<{rate: BigNumber, timestamp: Date}[]>}
              * @private
              */
             _getRateHistory(fromId, toId, from, to) {
@@ -257,18 +260,18 @@
                                 timestamp: new Date(item.time).getTime()
                             })))
                             .then(filter(where({
-                                close: gt(__, 0),
+                                close: close => close.gt(0),
                                 timestamp: allPass([gte(__, formattedFrom), lte(__, formattedTo)])
                             })))
                             .then(list => {
                                 if (equals(length(list), 0)) {
-                                    return Promise.reject(new Error('Nor found!'));
+                                    return Promise.reject(new Error(`Nor found by pair ${pair}`));
                                 }
                                 return list;
                             })
                             .then(map(({ timestamp, close }) => ({
                                 timestamp: new Date(timestamp),
-                                rate: fromId !== pair.priceAsset.id ? close : 1 / close
+                                rate: fromId !== pair.priceAsset.id ? close : new BigNumber(1).div(close)
                             })));
                     });
             }
@@ -288,8 +291,8 @@
                      * @return {BigNumber}
                      */
                     exchange(balance) {
-                        return balance.times(rate.toFixed(8))
-                            .dp(to.precision);
+                        return balance.mul(rate.toFixed(8))
+                            .roundTo(to.precision);
                     },
 
                     /**
@@ -298,7 +301,7 @@
                      * @return {BigNumber}
                      */
                     exchangeReverse(balance) {
-                        return (rate ? balance.div(rate) : new BigNumber(0)).dp(from.precision);
+                        return (rate ? balance.div(rate) : new BigNumber(0)).roundTo(from.precision);
                     },
 
                     /**
@@ -321,7 +324,7 @@
         return new WavesUtils();
     };
 
-    factory.$inject = ['assets', 'utils', 'decorators'];
+    factory.$inject = ['assets', 'utils', 'decorators', 'transactions', 'matcher'];
 
     angular.module('app')
         .factory('wavesUtils', factory);

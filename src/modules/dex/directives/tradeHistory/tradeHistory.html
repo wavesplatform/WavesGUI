@@ -46,7 +46,7 @@
         </w-table-cell>
         <w-table-cell ng-if="$ctrl.isMy">
             <span class="cell-label" w-i18n="directives.tradeHistory.tableTitle.fee"></span>
-            <w-balance money="::tx.userFee" short-mode="::true"></w-balance>
+            <span w-i18n="money-currency" params="::{money: tx.userFee}"></span>
         </w-table-cell>
     </w-table-row>
 </w-smart-table>

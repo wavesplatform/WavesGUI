@@ -2,35 +2,107 @@
     'use strict';
 
     const ds = require('data-service');
-    const { BigNumber, Money } = require('@waves/data-entities');
+    const { Money } = require('@waves/data-entities');
+    const { BigNumber } = require('@waves/bignumber');
     const { currentCreateOrderFactory } = require('@waves/signature-adapter');
-    const generator = require('@waves/signature-generator');
+    const { libs } = require('@waves/waves-transactions');
+    const { address } = libs.crypto;
 
     /**
      * @param {app.utils} utils
      * @param {app.utils.decorators} decorators
-     * @param {app.i18n} i18n
      * @param {User} user
      * @param {PollCache} PollCache
      * @param {ConfigService} configService
      * @return {Matcher}
      */
-    const factory = function (utils, decorators, i18n, user, PollCache, configService) {
+    const factory = function (utils, decorators, user, PollCache, configService) {
 
+        /**
+         * @class
+         */
         class Matcher {
 
-            constructor() {
+            /**
+             * @type {string}
+             */
+            currentMatcherAddress = '';
 
+            constructor() {
                 this._orderBookCacheHash = Object.create(null);
+
+                user.onLogin().then(
+                    () => this._handleLogin(),
+                    () => this._handleLogout()
+                );
+
+                this._updateCurrentMatcherAddress();
+            }
+
+            /**
+             * @param bids
+             * @param asks
+             * @param pair
+             * @returns {Promise<any[]>}
+             * @private
+             */
+            static _remapOrderBook({ bids, asks, pair }) {
+                return {
+                    pair,
+                    bids: Matcher._remapBidAsks(bids, pair),
+                    asks: Matcher._remapBidAsks(asks, pair)
+                };
+            }
+
+            /**
+             * @param list
+             * @param pair
+             * @returns {Promise<(any[])[]>}
+             * @private
+             */
+            static _remapBidAsks(list, pair) {
+                return (list || []).map((item) => {
+                    const amount = item.amount.getTokens();
+                    const price = item.price.getTokens();
+                    const total = amount.mul(price);
+
+                    return {
+                        amount: amount.toFixed(pair.amountAsset.precision),
+                        price: price.toFixed(pair.priceAsset.precision),
+                        total: total.toFixed(pair.priceAsset.precision)
+                    };
+                });
+            }
+
+            /**
+             * @param {Array} bids
+             * @param {Array} asks
+             * @returns {Matcher.ISpread}
+             * @private
+             */
+            static _getSpread(bids, asks) {
+                const [lastAsk] = asks;
+                const [firstBid] = bids;
+                const sell = new BigNumber(firstBid && firstBid.price);
+                const buy = new BigNumber(lastAsk && lastAsk.price);
+                const percent = (buy.gt(0)) ? buy.sub(sell).mul(100).div(buy) : new BigNumber(0);
+
+                return firstBid && lastAsk && {
+                    lastAsk,
+                    firstBid,
+                    buy,
+                    sell,
+                    percent
+                } || null;
             }
 
             /**
              * @return {Promise<Array<IOrder>>}
              */
             @decorators.cachable(1)
-            getOrders() {
+            getOrders(options) {
                 if (user.address) {
-                    return ds.api.matcher.getOrders().then(ds.processOrdersWithStore);
+                    return ds.api.matcher.getOrders(options).then(ds.processOrdersWithStore);
                 } else {
                     return Promise.resolve([]);
                 }
@@ -63,8 +135,7 @@
                 return this.getMinOrderFee()
                     .then(minFee => {
                         const currentFee = currentCreateOrderFactory(config, minFee);
-                        const publicKeyBytes = generator.libs.base58.decode(order.matcherPublicKey);
-                        const matcherAddress = generator.utils.crypto.buildRawAddress(publicKeyBytes);
+                        const matcherAddress = address({ publicKey: order.matcherPublicKey }, WavesApp.network.code);
 
                         return Promise.all([
                             this._scriptInfo(matcherAddress),
@@ -86,9 +157,43 @@
                             },
                             matcherPublicKey: order.matcherPublicKey
                         }, hasScript, smartAssetIdList);
-
                         return new Money(fee, asset);
                     });
+            }
+
+            /**
+             * @param {object} order
+             * @return {object}
+             */
+            calculateCustomFeeMap(order) {
+                const smartAssetExtraFee = new BigNumber(configService.getFeeConfig().smart_asset_extra_fee);
+                const baseFee = new BigNumber(order.baseFee);
+                const hasScript = order.matcherInfo.extraFee.getTokens().gt(0);
+                const smartPairAssets = [order.pair.amountAsset, order.pair.priceAsset]
+                    .filter(asset => asset.hasScript);
+
+                const getSmartAssetsQuantity = (feeAsset) => {
+                    const feeIsSmartAndNotInPair =
+                        feeAsset.hasScript &&
+                        (smartPairAssets.some(asset => asset.id === feeAsset.id));
+                    return smartPairAssets.length + Number(feeIsSmartAndNotInPair);
+                };
+
+                const feeMap = order.feeAssets.reduce((acc, asset) => {
+                    acc[asset.id] = baseFee
+                        .add(smartAssetExtraFee.mul(getSmartAssetsQuantity(asset)))
+                        .add(smartAssetExtraFee.mul(Number(hasScript)));
+                    return acc;
+                }, Object.create(null));
+
+                return feeMap;
+
+                // const feeMap = order.feeAssets.reduce((acc, asset) => {
+                //     acc[asset.id] = baseFee.add(smartAssetExtraFee * getSmartAssetsQuantity(asset));
+                //     return acc;
+                // }, Object.create(null));
+                //
+                // return feeMap;
             }
 
             /**
@@ -105,6 +210,79 @@
              */
             getOrderBook(asset1, asset2) {
                 return this._getOrderBookCache(asset1, asset2).get();
+            }
+
+            /**
+             * @return {Promise<Matcher.IFeeMap>}
+             */
+            @decorators.cachable(5)
+            getFeeRates() {
+                return ds.api.matcher.getFeeRates();
+            }
+
+            /**
+             * @return {Promise<object>}
+             */
+            getSettings() {
+                return ds.api.matcher.getSettings();
+            }
+
+            /**
+             * @param pair
+             * @param matcherPublicKey
+             * @return {Promise<object | never>}
+             */
+            getCreateOrderSettings(pair, matcherPublicKey) {
+                return this.getSettings()
+                    .then(data => {
+                        const matcherPublicKeyBytes = libs.crypto.base58Decode(matcherPublicKey);
+                        const matcherAddress = libs.crypto.address(
+                            {
+                                publicKey: matcherPublicKeyBytes
+                            },
+                            ds.config.get('code'));
+
+                        if (data.orderFee.dynamic) {
+                            return Promise.all([
+                                this._scriptInfo(matcherAddress),
+                                ...Object.keys(data.orderFee.dynamic.rates).map(id => ds.api.assets.get(id))
+                            ]).then(([matcherInfo, ...feeAssets]) => {
+                                if (!feeAssets.length) {
+                                    throw new Error('Fee list is empty');
+                                }
+                                return ({
+                                    basedCustomFee: this.calculateCustomFeeMap({
+                                        pair,
+                                        matcherInfo,
+                                        feeAssets,
+                                        baseFee: data.orderFee.dynamic.baseFee
+                                    }),
+                                    feeMode: 'dynamic'
+                                });
+                            });
+                        } else if (data.orderFee.fixed) {
+                            const feeValue = data.orderFee.fixed['min-fee'];
+                            const feeAsset = data.orderFee.fixed.asset;
+                            return ({
+                                fee: new Money(feeValue, feeAsset),
+                                feeMode: 'fixed'
+                            });
+                        }
+
+                        throw new Error('Matcher settings is incorrect');
+                    })
+                    .catch(() => {
+                        return this.getCreateOrderFee({
+                            amount: new Money(0, pair.amountAsset),
+                            price: new Money(0, pair.priceAsset),
+                            matcherPublicKey
+                        }).then(fee => {
+                            return ({
+                                feeMode: 'waves',
+                                fee: fee
+                            });
+                        });
+                    });
             }
 
             /**
@@ -156,60 +334,45 @@
             }
 
             /**
-             * @param bids
-             * @param asks
-             * @param pair
-             * @returns {Promise<any[]>}
              * @private
              */
-            static _remapOrderBook({ bids, asks, pair }) {
-                return {
-                    pair,
-                    bids: Matcher._remapBidAsks(bids, pair),
-                    asks: Matcher._remapBidAsks(asks, pair)
-                };
-            }
+            _updateCurrentMatcherAddress() {
+                const networkMatcher = user.getSetting('network.matcher');
 
-            /**
-             * @param list
-             * @param pair
-             * @returns {Promise<(any[])[]>}
-             * @private
-             */
-            static _remapBidAsks(list, pair) {
-                return (list || []).map((item) => {
-                    const amount = item.amount.getTokens();
-                    const price = item.price.getTokens();
-                    const total = amount.times(price);
+                ds.fetch(networkMatcher).then(matcherPublicKey => {
+                    if (matcherPublicKey) {
+                        const matcherPublicKeyBytes = libs.crypto.base58Decode(matcherPublicKey);
+                        const matcherAddress = libs.crypto.address(
+                            {
+                                publicKey: matcherPublicKeyBytes
+                            },
+                            ds.config.get('code'));
 
-                    return {
-                        amount: amount.toFixed(pair.amountAsset.precision),
-                        price: price.toFixed(pair.priceAsset.precision),
-                        total: total.toFixed(pair.priceAsset.precision)
-                    };
+                        this.currentMatcherAddress = matcherAddress;
+                    }
                 });
             }
 
             /**
-             * @param {Array} bids
-             * @param {Array} asks
-             * @returns {Matcher.ISpread}
              * @private
              */
-            static _getSpread(bids, asks) {
-                const [lastAsk] = asks;
-                const [firstBid] = bids;
-                const sell = new BigNumber(firstBid && firstBid.price);
-                const buy = new BigNumber(lastAsk && lastAsk.price);
-                const percent = (buy.gt(0)) ? buy.minus(sell).times(100).div(buy) : new BigNumber(0);
+            _handleLogin() {
+                user.changeSetting.on(this._onUserChangeSetting, this);
+                user.logoutSignal.once(this._handleLogout, this);
+            }
 
-                return firstBid && lastAsk && {
-                    lastAsk,
-                    firstBid,
-                    buy,
-                    sell,
-                    percent
-                } || null;
+            /**
+             * @private
+             */
+            _handleLogout() {
+                user.changeSetting.off(this._onUserChangeSetting);
+                user.loginSignal.once(this._handleLogin, this);
+            }
+
+            _onUserChangeSetting(path) {
+                if (path === 'network.matcher') {
+                    this._updateCurrentMatcherAddress();
+                }
             }
 
         }
@@ -217,7 +380,7 @@
         return new Matcher();
     };
 
-    factory.$inject = ['utils', 'decorators', 'i18n', 'user', 'PollCache', 'configService'];
+    factory.$inject = ['utils', 'decorators', 'user', 'PollCache', 'configService'];
 
     angular.module('app').factory('matcher', factory);
 })();
@@ -276,4 +439,9 @@
  * @property {string} status
  * @property {Money} total
  * @property {string} type
+ */
+
+/**
+ * @typedef {object} Matcher#IFeeMap
+ * @property {number}
  */

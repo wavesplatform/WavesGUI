@@ -7,17 +7,22 @@
      * @param {Aliases} aliases
      * @param {app.utils.decorators} decorators
      * @param {BaseNodeComponent} BaseNodeComponent
+     * @param {Matcher} matcher
      * @return {Transactions}
      */
-    const factory = function (user, utils, aliases, decorators, BaseNodeComponent) {
+    const factory = function (user, utils, aliases, decorators, BaseNodeComponent, matcher) {
 
         const tsUtils = require('ts-utils');
         const R = require('ramda');
         const { SIGN_TYPE } = require('@waves/signature-adapter');
         const ds = require('data-service');
+        const { Money } = require('@waves/data-entities');
 
         const TYPES = WavesApp.TRANSACTION_TYPES.EXTENDED;
 
+        /**
+         * @class Transactions
+         */
         class Transactions extends BaseNodeComponent {
 
             constructor() {
@@ -100,6 +105,18 @@
                     .then(([utxTxList, txList]) => utxTxList.concat(txList));
             }
 
+            /**
+             * @param {ExchangeTxFilters} prams
+             * @param {IGetExchangeOptions} [options]
+             * @returns {Promise<IExchange[]>}
+             */
+            getExchangeTxList(prams, options) {
+                return ds.api.transactions.getExchangeTxList({
+                    matcher: matcher.currentMatcherAddress,
+                    ...prams
+                }, options);
+            }
+
             createTransaction(txData) {
                 const tx = {
                     sender: user.address,
@@ -110,7 +127,13 @@
                 if (tx.type === SIGN_TYPE.MASS_TRANSFER) {
                     tx.totalAmount = tx.totalAmount || tx.transfers.map(({ amount }) => amount)
                         .reduce((result, item) => result.add(item));
+                    tx.assetId = tx.totalAmount && tx.totalAmount.asset.id;
                 }
+
+                if (!tx.fee) {
+                    tx.fee = Money.fromCoins(0, ds.api.assets.wavesAsset);
+                }
+
                 return this._pipeTransaction(false)(tx);
             }
 
@@ -242,6 +265,7 @@
                     case TYPES.LEASE_IN:
                     case TYPES.CREATE_ALIAS:
                     case TYPES.SPONSORSHIP_FEE:
+                    case TYPES.SCRIPT_INVOCATION:
                         return sender;
                     default:
                         return recipient;
@@ -253,7 +277,7 @@
         return utils.bind(new Transactions());
     };
 
-    factory.$inject = ['user', 'utils', 'aliases', 'decorators', 'BaseNodeComponent'];
+    factory.$inject = ['user', 'utils', 'aliases', 'decorators', 'BaseNodeComponent', 'matcher'];
 
     angular.module('app')
         .factory('transactions', factory);

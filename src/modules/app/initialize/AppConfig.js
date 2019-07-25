@@ -1,9 +1,12 @@
 (function () {
     'use strict';
 
-    const config = function ($urlRouterProvider, $stateProvider, $locationProvider) {
+    const config = function ($urlRouterProvider, $stateProvider, $locationProvider, $compileProvider) {
         const TransportU2F = require('@ledgerhq/hw-transport-u2f');
         const tsUtils = require('ts-utils');
+        const { BigNumber } = require('@waves/bignumber');
+        const ds = require('data-service');
+        const i18next = require('i18next');
 
         ds.config.setConfig(WavesApp.network);
         ds.config.set('remappedAssetNames', WavesApp.remappedAssetNames);
@@ -16,6 +19,7 @@
                 this._initLocalize();
                 this._initAdapters();
                 this._initStates();
+                this._initCompiler();
             }
 
             _initAdapters() {
@@ -38,11 +42,9 @@
              */
             _initUrlResolveMode() {
                 if (WavesApp.isWeb()) {
-                    const base = document.createElement('base');
-                    base.href = '/';
-                    document.head.appendChild(base);
                     $locationProvider.html5Mode(true);
                 }
+
                 $urlRouterProvider.otherwise('/');
             }
 
@@ -112,8 +114,8 @@
                 i18next.on('initialized', () => {
                     const localeData = WavesApp.getLocaleData().separators;
 
-                    BigNumber.config({
-                        ROUNDING_MODE: BigNumber.ROUND_DOWN,
+                    BigNumber.config.set({
+                        ROUNDING_MODE: BigNumber.ROUND_MODE.ROUND_DOWN,
                         FORMAT: tsUtils.merge(Object.create(null), BIG_NUMBER_FORMAT, {
                             groupSeparator: localeData.group,
                             decimalSeparator: localeData.decimal
@@ -131,8 +133,8 @@
 
                         const localeData = WavesApp.getLocaleData().separators;
 
-                        BigNumber.config({
-                            ROUNDING_MODE: BigNumber.ROUND_DOWN,
+                        BigNumber.config.set({
+                            ROUNDING_MODE: BigNumber.ROUND_MODE.ROUND_DOWN,
                             FORMAT: tsUtils.merge(Object.create(null), BIG_NUMBER_FORMAT, {
                                 groupSeparator: localeData.group,
                                 decimalSeparator: localeData.decimal
@@ -186,6 +188,15 @@
                             reloadOnSearch
                         });
                     });
+            }
+
+            /**
+             * @private
+             */
+            _initCompiler() {
+                $compileProvider.commentDirectivesEnabled(false);
+                $compileProvider.cssClassDirectivesEnabled(false);
+                $compileProvider.debugInfoEnabled(!WavesApp.isProduction());
             }
 
             static getCtrlName(name) {
@@ -252,7 +263,7 @@
         return new AppConfig();
     };
 
-    config.$inject = ['$urlRouterProvider', '$stateProvider', '$locationProvider'];
+    config.$inject = ['$urlRouterProvider', '$stateProvider', '$locationProvider', '$compileProvider'];
 
     angular.module('app')
         .config(config);

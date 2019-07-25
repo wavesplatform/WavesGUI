@@ -7,21 +7,11 @@
     const { SIGN_TYPE } = require('@waves/signature-adapter');
     const analytics = require('@waves/event-sender');
 
-    // TODO: delete after contest
-    const CONTEST_ASSET_ID_MAP = WavesApp.network.code === 'W' ?
-        {
-            '7eMpAC1CVLeZq7Mi16AkvkY2BmLytyApLaUG4TxNFew5': '/img/assets/wsoc.svg',
-            '8ouNBeYFxJMaeyPBwF8jY86R457CyEjAY98HaNLFox7N': '/img/assets/wsoc.svg',
-            'BFWboD9xC64tSmirFbCNARR1NSu6Ep9rP4SRoLkQhBUF': '/img/assets/wsoc.svg'
-        } :
-        {};
-    // TODO: delete after contest
-
     const TEMPLATE_PATH = 'modules/wallet/modules/portfolio/directives/portfolioRow/row.hbs';
     const SELECTORS = {
         AVAILABLE: 'js-balance-available',
         SPONSORED: 'js-sponsored-asset',
-        IN_ORDERS: 'js-balance-in-orders',
+        IN_RESERVED: 'js-balance-in-reserved',
         BASE_ASSET_BALANCE: 'js-balance-in-base-asset',
         EXCHANGE_RATE: 'js-exchange-rate',
         CHANGE_24: 'js-change-24',
@@ -49,6 +39,7 @@
         SUSPICIOUS_LABEL: 'js-suspicious-label'
     };
 
+    const i18next = require('i18next');
     const ds = require('data-service');
     /**
      * @param Base
@@ -204,8 +195,7 @@
                         isTokenomica: isTokenomica,
                         isGatewaySoon: isGatewaySoon,
                         assetIconPath: logo ||
-                            this.utils.getAssetLogo(this.balance.asset.id) ||
-                            CONTEST_ASSET_ID_MAP[this.balance.asset.id],
+                            this.utils.getAssetLogo(this.balance.asset.id),
                         firstAssetChar,
                         canBurn: !this._isWaves,
                         canReissue: this._isMyAsset && this.balance.asset.reissuable,
@@ -266,7 +256,6 @@
                         'app.wallet.portfolio');
                 });
             }
-
             /**
              * @return {boolean}
              * @private
@@ -354,18 +343,18 @@
 
                 this.waves.utils.getRate(balance.asset.id, baseAssetId)
                     .then(rate => {
-                        const baseAssetBalance = balance.available.getTokens().times(rate).toFormat(2);
+                        const baseAssetBalance = balance.available.getTokens().mul(rate).toFormat(2);
 
                         this.node.querySelector(`.${SELECTORS.EXCHANGE_RATE}`).innerHTML = rate.toFixed(2);
                         this.node.querySelector(`.${SELECTORS.BASE_ASSET_BALANCE}`).innerHTML = baseAssetBalance;
                     });
 
                 const startDate = this.utils.moment().add().day(-7);
-                this.waves.utils.getRateHistory(balance.asset.id, baseAssetId, startDate).then((values) => {
+                this.waves.utils.getRateHistory(balance.asset.id, baseAssetId, startDate).then(values => {
                     this.chart = new this.ChartFactory(
                         this.$node.find(`.${SELECTORS.CHART_CONTAINER}`),
                         this.chartOptions,
-                        values
+                        values.map(item => ({ ...item, rate: Number(item.rate.toFixed()) }))
                     );
                 }).catch(() => null);
 
@@ -452,7 +441,7 @@
                         params: { Currency: this.balance.asset.id },
                         target: 'ui'
                     });
-                    this.modalManager.showReceiveModal(this.user, this.balance.asset);
+                    this.modalManager.showReceiveModal(this.balance.asset);
                 });
 
                 this.$node.on('click', `.${SELECTORS.BUTTONS.TOGGLE_SPAM}`, () => {
@@ -479,7 +468,7 @@
                         params: { Currency: this.balance.asset.id },
                         target: 'ui'
                     });
-                    this.modalManager.showReceiveModal(this.user, this.balance.asset);
+                    this.modalManager.showReceiveModal(this.balance.asset);
                 });
 
                 this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.BURN}`, () => {
@@ -604,18 +593,7 @@
              * @private
              */
             _getSrefParams(asset) {
-                // TODO: delete after contest
-                const contestAssetsId = Object.keys(CONTEST_ASSET_ID_MAP);
-                if (contestAssetsId.indexOf(asset.id) > -1) {
-                    const assetPairs = contestAssetsId.filter(id => id !== asset.id);
-                    this.utils.openDex(
-                        asset.id,
-                        assetPairs[Math.floor(assetPairs.length * Math.random())]
-                    );
-                } else {
-                    this.utils.openDex(asset.id);
-                }
-                // this.utils.openDex(asset.id);
+                this.utils.openDex(asset.id);
 
             }
 
@@ -626,10 +604,11 @@
                 const asset = this.balance.asset;
                 const available = this.balance.available.getTokens();
                 const inOrders = this.balance.inOrders.getTokens();
+                const leasedOut = this.balance.leasedOut.getTokens();
                 const availableHtml = this.utils.getNiceNumberTemplate(available, asset.precision, true);
-                const inOrdersHtml = this.utils.getNiceNumberTemplate(inOrders, asset.precision);
+                const inReservedHtml = this.utils.getNiceNumberTemplate(inOrders.add(leasedOut), asset.precision);
                 this.node.querySelector(`.${SELECTORS.AVAILABLE}`).innerHTML = availableHtml;
-                this.node.querySelector(`.${SELECTORS.IN_ORDERS}`).innerHTML = inOrdersHtml;
+                this.node.querySelector(`.${SELECTORS.IN_RESERVED}`).innerHTML = inReservedHtml;
             }
 
             /**
@@ -675,7 +654,8 @@
         'i18n',
         '$scope',
         'gatewayService',
-        'createPoll'];
+        'createPoll'
+    ];
 
     angular.module('app.wallet.portfolio').component('wPortfolioRow', {
         controller,

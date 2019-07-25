@@ -8,6 +8,7 @@
     };
 
     const { Money } = require('@waves/data-entities');
+    const { BigNumber } = require('@waves/bignumber');
     const ds = require('data-service');
     const { SIGN_TYPE } = require('@waves/signature-adapter');
     const analytics = require('@waves/event-sender');
@@ -239,6 +240,10 @@
             /**
              * @type {boolean}
              */
+            gatewayWrongAddress = false;
+            /**
+             * @type {boolean}
+             */
             gatewayError = false;
             /**
              * @type {boolean}
@@ -260,7 +265,8 @@
                 amount: null,
                 attachment: '',
                 fee: null,
-                recipient: ''
+                recipient: '',
+                assetId: ''
             };
             /**
              * @type {boolean}
@@ -301,7 +307,8 @@
                     this.receive(utils.observe(this.tx, 'attachment'), this._updateWavesTxObject, this);
 
                     this.observe('mirror', this._onChangeAmountMirror);
-                    this.observe(['gatewayAddressError', 'gatewayDetailsError'], this._updateGatewayError);
+                    this.observe(['gatewayAddressError', 'gatewayDetailsError', 'gatewayWrongAddress'],
+                        this._updateGatewayError);
 
                     this._currentHasCommission();
                     this._onChangeBaseAssets();
@@ -442,8 +449,10 @@
             /**
              * @return {boolean}
              */
-            isMoneroAddress() {
-                return this.state.assetId === WavesApp.defaultAssets.XMR;
+            isMoneroNotIntegratedAddress() {
+                const moneroAddressLength = 95;
+                const assetIsMonero = this.state.assetId === WavesApp.defaultAssets.XMR;
+                return assetIsMonero && this.tx.recipient.length === moneroAddressLength;
             }
 
             getGatewayDetails() {
@@ -457,13 +466,13 @@
                 const toGateway = this.outerSendMode && this.gatewayDetails;
                 const fee = toGateway ? this.tx.amount.cloneWithTokens(toGateway.gatewayFee) : null;
                 const attachmentString = this.tx.attachment ? this.tx.attachment.toString() : '';
-                const isWavesAddress = waves.node.isValidAddress(this.tx.recipient);
-
+                const isWavesAddress = user.isValidAddress(this.tx.recipient);
                 this.wavesTx = {
                     ...this.wavesTx,
                     recipient: toGateway ? this.gatewayDetails.address : isWavesAddress && this.tx.recipient || '',
                     attachment: utils.stringToBytes(toGateway ? this.gatewayDetails.attachment : attachmentString),
-                    amount: toGateway ? this.tx.amount.add(fee) : this.tx.amount
+                    amount: toGateway ? this.tx.amount.add(fee) : this.tx.amount,
+                    assetId: this.assetId
                 };
             }
 
@@ -655,7 +664,7 @@
                 }
 
                 const outerChain = outerBlockchains[this.assetId];
-                const isValidWavesAddress = waves.node.isValidAddress(this.tx.recipient);
+                const isValidWavesAddress = user.isValidAddress(this.tx.recipient);
 
                 if (this.gatewayDetailsError) {
                     this.outerSendMode = false;
@@ -666,19 +675,23 @@
                     this.gatewayAddressError = false;
                 }
 
+                if (this.gatewayWrongAddress) {
+                    this.gatewayWrongAddress = false;
+                }
+
                 this.outerSendMode = !isValidWavesAddress && outerChain && outerChain.isValidAddress(this.tx.recipient);
 
                 if (this.outerSendMode) {
                     return gatewayService.getWithdrawDetails(this.balance.asset, this.tx.recipient, this.paymentId)
                         .then((details) => {
                             const max = BigNumber.min(
-                                details.maximumAmount.plus(details.gatewayFee),
+                                details.maximumAmount.add(details.gatewayFee),
                                 this.moneyHash[this.assetId].getTokens()
                             );
 
                             this.gatewayDetails = details;
                             this.minAmount = this.moneyHash[this.assetId]
-                                .cloneWithTokens(details.minimumAmount.minus('0.00000001'));
+                                .cloneWithTokens(details.minimumAmount.sub('0.00000001'));
                             this.maxAmount = this.moneyHash[this.assetId].cloneWithTokens(max);
                             this.maxGatewayAmount = Money.fromTokens(details.maximumAmount, this.balance.asset);
                             $scope.$apply();
@@ -687,6 +700,9 @@
                             if (e.message === gatewayService.getAddressErrorMessage(this.balance.asset,
                                 this.tx.recipient, 'errorAddressMessage')) {
                                 this.gatewayAddressError = true;
+                            } else if (e.message === gatewayService.getWrongAddressMessage(this.balance.asset,
+                                this.tx.recipient, 'wrongAddressMessage')) {
+                                this.gatewayWrongAddress = true;
                             } else {
                                 this.gatewayDetailsError = true;
                             }
@@ -712,7 +728,7 @@
              * @private
              */
             _updateGatewayError() {
-                this.gatewayError = this.gatewayAddressError || this.gatewayDetailsError;
+                this.gatewayError = this.gatewayAddressError || this.gatewayDetailsError || this.gatewayWrongAddress;
             }
 
         }

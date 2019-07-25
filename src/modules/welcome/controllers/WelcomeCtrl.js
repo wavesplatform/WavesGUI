@@ -9,9 +9,10 @@
      * @param modalManager
      * @param storage
      * @param ChartFactory
-     * @param {app.utils} angularUtils
+     * @param {app.utils} utils
      * @param {JQuery} $element
      * @param {Waves} waves
+     * @param {Matcher} matcher
      * @return {WelcomeCtrl}
      */
     const controller = function (Base,
@@ -19,16 +20,17 @@
                                  $state,
                                  user,
                                  modalManager,
-                                 angularUtils,
+                                 utils,
                                  waves,
                                  $element,
                                  ChartFactory,
                                  storage,
-                                 utils) {
+                                 matcher) {
 
         const ds = require('data-service');
         const { Money } = require('@waves/data-entities');
         const { flatten } = require('ramda');
+        const { BigNumber } = require('@waves/bignumber');
 
         const WCT_ID = WavesApp.network.code === 'T' ?
             WavesApp.defaultAssets.TRY :
@@ -115,6 +117,10 @@
              */
             pairsInfoList = [];
 
+            /**
+             * @type {boolean}
+             */
+            hasUsers = false;
 
             constructor() {
                 super($scope);
@@ -132,31 +138,6 @@
                     this._initUserList();
                 }
                 this._initPairs();
-
-                const sectionContestUpper = $element.find('#section-contest-upper');
-                const sectionContestDown = $element.find('#section-contest-down');
-
-                let timer;
-                $element.find('.contest-link-close').on('click', function () {
-                    $(this).off();
-                    const closestSectionContest = $(this).closest('.section-contest');
-
-                    if (closestSectionContest[0] === sectionContestUpper[0]) {
-                        sectionContestUpper.addClass('collapsed');
-                        sectionContestDown.remove();
-
-                        if (timer) {
-                            clearTimeout(timer);
-                        } else {
-                            timer = setTimeout(() => {
-                                sectionContestUpper.remove();
-                            }, 500);
-                        }
-                    } else {
-                        [sectionContestDown, sectionContestUpper].forEach(section => section.remove());
-                    }
-
-                });
             }
 
             /**
@@ -166,23 +147,9 @@
                 const scrolledView = $element.find('.scrolled-view');
                 const header = $element.find('w-site-header');
 
-                const contestLinkUpper = $element.find('#contest-link-upper');
-                const contestLinkDown = $element.find('#contest-link-down');
-                const contestLinkStartCoords = contestLinkUpper.offset();
-
                 scrolledView.on('scroll', () => {
                     header.toggleClass('fixed', scrolledView.scrollTop() > whenHeaderGetFix);
                     header.toggleClass('unfixed', scrolledView.scrollTop() <= whenHeaderGetFix);
-
-                    if (contestLinkUpper && contestLinkDown) {
-                        if (scrolledView.scrollTop() > contestLinkStartCoords.top + contestLinkUpper.outerHeight()) {
-                            contestLinkDown.addClass('contest-link-show');
-                            contestLinkDown.removeClass('contest-link-hide');
-                        } else {
-                            contestLinkDown.removeClass('contest-link-show');
-                            contestLinkDown.addClass('contest-link-hide');
-                        }
-                    }
                 });
             }
 
@@ -197,7 +164,7 @@
              * @public
              */
             goToDexDemo(pairAssets) {
-                angularUtils.openDex(pairAssets.assetId1, pairAssets.assetId2, 'dex-demo');
+                utils.openDex(pairAssets.assetId1, pairAssets.assetId2, 'dex-demo');
             }
 
             /**
@@ -209,9 +176,11 @@
                     timestamp: ds.utils.normalizeTime(Date.now())
                 }];
 
-                const startDate = angularUtils.moment().add().day(-7);
+                const startDate = utils.moment().add().day(-7);
                 Promise.all(PAIRS_IN_SLIDER.map(pair => ds.api.pairs.get(pair.amount, pair.price)))
-                    .then(pairs => Promise.all(pairs.map(pair => ds.api.pairs.info(pair))))
+                    .then(pairs => Promise.all(pairs.map(
+                        pair => ds.api.pairs.info(matcher.currentMatcherAddress, [pair])))
+                    )
                     .then(infoList => {
                         const flattenInfoList = flatten(infoList);
 
@@ -224,7 +193,7 @@
                                 this.pairsInfoList = rateHistory.map(WelcomeCtrl._fillValues(flattenInfoList));
                             })
                             .then(() => {
-                                angularUtils.safeApply($scope);
+                                utils.safeApply($scope);
                                 this._insertCharts();
                                 this._addScrollHandler();
                             });
@@ -276,6 +245,7 @@
                 user.getFilteredUserList()
                     .then((list) => {
                         this.userList = list;
+                        this.hasUsers = this.userList && this.userList.length > 0;
                         this.pendingRestore = false;
                         setTimeout(() => {
                             $scope.$apply(); // TODO FIX!
@@ -288,17 +258,21 @@
              */
             _loadUserListFromOldOrigin() {
                 const OLD_ORIGIN = 'https://client.wavesplatform.com';
+
                 this.pendingRestore = true;
+
                 utils.importAccountByIframe(OLD_ORIGIN, 5000)
                     .then((userList) => {
+                        this.pendingRestore = false;
                         this.userList = userList || [];
 
-                        storage.save('accountImportComplete', this.userList.length > 0);
+                        storage.save('accountImportComplete', true);
                         storage.save('userList', userList);
 
                         $scope.$apply();
                     })
                     .catch(() => {
+                        storage.save('accountImportComplete', true);
                         this._initUserList();
                     });
             }
@@ -319,7 +293,7 @@
         '$element',
         'ChartFactory',
         'storage',
-        'utils'
+        'matcher'
     ];
 
     angular.module('app.welcome')

@@ -2,8 +2,7 @@
 (function () {
     'use strict';
 
-    const entities = require('@waves/data-entities');
-    const { propEq, uniqBy, map, pipe, prop } = require('ramda');
+    const { propEq, uniqBy, map, pipe, prop, find } = require('ramda');
 
     /**
      * @param {Base} Base
@@ -11,9 +10,10 @@
      * @param {IPollCreate} createPoll
      * @param {User} user
      * @param {utils} utils
+     * @param {Transactions} transactions
      * @return {TradeHistory}
      */
-    const controller = function (Base, $scope, createPoll, user, utils) {
+    const controller = function (Base, $scope, createPoll, user, utils, transactions) {
 
         const PAIR_COLUMN_DATA = {
             id: 'pair',
@@ -186,7 +186,7 @@
              * @private
              */
             _getTradeHistory() {
-                return ds.api.transactions.getExchangeTxList(this._getTransactionsFilter())
+                return transactions.getExchangeTxList(this._getTransactionsFilter())
                     .then(this.remapTransactions);
             }
 
@@ -233,12 +233,12 @@
             static _remapTx(tx) {
                 const amount = tx => tx.amount.asset.displayName;
                 const price = tx => tx.price.asset.displayName;
-                const fee = (tx, order) => order.orderType === 'sell' ? tx.sellMatcherFee : tx.buyMatcherFee;
+                const fee = order => order.orderType === 'sell' ? tx.sellMatcherFee : tx.buyMatcherFee;
                 const pair = `${amount(tx)} / ${price(tx)}`;
-                const emptyFee = new entities.Money(0, tx.fee.asset);
-                const userFee = [tx.order1, tx.order2]
-                    .filter((order) => order.sender === user.address)
-                    .reduce((acc, order) => acc.add(fee(tx, order)), emptyFee);
+                const userFee = pipe(
+                    find(order => order.orderType === tx.exchangeType),
+                    fee
+                )([tx.order1, tx.order2]);
 
                 return { ...tx, pair, userFee };
             }
@@ -248,7 +248,7 @@
         return new TradeHistory();
     };
 
-    controller.$inject = ['Base', '$scope', 'createPoll', 'user', 'utils'];
+    controller.$inject = ['Base', '$scope', 'createPoll', 'user', 'utils', 'transactions'];
 
     angular.module('app.dex')
         .component('wDexTradeHistory', {
