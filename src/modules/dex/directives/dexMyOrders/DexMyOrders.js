@@ -204,10 +204,35 @@
                     return null;
                 }
 
-                this.orders.filter(whereEq({ isActive: true }))
-                    .forEach((order) => this.dropOrder(order));
+                ds.cancelAllOrders({
+                    sender: user.publicKey,
+                    timestamp: user.matcherSign.timestamp,
+                    signature: user.matcherSign.signature
+                })
+                    .then(() => {
+                        notification.info({
+                            ns: 'app.dex',
+                            title: { literal: 'directives.myOrders.notifications.canceledAll' }
+                        });
+
+                        if (this.poll) {
+                            this.poll.restart();
+                        }
+                    })
+                    .catch(e => {
+                        const error = utils.parseError(e);
+                        notification.error({
+                            ns: 'app.dex',
+                            title: { literal: 'directives.myOrders.notifications.somethingWentWrong' },
+                            body: { literal: error && error.message || error }
+                        });
+                    });
             }
 
+            /**
+             * @param data
+             * @return {number}
+             */
             round(data) {
                 return Math.round(Number(data));
             }
@@ -221,6 +246,11 @@
                     this._assetIdPair.price === order.price.asset.id;
             }
 
+            /**
+             *
+             * @param order
+             * @return {Promise<Object | never>}
+             */
             dropOrderGetSignData(order) {
                 const { id } = order;
                 const data = { id };
