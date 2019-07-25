@@ -278,15 +278,12 @@
              */
             _loadUserListFromOldOrigin() {
                 const OLD_ORIGIN = 'https://client.wavesplatform.com';
-
                 this.pendingRestore = true;
-
                 utils.importAccountByIframe(OLD_ORIGIN, 5000)
                     .then((userList) => {
-                        this.pendingRestore = false;
                         this.userList = userList || [];
 
-                        storage.save('accountImportComplete', true);
+                        storage.save('accountImportComplete', this.userList.length > 0);
                         storage.save('userList', userList);
 
                         $scope.$apply();
