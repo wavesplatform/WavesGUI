@@ -40,6 +40,12 @@ export const wavesAsset = new Asset({
     reissuable: false
 });
 
+export function getNftList(address: string, limit: number): Promise<Array<any>> {
+    return request({
+        url: `${configGet('node')}/assets/nft/${address}/limit/${li}`
+    })
+}
+
 export function getAssetFromNode(assetId: string): Promise<Asset> {
     if (assetId === WAVES_ID) {
         return Promise.resolve(wavesAsset);
