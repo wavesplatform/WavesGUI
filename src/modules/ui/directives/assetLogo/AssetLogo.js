@@ -112,7 +112,7 @@
                             }
                         });
                 } else {
-                    this.observe('assetName', () => this._addLetter(this.assetName));
+                    this.observe(['assetName', 'assetId'], () => this._addLetter(this.assetName));
                     this._addLetter(this.assetName);
                 }
             }
