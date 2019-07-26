@@ -77,7 +77,7 @@
                 const balance = balanceWatcher.getBalance();
                 this.wavesBalance = balance[WAVES_ID];
                 this.wctBalance = balance[WCT_ID];
-                if (this.wavesBalance.gte(this.fee) && this.wctBalance.getTokens().gte(NEED_WCT)) {
+                if (this.wavesBalance.gte(this.fee) && this.wctBalance && this.wctBalance.getTokens().gte(NEED_WCT)) {
                     this.hasBalance = true;
                     $scope.$apply();
                 }
