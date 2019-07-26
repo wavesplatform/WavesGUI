@@ -2,11 +2,17 @@
 @import (reference) '../../../app/less/typography';
 @import (reference) 'icons';
 
-w-dex-order-book {
+.dex-order-book {
   display: block;
   width: 100%;
   height: 100%;
   text-align: right;
+
+  &__wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
 
   &.has-order-book {
     w-empty-block,
@@ -261,16 +267,13 @@ w-dex-order-book {
 }
 
 @media screen and (max-width: 1024px) {
-
-  w-layout {
-    .dex-layout {
-      &__column_orderbook {
-        .dex-layout {
-          &__block[data-block="orderbook"] {
-            w-empty-block,
-            w-error-block {
-              top: 0;
-            }
+  .dex-layout {
+    &__column_orderbook {
+      .dex-layout {
+        &__block[data-block="orderbook"] {
+          w-empty-block,
+          w-error-block {
+            top: 0;
           }
         }
       }
@@ -279,20 +282,17 @@ w-dex-order-book {
 }
 
 @media screen and (max-width: 659px) {
-  body.dex .dex-wrapper,
-  body.dex-demo .dex-wrapper {
-    w-dex-order-book {
-      min-height: 360px;
+  .dex-order-book {
+    min-height: 360px;
 
-      .wrapper {
-        min-height: 322px;
-      }
+    &__wrapper {
+      min-height: 322px;
+    }
 
-      w-scroll-box {
-        max-height: 155px;
-        overflow-y: auto;
-        overflow-x: hidden;
-      }
+    w-scroll-box {
+      max-height: 155px;
+      overflow-y: auto;
+      overflow-x: hidden;
     }
   }
 }

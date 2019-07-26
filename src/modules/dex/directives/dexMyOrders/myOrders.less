@@ -1,7 +1,7 @@
 @import (reference) 'config';
 @import (reference) '../../../app/less/typography';
 
-w-dex-my-orders {
+.dex-my-orders {
   display: block;
   width: 100%;
   height: 100%;
@@ -269,7 +269,7 @@ w-dex-my-orders {
 }
 
 @media screen and (max-width: 1400px) {
-  w-dex-my-orders {
+  .dex-my-orders {
     .smart-table {
       &__cell[data-column-id="pair"] {
         span {
@@ -281,35 +281,16 @@ w-dex-my-orders {
 }
 
 @media screen and (max-width: 1190px) {
-  body.dex .dex-wrapper,
-  body.dex-demo .dex-wrapper {
-    w-dex-my-orders {
-      .smart-table {
-        min-width: 100%;
+  .dex-my-orders {
+    .smart-table {
+      min-width: 100%;
 
-        &__w-thead {
-          display: none;
-        }
+      &__w-thead {
+        display: none;
+      }
 
-        .order-row {
-          position: relative;
-
-          &:not(:first-child) {
-            &::before {
-              background: @color-basic-100;
-              height: 1px;
-              width: calc(100% ~'- 20px');
-              position: absolute;
-              top: 0;
-              left: 10px;
-              display: block;
-              content: '';
-              z-index: 1;
-            }
-          }
-        }
-
-        &__row {
+      &__w-tbody {
+        .smart-table__row {
           padding-left: 48px;
           padding-right: 48px;
           padding-top: 14px;
@@ -318,111 +299,129 @@ w-dex-my-orders {
           margin: 0 2px;
           width: calc(100% ~'- 4px');
         }
+      }
 
-        &__cell {
-          padding: 0;
-        }
+      .order-row {
+        position: relative;
 
-        &__cell {
-          &[data-column-id="average"],
-          &[data-column-id="filled"],
-          &[data-column-id="pair"],
-          &[data-column-id="time"],
-          &[data-column-id="price"],
-          &[data-column-id="amount"] {
-            flex-basis: 50%;
-            height: 18px;
-          }
-
-          .cell-label {
-            display: inline-block;
+        &:not(:first-child) {
+          &::before {
+            background: @color-basic-100;
+            height: 1px;
+            width: calc(100% ~'- 20px');
+            position: absolute;
+            top: 0;
+            left: 10px;
+            display: block;
+            content: '';
+            z-index: 1;
           }
         }
+      }
 
-        &__cell[data-column-id="fee"] {
+      &__cell {
+        padding: 0;
+      }
+
+      &__cell {
+        &[data-column-id="average"],
+        &[data-column-id="filled"],
+        &[data-column-id="pair"],
+        &[data-column-id="time"],
+        &[data-column-id="price"],
+        &[data-column-id="amount"] {
+          flex-basis: 50%;
+          height: 18px;
+        }
+
+        .cell-label {
+          display: inline-block;
+        }
+      }
+
+      &__cell[data-column-id="fee"] {
+        display: none;
+        text-align: left;
+      }
+
+      &__cell[data-column-id="pair"] {
+        order: 0;
+        margin-bottom: 5px;
+        font-family: @font-roboto-medium;
+
+        span {
+          max-width: none;
+        }
+      }
+
+      &__cell[data-column-id="price"] {
+        text-align: left;
+        order: 2;
+      }
+
+      &__cell[data-column-id="amount"] {
+        order: 3;
+      }
+
+      &__cell[data-column-id="filled"] {
+        text-align: left;
+      }
+
+      &__cell[data-column-id="type"],
+      &__cell[data-column-id="total"],
+      &__cell[data-column-id="filled"],
+      &__cell[data-column-id="average"] {
+        display: none;
+      }
+
+      &__cell[data-column-id="time"] {
+        margin-bottom: 5px;
+        order: 1;
+        text-align: right;
+        color: @color-basic-500;
+        font-size: @font-size-caption-2;
+
+        .cell-label {
           display: none;
-          text-align: left;
         }
+      }
 
-        &__cell[data-column-id="pair"] {
-          order: 0;
-          margin-bottom: 5px;
-          font-family: @font-roboto-medium;
+      &__cell[data-column-id="status"] {
+        order: 0;
+        position: absolute;
+        min-width: 36px;
+        left: 10px;
+        top: 50%;
+        transform: translate(0, -50%);
+        height: 36px;
+        width: 36px;
+        font-size: 0;
 
-          span {
-            max-width: none;
-          }
-        }
-
-        &__cell[data-column-id="price"] {
-          text-align: left;
-          order: 2;
-        }
-
-        &__cell[data-column-id="amount"] {
-          order: 3;
-        }
-
-        &__cell[data-column-id="filled"] {
-          text-align: left;
-        }
-
-        &__cell[data-column-id="type"],
-        &__cell[data-column-id="total"],
-        &__cell[data-column-id="filled"],
-        &__cell[data-column-id="average"] {
+        .progress-bar,
+        .progress-precents {
           display: none;
         }
+      }
 
-        &__cell[data-column-id="time"] {
-          margin-bottom: 5px;
-          order: 1;
-          text-align: right;
-          color: @color-basic-500;
-          font-size: @font-size-caption-2;
+      &__cell[data-column-id="controls"] {
+        order: 4;
+        position: absolute;
+        flex-basis: 30px;
+        right: 10px;
+        min-width: 30px;
+        top: 50%;
+        transform: translate(0, -50%);
+        height: 30px;
+        width: 30px;
+        font-size: 0;
 
-          .cell-label {
-            display: none;
-          }
-        }
-
-        &__cell[data-column-id="status"] {
-          order: 0;
-          position: absolute;
-          min-width: 36px;
-          left: 10px;
-          top: 50%;
-          transform: translate(0, -50%);
-          height: 36px;
-          width: 36px;
-          font-size: 0;
-
-          .progress-bar,
-          .progress-precents {
-            display: none;
-          }
-        }
-
-        &__cell[data-column-id="controls"] {
-          order: 4;
-          position: absolute;
-          flex-basis: 30px;
-          right: 10px;
-          min-width: 30px;
-          top: 50%;
-          transform: translate(0, -50%);
+        .stop {
+          background-size: 10px 10px;
+          background-repeat: no-repeat;
+          background-position: center center;
+          margin-left: 0;
           height: 30px;
           width: 30px;
-          font-size: 0;
-
-          .stop {
-            background-size: 10px 10px;
-            background-repeat: no-repeat;
-            background-position: center center;
-            margin-left: 0;
-            height: 30px;
-            width: 30px;
-          }
         }
       }
     }
@@ -430,31 +429,25 @@ w-dex-my-orders {
 }
 
 @media screen and (max-width: 1440px) {
-  body.dex .dex-wrapper,
-  body.dex-demo .dex-wrapper {
-    .tabs-myOpenOrders {
-      w-dex-my-orders {
-        .smart-table {
-          &__cell[data-column-id="average"],
-          &__cell[data-column-id="filled"] {
-            display: none;
-          }
+  .tabs-myOpenOrders {
+    .dex-my-orders {
+      .smart-table {
+        &__cell[data-column-id="average"],
+        &__cell[data-column-id="filled"] {
+          display: none;
         }
       }
     }
   }
 }
 
-body.dex .dex-wrapper,
-body.dex-demo .dex-wrapper {
-  .tabs-myOrderHistory {
-    .smart-table__w-tbody {
-      .smart-table__cell {
-        &:not(:first-child):nth-child(odd) {
-          &,
-          .decimal-muted {
-            color: @color-basic-600;
-          }
+.tabs-myOrderHistory {
+  .smart-table__w-tbody {
+    .smart-table__cell {
+      &:not(:first-child):nth-child(odd) {
+        &,
+        .decimal-muted {
+          color: @color-basic-600;
         }
       }
     }

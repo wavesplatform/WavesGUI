@@ -4,6 +4,7 @@
 
 .layout {
   width: 100%;
+  height: 100%;
   display: flex;
 }
 
@@ -14,17 +15,10 @@
   position: relative;
   overflow: hidden;
 
-  .wrapper {
-    width: 100%;
-    height: 100%;
-    position: relative;
-  }
-
   &__column {
     background: @color-white;
     height: 100%;
     position: absolute;
-    overflow: hidden;
     transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
   }
 
@@ -374,14 +368,12 @@
       }
     }
 
-    .dex-wrapper {
-      .dex-watchlist {
-        .wrapper a.title {
-          .titles-wrap {
-            height: 42px;
-          }
-          font-size: 13px;
+    .dex-watchlist {
+      &__wrapper a.title {
+        .titles-wrap {
+          height: 42px;
         }
+        font-size: 13px;
       }
     }
 

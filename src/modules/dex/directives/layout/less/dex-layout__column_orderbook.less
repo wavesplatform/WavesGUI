@@ -12,6 +12,7 @@
     border-radius: @border-radius / 2;
     background: @color-white;
     display: flex;
+    flex-shrink: 0;
 
     .dex-layout {
       &__sidebar-toggle {
@@ -44,6 +45,7 @@
         height: 186px;
         bottom: 0;
         position: absolute;
+        z-index: 6;
 
         .block-title {
           border-top: 1px solid @color-basic-100;

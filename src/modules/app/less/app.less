@@ -139,6 +139,10 @@ body.portfolio {
 .ui-view {
   display: block;
   height: 100%;
+
+  &_main {
+    overflow: auto;
+  }
 }
 
 .logo {
@@ -223,6 +227,12 @@ body.dex {
       margin: 0;
       padding: 10px 20px;
     }
+  }
+}
+
+@media screen and (max-width: 660px) {
+  .ui-view_main {
+    overflow: hidden;
   }
 }
 

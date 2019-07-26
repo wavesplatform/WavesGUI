@@ -1,50 +1,48 @@
-<div class="dex-wrapper" w-i18n-ns="app.dex">
-    <w-layout ng-if="$ctrl.ready">
+<w-layout ng-if="$ctrl.ready" w-i18n-ns="app.dex">
 
-        <w-dex-block block="watchlist">
-            <w-dex-watchlist></w-dex-watchlist>
-        </w-dex-block>
+    <w-dex-block block="watchlist">
+        <w-dex-watchlist></w-dex-watchlist>
+    </w-dex-block>
 
-        <w-dex-block block="candlechart">
-            <w-dex-candle-chart></w-dex-candle-chart>
-        </w-dex-block>
+    <w-dex-block block="candlechart">
+        <w-dex-candle-chart></w-dex-candle-chart>
+    </w-dex-block>
 
-        <w-dex-block block="orderbook"
-                     is-active-scroll="$ctrl.isActiveScroll"
-                     title-name="directives.orderBook.title">
-            <w-dex-order-book is-scrolled="$ctrl.isActiveScroll"></w-dex-order-book>
-        </w-dex-block>
+    <w-dex-block block="orderbook"
+                 is-active-scroll="$ctrl.isActiveScroll"
+                 title-name="directives.orderBook.title">
+        <w-dex-order-book is-scrolled="$ctrl.isActiveScroll"></w-dex-order-book>
+    </w-dex-block>
 
-        <w-dex-block block="tradevolume"
-                     can-collapse="true"
-                     analytics-text="'DEX Market Depth'"
-                     title-name="directives.marketDepth">
-            <w-dex-trade-graph></w-dex-trade-graph>
-        </w-dex-block>
+    <w-dex-block block="tradevolume"
+                 can-collapse="true"
+                 analytics-text="'DEX Market Depth'"
+                 title-name="directives.marketDepth">
+        <w-dex-trade-graph></w-dex-trade-graph>
+    </w-dex-block>
 
-        <w-dex-block block="tradehistory">
-            <w-tabs ng-model="$ctrl.tab">
-                <w-tab title-name="::'tabs.title.openOrders'" id="::'myOpenOrders'" class="tabs-myOpenOrders">
-                    <w-dex-my-orders is-active-orders="::true"></w-dex-my-orders>
-                </w-tab>
-                <w-tab title-name="::'tabs.title.OrderHistory'" id="::'myOrderHistory'" class="tabs-myOrderHistory">
-                    <w-dex-my-orders is-active-orders="::false"></w-dex-my-orders>
-                </w-tab>
-                <w-tab title-name="::'tabs.title.myTradeHistory'" id="::'myTradeHistory'">
-                    <w-dex-trade-history is-my="::true"></w-dex-trade-history>
-                </w-tab>
-                <w-tab title-name="::'tabs.title.tradeHistory'" id="::'tradeHistory'">
-                    <w-dex-trade-history is-my="::false"></w-dex-trade-history>
-                </w-tab>
-                <w-tab title-name="::'tabs.title.myBalance'" id="::'myBalance'">
-                    <w-dex-my-balance></w-dex-my-balance>
-                </w-tab>
-            </w-tabs>
-        </w-dex-block>
+    <w-dex-block block="tradehistory">
+        <w-tabs ng-model="$ctrl.tab">
+            <w-tab title-name="::'tabs.title.openOrders'" id="::'myOpenOrders'" class="tabs-myOpenOrders">
+                <w-dex-my-orders is-active-orders="::true"></w-dex-my-orders>
+            </w-tab>
+            <w-tab title-name="::'tabs.title.OrderHistory'" id="::'myOrderHistory'" class="tabs-myOrderHistory">
+                <w-dex-my-orders is-active-orders="::false"></w-dex-my-orders>
+            </w-tab>
+            <w-tab title-name="::'tabs.title.myTradeHistory'" id="::'myTradeHistory'">
+                <w-dex-trade-history is-my="::true"></w-dex-trade-history>
+            </w-tab>
+            <w-tab title-name="::'tabs.title.tradeHistory'" id="::'tradeHistory'">
+                <w-dex-trade-history is-my="::false"></w-dex-trade-history>
+            </w-tab>
+            <w-tab title-name="::'tabs.title.myBalance'" id="::'myBalance'">
+                <w-dex-my-balance></w-dex-my-balance>
+            </w-tab>
+        </w-tabs>
+    </w-dex-block>
 
-        <w-dex-block block="createorder">
-            <w-create-order></w-create-order>
-        </w-dex-block>
+    <w-dex-block block="createorder">
+        <w-create-order></w-create-order>
+    </w-dex-block>
 
-    </w-layout>
-</div>
+</w-layout>

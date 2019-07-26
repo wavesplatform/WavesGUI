@@ -40,11 +40,6 @@
       padding: 12px;
     }
   }
-}
-
-.dex-wrapper {
-  width: 100%;
-  height: 100%;
 
   .block-title {
     .input-wrap input {
@@ -162,65 +157,64 @@
 }
 
 @media screen and (min-width: 2400px) {
-  body.dex,
-  body.dex-demo {
+  .dex,
+  .dex-demo {
     font-size: 12px;
-    .dex-wrapper {
-      .smart-table {
-        &__w-tbody {
-          .smart-table {
-            &__row {
-              font-size: 12px;
-            }
+
+    .smart-table {
+      &__w-tbody {
+        .smart-table {
+          &__row {
+            font-size: 12px;
           }
         }
       }
+    }
 
-      .dex-watchlist .wrapper {
-        .titles-wrap {
-          height: 42px;
+    .dex-watchlist {
+      .titles-wrap {
+        height: 42px;
 
-          .select {
-            .select-list {
-              height: 42px;
-              font-size: 13px;
-            }
+        .select {
+          .select-list {
+            height: 42px;
+            font-size: 13px;
+          }
 
-            .option {
-              font-size: 13px;
-            }
-
-            .title {
-              height: 41px;
-              font-size: 13px;
-            }
+          .option {
+            font-size: 13px;
           }
 
           .title {
-            height: 42px;
+            height: 41px;
             font-size: 13px;
-            &.active {
-              background: @color-white;
-            }
+          }
+        }
+
+        .title {
+          height: 42px;
+          font-size: 13px;
+          &.active {
+            background: @color-white;
           }
         }
       }
+    }
 
+    .create-order {
       .create-order {
-        .create-order {
-          .body .making-order .areas .area .name {
-            line-height: 36px;
-          }
+        .body .making-order .areas .area .name {
+          line-height: 36px;
         }
       }
+    }
 
-      .dex-layout {
-        &__tradehistory .tabs {
-          .titles-wrap {
+    .dex-layout {
+      &__tradehistory .tabs {
+        .titles-wrap {
+          height: 42px;
+          .title {
             height: 42px;
-            .title {
-              height: 42px;
-            }
           }
         }
       }
@@ -231,104 +225,103 @@
 @media screen and (max-width: 1024px) {
   .dex,
   .dex-demo {
-    .main-content .content {
+    .content {
       height: 100%;
       width: 100%;
       padding: 5px;
       right: 0;
       bottom: 0;
+    }
 
-      .dex-candle-chart {
-        border-radius: 0 0 2px 0;
+    .dex-candle-chart {
+      border-radius: 0 0 2px 0;
+    }
+
+    .tabs {
+      .tab-body-wrap {
+        height: calc(100% ~'- 48px');
       }
 
-      .tabs {
+      .titles-wrap {
+        height: 48px;
+        box-shadow: @shadow-menu-top;
+        position: relative;
+        z-index: 6;
 
-        .tab-body-wrap {
-          height: calc(100% ~'- 48px');
+        &::after {
+          display: none;
         }
 
-        .titles-wrap {
+        .title {
           height: 48px;
-          box-shadow: @shadow-menu-top;
-          position: relative;
-          z-index: 6;
+          line-height: 48px;
 
-          &::after {
-            display: none;
-          }
+          &.active {
+            border: 0 none;
+            border-bottom: 1px solid @color-submit-400;
 
-          .title {
-            height: 48px;
-            line-height: 48px;
-
-            &.active {
-              border: 0 none;
-              border-bottom: 1px solid @color-submit-400;
-
-              &::after,
-              &::before {
-                display: none;
-              }
+            &::after,
+            &::before {
+              display: none;
             }
           }
-
         }
 
-        .smart-table {
-          &__w-tbody {
-
-            .smart-table {
-              &__row {
-                position: relative;
-
-                &:hover {
-                  .underline:after {
-                    display: none;
-                  }
-                }
-
-                .status-mobile {
-                  display: inline-block;
-                }
-
-                &.active {
-                  .dropdown {
-                    transform: rotate(180deg);
-                  }
-
-                  & + .active::before {
-                    background: @color-basic-100;
-                    height: 1px;
-                    width: calc(100% ~'- 20px');
-                    position: absolute;
-                    top: 0;
-                    left: 10px;
-                    display: block;
-                    content: '';
-                  }
-                }
-              }
-            }
-          }
-
-          &__cell {
-            padding: 0;
-
-            .dropdown {
-              display: block;
-            }
-          }
-
-        }
       }
 
-      .tabs,
-      .dex-watchlist {
-        .table {
-          .t-head {
-            display: none;
+      .smart-table {
+        &__w-tbody {
+
+          .smart-table {
+            &__row {
+              position: relative;
+
+              &:hover {
+                .underline:after {
+                  display: none;
+                }
+              }
+
+              .status-mobile {
+                display: inline-block;
+              }
+
+              &.active {
+                .dropdown {
+                  transform: rotate(180deg);
+                }
+
+                & + .active::before {
+                  background: @color-basic-100;
+                  height: 1px;
+                  width: calc(100% ~'- 20px');
+                  position: absolute;
+                  top: 0;
+                  left: 10px;
+                  display: block;
+                  content: '';
+                }
+              }
+            }
           }
+        }
+
+        &__cell {
+          padding: 0;
+
+          .dropdown {
+            display: block;
+          }
+        }
+
+      }
+    }
+
+    .tabs,
+    .dex-watchlist {
+      .table {
+        .t-head {
+          display: none;
         }
       }
     }
@@ -336,8 +329,8 @@
 }
 
 @media screen and (min-width: 660px) and (max-width: 1024px) {
-  .dex .main-content,
-  .dex-demo .main-content {
+  .dex,
+  .dex-demo {
     min-width: 645px;
     width: 100%;
     min-height: 100%;
@@ -351,18 +344,11 @@
 }
 
 @media screen and (max-width: 659px) {
-  .dex .main-content,
-  .dex-demo .main-content {
+  .dex,
+  .dex-demo {
     min-width: 100%;
 
     .content {
-      margin-top: 0;
-    }
-  }
-
-  .dex,
-  .dex-demo {
-    .main-content .content {
       width: 100%;
       padding: 5px;
       right: 0;
@@ -370,54 +356,52 @@
       height: 100%;
       max-height: calc(100% ~' - 80px');
       overflow: auto;
+    }
 
-      .dex-layout {
-        &__tradehistory {
+    .dex-layout {
+      &__tradehistory {
 
-          .dex-my-balance {
-            .smart-table {
-              &__w-tbody {
-                max-height: 217px;
-              }
+        .dex-my-balance {
+          .smart-table {
+            &__w-tbody {
+              max-height: 217px;
             }
           }
+        }
 
-          .dex-trade-history {
-            .smart-table {
-              &__w-tbody {
-                max-height: 243px;
-              }
+        .dex-trade-history {
+          .smart-table {
+            &__w-tbody {
+              max-height: 243px;
+            }
 
-              &.my-trade-history {
-                .smart-table {
-                  &__w-tbody {
-                    max-height: 255px;
-                  }
+            &.my-trade-history {
+              .smart-table {
+                &__w-tbody {
+                  max-height: 255px;
                 }
               }
             }
           }
+        }
 
-          .dex-my-orders {
-            .smart-table {
-              &__w-tbody {
-                max-height: 254px;
-              }
+        .dex-my-orders {
+          .smart-table {
+            &__w-tbody {
+              max-height: 254px;
             }
           }
-
         }
+
       }
+    }
 
-      .dex-wrapper {
-        .tabs {
-          w-scroll-box {
-            height: 392px;
-            width: 100%;
-            overflow-y: auto;
-            overflow-x: hidden;
-          }
-        }
+    .tabs {
+      w-scroll-box {
+        height: 392px;
+        width: 100%;
+        overflow-y: auto;
+        overflow-x: hidden;
       }
     }
   }
