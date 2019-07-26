@@ -13,7 +13,6 @@
 
         class ModalRouter {
 
-
             constructor() {
                 /**
                  * @type {boolean}
@@ -32,6 +31,7 @@
                     window.listenMainProcessEvent((eventType, urlString) => {
                         user.onLogin().then(() => {
                             const { hash } = utils.parseElectronUrl(urlString);
+
                             if (hash) {
                                 this._apply(ModalRouter._getUrlData(hash.replace('#', '')));
                             }
@@ -90,22 +90,29 @@
             _wrapClose(hash) {
                 Object.keys(hash).forEach((key) => {
                     const handler = hash[key];
+
                     hash[key] = (...args) => {
                         this._sleep = true;
+
                         return user.onLogin().then(() => {
                             const result = handler(...args);
+
                             if (!result || !result.then || typeof result.then !== 'function') {
-                                throw new Error('Modal result mast be a promise!');
+                                throw new Error('Modal result must be a promise!');
                             }
+
                             const cb = () => {
                                 this._sleep = false;
                                 location.hash = '';
                             };
+
                             result.then(cb, cb);
+
                             return result;
                         });
                     };
                 });
+
                 return hash;
             }
 

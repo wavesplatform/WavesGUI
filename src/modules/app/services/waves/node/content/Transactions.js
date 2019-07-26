@@ -16,6 +16,7 @@
         const R = require('ramda');
         const { SIGN_TYPE } = require('@waves/signature-adapter');
         const ds = require('data-service');
+        const { Money } = require('@waves/data-entities');
 
         const TYPES = WavesApp.TRANSACTION_TYPES.EXTENDED;
 
@@ -126,7 +127,13 @@
                 if (tx.type === SIGN_TYPE.MASS_TRANSFER) {
                     tx.totalAmount = tx.totalAmount || tx.transfers.map(({ amount }) => amount)
                         .reduce((result, item) => result.add(item));
+                    tx.assetId = tx.totalAmount && tx.totalAmount.asset.id;
                 }
+
+                if (!tx.fee) {
+                    tx.fee = Money.fromCoins(0, ds.api.assets.wavesAsset);
+                }
+
                 return this._pipeTransaction(false)(tx);
             }
 
