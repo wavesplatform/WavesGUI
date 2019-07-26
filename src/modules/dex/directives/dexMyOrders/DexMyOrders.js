@@ -191,6 +191,9 @@
              * @param {IOrder} order
              */
             setPair(order) {
+                if (this.isLockedPair(order.assetPair.amountAsset.id, order.assetPair.priceAsset.id)) {
+                    return null;
+                }
                 user.setSetting('dex.assetIdPair', {
                     amount: order.assetPair.amountAsset.id,
                     price: order.assetPair.priceAsset.id
@@ -244,6 +247,10 @@
             isSelected(order) {
                 return this._assetIdPair.amount === order.amount.asset.id &&
                     this._assetIdPair.price === order.price.asset.id;
+            }
+
+            isLockedPair(amountAssetId, priceAssetId) {
+                return utils.isLockedInDex(amountAssetId, priceAssetId);
             }
 
             /**

@@ -252,7 +252,7 @@
                     </div>
 
                     <w-permit name="CAN_CREATE_ORDER" mode="on">
-                        <w-button disabled="$ctrl.order.$invalid || $ctrl.order.$pristine"
+                        <w-button disabled="$ctrl.order.$invalid || $ctrl.order.$pristine || $ctrl.isLockedPair"
                                   class="place-order small footnote-3"
                                   on-click="$ctrl.createOrder($event, order)">
                             <span ng-if="$ctrl.type === 'sell'"
