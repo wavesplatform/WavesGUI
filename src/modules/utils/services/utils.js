@@ -1,17 +1,18 @@
 /* eslint-disable no-console */
-/* global BigNumber */
 (function () {
     'use strict';
 
     const { isEmpty, getPaths, get, Signal } = require('ts-utils');
     const tsApiValidator = require('ts-api-validator');
-    const { WindowAdapter, Bus } = require('@waves/waves-browser-bus');
     const { splitEvery, pipe, path, map, ifElse, concat, defaultTo, identity, isNil, propEq } = require('ramda');
-    const { libs } = require('@waves/signature-generator');
+    const { WindowAdapter, Bus } = require('@waves/waves-browser-bus');
+    const { libs } = require('@waves/waves-transactions');
+    const { base58Decode, base58Encode, stringToBytes, bytesToString } = libs.crypto;
     const ds = require('data-service');
     const { SIGN_TYPE } = require('@waves/signature-adapter');
-    const { Money, BigNumber } = require('@waves/data-entities');
+    const { Money } = require('@waves/data-entities');
     const { STATUS_LIST } = require('@waves/oracle-data');
+    const { BigNumber } = require('@waves/bignumber');
 
     const GOOD_COLORS_LIST = [
         '#39a12c',
@@ -200,11 +201,8 @@
      * @return {app.utils}
      */
     const factory = function ($q, Moment, $injector) {
-
-        const base58ToBytes = libs.base58.decode;
-        const stringToBytes = libs.converters.stringToByteArray;
-        const bytesToBase58 = libs.base58.encode;
-        const bytesToString = libs.converters.byteArrayToString;
+        const base58ToBytes = base58Decode;
+        const bytesToBase58 = base58Encode;
 
         const utils = {
 
@@ -302,7 +300,7 @@
                 pipe(
                     identity,
                     bytesToString,
-                    isNil,
+                    isNil
                 ),
                 pipe(
                     identity,
@@ -423,7 +421,7 @@
                 return (script.match(/ByteVector\(\d+\sbytes,\s(.[^)]+)/g) || [])
                     .map(res => res.replace(/ByteVector\(\d+\sbytes,\s0x/, ''))
                     .map(toBytes)
-                    .map(libs.base58.encode);
+                    .map(base58Encode);
             },
 
             /**
@@ -1369,6 +1367,19 @@
             },
 
             /**
+             * @name app.utils#parseError
+             * @param error
+             * @returns {*}
+             */
+            parseError(error) {
+                try {
+                    return typeof error === 'string' ? JSON.parse(error).message : error;
+                } catch (e) {
+                    return error;
+                }
+            },
+
+            /**
              * @name app.utils#filterOrderBookByCharCropRate
              * @param {object} data
              * @param {number} data.chartCropRate
@@ -1385,11 +1396,11 @@
                 }
 
                 const spreadPrice = new BigNumber(data.asks[0].price)
-                    .plus(data.bids[0].price)
+                    .add(data.bids[0].price)
                     .div(2);
-                const delta = spreadPrice.times(data.chartCropRate).div(2);
-                const max = spreadPrice.plus(delta);
-                const min = BigNumber.max(0, spreadPrice.minus(delta));
+                const delta = spreadPrice.mul(data.chartCropRate).div(2);
+                const max = spreadPrice.add(delta);
+                const min = BigNumber.max(0, spreadPrice.sub(delta));
 
                 return { min, max };
             },
@@ -1588,7 +1599,7 @@
                 const amountTokens = amount.getTokens();
                 const priceTokens = price.getTokens();
                 const precision = price.asset.precision;
-                return amountTokens.times(priceTokens).toFormat(precision);
+                return amountTokens.mul(priceTokens).toFormat(precision);
             },
 
             /**
@@ -1597,14 +1608,8 @@
              * @return Money
              */
             getExchangeFee(tx) {
-                /**
-                 * @type {User}
-                 */
-                const user = $injector.get('user');
-                return [tx.order1, tx.order2]
-                    .filter(order => user.publicKey === order.senderPublicKey)
-                    .map(order => order.matcherFee)
-                    .reduce((acc, item) => acc.add(item), tx.fee.cloneWithTokens(0));
+                const isBuy = tx.exchangeType === WavesApp.TRANSACTION_TYPES.EXTENDED.EXCHANGE_BUY;
+                return isBuy ? tx.buyMatcherFee : tx.sellMatcherFee;
             },
 
             /**
@@ -1720,10 +1725,13 @@
                  * @type {boolean}
                  */
                 const isAdvancedMode = user.getSetting('advancedMode');
+
+                const hasCustomFee = data.matcherFee.asset.id && data.matcherFee.asset.id !== 'WAVES';
+
                 /**
                  * @type {number | undefined}
                  */
-                const version = user.hasScript() ? 2 : undefined;
+                const version = (hasCustomFee && 3) || 2;
 
                 const scriptedErrorMessage = `Order rejected by script for ${user.address}`;
 
@@ -1811,6 +1819,37 @@
             },
 
             /**
+             * @param {String} name
+             * @return {Promise<boolean>}
+             */
+            assetNameWarning(name) {
+                /**
+                 * @type {User}
+                 */
+                const user = $injector.get('user');
+                name = (name || '').toLowerCase().trim();
+
+                if (!name) {
+                    return Promise.resolve(false);
+                }
+
+                if (name && Object.keys(user.tokensName).some(item => name === item.toLowerCase())) {
+                    return Promise.resolve(true);
+                }
+
+                const api = user.getSetting('api') || WavesApp.network.api;
+
+                return ds.fetch(`${api}/v0/assets?search=${encodeURIComponent(name)}`)
+                    .then(({ data }) => data.some(
+                        ({ data }) => (
+                            (data.name || '').toLowerCase() === name ||
+                            (data.ticker || '').toLowerCase() === name
+                        ))
+                    )
+                    .catch(() => false);
+            },
+
+            /**
              * @name app.utils#sign
              * @param {Signable} signable
              * @return {Promise<Signable>}
@@ -1838,6 +1877,20 @@
                     .catch(() => Promise.reject({ message: 'Your sign is not confirmed!' }));
 
                 return signByDeviceLoop();
+            },
+
+            /**
+             * @name app.utils#isLockedInDex
+             * @param assetId1
+             * @param assetId2
+             * @return {boolean}
+             */
+            isLockedInDex(assetId1, assetId2 = null) {
+                const configService = $injector.get('configService');
+
+                const lockedAssetsIndDex = configService.get('SETTINGS.DEX.LOCKED_PAIRS') || [];
+
+                return lockedAssetsIndDex.includes(assetId1) || lockedAssetsIndDex.includes(assetId2);
             }
         };
 

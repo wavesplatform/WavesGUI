@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    const { BigNumber } = require('@waves/bignumber');
+
     /**
      * @param Base
      * @param {Waves} waves

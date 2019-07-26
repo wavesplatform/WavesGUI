@@ -9,7 +9,14 @@
     <link rel="icon" href="{{domain}}/img/favicon.ico" type="image/x-icon"/>
 
     <script>
-        document.write('<script src="/init.js?_t=' + Date.now() + '"><\/script>');
+        function cacheRound(minutes) {
+            var ms = minutes * 60 * 1000;
+            const ts = Date.now();
+            const mod = ts % ms;
+            return mod * ms;
+        }
+
+        document.write('<script src="/init.js?_t=' + cacheRound(15) + '"><\/script>');
     </script>
 
     <style>
@@ -328,15 +335,14 @@
                     matcher: config.network.matcher,
                     api: config.network.api,
                     coinomat: config.network.coinomat,
-                    vostok: {
-                        gateway: config.network.vostok.gateway,
-                        networkByte: config.network.vostok.networkByte
-                    },
+                    wavesGateway: config.network.wavesGateway,
+                    VSTNetworkByte: config.network.VSTNetworkByte,
                     support: config.network.support,
                     termsAndConditions: config.network.termsAndConditions,
                     privacyPolicy: config.network.privacyPolicy,
                     nodeList: config.network.nodeList,
                     scamListUrl: config.network.scamListUrl,
+                    tokensNameListUrl: config.network.tokensNameListUrl,
                     explorer: config.network.explorer,
                     featuresConfigUrl: config.network.featuresConfigUrl,
                     feeConfigUrl: config.feeConfigUrl
@@ -452,7 +458,8 @@
     </script>
 
     {{#if isWeb}}
-        <base href="/">{{/if}}
+        <base href="/">
+    {{/if}}
 
     <script>
         try {

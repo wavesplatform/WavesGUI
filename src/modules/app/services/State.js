@@ -35,6 +35,11 @@
                 this.__sleepStep = value;
             }
 
+            /**
+             * @type {User}
+             */
+            user;
+
             constructor() {
                 /**
                  * @type {IStateSignals}
@@ -86,18 +91,12 @@
                 this._handlers = Object.create(null);
 
                 timeLine.wait(100).then(() => {
-                    /**
-                     * @type {User}
-                     */
-                    const user = $injector.get('user');
-                    user.onLogin().then(() => {
-                        this._maxSleep = user.getSetting('logoutAfterMin');
-                        user.changeSetting.on((path) => {
-                            if (path === 'logoutAfterMin') {
-                                this._maxSleep = user.getSetting('logoutAfterMin');
-                            }
-                        });
-                    });
+                    this.user = $injector.get('user');
+
+                    this.user.onLogin().then(
+                        () => this._handleLogin(),
+                        () => this._handleLogout()
+                    );
                 });
 
                 this._initialize();
@@ -110,6 +109,35 @@
                 this._addBlockStyles();
                 this._createHandlers();
                 this._setHandlers();
+            }
+
+            /**
+             * @private
+             */
+            _handleLogin() {
+                this._maxSleep = this.user.getSetting('logoutAfterMin');
+
+                this.user.changeSetting.on(this._onUserSettingChange, this);
+                this.user.logoutSignal.once(this._handleLogout, this);
+            }
+
+            /**
+             * @private
+             */
+            _handleLogout() {
+                this.user.changeSetting.off(this._onUserSettingChange);
+
+                this.user.loginSignal.once(this._handleLogin, this);
+            }
+
+            /**
+             * @private
+             * @param {string} path
+             */
+            _onUserSettingChange(path) {
+                if (path === 'logoutAfterMin') {
+                    this._maxSleep = this.user.getSetting('logoutAfterMin');
+                }
             }
 
             /**

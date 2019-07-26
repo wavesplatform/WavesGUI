@@ -19,8 +19,8 @@
     <w-table-row ng-repeat="tx in $data track by tx.id"
                  class="footnote-1 basic-900 {{::tx.exchangeType}}">
         <w-table-cell ng-if="::$ctrl.isMy">
-            <span ng-click="$ctrl.setPair(tx)" ng-class="{underline: !$ctrl.isSelected(tx)}">
-                <a href="#">{{::tx.pair}}</a>
+            <span ng-click="$ctrl.setPair(tx)" ng-class="{underline: !$ctrl.isSelected(tx) && ! $ctrl.isLockedPair(tx)}">
+                <a class="to-dex-link" href="#">{{::tx.pair}}</a>
             </span>
         </w-table-cell>
         <w-table-cell>
@@ -46,7 +46,7 @@
         </w-table-cell>
         <w-table-cell ng-if="$ctrl.isMy">
             <span class="cell-label" w-i18n="directives.tradeHistory.tableTitle.fee"></span>
-            <w-balance money="::tx.userFee" short-mode="::true"></w-balance>
+            <span w-i18n="money-currency" params="::{money: tx.userFee}"></span>
         </w-table-cell>
     </w-table-row>
 </w-smart-table>

@@ -16,9 +16,13 @@
         const R = require('ramda');
         const { SIGN_TYPE } = require('@waves/signature-adapter');
         const ds = require('data-service');
+        const { Money } = require('@waves/data-entities');
 
         const TYPES = WavesApp.TRANSACTION_TYPES.EXTENDED;
 
+        /**
+         * @class Transactions
+         */
         class Transactions extends BaseNodeComponent {
 
             constructor() {
@@ -102,14 +106,15 @@
             }
 
             /**
-             * @param {ExchangeTxFilters} options
+             * @param {ExchangeTxFilters} prams
+             * @param {IGetExchangeOptions} [options]
              * @returns {Promise<IExchange[]>}
              */
-            getExchangeTxList(options) {
+            getExchangeTxList(prams, options) {
                 return ds.api.transactions.getExchangeTxList({
                     matcher: matcher.currentMatcherAddress,
-                    ...options
-                });
+                    ...prams
+                }, options);
             }
 
             createTransaction(txData) {
@@ -122,7 +127,13 @@
                 if (tx.type === SIGN_TYPE.MASS_TRANSFER) {
                     tx.totalAmount = tx.totalAmount || tx.transfers.map(({ amount }) => amount)
                         .reduce((result, item) => result.add(item));
+                    tx.assetId = tx.totalAmount && tx.totalAmount.asset.id;
                 }
+
+                if (!tx.fee) {
+                    tx.fee = Money.fromCoins(0, ds.api.assets.wavesAsset);
+                }
+
                 return this._pipeTransaction(false)(tx);
             }
 

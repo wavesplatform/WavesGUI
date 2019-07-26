@@ -9,17 +9,37 @@
      * @param {BalanceWatcher} balanceWatcher
      * @param {User} user
      * @param {app.utils} utils
+     * @param {PromiseControl} PromiseControl
      */
-    const controller = function (Base, $scope, modalManager, waves, balanceWatcher, user, utils) {
+    const controller = function (Base, $scope, modalManager, waves, balanceWatcher, user, utils, PromiseControl) {
 
-        const { SIGN_TYPE } = require('@waves/signature-adapter');
-        const { WAVES_ID } = require('@waves/signature-generator');
+        const { SIGN_TYPE, WAVES_ID } = require('@waves/signature-adapter');
+        const { BigNumber } = require('@waves/bignumber');
         const ds = require('data-service');
         const $ = require('jquery');
         const BASE_64_PREFIX = 'base64:';
 
-
         class TokensCtrl extends Base {
+
+            /**
+             * @type {boolean}
+             */
+            focusName = false;
+
+            /**
+             * @type {PromiseControl}
+             */
+            _findNamePC = null;
+
+            /**
+             * @type {boolean}
+             */
+            agreeConditions = false;
+
+            /**
+             * @type {boolean}
+             */
+            nameWarning = false;
 
             /**
              * Link to angular form object
@@ -98,6 +118,10 @@
              * @private
              */
             _balance;
+            /**
+             * @type {boolean}
+             */
+            isNFT = false;
 
 
             constructor() {
@@ -114,20 +138,29 @@
                     'precision',
                     'description',
                     'issue',
-                    'hasAssetScript'
+                    'hasAssetScript',
+                    'fee'
                 ], this.createSignable);
 
-                waves.node.getFee({ type: SIGN_TYPE.ISSUE })
-                    .then(money => {
-                        this.fee = money;
+                this.observe([
+                    'count',
+                    'precision',
+                    'issue'
+                ], this._setIsNFT);
 
-                        this._onChangeBalance();
-                        $scope.$apply();
-                    });
+                this._getFee();
+                this.observe('isNFT', this._getFee);
 
                 this.observeOnce('createForm', () => {
                     this.receive(utils.observe(this.createForm, '$valid'), this.createSignable, this);
                 });
+            }
+
+            /**
+             * @param {boolean} focus
+             */
+            onNameFocus(focus) {
+                this.focusName = !!focus;
             }
 
             generate(signable) {
@@ -144,6 +177,12 @@
             }
 
             createSignable() {
+                this._verifyName().then(
+                    res => {
+                        this.nameWarning = res;
+                        $scope.$apply();
+                    }
+                );
 
                 if (!this.name || !this.createForm || !this.createForm.$valid) {
                     this.assetId = '';
@@ -151,7 +190,7 @@
                 }
 
                 const precision = Number(this.precision.toString());
-                const quantity = (this.count || new BigNumber(0)).times(Math.pow(10, precision));
+                const quantity = (this.count || new BigNumber(0)).mul(Math.pow(10, precision));
                 const script = this.hasAssetScript && this.script ? `${BASE_64_PREFIX}${this.script}` : '';
 
                 const tx = waves.node.transactions.createTransaction({
@@ -171,6 +210,19 @@
                     this.assetId = id;
                     utils.safeApply($scope);
                 });
+            }
+
+            /**
+             * @return {*}
+             * @private
+             */
+            _verifyName() {
+                if (this._findNamePC != null) {
+                    this._findNamePC.abort();
+                }
+                this._findNamePC = new PromiseControl(utils.wait(1000));
+                return this._findNamePC
+                    .then(() => utils.assetNameWarning(this.name));
             }
 
             /**
@@ -254,12 +306,40 @@
                 $scope.$apply();
             }
 
+            /**
+             * @private
+             */
+            _setIsNFT() {
+                const { count, precision, issue } = this;
+                const nftCount = count && count.eq(1);
+                const nftPrecision = precision === 0;
+                this.isNFT = !issue && nftCount && nftPrecision;
+            }
+
+            /**
+             * @private
+             */
+            _getFee() {
+                waves.node.getFee({
+                    type: SIGN_TYPE.ISSUE,
+                    reissue: this.issue,
+                    precision: this.precision,
+                    quantity: this.count
+                })
+                    .then(money => {
+                        this.fee = money;
+                        this._onChangeBalance();
+                        $scope.$apply();
+                    });
+            }
+
         }
 
         return new TokensCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'modalManager', 'waves', 'balanceWatcher', 'user', 'utils'];
+    controller.$inject = ['Base', '$scope', 'modalManager',
+        'waves', 'balanceWatcher', 'user', 'utils', 'PromiseControl'];
 
     angular.module('app.tokens')
         .controller('TokensCtrl', controller);
