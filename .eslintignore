@@ -1,7 +1,4 @@
-aliases/
-bower_components/
 dist/
+vendors/
 node_modules/
-Gruntfile.js
 karma.conf.js
-hooks/

@@ -4,7 +4,7 @@
         <div class="tokens-page__content">
             <form class="generate-form" name="$ctrl.createForm" novalidate>
 
-                <div class="row">
+                <div class="row relative">
                     <div class="body-2 basic-900 margin-05">
                         <span w-i18n="name"></span>
                         <div class="footnote-1 basic-500 margin-05" w-i18n="help.name"></div>
@@ -15,9 +15,17 @@
                                  ng-model="$ctrl.name"
                                  w-validate
                                  class="big"
+                                 ng-class="{warning: $ctrl.nameWarning}"
                                  w-validator-byte-gte="4"
                                  w-validator-byte-lte="16"
+                                 ng-focus="$ctrl.onNameFocus(true)"
+                                 ng-blur="$ctrl.onNameFocus(false)"
                                  required></w-input>
+
+                        <w-input-helper class="nameHelper" ng-class="{showNameHelper: $ctrl.nameWarning && $ctrl.focusName}">
+                            <div class="margin-05 body-2 bold" w-i18n="tokens.inputHelper.header"></div>
+                            <div class="footnote-1" w-i18n="tokens.inputHelper.description"></div>
+                        </w-input-helper>
 
                         <w-input-error message="required">
                             <span w-i18n="validators.required"></span>
@@ -28,6 +36,7 @@
                         <w-input-error message="byteGte">
                             <span w-i18n="validators.byte.gte"></span>
                         </w-input-error>
+
                     </w-input-container>
                 </div>
 
@@ -99,6 +108,7 @@
                         </w-input-error>
                     </w-input-container>
                 </div>
+
                 <div class="row">
                     <div class="body-2 basic-900 margin-05 relative">
                         <span w-i18n="precision"></span>
@@ -110,6 +120,16 @@
                     </div>
                     <w-range-slider ng-model="$ctrl.precision" max="::8">
                 </div>
+
+                <div ng-if="$ctrl.isNFT" class="row">
+                    <div class="plate-warning">
+                        <div class="body-2 margin-05 warning-500"
+                             w-i18n="NFT.title"></div>
+                        <div class="footnote-1 basic-500"
+                             w-i18n="NFT.description"></div>
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="body-2 basic-900 margin-1 relative">
                         <span w-i18n="script"></span>
@@ -191,6 +211,18 @@
                     </div>
                 </div>
 
+                <div class="plate-warning margin-top-2" w-i18n-ns="app.ui">
+                    <div class="body-2 margin-05 warning-500" w-i18n="modal.token.warning.header"></div>
+                    <div class="footnote-1 basic-500" w-i18n="modal.token.warning.text"></div>
+                </div>
+
+                <div class="row flex">
+                    <w-checkbox-submit id="agreeConditions" ng-model="$ctrl.agreeConditions"></w-checkbox-submit>
+                    <label for="agreeConditions"
+                           class="margin-right-1"
+                           w-i18n="tokens.termsOfUse.checkbox"></label>
+                </div>
+
                 <div class="row">
                     <div ng-class="{'error-400': $ctrl.invalid}"
                          class="footnote-1 basic-500"
@@ -201,14 +233,14 @@
 
                 <div class="row">
                     <w-analytics event="'Token Generation Generate Click'" event-target="'ui'">
-                    <w-sign-button disabled="$ctrl.createForm.$invalid || $ctrl.invalid"
-                                   class="submit long"
-                                   ng-click="$ctrl.sendAnalytics"
-                                   on-success="$ctrl.generate(signable)"
-                                   on-click="$ctrl.getSignable()">
-                        <span w-i18n-ns="app.tokens" w-i18n="create"></span>
-                    </w-sign-button>
-                </w-analytics>
+                        <w-sign-button disabled="$ctrl.createForm.$invalid || $ctrl.invalid || !$ctrl.agreeConditions"
+                                       class="submit long"
+                                       ng-click="$ctrl.sendAnalytics"
+                                       on-success="$ctrl.generate(signable)"
+                                       on-click="$ctrl.getSignable()">
+                            <span w-i18n-ns="app.tokens" w-i18n="create"></span>
+                        </w-sign-button>
+                    </w-analytics>
                 </div>
 
             </form>
