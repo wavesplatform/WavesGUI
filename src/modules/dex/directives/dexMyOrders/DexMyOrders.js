@@ -508,11 +508,15 @@
                     const pair = `${assetPair.amountAsset.displayName} / ${assetPair.priceAsset.displayName}`;
                     const isNew = DexMyOrders._isNewOrder(order.timestamp.getTime());
                     const percent = new BigNumber(order.progress * 100).toFixed(2);
-                    const feeAsset = order.feeAsset || 'WAVES';
+                    const feeAsset = order.feeAsset || order.matcherFeeAssetId || 'WAVES';
+                    const matcherFee = order.fee || order.matcherFee;
+                    if (matcherFee) {
+                        if (matcherFee instanceof Money) {
+                            return Promise.resolve({ ...order, isNew, percent, pair, fee: matcherFee });
+                        }
 
-                    if (order.fee) {
                         return ds.api.assets.get(feeAsset).then(asset => {
-                            const fee = new Money(order.fee, asset);
+                            const fee = new Money(matcherFee, asset);
                             return { ...order, isNew, percent, pair, fee };
                         });
                     }
