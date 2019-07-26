@@ -25,10 +25,10 @@
                 <w-radio-wrap class="toolbar-balance-radio"
                               mode="tab-mode"
                               ng-model="$ctrl.activeChartAssetId">
-                    <w-radio ng-repeat="asset in $ctrl.chartAssetList track by asset.id"
+                    <w-radio class="radio radio_toolbar" ng-repeat="asset in $ctrl.chartAssetList track by asset.id"
                              value="::asset.id">
-                        <span class="radio-name">{{::asset.name}}<span class="radio-dot">•</span></span>
-                        <span class="radio-symb">$</span>
+                        <span class="radio__name">{{::asset.name}}<span class="radio__dot">•</span></span>
+                        <span class="radio__symb">$</span>
                         <w-change-rate asset-id="::asset.id"></w-change-rate>
                     </w-radio>
                 </w-radio-wrap>
@@ -44,14 +44,14 @@
 
             <div class="date-btns">
                 <w-radio-wrap mode="tab-mode" ng-model="$ctrl.chartMode">
-                    <w-radio value="'day'" w-add-class>
-                        <span w-i18n="chart.intervals.day"></span>
+                    <w-radio class="radio radio_toolbar radio_time" value="'day'" w-add-class>
+                        <span class="radio__content" w-i18n="chart.intervals.day"></span>
                     </w-radio>
-                    <w-radio value="'week'" w-add-class>
-                        <span w-i18n="chart.intervals.week"></span>
+                    <w-radio class="radio radio_toolbar radio_time" value="'week'" w-add-class>
+                        <span class="radio__content" w-i18n="chart.intervals.week"></span>
                     </w-radio>
-                    <w-radio value="'month'" w-add-class>
-                        <span w-i18n="chart.intervals.month"></span>
+                    <w-radio class="radio radio_toolbar radio_time" value="'month'" w-add-class>
+                        <span class="radio__content" w-i18n="chart.intervals.month"></span>
                     </w-radio>
                 </w-radio-wrap>
             </div>

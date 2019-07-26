@@ -44,7 +44,7 @@
             }
 
             $postLink() {
-                this.class = this.class || 'btn btn-radio';
+                // this.class = this.class || 'btn btn-radio';
                 this.input = $element.find('input');
                 this.radioWrap.addRadio(this);
                 this._setHandlers();

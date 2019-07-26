@@ -1,0 +1,24 @@
+@import (reference) '../../../../app/less/app';
+@import (reference) '../../../../app/less/typography';
+@import (reference) 'config';
+@import (reference) 'icons';
+
+.radio_base {
+  .radio {
+    &__btn {
+      line-height: 18px;
+      border: 1px solid transparent;
+      padding: 5px 20px;
+      font-size: 15px;
+      font-family: @font-roboto-medium;
+    }
+
+    &__input:checked ~ .radio__btn {
+      color: @color-submit-400;
+      border-color: @color-accent-50;
+      border-radius: @border-radius;
+      background-color: @color-white;
+      cursor: default;
+    }
+  }
+}

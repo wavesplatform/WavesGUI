@@ -1,0 +1,38 @@
+@import (reference) '../../../../app/less/app';
+@import (reference) '../../../../app/less/typography';
+@import (reference) 'config';
+@import (reference) 'icons';
+
+@toolbar-radio-line-height: 57.5px;
+
+.radio_toolbar {
+  .radio {
+    &__btn {
+      white-space: nowrap;
+      font-family: @font-roboto-regular;
+      letter-spacing: 0;
+      display: block;
+      background: none;
+      font-size: 17px;
+      text-decoration: none;
+      line-height: @toolbar-radio-line-height;
+      padding: 0;
+      margin-right: 30px;
+      border: none;
+      border-bottom: 1px solid transparent;
+    }
+
+    &__input:checked ~ .radio__btn {
+      color: @color-submit-400;
+      position: relative;
+      z-index: 1;
+      border-color: @color-submit-400;
+      cursor: default;
+    }
+  
+    &__dot {
+      display: inline-block;
+      margin: 0 5px;
+    }
+  }
+}

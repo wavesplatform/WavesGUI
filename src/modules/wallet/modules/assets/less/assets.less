@@ -106,56 +106,6 @@
   }
 }
 
-.toolbar {
-  & w-radio-wrap {
-    & .btn-wrap.btn-group .btn {
-      border-left: 0;
-      border-bottom-left-radius: 0;
-      border-top-left-radius: 0;
-      white-space: nowrap;
-      font-family: @font-roboto-regular;
-      letter-spacing: 0;
-      color: @color-info-500;
-      display: block;
-      background: none;
-      font-size: 17px;
-      text-decoration: none;
-      line-height: @toolbar-radio-line-height;
-      padding: 0;
-      margin-right: 30px;
-      border: none;
-      border-bottom: 1px solid transparent;
-    }
-
-    & w-radio input:checked ~ label.btn.btn-radio {
-      font-family: @font-roboto-regular;
-      letter-spacing: 0;
-      font-size: 17px;
-      color: @color-submit-400;
-      line-height: @toolbar-radio-line-height;
-      position: relative;
-      z-index: 1;
-      border: 0;
-      border-bottom-right-radius: 0;
-      border-bottom: 1px solid @color-submit-400;
-    }
-
-    & .radio-dot {
-      display: inline-block;
-      margin: 0 5px;
-    }
-  }
-
-  div.date-btns {
-    & w-radio-wrap {
-      & .btn-wrap.btn-group .btn,
-      & w-radio input:checked ~ label.btn.btn-radio {
-        font-size: 13px;
-      }
-    }
-  }
-}
-
 .chart-prices-toggle {
   display: none;
 }
