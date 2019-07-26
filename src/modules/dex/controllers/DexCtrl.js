@@ -105,7 +105,7 @@
 
             $onDestroy() {
                 super.$onDestroy();
-                window.document.title = 'Waves Client';
+                window.document.title = 'Waves DEX';
             }
 
             // hide and show graph to force its resize
