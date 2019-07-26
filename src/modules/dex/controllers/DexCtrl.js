@@ -12,9 +12,21 @@
      * @param {$rootScope.Scope} $scope
      * @param {IPollCreate} createPoll
      * @param {Waves} waves
+     * @param {utils} utils
+     * @param {ModalManager} modalManager
      * @return {DexCtrl}
      */
-    const controller = function (Base, $element, $state, $location, user, $scope, createPoll, waves) {
+    const controller = function (
+        Base,
+        $element,
+        $state,
+        $location,
+        user,
+        $scope,
+        createPoll,
+        waves,
+        utils,
+        modalManager) {
 
         const analytics = require('@waves/event-sender');
 
@@ -93,7 +105,7 @@
 
             $onDestroy() {
                 super.$onDestroy();
-                window.document.title = 'Waves Client';
+                window.document.title = 'Waves DEX';
             }
 
             // hide and show graph to force its resize
@@ -105,10 +117,48 @@
              * @private
              */
             async _onChangePair() {
+                const userAssetIdPair = user.getSetting('dex.assetIdPair');
+                if (utils.isLockedInDex(userAssetIdPair.amount, userAssetIdPair.price)) {
+                    return this._showModalAndRedirect(userAssetIdPair.amount, userAssetIdPair.price);
+                }
                 const pair = await this._getPair();
                 $location.search('assetId2', pair.amountAsset.id);
                 $location.search('assetId1', pair.priceAsset.id);
             }
+
+            /**
+             * @return {Promise}
+             * @private
+             */
+            _showModalAndRedirect(amountAssetId, priceAssetId) {
+                Promise.all([
+                    waves.node.assets.getAsset(amountAssetId),
+                    waves.node.assets.getAsset(priceAssetId)
+                ]).then(([priceAsset, amountAsset]) => {
+                    const amountAssetName = amountAsset.ticker || amountAsset.displayName;
+                    const priceAssetName = priceAsset.ticker || priceAsset.displayName;
+
+                    const findUnlocked = assetId => assetId !== 'WAVES' && !utils.isLockedInDex(assetId);
+
+                    const unLockedAsset = utils.isLockedInDex(WavesApp.defaultAssets.BTC) ?
+                        Object.values(WavesApp.defaultAssets).find(findUnlocked) :
+                        WavesApp.defaultAssets.BTC;
+
+
+                    user.setSetting('dex.assetIdPair', {
+                        amount: WavesApp.defaultAssets.WAVES,
+                        price: unLockedAsset
+                    });
+
+                    return modalManager.showLockPairWarning(amountAssetName, priceAssetName)
+                        .then(() => {
+                            $location.search('assetId2', WavesApp.defaultAssets.WAVES);
+                            $location.search('assetId1', unLockedAsset);
+                            this._initializePair();
+                        });
+                });
+            }
+
             /**
              * @private
              */
@@ -148,18 +198,18 @@
                                     amount: WavesApp.defaultAssets.WAVES,
                                     price: WavesApp.defaultAssets.BTC
                                 }))
-                                .then((pair) => {
+                                .then(({ amountAsset, priceAsset }) => {
                                     const activeTab = user.getSetting('dex.watchlist.activeTab');
 
                                     if (activeTab !== 'all' &&
-                                        activeTab !== pair.amountAsset.id &&
-                                        activeTab !== pair.priceAsset.id) {
+                                        activeTab !== amountAsset.id &&
+                                        activeTab !== priceAsset.id) {
                                         user.setSetting('dex.watchlist.activeTab', 'all');
                                     }
 
                                     this._assetIdPair = {
-                                        amount: pair.amountAsset.id,
-                                        price: pair.priceAsset.id
+                                        amount: amountAsset.id,
+                                        price: priceAsset.id
                                     };
                                 })
                                 .then(resolve);
@@ -218,7 +268,18 @@
     };
 
 
-    controller.$inject = ['Base', '$element', '$state', '$location', 'user', '$scope', 'createPoll', 'waves'];
+    controller.$inject = [
+        'Base',
+        '$element',
+        '$state',
+        '$location',
+        'user',
+        '$scope',
+        'createPoll',
+        'waves',
+        'utils',
+        'modalManager'
+    ];
 
     angular.module('app.dex')
         .controller('DexCtrl', controller);

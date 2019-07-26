@@ -300,6 +300,7 @@
         &__row {
           position: relative;
           display: flex;
+          justify-content: space-between;
 
           .dropdown {
             display: none;
@@ -320,6 +321,8 @@
 
         &__cell {
           white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
 
           .decimal-muted {
             color: @color-basic-500;
