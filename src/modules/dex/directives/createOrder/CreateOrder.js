@@ -244,6 +244,9 @@
                     if (lastTraderPoll) {
                         lastTraderPoll.restart();
                     }
+
+                    this.isLockedPair = utils.isLockedInDex(this._assetIdPair.amount, this._assetIdPair.price);
+
                     this.analyticsPair = `${this._assetIdPair.amount} / ${this._assetIdPair.price}`;
                     this.observeOnce(['bid', 'ask'], utils.debounce(() => {
                         if (this.type) {

@@ -37,20 +37,23 @@
              * @type {Function}
              * @private
              */
-            _reslolve;
+            _resolve;
             /**
              * @type {Function}
              * @private
              */
             _reject;
 
-
             constructor() {
                 this.ready = new Promise((resolve, reject) => {
-                    this._reslolve = resolve;
+                    this._resolve = resolve;
                     this._reject = reject;
                 });
-                user.onLogin().then(() => this._watch());
+
+                user.onLogin().then(
+                    () => this._handleLogin(),
+                    () => this._handleLogout()
+                );
             }
 
             /**
@@ -118,11 +121,31 @@
             /**
              * @private
              */
+            _handleLogin() {
+                this._watch();
+
+                user.logoutSignal.once(this._handleLogout, this);
+            }
+
+            /**
+             * @private
+             */
+            _handleLogout() {
+                if (this._poll) {
+                    this._poll.destroy();
+                }
+
+                user.loginSignal.once(this._handleLogin, this);
+            }
+
+            /**
+             * @private
+             */
             _watch() {
                 const get = () => BalanceWatcher._getBalanceList();
                 const set = list => this._setBalanceList(list);
                 this._poll = new Poll(get, set, 1000);
-                this._poll.ready.then(this._reslolve, this._reject);
+                this._poll.ready.then(this._resolve, this._reject);
             }
 
             /**
