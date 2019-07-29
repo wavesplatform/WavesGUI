@@ -43,6 +43,11 @@ body.dex-demo .dex-wrapper {
         display: none;
       }
 
+      &__cell[data-column-id="asset"] {
+        display: flex;
+        align-items: center;
+      }
+
       w-copy-wrap {
         border: 0 none;
         border-radius: 0;
@@ -98,9 +103,6 @@ body.dex-demo .dex-wrapper {
     }
 
     w-asset-logo {
-      display: inline-block;
-      vertical-align: middle;
-      margin-top: -3px;
       margin-right: 10px;
       cursor: pointer;
     }
