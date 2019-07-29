@@ -271,15 +271,16 @@
              */
             _getCanShowDex() {
                 const statusPath = ['assets', this.balance.asset.id, 'status'];
-
-                return this.balance.isPinned ||
+                const isAssetLockedInDex = utils.isLockedInDex(this.balance.asset.id);
+                return !isAssetLockedInDex &&
+                    (this.balance.isPinned ||
                     this._isMyAsset ||
                     this.balance.asset.isMyAsset ||
                     this.balance.asset.id === WavesApp.defaultAssets.WAVES ||
                     this.gatewayService.getPurchasableWithCards()[this.balance.asset.id] ||
                     this.gatewayService.getCryptocurrencies()[this.balance.asset.id] ||
                     this.gatewayService.getFiats()[this.balance.asset.id] ||
-                    path(statusPath, ds.dataManager.getOracleData('oracleWaves')) === STATUS_LIST.VERIFIED;
+                    path(statusPath, ds.dataManager.getOracleData('oracleWaves')) === STATUS_LIST.VERIFIED);
 
             }
 

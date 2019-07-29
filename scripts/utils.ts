@@ -2,7 +2,7 @@ import { spawn } from 'child_process';
 
 export function createSpawn(command: string, args?: string[]): Promise<string> {
     return new Promise((resolve, reject) => {
-        const sp = process.platform === 'win32'
+        const sp = process.platform === 'win32' && command !== 'rm'
             ? spawn('sh', [command, ...args], {
                 stdio: [null, process.stdout, process.stderr]
             })
