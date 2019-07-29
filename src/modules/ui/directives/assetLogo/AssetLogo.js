@@ -112,6 +112,7 @@
                             }
                         });
                 } else {
+                    $element.addClass('asset-logo_new');
                     this.observe(['assetName', 'assetId'], () => this._addLetter(this.assetName));
                     this._addLetter(this.assetName);
                 }
