@@ -65,7 +65,7 @@
         <w-table-row ng-repeat="pair in $data track by pair.id"
                      ng-cloak
                      ng-click="$ctrl.choosePair(pair)"
-                     ng-class="{'selected': $ctrl.isChosen(pair)}">
+                     ng-class="{'selected': $ctrl.isChosen(pair), 'disabled': $ctrl.isLockedPair(pair.amountAsset.id, pair.priceAsset.id)}">
             <w-table-cell>
                 <i class="icon-fav"
                    ng-class="{'active': $ctrl.isFavourite(pair)}"
@@ -78,21 +78,19 @@
             </w-table-cell>
             <w-table-cell>
                 <span>{{pair.lastPrice.toFormat() || '—'}}</span>
-                <!--div class="tooltip-dex center">{{pair.price.toFormat() || '—'}}</div-->
             </w-table-cell>
             <w-table-cell ng-class="{'plus': pair.change24.gt(0),'minus': pair.change24.lt(0)}">
                 <span>{{ pair.change24.toFormat() }}</span>{{ pair.change24 ? '%' : '—' }}
             </w-table-cell>
             <w-table-cell>
-                <w-tooltip
-                        direction="'top'"
-                        tip-content="'<span ng-cloak><span w-nice-number=\'pair.currentVolume\'></span> {{::$ctrl.volumeAsset.displayName}}</span>'"
-                        is-show="pair.volume">
-                    <span ng-if="pair.volume"
-                          w-nice-number="pair.currentVolume"
-                          short-mode="::true"></span>
-                </w-tooltip>
+                <span ng-if="pair.volume"
+                      w-nice-number="pair.currentVolume"
+                      short-mode="::true"></span>
                 <span ng-if="!pair.volume">—</span>
+                <div ng-if="pair.volume && !$ctrl.isLockedPair(pair.amountAsset.id, pair.priceAsset.id)" class="tooltip-dex right">
+                    <span ng-if="pair.volume" w-nice-number="pair.currentVolume"></span>
+                    {{$ctrl.volumeAsset.displayName}}
+                </div>
             </w-table-cell>
             <w-table-cell ng-if="$ctrl.isChosen(pair)" class="chosen">
                 <div>
@@ -104,6 +102,13 @@
                    ng-click="$ctrl.showAssetInfo($event, pair.priceAsset)"
                    class="basic-700">{{::pair.priceAsset.id}}</a>
             </w-table-cell>
+            <div class="tooltip-dex tooltip-row center"
+                 ng-if="$ctrl.isLockedPair(pair.amountAsset.id, pair.priceAsset.id)"
+                 w-i18n="directives.watchlist.placeholders.lockedPair"
+                 params="{
+                     amountAssetTicker: pair.amountAsset.ticker || pair.amountAsset.displayName,
+                     priceAssetTicker:  pair.priceAsset.ticker || pair.priceAsset.displayName
+                 }"></div>
         </w-table-row>
     </w-smart-table>
 </div>

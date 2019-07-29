@@ -42,7 +42,10 @@
                  */
                 this._waves = null;
 
-                user.onLogin().then(this._initialize.bind(this));
+                user.onLogin().then(
+                    () => this._handleLogin(),
+                    () => this._handleLogout()
+                );
             }
 
             addTx(tx, moneyList) {
@@ -55,6 +58,26 @@
                 return Object.keys(this._events).reduce((list, eventId) => {
                     return list.concat(this._events[eventId].getReservedMoneyList());
                 }, []);
+            }
+
+            /**
+             * @private
+             */
+            _handleLogin() {
+                this._initialize();
+
+                user.logoutSignal.once(this._handleLogout, this);
+            }
+
+            /**
+             * @private
+             */
+            _handleLogout() {
+                if (this._poll) {
+                    this._poll.destroy();
+                }
+
+                user.loginSignal.once(this._handleLogin, this);
             }
 
             /**
