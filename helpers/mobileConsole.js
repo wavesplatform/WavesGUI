@@ -1,8 +1,13 @@
+/* eslint-disable prefer-rest-params */
+/* eslint-disable no-console */
+/* eslint-disable prefer-template */
+/* eslint-disable no-var */
+
 (function () {
+    'use strict';
 
     if (location.href.indexOf('console=true') !== -1) {
-
-        var css = function (element: HTMLElement, styles) {
+        var css = function (element, styles) {
             Object.keys(styles).forEach(function (styleName) {
                 var value = styles[styleName];
                 element.style[styleName] = value;
@@ -25,12 +30,13 @@
         });
         document.body.appendChild(out);
 
-        const origin = window.onerror || function () {
-        };
-        window.onerror = function (message: string, filename?: string, lineno?: number, colno?: number, error?: Error) {
+        var origin = window.onerror || function () { /* pass */ };
+        window.onerror = function (message, filename, lineno, colno, error) {
             origin(message, filename, lineno, colno, error);
             var line = document.createElement('div');
-            line.innerText = 'Message: ' + message + '\nFile name: ' + filename + 'Line: ' + lineno + '\nStack: ' + error.stack;
+            line.innerText = 'Message: ' + message +
+                '\nFile name: ' + filename + 'Line: ' + lineno +
+                '\nStack: ' + error.stack;
             out.appendChild(line);
         };
 
@@ -43,6 +49,5 @@
                 out.appendChild(line);
             };
         });
-
     }
 })();

@@ -1,7 +1,22 @@
 @import (reference) 'config';
 @import (reference) '../../app/less/typography';
 
+.tokens {
+  .main-content .content {
+    overflow: auto;
+    max-width: 100%;
+  }
+}
+
 .tokens-page {
+  .nameHelper {
+    display: none;
+
+    &.showNameHelper {
+      display: block;
+    }
+  }
+
   &__wrapper {
     background-color: @color-white;
     border-radius: @border-radius;

@@ -109,9 +109,20 @@
             }
 
             /**
+             * @public
+             * @param assetID
+             */
+            isLockedPair(assetID) {
+                return utils.isLockedInDex(assetID);
+            }
+
+            /**
              * @param {string} assetId
              */
             setPair(assetId) {
+                if (this.isLockedPair(assetId)) {
+                    return null;
+                }
                 const wavesId = WavesApp.defaultAssets.WAVES;
                 const btcId = WavesApp.defaultAssets.BTC;
                 const assetId2 = assetId === wavesId ? btcId : wavesId;
