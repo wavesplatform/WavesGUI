@@ -1,4 +1,3 @@
-/* global BigNumber */
 (function () {
     'use strict';
 
@@ -7,6 +6,9 @@
         startFrom: 0,
         center: 0
     };
+
+    const ds = require('data-service');
+    const { BigNumber } = require('@waves/bignumber');
 
     /**
      *
@@ -78,7 +80,7 @@
 
             _draw() {
                 const balances = this._getBalances();
-                const total = balances.reduce((result, item) => result.plus(item.value), new BigNumber(0));
+                const total = balances.reduce((result, item) => result.add(item.value), new BigNumber(0));
                 const center = this._canvas.height / 2 + 0.5;
                 const insightRadius = this._options.center || DEFAULT_OPTIONS.center;
 

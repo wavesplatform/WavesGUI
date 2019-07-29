@@ -20,6 +20,7 @@
     const KEY_NAME_PREFIX = 'coinomat';
     const ds = require('data-service');
     const { prop } = require('ramda');
+    const { BigNumber } = require('@waves/bignumber');
 
     /**
      * @returns {CoinomatService}

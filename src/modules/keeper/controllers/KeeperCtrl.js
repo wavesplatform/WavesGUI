@@ -66,9 +66,6 @@
             constructor() {
                 super($scope);
                 this.getUsers();
-                this.adapter.onUpdate(() => {
-                    this.getUsers();
-                });
             }
 
             /**
