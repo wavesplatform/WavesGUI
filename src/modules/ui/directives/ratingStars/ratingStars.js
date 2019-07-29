@@ -9,7 +9,8 @@
                                  waves,
                                  modalManager,
                                  balanceWatcher,
-                                 $mdDialog) {
+                                 $mdDialog,
+                                 utils) {
 
         const { SIGN_TYPE } = require('@waves/signature-adapter');
         const WCT_ID = 'DHgwrRvVyqJsepd32YbBqUeDH4GJ1N984X8QoekjgH8J';
@@ -121,6 +122,10 @@
                 return modalManager.showConfirmTx(signable);
             }
 
+            openDex() {
+                utils.openDex(WCT_ID);
+            }
+
         }
 
         return new RatingStars();
@@ -135,7 +140,8 @@
         'waves',
         'modalManager',
         'balanceWatcher',
-        '$mdDialog'];
+        '$mdDialog',
+        'utils'];
 
     angular.module('app.ui').component('wRatingStars', {
         bindings: {

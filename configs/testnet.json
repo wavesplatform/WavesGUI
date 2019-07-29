@@ -21,6 +21,7 @@
   "termsAndConditions": "https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf",
   "privacyPolicy": "https://wavesplatform.com/files/docs/Privacy%20Policy_SW.pdf",
   "nodeList": "http://dev.pywaves.org/testnet/generators/",
+  "tokensNameListUrl": "https://raw.githubusercontent.com/wavesplatform/waves-community/master/Prominent%20token%20name%20list.csv",
   "scamListUrl": "https://raw.githubusercontent.com/wavesplatform/waves-community/master/Scam%20tokens%20according%20to%20the%20opinion%20of%20Waves%20Community.csv",
   "origin": "https://testnet.wavesplatform.com",
   "featuresConfigUrl": "https://raw.githubusercontent.com/wavesplatform/waves-client-config/master/testnet.config.json",

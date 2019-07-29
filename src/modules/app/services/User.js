@@ -1,22 +1,22 @@
-/* global transfer */
+/* global transfer Mousetrap WavesApp: true */
 (function () {
     'use strict';
 
     const { equals } = require('ramda');
     const { isValidAddress } = require('@waves/signature-adapter');
 
-    /* global
-        Mousetrap
-     */
-
     const NOT_SYNC_FIELDS = [
         'changeSetting',
+        'isAuthorised',
         'extraFee',
         'networkError',
         'changeScript',
         'setScamSignal',
         'scam',
-        'onLogout'
+        'loginSignal',
+        'logoutSignal',
+        'setTokensNameSignal',
+        'tokensName'
     ];
 
     /**
@@ -25,23 +25,13 @@
      * @param {app.defaultSettings} defaultSettings
      * @param {State} state
      * @param {UserRouteState} UserRouteState
-     * @param {ModalManager} modalManager
+     * @param {Poll} Poll
      * @param {TimeLine} timeLine
-     * @param {$injector} $injector
      * @param {app.utils} utils
      * @param {*} themes
      * @return {User}
      */
-    const factory = function (storage,
-                              $state,
-                              defaultSettings,
-                              state,
-                              UserRouteState,
-                              modalManager,
-                              timeLine,
-                              $injector,
-                              utils,
-                              themes) {
+    const factory = function (storage, $state, defaultSettings, state, UserRouteState, Poll, timeLine, utils, themes) {
 
         const tsUtils = require('ts-utils');
         const ds = require('data-service');
@@ -54,95 +44,116 @@
         class User {
 
             /**
-             * @type {Signal<{}>}
+             * @type {Signal<string>} setting path
              */
-            onLogout = new tsUtils.Signal();
+            get changeSetting() {
+                return this._settings.change;
+            }
+
             /**
              * @type {boolean}
              */
-            networkError = false;
+            get isAuthorised() {
+                return !!this.address;
+            }
+
+            /**
+             * @type {Signal<{}>}
+             */
+            loginSignal = new tsUtils.Signal();
+            /**
+             * @type {Signal<{}>}
+             */
+            logoutSignal = new tsUtils.Signal();
+            /**
+             * @type {boolean}
+             */
+            networkError;
             /**
              * @type {string}
              */
-            address = null;
+            address;
             /**
              * @type {string}
              */
-            id = null;
+            id;
             /**
              * @type {string}
              */
-            name = null;
+            name;
             /**
              * @type {string}
              */
-            publicKey = null;
+            publicKey;
             /**
              * @type {string}
              */
-            encryptedSeed = null;
+            encryptedSeed;
             /**
              * @type {string}
              */
-            userType = null;
+            userType;
             /**
              * @type {object}
              */
-            settings = Object.create(null);
+            settings;
             /**
              * @type {number}
              */
-            lastLogin = Date.now();
+            lastLogin;
             /**
              * @type {{signature: string, timestamp: number}}
              */
-            matcherSign = null;
+            matcherSign;
             /**
              * @type {Money}
              */
-            extraFee = null;
+            extraFee;
             /**
              * @type {Signal<void>}
              */
-            changeScript = new tsUtils.Signal();
+            changeScript;
             /**
              * @type {Signal<void>}
              */
-            setScamSignal = new tsUtils.Signal();
+            setScamSignal;
+            /**
+             * @type {Signal<void>}
+             */
+            setTokensNameSignal = new tsUtils.Signal();
             /**
              * @type {Record<string, boolean>}
              */
-            scam = Object.create(null);
+            scam;
+            /**
+             * @type {Record<string, boolean>}
+             */
+            tokensName = Object.create(null);
             /**
              * @type {DefaultSettings}
              * @private
              */
-            _settings = defaultSettings.create(Object.create(null));
-            /**
-             * @type {Deferred}
-             * @private
-             */
-            _dfr = $.Deferred();
+            _settings;
             /**
              * @type {object}
              * @private
              */
-            __props = Object.create(null);
+            __props;
             /**
              * @type {string}
              * @private
              */
-            _password = null;
+            _password;
             /**
              * @type {number}
              * @private
              */
-            _changeTimer = null;
+            _changeTimer;
             /**
              * @type {Array}
              * @private
              */
-            _stateList = null;
+            _stateList;
             /**
              * @type {Array}
              * @private
@@ -152,54 +163,46 @@
              * @type {Array}
              * @private
              */
-            _history = [];
+            _history;
             /**
              * @type {boolean}
              * @private
              */
-            _hasScript = false;
+            _hasScript;
             /**
              * @type {Poll}
              * @private
              */
-            _scriptInfoPoll = null;
+            _scriptInfoPoll;
+            /**
+             * @type {number}
+             */
+            _scriptInfoPollTimeoutId;
             /**
              * @type {boolean}
              * @private
              */
-            _noSaveToStorage = false;
+            _noSaveToStorage;
 
             constructor() {
-
+                this._resetFields();
                 this._setObserve();
                 this._settings.change.on(() => this._onChangeSettings());
 
                 Mousetrap.bind(['ctrl+shift+k'], () => this.switchNextTheme());
-
-                this.onLogin().then(() => {
-                    /**
-                     * @type {Poll}
-                     */
-                    const Poll = $injector.get('Poll');
-                    setTimeout(() => {
-                        this._scriptInfoPoll = new Poll(() => this.updateScriptAccountData(), () => null, 10000);
-                    }, 30000);
-
-                });
-
-            }
-
-            /**
-             * @type {Signal<string>} setting path
-             */
-            get changeSetting() {
-                return this._settings.change;
             }
 
             setScam(hash) {
                 if (!equals(hash, this.scam)) {
                     this.scam = hash;
                     this.setScamSignal.dispatch();
+                }
+            }
+
+            setTokensNameList(hash) {
+                if (!equals(hash, this.tokensName)) {
+                    this.tokensName = hash;
+                    this.setTokensNameSignal.dispatch();
                 }
             }
 
@@ -299,12 +302,10 @@
 
             /**
              * @param {User} user
-             * @param {string} name
              * @return {DefaultSettings}
              */
             getSettingsByUser(user) {
-                const settings = this.getDefaultUserSettings(user.settings);
-                return settings;
+                return this.getDefaultUserSettings(user.settings);
             }
 
             /**
@@ -319,7 +320,24 @@
              * @return {Promise}
              */
             onLogin() {
-                return this._dfr.promise();
+                if (this.isAuthorised) {
+                    return Promise.resolve();
+                } else {
+                    return new Promise((resolve, reject) => {
+                        this.loginSignal.once(resolve);
+                        this.logoutSignal.once(reject);
+                    });
+                }
+            }
+
+            initScriptInfoPolling() {
+                clearTimeout(this._scriptInfoPollTimeoutId);
+                this._scriptInfoPollTimeoutId = setTimeout(() => {
+                    if (this._scriptInfoPoll) {
+                        this._scriptInfoPoll.destroy();
+                    }
+                    this._scriptInfoPoll = new Poll(() => this.updateScriptAccountData(), () => null, 10000);
+                }, 30000);
             }
 
             /**
@@ -331,21 +349,27 @@
              */
             login(data) {
                 this.networkError = false;
-                return this._addUserData(data)
-                    .then(() => analytics.send({ name: 'Sign In Success' }));
+
+                return this._addUserData(data).then(() => {
+                    this.initScriptInfoPolling();
+                    analytics.send({ name: 'Sign In Success' });
+                });
             }
 
             /**
              * @param {object} data
              * @param {string} data.address
              * @param {string} data.name
+             * @param {string} data.id
              * @param {string} data.encryptedSeed
              * @param {string} data.publicKey
              * @param {string} data.password
              * @param {string} data.userType
+             * @param {string} data.api
              * @param {boolean} data.saveToStorage
              * @param {boolean} hasBackup
-             * @return Promise
+             * @param {boolean} restore
+             * @return {Promise}
              */
             create(data, hasBackup, restore) {
                 this._noSaveToStorage = !data.saveToStorage;
@@ -370,6 +394,7 @@
                         dontShowSpam: true
                     }
                 }).then(() => {
+                    this.initScriptInfoPolling();
                     if (restore) {
                         analytics.send({
                             name: 'Import Backup Success',
@@ -391,23 +416,21 @@
              * @param {string} [stateName]
              */
             logout(stateName) {
-                this.onLogout.dispatch({});
+                ds.app.logOut();
+                clearTimeout(this._scriptInfoPollTimeoutId);
 
-                const applyLogout = () => { // TODO DEXW-1740
-                    if (WavesApp.isDesktop()) {
-                        transfer('reload');
-                    } else {
-                        window.location.reload();
-                    }
-                };
+                if (this._scriptInfoPoll) {
+                    this._scriptInfoPoll.destroy();
+                }
 
-                if (stateName) { // TODO DEXW-1740
-                    state.signals.changeRouterStateSuccess.once(
-                        () => requestAnimationFrame(applyLogout)
-                    );
-                    $state.go(stateName, { logout: true });
+                if (stateName) {
+                    this.logoutSignal.dispatch({});
+                    this._resetFields();
+                    $state.go(stateName, undefined, { custom: { logout: true } });
+                } else if (WavesApp.isDesktop()) {
+                    transfer('reload');
                 } else {
-                    applyLogout();
+                    window.location.reload();
                 }
             }
 
@@ -560,6 +583,36 @@
             }
 
             /**
+             * @private
+             */
+            _resetFields() {
+                this.networkError = false;
+                this.address = null;
+                this.id = null;
+                this.name = null;
+                this.publicKey = null;
+                this.encryptedSeed = null;
+                this.userType = null;
+                this.settings = Object.create(null);
+                this.lastLogin = Date.now();
+                this.matcherSign = null;
+                this.extraFee = null;
+                this.changeScript = new tsUtils.Signal();
+                this.setScamSignal = new tsUtils.Signal();
+                this.scam = Object.create(null);
+                this._settings = defaultSettings.create(Object.create(null));
+                this.__props = Object.create(null);
+                this._password = null;
+                this._changeTimer = null;
+                this._stateList = null;
+                this._history = [];
+                this._hasScript = false;
+                this._scriptInfoPoll = null;
+                this._scriptInfoPollTimeoutId = null;
+                this._noSaveToStorage = false;
+            }
+
+            /**
              * @param {object} data
              * @param {Adapter} data.api
              * @param {string} data.address
@@ -574,7 +627,8 @@
              * @private
              */
             _addUserData(data) {
-                return data.api.getPublicKey().then(publicKey => (data.publicKey = publicKey))
+                return data.api.getPublicKey()
+                    .then(publicKey => (data.publicKey = publicKey))
                     .then(() => this._loadUserByAddress(data.address))
                     .then((item) => {
                         this._fieldsForSave.forEach((propertyName) => {
@@ -614,7 +668,7 @@
                         ds.app.login(data.address, data.api);
 
                         data.api.onDestroy(() => {
-                            this.logout();
+                            this.logout('welcome');
                         });
 
                         return this.addMatcherSign()
@@ -626,7 +680,7 @@
                             })
                             .then(() => this._logoutTimer())
                             .then(() => this.updateScriptAccountData())
-                            .then(this._dfr.resolve)
+                            .then(() => this.loginSignal.dispatch())
                             .catch((e) => {
                                 ds.app.logOut();
                                 return Promise.reject(e);
@@ -640,7 +694,7 @@
             _logoutTimer() {
                 this.receive(state.signals.sleep, min => {
                     if (min >= this._settings.get('logoutAfterMin')) {
-                        this.logout();
+                        this.logout('welcome');
                     }
                 });
             }
@@ -752,9 +806,8 @@
         'defaultSettings',
         'state',
         'UserRouteState',
-        'modalManager',
+        'Poll',
         'timeLine',
-        '$injector',
         'utils',
         'themes'
     ];
@@ -765,4 +818,13 @@
 /**
  * @typedef {object} IUserSettings
  * @property {Array<string>} assets
+ */
+
+/**
+ * @typedef {object} ICurrentUser
+ * @property {string} address
+ * @property {string} name
+ * @property {string} publicKey
+ * @property {string} userType
+ * @property {number} lastLogin
  */
