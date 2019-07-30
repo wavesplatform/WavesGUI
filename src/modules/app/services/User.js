@@ -668,7 +668,9 @@
                         ds.app.login(data.address, data.api);
 
                         data.api.onDestroy(() => {
-                            this.logout('welcome');
+                            if (this.isAuthorised) {
+                                this.logout('welcome');
+                            }
                         });
 
                         return this.addMatcherSign()
