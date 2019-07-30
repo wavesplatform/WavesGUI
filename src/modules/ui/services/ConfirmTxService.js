@@ -139,7 +139,7 @@
                     this.onTxSent({ id: tx.id });
                     this.__$scope.$apply();
                 }).catch(e => {
-                    if (e.error) {
+                    if (e.error && utils.checkIsScriptError(e.error)) {
                         this.errorType = e.error;
                         this.errorParams = e.params;
                     } else {

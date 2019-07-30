@@ -1703,6 +1703,16 @@
             isNotEqualValue: isNotEqualValue,
 
             /**
+             * @name app.utils#checkIsScriptError
+             * @param {number} error
+             * @return {boolean}
+             */
+            checkIsScriptError(error) {
+                // eslint-disable-next-line no-bitwise
+                return (error >> 8 & 0xFFF) === 7;
+            },
+
+            /**
              * @name app.utils#createOrder
              * @param {app.utils.IOrderData} data
              * @return {Promise}
@@ -1733,15 +1743,13 @@
                  */
                 const version = (hasCustomFee && 3) || 2;
 
-                const accountScriptErrors = [3147521, 3147522];
-
                 const signableData = {
                     type: SIGN_TYPE.CREATE_ORDER,
                     data: { ...data, version, timestamp }
                 };
 
                 const onError = data => {
-                    if (data && data.error) {
+                    if (data && data.error && data.isScriptError) {
                         notification.error({
                             ns: 'app.dex',
                             title: {
@@ -1774,8 +1782,10 @@
                             .then(signable => signable.getDataForApi())
                             .then(ds.createOrder)
                             .catch(data => {
-                                if (!isAdvancedMode || !accountScriptErrors.includes(data.error)) {
-                                    return Promise.reject(data);
+                                const isScriptError = this.checkIsScriptError(data.error);
+
+                                if (!isAdvancedMode || !isScriptError) {
+                                    return Promise.reject({ ...data, isScriptError });
                                 }
 
                                 return modalManager.showConfirmTx(signable, false)
