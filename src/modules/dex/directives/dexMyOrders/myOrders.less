@@ -177,6 +177,41 @@ w-dex-my-orders {
             }
           }
 
+          &.disabled {
+            .smart-table__cell {
+              opacity: 0.4;
+            }
+            .smart-table__cell.cell_stop {
+              opacity: 1;
+            }
+            .cell_set-pair {
+              cursor: default;
+              a {
+                cursor: default;
+              }
+            }
+
+            &:hover {
+              background: @color-white;
+              .cell_set-pair {
+                a::after{
+                  display: none;
+                }
+              }
+
+              .tooltip-dex {
+                display: flex;
+              }
+            }
+          }
+        }
+      }
+
+      .order-details {
+        background: @color-basic-50;
+
+        &:hover {
+          background-color: @color-basic-100;
         }
       }
     }
@@ -199,6 +234,10 @@ w-dex-my-orders {
       flex-basis: 80px;
       flex-grow: 0;
       min-width: auto;
+    }
+
+    &__cell[data-column-id="fee"] {
+      flex-basis: 135px;
     }
 
     &__cell[data-column-id="pair"] {
@@ -224,6 +263,11 @@ w-dex-my-orders {
     &__cell[data-column-id="time"],
     &__cell[data-column-id="type"] {
       text-align: right;
+    }
+
+    &__cell[data-column-id="controls"] {
+      flex-grow: 0;
+      padding-right: 0;
     }
 
     .stop {

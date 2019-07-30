@@ -47,7 +47,6 @@
 
                 return this._fillTransaction(tx)
                     .then(tx => {
-
                         return Promise.all([
                             this._getAssets(tx)
                                 .then(assetList => assetList.filter(asset => asset.hasScript))
@@ -230,7 +229,8 @@
                     amount: tx.amount || new Money(1, asset),
                     fee: tx.fee || new Money(1, asset),
                     attachment: tx.attachment instanceof Uint8Array ? Array.from(tx.attachment) : String(tx.attachment),
-                    senderPublicKey: tx.senderPublicKey || user.publicKey
+                    senderPublicKey: tx.senderPublicKey || user.publicKey,
+                    assetId: tx.assetId || asset.id
                 }));
             }
 
@@ -323,7 +323,8 @@
                         recipient: user.address
                     }],
                     totalAmount: totalAmount || new Money(1, asset),
-                    fee: tx.fee || new Money(1, asset)
+                    fee: tx.fee || new Money(1, asset),
+                    assetId: tx.assetId || asset.id
                 }));
             }
 

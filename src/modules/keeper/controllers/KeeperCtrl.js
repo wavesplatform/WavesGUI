@@ -65,6 +65,7 @@
 
             constructor() {
                 super($scope);
+                this.adapter.onUpdate((state) => this.onUpdateState(state));
                 this.getUsers();
             }
 
@@ -99,6 +100,12 @@
                 }
 
                 this.error = true;
+            }
+
+            onUpdateState(data) {
+                if (data && data.account && this.selectedUser && this.selectedUser.address !== data.account.address) {
+                    this.getUsers();
+                }
             }
 
             /**
