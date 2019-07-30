@@ -498,6 +498,15 @@
                 });
             }
 
+            showLockPairWarning(amountTicker, priceTicker) {
+                return this._getModal({
+                    id: 'logout-modal',
+                    controller: 'LockPairWarningCtrl',
+                    contentUrl: 'modules/utils/modals/lockPairWarning/lockPairWarning.modal.html',
+                    locals: { amountTicker, priceTicker }
+                });
+            }
+
             /**
              * @param {IDialogOptions} options
              * @return {Promise}
