@@ -12,10 +12,9 @@ import { IAssetInfo } from '@waves/data-entities/dist/entities/Asset';
 import { get } from './config';
 import { TAssetData, TBigNumberData } from './interface';
 import { get as getAssetPair } from './api/pairs/pairs';
-import { broadcast as broadcastF, createOrderSend, cancelOrderSend } from './broadcast/broadcast';
-import { utils as cryptoUtils } from '@waves/signature-generator';
+import { broadcast as broadcastF, createOrderSend, cancelOrderSend, cancelAllOrdersSend } from './broadcast/broadcast';
 import * as signatureAdapters from '@waves/signature-adapter';
-import { Adapter, SIGN_TYPE } from '@waves/signature-adapter';
+import { Adapter, SIGN_TYPE, isValidAddress as utilsIsValidAddress } from '@waves/signature-adapter';
 import { TTimeType } from './utils/utils';
 
 export { getAdapterByType, getAvailableList } from '@waves/signature-adapter';
@@ -35,15 +34,14 @@ export const signature = {
 };
 
 export const signAdapters = signatureAdapters;
-export const isValidAddress = cryptoUtils.crypto.isValidAddress;
-export const isValidAddressWithNetworkByte = cryptoUtils.crypto.isValidAddressWithNetworkByte;
-export const buildTransactionId = cryptoUtils.crypto.buildTransactionId;
+export const isValidAddress = utilsIsValidAddress;
 
 // export const prepareForBroadcast = prepareForBroadcastF;
 // export const getTransactionId = getTransactionIdF;
 export const broadcast = broadcastF;
 export const createOrder = createOrderSend;
 export const cancelOrder = cancelOrderSend;
+export const cancelAllOrders = cancelAllOrdersSend;
 
 wavesDataEntitiesModule.config.set('remapAsset', (data: IAssetInfo) => {
     const name = get('remappedAssetNames')[data.id] || data.name;

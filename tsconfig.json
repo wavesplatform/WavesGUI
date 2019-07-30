@@ -14,8 +14,10 @@
       "./node_modules/@types"
     ]
   },
+  "include": [
+    "./electron"
+  ],
   "exclude": [
-    "node_modules",
-    "./gulpfile.ts"
+    "node_modules"
   ]
 }

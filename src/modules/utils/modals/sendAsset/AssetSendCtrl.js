@@ -254,6 +254,7 @@
  * @property {Money} amount
  * @property {Money} fee
  * @property {string} attachment
+ * @property {string | null} assetId
  */
 
 /**

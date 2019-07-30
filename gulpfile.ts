@@ -69,7 +69,7 @@ function createBuildTask(args?: { platform: TPlatform; env: TBuild; config: stri
                     module: 'app.templates',
                     standalone: true,
                     transformUrl(url: string) {
-                        return url.startsWith('/') ? url.slice(1) : url;
+                        return (url.startsWith('/') || url.startsWith('\\')) ? url.slice(1) : url;
                     },
                     filename: getFileName('templates.js', env as TBuild)
                 }
