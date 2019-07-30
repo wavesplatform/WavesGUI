@@ -300,7 +300,7 @@
                 pipe(
                     identity,
                     bytesToString,
-                    isNil,
+                    isNil
                 ),
                 pipe(
                     identity,
@@ -1833,6 +1833,37 @@
             },
 
             /**
+             * @param {String} name
+             * @return {Promise<boolean>}
+             */
+            assetNameWarning(name) {
+                /**
+                 * @type {User}
+                 */
+                const user = $injector.get('user');
+                name = (name || '').toLowerCase().trim();
+
+                if (!name) {
+                    return Promise.resolve(false);
+                }
+
+                if (name && Object.keys(user.tokensName).some(item => name === item.toLowerCase())) {
+                    return Promise.resolve(true);
+                }
+
+                const api = user.getSetting('api') || WavesApp.network.api;
+
+                return ds.fetch(`${api}/v0/assets?search=${encodeURIComponent(name)}`)
+                    .then(({ data }) => data.some(
+                        ({ data }) => (
+                            (data.name || '').toLowerCase() === name ||
+                            (data.ticker || '').toLowerCase() === name
+                        ))
+                    )
+                    .catch(() => false);
+            },
+
+            /**
              * @name app.utils#sign
              * @param {Signable} signable
              * @return {Promise<Signable>}
@@ -1860,6 +1891,20 @@
                     .catch(() => Promise.reject({ message: 'Your sign is not confirmed!' }));
 
                 return signByDeviceLoop();
+            },
+
+            /**
+             * @name app.utils#isLockedInDex
+             * @param assetId1
+             * @param assetId2
+             * @return {boolean}
+             */
+            isLockedInDex(assetId1, assetId2 = null) {
+                const configService = $injector.get('configService');
+
+                const lockedAssetsIndDex = configService.get('SETTINGS.DEX.LOCKED_PAIRS') || [];
+
+                return lockedAssetsIndDex.includes(assetId1) || lockedAssetsIndDex.includes(assetId2);
             }
         };
 

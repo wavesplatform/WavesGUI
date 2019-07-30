@@ -59,6 +59,7 @@ export interface IConfItem {
     support: string;
     nodeList: string;
     scamListUrl: string;
+    tokensNameListUrl: string;
     featuresConfigUrl: string;
     origin: string;
     assets: IHash<string>;

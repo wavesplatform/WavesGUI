@@ -227,14 +227,14 @@
 
                         <div class="expiration__item" ng-if="!$ctrl.feeList.length">
                             <span class="expiration__label" w-i18n="directives.createOrder.matcherFee"></span>
-                            <span class="expiration__value">{{::$ctrl.fee.toFormat()}} {{($ctrl.fee.asset.ticker || $ctrl.fee.asset.displayName)}}</span>
+                            <span class="expiration__value">{{$ctrl.fee.toFormat()}} {{($ctrl.fee.asset.ticker || $ctrl.fee.asset.displayName)}}</span>
                         </div>
 
                         <div class="expiration__item expiration__item-fee" ng-if="$ctrl.feeList.length">
                             <span class="expiration__label" w-i18n="directives.createOrder.matcherFee"></span>
                             <w-select class="expiration__select select__no-user-select" ng-model="$ctrl.fee" up-direction="true">
-                                <w-option ng-repeat="fee in $ctrl.feeList track by fee.asset.displayName" value="::fee">
-                                    {{::fee.toFormat()}} {{(fee.asset.ticker || fee.asset.displayName)}}
+                                <w-option ng-repeat="fee in $ctrl.feeList track by fee.asset.displayName" value="fee">
+                                    {{fee.toFormat()}} {{(fee.asset.ticker || fee.asset.displayName)}}
                                 </w-option>
                             </w-select>
                         </div>
@@ -252,7 +252,7 @@
                     </div>
 
                     <w-permit name="CAN_CREATE_ORDER" mode="on">
-                        <w-button disabled="$ctrl.order.$invalid || $ctrl.order.$pristine"
+                        <w-button disabled="$ctrl.order.$invalid || $ctrl.order.$pristine || $ctrl.isLockedPair"
                                   class="place-order small footnote-3"
                                   on-click="$ctrl.createOrder($event, order)">
                             <span ng-if="$ctrl.type === 'sell'"
