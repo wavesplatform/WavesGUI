@@ -34,6 +34,7 @@
                     dontShowSpam: true,
                     withScam: false,
                     scamListUrl: WavesApp.network.scamListUrl,
+                    tokensNameListUrl: WavesApp.network.tokensNameListUrl,
                     logoutAfterMin: 5,
                     encryptionRounds: 5000,
                     savePassword: true,

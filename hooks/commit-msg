@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-echo "commit-msg hook"
-node ./ts-scripts/commit-msg.js "$1" || exit 1
-echo "commit-msg hook >> DONE"
-
-exit 0

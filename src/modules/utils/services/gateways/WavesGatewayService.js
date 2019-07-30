@@ -2,20 +2,23 @@
     'use strict';
 
     const GATEWAYS = {
-        [WavesApp.defaultAssets.VST]: { waves: 'WVST', gateway: 'VST' }
+        [WavesApp.defaultAssets.VST]: { waves: 'WVST', gateway: 'VST' },
+        [WavesApp.defaultAssets.ERGO]: { waves: 'WERGO', gateway: 'ERGO' }
     };
 
-    const PATH = `${WavesApp.network.vostok.gateway}/api/v1`;
+    const PATH = `${WavesApp.network.wavesGateway}/api/v1`;
 
-    const KEY_NAME_PREFIX = 'vostok';
+    const KEY_NAME_PREFIX = 'wavesGateway';
 
     /**
-     * @returns {VostokService}
+     * @returns {WavesGatewayService}
      */
 
     const factory = function () {
 
-        class VostokService {
+        const { BigNumber } = require('@waves/bignumber');
+
+        class WavesGatewayService {
 
             /**
              * @param {Asset} asset
@@ -26,7 +29,8 @@
                     return {
                         deposit: true,
                         withdraw: true,
-                        errorAddressMessage: true
+                        errorAddressMessage: true,
+                        wrongAddressMessage: true
                     };
                 }
             }
@@ -38,7 +42,7 @@
              * @return {Promise}
              */
             getDepositDetails(asset, wavesAddress) {
-                VostokService._assertAsset(asset.id);
+                WavesGatewayService._assertAsset(asset.id);
 
                 const body = JSON.stringify({
                     userAddress: wavesAddress,
@@ -66,7 +70,7 @@
              * @return {Promise}
              */
             getWithdrawDetails(asset, targetAddress) {
-                VostokService._assertAsset(asset.id);
+                WavesGatewayService._assertAsset(asset.id);
 
                 const body = JSON.stringify({
                     userAddress: targetAddress,
@@ -109,6 +113,10 @@
                 return `can't withdraw to address ${address}`;
             }
 
+            getWrongAddressMessage(address) {
+                return `wrong address ${address}`;
+            }
+
             /**
              *
              * @param {number} value
@@ -128,8 +136,8 @@
 
         }
 
-        return new VostokService();
+        return new WavesGatewayService();
     };
 
-    angular.module('app.utils').factory('vostokService', factory);
+    angular.module('app.utils').factory('wavesGatewayService', factory);
 })();
