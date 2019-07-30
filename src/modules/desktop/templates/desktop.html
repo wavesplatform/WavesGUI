@@ -1,29 +1,30 @@
-<div class="desktop-page" w-i18n-ns="app.desktop">
+<w-site-header></w-site-header>
+<div class="main-container movable" w-i18n-ns="app.desktop">
 
-    <div class="desktop-page__controls">
-        <w-info-tooltip ng-click="$ctrl.showTutorialModals()" class="important-information">
-            <span class="tooltip__content" w-i18n-ns="app.welcome" w-i18n="infoTooltip"></span>
-        </w-info-tooltip>
-        <w-change-language></w-change-language>
+    <div class="main-container-wrapper">
+        <div class="desktop-page get-started-content">
+            <div class="text-center">
+
+                <div class="desktop-page__icon margin-3"></div>
+
+                <h3 class="desktop-page__title basic-700 margin-2"
+                    w-i18n="title"></h3>
+
+                <div class="desktop-page__message body-2 basic-500 margin-3"
+                     w-i18n="message"></div>
+
+                <div class="desktop-page__checkbox flex get-started-checkbox-save basic-500">
+                    <w-checkbox-submit class="checkbox-submit" id="openLinkViaDesktop" ng-model="$ctrl.openLinkViaDesktop"></w-checkbox-submit>
+                    <label class="checkbox-input__label body-2 margin-05" for="openLinkViaDesktop" w-i18n-ns="app.welcome" w-i18n="openViaDesktop"></label>
+                </div>
+
+                <w-button on-click="$ctrl.openMainPage()"
+                          class="big submit margin-4 headline-2 desktop-page__button">
+                    <span w-i18n="back"></span>
+                </w-button>
+            </div>
+        </div>
     </div>
-
-    <div class="desktop-page__waves-logo waves-logo"></div>
-
-    <div class="desktop-page__icon margin-3"></div>
-
-    <h3 class="desktop-page__text-center desktop-page__title basic-700 margin-2"
-        w-i18n="title"></h3>
-
-    <div class="desktop-page__text-center desktop-page__message body-2 basic-500 margin-3"
-         w-i18n="message"></div>
-
-    <div class="text-center margin-3 basic-500">
-        <w-checkbox-submit class="checkbox-submit" id="openLinkViaDesktop" ng-model="$ctrl.openLinkViaDesktop"></w-checkbox-submit>
-        <label class="checkbox-input__label body-2 margin-05" for="openLinkViaDesktop" w-i18n-ns="app.welcome" w-i18n="openViaDesktop"></label>
-    </div>
-
-    <w-button on-click="$ctrl.openMainPage()"
-              class="big submit margin-4 headline-2 desktop-page__button">
-        <span w-i18n="back"></span>
-    </w-button>
 </div>
+<w-footer></w-footer>
+

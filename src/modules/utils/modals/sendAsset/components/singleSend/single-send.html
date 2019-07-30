@@ -115,6 +115,14 @@
         </div>
     </div>
 
+    <div ng-if="$ctrl.outerSendMode && $ctrl.gatewayWrongAddress" class="row">
+        <div class="plate-warning server-error">
+            <div class="body-2 warning-500 margin-05"
+                 w-i18n="modal.receive.serverWrongAddress">
+            </div>
+        </div>
+    </div>
+
     <div ng-if="$ctrl.outerSendMode && $ctrl.isMoneroNotIntegratedAddress() && !$ctrl.gatewayError">
         <div class="body-2 margin-05" w-i18n="modal.send.moneroPaymentId"></div>
         <w-input-container class="row">

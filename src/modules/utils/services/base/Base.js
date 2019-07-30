@@ -50,12 +50,15 @@
                  * @type {IBaseSignals}
                  */
                 this.signals = {
-                    destroy: new tsUtils.Signal()
+                    destroy: new tsUtils.Signal(),
+                    logout: new tsUtils.Signal()
                 };
                 /**
                  * @type {string}
                  */
                 this.cid = tsUtils.uniqueId('base');
+
+                this.receive(user.logoutSignal, this.signals.logout.dispatch, this.signals.logout);
             }
 
             /**
@@ -177,10 +180,14 @@
                         });
 
                         if (user.changeSetting) {
-                            this.receive(user.changeSetting, (path) => {
+                            const handler = (path) => {
                                 if (path === settingsPath) {
                                     this[name] = user.getSetting(path);
                                 }
+                            };
+                            this.receive(user.changeSetting, handler);
+                            this.receiveOnce(user.logoutSignal, () => {
+                                this.stopReceive(user.logoutSignal, handler);
                             });
                         }
 

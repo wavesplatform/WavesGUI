@@ -257,6 +257,20 @@
 
                 <div class="row margin-1 asset-filter">
                     <div class="footnote-1 basic-500 label">
+                        <span w-i18n="modal.settings.network.assetNameFilter"></span>
+                        <a class="settings-copy" w-copy="$ctrl.tokensNameListUrl" w-i18n="modal.settings.network.copy"></a>
+                    </div>
+
+                    <div class="data-field has-helper">
+                        <w-input ng-model="$ctrl.tokensNameListUrl"></w-input>
+                        <w-help-icon class="info">
+                            <div class="help-icon__row headline-3" w-i18n="modal.settings.network.assetNameFilterHelp"></div>
+                        </w-help-icon>
+                    </div>
+                </div>
+
+                <div class="row margin-1 asset-name-filter">
+                    <div class="footnote-1 basic-500 label">
                         <span w-i18n="modal.settings.network.spamFilter"></span>
                         <a class="settings-copy" w-copy="$ctrl.scamListUrl" w-i18n="modal.settings.network.copy"></a>
                     </div>
@@ -265,7 +279,6 @@
                         <w-input ng-model="$ctrl.scamListUrl"></w-input>
                         <w-help-icon class="info">
                             <div class="help-icon__row headline-3" w-i18n="modal.settings.network.spamListHelp"></div>
-                            <div class="help-icon__row" w-i18n="modal.settings.network.forDisableClear"></div>
                         </w-help-icon>
                     </div>
                 </div>

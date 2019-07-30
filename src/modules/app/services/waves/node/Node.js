@@ -62,7 +62,7 @@
              */
             isValidAddressWithNetworkByte(address, byte) {
                 try {
-                    return ds.isValidAddress(address, byte);
+                    return ds.isValidAddress(address, Node.toByte(byte));
                 } catch (e) {
                     return false;
                 }
@@ -74,6 +74,14 @@
             height() {
                 return ds.fetch(`${this.node}/blocks/height`)
                     .then((res) => res.height);
+            }
+
+            /**
+             * @param {string | number} data
+             * @returns {number}
+             */
+            static toByte(data) {
+                return typeof data === 'number' ? data : data.charCodeAt(0);
             }
 
         }
