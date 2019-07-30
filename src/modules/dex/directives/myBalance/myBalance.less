@@ -11,6 +11,9 @@ body.dex-demo .dex-wrapper {
     }
 
     .smart-table {
+      .to-dex-link {
+        cursor: default;
+      }
       &__row {
         padding: 6px 14px;
       }
@@ -40,6 +43,31 @@ body.dex-demo .dex-wrapper {
         display: none;
       }
 
+      &__cell[data-column-id="asset"] {
+        display: flex;
+        align-items: center;
+      }
+
+      w-copy-wrap {
+        border: 0 none;
+        border-radius: 0;
+        height: 18px;
+        background-color: transparent;
+        width: 100%;
+
+        .container {
+          padding: 0;
+          cursor: pointer;
+          font-size: @font-size-caption-2;
+          line-height: inherit;
+          display: inline-block;
+          width: auto;
+          text-overflow: ellipsis;
+          overflow: hidden;
+
+          @media screen and (min-width: 1025px) and (max-width: 1550px) {
+            max-width: 250px;
+          }
       @media screen and (min-width: 1025px) and (max-width: 1550px) {
         max-width: 250px;
       }
@@ -59,9 +87,6 @@ body.dex-demo .dex-wrapper {
     }
 
     w-asset-logo {
-      display: inline-block;
-      vertical-align: middle;
-      margin-top: -3px;
       margin-right: 10px;
       cursor: pointer;
     }
