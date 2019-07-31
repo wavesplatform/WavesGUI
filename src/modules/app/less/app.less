@@ -74,7 +74,8 @@ body.saveSeed,
 body.create,
 body.restore,
 body.import,
-body.ledger {
+body.ledger,
+body.desktop {
   .main-container {
     min-height: calc(100vh ~'- 60px');
     flex-shrink: 0;
@@ -188,6 +189,7 @@ w-scroll-box {
 .main-content {
   transition: .5s;
   position: relative;
+  z-index: 5;
   width: 100%;
   min-height: 355px;
   min-width: 320px;

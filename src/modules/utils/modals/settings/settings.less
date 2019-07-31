@@ -151,6 +151,7 @@ md-dialog.settings-modal {
       overflow: auto;
 
       .info {
+
         .row-style:first-child {
           margin-top: -7px;
         }
@@ -254,16 +255,21 @@ md-dialog.settings-modal {
   }
 
   .asset-verification {
-    z-index: 3;
+    z-index: 4;
     position: relative;
   }
 
   .asset-api {
-    z-index: 2;
+    z-index: 3;
     position: relative;
   }
 
   .asset-filter {
+    z-index: 2;
+    position: relative;
+  }
+
+  .asset-name-filter {
     z-index: 1;
     position: relative;
   }
@@ -288,8 +294,7 @@ md-dialog.settings-modal {
         position: absolute;
         top: 50%;
         right: 26px;
-        transform: translateY(-50%);
-        z-index: 1;
+        transform: translateY(-50%) translate3d(0, 0, 0);
       }
 
     input {

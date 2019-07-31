@@ -11,13 +11,12 @@
     /**
      * @param {app.utils} utils
      * @param {app.utils.decorators} decorators
-     * @param {app.i18n} i18n
      * @param {User} user
      * @param {PollCache} PollCache
      * @param {ConfigService} configService
      * @return {Matcher}
      */
-    const factory = function (utils, decorators, i18n, user, PollCache, configService) {
+    const factory = function (utils, decorators, user, PollCache, configService) {
 
         /**
          * @class
@@ -32,13 +31,10 @@
             constructor() {
                 this._orderBookCacheHash = Object.create(null);
 
-                user.onLogin().then(() => {
-                    user.changeSetting.on((path) => {
-                        if (path === 'network.matcher') {
-                            this._updateCurrentMatcherAddress();
-                        }
-                    });
-                });
+                user.onLogin().then(
+                    () => this._handleLogin(),
+                    () => this._handleLogout()
+                );
 
                 this._updateCurrentMatcherAddress();
             }
@@ -273,7 +269,7 @@
                             });
                         }
 
-                        throw new Error('Matcher settings is incorrect');
+                        throw new Error('Matcher settings are incorrect');
                     })
                     .catch(() => {
                         return this.getCreateOrderFee({
@@ -357,12 +353,34 @@
                 });
             }
 
+            /**
+             * @private
+             */
+            _handleLogin() {
+                user.changeSetting.on(this._onUserChangeSetting, this);
+                user.logoutSignal.once(this._handleLogout, this);
+            }
+
+            /**
+             * @private
+             */
+            _handleLogout() {
+                user.changeSetting.off(this._onUserChangeSetting);
+                user.loginSignal.once(this._handleLogin, this);
+            }
+
+            _onUserChangeSetting(path) {
+                if (path === 'network.matcher') {
+                    this._updateCurrentMatcherAddress();
+                }
+            }
+
         }
 
         return new Matcher();
     };
 
-    factory.$inject = ['utils', 'decorators', 'i18n', 'user', 'PollCache', 'configService'];
+    factory.$inject = ['utils', 'decorators', 'user', 'PollCache', 'configService'];
 
     angular.module('app').factory('matcher', factory);
 })();

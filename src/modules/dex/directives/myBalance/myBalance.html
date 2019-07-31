@@ -19,8 +19,8 @@
         <w-table-row ng-cloak w-toggle-class-container>
             <w-table-cell ng-click="$ctrl.setPair(balance.asset.id)">
                 <w-asset-logo ng-cloak class="asset-logo asset-logo_marker-hide" size="20" asset-id="{{::balance.asset.id}}"></w-asset-logo>
-                <span ng-class="{underline: !$ctrl.isSelected(balance.asset)}">
-                <a ng-cloak href="#">{{::balance.asset.name}}</a>
+                <span ng-class="{underline: !$ctrl.isSelected(balance.asset) && !$ctrl.isLockedPair(balance.asset.id)}">
+                <a ng-class="{'to-dex-link': $ctrl.isLockedPair(balance.asset.id)}" ng-cloak href="#">{{::balance.asset.name}}</a>
             </span>
             </w-table-cell>
             <w-table-cell>
