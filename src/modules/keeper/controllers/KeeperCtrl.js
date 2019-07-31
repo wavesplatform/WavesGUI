@@ -65,6 +65,7 @@
 
             constructor() {
                 super($scope);
+                this.adapter.onUpdate((state) => this.onUpdateState(state));
                 this.getUsers();
             }
 
@@ -99,6 +100,14 @@
                 }
 
                 this.error = true;
+            }
+
+            onUpdateState() {
+                if (this.loading) {
+                    return;
+                }
+                clearTimeout(this._time);
+                this._time = setTimeout(() => this.getUsers(), 500);
             }
 
             /**
