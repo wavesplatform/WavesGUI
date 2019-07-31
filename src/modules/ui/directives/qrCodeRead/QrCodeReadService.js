@@ -271,8 +271,8 @@
                         this._video.style.transform = `scale(${factor}) translate(-50%, -50%)`;
                         this._video.style.transformOrigin = '0 0';
 
-                        this._canvas.width = this.size.width * (1 / factor);
-                        this._canvas.height = this.size.height * (1 / factor);
+                        this._canvas.width = 170 / factor;
+                        this._canvas.height = 170 / factor;
 
                         this.onHasSize.dispatch({ ...this.size });
                         this._video.removeEventListener('loadedmetadata', handler, false);

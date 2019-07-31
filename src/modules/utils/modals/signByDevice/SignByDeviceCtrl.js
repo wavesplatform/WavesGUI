@@ -61,7 +61,7 @@
 
                 if (this.txData.price) {
                     this.total = this.txData.price.cloneWithTokens(
-                        this.txData.price.getTokens().times(this.txData.amount.getTokens())
+                        this.txData.price.getTokens().mul(this.txData.amount.getTokens())
                     );
                 }
 

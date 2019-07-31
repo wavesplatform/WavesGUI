@@ -41,36 +41,15 @@
             constructor() {
                 super();
                 this.hovered = false;
-                this.address = user.address || '3PHBX4uXhCyaANUxccLHNXw3sqyksV7YnDz';
-                this.isLogined = !!user.address;
-                this.userName = user.name;
-                this.userType = user.userType;
-
                 this.isDesktop = WavesApp.isDesktop();
-
-                this.isScript = user.hasScript();
-                this.isKeeper = user.userType === 'wavesKeeper';
-                this.isLedger = user.userType === 'ledger';
-
-                this.hasTypeHelp = this.isScript && (this.isLedger || this.isKeeper);
-
-                user.getFilteredUserList().then(list => {
-                    this.userList = list;
-                    utils.postDigest($scope).then(() => {
-                        this._initFader();
-                        this._initClickHandlers();
-                        $scope.$apply();
-                    });
-                });
-
-
+                this._resetUserFields();
                 this.largeTemplate = `${PATH}/largeHeader.html`;
                 this.mobileTemplate = `${PATH}/mobileHeader.html`;
-            }
 
-
-            $postLink() {
-                this._initClickHandlers();
+                user.onLogin().then(
+                    () => this._handleLogin(),
+                    () => this._handleLogout()
+                );
             }
 
             $onDestroy() {
@@ -82,7 +61,7 @@
              * @public
              */
             logout() {
-                user.logout();
+                user.logout('welcome');
             }
 
             /**
@@ -110,17 +89,73 @@
             }
 
             /**
-             * public
+             * @public
              */
             removeInnerMenu() {
                 $document.find('w-site-header header').removeClass('show-wallet show-aliases show-downloads');
             }
 
             /**
-             * public
+             * @public
              */
             removeBodyClass() {
                 $document.find('body').removeClass('menu-is-shown');
+            }
+
+            /**
+             * @public
+             */
+            initClickHandlers() {
+                $element.find('.mobile-menu-toggler').on('click', () => {
+                    $element.find('header').toggleClass('expanded');
+                    $document.find('body').toggleClass('menu-is-shown');
+                });
+                $element.find('.mobile-menu-fader').on('click', () => {
+                    $element.find('header').removeClass('expanded');
+                    $document.find('body').removeClass('menu-is-shown');
+                });
+            }
+
+            /**
+             * @private
+             */
+            _handleLogin() {
+                this._resetUserFields();
+
+                utils.postDigest($scope).then(() => {
+                    this._initFader();
+                    $scope.$apply();
+                });
+
+                user.getFilteredUserList().then(list => {
+                    this.userList = list;
+                });
+
+                user.logoutSignal.once(this._handleLogout, this);
+            }
+
+            /**
+             * @private
+             */
+            _handleLogout() {
+                this._resetUserFields();
+
+                user.loginSignal.once(this._handleLogin, this);
+            }
+
+            /**
+             * @private
+             */
+            _resetUserFields() {
+                this.address = user.address || '3PHBX4uXhCyaANUxccLHNXw3sqyksV7YnDz';
+                this.isLogined = !!user.address;
+                this.userName = user.name;
+                this.userType = user.userType;
+                this.isScript = user.hasScript();
+                this.isKeeper = user.userType === 'wavesKeeper';
+                this.isLedger = user.userType === 'ledger';
+                this.hasTypeHelp = this.isScript && (this.isLedger || this.isKeeper);
+                this.userList = [];
             }
 
             /**
@@ -148,20 +183,6 @@
                             click: success
                         }
                     ]
-                });
-            }
-
-            /**
-             * @private
-             */
-            _initClickHandlers() {
-                $element.find('.mobile-menu-toggler').on('click', () => {
-                    $element.find('header').toggleClass('expanded');
-                    $document.find('body').toggleClass('menu-is-shown');
-                });
-                $element.find('.mobile-menu-fader').on('click', () => {
-                    $element.find('header').removeClass('expanded');
-                    $document.find('body').removeClass('menu-is-shown');
                 });
             }
 
