@@ -1,0 +1,78 @@
+@import (reference) "../../../../app/less/typography";
+@import (reference) 'config';
+@import (reference) 'icons';
+
+.dex-layout {
+  &__column_orderbook {
+    width: @dexLayoutOrderBook;
+    max-height: calc(100% ~'- 325px');
+    right: 0;
+    transition: .3s;
+    margin-left: 5px;
+    border-radius: @border-radius / 2;
+    background: @color-white;
+    display: flex;
+    flex-shrink: 0;
+
+    .dex-layout {
+      &__sidebar-toggle {
+        position: absolute;
+        display: none;
+        left: 1px;
+        border-right: 1px solid @color-basic-100;
+      }
+    }
+
+    .dex-layout {
+      &__block[data-block="orderbook"] {
+        transition: .3s;
+        height: calc(100% ~'- 200px');
+
+        .empty-block,
+        .error-block {
+          transform: translate(-50%, 0%);
+          top: 90px;
+        }
+
+        .block-wrapper,
+        .scroll-box {
+          background: none transparent;
+        }
+      }
+
+      &__block[data-block="tradevolume"] {
+        transition: .3s;
+        height: 186px;
+        bottom: 0;
+        position: absolute;
+        z-index: 6;
+
+        .block-title {
+          border-top: 1px solid @color-basic-100;
+        }
+
+        .dex-block-top-btn:last-child {
+          display: none;
+        }
+      }
+    }
+  }
+
+  &_orderbook-collapsed {
+    .dex-layout {
+      &__column_orderbook {
+        transform: translateX(100%);
+      }
+
+      &__column_candlechart {
+        width: calc(~'100%' - (@dexLayoutWatchlist + @dexLayoutGap));
+
+        .dex-layout {
+          &__sidebar-toggle-right div::after {
+            transform: rotate(90deg);
+          }
+        }
+      }
+    }
+  }
+}

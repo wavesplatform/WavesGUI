@@ -1,0 +1,334 @@
+@import (reference) "../../../../app/less/typography";
+@import (reference) 'config';
+@import (reference) 'icons';
+
+.dex-layout {
+  &__column_tradehistory {
+    max-height: 320px;
+    min-height: 320px;
+    bottom: 0;
+    left: 0;
+    width: calc(~'100%' - (@dexLayoutOrderBook + @dexLayoutGap));
+    border-radius: @border-radius / 2;
+    transition: .3s !important;
+
+    .block-title {
+      display: none;
+    }
+
+    .sign-in-message {
+      position: absolute;
+      display: inline-block;
+      text-align: center;
+      max-width: 90%;
+      width: 100%;
+      top: 50%;
+      transform: translate(5%, -50%);
+      color: @color-basic-500;
+    }
+
+    .tabs {
+      ::-webkit-scrollbar {
+        height: 0;
+      }
+      :hover::-webkit-scrollbar {
+        height: 0;
+      }
+      ::-webkit-scrollbar-thumb {
+        height: 0;
+      }
+      ::-webkit-scrollbar-thumb:window-inactive {
+        height: 0;
+      }
+
+      .tab-tem {
+        overflow-x: auto;
+      }
+
+      .tab-body-wrap {
+        height: calc(100% ~'- 39px');
+      }
+
+      .titles-wrap {
+        overflow-y: hidden;
+        overflow-x: auto;
+        height: 39px;
+        padding: 0;
+        display: flex;
+        position: relative;
+
+        &::before {
+          display: none;
+        }
+
+        &:after {
+          content: '';
+          display: block;
+          position: absolute;
+          width: 100%;
+          height: 1px;
+          left: 0;
+          bottom: 0;
+          background: @color-basic-100;
+        }
+
+        .title {
+          color: @color-basic-700;
+          height: 38px;
+          font-size: 13px;
+          margin: 0;
+          padding: 0 20px;
+          line-height: 40px;
+          border: 0 none;
+          font-family: @font-roboto-medium;
+          position: relative;
+          border-left: 1px solid transparent;
+          border-right: 1px solid transparent;
+          white-space: nowrap;
+
+          &.active:first-child {
+            border-left: 1px solid @color-white;
+          }
+
+          &.active {
+            color: @color-basic-700;
+            background: @color-white;
+            border-bottom: 1px solid @color-white;
+            border-right: 1px solid @color-disabled-200;
+            border-left: 1px solid @color-disabled-200;
+
+            &::before {
+              display: block;
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              content: '';
+              height: 2px;
+              background: @color-submit-400;
+            }
+
+            &:after {
+              position: absolute;
+              bottom: -2px;
+              height: 2px;
+              width: 100%;
+              left: 0;
+              content: '';
+              display: block;
+              z-index: 1;
+              background: @color-white;
+            }
+          }
+        }
+      }
+
+      .tabs-myOrderHistory {
+        .smart-table {
+          &__cell {
+            .decimal-muted {
+              color: @color-basic-900;
+            }
+          }
+        }
+      }
+
+      .smart-table {
+        &__w-thead {
+          z-index: 3;
+
+          .smart-table {
+            &__row {
+              &:last-child {
+                margin-bottom: 0;
+              }
+            }
+
+            &__cell {
+              height: 28px;
+              line-height: 28px;
+
+              &[data-column-id="controls"] {
+                overflow: visible;
+              }
+            }
+          }
+        }
+
+        &__w-tbody {
+          .smart-table {
+            &__row {
+              a {
+                color: @color-disabled-900;
+              }
+
+              &:hover {
+                background-color: @dex-selected-item-bg;
+
+                .underline {
+                  a {
+                    display: inline-block;
+                    position: relative;
+
+                    &:after {
+                      display: block;
+                      height: 1px;
+                      border-bottom: 1px dashed @color-basic-400;
+                      position: absolute;
+                      content: '';
+                      bottom: 0;
+                      width: 100%;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        .status {
+          margin-top: 3px;
+          .tag-3();
+
+          .progress-bar {
+            width: 100%;
+            height: 2px;
+            margin-top: 2px;
+
+            .progress-fill {
+              max-width: 100%;
+              height: 2px;
+            }
+          }
+        }
+
+        // status and type colors
+        &__row {
+
+          &.buy {
+            .smart-table {
+
+              &__cell[data-column-id="pair"] {
+                span.status-mobile {
+                  color: @color-submit-400;
+                  background: @color-submit-50;
+                }
+              }
+
+              &__cell[data-column-id="type"],
+              &__cell[data-column-id="status"] {
+                color: @color-submit-400;
+
+                .progress-bar {
+                  background: @color-bluebar-400;
+
+                  .progress-fill {
+                    background: @color-bluebar-1000;
+                  }
+                }
+              }
+            }
+          }
+
+          &.sell {
+            .smart-table {
+
+              &__cell[data-column-id="pair"] {
+                span.status-mobile {
+                  color: @color-error-500;
+                  background: @color-error-100;
+                }
+              }
+
+              &__cell[data-column-id="type"],
+              &__cell[data-column-id="status"] {
+                color: @color-error-500;
+
+                .progress-bar {
+                  background: @color-redbar-400;
+
+                  .progress-fill {
+                    background: @color-redbar-1000;
+                  }
+                }
+              }
+            }
+          }
+
+          &.cancelled {
+            color: @color-disabled-500;
+
+            .progress-fill {
+              display: none;
+            }
+
+            &.sell {
+              .smart-table {
+                &__cell[data-column-id="type"],
+                &__cell[data-column-id="status"] {
+                  color: @color-error-200;
+
+                  .progress-bar {
+                    background: @color-error-100;
+                  }
+                }
+              }
+            }
+
+            &.buy {
+              .smart-table {
+                &__cell[data-column-id="type"],
+                &__cell[data-column-id="status"] {
+                  color: @color-submit-200;
+
+                  .progress-bar {
+                    background: @color-submit-50;
+                  }
+                }
+              }
+            }
+          }
+
+          .smart-table__cell {
+            .cancelled {
+              opacity: .5;
+            }
+          }
+        }
+        // end
+
+        &__row {
+          position: relative;
+          display: flex;
+          justify-content: space-between;
+
+          .dropdown {
+            display: none;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            right: 4px;
+            top: 1px;
+            background: url(/img/icons/dex-toggle.svg) center no-repeat;
+            background-size: 10px;
+          }
+        }
+
+        .order-row:last-child {
+          margin-bottom: 10px;
+        }
+
+        &__cell {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+
+          .decimal-muted {
+            color: @color-basic-500;
+          }
+        }
+      }
+    }
+  }
+}

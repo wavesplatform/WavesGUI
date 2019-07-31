@@ -1,0 +1,19 @@
+@import (reference) "../../../../app/less/typography";
+@import (reference) 'config';
+@import (reference) 'icons';
+
+.dex-layout {
+  &__column_createorder {
+    max-height: 320px;
+    min-height: 320px;
+    bottom: 0;
+    right: 0;
+    width: @dexLayoutCreateOrder;
+    background-color: transparent;
+    border-radius: @border-radius / 2;
+
+    .block-title {
+      display: none;
+    }
+  }
+}

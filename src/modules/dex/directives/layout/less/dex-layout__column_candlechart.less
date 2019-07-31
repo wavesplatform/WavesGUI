@@ -1,0 +1,23 @@
+@import (reference) "../../../../app/less/typography";
+@import (reference) 'config';
+@import (reference) 'icons';
+
+.dex-layout {
+  &__column_candlechart {
+    width: calc(~'100%' - (@dexLayoutWatchlist + @dexLayoutOrderBook + @dexLayoutGap * 2));
+    max-height: calc(100% ~'- 325px');
+    position: absolute;
+    border-radius: @border-radius / 2;
+    display: flex;
+    transition: .3s;
+    transform: translateX((@dexLayoutWatchlist + @dexLayoutGap));
+
+    .block-title {
+      display: none;
+    }
+
+    .dex-layout__block {
+      height: 100%;
+    }
+  }
+}
