@@ -158,7 +158,7 @@ w-dex-my-orders {
           padding: 6px 14px;
 
           &.can-expand {
-            .smart-table {
+            .smart-table {.progress-precents
               &__cell[data-column-id="status"] {
                 cursor: pointer;
               }
@@ -177,6 +177,41 @@ w-dex-my-orders {
             }
           }
 
+          &.disabled {
+            .smart-table__cell {
+              opacity: 0.4;
+            }
+            .smart-table__cell.cell_stop {
+              opacity: 1;
+            }
+            .cell_set-pair {
+              cursor: default;
+              a {
+                cursor: default;
+              }
+            }
+
+            &:hover {
+              background: @color-white;
+              .cell_set-pair {
+                a::after{
+                  display: none;
+                }
+              }
+
+              .tooltip-dex {
+                display: flex;
+              }
+            }
+          }
+        }
+      }
+
+      .order-details {
+        background: @color-basic-50;
+
+        &:hover {
+          background-color: @color-basic-100;
         }
       }
     }
@@ -211,6 +246,10 @@ w-dex-my-orders {
       }
     }
 
+    &__cell[data-column-id="fee"] {
+      flex-basis: 135px;
+    }
+
     &__cell[data-column-id="pair"] {
       padding-left: 0;
       flex-basis: 160px;
@@ -234,6 +273,11 @@ w-dex-my-orders {
     &__cell[data-column-id="time"],
     &__cell[data-column-id="type"] {
       text-align: right;
+    }
+
+    &__cell[data-column-id="controls"] {
+      flex-grow: 0;
+      padding-right: 0;
     }
 
     .stop {
@@ -306,6 +350,7 @@ w-dex-my-orders {
             height: 36px;
             width: 36px;
             font-size: 0;
+            flex-basis: auto;
           }
 
           &[data-column-id="pair"] {
@@ -341,7 +386,7 @@ w-dex-my-orders {
           }
 
           &[data-column-id="pair"] {
-            flex-basis: 0;
+            flex-basis: auto;
             flex-grow: 0;
             max-width: 44%;
             margin-right: 10px;
@@ -352,7 +397,7 @@ w-dex-my-orders {
           }
 
           &[data-column-id="time"] {
-            flex-basis: auto;
+            flex-basis: 50%;
             margin-left: auto;
             flex-grow: 0;
           }
@@ -387,7 +432,7 @@ w-dex-my-orders {
       }
 
       .progress-precents {
-        height: 20px;
+        height: 15px;
         align-items: center;
         padding: 0 5px;
         border-radius: 2px;
@@ -558,18 +603,27 @@ body.dex-demo {
   }
 }
 
-body.dex .dex-wrapper,
-body.dex-demo .dex-wrapper {
-  .tabs-myOrderHistory {
-    .smart-table__w-tbody {
-      .smart-table__cell {
-        &:not(:first-child):nth-child(odd) {
-          &,
-          .decimal-muted {
-            color: @color-basic-600;
+@media screen and (min-width: 1191px) {
+  body.dex .dex-wrapper,
+  body.dex-demo .dex-wrapper {
+    .tabs-myOrderHistory {
+      .smart-table__w-tbody {
+        .smart-table__cell {
+          &:not(:first-child):nth-child(odd) {
+            &,
+            .decimal-muted {
+              color: @color-basic-600;
+            }
           }
         }
       }
     }
+  }
+}
+
+@media screen and (max-width: 660px) {
+body.dex,
+body.dex-demo {
+  ui-view[name="main"] {overflow: hidden;}
   }
 }

@@ -19,7 +19,7 @@ import {
 import { contains } from 'ts-utils';
 import { TRANSACTION_TYPE_NUMBER } from '@waves/signature-adapter';
 import { pipe, prop, uniqBy } from 'ramda';
-import { ExchangeTxFilters, Transaction } from '@waves/data-service-client-js';
+import { IExchangeTxFilters, ITransaction } from '@waves/data-service-client-js';
 
 
 const DEFAULT_GET_TRANSACTIONS_OPTIONS: IGetExchangeOptions = Object.assign(Object.create(null), {
@@ -36,11 +36,11 @@ export function list(address: string, limit = 100, after: string): Promise<Array
     )).then(transactions => parseTx(transactions as any, false));
 }
 
-export function getExchangeTxList(requestParams: ExchangeTxFilters = Object.create(null), options?: IGetExchangeOptions): Promise<Array<IExchange>> {
+export function getExchangeTxList(requestParams: IExchangeTxFilters = Object.create(null), options?: IGetExchangeOptions): Promise<Array<IExchange>> {
 
     options = Object.assign(Object.create(null), DEFAULT_GET_TRANSACTIONS_OPTIONS, options);
 
-    const getData = (response: { data: Transaction[], fetchMore?: () => any }, result: Array<Transaction[]>) => {
+    const getData = (response: { data: ITransaction[], fetchMore?: () => any }, result: Array<ITransaction[]>) => {
         result = result.concat(response.data);
         if (!options.getAll) {
             return result;

@@ -25,10 +25,11 @@
      * @param {JQuery} $element
      * @param {ModalManager} modalManager
      * @param {ConfigService} configService
+     * @param {Matcher} matcher
      * @returns {WatchList}
      */
     const controller = function (Base, $scope, utils, waves, stService, PromiseControl, createPoll, $element,
-                                 modalManager, configService) {
+                                 modalManager, configService, matcher) {
 
         const {
             equals, uniq, not,
@@ -137,6 +138,12 @@
              */
             _poll;
 
+            /**
+             * @type {array}
+             * @private
+             */
+            _lockedPairs = [];
+
 
             constructor() {
                 super($scope);
@@ -174,7 +181,7 @@
                     {
                         id: 'price',
                         title: { literal: 'directives.watchlist.price' },
-                        sort: this._getComparatorByPath('price')
+                        sort: this._getComparatorByPath('lastPrice')
                     },
                     {
                         id: 'change',
@@ -246,6 +253,10 @@
                     this._assetIdPair.price === pairData.priceAsset.id;
             }
 
+            isLockedPair(amountAssetId, priceAssetId) {
+                return utils.isLockedInDex(amountAssetId, priceAssetId);
+            }
+
             /**
              * @param {WatchList.IPairDataItem} pairData
              */
@@ -254,6 +265,9 @@
                     amount: pairData.amountAsset.id,
                     price: pairData.priceAsset.id
                 };
+                if (this.isLockedPair(pair.amount, pair.price)) {
+                    return null;
+                }
                 this._isSelfSetPair = true;
                 this._assetIdPair = pair;
                 this._isSelfSetPair = false;
@@ -375,7 +389,9 @@
                         this.loadingError = false;
                         return pairs.map(WatchList._addRateForPair(rate));
                     })
-                    .catch(() => (this.loadingError = true));
+                    .catch(() => {
+                        this.loadingError = true;
+                    });
             }
 
             /**
@@ -740,7 +756,7 @@
                     })
                     .then((pairs) => {
                         const promiseList = splitEvery(20, pairs).map((pairs) => {
-                            return ds.api.pairs.info(...pairs)
+                            return ds.api.pairs.info(matcher.currentMatcherAddress, pairs)
                                 .then(infoList => infoList.map((data, i) => ({
                                     ...data,
                                     pairNames:
@@ -823,7 +839,8 @@
         'createPoll',
         '$element',
         'modalManager',
-        'configService'
+        'configService',
+        'matcher'
     ];
 
     angular.module('app.dex')

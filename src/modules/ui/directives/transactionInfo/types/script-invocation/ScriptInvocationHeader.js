@@ -3,8 +3,9 @@
 
     angular.module('app.ui').component('wScriptInvocationHeader', {
         bindings: {
-            signable: '<'
+            typeName: '<'
         },
         templateUrl: 'modules/ui/directives/transactionInfo/types/script-invocation/script-invocation-header.html'
     });
 })();
+
