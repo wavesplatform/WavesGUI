@@ -66,7 +66,11 @@
              * @public
              */
             logout() {
-                user.logout('welcome');
+                if (this.isDesktop) {
+                    user.logout('signIn');
+                } else {
+                    user.logout('welcome');
+                }
             }
 
             /**
