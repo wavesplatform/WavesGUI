@@ -11,6 +11,9 @@ body.dex-demo .dex-wrapper {
     }
 
     .smart-table {
+      .to-dex-link {
+        cursor: default;
+      }
       &__row {
         padding: 6px 14px;
       }
@@ -38,6 +41,11 @@ body.dex-demo .dex-wrapper {
 
       &__cell[data-column-id="controls"] {
         display: none;
+      }
+
+      &__cell[data-column-id="asset"] {
+        display: flex;
+        align-items: center;
       }
 
       w-copy-wrap {
@@ -95,9 +103,6 @@ body.dex-demo .dex-wrapper {
     }
 
     .asset-logo {
-      display: inline-block;
-      vertical-align: middle;
-      margin-top: -3px;
       margin-right: 10px;
       cursor: pointer;
     }

@@ -39,6 +39,7 @@
         SUSPICIOUS_LABEL: 'js-suspicious-label'
     };
 
+    const i18next = require('i18next');
     const ds = require('data-service');
     /**
      * @param Base
@@ -270,15 +271,16 @@
              */
             _getCanShowDex() {
                 const statusPath = ['assets', this.balance.asset.id, 'status'];
-
-                return this.balance.isPinned ||
+                const isAssetLockedInDex = utils.isLockedInDex(this.balance.asset.id);
+                return !isAssetLockedInDex &&
+                    (this.balance.isPinned ||
                     this._isMyAsset ||
                     this.balance.asset.isMyAsset ||
                     this.balance.asset.id === WavesApp.defaultAssets.WAVES ||
                     this.gatewayService.getPurchasableWithCards()[this.balance.asset.id] ||
                     this.gatewayService.getCryptocurrencies()[this.balance.asset.id] ||
                     this.gatewayService.getFiats()[this.balance.asset.id] ||
-                    path(statusPath, ds.dataManager.getOracleData('oracleWaves')) === STATUS_LIST.VERIFIED;
+                    path(statusPath, ds.dataManager.getOracleData('oracleWaves')) === STATUS_LIST.VERIFIED);
 
             }
 
@@ -341,18 +343,18 @@
 
                 this.waves.utils.getRate(balance.asset.id, baseAssetId)
                     .then(rate => {
-                        const baseAssetBalance = balance.available.getTokens().times(rate).toFormat(2);
+                        const baseAssetBalance = balance.available.getTokens().mul(rate).toFormat(2);
 
                         this.node.querySelector(`.${SELECTORS.EXCHANGE_RATE}`).innerHTML = rate.toFixed(2);
                         this.node.querySelector(`.${SELECTORS.BASE_ASSET_BALANCE}`).innerHTML = baseAssetBalance;
                     });
 
                 const startDate = this.utils.moment().add().day(-7);
-                this.waves.utils.getRateHistory(balance.asset.id, baseAssetId, startDate).then((values) => {
+                this.waves.utils.getRateHistory(balance.asset.id, baseAssetId, startDate).then(values => {
                     this.chart = new this.ChartFactory(
                         this.$node.find(`.${SELECTORS.CHART_CONTAINER}`),
                         this.chartOptions,
-                        values
+                        values.map(item => ({ ...item, rate: Number(item.rate.toFixed()) }))
                     );
                 }).catch(() => null);
 
@@ -439,7 +441,7 @@
                         params: { Currency: this.balance.asset.id },
                         target: 'ui'
                     });
-                    this.modalManager.showReceiveModal(this.user, this.balance.asset);
+                    this.modalManager.showReceiveModal(this.balance.asset);
                 });
 
                 this.$node.on('click', `.${SELECTORS.BUTTONS.TOGGLE_SPAM}`, () => {
@@ -466,7 +468,7 @@
                         params: { Currency: this.balance.asset.id },
                         target: 'ui'
                     });
-                    this.modalManager.showReceiveModal(this.user, this.balance.asset);
+                    this.modalManager.showReceiveModal(this.balance.asset);
                 });
 
                 this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.BURN}`, () => {
@@ -604,7 +606,7 @@
                 const inOrders = this.balance.inOrders.getTokens();
                 const leasedOut = this.balance.leasedOut.getTokens();
                 const availableHtml = this.utils.getNiceNumberTemplate(available, asset.precision, true);
-                const inReservedHtml = this.utils.getNiceNumberTemplate(inOrders.plus(leasedOut), asset.precision);
+                const inReservedHtml = this.utils.getNiceNumberTemplate(inOrders.add(leasedOut), asset.precision);
                 this.node.querySelector(`.${SELECTORS.AVAILABLE}`).innerHTML = availableHtml;
                 this.node.querySelector(`.${SELECTORS.IN_RESERVED}`).innerHTML = inReservedHtml;
             }
