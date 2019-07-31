@@ -78,7 +78,7 @@
             }
 
             $postLink() {
-                this._header = $element.find('.smart-table__w-thead');
+                this._header = $element.find('.smart-table__thead');
             }
 
             $onDestroy() {
