@@ -690,14 +690,14 @@
                         return null;
                     }
 
-                    const $body = $element.find('.smart-table__w-tbody');
+                    const $body = $element.find('.smart-table__tbody');
                     const scroll = $body.scrollTop();
                     const chosenOffset = $chosen.offset().top;
                     const bodyOffset = $body.offset().top;
 
                     const top = chosenOffset - bodyOffset + scroll - $body.height() / 2 + $chosen.height() / 2;
 
-                    $element.find('.smart-table__w-tbody').animate({
+                    $element.find('.smart-table__tbody').animate({
                         scrollTop: top
                     }, 300);
                 }, 300);
