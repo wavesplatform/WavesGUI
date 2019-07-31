@@ -34,7 +34,20 @@
             headers = [
                 {
                     id: 'asset',
-                    search: true,
+                    search: (key, value, list) => {
+                        const serachTxt = (key[value] || '').trim().toLowerCase();
+                        if (!serachTxt) {
+                            return list;
+                        }
+                        return list.filter(item => {
+                            const name = (
+                                item.asset.id +
+                                (item.asset.tiker || '') +
+                                (item.asset.name || ''))
+                                .toLowerCase();
+                            return name.includes(serachTxt);
+                        });
+                    },
                     sort: true,
                     placeholder: 'directives.filter',
                     valuePath: 'item.asset.displayName'
