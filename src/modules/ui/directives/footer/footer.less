@@ -3,8 +3,18 @@
 @import (reference) '../../../app/less/typography';
 
 .footer {
+  display: block;
+  background: @color-basic-900;
+
   &__wrap {
-    background: @color-basic-900;
+    max-width: 1440px;
+    color: @color-basic-600;
+    display: flex;
+    padding: 60px 80px;
+    font-size: 15px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
   }
   
   &__title {
@@ -16,36 +26,26 @@
 
   &__link {
     margin-bottom: 14px;
-    display: inline-block;
+    display: block;
     color: @color-basic-600;
     transition: color 0.3s;
 
     &:hover {
       color: @color-white;
     }
-  }
 
-  &__section {
-    &-wrapper {
-      max-width: 1440px;
-      color: @color-basic-600;
-      display: flex;
-      width: 100%;
-      padding: 60px 80px;
-      align-items: flex-start;
-      font-size: 15px;
-      margin: 0 auto;
-      position: relative;
-      z-index: 1;
+    &_support {
+      display: inline-block;
+      margin-bottom: 34px;
     }
   }
 
   &__right {
     display: flex;
-    width: calc(100% ~'- 250px');
+    flex: 1;
     padding-left: 150px;
     &-item {
-      flex-basis: 25%;
+      flex: 1;
     }
   }
 
@@ -55,14 +55,11 @@
 
   &__logo {
     margin-top: -8px;
-    background-position: left;
-    width: 105px;
-    cursor: default;
   }
 }
 
 @media screen and (max-width: 1340px) {
-  .footer__section-wrapper {
+  .footer__wrap {
     padding: 40px;
   }
 }
@@ -81,7 +78,7 @@
 
 @media screen and (max-width: 860px) {
   .footer {
-    &__section-wrapper {
+    &__wrap {
       padding: 40px 40px 0;
       font-size: 13px;
       flex-direction: column;
@@ -106,8 +103,14 @@
 }
 
 @media screen and (max-width: 480px) {
-  .footer__section-wrapper {
-    padding-left: 20px;
-    padding-right: 20px;
+  .footer {
+    &__wrap {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+
+    &__link_support {
+      margin-bottom: 24px;
+    }
   }
 }
