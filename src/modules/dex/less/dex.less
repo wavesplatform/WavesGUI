@@ -134,103 +134,7 @@ body.dex-demo {
 
   .dex-layout {
     &__tradehistory {
-      w-tabs {
-
-        ::-webkit-scrollbar {
-          height: 0;
-        }
-        :hover::-webkit-scrollbar {
-          height: 0;
-        }
-        ::-webkit-scrollbar-thumb {
-          height: 0;
-        }
-        ::-webkit-scrollbar-thumb:window-inactive {
-          height: 0;
-        }
-
-        .tab-tem {
-          overflow-x: auto;
-        }
-
-        .tab-body-wrap {
-          height: calc(100% ~'- 39px');
-        }
-
-        .titles-wrap {
-          overflow-y: hidden;
-          overflow-x: auto;
-          height: 39px;
-          padding: 0;
-          display: flex;
-          position: relative;
-
-          &::before {
-            display: none;
-          }
-
-          &:after {
-            content: '';
-            display: block;
-            position: absolute;
-            width: 100%;
-            height: 1px;
-            left: 0;
-            bottom: 0;
-            background: @color-basic-100;
-          }
-
-          .title {
-            color: @color-basic-700;
-            height: 38px;
-            font-size: 13px;
-            margin: 0;
-            padding: 0 20px;
-            line-height: 40px;
-            border: 0 none;
-            font-family: @font-roboto-medium;
-            position: relative;
-            border-left: 1px solid transparent;
-            border-right: 1px solid transparent;
-            white-space: nowrap;
-
-            &.active:first-child {
-              border-left: 1px solid @color-white;
-            }
-
-            &.active {
-              color: @color-basic-700;
-              background: @color-white;
-              border-bottom: 1px solid @color-white;
-              border-right: 1px solid @color-disabled-200;
-              border-left: 1px solid @color-disabled-200;
-
-              &::before {
-                display: block;
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                content: '';
-                height: 2px;
-                background: @color-submit-400;
-              }
-
-              &:after {
-                position: absolute;
-                bottom: -2px;
-                height: 2px;
-                width: 100%;
-                left: 0;
-                content: '';
-                display: block;
-                z-index: 1;
-                background: @color-white;
-              }
-            }
-          }
-        }
-
+      .tabs {
         .tabs-myOrderHistory {
           .smart-table {
             &__cell {
@@ -537,42 +441,9 @@ body.dex-demo {
         border-radius: 0 0 2px 0;
       }
 
-      w-tabs {
-
-        .tab-body-wrap {
-          height: calc(100% ~'- 48px');
-        }
-
-        .titles-wrap {
-          height: 48px;
-          box-shadow: @shadow-menu-top;
-          position: relative;
-          z-index: 6;
-
-          &::after {
-            display: none;
-          }
-
-          .title {
-            height: 48px;
-            line-height: 48px;
-
-            &.active {
-              border: 0 none;
-              border-bottom: 1px solid @color-submit-400;
-
-              &::after,
-              &::before {
-                display: none;
-              }
-            }
-          }
-
-        }
-
+      .tabs {
         .smart-table {
           &__w-tbody {
-
             .smart-table {
               &__row {
                 position: relative;
@@ -618,7 +489,7 @@ body.dex-demo {
         }
       }
 
-      w-tabs,
+      .tabs,
       w-dex-watchlist {
         w-table {
           w-t-head {
@@ -681,7 +552,7 @@ body.dex-demo {
       }
 
       .dex-wrapper {
-        w-tabs {
+        .tabs {
           w-scroll-box {
             height: 392px;
             width: 100%;

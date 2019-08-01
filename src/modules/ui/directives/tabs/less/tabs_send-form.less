@@ -1,0 +1,43 @@
+@import (reference) 'config';
+@import (reference) '../../../../app/less/typography';
+
+@sendFormTabsHeaderHeight: 60px;
+
+.tabs_send-form {
+  .tabs {
+    &__header {
+      padding: 0 20px;
+      height: @sendFormTabsHeaderHeight;
+    }
+
+    &__title {
+      margin: 10px 0 0 10px;
+
+      &::after {
+        left: 10px;
+        right: 10px;
+      }
+
+      &_active {
+        color: @color-submit-400;
+      }
+    }
+  }
+
+  .tab-tem {
+    padding: 40px 40px 0;
+    max-height: calc(90vh ~'- 60px');
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .tabs_send-form {
+    .tabs__header {
+      padding: 0;
+    }
+
+    .tab-tem {
+      padding: 20px 20px 0;
+    }
+  }
+}

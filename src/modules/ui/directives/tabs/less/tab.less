@@ -1,0 +1,31 @@
+@import (reference) 'config';
+@import (reference) '../../../../app/less/typography';
+
+.tab {
+  &-tem {
+    display: block;
+    height: 100%;
+    box-sizing: border-box;
+    position: relative;
+  }
+
+  &_padding & {
+    &-tem {
+      padding: 40px;
+    }
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .tab {
+    &-tem {
+      max-height: 100%;
+    }
+
+    &_padding & {
+      &-tem {
+        padding: 20px;
+      }
+    }
+  }
+}

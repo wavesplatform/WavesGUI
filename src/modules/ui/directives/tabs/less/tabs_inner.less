@@ -1,0 +1,76 @@
+@import (reference) 'config';
+@import (reference) '../../../../app/less/typography';
+
+.tabs_inner {
+  .tabs {
+    &__header {
+      height: 50px;
+      padding: 0 20px;
+
+      &::before,
+      &::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 1px;
+        background-color: @color-disabled-100;
+        top: 0;
+        left: 0;
+      }
+
+      &:after {
+        top: auto;
+        bottom: 0;
+      }
+    }
+
+    &__title {
+      padding: 0;
+      .body-2();
+      color: @color-info-500;
+      margin: 0 20px;
+      z-index: 1;
+
+      &:hover {
+        &:after {
+          display: block;
+          background: @color-info-500;
+        }
+      }
+
+      &_active {
+        color: @color-submit-400;
+      }
+    }
+  }
+
+  .tab-tem {
+    .footnote-1();
+    overflow-y: auto;
+    max-height: calc(~'90vh' - 280px);
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .tabs_inner {
+    .tabs {
+      &__header {
+        padding: 0;
+      }
+
+      &__body {
+        height: auto;
+      }
+    }
+
+    .tab-tem {
+      overflow-y: visible;
+    }
+
+    .tab_padding {
+      .tab-tem {
+        padding: 40px 20px;
+      }
+    }
+  }
+}

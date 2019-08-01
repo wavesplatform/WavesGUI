@@ -1,0 +1,101 @@
+@import (reference) 'config';
+@import (reference) '../../../../app/less/typography';
+
+@tabsHeaderHeight: 40px;
+
+.tabs_tradehistory {
+  .tabs {
+    &__header {
+      height: @tabsHeaderHeight;
+    }
+
+    &__body {
+      height: calc(~'100%'- @tabsHeaderHeight);
+    }
+
+    &__title {
+      color: @color-basic-700;
+      font-size: 13px;
+      padding: 0 20px;
+      white-space: nowrap;
+
+      &:first-child {
+        border-left: 1px solid @color-white;
+      }
+    }
+
+    &__title_active {
+      border-right: 1px solid @color-basic-100;
+      border-left: 1px solid @color-basic-100;
+
+      &::before {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        content: '';
+        height: 2px;
+        background: @color-submit-400;
+      }
+
+      &:after {
+        background: @color-white;
+      }
+    }
+  }
+
+  .tab-tem {
+    overflow-x: auto;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .tabs_tradehistory {
+    .tabs {
+      &__header {
+        height: 48px;
+        padding: 0 5px;
+        box-shadow: 0 2px 5px rgba(0,0,0,.1);
+        overflow-y: hidden;
+        overflow-x: auto;
+
+        &::-webkit-scrollbar {
+          &,
+          &-thumb,
+          &-thumb:window-inactive {
+            height: 0;
+          }
+        }
+
+        &:hover::-webkit-scrollbar {
+          height: 0;
+        }
+      }
+
+      &__title {
+        padding: 0 10px;
+
+        &_active {
+          border: 0;
+
+          &::before {
+            display: none;
+          }
+
+          &:after {
+            background: @color-submit-400;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 659px) {
+  .tabs_tradehistory {
+    .tab-tem {
+      padding: 0;
+    }
+  }
+}

@@ -1,0 +1,79 @@
+@import (reference) 'config';
+@import (reference) '../../../../app/less/typography';
+
+.tabs {
+  width: 100%;
+  height: 100%;
+  display: block;
+
+  &__wrap {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  &__body {
+    overflow: auto;
+    height: 100%;
+  }
+
+  &__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    position: relative;
+    width: 100%;
+    z-index: 5;
+    background: @color-white;
+
+    &:after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 1px;
+      background-color: @color-disabled-100;
+      top: auto;
+      bottom: 0;
+      left: 0;
+    }
+  }
+
+  &__title {
+    .headline-2();
+    padding: 0 10px;
+    color: @color-info-500;
+    cursor: pointer;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+
+    &::after {
+      display: none;
+      position: absolute;
+      z-index: 1;
+      content: '';
+      left: 0;
+      right: 0;
+      height: 1px;
+      bottom: 0;
+      background: @color-submit-400;
+    }
+
+    &_active {
+      &::after {
+        display: block;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .tabs {
+    &__title {
+      .body-2();
+      margin-right: 20px;
+      font-family: @font-roboto-medium;
+      color: @color-info-500;
+    }
+  }
+}

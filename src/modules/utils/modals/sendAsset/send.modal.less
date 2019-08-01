@@ -6,36 +6,18 @@
 
 md-dialog.modal-send {
   md-dialog-content {
-
     position: relative;
-    padding: 0;
     overflow: hidden;
     color: @color-disabled-900;
+    padding: 0;
 
     .modal-content,
-    .tab-container,
-    .tab-body-wrap,
-    w-tabs,
-    w-tab,
     .step-list,
+    w-tab,
     w-step-by-step,
     w-step,
     w-step > div {
       height: 100%;
-    }
-
-    .error-content,
-    w-mass-send,
-    w-single-send {
-      display: block;
-      max-height: calc(90vh ~'- 60px');
-    }
-
-    w-step.send-form .tab-body-wrap {
-      display: block;
-      @media screen and (min-width: 541px) {
-        padding: 40px 40px 0;
-      }
     }
 
     .icon-browser-warning {
@@ -93,13 +75,6 @@ md-dialog.modal-send {
         content: '';
         height: 40px;
       }
-    }
-
-    w-confirm-gateway-transaction,
-    w-confirm-transaction {
-      display: block;
-      padding: 0 40px;
-      max-height: calc(90vh ~'- 60px');
     }
 
     .total-amount {
@@ -376,13 +351,6 @@ md-dialog.modal-send {
 @media screen and (max-width: 540px) {
   md-dialog.modal-send {
     md-dialog-content {
-      w-step.send-form{
-        .tab-body-wrap {
-          padding: 20px 20px 0;
-          display: block;
-        }
-      }
-
       .qr-code-wrap {
         width: 100%;
         height: auto;

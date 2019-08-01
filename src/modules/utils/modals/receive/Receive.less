@@ -3,16 +3,12 @@
 
 md-dialog.modal-receive {
   md-dialog-content {
-
     position: relative;
-    padding: 0;
     overflow: hidden;
     color: @color-disabled-900;
+    padding: 0;
 
     .modal-content,
-    .tab-container,
-    .tab-body-wrap,
-    w-tabs,
     w-tab,
     .step-list,
     w-step-by-step,
@@ -31,20 +27,6 @@ md-dialog.modal-receive {
         width: 100%;
         display: block;
         height: 54px;
-      }
-    }
-
-    .tab-tem {
-      padding: 40px 40px 0;
-      display: block;
-      max-height: calc(90vh ~'- 60px');
-      overflow: auto;
-
-      &::after {
-        display: block;
-        content: '';
-        width: 100%;
-        height: 40px;
       }
     }
 
@@ -146,19 +128,6 @@ md-dialog.modal-receive {
       display: flex;
     }
 
-    .receive-confirm,
-    w-confirm-tran.saction {
-      display: block;
-      padding: 0 40px 0;
-      max-height: calc(90vh ~'- 60px');
-
-      &::after {
-        content: '';
-        display: block;
-        height: 40px;
-      }
-    }
-
     .receive-confirm {
       min-height: 220px;
       max-height: auto;
@@ -252,10 +221,6 @@ md-dialog.modal-receive {
             display: block;
             height: 20px;
           }
-        }
-
-        .tab-tem {
-          padding: 40px 20px 0;
         }
 
         .receive-confirm {
