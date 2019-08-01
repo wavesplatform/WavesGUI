@@ -159,18 +159,6 @@
 @media screen and (min-width: 2400px) {
   .dex,
   .dex-demo {
-    font-size: 12px;
-
-    .smart-table {
-      &__tbody {
-        .smart-table {
-          &__row {
-            font-size: 12px;
-          }
-        }
-      }
-    }
-
     .dex-watchlist {
       .titles-wrap {
         height: 42px;
@@ -266,54 +254,52 @@
             }
           }
         }
-
       }
+    }
 
-      .smart-table {
-        &__tbody {
+    .smart-table {
+      &__tbody {
 
-          .smart-table {
-            &__row {
-              position: relative;
+        .smart-table {
+          &__row {
+            position: relative;
 
-              &:hover {
-                .underline:after {
-                  display: none;
-                }
+            &:hover {
+              .underline:after {
+                display: none;
+              }
+            }
+
+            .status-mobile {
+              display: inline-block;
+            }
+
+            &.active {
+              .dropdown {
+                transform: rotate(180deg);
               }
 
-              .status-mobile {
-                display: inline-block;
-              }
-
-              &.active {
-                .dropdown {
-                  transform: rotate(180deg);
-                }
-
-                & + .active::before {
-                  background: @color-basic-100;
-                  height: 1px;
-                  width: calc(100% ~'- 20px');
-                  position: absolute;
-                  top: 0;
-                  left: 10px;
-                  display: block;
-                  content: '';
-                }
+              & + .active::before {
+                background: @color-basic-100;
+                height: 1px;
+                width: calc(100% ~'- 20px');
+                position: absolute;
+                top: 0;
+                left: 10px;
+                display: block;
+                content: '';
               }
             }
           }
         }
+      }
 
-        &__cell {
-          padding: 0;
+      &__cell {
+        padding: 0;
 
-          .dropdown {
-            display: block;
-          }
+        .dropdown {
+          display: block;
         }
-
       }
     }
 
@@ -360,7 +346,6 @@
 
     .dex-layout {
       &__tradehistory {
-
         .dex-my-balance {
           .smart-table {
             &__tbody {

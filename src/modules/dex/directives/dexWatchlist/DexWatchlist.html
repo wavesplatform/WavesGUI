@@ -58,7 +58,7 @@
                    options="$ctrl.tableOptions"
                    data="$ctrl.pairDataList"
                    header-info="$ctrl.headers"
-                   class="smart-table">
+                   class="smart-table smart-table_watchlist">
         <div class="not-found basic-500" ng-if="$data && !$data.length && !$ctrl.loadingError">
             <span w-i18n="directives.watchlist.placeholders.noMarkets"></span>
         </div>
@@ -93,14 +93,14 @@
                 </div>
             </w-table-cell>
             <w-table-cell ng-if="$ctrl.isChosen(pair)" class="chosen">
-                <div>
+                <div class="chosen__info">
                     <a href="#"
                        ng-click="$ctrl.showAssetInfo($event, pair.amountAsset)"
-                       class="basic-700">{{::pair.amountAsset.id}}</a> <span>/</span>
+                       class="chosen__link basic-700">{{::pair.amountAsset.id}}</a> <span>/</span>
                 </div>
                 <a href="#"
                    ng-click="$ctrl.showAssetInfo($event, pair.priceAsset)"
-                   class="basic-700">{{::pair.priceAsset.id}}</a>
+                   class="chosen__link basic-700">{{::pair.priceAsset.id}}</a>
             </w-table-cell>
             <div class="tooltip-dex tooltip-row center"
                  ng-if="$ctrl.isLockedPair(pair.amountAsset.id, pair.priceAsset.id)"

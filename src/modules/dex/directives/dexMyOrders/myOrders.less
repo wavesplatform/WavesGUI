@@ -473,7 +473,7 @@
 }
 
 @media screen and (max-width: 1440px) {
-  .tabs-myOpenOrders {
+  .tab_myOpenOrders {
     .dex-my-orders {
       .smart-table {
         &__cell[data-column-id="average"],
@@ -485,14 +485,16 @@
   }
 }
 
-.tabs-myOrderHistory {
-  .smart-table__tbody {
-    .smart-table__cell {
-      &:not(:first-child):nth-child(odd) {
-        &,
-        .decimal-muted {
-          color: @color-basic-600;
-        }
+.tab_myOrderHistory {
+  .smart-table__cell {
+    .decimal-muted {
+      color: @color-basic-900;
+    }
+
+    &:not(:first-child):nth-child(odd) {
+      &,
+      .decimal-muted {
+        color: @color-basic-600;
       }
     }
   }

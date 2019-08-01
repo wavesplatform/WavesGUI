@@ -6,12 +6,14 @@
   display: flex;
   width: 100%;
   height: 100%;
-  position: relative;
 
   &__wrapper {
     width: 100%;
     height: 100%;
     position: relative;
+    display: flex;
+    flex-direction: column;
+  }
 
   .input-container {
     position: relative;
@@ -241,187 +243,6 @@
     z-index: 7;
     top: 3px;
   }
-
-  .smart-table {
-    width: 100%;
-    display: block;
-    height: calc(100% ~'- 75px');
-
-    &__thead {
-      .smart-table {
-        &__row {
-          padding: 0;
-        }
-
-        &__cell {
-          padding: 2px 0;
-        }
-      }
-    }
-
-    &__tbody {
-      .smart-table {
-        &__row:not(.selected) {
-          &:hover {
-            background-color: @dex-selected-item-bg;
-          }
-        }
-
-        &__cell {
-          padding: 2px 0;
-        }
-      }
-    }
-
-    &__row {
-      flex-wrap: wrap;
-      cursor: pointer;
-      padding: 0;
-      position: relative;
-
-      &.selected {
-        background-color: @dex-selected-item-bg;
-
-            .smart-table {
-              &__cell[data-column-id="info"] {
-                display: block;
-              }
-            }
-          }
-
-          &.disabled {
-            cursor: default;
-            .smart-table__cell {
-              opacity: 0.4;
-            }
-          }
-
-          &:hover {
-            .tooltip-row {
-              display: flex;
-            }
-          }
-        }
-
-    &__cell {
-      &:hover {
-        .tooltip {
-          display: inline-block;
-        }
-      }
-
-      &[data-column-id="favourite"] {
-        flex-basis: 30px;
-      }
-
-      &[data-column-id="pair"] {
-        flex-basis: calc(34% ~'- 30px');
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
-      }
-
-      &[data-column-id="price"] {
-        flex-basis: 24%;
-        text-align: right;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        max-width: 24%;
-      }
-
-      &[data-column-id="change"] {
-        flex-basis: 17%;
-        text-align: right;
-
-        &.plus {
-          color: @color-submit-400;
-          &::before {
-            content: '+';
-            display: inline-block;
-          }
-        }
-
-        &.minus {
-          color: @color-error-400;
-        }
-      }
-
-      &[data-column-id="volume"] {
-        flex-basis: 25%;
-        text-align: right;
-        padding-right: 10px;
-      }
-
-      &[data-column-id="info"] {
-        flex-basis: 100%;
-        display: none;
-        width: 100%;
-        padding: 5px 20px 10px 30px;
-        .caption-3();
-
-        & > div:first-child {
-          margin-bottom: 2px;
-        }
-
-        a {
-          position: relative;
-          display: inline-block;
-          &:hover {
-            &::after {
-              height: 1px;
-              display: block;
-              width: 100%;
-              content: '';
-              position: absolute;
-              bottom: 0;
-              border-bottom: 1px dashed @color-disabled-400;
-            }
-          }
-        }
-      }
-    }
-
-        &__row{
-          .tooltip-row,
-          .tooltip-row::before {
-            left: 50%;
-            transform: translateX(-50%);
-          }
-
-          &:last-child:not(:first-child) {
-            .tooltip-row {
-              top: auto;
-              bottom: 100%;
-
-              &::before {
-                transform: translateX(-50%) rotate(180deg);
-                top: auto;
-                bottom: -6px;
-              }
-            }
-          }
-
-          &:first-child {
-            .tooltip-row {
-              top:100%;
-              bottom: auto;
-
-              &::before {
-                top: -5px;
-                bottom: auto;
-                transform: translateX(-50%) rotate(0deg);
-              }
-            }
-          }
-        }
-
-        .tooltip-dex > span {
-          display: inline-block;
-          margin-right: 3px;
-        }
-      }
-    }
 
   i.icon-fav {
     cursor: pointer;
