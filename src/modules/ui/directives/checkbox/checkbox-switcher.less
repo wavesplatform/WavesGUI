@@ -3,16 +3,14 @@
 .checkbox-switcher {
   display: none;
 
-  & + .checkbox-input__label {
+  & + .switcher-input__label {
     width: 40px;
     height: 20px;
     border: 1px solid @color-basic-200;
     background: @color-basic-200;
     border-radius: 10px;
     display: block;
-    flex-grow: initial;
     position: relative;
-    transition: .3s;
     cursor: pointer;
 
     &:hover {
@@ -34,7 +32,7 @@
     }
   }
   
-  &_active + .checkbox-input__label {
+  &_active + .switcher-input__label {
     border: 1px solid @color-submit-400;
     background: @color-submit-400;
   
@@ -49,7 +47,7 @@
   }
 }
 
-.checkbox-input_switcher {
+.switcher-input {
+  display: flex;
   align-items: center;
-  margin-bottom: 0;
 }

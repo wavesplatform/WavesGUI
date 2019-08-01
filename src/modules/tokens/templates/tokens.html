@@ -145,13 +145,13 @@
                         </w-help-icon>
                     </div>
 
-                    <div class="checkbox-input checkbox-input_switcher">
+                    <div class="switcher-input">
                         <w-checkbox-switcher class="checkbox-switcher" id="has-script"
                                              ng-class="{'checkbox-switcher_active': $ctrl.hasAssetScript}"
                                              name="has-script"
                                              ng-model="$ctrl.hasAssetScript">
                         </w-checkbox-switcher>
-                        <label for="has-script" class="checkbox-input__label margin-right-1"></label>
+                        <label for="has-script" class="switcher-input__label margin-right-1"></label>
                         <div ng-if="$ctrl.hasAssetScript" class="footnote-1" w-i18n="switchScriptOff"></div>
                         <div ng-if="!$ctrl.hasAssetScript" class="footnote-1" w-i18n="switchScriptOn"></div>
                     </div>
@@ -217,10 +217,10 @@
                     <div class="footnote-1 basic-500" w-i18n="modal.token.warning.text"></div>
                 </div>
 
-                <div class="row flex">
-                    <w-checkbox-submit id="agreeConditions" ng-model="$ctrl.agreeConditions"></w-checkbox-submit>
+                <div class="checkbox-input checkbox-input_tokens">
+                    <w-checkbox-submit class="checkbox-submit" id="agreeConditions" ng-model="$ctrl.agreeConditions"></w-checkbox-submit>
                     <label for="agreeConditions"
-                           class="margin-right-1"
+                           class="checkbox-input__label"
                            w-i18n="tokens.termsOfUse.checkbox"></label>
                 </div>
 

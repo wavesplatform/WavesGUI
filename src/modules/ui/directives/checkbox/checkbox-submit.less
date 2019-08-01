@@ -5,10 +5,8 @@
   position: relative;
   width: 19px;
   height: 19px;
-  overflow: hidden;
   cursor: pointer;
   margin-right: 12px;
-  min-width: 19px;
 
   &__input {
     &[disabled="disabled"]::after {
@@ -21,7 +19,6 @@
       margin: 0;
       left: 2px;
       top: 2px;
-      z-index: 0;
     
       &::after {
         content: '';
@@ -34,7 +31,6 @@
         background-color: @color-white;
         border: 1px solid @color-basic-200;
         border-radius: @border-radius;
-        z-index: 1;
         box-sizing: border-box;
         transform: translate(-2px, -2px);
       }
@@ -52,24 +48,5 @@
 
   & + .checkbox-input__label {
     cursor: pointer;
-  }
-}
-
-.checkbox-input {
-  display: flex;
-  min-height: auto;
-  margin-bottom: 20px;
-
-  .checkbox-submit {
-    flex-grow: 0;
-    align-self: flex-start;
-    display: block;
-  }
-
-  &__label {
-    flex-grow: 1;
-    &-content {
-      color: @color-basic-500;
-    }
   }
 }
