@@ -34,7 +34,27 @@
             headers = [
                 {
                     id: 'asset',
-                    search: true,
+                    search: (key, value, list) => {
+                        const serchValue = (key[value] || '').trim();
+                        const serachTxt = serchValue.toLowerCase();
+
+                        if (!serachTxt) {
+                            return list;
+                        }
+
+                        return list.filter(item => {
+                            if (item.asset.id === serchValue) {
+                                return true;
+                            }
+
+                            const name = (
+                                (item.asset.ticker || '') +
+                                (item.asset.name || '')
+                            ).toLowerCase();
+
+                            return name.includes(serachTxt);
+                        });
+                    },
                     sort: true,
                     placeholder: 'directives.filter',
                     valuePath: 'item.asset.displayName'
@@ -95,6 +115,22 @@
                 this.receive(stService.draw, this._updateVisible, this);
             }
 
+            static _getBalanceList() {
+                return balanceWatcher.getFullBalanceList().filter(MyBalance._isNotScam());
+            }
+
+            /**
+             * @private
+             */
+            static _isNotScam() {
+                const spamHash = (user.getSetting('wallet.portfolio.spam') || [])
+                    .reduce((r, id) => {
+                        r[id] = true;
+                        return r;
+                    }, Object.create(null));
+                return item => !user.scam[item.asset.id] && !spamHash[item.asset.id];
+            }
+
             showAssetInfo(asset) {
                 return modalManager.showAssetInfo(asset);
             }
@@ -151,22 +187,6 @@
             _onChangeBalance() {
                 this.balanceList = MyBalance._getBalanceList();
                 $scope.$apply();
-            }
-
-            static _getBalanceList() {
-                return balanceWatcher.getFullBalanceList().filter(MyBalance._isNotScam());
-            }
-
-            /**
-             * @private
-             */
-            static _isNotScam() {
-                const spamHash = (user.getSetting('wallet.portfolio.spam') || [])
-                    .reduce((r, id) => {
-                        r[id] = true;
-                        return r;
-                    }, Object.create(null));
-                return item => !user.scam[item.asset.id] && !spamHash[item.asset.id];
             }
 
         }
