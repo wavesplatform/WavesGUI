@@ -1,0 +1,91 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+@import (reference) '../../app/less/typography';
+@import (reference) '../../app/less/app-icons';
+
+.welcome {
+  width: 100%;
+  overflow: hidden;
+  font-size: 15px;
+  margin: 0 auto;
+  font-weight: normal;
+  color: @color-basic-900;
+  max-width: 100%;
+
+  .white-bg {
+    background: @color-white;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 0;
+  }
+
+  &__wrapper {
+    position: relative;
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 100%;
+    max-width: 100%;
+    height: calc(~'100%' - 60px);
+    margin-top: 60px;
+  }
+
+  &__section {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    max-width: 100%;
+  }
+
+  // .get-started-btn {
+    // margin-right: 15px;
+    // position: relative;
+    // .fake-button-content {
+    //   padding-right: 50px;
+    // }
+
+    // .icon-arrow-right {
+      // margin-left: 10px;
+      // display: block;
+      // width: 24px;
+      // height: 24px;
+      // transition: .3s;
+      // position: absolute;
+      // right: 20px;
+      // top: 50%;
+      // box-shadow: none;
+      // transform: translate(0, -50%);
+      // background-image: @arrow-white-right;
+      // background-color: transparent;
+    // }
+
+    // &:hover {
+    //   .icon-arrow-right {
+    //     transform: translate(7px, -50%);
+    //   }
+    // }
+  // }
+}
+
+@media screen and (max-width: 860px) {
+  .welcome {
+    font-size: 13px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .welcome {
+    footer {
+      .section-wrapper {
+        margin-top: 0px;
+      }
+    }
+  }
+}
+
+.promo-icon-min {
+  display: block;
+  width: 24px;
+  height: 24px;
+  background: url(/img/landing/arrow-white-right.svg) center no-repeat;
+}

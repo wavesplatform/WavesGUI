@@ -226,7 +226,7 @@
              * @private
              */
             _insertCharts() {
-                const marketRows = $element.find('.table-markets .row-content');
+                const marketRows = $element.find('.js-table-markets .js-row-content');
                 PAIRS_IN_SLIDER.forEach((pair, i) => {
                     const options = this.pairsInfoList[i].change24.gt(0) ? chartOptions.blue : chartOptions.red;
                     new ChartFactory(

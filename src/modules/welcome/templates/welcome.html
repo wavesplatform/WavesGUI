@@ -1,94 +1,94 @@
 <w-site-header class="header-new-user" sign-in-btn="$ctrl.hasUsers" get-started-btn="true" user-list="$ctrl.userList"></w-site-header>
-<div w-i18n-ns="app.welcome" class="wrapper movable scrolled-view">
+<div w-i18n-ns="app.welcome" class="welcome__wrapper movable scrolled-view">
     <div class="white-bg"></div>
-    <section class="section-welcome">
-        <div class="section-wrapper">
-            <div class="left-side">
-                <h1 class="margin-2 headline-0 welcome-text" w-i18n="welcome.tradeOnWaves"></h1>
-                <div class="basic-500 body-1 margin-5" w-i18n="welcome.tradeOnWavesDescription"></div>
-                <div class="buttons-wrapper buttons-wrapper-nowidth">
-                    <a class="fake-button get-started-btn" ui-sref="create">
-                        <span class="fake-button-content big submit" w-i18n="welcome.getStarted"></span>
-                        <i class="promo-icon-min icon-arrow-right"></i>
+    <section class="welcome__section section-welcome">
+        <div class="section-welcome__wrapper">
+            <div class="section-welcome__left">
+                <h1 class="section-welcome__title" w-i18n="welcome.tradeOnWaves"></h1>
+                <div class="section-welcome__description margin-5" w-i18n="welcome.tradeOnWavesDescription"></div>
+                <div class="section-welcome__btns">
+                    <a class="section-welcome__started" ui-sref="create">
+                        <span class="section-welcome__started-content" w-i18n="welcome.getStarted"></span>
+                        <i class="section-welcome__started-arrow"></i>
                     </a>
-                    <a ng-show="$ctrl.hasUsers" ui-sref="signIn" class="fake-button"
+                    <a ng-show="$ctrl.hasUsers" ui-sref="signIn" class="section-welcome__enter"
                         w-analytics event="'Sign In Click'" event-target="ui">
-                        <span class="fake-button-content big submit-light" w-i18n="welcome.signIn"></span>
+                        <span class="section-welcome__enter-content" w-i18n="welcome.signIn"></span>
                     </a>
                 </div>
             </div>
-            <div class="dex-screenshot"></div>
+            <div class="section-welcome__dex-screenshot"></div>
         </div>
     </section>
 
-    <section class="section-promo body-2">
-        <div class="section-wrapper">
-            <div class="section-promo-card">
-                <div class="promo-icon promo-icon-dex margin-2"></div>
-                <div class="section-promo-content">
-                    <h4 class="margin-1 section-promo-title" w-i18n="welcome.decentralised"></h4>
-                    <div class="basic-500" w-i18n="welcome.controlAssets"></div>
+    <section class="welcome__section section-promo">
+        <div class="section-promo__wrapper">
+            <div class="section-promo__card">
+                <div class="section-promo__icon section-promo__icon_dex margin-2"></div>
+                <div class="section-promo__content">
+                    <h4 class="section-promo__title" w-i18n="welcome.decentralised"></h4>
+                    <div class="section-promo__description" w-i18n="welcome.controlAssets"></div>
                 </div>
             </div>
-            <div class="section-promo-card">
-                <div class="promo-icon promo-icon-gateways margin-2"></div>
-                <div class="section-promo-content">
-                    <h4 class="margin-1 section-promo-title" w-i18n="welcome.gateways"></h4>
-                    <div class="basic-500" w-i18n="welcome.majorFiatCryptocurrencies"></div>
+            <div class="section-promo__card">
+                <div class="section-promo__icon section-promo__icon_gateways margin-2"></div>
+                <div class="section-promo__content">
+                    <h4 class="section-promo__title" w-i18n="welcome.gateways"></h4>
+                    <div class="section-promo__description" w-i18n="welcome.majorFiatCryptocurrencies"></div>
                 </div>
             </div>
-            <div class="section-promo-card">
-                <div class="promo-icon promo-icon-create-token margin-2"></div>
-                <div class="section-promo-content">
-                    <h4 class="margin-1 section-promo-title" w-i18n="welcome.tokenCreation"></h4>
-                    <div class="basic-500" w-i18n="welcome.tokenCreationCosts"></div>
+            <div class="section-promo__card">
+                <div class="section-promo__icon section-promo__icon_token margin-2"></div>
+                <div class="section-promo__content">
+                    <h4 class="section-promo__title" w-i18n="welcome.tokenCreation"></h4>
+                    <div class="section-promo__description" w-i18n="welcome.tokenCreationCosts"></div>
                 </div>
             </div>
-            <div class="section-promo-card">
-                <div class="promo-icon promo-icon-ledger margin-2"></div>
-                <div class="section-promo-content">
-                    <h4 class="margin-1 section-promo-title" w-i18n="welcome.ledgerSupport"></h4>
-                    <div class="basic-500" w-i18n="welcome.dexWithHardware"></div>
+            <div class="section-promo__card">
+                <div class="section-promo__icon section-promo__icon_ledger margin-2"></div>
+                <div class="section-promo__content">
+                    <h4 class="section-promo__title" w-i18n="welcome.ledgerSupport"></h4>
+                    <div class="section-promo__description" w-i18n="welcome.dexWithHardware"></div>
                 </div>
             </div>
-            <div class="section-promo-card">
-                <div class="promo-icon promo-icon-api margin-2"></div>
-                <div class="section-promo-content">
-                    <h4 class="margin-1 section-promo-title" w-i18n="welcome.suitableTradingBots"></h4>
-                    <div class="basic-500" w-i18n="welcome.getRealTimeAccess"></div>
+            <div class="section-promo__card">
+                <div class="section-promo__icon section-promo__icon_api margin-2"></div>
+                <div class="section-promo__content">
+                    <h4 class="section-promo__title" w-i18n="welcome.suitableTradingBots"></h4>
+                    <div class="section-promo__description" w-i18n="welcome.getRealTimeAccess"></div>
                 </div>
             </div>
-            <div class="section-promo-card">
-                <div class="promo-icon promo-icon-fees margin-2"></div>
-                <div class="section-promo-content">
-                    <h4 class="margin-1 section-promo-title" w-i18n="welcome.lowFixedFees"></h4>
-                    <div class="basic-500" w-i18n="welcome.wavesOrderFilled"></div>
+            <div class="section-promo__card">
+                <div class="section-promo__icon section-promo__icon_fees margin-2"></div>
+                <div class="section-promo__content">
+                    <h4 class="section-promo__title" w-i18n="welcome.lowFixedFees"></h4>
+                    <div class="section-promo__description" w-i18n="welcome.wavesOrderFilled"></div>
                 </div>
             </div>
         </div>
     </section>
 
     <section class="section-slider">
-        <div class="section-wrapper slider-wrapper">
+        <div class="section-slider__wrapper">
             <w-carousel interval="2000" pairs-info-list="$ctrl.pairsInfoList"></w-carousel>
         </div>
     </section>
 
-    <section class="section-markets">
-        <div class="section-wrapper">
+    <section class="welcome__section section-markets">
+        <div class="section-markets__wrapper">
 
-            <h2 class="margin-1 center" w-i18n="welcome.markets"></h2>
-            <div class="basic-500 margin-05 body-2 center section-markets-description" w-i18n="welcome.marketsDescription"></div>
+            <h2 class="section-markets__title" w-i18n="welcome.markets"></h2>
+            <div class="section-markets__description" w-i18n="welcome.marketsDescription"></div>
 
-            <div class="table-markets margin-top-3 margin-3">
-                <div class="row row-header">
-                    <div class="cell pair" w-i18n="welcome.pair"></div>
-                    <div class="cell last-price" w-i18n="welcome.lastPrice"></div>
-                    <div class="cell change" w-i18n="welcome.change"></div>
-                    <div class="cell height24" w-i18n="welcome.high"></div>
-                    <div class="cell low24" w-i18n="welcome.low"></div>
-                    <div class="cell volume" w-i18n="welcome.volume"></div>
-                    <div class="cell graph" w-i18n="welcome.chart"></div>
+            <div class="section-markets__table js-table-markets">
+                <div class="section-markets__header">
+                    <div class="section-markets__header-cell pair" w-i18n="welcome.pair"></div>
+                    <div class="section-markets__header-cell last-price" w-i18n="welcome.lastPrice"></div>
+                    <div class="section-markets__header-cell change" w-i18n="welcome.change"></div>
+                    <div class="section-markets__header-cell height24" w-i18n="welcome.high"></div>
+                    <div class="section-markets__header-cell low24" w-i18n="welcome.low"></div>
+                    <div class="section-markets__header-cell volume" w-i18n="welcome.volume"></div>
+                    <div class="section-markets__header-cell graph" w-i18n="welcome.chart"></div>
                 </div>
 
                 <div ng-repeat="pair in $ctrl.pairsInfoList track by $index"
@@ -96,42 +96,42 @@
                    event-target="'ui'"
                    ng-class="pair.change24.gt(0) ? 'blue' : 'red'"
                    ng-click="$ctrl.goToDexDemo({ assetId1: pair.amountAsset.id, assetId2: pair.priceAsset.id })"
-                   class="row row-content">
-                    <div class="cell pair">
+                   class="js-row-content section-markets__row">
+                    <div class="section-markets__row-cell pair">
                         {{pair.amountAsset.ticker || pair.amountAsset.displayName }} / {{pair.priceAsset.ticker || pair.priceAsset.displayName}}
                     </div>
-                    <div class="cell last-price">
+                    <div class="section-markets__row-cell last-price">
                         <w-balance money="pair.lastPrice"></w-balance>
-                        <span class="basic-500">&nbsp;/&nbsp;
+                        <span class="section-markets__currency">&nbsp;/&nbsp;
                             <w-exchange balance="pair.lastPrice"
                                         target-asset-id="{{WavesApp.defaultAssets.USD}}"></w-exchange>
                             &nbsp;$
                         </span>
                     </div>
-                    <div class="cell change">{{pair.change24}}%</div>
+                    <div class="section-markets__row-cell change">{{pair.change24}}%</div>
                     <div class="cell height24">
                         <w-balance money="pair.high"></w-balance>
                     </div>
-                    <div class="cell low24">
+                    <div class="section-markets__row-cell low24">
                         <w-balance money="pair.low"></w-balance>
                     </div>
-                    <div class="cell volume">
+                    <div class="section-markets__row-cell volume">
                         <span w-nice-number="pair.volumeBigNum" precision="3"></span>
                     </div>
-                    <div class="cell graph"></div>
+                    <div class="section-markets__row-cell graph"></div>
                 </div>
 
             </div>
 
-            <div class="center margin-05 body-2 basic-500 markets-table-description">
-                <span w-i18n="welcome.marketsTableDescription"></span> <a ui-sref="main.dex-demo" w-i18n="welcome.marketsTableDescriptionLink"></a>
+            <div class="section-markets__table-desc">
+                <span class="section-markets__more" w-i18n="welcome.marketsTableDescription"></span> <a class="section-markets__table-link" ui-sref="main.dex-demo" w-i18n="welcome.marketsTableDescriptionLink"></a>
             </div>
         </div>
     </section>
 
     <div class="section-roadmap">
-            <h2 class="margin-1 text-center" w-i18n="welcome.roadmap"></h2>
-            <div class="basic-500 margin-05 body-2 text-center" w-i18n="welcome.roadmapOpportunitiesAhead"></div>
+            <h2 class="section-roadmap__title" w-i18n="welcome.roadmap"></h2>
+            <div class="section-roadmap__description" w-i18n="welcome.roadmapOpportunitiesAhead"></div>
             <w-road-map></w-road-map>
     </div>
 

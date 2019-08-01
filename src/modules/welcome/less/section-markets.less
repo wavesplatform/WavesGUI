@@ -1,0 +1,202 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+@import (reference) 'classes-welcome';
+@import (reference) '../../app/less/typography';
+@import (reference) '../../app/less/app-icons';
+
+.section-markets {
+  background: @color-info-50;
+  padding: 0;
+
+  &__title {
+    text-align: center;
+    margin-top: 0;
+    font-weight: 400;
+  }
+
+  &__description, &__more {
+    .font();
+  }
+
+  &__description {
+    max-width: 660px;
+    margin: auto;
+    color: @color-basic-500;
+    text-align: center;
+  }
+
+  &__wrapper {
+    .section-wrapper();
+    padding-bottom: 60px;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    height: 70px;
+    padding: 0 40px;
+    font-size: 13px;
+    border-bottom: 1px solid @color-info-50;
+
+    &-cell {
+      .cell();
+    }
+  }
+
+  &__currency {
+    color: @color-basic-500;
+  }
+
+  &__table {
+    border-radius: 4px;
+    background: @color-white;
+    width: 100%;
+    box-shadow: @shadow-dex-welcome;
+    margin: 30px 0;
+
+    &-desc {
+      display: flex;
+      justify-content: center;
+      text-align: center;
+      color: @color-basic-500;
+      margin-bottom: 5px;
+    }
+
+    &-link {
+      display: inline-block;
+      margin-left: 4px;
+      .font();
+    }
+
+    .graph {
+      width: 110px;
+      height: 36px;
+      line-height: 36px;
+      margin-left: 10px;
+      position: relative;
+    }
+
+    @media screen and (min-width: 1024px) {
+      .volume {
+        padding-right: 30px;
+      }
+
+      .volume,
+      .height24,
+      .low24,
+      .change {
+        text-align: right;
+      }
+    }
+
+    .change {
+      padding-left: 10px;
+    }
+  }
+
+  &__row {
+    display: flex;
+    font-size: 15px;
+    align-items: center;
+    height: 70px;
+    padding: 0 40px;
+    position: relative;
+    color: inherit;
+    transition: .3s;
+    cursor: pointer;
+
+    &-cell {
+      .cell();
+    }
+
+    &:hover {
+      background: #f9fbfd;
+      box-shadow: 0px 1px 0px 0px #f9fbfd, 0px -1px 0px 0px #f9fbfd;
+    }
+
+    .pair {
+      font-weight: 600;
+      font-family: 'Roboto-regular';
+    }
+
+    &:not(:last-child)::after {
+      content: '';
+      display: block;
+      bottom: 0;
+      position: absolute;
+      width: calc(100% ~'- 80px');
+      height: 1px;
+      background: @color-info-50;
+    }
+
+    &.red {
+      .change {
+        color: @color-error-500;
+      }
+    }
+
+    &.blue {
+      .change {
+        color: @color-submit-400;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 860px) {
+  .section-markets {
+    &__row {
+      padding: 15px 86px 15px 15px;
+      flex-wrap: wrap;
+  
+      .low24,
+      .height24 {
+        display: none;
+      }
+  
+      .graph {
+        width: 50px;
+        height: 35px;
+        position: absolute !important;
+        right: 15px;
+        canvas {
+          position: static !important;
+        }
+      }
+  
+      .volume {
+        order: 3;
+        color: @color-basic-500;
+      }
+  
+      .last-price {
+        order: 2;
+        text-align: right;
+      }
+  
+      .change {
+        order: 4;
+        text-align: right;
+      }
+  
+      .hight24,
+      .low24 {
+        display: none;
+      }
+    }
+
+    &__header {
+      display: none;
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .section-markets__table {
+    margin: 15px 0;
+    
+    &-desc {
+      margin-bottom: 2.5px;
+    }
+  }
+}

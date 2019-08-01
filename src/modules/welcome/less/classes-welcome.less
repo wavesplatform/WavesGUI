@@ -1,0 +1,63 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+@import (reference) '../../app/less/typography';
+@import (reference) '../../app/less/app-icons';
+
+.section-wrapper {
+  margin: 0 auto;
+  padding-left: @welcomeSectionWrapperPaddingLarge;
+  padding-right: @welcomeSectionWrapperPaddingLarge;
+  max-width: 1440px;
+  width: 100%;
+
+  @media screen and (max-width: 1440px) {
+    padding-left: @welcomeSectionWrapperPaddingMedium;
+    padding-right: @welcomeSectionWrapperPaddingMedium;
+  }
+
+  @media screen and (max-width: 480px) {
+    padding-left: @welcomeSectionWrapperPaddingSmall;
+    padding-right: @welcomeSectionWrapperPaddingSmall;
+  }
+}
+
+.cell {
+  width: ~"calc((100% - 190px) / 5)";
+  max-width: ~"calc((100% - 190px) / 5)";
+  overflow: hidden;
+  vertical-align: middle;
+  white-space: nowrap;
+
+  @media screen and (max-width: 860px) {
+    flex-basis: 50%;
+    width: 50%;
+    max-width: 50%;
+    font-size: 13px;
+    padding: 0;
+  }
+}
+
+.font {
+  font-size: 15px;
+  line-height: 20px;
+
+  @media screen and (max-width: 860px) {
+    font-size: 13px;
+    line-height: 18px;
+  }
+}
+
+.welcome-btn {
+  line-height: 54px;
+  font-size: 17px;
+  padding: 0 24px;
+  text-align: center;
+  font-family: 'Roboto-Medium', sans-serif;
+  border-radius: @border-radius;
+  display: block;
+
+  @media screen and (max-width: 768px) {
+    font-size: 15px;
+    line-height: 42px;
+  }
+}

@@ -1,0 +1,110 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+@import (reference) 'classes-welcome';
+@import (reference) '../../app/less/typography';
+@import (reference) '../../app/less/app-icons';
+
+.section-promo {
+  .font();
+
+  &__wrapper {
+    .section-wrapper();
+    display: flex;
+    text-align: left;
+    flex-wrap: wrap;
+    padding-bottom: 60px;
+  }
+
+  &::before {
+    position: absolute;
+    background: @color-white;
+    width: 5000px;
+    height: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0;
+    display: block;
+    content: '';
+    z-index: -1;
+  }
+
+  &__card {
+    min-width: 280px;
+    flex-basis: 33.33%;
+    padding: 20px 30px 20px 4px;
+    display: flex;
+  }
+
+  &__content {
+    margin-left: 20px;
+  }
+
+  &__title {
+    font-weight: 400;
+    margin-top: 0;
+  }
+
+  &__description {
+    color: @color-basic-500;
+  }
+
+  &__icon {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    display: inline-flex;
+  
+    &_api {
+      background: url(/img/landing/api.svg) center no-repeat;
+    }
+  
+    &_token {
+      background: url(/img/landing/create-token.svg) center no-repeat;
+    }
+  
+    &_fees {
+      background: url(/img/landing/fees.svg) center no-repeat;
+    }
+  
+    &_gateways {
+      background: url(/img/landing/gateways.svg) center no-repeat;
+    }
+  
+    &_ledger {
+      background: url(/img/landing/ledger.svg) center no-repeat;
+    }
+  
+    &_dex {
+      background: url(/img/landing/decentralized.svg) center no-repeat;
+    }
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .section-promo__card {
+    flex-basis: 50%;
+  }
+}
+
+@media screen and (max-width: 860px) {
+  .section-promo {
+    &__wrapper {
+      flex-direction: column;
+      padding-top: 25px;
+      padding-bottom: 25px;
+      text-align: center;
+    }
+  
+    &__card {
+      flex-basis: 100%;
+      width: 100%;
+      padding: 20px 0;
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    &__content {
+      margin-left: 0;
+    }
+  }
+}

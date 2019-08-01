@@ -1,0 +1,31 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+@import (reference) 'classes-welcome';
+@import (reference) '../../app/less/typography';
+@import (reference) '../../app/less/app-icons';
+
+.section {
+  &-roadmap {
+    margin: 0 auto;
+    padding: 60px 0 100px;
+    background: @color-white;
+
+    &__title {
+      font-weight: 400;
+      text-align: center;
+    }
+
+    &__description {
+      color: @color-basic-500;
+      text-align: center;
+      margin-bottom: 5px;
+      .font();
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .section-roadmap__description {
+    margin-bottom: 2.5px;
+  }
+}
