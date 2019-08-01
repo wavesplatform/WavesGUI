@@ -32,7 +32,7 @@
                 class="receive-user-status"
                 ng-class="{pending: $ctrl.pending}"
             >
-                <w-loader ng-if="$ctrl.pending"></w-loader>
+                <w-loader class="loader" ng-if="$ctrl.pending"></w-loader>
                 <w-error-block ng-if="$ctrl.error"></w-error-block>
             </div>
 

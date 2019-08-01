@@ -1,5 +1,5 @@
 <div class="graph-wrapper">
-    <w-loader ng-if="$ctrl.pending"></w-loader>
+    <w-loader class="loader" ng-if="$ctrl.pending"></w-loader>
     <linechart ng-if="!$ctrl.pending && $ctrl.canShowGraph && !$ctrl.loadingError"
                options="$ctrl.options"
                data="$ctrl.data"></linechart>

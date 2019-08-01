@@ -1,6 +1,6 @@
 <w-site-header></w-site-header>
 <div class="main-container movable">
     <ng-include w-i18n-ns="app.saveSeed" src="$ctrl.pageUrl" class="main-container-wrapper"></ng-include>
-    <w-loader ng-if="$ctrl.pendingRestore"></w-loader>
+    <w-loader class="loader" ng-if="$ctrl.pendingRestore"></w-loader>
 </div>
 <w-footer></w-footer>

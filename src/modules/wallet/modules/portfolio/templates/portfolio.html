@@ -35,7 +35,7 @@
     </div>
     <w-smart-table class="smart-table smart-table__mode-large" name="portfolio-balance-list" data="$ctrl.balanceList"
                    header-info="$ctrl.tableHeaders">
-        <w-loader ng-if="$ctrl.pending"></w-loader>
+        <w-loader class="loader" ng-if="$ctrl.pending"></w-loader>
         <w-visible ng-repeat="balance in $data track by balance.asset.id" once>
             <w-table-row ng-class="{'spam': balance.isOnScamList}">
                 <w-portfolio-row balance="balance"></w-portfolio-row>

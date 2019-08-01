@@ -27,13 +27,13 @@
     const allProgress = Object.values(PROGRESS_MAP)
         .reduce((result, item) => result + item, 0);
     if (allProgress !== 100) {
-        throw new Error('Configure loader progress!');
+        throw new Error('Configure preloader progress!');
     }
 
     const LOADER = {
         _current: 0,
-        _root: document.querySelector('.app-loader'),
-        _element: document.querySelector('.app-loader .progress'),
+        _root: document.querySelector('.app-preloader'),
+        _element: document.querySelector('.app-preloader .progress'),
         addProgress(delta) {
             this._current += delta;
             this._current = Math.min(this._current, 100);
