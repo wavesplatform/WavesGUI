@@ -67,9 +67,17 @@
              */
             exportLink = WavesApp.origin;
             /**
+             * @type {number}
+             */
+            errorType = null;
+            /**
              * @type {string}
              */
             errorMessage = null;
+            /**
+             * @type {object}
+             */
+            errorParams = Object.create(null);
             /**
              * @type {boolean}
              */
@@ -131,7 +139,12 @@
                     this.onTxSent({ id: tx.id });
                     this.__$scope.$apply();
                 }).catch(e => {
-                    this.errorMessage = e.message;
+                    if (e.error && utils.checkIsScriptError(e.error)) {
+                        this.errorType = e.error;
+                        this.errorParams = e.params;
+                    } else {
+                        this.errorMessage = e.message;
+                    }
                     this.__$scope.$apply();
                 });
             }
