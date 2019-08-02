@@ -41,7 +41,8 @@
     },
 
     "wAssetRateChart": {
-      "seriesColor": "#5a81ea"
+      "seriesColor": "#5a81ea",
+      "lineColor": "#5a81ea"
     },
 
     "TokenChangeModalCtrl": {
@@ -92,7 +93,8 @@
     },
 
     "wAssetRateChart": {
-      "seriesColor": "rgba(255,255,255,0.80)"
+      "seriesColor": "#5c5b5b",
+      "lineColor": "#eaeaea"
     },
 
     "TokenChangeModalCtrl": {

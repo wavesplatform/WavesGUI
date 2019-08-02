@@ -84,6 +84,10 @@
              * @type {boolean}
              */
             advancedMode = false;
+            /**
+             * @type {string}
+             */
+            theme = 'default';
 
             dateToHours = date('hh:mm');
             dateToDates = date('DD/MM');
@@ -106,13 +110,17 @@
                     chartAssetIdList: 'wallet.assets.chartAssetIdList',
                     chartMode: 'wallet.assets.chartMode',
                     pinnedAssetIdList: 'pinnedAssetIdList',
-                    advancedMode: 'advancedMode'
+                    advancedMode: 'advancedMode',
+                    theme: 'theme'
                 });
 
                 this.mirrorId = user.getSetting('baseAssetId');
                 this._onChangeMode();
 
                 this.updateGraph = createPoll(this, this._getGraphData, 'data', 15000, { $scope });
+
+                this.theme = user.getSetting('theme');
+                this._setChartOptions();
 
                 ds.api.assets.get(this.chartAssetIdList).then(assets => {
                     this.chartAssetList = assets;
@@ -129,24 +137,7 @@
                 this.observe('pinnedAssetIdList', this._updateBalances);
 
                 this.observe(['interval', 'intervalCount', 'activeChartAssetId'], this._onChangeInterval);
-
-                this.chartOptions =
-                    {
-                        axisX: 'timestamp',
-                        axisY: 'rate',
-                        lineWidth: 4,
-                        marginBottom: 46,
-                        hasDates: true,
-                        checkWidth: 2000,
-                        heightFactor: 0.7,
-                        view: {
-                            rate: {
-                                lineColor: '#1f5af6',
-                                fillColor: '#FFF',
-                                gradientColor: ['#EAF0FE', '#FFF']
-                            }
-                        }
-                    };
+                this.observe('theme', this._onThemeChange);
             }
 
             openScriptModal() {
@@ -344,6 +335,54 @@
                         break;
                     default:
                         throw new Error('Wrong chart mode!');
+                }
+            }
+
+            /**
+             * @private
+             */
+            _onThemeChange() {
+                utils.wait(1000).then(() => this._setChartOptions());
+            }
+
+            /**
+             * @private
+             */
+            _setChartOptions() {
+                this.chartOptions =
+                    {
+                        axisX: 'timestamp',
+                        axisY: 'rate',
+                        marginBottom: 46,
+                        hasDates: true,
+                        checkWidth: 2000,
+                        heightFactor: 0.7,
+                        view: {
+                            rate: this._getViewOptions()
+                        }
+                    };
+            }
+
+            /**
+             * @return {{fillColor: string, gradientColor: string[], lineColor: string}}
+             * @private
+             */
+            _getViewOptions() {
+                switch (this.theme) {
+                    case 'black':
+                        return ({
+                            lineColor: '#5a81ea',
+                            fillColor: '#2d2d2d',
+                            gradientColor: ['#334375', '#2d2d2d'],
+                            lineWidth: 4
+                        });
+                    default:
+                        return ({
+                            lineColor: '#1f5af6',
+                            fillColor: '#fff',
+                            gradientColor: ['#eaf0fe', '#fff'],
+                            lineWidth: 4
+                        });
                 }
             }
 

@@ -4,9 +4,9 @@
   position: absolute;
   z-index: 10;
   box-shadow: 0 2px 4px 0 rgba(78, 92, 110, 0.2);
-  background-color: rgba(78, 92, 110, 0.9);
+  background-color: @chart-plate-background;
   border-radius: @border-radius;
-  color: @color-white;
+  color: #fff;
   visibility: hidden;
   opacity: 0;
   transition: opacity 0.3s;
@@ -33,7 +33,7 @@
     width: 14px;
     height: 14px;
     border: 2px @color-submit-400 solid;
-    background: @color-white;
+    background: @chart-plate-marker-background;
     border-radius: 50%;
     position: absolute;
     transition: opacity, visibility 0.3s;
@@ -51,7 +51,7 @@
     width: 0;
     height: 0;
     border: 8px solid transparent;
-    border-left-color: @color-basic-700;
+    border-left-color: @chart-plate-background;
     top: 50%;
     left: 100%;
     transform: translateY(-50%) scale(1.04);
@@ -63,7 +63,7 @@
   &.to-right {
     &::before {
       border-left-color: transparent;
-      border-right-color: @color-basic-700;
+      border-right-color: @chart-plate-background;
       left: auto;
       right: 100%;
     }

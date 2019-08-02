@@ -80,6 +80,7 @@
             _setThemSettings() {
                 const { wAssetRateChart } = user.getThemeSettings();
                 this.options.view.rate.fillColor = wAssetRateChart.seriesColor;
+                this.options.view.rate.lineColor = wAssetRateChart.lineColor;
             }
 
             /**

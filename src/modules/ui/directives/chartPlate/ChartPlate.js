@@ -19,15 +19,12 @@
              * @public
              * @type {object}
              */
-            data;
-            /**
-             * @private
-             */
-            markerColor;
+            options;
 
             $postLink() {
                 this.plate = $element.find(SELECTORS.plate);
                 this.marker = $element.find(SELECTORS.marker);
+
                 this.receive(this.wChart.signals.mouseMove, this._onMove, this);
                 this.receive(this.wChart.signals.mouseLeave, this._onLeave, this);
             }
@@ -73,8 +70,9 @@
                 this.plate.addClass('visible');
                 this.marker.addClass('visible');
 
-                if (this.markerColor) {
-                    const color = typeof this.markerColor === 'string' && this.markerColor || this.markerColor[id];
+                if (this.options && this.options.markerColors) {
+                    const { markerColors } = this.options;
+                    const color = typeof markerColors === 'string' && markerColors || markerColors[id];
                     this.marker.css('border-color', color);
                 }
             }
@@ -92,7 +90,7 @@
             wChart: '^wChart'
         },
         bindings: {
-            markerColor: '<'
+            options: '<'
         },
         templateUrl: 'modules/ui/directives/chartPlate/chartPlate.html',
         controller
