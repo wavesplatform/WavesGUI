@@ -84,13 +84,9 @@ body.tokens {
         border-radius: 100%;
         background-color: @color-basic-100;
         position: relative;
-
-        w-new-asset-logo {
-          cursor: pointer;
-        }
       }
 
-      w-new-asset-logo {
+      .asset-logo_new {
         &:hover + w-info-tooltip .tooltip {
           display: flex;
         }
@@ -145,6 +141,10 @@ body.tokens {
   w-info-tooltip {
     top: -8px;
     left: 50%;
+
+    &.important-information-tokens {
+      position: absolute;
+    }
 
     .information-icon {
       display: none;
