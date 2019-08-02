@@ -4,34 +4,27 @@
 
 .copy-wrap {
   display: flex;
-  align-items: center;
   position: relative;
   background-color: @color-basic-50;
   border: 1px solid @color-basic-200;
   border-radius: @border-radius;
   height: @height-control-big;
-  padding: 0;
-  font-size: @font-size-control-big;
 
   &__container {
-    height: 100%;
     display: flex;
     align-items: center;
     padding: 0 17px;
     overflow-x: auto;
     white-space: nowrap;
-    width: 100%;
     max-width: calc(100% ~'- 45px');
   }
 
   &__icon {
     border-left: 1px solid @color-basic-200;
-    flex-basis: 40px;
     margin-right: 5px;
     background: url(/img/icons/copy-icon.svg) no-repeat center center;
     background-size: 16px 16px;
     cursor: pointer;
-    height: 52px;
     position: absolute;
     right: 0;
     top: 0;
@@ -53,26 +46,18 @@
 }
 
 @media screen and (max-width: 768px) {
-  font-size: @font-size-control-small;
-  height: @height-control-big-responsive;
 
   .copy-wrap {
+    height: @height-control;
+
     &__container {
       padding: 0 @padding-control-big-responsive-horizontal;
-    }
-
-    &__icon {
-      height: @height-control-big-responsive;
     }
   }
 }
 
 @media screen and (max-width: 480px) {
   .copy-wrap__content {
-    font-size: @mobile-low-fsize;
-  }
-
-  .copy-wrap_receive {
     font-size: @mobile-low-fsize;
   }
 }

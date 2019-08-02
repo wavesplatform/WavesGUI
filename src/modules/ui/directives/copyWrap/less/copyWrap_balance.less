@@ -7,26 +7,29 @@
   border-radius: 0;
   height: 18px;
   background-color: transparent;
-  width: 100%;
 
   .copy-wrap {
     &__container {
       padding: 0;
       cursor: pointer;
-      font-size: @font-size-caption-2;
-      line-height: inherit;
-      display: inline-block;
-      width: auto;
-      text-overflow: ellipsis;
-      overflow: hidden;
+
+      @media screen and (min-width: 1025px) and (max-width: 1550px) {
+        max-width: 250px;
+      }
+      
+      @media screen and (min-width: 660px) and (max-width: 820px) {
+        max-width: 220px;
+      }
+
+      @media screen and (max-width: 400px) {
+        max-width: 300px;
+      }
     }
 
     &__icon {
       border-left: 0 none;
       flex-basis: 24px;
       position: relative;
-      height: 18px;
-      margin-top: -4px;
       background: @dex-copybalance-icon no-repeat right center;
     }
 
@@ -34,20 +37,10 @@
       text-overflow: ellipsis;
       overflow: hidden;
       max-width: 300px;
-      display: block;
-      width: 100%;
     }
 
     &__link {
       color: @color-disabled-900;
-    }
-  }
-}
-
-@media screen and (max-width: 1024px) {
-  .copy-wrap_balance {
-    .copy-wrap__icon {
-      margin-top: 0;
     }
   }
 }
