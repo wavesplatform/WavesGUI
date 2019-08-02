@@ -1703,6 +1703,16 @@
             isNotEqualValue: isNotEqualValue,
 
             /**
+             * @name app.utils#checkIsScriptError
+             * @param {number} error
+             * @return {boolean}
+             */
+            checkIsScriptError(error) {
+                // eslint-disable-next-line no-bitwise
+                return (error >> 8 & 0xFFF) === 7;
+            },
+
+            /**
              * @name app.utils#createOrder
              * @param {app.utils.IOrderData} data
              * @return {Promise}
@@ -1733,25 +1743,37 @@
                  */
                 const version = (hasCustomFee && 3) || 2;
 
-                const scriptedErrorMessage = `Order rejected by script for ${user.address}`;
-
                 const signableData = {
                     type: SIGN_TYPE.CREATE_ORDER,
                     data: { ...data, version, timestamp }
                 };
 
-                const onError = error => {
-                    notification.error({
-                        ns: 'app.dex',
-                        title: {
-                            literal: 'directives.createOrder.notifications.error.title'
-                        },
-                        body: {
-                            literal: error && error.message || error
-                        }
-                    }, -1);
+                const onError = data => {
+                    if (data && data.error && data.isScriptError) {
+                        notification.error({
+                            ns: 'app.dex',
+                            title: {
+                                literal: 'directives.createOrder.notifications.error.title'
+                            },
+                            body: {
+                                literal: `directives.createOrder.notifications.error.${data.error}`,
+                                params: data.params ? data.params : {}
+                            }
+                        }, -1);
+                    } else {
+                        notification.error({
+                            ns: 'app.dex',
+                            title: {
+                                literal: 'directives.createOrder.notifications.error.title'
+                            },
+                            body: {
+                                literal: data && data.message || data
+                            }
+                        }, -1);
+                    }
 
-                    return Promise.reject(error);
+
+                    return Promise.reject(data);
                 };
 
                 return utils.createSignable(signableData)
@@ -1759,9 +1781,11 @@
                         return utils.signMatcher(signable)
                             .then(signable => signable.getDataForApi())
                             .then(ds.createOrder)
-                            .catch(error => {
-                                if (!isAdvancedMode || error.message !== scriptedErrorMessage) {
-                                    return Promise.reject(error);
+                            .catch(data => {
+                                const isScriptError = this.checkIsScriptError(data.error);
+
+                                if (!isAdvancedMode || !isScriptError) {
+                                    return Promise.reject({ ...data, isScriptError });
                                 }
 
                                 return modalManager.showConfirmTx(signable, false)
