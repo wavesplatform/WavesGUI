@@ -99,12 +99,6 @@ w-layout {
           .dex-layout {
             &__block[data-block="orderbook"] {
               height: calc(100% ~'- 38px');
-
-              w-empty-block,
-              w-error-block {
-                top: 50%;
-                transform: translate(-50%, -50%);
-              }
             }
 
             &__block[data-block="tradevolume"] {
@@ -198,12 +192,6 @@ w-layout {
         &__block[data-block="orderbook"] {
           transition: .3s;
           height: calc(100% ~'- 200px');
-
-          w-empty-block,
-          w-error-block {
-            transform: translate(-50%, 0%);
-            top: 90px;
-          }
 
           .block-wrapper,
           w-scroll-box {
@@ -354,35 +342,23 @@ w-layout {
       }
     }
 
-    w-empty-block,
-    w-error-block {
-      position: absolute;
-      transform: translate(-50%, -50%);
-      top: 50%;
-      left: 50%;
-
-      .icon {
-        margin-top: 0;
-      }
-    }
-
     .tooltip-dex {
-      max-width: 300px;
       display: none;
       position: absolute;
-      padding: 0 10px;
       top: 25px;
-      right: 149px;
+      min-height: 25px;
+      height: 25px;
       transform-origin: center;
       color: @color-white;
       font-size: @font-size-caption-2;
       line-height: 25px;
       cursor: pointer;
-      text-shadow: 0 1px 6px rgba(78, 92, 110, 0.6);
       z-index: 10;
-      width: auto;
       text-align: center;
       white-space: nowrap;
+      border-radius: 4px;
+      width: auto;
+      padding: 0 10px;
 
       span {
         overflow: hidden;
@@ -416,6 +392,7 @@ w-layout {
         content: '';
         left: 0;
         top: 0;
+        opacity: .8;
         z-index: -1;
       }
 
@@ -424,20 +401,35 @@ w-layout {
       }
     }
 
-    .orderbook-table w-row:hover,
+    .orderbook-table w-row:not(.isEmpty):hover,
+    .smart-table__row.disabled:hover,
     .smart-table__cell[data-column-id="volume"]:hover {
-      .tooltip-dex {
+      .tooltip-dex.active {
         display: flex;
       }
     }
 
-    .orderbook-table,
-    .smart-table {
+    .smart-table__row.disabled {
+      .tooltip-dex {
+        left: 50%;
+        max-width: none;
+        transform: translateX(-50%);
+
+        &::before {
+          bottom: 100%;
+          top: auto;
+          left: 50%;
+        }
+      }
+    }
+
+    .orderbook-table {
       w-row:last-child,
       &__row:last-child {
         .tooltip-dex {
           bottom: 100%;
           top: auto;
+
           &::before {
             top: auto;
             bottom: -6px;
@@ -765,6 +757,16 @@ html body.dex-demo .notifications {
 }
 
 // responsive
+@media screen and (min-width: 660px) {
+  w-layout {
+    .dex-layout__orderbook {
+      w-dex-layout-side-bar-toggle[side="left"] {
+        width: 0;
+      }
+    }
+  }
+}
+
 @media screen and (min-width: 660px) and (max-width: 1024px) {
 
   .dex.main .main-content,
@@ -843,7 +845,6 @@ html body.dex-demo .notifications {
         }
 
         w-dex-layout-side-bar-toggle[side="left"] {
-          width: 0;
           .dex-layout {
             &__sidebar-toggle {
               left: -19px;

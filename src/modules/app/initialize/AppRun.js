@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-/* global openInBrowser, BigNumber */
+/* global openInBrowser */
 (function () {
     'use strict';
 
@@ -58,6 +58,7 @@
      * @param {User} user
      * @param {app.utils} utils
      * @param $state
+     * @param $transitions
      * @param {State} state
      * @param {ModalManager} modalManager
      * @param {Storage} storage
@@ -69,7 +70,7 @@
      * @param {INotification} userNotification
      * @return {AppRun}
      */
-    const run = function ($rootScope, utils, user, $state, state, modalManager, storage,
+    const run = function ($rootScope, utils, user, $state, $transitions, state, modalManager, storage,
                           notification, decorators, waves, ModalRouter, configService, userNotification) {
 
         const phone = WavesApp.device.phone();
@@ -140,12 +141,14 @@
                     window.listenMainProcessEvent((type, url) => {
                         const parts = utils.parseElectronUrl(url);
                         const path = parts.path.replace(/\/$/, '') || parts.path;
+
                         if (path) {
                             const noLogin = path === '/' || WavesApp.stateTree.where({ noLogin: true })
                                 .some(item => {
                                     const url = item.get('url') || item.id;
                                     return path === url;
                                 });
+
                             if (noLogin) {
                                 location.hash = `#!${path}${parts.search}`;
                             } else {
@@ -196,7 +199,9 @@
              * @private
              */
             _setHandlers() {
-                $rootScope.$on('$stateChangeSuccess', this._onChangeStateSuccess.bind(this));
+                $transitions.onSuccess({}, transition => {
+                    this._onChangeStateSuccess(transition);
+                });
                 configService.change.on(this._updateServiceAvailable, this);
             }
 
@@ -221,7 +226,7 @@
                     $state.go('unavailable');
                 } else {
                     // TODO Fix State Tree
-                    user.logout();
+                    user.logout('welcome');
                 }
             }
 
@@ -313,15 +318,7 @@
              * @private
              */
             _initializeLogin() {
-
-                // let needShowTutorial = false;
-
                 this._listenChangeLanguage();
-
-                const START_STATES = WavesApp.stateTree.where({ noLogin: true })
-                    .map((item) => WavesApp.stateTree.getPath(item.id).join('.'));
-
-                let waiting = false;
 
                 analytics.init(WavesApp.analyticsIframe, {
                     platform: WavesApp.type,
@@ -331,35 +328,39 @@
 
                 analytics.activate();
 
-                const stop = $rootScope.$on('$stateChangeStart', (event, toState, params, fromState) => {
+                this._onInitialTransitions();
+            }
 
+            _onInitialTransitions() {
+                let waiting = false;
+                const START_STATES = WavesApp.stateTree.where({ noLogin: true })
+                    .map((item) => WavesApp.stateTree.getPath(item.id).join('.'));
+
+                const offInitialTransitions = $transitions.onStart({}, transition => {
+                    const toState = transition.to();
+                    const fromState = transition.from();
+                    const params = transition.params();
                     let tryDesktop;
 
                     if (START_STATES.indexOf(toState.name) === -1) {
-                        event.preventDefault();
                         if (fromState.name === 'unavailable') {
-                            $state.go(START_STATES[0]);
+                            return $state.target(START_STATES[0]);
                         }
+
+                        transition.abort();
                     }
 
                     if (toState.name === 'unavailable' && !this._unavailable) {
-                        event.preventDefault();
-                        $state.go(START_STATES[0]);
+                        return $state.target(START_STATES[0]);
                     }
 
                     if (toState.name === 'desktop' && !this._canOpenDesktopPage) {
-                        event.preventDefault();
-                        $state.go(START_STATES[0]);
+                        return $state.target(START_STATES[0]);
                     }
 
                     if (waiting) {
                         return null;
                     }
-
-                    // if (needShowTutorial && toState.name !== 'dex-demo') {
-                    //     modalManager.showTutorialModals();
-                    //     needShowTutorial = false;
-                    // }
 
                     if (toState.name === 'main.dex-demo') {
                         tryDesktop = Promise.resolve();
@@ -367,28 +368,16 @@
                         tryDesktop = this._initTryDesktop();
                     }
 
-                    // const promise = Promise.all([
-                    //     storage.onReady(),
-                    //     tryDesktop
-                    // ]).then(([oldVersion, canOpenTutorial]) => {
-                    //     needShowTutorial = canOpenTutorial && !oldVersion;
-                    // });
-                    //
-                    // // promise.then(() => {
-                    // //     if (needShowTutorial && toState.name !== 'dex-demo') {
-                    // //         modalManager.showTutorialModals();
-                    // //         needShowTutorial = false;
-                    // //     }
-                    // // });
-
                     waiting = true;
 
                     tryDesktop
                         .then((canChangeState) => this._login(toState, canChangeState))
                         .then(() => {
-                            stop();
+                            waiting = false;
+                            offInitialTransitions();
 
                             this._stopListenChangeLanguage();
+
                             if (START_STATES.indexOf(toState.name) === -1) {
                                 $state.go(toState.name, params);
                             } else {
@@ -405,16 +394,26 @@
                                     this._modalRouter.initialize();
                                 });
 
-                            const off = $rootScope.$on('$stateChangeStart', (event, current) => {
-                                if (START_STATES.indexOf(current.name) !== -1) {
-                                    event.preventDefault();
-                                } else {
-                                    state.signals.changeRouterStateStart.dispatch(event);
-                                }
-                            });
+                            const offInnerTransitions = this._onInnerTransitions(START_STATES);
 
-                            user.onLogout.once(off);
+                            user.logoutSignal.once(() => {
+                                offInnerTransitions();
+                                this._onInitialTransitions();
+                            });
                         });
+                });
+            }
+
+            _onInnerTransitions(START_STATES) {
+                return $transitions.onStart({}, transition => {
+                    const toState = transition.to();
+                    const { custom } = transition.options();
+
+                    if (START_STATES.indexOf(toState.name) !== -1 && !custom.logout) {
+                        return false;
+                    } else {
+                        state.signals.changeRouterStateStart.dispatch(transition);
+                    }
                 });
             }
 
@@ -491,7 +490,7 @@
 
                             modalManager.openModal.off(changeModalsHandler);
 
-                            const stop = $rootScope.$on('$stateChangeSuccess', () => {
+                            const stop = $transitions.onSuccess({}, () => {
                                 stop();
                                 this._initializeBackupWarning();
                             });
@@ -510,10 +509,8 @@
                 // const sessions = sessionBridge.getSessionsData();
 
                 const states = WavesApp.stateTree.where({ noLogin: true })
-                    .map((item) => {
-                        return WavesApp.stateTree.getPath(item.id)
-                            .join('.');
-                    });
+                    .map((item) => WavesApp.stateTree.getPath(item.id).join('.'));
+
                 if (canChangeState && states.indexOf(currentState.name) === -1) {
                     // if (sessions.length) {
                     //     $state.go('sessions');
@@ -527,13 +524,13 @@
 
             /**
              * @param {Event} event
-             * @param {object} toState
-             * @param some
-             * @param fromState
+             * @param {object} transition
              * @param {string} toState.name
              * @private
              */
-            _onChangeStateSuccess(event, toState, some, fromState) {
+            _onChangeStateSuccess(transition) {
+                const toState = transition.to();
+                const fromState = transition.from();
                 const from = fromState.name || document.referrer;
 
                 if (toState.name !== fromState.name) {
@@ -691,6 +688,7 @@
         'utils',
         'user',
         '$state',
+        '$transitions',
         'state',
         'modalManager',
         'storage',

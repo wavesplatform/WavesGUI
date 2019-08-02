@@ -270,7 +270,7 @@ body.dex-demo {
                   color: @color-disabled-900;
                 }
 
-                &:hover {
+                &:hover:not(.disabled) {
                   background-color: @dex-selected-item-bg;
 
                   .underline {
@@ -408,6 +408,7 @@ body.dex-demo {
           &__row {
             position: relative;
             display: flex;
+            justify-content: space-between;
 
             .dropdown {
               display: none;
@@ -428,6 +429,8 @@ body.dex-demo {
 
           &__cell {
             white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
 
             .decimal-muted {
               color: @color-basic-500;
@@ -688,5 +691,11 @@ body.dex-demo {
         }
       }
     }
+  }
+}
+
+w-dex-my-orders {
+  .smart-table__cell[data-column-id="controls"] {
+    flex-shrink: 0;
   }
 }
