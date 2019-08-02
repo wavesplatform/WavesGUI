@@ -200,7 +200,7 @@
                     params: { Currency: asset ? asset.id : 'All' },
                     target: 'ui'
                 });
-                return modalManager.showReceiveModal(user, asset);
+                return modalManager.showReceiveModal(asset);
             }
 
             showSeedBackupModals() {
