@@ -76,22 +76,24 @@
                         </div>
                     </div>
 
-                    <div class="bottom-warning" ng-if="::$ctrl.isTockenIssue">
-                        <div class="plate-warning">
-                            <div class="body-2 margin-05 warning-500" w-i18n="modal.token.warning.header"></div>
-                            <div class="footnote-1 basic-500" w-i18n="modal.token.warning.text"></div>
-                            <div class="body-2 margin-05 warning-500" w-i18n="modal.token.warning.textWarning"></div>
-                        </div>
-                    </div>
+
 
                     <h3 class="info margin-4 basic-700" ng-if="$ctrl.referrer">
                         <span w-i18n="confirmTransaction.redirect" params="{referrer: $ctrl.referrer}"></span>
                     </h3>
 
                     <div class="bottom-wrapper">
+                        <div ng-if="$ctrl.errorType"
+                             class="error-500 margin-2 margin-top-2"
+                             w-i18n-ns="app.dex"
+                             w-i18n="directives.createOrder.notifications.error.{{::$ctrl.errorType}}"
+                             params="$ctrl.errorParams">
+                        </div>
+
                         <div ng-if="$ctrl.errorMessage" class="error-500 margin-2 margin-top-2">
                             {{$ctrl.errorMessage}}
                         </div>
+
                         <div ng-if="$ctrl.errors" class="margin-top-2 error-500 footnote-1">
                             <div params="error.data"
                                  ng-repeat="error in $ctrl.errors"

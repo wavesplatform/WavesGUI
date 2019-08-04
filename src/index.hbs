@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <title>Waves Client</title>
+    <title>Waves DEX</title>
     <link rel="icon" href="{{domain}}/img/favicon.ico" type="image/x-icon"/>
 
     <script>
@@ -318,7 +318,7 @@
              * @type {IWavesApp}
              */
             var WavesApp = {
-                name: 'Waves Client',
+                name: 'Waves DEX',
                 version: config.pack.version,
                 type: !config.isWeb() ? 'desktop' : 'web',
                 matcherPriorityList: config.network.matcherPriorityList,
@@ -342,9 +342,11 @@
                     privacyPolicy: config.network.privacyPolicy,
                     nodeList: config.network.nodeList,
                     scamListUrl: config.network.scamListUrl,
+                    tokensNameListUrl: config.network.tokensNameListUrl,
                     explorer: config.network.explorer,
                     featuresConfigUrl: config.network.featuresConfigUrl,
-                    feeConfigUrl: config.feeConfigUrl
+                    feeConfigUrl: config.feeConfigUrl,
+                    tokenrating: config.network.tokenrating
                 },
                 defaultAssets: {
                     WAVES: 'WAVES',
@@ -364,6 +366,7 @@
                 },
                 tradingPairs: config.tradingPairs,
                 ALWAYS_PINNED_ASSETS: ['WAVES'],
+                WCTAsset: config.network.assets.WCT,
 
                 otherAssetsWithIcons: {
                     // TODO @xenohunter : remove that when icons are in @dvshur's service
@@ -457,7 +460,8 @@
     </script>
 
     {{#if isWeb}}
-        <base href="/">{{/if}}
+        <base href="/">
+    {{/if}}
 
     <script>
         try {
