@@ -3,8 +3,6 @@
         <h3 class="basic-700"
             w-i18n="transaction.amounts.{{::$ctrl.typeName}}"
             params="{amount: $ctrl.quantity, name: $ctrl.name}"></h3>
-        <span ng-if="$ctrl.isScam"
-              class="status-label-min inactive"
-              w-i18n="transaction.headers.suspicious"></span>
+        <w-asset-status asset-id="$ctrl.transaction.assetId"></w-asset-status>
     </div>
 </div>

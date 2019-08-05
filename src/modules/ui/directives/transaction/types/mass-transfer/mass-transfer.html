@@ -3,7 +3,7 @@
         <div class="body-2 margin-05 top fs-mobile">
             <span w-i18n="transaction.headers.{{::$ctrl.typeName}}"
                   params="{name: $ctrl.assetName}"></span>
-            <span class="status-label-min inactive" w-i18n="transaction.headers.suspicious"></span>
+            <w-asset-status asset-id="$ctrl.props.assetId" size="'small'" only-spam="true"></w-asset-status>
         </div>
         <div class="footnote-1 bottom fs-mobile">
             <span w-i18n="transaction.subheaders.{{::$ctrl.typeName}}"

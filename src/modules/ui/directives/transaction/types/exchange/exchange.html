@@ -10,10 +10,7 @@
                 /<span>{{$ctrl.priceAssetName}}</span>
             </span>
             <span>
-                <span ng-if="$ctrl.isScamPrice"
-                      class="spam-label"
-                      w-i18n="transaction.headers.suspicious">
-                </span>
+                 <w-asset-status asset-id="$ctrl.props.assetId" size="'small'" only-spam="true"></w-asset-status>
             </span>
         </div>
         <div class="footnote-1 bottom fs-mobile">
