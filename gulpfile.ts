@@ -1,471 +1,172 @@
-import * as gulp from 'gulp';
-import * as concat from 'gulp-concat';
-import * as babel from 'gulp-babel';
-import { exec, execSync } from 'child_process';
-import {
-    download,
-    getAllLessFiles,
-    getFilesFrom,
-    prepareExport,
-    prepareHTML,
-    run,
-    task,
-    getScripts,
-    getStyles,
-    getInitScript,
-    loadLocales
-} from './ts-scripts/utils';
+import { readJSONSync } from 'fs-extra';
+import { parallel, series, task } from 'gulp';
 import { basename, extname, join, sep } from 'path';
-import {
-    copy,
-    outputFile,
-    outputFileSync,
-    readdir,
-    readFile,
-    readJSON,
-    readJSONSync,
-    writeFile
-} from 'fs-extra';
-
+import { options } from 'yargs';
+import { createBabelTask } from './scripts/babelTask';
+import { createCleanTask } from './scripts/cleanTask';
+import { createConcatTask } from './scripts/concatTask';
+import { createCopyTask } from './scripts/copyTask';
+import { createDataServicesTask } from './scripts/dataServicesTask';
+import { createElectronDebugTask } from './scripts/electronDebugTask';
+import { createElectronPackageTask } from './scripts/electronPackageTask';
+import { createEslintTask } from './scripts/eslintTask';
+import { createHtmlTask } from './scripts/htmlTask';
+import { createImageListTask } from './scripts/imageListTask';
+import { createLessTask } from './scripts/lessTask';
+import { createLocalesTask } from './scripts/localesTask';
+import { createTemplatesTask } from './scripts/templatesTask';
 import { IMetaJSON, IPackageJSON, TBuild, TConnection, TPlatform } from './ts-scripts/interface';
-import * as templateCache from 'gulp-angular-templatecache';
-import * as htmlmin from 'gulp-htmlmin';
-import { readFileSync, writeFileSync, unlink, rename, existsSync } from 'fs';
-import { render } from 'less';
-import { exist } from './electron/utils';
+import { getFilesFrom } from './ts-scripts/utils';
 
-const zip = require('gulp-zip');
-const extract = require('extract-zip');
+const getFileName = (name: string, env: TBuild) => {
+    const postfix = env === 'production' ? '.min' : '';
 
-const { themes: THEMES } = readJSONSync(join(__dirname, 'src/themeConfig', 'theme.json'));
-const meta: IMetaJSON = readJSONSync(join(__dirname, 'ts-scripts', 'meta.json'));
-const pack: IPackageJSON = readJSONSync(join(__dirname, 'package.json'));
-const configurations = Object.keys(meta.configurations);
-
-const SOURCE_FILES = getFilesFrom(join(__dirname, 'src'), '.js');
-const IMAGE_LIST = getFilesFrom(join(__dirname, 'src', 'img'), ['.png', '.svg', '.jpg'], (name, path) => path.indexOf('no-preload') === -1);
-const JSON_LIST = getFilesFrom(join(__dirname, 'src'), '.json');
-
-const taskHash = {
-    concat: [],
-    html: [],
-    copy: [],
-    zip: [],
-    forElectron: []
+    return name.replace(/\.(js|css)/, `${postfix}.$1`);
 };
 
-const tmpJsPath = join(__dirname, 'dist', 'tmp', 'js');
-const tmpCssPath = join(__dirname, 'dist', 'tmp', 'css');
-const vendorName = 'vendors.js';
-const bundleName = 'bundle.js';
-const templatesName = 'templates.js';
-const cssName = `${pack.name}-styles-${pack.version}.css`;
-const vendorCssName = `${pack.name}-vendor-styles-${pack.version}.css`; //TODO need drop cache?
-const vendorPath = join(tmpJsPath, vendorName);
-const bundlePath = join(tmpJsPath, bundleName);
-const templatePath = join(tmpJsPath, templatesName);
-const steelSheetsFiles = {};
-
-const getFileName = (name, type) => {
-    const postfix = type === 'min' ? '.min' : '';
-    return `${name.replace('.js', '')}${postfix}.js`;
-};
-
-
-const indexPromise = readFile(join(__dirname, 'src', 'index.hbs'), { encoding: 'utf8' });
-
-['web', 'desktop'].forEach((buildName: TPlatform) => {
-
-    configurations.forEach((configName: TConnection) => {
-
-        ['normal', 'min'].forEach((type: TBuild) => {
-
-            const targetPath = join(__dirname, 'dist', buildName, configName, type);
-            const jsFileName = getName(`${pack.name}-${buildName}-${configName}-${pack.version}.js`);
-            const jsFilePath = join(targetPath, 'js', jsFileName);
-            const taskPostfix = `${buildName}-${configName}-${type}`;
-
-            task(`concat-${taskPostfix}`, [type === 'min' ? 'uglify' : 'babel'], function (done) {
-                const stream = gulp.src([vendorPath, getName(bundlePath), getName(templatePath)])
-                    .pipe(concat(jsFileName))
-                    .pipe(gulp.dest(join(targetPath, 'js')));
-
-                stream.on('end', function () {
-                    readFile(join(targetPath, 'js', jsFileName), { encoding: 'utf8' }).then((file) => {
-                        if (buildName === 'desktop') {
-                            file = `(function () {\nvar module = undefined;\n${file}})();`;
-                        }
-                        outputFile(join(targetPath, 'js', jsFileName), file)
-                            .then(() => done());
-                    });
-                });
-            });
-            taskHash.concat.push(`concat-${taskPostfix}`);
-
-            const copyDeps = ['concat-style', 'downloadLocales'];
-
-            task(`copy-${taskPostfix}`, copyDeps, function (done) {
-                    const reg = new RegExp(`(.*?\\${sep}src)`);
-                    let forCopy = JSON_LIST.map((path) => {
-                        return copy(path, path.replace(reg, `${targetPath}`));
-                    }).concat(
-                        copy(join(__dirname, 'src/fonts'), `${targetPath}/fonts`),
-                        meta.exportPageVendors.map(p => copy(join(__dirname, p), join(targetPath, p)))
-                    );
-
-                    forCopy.push(copy(join('dist', 'locale'), join(targetPath, 'locales')));
-                    forCopy.push(copy(join(__dirname, 'tradingview-style'), join(targetPath, 'tradingview-style')));
-
-                    if (buildName === 'desktop') {
-                        const electronFiles = getFilesFrom(join(__dirname, 'electron'), '.js');
-                        electronFiles.forEach((path) => {
-                            const name = basename(path);
-                            forCopy.push(copy(path, join(targetPath, name)));
-                        });
-                        forCopy.push(copy(join(__dirname, 'electron', 'icons'), join(targetPath, 'img', 'icon.png')));
-                        forCopy.push(copy(join(__dirname, 'electron', 'waves.desktop'), join(targetPath, 'waves.desktop')));
-                        forCopy.push(copy(join(__dirname, 'node_modules', 'i18next', 'dist'), join(targetPath, 'i18next')));
-                    }
-
-                    Promise.all([
-                        Promise.all(meta.copyNodeModules.map((path) => {
-                            return copy(join(__dirname, path), join(targetPath, path));
-                        })) as Promise<any>,
-                        copy(join(__dirname, 'src/img'), `${targetPath}/img`).then(() => {
-                            const images = IMAGE_LIST.map((path) => path.replace(reg, ''));
-                            return writeFile(join(targetPath, 'img', 'images-list.json'), JSON.stringify(images));
-                        }),
-                        copy(tmpCssPath, join(targetPath, 'css')),
-                        copy('LICENSE', join(`${targetPath}`, 'LICENSE')),
-                        copy('googleAnalytics.js', join(`${targetPath}`, 'googleAnalytics.js')),
-                        copy('amplitude.js', join(`${targetPath}`, 'amplitude.js')),
-                    ].concat(forCopy)).then(() => {
-                        done();
-                    }, (e) => {
-                        done(e);
-                    });
-                }
-            );
-            taskHash.copy.push(`copy-${taskPostfix}`);
-
-            const htmlDeps = [
-                `concat-${taskPostfix}`,
-                `copy-${taskPostfix}`
-            ];
-
-            task(`html-${taskPostfix}`, htmlDeps, function (done) {
-                const scripts = [jsFilePath];
-                const outerScripts = [
-                    '<script>Sentry.init({ dsn: "https://edc3970622f446d7aa0c9cb38be44a4f@sentry.io/291068" });<\/script>'
-                ];
-
-                if (buildName === 'desktop') {
-                    meta.electronScripts.forEach((fileName) => {
-                        scripts.push(join(targetPath, fileName));
-                    });
-                }
-
-                indexPromise
-                    .then(() => {
-
-                        const styles = [{ name: join('/css', vendorCssName), theme: null }];
-
-                        for (const theme of THEMES) {
-                            styles.push({
-                                name: join('/css', `${theme}-${cssName}`), theme
-                            });
-                        }
-
-                        const params = {
-                            buildType: type,
-                            target: targetPath,
-                            connection: configName,
-                            type: buildName,
-                            outerScripts,
-                            scripts,
-                            styles,
-                            themes: THEMES
-                        };
-
-                        const filePromise = prepareHTML(params);
-                        const initScript = getInitScript(null, null, null, params);
-                        const exportPromise = prepareExport();
-                        return Promise.all([filePromise, initScript, exportPromise]);
-                    })
-                    .then(([file, initScript, exportTemplate]) => Promise.all([
-                        outputFile(`${targetPath}/index.html`, file),
-                        outputFile(`${targetPath}/init.js`, initScript),
-                        outputFile(`${targetPath}/export.html`, exportTemplate),
-                    ]))
-                    .then(() => done());
-            });
-
-            taskHash.html.push(`html-${taskPostfix}`);
-
-            if (buildName === 'desktop') {
-                task(`electron-create-package-json-${taskPostfix}`, [`html-${taskPostfix}`], function (done) {
-                    const targetPackage = Object.create(null);
-
-                    meta.electron.createPackageJSONFields.forEach((name) => {
-                        targetPackage[name] = pack[name];
-                    });
-
-                    Object.assign(targetPackage, meta.electron.defaults);
-                    targetPackage.server = meta.electron.server;
-
-                    writeFile(join(targetPath, 'package.json'), JSON.stringify(targetPackage, null, 4))
-                        .then(() => done());
-                });
-                taskHash.forElectron.push(`electron-create-package-json-${taskPostfix}`);
-            }
-
-            function getName(name) {
-                return getFileName(name, type);
-            }
-
-        });
-
-    });
-
-    task(`zip-${buildName}`, [
-        `concat-${buildName}-mainnet-min`,
-        `html-${buildName}-mainnet-min`,
-        `copy-${buildName}-mainnet-min`
-    ], function () {
-        return gulp.src(`dist/${buildName}/mainnet/min/**/*.*`)
-            .pipe(zip(`${pack.name}-${buildName}-v${pack.version}.zip`))
-            .pipe(gulp.dest('dist'));
-    });
-    taskHash.zip.push(`zip-${buildName}`);
-
-});
-
-task('up-version-json', function (done) {
-    console.log('new version: ', pack.version);
-
-    const promises = [
-        './src/desktop/package.json'
-    ].map((path) => {
-        return readJSON(path).then((json) => {
-            json.version = pack.version;
-            return outputFile(path, JSON.stringify(json, null, 2));
-        });
-    });
-
-    Promise.all(promises)
-        .then(() => {
-            return run('git', ['add', '.']);
-        })
-        .then(() => {
-            return run('git', ['commit', '-m', `Message: "${pack.version}" for other json files`]);
-        })
-        .then(() => {
-            done();
-        });
-});
-
-task('templates', function () {
-    return gulp.src(['src/**/*.html', 'src/!(index.hbs)/**/*.hbs'])
-        .pipe(htmlmin({ collapseWhitespace: true }))
-        .pipe(templateCache({
-            module: 'app.templates'
-        }))
-        .pipe(gulp.dest(tmpJsPath));
-});
-
-task('concat-style', ['less'], function () {
-    steelSheetsFiles[vendorCssName] = { theme: false };
-    return gulp.src(meta.stylesheets)
-        .pipe(concat(vendorCssName))
-        .pipe(gulp.dest(tmpCssPath));
-});
-
-task('concat-develop-sources', function () {
-    return gulp.src(SOURCE_FILES)
-        .pipe(concat(bundleName))
-        .pipe(gulp.dest(tmpJsPath));
-});
-
-task('concat-develop-vendors', function () {
-    return gulp.src(meta.vendors)
-        .pipe(concat(vendorName))
-        .pipe(gulp.dest(tmpJsPath));
-});
-
-task('downloadLocales', ['concat-develop-sources'], function (done) {
-    const dist = join(__dirname, 'dist');
-    loadLocales(dist).then(() => done());
-});
-
-task('clean', function () {
-    execSync(`sh ${join('scripts', 'clean.sh')}`);
-});
-
-task('eslint', function (done) {
-    run('sh', ['scripts/eslint.sh']).then(() => done());
-});
-
-task('less', function () {
-    const files = getAllLessFiles();
-    for (const theme of THEMES) {
-        outputFileSync(join(__dirname, 'tmp', theme), '');
-        let bigFile = '';
-        let promise = Promise.resolve();
-
-        for (const file of files) {
-            let readFile = readFileSync(file).toString();
-
-            promise = promise.then(() => {
-                return (render as any)(readFile, {
-                    filename: join(file),
-                    paths: join(__dirname, `src/themeConfig/${theme}`)
-                } as any)
-                    .then(function (output) {
-                            bigFile = bigFile + output.css;
-                        },
-                        function (error) {
-                            console.log(error);
-                        });
-            });
+function createBuildTask(args?: { platform: TPlatform; env: TBuild; config: string }) {
+    const { platform, env, config } = args || options({
+        platform: {
+            type: 'string',
+            alias: 'p',
+            choices: ['web', 'desktop'],
+            default: 'web'
+        },
+        env: {
+            type: 'string',
+            alias: 'e',
+            choices: ['development', 'production'],
+            default: 'production'
+        },
+        config: {
+            type: 'string',
+            alias: 'c',
+            default: './configs/mainnet.json'
         }
+    }).argv;
 
-        promise.then(() => {
-            outputFileSync(join(__dirname, 'tmp', `${theme}`), bigFile);
-            execSync(`sh ${join(__dirname, 'scripts', `less.sh -t=${theme} -n=${cssName}`)}`);
-            steelSheetsFiles[cssName] = { theme };
-        });
-    }
-});
+    const configName = basename(config, extname(config));
+    const distPath = 'dist';
+    const outputPath = join(distPath, platform, configName);
+    const reg = new RegExp(`(.*?\\${sep}?src)`);
 
-task('babel', ['concat-develop'], function () {
-    return gulp.src(bundlePath)
-        .pipe(babel({
-            presets: ['es2015'],
-            plugins: [
-                'transform-decorators-legacy',
-                'transform-class-properties',
-                'transform-decorators',
-                'transform-object-rest-spread',
-                'transform-async-to-generator'
-            ]
-        }))
-        .pipe(gulp.dest(tmpJsPath))
-        .on('end', () => {
-            writeFileSync(bundlePath, `(function () {${readFileSync(bundlePath, 'utf8')}})()`);
-        });
-});
+    const pack: IPackageJSON = readJSONSync('package.json');
+    const meta: IMetaJSON = readJSONSync(join('ts-scripts', 'meta.json'));
+    const { themes } = readJSONSync(join('src', 'themeConfig', 'theme.json'));
+    const SOURCE_IMAGE_LIST = getFilesFrom(
+        join('src', 'img'),
+        ['.png', '.svg', '.jpg'],
+        (name, path) => path.indexOf('no-preload') === -1
+    );
+    const SOURCE_JSON_LIST = getFilesFrom(join('src'), '.json');
 
-task('uglify', ['babel', 'templates'], function (done) {
-    const PATH_HASH = {
-        bin: join(__dirname, 'node_modules', '.bin', 'uglifyjs'),
-        out: join(__dirname, 'dist', 'tmp', 'js')
-    };
-    const run = function (path, name) {
-        return new Promise((resolve, reject) => {
-            exec(`${PATH_HASH.bin} ${path} -o ${join(PATH_HASH.out, name)}`, (err, l1, l2) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve();
+    return series(
+        parallel(
+            createTemplatesTask(
+                ['src/**/*.html', 'src/!(index.hbs)/**/*.hbs'],
+                join(outputPath, 'js'),
+                {
+                    module: 'app.templates',
+                    standalone: true,
+                    transformUrl(url: string) {
+                        return (url.startsWith('/') || url.startsWith('\\')) ? url.slice(1) : url;
+                    },
+                    filename: getFileName('templates.js', env as TBuild)
                 }
-            });
-        });
-    };
-
-    Promise.all([
-        run(bundlePath, getFileName(bundleName, 'min')),
-        run(templatePath, getFileName(templatesName, 'min'))
-    ]).then(() => done());
-});
-
-task('zip', configurations.map(name => `zip-${name}`));
-
-task('concat-develop', [
-    'concat-develop-sources',
-    'concat-develop-vendors'
-]);
-
-task('build-main', getTasksFrom('build', taskHash.concat, taskHash.copy, taskHash.html));
-
-task('concat', taskHash.concat.concat('concat-develop'));
-task('electron-task-list', taskHash.forElectron);
-task('copy', taskHash.copy);
-task('html', taskHash.html);
-task('zip', taskHash.zip);
-
-task('electron-debug', function (done) {
-    const root = join(__dirname, 'dist', 'desktop', 'electron-debug');
-    const srcDir = join(__dirname, 'electron');
-
-    const copyItem = name => copy(join(srcDir, name), join(root, name));
-    const makePackageJSON = () => {
-        const targetPackage = Object.create(null);
-
-        meta.electron.createPackageJSONFields.forEach((name) => {
-            targetPackage[name] = pack[name];
-        });
-
-        Object.assign(targetPackage, meta.electron.defaults);
-        targetPackage.server = 'localhost:8080';
-
-        return writeFile(join(root, 'package.json'), JSON.stringify(targetPackage));
-    };
-
-    const excludeTypeScrip = list => list.filter(name => extname(name) !== '.ts');
-
-    const copyNodeModules = () => Promise.all(meta.copyNodeModules.map(name => copy(name, join(root, name))));
-    const copyI18next = () => copy(join(__dirname, 'node_modules', 'i18next', 'dist'), join(root, 'i18next'));
-
-    const renameLocaleDirectory = () => {
-        const localesPath = join(root, 'locales');
-        const localePath = join(root, 'locale');
-        if (!existsSync(localesPath)) {
-            rename(localePath, localesPath, error => {
-                if (error) {
-                    console.error('renaming of locale error', error);
-                    return;
-                }
-            });
-        }
-    };
-
-    readdir(srcDir)
-        .then(excludeTypeScrip)
-        .then(list => Promise.all(list.map(copyItem)))
-        .then(makePackageJSON)
-        .then(() => loadLocales(root))
-        .then(() => renameLocaleDirectory())
-        .then(copyNodeModules)
-        .then(copyI18next)
-        .then(() => done());
-});
-
-task('data-service', function () {
-    execSync('npm run data-service');
-});
-
-task('all', [
-    'clean',
-    'data-service',
-    'templates',
-    'concat',
-    'copy',
-    'html',
-    'electron-task-list',
-    'electron-debug',
-    'zip'
-]);
-
-function filterTask(forFind: string) {
-    return (item) => {
-        return item.includes(forFind);
-    };
+            ),
+            createConcatTask(
+                getFileName('vendors.js', env as TBuild),
+                meta.vendors,
+                join(outputPath, 'js'),
+                platform === 'desktop'
+                    ? ['(function () {\nvar module = undefined;\n', '})();']
+                    : null
+            ),
+            createConcatTask(
+                getFileName('sentry-vendors.js', env as TBuild),
+                meta.sentryVendors,
+                join(outputPath, 'js')
+            ),
+            createConcatTask(
+                getFileName('vendor-styles.css', env as TBuild),
+                meta.stylesheets,
+                join(outputPath, 'css')
+            ),
+            createBabelTask(
+                getFileName('bundle.js', env as TBuild),
+                'src/modules/**/*.js',
+                join(outputPath, 'js')
+            ),
+            parallel(
+                themes.map(theme => createLessTask(
+                    getFileName(`${theme}-styles.css`, env as TBuild),
+                    'src/modules/**/*.less',
+                    join(outputPath, 'css'),
+                    { paths: [join('src', 'themeConfig', theme)] }
+                ))
+            )
+        ),
+        createLocalesTask(join(__dirname, distPath)),
+        createCopyTask([
+            ...SOURCE_JSON_LIST.map(path => ({ from: path, to: path.replace(reg, outputPath) })),
+            ...meta.exportPageVendors.map(path => ({ from: path, to: join(outputPath, path) })),
+            ...meta.copyNodeModules.map(path => ({ from: join(path), to: join(outputPath, path) })),
+            { from: join('src', 'fonts'), to: join(outputPath, 'fonts') },
+            { from: join(distPath, 'locale'), to: join(outputPath, 'locales') },
+            { from: 'tradingview-style', to: join(outputPath, 'tradingview-style') },
+            { from: 'LICENSE', to: join(outputPath, 'LICENSE') },
+            { from: 'googleAnalytics.js', to: join(outputPath, 'googleAnalytics.js') },
+            { from: 'amplitude.js', to: join(outputPath, 'amplitude.js') },
+            { from: join('src', 'img'), to: join(outputPath, 'img') },
+            ...(platform === 'desktop' ? [
+                ...getFilesFrom(join('electron'), '.js').map(path => ({ from: path, to: join(outputPath, basename(path)) })),
+                { from: join('electron', 'icons'), to: join(outputPath, 'img', 'icon.png') },
+                { from: join('electron', 'waves.desktop'), to: join(outputPath, 'waves.desktop') },
+                { from: join('node_modules', 'i18next', 'dist'), to: join(outputPath, 'i18next') }
+            ] : [])
+        ]),
+        createImageListTask(SOURCE_IMAGE_LIST, join(outputPath, 'img', 'images-list.json'), reg),
+        createHtmlTask({
+            target: outputPath,
+            buildType: env as TBuild,
+            connection: configName as TConnection,
+            type: platform as TPlatform,
+            outerScripts: [
+                '<script>Sentry.init({ dsn: "https://edc3970622f446d7aa0c9cb38be44a4f@sentry.io/291068" });<\/script>'
+            ],
+            scripts: [
+                ...(platform === 'desktop' ?
+                    meta.electronScripts.map(fileName => join(outputPath, fileName)) :
+                    []
+                )
+            ],
+            styles: [],
+            themes,
+            networkConfigFile: config
+        }),
+        createElectronPackageTask(outputPath, platform as TPlatform, meta, pack)
+    );
 }
 
-function getTasksFrom(filter: string, ...tasks: Array<Array<string>>): Array<string> {
-    const processor = filterTask(filter);
-    return tasks.reduce((result, taskList) => {
-        result = result.concat(taskList.filter(processor));
-        return result;
-    }, []);
-}
+task('build', series(
+    createCleanTask(),
+    createDataServicesTask(),
+    createBuildTask()
+));
+
+task('eslint', createEslintTask());
+
+task('clean', createCleanTask());
+
+task('data-services', createDataServicesTask());
+
+task('electron-debug', createElectronDebugTask());
+
+task('all', series(
+    createCleanTask(),
+    createDataServicesTask(),
+    createBuildTask({ platform: 'web', env: 'production', config: './configs/mainnet.json' }),
+    createBuildTask({ platform: 'web', env: 'production', config: './configs/testnet.json' }),
+    createBuildTask({ platform: 'desktop', env: 'production', config: './configs/mainnet.json' }),
+    createBuildTask({ platform: 'desktop', env: 'production', config: './configs/testnet.json' })
+));

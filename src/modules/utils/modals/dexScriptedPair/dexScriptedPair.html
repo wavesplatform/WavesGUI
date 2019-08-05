@@ -6,7 +6,7 @@
             <div class="pair-wrapper text-center margin-3 margin-top-6">
                 <w-asset-logo
                         ng-repeat="asset in $ctrl.assets track by asset.id"
-                        asset-id="{{::asset.id}}"
+                        asset-id="asset.id"
                         size="65" class="asset-logo asset-logo_big"></w-asset-logo>
             </div>
             <h3 class="margin-1 text-center basic-700" w-i18n="modal.dexScriptedPair.heading"></h3>

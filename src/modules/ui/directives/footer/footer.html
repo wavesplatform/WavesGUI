@@ -92,16 +92,18 @@
             </div>
         </div>
     </section>
-    <div class="toaster-mobiles" ng-if="::$ctrl.isToasterMobilesVisible">
-        <a href="{{::$ctrl.mobileAppLink}}" class="toaster-mobiles__link">
-            <div class="toaster-mobiles__mobile-app-logo"></div>
-            <div class="toaster-mobiles__text-wrapper">
-                <div class="toaster-mobiles__title" w-i18n="welcome.downloadMobileApp"></div>
-                <div class="toaster-mobiles__sub-title" w-i18n="welcome.instantAccessWalletDex"></div>
+    <w-web-only>
+        <div class="toaster-mobiles" ng-if="::$ctrl.isToasterMobilesVisible">
+            <a href="{{::$ctrl.mobileAppLink}}" class="toaster-mobiles__link">
+                <div class="toaster-mobiles__mobile-app-logo"></div>
+                <div class="toaster-mobiles__text-wrapper">
+                    <div class="toaster-mobiles__title" w-i18n="welcome.downloadMobileApp"></div>
+                    <div class="toaster-mobiles__sub-title" w-i18n="welcome.instantAccessWalletDex"></div>
+                </div>
+            </a>
+            <div class="toaster-mobiles__close">
+                <button class="toaster-mobiles__close-icon" ng-click="$ctrl.hideToaster()"></button>
             </div>
-        </a>
-        <div class="toaster-mobiles__close">
-            <button class="toaster-mobiles__close-icon" ng-click="$ctrl.hideToaster()"></button>
         </div>
-    </div>
+    </w-web-only>
 </footer>

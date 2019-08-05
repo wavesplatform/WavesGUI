@@ -1,0 +1,56 @@
+{
+  "tradingPairs": [
+    "6bymXakShhDKSTbtsGjuzRuiFsCYbtkahLgEfEEzsWar",
+    "8zreE1U1TJ8Vhda8M2jEWukrWwX8znjSSjsgNGDUzdgh",
+    "CMPv2sNdEUtEd56kNmgviXuE5MJ9hHABUWmhbmdgUnm1"
+  ],
+  "oracles": {
+    "waves": "3N5net4nzSeeqxPfGZrvVvnGavsinipQHbE",
+    "tokenomica": "3Mq2ikxDH6rV5VBUNX1Ef8Ag1Vjntbh4MvD"
+  },
+  "apiVersion": "v0",
+  "code": "T",
+  "bankRecipient": "3NCKpqzSnHmXhZEmqYy4U6RUKUAJDTxWgWP",
+  "node": "https://pool.testnet.wavesnodes.com",
+  "matcher": "https://matcher.testnet.wavesnodes.com/matcher",
+  "api": "https://api.testnet.wavesplatform.com",
+  "explorer": "https://wavesexplorer.com/testnet",
+  "coinomat": "https://localhost:8080/coinomat",
+  "wavesGateway": "https://gateways-dev.wvservices.com",
+  "support": "https://support.wavesplatform.com",
+  "termsAndConditions": "https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf",
+  "privacyPolicy": "https://wavesplatform.com/files/docs/Privacy%20Policy_SW.pdf",
+  "nodeList": "http://dev.pywaves.org/testnet/generators/",
+  "tokensNameListUrl": "https://raw.githubusercontent.com/wavesplatform/waves-community/master/Prominent%20token%20name%20list.csv",
+  "scamListUrl": "https://raw.githubusercontent.com/wavesplatform/waves-community/master/Scam%20tokens%20according%20to%20the%20opinion%20of%20Waves%20Community.csv",
+  "origin": "https://testnet.wavesplatform.com",
+  "featuresConfigUrl": "https://raw.githubusercontent.com/wavesplatform/waves-client-config/master/testnet.config.json",
+  "feeConfigUrl": "https://raw.githubusercontent.com/wavesplatform/waves-client-config/master/fee.json",
+  "VSTNetworkByte": "F",
+  "tokenrating": "https://dev.voting.wavesplatform.com",
+  "assets": {
+    "EUR": "AsuWyM9MUUsMmWkK7jS48L3ky6gA1pxx7QtEYPbfLjAJ",
+    "USD": "D6N2rAqWN6ZCWnCeNFWLGqqjS6nJLeK4m19XiuhdDenr",
+    "BTC": "DWgwcZTMhSvnyYCoWLRUXXSH1RSkzThXLJhww9gwkqdn",
+    "ETH": "BrmjyAWT5jjr3Wpsiyivyvg5vDuzoX2s93WgiexXetB3",
+    "LTC": "BNdAstuFogzSyN2rY3beJbnBYwYcu7RzTHFjW88g8roK",
+    "ZEC": "CFg2KQfkUgUVM2jFCMC5Xh8T8zrebvPc4HjHPfAugU1S",
+    "BCH": "8HT8tXwrXAYqwm8XrZ2hywWWTUAXxobHB5DakVC1y6jn",
+    "BSV": "6KSUNALdYEd1EVTE4dTcSHzNw1dA3Q6ieokSRVuEcALV",
+    "TRY": "7itsmgdmomeTXvZzaaxqF3346h4FhciRoWceEw9asNV3",
+    "DASH": "DGgBtwVoXKAKKvV2ayUpSoPzTJxt7jo9KiXMJRzTH2ET",
+    "EFYT": "FvKx3cerSVYGfXKFvUgp7koNuTAcLs8DmtmwRrFVCqJv",
+    "WNET": "3P8gkhcLhFQvBkDzMnWeqqwvq3qxkpTNQPs4LUQ95tKD",
+    "XMR": "8oPbSCKFHkXBy1hCGSg9pJkSARE7zhTQTLpc8KZwdtr7",
+    "VST": "AMFteLfPzPhTsFc3NfvHG7fSRUnsp3tJXPH88G1PCisT",
+    "ERGO": "AvxDjVat8ErppBRxM56KewbQq3RMv8QibBNssqn6P7Fd",
+    "WCT": "EmcmfM27TPaemhuREZGD8WLvsuLCdqx8WovMrDQKbXS1"
+  },
+  "matcherPriorityList": [
+    { "ticker": "WAVES", "id": "WAVES"},
+    { "ticker": "BTC", "id": "Fmg13HEHJHuZYbtJq8Da8wifJENq8uBxDuWoP9pVe2Qe"},
+    { "ticker": "USD", "id": "HyFJ3rrq5m7FxdkWtQXkZrDat1F7LjVVGfpSkUuEXQHj"},
+    { "ticker": "EUR", "id": "2xnE3EdpqXtFgCP156qt1AbyjpqdZ5jGjWo3CwTawcux"},
+    { "ticker": "CNY", "id": "6pmDivReTLikwYqQtJTv6dTcE59knriaodB3AK8T9cF8"}
+  ]
+}

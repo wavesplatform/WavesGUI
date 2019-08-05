@@ -3,7 +3,7 @@
     <div ng-if="!$ctrl.canChooseAsset || $ctrl.choosableMoneyList.length === 1"
          class="input-like big flex-row split-half">
         <div class="flex-row">
-            <w-asset-logo class="asset-logo asset-logo_marker-hide" size="24" asset-id="{{::$ctrl.state.assetId}}"></w-asset-logo>
+            <w-asset-logo class="asset-logo asset-logo_marker-hide" size="24" asset-id="$ctrl.state.assetId"></w-asset-logo>
             <div class="asset__name ellipsis">{{$ctrl.balance.asset.name}}</div>
         </div>
         <div ng-click="$ctrl.activate()" class="flex-row asset__balance">
@@ -21,7 +21,7 @@
                 value="::option.asset.id">
             <div class="flex-row split-half">
                 <div class="flex-row">
-                    <w-asset-logo class="asset-logo asset-logo_marker-hide" size="24" asset-id="{{::option.asset.id}}"></w-asset-logo>
+                    <w-asset-logo class="asset-logo asset-logo_marker-hide" size="24" asset-id="option.asset.id"></w-asset-logo>
                     <div class="asset__name ellipsis">{{::option.asset.name}}</div>
                 </div>
                 <div class="asset__balance">

@@ -188,7 +188,7 @@
              * @param {Asset} asset
              */
             showReceivePopup(asset) {
-                return modalManager.showReceiveModal(user, asset);
+                return modalManager.showReceiveModal(asset);
             }
 
             /**

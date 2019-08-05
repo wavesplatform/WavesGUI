@@ -6,7 +6,7 @@
 
     /**
      * @param Base
-     * @param {JQuery} $element
+     * @param {ng.IAugmentedJQuery} $element
      * @param {app.utils} utils
      * @param {Waves} waves
      * @return {AssetLogo}
@@ -33,6 +33,10 @@
             hasScript;
             /**
              * @type {boolean}
+             */
+            isNew = false;
+            /**
+             * @type {boolean}
              * @private
              */
             _canPayFee = false;
@@ -42,7 +46,6 @@
              */
             _isSmart = false;
 
-
             constructor() {
                 super();
 
@@ -50,19 +53,24 @@
                 this.observe(['_isSmart', 'hasScript'], this._onChangeIsSmart);
             }
 
-
             $postLink() {
-                if (!this.size || !(this.assetName || this.assetId)) {
+                if (!this.size) {
                     throw new Error('Wrong params!');
                 }
 
-                this._canPayFee = !!ds.utils.getTransferFeeList()
-                    .find(money => money.asset.id === this.assetId);
+                if (!this.isNew) {
+                    if (!(this.assetName || this.assetId)) {
+                        throw new Error('Wrong params!');
+                    }
 
-                if (this.assetId) {
-                    waves.node.assets.getAsset(this.assetId).then(asset => {
-                        this._isSmart = asset.hasScript;
-                    });
+                    this._canPayFee = !!ds.utils.getTransferFeeList()
+                        .find(money => money.asset.id === this.assetId);
+
+                    if (this.assetId) {
+                        waves.node.assets.getAsset(this.assetId).then(asset => {
+                            this._isSmart = asset.hasScript;
+                        });
+                    }
                 }
 
                 $element.find('.asset-logo__logo')
@@ -78,7 +86,7 @@
              * @private
              */
             _addLogo() {
-                if (this.assetId) {
+                if (!this.isNew && this.assetId) {
                     const { logo } = utils.getDataFromOracles(this.assetId);
 
                     if (logo) {
@@ -87,9 +95,11 @@
                             .css('backgroundImage', `url(${logo})`);
                         return null;
                     }
+
                     waves.node.assets.getAsset(this.assetId)
                         .then((asset) => {
                             const logo = utils.getAssetLogo(this.assetId);
+
                             if (logo) {
                                 utils.loadImage(logo)
                                     .then(() => {
@@ -102,7 +112,8 @@
                             }
                         });
                 } else {
-                    this.observe('assetName', () => this._addLetter(this.assetName));
+                    $element.addClass('asset-logo_new');
+                    this.observe(['assetName', 'assetId'], () => this._addLetter(this.assetName));
                     this._addLetter(this.assetName);
                 }
             }
@@ -112,22 +123,19 @@
              * @private
              */
             _addLetter(name) {
-                const letter = name.charAt(0)
-                    .toUpperCase();
+                const letter = name.charAt(0).toUpperCase();
                 const color = utils.getAssetLogoBackground(this.assetId);
                 const fontSize = Math.round((Number(this.size) || 0) * 0.43);
-                $element.find('.asset-logo__logo')
+
+                $element.find('.asset-logo__logo, .asset-logo__marker')
                     .css({
                         'background-color': color
                     });
+
                 $element.find('.asset-logo__letter')
                     .text(letter)
                     .css({
                         'font-size': `${fontSize}px`
-                    });
-                $element.find('.asset-logo__marker')
-                    .css({
-                        'background-color': color
                     });
             }
 
@@ -158,9 +166,10 @@
             templateUrl: 'modules/ui/directives/assetLogo/asset-logo.html',
             controller: controller,
             bindings: {
-                assetId: '@',
+                assetId: '<',
                 hasScript: '<',
                 assetName: '<',
+                isNew: '<',
                 size: '@'
             }
         });
