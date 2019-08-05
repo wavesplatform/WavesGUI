@@ -13,7 +13,7 @@ function getScriptsList(input: string) {
 
     return [
         filesMap['vendors'],
-        filesMap['sentry-vendors'],
+        filesMap['not-wrapped-vendors'],
         filesMap['bundle'],
         filesMap['templates']
     ];
