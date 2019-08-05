@@ -1,14 +1,12 @@
 import { request } from '../../utils/request';
 import { ITokenRating, IParsedRating } from '../../interface';
 import { stringifyJSON, toArray } from '../../utils/utils';
-// import { get } from '../../config';
-
-const ratingApiUrl = 'https://tokenrating.wavesexplorer.com/api/v1';
+import { get } from '../../config';
 
 export function getAssetsRating(assets: string | Array<string>): Promise<Array<IParsedRating>> {
     return request(
         {
-            url: `${ratingApiUrl}/token/`,
+            url: `${get('tokenrating')}/api/v1/token/`,
             fetchOptions: {
                 method: 'POST',
                 headers: {
