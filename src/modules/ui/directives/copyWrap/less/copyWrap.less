@@ -1,0 +1,41 @@
+@import (reference) url('config');
+@import (reference) 'icons';
+@import (reference) '../../../../app/less/typography';
+
+.copy-wrap {
+  display: flex;
+  position: relative;
+  height: 18px;
+
+  &__container {
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+
+  &__icon {
+    cursor: pointer;
+    width: 24px;
+    flex-shrink: 0;
+    background: @dex-copybalance-icon no-repeat right center;
+  }
+
+  &__content {
+    color: @color-basic-900;
+  }
+
+  &__transactionLink {
+    display: inline-block;
+    width: 100%;
+    white-space: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .copy-wrap__content {
+    font-size: @mobile-low-fsize;
+  }
+}

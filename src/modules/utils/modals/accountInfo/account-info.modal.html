@@ -1,8 +1,8 @@
 <div>
     <span class="body-2 basic-900 margin-top-4 margin-05 block" w-i18n="modal.account.address"></span>
-    <w-copy-wrap info="::$ctrl.address" ng-click="$ctrl.onCopyAddress()">
+    <w-copy-wrap class="copy-wrap copy-wrap_with-border" info="::$ctrl.address" ng-click="$ctrl.onCopyAddress()">
         <w-avatar size="30" address="$ctrl.address"></w-avatar>
-        <div class="body-1 basic-900 mobile-low-fsize">{{::$ctrl.address}}</div>
+        <div class="copy-wrap__content body-1">{{::$ctrl.address}}</div>
     </w-copy-wrap>
 
     <div class="row">
@@ -13,7 +13,7 @@
             <div class="help-icon__row" w-i18n="modal.accountInfo.alias.helpIcon.row3"></div>
         </w-help-icon>
         <div class="alias-list">
-            <w-copy-wrap class="body-1 basic-900"
+            <w-copy-wrap class="copy-wrap copy-wrap_with-border copy-wrap_infoModal body-1"
                          ng-repeat="alias in $ctrl.aliases"
                          ng-click="$ctrl.onCopyAlias()"
                          info="::alias">

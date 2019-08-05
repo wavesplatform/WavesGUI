@@ -1,0 +1,41 @@
+@import (reference) url('config');
+@import (reference) 'icons';
+@import (reference) '../../../../app/less/typography';
+
+.copy-wrap {
+  &_with-border {
+    background-color: @color-basic-50;
+    border: 1px solid @color-basic-200;
+    border-radius: @border-radius;
+    height: @height-control-big;
+
+    .copy-wrap {
+      &__container {
+        padding: 0 17px;
+        overflow-x: auto;
+        flex: 1;
+        cursor: default;
+      }
+
+      &__icon {
+        margin-right: 5px;
+        border-left: 1px solid @color-basic-200;
+        background: @dex-copy-icon no-repeat center center;
+        background-size: 16px 16px;
+        width: 40px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .copy-wrap {
+    &_with-border {
+      height: @height-control;
+
+      .copy-wrap__container {
+        padding: 0 @padding-control-big-responsive-horizontal;
+      }
+    }
+  }
+}

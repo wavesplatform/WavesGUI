@@ -72,6 +72,14 @@
   position: relative;
   overflow: hidden;
 
+  &__id-asset {
+    display: flex;
+  }
+
+  &__id-value {
+    flex: 1;
+  }
+
   &__w-table {
     width: 100%;
     height: 100%;
@@ -149,6 +157,10 @@
 
       &__cell {
         padding: 0 10px;
+
+        &-link {
+          color: @color-disabled-900;
+        }
       }
     }
   }

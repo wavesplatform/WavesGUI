@@ -1,0 +1,31 @@
+@import (reference) url('config');
+@import (reference) 'icons';
+@import (reference) '../../../../app/less/typography';
+
+.copy-wrap_balance {
+  .copy-wrap {
+    &__container {
+      @media screen and (min-width: 1025px) and (max-width: 1550px) {
+        max-width: 250px;
+      }
+
+      @media screen and (min-width: 660px) and (max-width: 820px) {
+        max-width: 220px;
+      }
+
+      @media screen and (max-width: 400px) {
+        max-width: 300px;
+      }
+    }
+
+    &__content {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      max-width: 300px;
+    }
+
+    &__link {
+      color: @color-disabled-900;
+    }
+  }
+}
