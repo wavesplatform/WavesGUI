@@ -17,7 +17,7 @@
                 <li ng-repeat="asset in $ctrl.pinnedAssetNewList track by asset.id">
                     <label class="mobile-caption-2">
                         <w-checkbox-submit ng-model="asset.pinned"></w-checkbox-submit>
-                        <w-asset-logo size="24" asset-id="{{::asset.id}}"></w-asset-logo>
+                        <w-asset-logo size="24" asset-id="asset.id"></w-asset-logo>
                         <div class="name basic-700">{{::asset.name}}</div>
                         <div class="asset-id basic-500">{{::asset.id}}</div>
                     </label>

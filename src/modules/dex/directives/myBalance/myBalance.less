@@ -46,6 +46,17 @@
       height: 18px;
       background-color: transparent;
       width: 100%;
+      &__cell[data-column-id="asset"] {
+        display: flex;
+        align-items: center;
+      }
+
+      w-copy-wrap {
+        border: 0 none;
+        border-radius: 0;
+        height: 18px;
+        background-color: transparent;
+        width: 100%;
 
       .container {
         padding: 0;
@@ -94,12 +105,11 @@
     }
   }
 
-  w-asset-logo {
-    display: inline-block;
-    vertical-align: middle;
-    margin-top: -3px;
-    margin-right: 10px;
-    cursor: pointer;
+    w-asset-logo {
+      margin-right: 10px;
+      cursor: pointer;
+    }
+
   }
 }
 
