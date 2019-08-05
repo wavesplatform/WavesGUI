@@ -419,6 +419,8 @@
                 ds.app.logOut();
                 clearTimeout(this._scriptInfoPollTimeoutId);
 
+                this.changeTheme('default');
+
                 if (this._scriptInfoPoll) {
                     this._scriptInfoPoll.destroy();
                 }
