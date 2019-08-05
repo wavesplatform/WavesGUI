@@ -188,14 +188,16 @@
                     <div class="body-2 basic-900 margin-05" w-i18n="preview"></div>
                     <div class="preview">
                         <div class="avatar-wrap">
-                            <w-new-asset-logo ng-if="$ctrl.name"
-                                          ng-click="$ctrl.createSignable()"
-                                          asset-id="$ctrl.assetId"
-                                          has-script="$ctrl.hasAssetScript"
-                                          size="30"
-                                          asset-name="$ctrl.name">
-                            </w-new-asset-logo>
-                            <w-info-tooltip ng-click="$ctrl.showTutorialModals()" class="important-information">
+                            <w-asset-logo
+                                ng-if="$ctrl.name"
+                                ng-click="$ctrl.createSignable()"
+                                size="30"
+                                asset-id="$ctrl.assetId"
+                                asset-name="$ctrl.name"
+                                has-script="$ctrl.hasAssetScript"
+                                is-new="true">
+                            </w-asset-logo>
+                            <w-info-tooltip ng-click="$ctrl.showTutorialModals()" class="important-information-tokens">
                                 <span class="tooltip__content" w-i18n="tokens.changeColorTooltip"></span>
                             </w-info-tooltip>
                         </div>
