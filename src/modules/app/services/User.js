@@ -426,6 +426,7 @@
                 if (stateName) {
                     this.logoutSignal.dispatch({});
                     this._resetFields();
+                    this.changeTheme(themes.getDefaultTheme());
                     $state.go(stateName, undefined, { custom: { logout: true } });
                 } else if (WavesApp.isDesktop()) {
                     transfer('reload');
