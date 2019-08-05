@@ -580,7 +580,7 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
             return null;
         }
 
-        if (url.indexOf('export') !== -1) {
+        if (url.indexOf('/export.html') !== -1) {
             prepareExport().then((file) => {
                 res.end(file);
             });
