@@ -1,0 +1,39 @@
+@import (reference) 'config';
+
+.checkbox-submit {
+  display: inline-block;
+  min-width: 19px;
+  height: 19px;
+  cursor: pointer;
+  margin-right: 12px;
+
+  &__input {
+    &[disabled="disabled"]::after {
+      background: url(/img/icons/checkbox-icon.svg) center no-repeat @color-submit-100;
+      border: 1px solid @color-submit-200;
+    }
+
+    &[type="checkbox"] {
+      margin: 0;
+    
+      &::after {
+        content: '';
+        display: block;
+        width: 16px;
+        height: 16px;
+        background-color: @color-white;
+        border: 1px solid @color-basic-200;
+        border-radius: @border-radius;
+      }
+    
+      &:checked::after {
+        background: @color-submit-400 url(/img/icons/checkbox-icon.svg) no-repeat center center;
+        border-color: @color-submit-400;
+      }
+    }
+  }
+
+  & + .checkbox-input__label {
+    cursor: pointer;
+  }
+}

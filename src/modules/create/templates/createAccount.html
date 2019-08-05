@@ -27,10 +27,10 @@
         <w-loader ng-if="!$ctrl.address"></w-loader>
     </w-copy-wrap>
 
-    <div class="flex get-started-checkbox-save">
-        <w-checkbox-submit ng-model="$ctrl.saveUserData" id="save-user-data"></w-checkbox-submit>
-        <label for="save-user-data" class="footnote-1">
-            <span class="basic-500" w-i18n="createAccount.saveUserData"></span>
+    <div class="checkbox-input create-account__checkbox">
+        <w-checkbox-submit class="checkbox-submit" ng-model="$ctrl.saveUserData" id="save-user-data"></w-checkbox-submit>
+        <label for="save-user-data" class="checkbox-input__label footnote-1">
+            <span class="checkbox-input__label-content" w-i18n="createAccount.saveUserData"></span>
         </label>
     </div>
 

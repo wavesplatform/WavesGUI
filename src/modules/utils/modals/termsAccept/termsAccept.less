@@ -26,7 +26,7 @@ md-dialog.terms-accept {
         display: flex;
         margin-bottom: @padding-main-layout * 2;
 
-        label {
+        .checkbox-input__label {
           flex-grow: 1;
           display: block;
           font-size: 15px;
@@ -37,6 +37,15 @@ md-dialog.terms-accept {
         }
       }
     }
+  }
+
+}
+
+.terms-accept__checkbox {
+  margin-bottom: 20px;
+
+  &_last {
+    margin-bottom: 40px;
   }
 }
 

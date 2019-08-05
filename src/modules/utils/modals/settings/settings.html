@@ -31,15 +31,15 @@
             <w-step step-id="general" class="general">
 
                 <w-web-only>
-                    <div class="row flex-row row-style unit-checkbox no-border">
-                        <w-checkbox-submit id="openLinkViaWeb" ng-model="$ctrl.openLinkViaWeb"></w-checkbox-submit>
-                        <label for="openLinkViaWeb" w-i18n="modal.settings.general.openLinkViaWeb"></label>
+                    <div class="checkbox-input settings-content__checkbox">
+                        <w-checkbox-submit class="checkbox-submit" id="openLinkViaWeb" ng-model="$ctrl.openLinkViaWeb"></w-checkbox-submit>
+                        <label class="checkbox-input__label" for="openLinkViaWeb" w-i18n="modal.settings.general.openLinkViaWeb"></label>
                     </div>
                 </w-web-only>
 
-                <div class="row flex-row row-style unit-checkbox no-border">
-                    <w-checkbox-submit id="advancedMode" ng-model="$ctrl.advancedMode"></w-checkbox-submit>
-                    <label for="advancedMode" w-i18n="modal.termsAccept.body.advancedMode"></label>
+                <div class="checkbox-input settings-content__checkbox">
+                    <w-checkbox-submit class="checkbox-submit" id="advancedMode" ng-model="$ctrl.advancedMode"></w-checkbox-submit>
+                    <label class="checkbox-input__label" for="advancedMode" w-i18n="modal.termsAccept.body.advancedMode"></label>
                 </div>
 
                 <div class="row flex-row row-style unit-select">
@@ -284,9 +284,9 @@
                 </div>
 
                 <div class="margin-3 margin-top-2">
-                    <div class="row flex-row row-style unit-checkbox">
-                        <w-checkbox-submit id="spamFilterToggle" ng-model="$ctrl.dontShowSpam"></w-checkbox-submit>
-                        <label for="spamFilterToggle" w-i18n="modal.settings.network.dontShowSpamCheckboxDescr"></label>
+                    <div class="checkbox-input">
+                        <w-checkbox-submit class="checkbox-submit" id="spamFilterToggle" ng-model="$ctrl.dontShowSpam"></w-checkbox-submit>
+                        <label class="checkbox-input__label" for="spamFilterToggle" w-i18n="modal.settings.network.dontShowSpamCheckboxDescr"></label>
                     </div>
                 </div>
 

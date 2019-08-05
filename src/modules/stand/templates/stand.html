@@ -134,20 +134,20 @@
             <div class="body-2">Select with filter title</div>
             <w-select class="big long">
                 <w-select-filter></w-select-filter>
-                <w-option><w-checkbox-submit></w-checkbox-submit><img src="/img/assets/bitcoin.svg" />Bitcoin</w-option>
-                <w-option><w-checkbox-submit></w-checkbox-submit><img src="/img/assets/waves.svg" />Waves</w-option>
-                <w-option><w-checkbox-submit></w-checkbox-submit><img src="/img/assets/bitcoin-cash.svg" />Bitcoin</w-option>
-                <w-option><w-checkbox-submit></w-checkbox-submit><img src="/img/assets/bitcoin-cash-sv.svg" />Bitcoin</w-option>
-                <w-option><w-checkbox-submit></w-checkbox-submit><img src="/img/assets/euro.svg" />Waves</w-option>
-                <w-option><w-checkbox-submit></w-checkbox-submit><img src="/img/assets/usd.svg" />Waves</w-option>
-                <w-option><w-checkbox-submit></w-checkbox-submit><img src="/img/assets/ltc.svg" />Waves</w-option>
-                <w-option><w-checkbox-submit></w-checkbox-submit><img src="/img/assets/ethereum.svg" />Waves</w-option>
-                <w-option><w-checkbox-submit></w-checkbox-submit><img src="/img/assets/zec.svg" />Waves</w-option>
-                <w-option><w-checkbox-submit></w-checkbox-submit><img src="/img/assets/xmr.svg" />Waves</w-option>
-                <w-option><w-checkbox-submit></w-checkbox-submit><img src="/img/assets/try.svg" />Waves</w-option>
-                <w-option><w-checkbox-submit></w-checkbox-submit><img src="/img/assets/wnet.svg" />Waves</w-option>
-                <w-option><w-checkbox-submit></w-checkbox-submit><img src="/img/assets/efyt.svg" />Waves</w-option>
-                <w-option><w-checkbox-submit></w-checkbox-submit><img src="/img/assets/dash.svg" />Waves</w-option>
+                <w-option><w-checkbox-submit class="checkbox-submit"></w-checkbox-submit><img src="/img/assets/bitcoin.svg" />Bitcoin</w-option>
+                <w-option><w-checkbox-submit class="checkbox-submit"></w-checkbox-submit><img src="/img/assets/waves.svg" />Waves</w-option>
+                <w-option><w-checkbox-submit class="checkbox-submit"></w-checkbox-submit><img src="/img/assets/bitcoin-cash.svg" />Bitcoin</w-option>
+                <w-option><w-checkbox-submit class="checkbox-submit"></w-checkbox-submit><img src="/img/assets/bitcoin-cash-sv.svg" />Bitcoin</w-option>
+                <w-option><w-checkbox-submit class="checkbox-submit"></w-checkbox-submit><img src="/img/assets/euro.svg" />Waves</w-option>
+                <w-option><w-checkbox-submit class="checkbox-submit"></w-checkbox-submit><img src="/img/assets/usd.svg" />Waves</w-option>
+                <w-option><w-checkbox-submit class="checkbox-submit"></w-checkbox-submit><img src="/img/assets/ltc.svg" />Waves</w-option>
+                <w-option><w-checkbox-submit class="checkbox-submit"></w-checkbox-submit><img src="/img/assets/ethereum.svg" />Waves</w-option>
+                <w-option><w-checkbox-submit class="checkbox-submit"></w-checkbox-submit><img src="/img/assets/zec.svg" />Waves</w-option>
+                <w-option><w-checkbox-submit class="checkbox-submit"></w-checkbox-submit><img src="/img/assets/xmr.svg" />Waves</w-option>
+                <w-option><w-checkbox-submit class="checkbox-submit"></w-checkbox-submit><img src="/img/assets/try.svg" />Waves</w-option>
+                <w-option><w-checkbox-submit class="checkbox-submit"></w-checkbox-submit><img src="/img/assets/wnet.svg" />Waves</w-option>
+                <w-option><w-checkbox-submit class="checkbox-submit"></w-checkbox-submit><img src="/img/assets/efyt.svg" />Waves</w-option>
+                <w-option><w-checkbox-submit class="checkbox-submit"></w-checkbox-submit><img src="/img/assets/dash.svg" />Waves</w-option>
             </w-select>
 
             <div class="margin-2"></div>
@@ -196,22 +196,23 @@
 
             <div class="margin-2"></div>
 
-            <div class="unit-checkbox">
-                <w-checkbox-submit id="check1" ng-model="$ctrl.checkboxModel1"></w-checkbox-submit>
-                <label for="check1">Checkbox</label>
+            <div class="checkbox-input">
+                <w-checkbox-submit class="checkbox-submit" id="check1" ng-model="$ctrl.checkboxModel1"></w-checkbox-submit>
+                <label class="checkbox-input__label margin-right-1" for="check1">Checkbox</label>
 
-                <w-checkbox-submit id="check2" checked ng-model="$ctrl.checkboxModel2"></w-checkbox-submit>
-                <label for="check2">Checkbox checked</label>
+                <w-checkbox-submit class="checkbox-submit" id="check2" checked ng-model="$ctrl.checkboxModel2"></w-checkbox-submit>
+                <label class="checkbox-input__label" for="check2">Checkbox checked</label>
             </div>
 
             <div class="margin-2"></div>
 
-            <div class="input-toggle" ng-class="{active: $ctrl.hasAssetScript}">
-                <w-checkbox-submit id="has-script"
+            <div class="switcher-input">
+                <w-checkbox-switcher class="checkbox-switcher" id="has-script"
                                    name="has-script"
+                                   ng-class="{'checkbox-switcher_active': $ctrl.hasAssetScript}"
                                    ng-model="$ctrl.hasAssetScript">
-                </w-checkbox-submit>
-                <label for="has-script" class="margin-right-1"></label>
+                </w-checkbox-switcher>
+                <label for="has-script" class="switcher-input__label margin-right-1"></label>
                 <div ng-if="$ctrl.hasAssetScript" class="footnote-1">ON</div>
                 <div ng-if="!$ctrl.hasAssetScript" class="footnote-1">OFF</div>
             </div>
