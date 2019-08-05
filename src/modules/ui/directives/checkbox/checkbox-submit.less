@@ -2,8 +2,7 @@
 
 .checkbox-submit {
   display: inline-block;
-  position: relative;
-  width: 19px;
+  min-width: 19px;
   height: 19px;
   cursor: pointer;
   margin-right: 12px;
@@ -15,28 +14,16 @@
     }
 
     &[type="checkbox"] {
-      position: absolute;
       margin: 0;
-      left: 2px;
-      top: 2px;
     
       &::after {
         content: '';
         display: block;
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 18px;
-        height: 18px;
+        width: 16px;
+        height: 16px;
         background-color: @color-white;
         border: 1px solid @color-basic-200;
         border-radius: @border-radius;
-        box-sizing: border-box;
-        transform: translate(-2px, -2px);
-      }
-    
-      &:checked::after {
-        background-size: 9px 7px;
       }
     
       &:checked::after {

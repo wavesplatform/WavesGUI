@@ -1,38 +1,15 @@
 @import (reference) 'config';
 
 .checkbox-input {
-    display: flex;
-    margin-bottom: 20px;
+  display: flex;
   
-    &_margin {
-      margin: 20px 0 30px;
-    }
-  
-    &_tokens {
-      margin-top: 20px;
-    }
-  
-    &_mb-none {
-      margin-bottom: 0;
-    }
-  
-    &_mb-40 {
-      margin-bottom: 40px;
+  &__label {
+    &-content {
+      color: @color-basic-500;
     }
     
-    &__label {
-      &-content {
-        color: @color-basic-500;
-      }
-      
-      &_font-15 {
-        font-size: 15px;
-      }
+    &_font-15 {
+      font-size: 15px;
     }
   }
-  
-  @media screen and (max-width: 480px) {
-    .checkbox-input_margin {
-      margin: 15px 0 20px;
-    }
-  }
+}

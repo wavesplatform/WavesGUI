@@ -5,16 +5,13 @@
 
   & + .switcher-input__label {
     width: 40px;
-    height: 20px;
     border: 1px solid @color-basic-200;
     background: @color-basic-200;
     border-radius: 10px;
-    display: block;
-    position: relative;
     cursor: pointer;
 
     &:hover {
-      border: 1px solid @input-toggle-bg-hover;
+      border-color: @input-toggle-bg-hover;
       background: @input-toggle-bg-hover;
     }
 
@@ -24,20 +21,17 @@
       width: 18px;
       height: 18px;
       content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
       border-radius: 50%;
       display: block;
     }
   }
   
   &_active + .switcher-input__label {
-    border: 1px solid @color-submit-400;
+    border-color: @color-submit-400;
     background: @color-submit-400;
   
     &:hover {
-      border: 1px solid @color-submit-400;
+      border-color: @color-submit-400;
       background: @color-submit-400;
     }
   

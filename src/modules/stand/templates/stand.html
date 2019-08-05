@@ -198,7 +198,7 @@
 
             <div class="checkbox-input">
                 <w-checkbox-submit class="checkbox-submit" id="check1" ng-model="$ctrl.checkboxModel1"></w-checkbox-submit>
-                <label class="checkbox-input__label" for="check1">Checkbox</label>
+                <label class="checkbox-input__label margin-right-1" for="check1">Checkbox</label>
 
                 <w-checkbox-submit class="checkbox-submit" id="check2" checked ng-model="$ctrl.checkboxModel2"></w-checkbox-submit>
                 <label class="checkbox-input__label" for="check2">Checkbox checked</label>
@@ -206,13 +206,13 @@
 
             <div class="margin-2"></div>
 
-            <div class="checkbox-input checkbox-input_switcher">
+            <div class="switcher-input">
                 <w-checkbox-switcher class="checkbox-switcher" id="has-script"
                                    name="has-script"
                                    ng-class="{'checkbox-switcher_active': $ctrl.hasAssetScript}"
                                    ng-model="$ctrl.hasAssetScript">
                 </w-checkbox-switcher>
-                <label for="has-script" class="checkbox-input__label margin-right-1"></label>
+                <label for="has-script" class="switcher-input__label margin-right-1"></label>
                 <div ng-if="$ctrl.hasAssetScript" class="footnote-1">ON</div>
                 <div ng-if="!$ctrl.hasAssetScript" class="footnote-1">OFF</div>
             </div>
