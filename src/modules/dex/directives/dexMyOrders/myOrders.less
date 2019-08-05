@@ -356,6 +356,12 @@ w-dex-my-orders {
           &[data-column-id="pair"] {
             flex-basis: 50%;
             height: 18px;
+
+            span {
+              width: 100%;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
           }
         }
 
@@ -388,11 +394,11 @@ w-dex-my-orders {
           &[data-column-id="pair"] {
             flex-basis: auto;
             flex-grow: 0;
-            max-width: 44%;
+            max-width: 30%;
             margin-right: 10px;
 
             span {
-              display: inline-flex;
+              display: block;
             }
           }
 
@@ -541,6 +547,7 @@ w-dex-my-orders {
 
         &__cell[data-column-id="status"] {
           order: 1;
+          max-width: 16%;
 
           .progress-bar,
           .progress-precents {
