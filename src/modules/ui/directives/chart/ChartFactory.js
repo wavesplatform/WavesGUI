@@ -284,7 +284,7 @@
                             points.push(point);
                         }
 
-                        points.sort(utils.comparators.process(prop('x')).asc);
+                        points.sort(utils.comparators.process(prop('x')).bigNumber.asc);
                     });
 
                     return acc;
@@ -375,7 +375,7 @@
                     return null;
                 }
 
-                const itersection = Object.entries(this.chartData.coordinates)
+                const intersection = Object.entries(this.chartData.coordinates)
                     .reduce((acc, [id, points]) => {
                         const point = binarySearch(points, event.offsetX, 0, points.length - 1);
 
@@ -390,20 +390,20 @@
                         }
                     }, null);
 
-                if (itersection) {
-                    this._dispatchMouseMove(itersection);
+                if (intersection) {
+                    this._dispatchMouseMove(intersection);
                 }
             }
 
             /**
-             * @param {*} itersection
+             * @param {*} intersection
              * @private
              */
-            _dispatchMouseMove(itersection) {
-                if (!this._lastEvent || !equals(this._lastEvent.point, itersection.point)) {
+            _dispatchMouseMove(intersection) {
+                if (!this._lastEvent || !equals(this._lastEvent.point, intersection.point)) {
                     // TODO Add support legend for many charts
-                    this.signals.mouseMove.dispatch(itersection);
-                    this._lastEvent = itersection;
+                    this.signals.mouseMove.dispatch(intersection);
+                    this._lastEvent = intersection;
                 }
             }
 

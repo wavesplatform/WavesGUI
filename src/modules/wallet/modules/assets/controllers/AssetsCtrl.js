@@ -243,7 +243,7 @@
                     date: Assets._localDate(date, true),
                     time: this.dateToHours(date)
                 };
-                $scope.$apply();
+                utils.safeApply($scope);
             }
 
             /**

@@ -226,12 +226,7 @@
             }
 
             _updateGraphAccordingToOrderBook(orderBook) {
-                if (TradeGraph._areEitherAsksOrBids(orderBook)) {
-                    this.canShowGraph = true;
-                } else {
-                    this.canShowGraph = false;
-                }
-
+                this.canShowGraph = !!TradeGraph._areEitherAsksOrBids(orderBook);
                 return orderBook;
             }
 
