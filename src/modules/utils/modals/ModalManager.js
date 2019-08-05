@@ -12,7 +12,8 @@
      * @param {Storage} storage
      * @return {ModalManager}
      */
-    const factory = function ($mdDialog, utils, decorators, $templateRequest, $rootScope, $injector, state, storage) {
+    const factory = function ($mdDialog, utils, decorators, $templateRequest, $rootScope, $injector, state, storage,
+                              user) {
 
         const tsUtils = require('ts-utils');
         const ds = require('data-service');
@@ -50,13 +51,16 @@
                  */
                 this._counter = 0;
 
-                state.signals.changeRouterStateStart.on(() => {
+                const closeModals = () => {
                     const counter = this._counter;
 
                     for (let i = 0; i < counter; i++) {
                         $mdDialog.cancel();
                     }
-                });
+                };
+
+                state.signals.changeRouterStateStart.on(closeModals);
+                user.logoutSignal.on(closeModals);
             }
 
             showScriptModal() {
@@ -782,7 +786,8 @@
         '$rootScope',
         '$injector',
         'state',
-        'storage'];
+        'storage',
+        'user'];
 
     angular.module('app.utils')
         .factory('modalManager', factory);
