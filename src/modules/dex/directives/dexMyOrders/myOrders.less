@@ -70,218 +70,6 @@
     color: @color-basic-500;
   }
 
-  .smart-table {
-    .smart-table {
-      &__cell[data-column-id="controls"] {
-        padding-left: 0;
-      }
-    }
-
-    &__thead {
-      .smart-table {
-        &__cell[data-column-id="controls"] {
-
-          .disabled {
-            display: none;
-          }
-
-          span[role='button'] {
-            display: inline-block;
-            .stop();
-            padding-left: 22px;
-            background-position: 7px center;
-          }
-
-          w-confirm-action {
-            border-left: 1px solid @color-basic-100;
-            display: block;
-
-            .confirm-tooltip {
-              position: absolute;
-              top: calc(100% ~'+ 1px');
-              right: -10px;
-              background: @color-white;
-              box-shadow: @shadow-tooltip-confirm;
-              width: 186px;
-              padding: 15px 20px;
-              text-align: center;
-              white-space: normal;
-              border-radius: @border-radius;
-
-              &::before {
-                display: block;
-                content: '';
-                transform: translate(91px, -20px);
-                right: 0;
-                width: 0;
-                height: 0;
-                border: 5px solid transparent;
-                border-bottom-color: @color-white;
-                border-top: 0 none;
-              }
-
-              .buttons-wrapper {
-                w-button {
-                  button {
-                    color: @white-only;
-                    font-size: @font-size-caption-2;
-                    border-radius: @border-radius / 2;
-                  }
-                }
-              }
-
-              .cancel {
-                background: @color-submit-400;
-              }
-
-              .action {
-                background: @color-error-400;
-              }
-
-              .title {
-                font-size: @font-size-caption-1;
-                line-height: 1em;
-              }
-
-              .descr {
-                line-height: 1.2em;
-              }
-            }
-          }
-        }
-      }
-    }
-
-    &__tbody {
-      .smart-table {
-        &__row {
-          padding: 6px 14px;
-
-          &.can-expand {
-            .smart-table {
-              &__cell[data-column-id="status"] {
-                cursor: pointer;
-              }
-            }
-          }
-
-          &.sell {
-            &.new-order {
-              background: rgba(255, 228, 228, 0.5);
-            }
-          }
-
-          &.buy {
-            &.new-order {
-              background: @color-submit-50;
-            }
-          }
-
-          &.disabled {
-            .smart-table__cell {
-              opacity: 0.4;
-            }
-            .smart-table__cell.cell_stop {
-              opacity: 1;
-            }
-            .cell_set-pair {
-              cursor: default;
-              a {
-                cursor: default;
-              }
-            }
-
-            &:hover {
-              background: @color-white;
-              .cell_set-pair {
-                a::after{
-                  display: none;
-                }
-              }
-
-              .tooltip-dex {
-                display: flex;
-              }
-            }
-          }
-        }
-      }
-
-      .order-details {
-        background: @color-basic-50;
-
-        &:hover {
-          background-color: @color-basic-100;
-        }
-      }
-    }
-
-    &__cell {
-      flex-basis: 100px;
-    }
-
-    &__cell[data-column-id="fee"] {
-      text-align: right;
-    }
-
-    &__cell[data-column-id="type"] {
-      flex-basis: 80px;
-      flex-grow: 0;
-      min-width: auto;
-    }
-
-    &__cell[data-column-id="status"] {
-      flex-basis: 80px;
-      flex-grow: 0;
-      min-width: auto;
-    }
-
-    &__cell[data-column-id="fee"] {
-      flex-basis: 135px;
-    }
-
-    &__cell[data-column-id="pair"] {
-      padding-left: 0;
-      flex-basis: 160px;
-
-      span {
-        display: block;
-        align-items: center;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
-        max-width: 200px;
-        cursor: pointer;
-      }
-    }
-
-    &__cell[data-column-id="filled"],
-    &__cell[data-column-id="average"],
-    &__cell[data-column-id="price"],
-    &__cell[data-column-id="amount"],
-    &__cell[data-column-id="total"],
-    &__cell[data-column-id="time"],
-    &__cell[data-column-id="type"] {
-      text-align: right;
-    }
-
-    &__cell[data-column-id="controls"] {
-      flex-grow: 0;
-      padding-right: 0;
-    }
-
-    .stop {
-      cursor: pointer;
-      background-image: url(/img/icons/order_cancel.svg);
-      background-size: 8px 8px;
-      background-repeat: no-repeat;
-      background-position: 10px center;
-      display: inline-block;
-      padding-left: 25px;
-      text-transform: capitalize;
-    }
-  }
-
   .order-side {
     &.sell {
       color: @color-error-400;
@@ -312,189 +100,38 @@
   }
 }
 
-@media screen and (max-width: 1400px) {
-  .dex-my-orders {
-    .smart-table {
-      &__cell[data-column-id="pair"] {
-        span {
-          max-width: 126px;
-        }
+@media screen and (max-width: 1440px) {
+  .tab_myOpenOrders {
+    .smart-table_dex-my-orders {
+      &__cell[data-column-id="average"],
+      &__cell[data-column-id="filled"] {
+        display: none;
       }
     }
   }
 }
 
 @media screen and (max-width: 1190px) {
-  .dex-my-orders {
-    .smart-table {
-      min-width: 100%;
-
-        &__thead {
-          display: none;
-        }
-
-      &__tbody {
-        .smart-table__row {
-          padding-left: 48px;
-          padding-right: 48px;
-          padding-top: 14px;
-          padding-bottom: 14px;
-          flex-wrap: wrap;
-          margin: 0 2px;
-          width: calc(100% ~'- 4px');
-        }
-      }
-
-      .order-row {
-        position: relative;
-
-        &:not(:first-child) {
-          &::before {
-            background: @color-basic-100;
-            height: 1px;
-            width: calc(100% ~'- 20px');
-            position: absolute;
-            top: 0;
-            left: 10px;
-            display: block;
-            content: '';
-            z-index: 1;
-          }
-        }
-      }
-
-      &__cell {
-        padding: 0;
-      }
-
-      &__cell {
-        &[data-column-id="average"],
-        &[data-column-id="filled"],
-        &[data-column-id="pair"],
-        &[data-column-id="time"],
-        &[data-column-id="price"],
-        &[data-column-id="amount"] {
-          flex-basis: 50%;
-          height: 18px;
-        }
-
-        .cell-label {
-          display: inline-block;
-        }
-      }
-
-      &__cell[data-column-id="fee"] {
-        display: none;
-        text-align: left;
-      }
-
-      &__cell[data-column-id="pair"] {
-        order: 0;
-        margin-bottom: 5px;
-        font-family: @font-roboto-medium;
-
-        span {
-          max-width: none;
-        }
-      }
-
-      &__cell[data-column-id="price"] {
-        text-align: left;
-        order: 2;
-      }
-
-      &__cell[data-column-id="amount"] {
-        order: 3;
-      }
-
-      &__cell[data-column-id="filled"] {
-        text-align: left;
-      }
-
-      &__cell[data-column-id="type"],
-      &__cell[data-column-id="total"],
-      &__cell[data-column-id="filled"],
-      &__cell[data-column-id="average"] {
-        display: none;
-      }
-
-      &__cell[data-column-id="time"] {
-        margin-bottom: 5px;
-        order: 1;
-        text-align: right;
-        color: @color-basic-500;
-        font-size: @font-size-caption-2;
-
-        .cell-label {
-          display: none;
-        }
-      }
-
-      &__cell[data-column-id="status"] {
-        order: 0;
-        position: absolute;
-        min-width: 36px;
-        left: 10px;
-        top: 50%;
-        transform: translate(0, -50%);
-        height: 36px;
-        width: 36px;
-        font-size: 0;
-
-        .progress-bar,
-        .progress-precents {
-          display: none;
-        }
-      }
-
-      &__cell[data-column-id="controls"] {
-        order: 4;
-        position: absolute;
-        flex-basis: 30px;
-        right: 10px;
-        min-width: 30px;
-        top: 50%;
-        transform: translate(0, -50%);
-        height: 30px;
-        width: 30px;
-        font-size: 0;
-
-        .stop {
-          background-size: 10px 10px;
-          background-repeat: no-repeat;
-          background-position: center center;
-          margin-left: 0;
-          height: 30px;
-          width: 30px;
-        }
-      }
+  .tab_myOrderHistory {
+    .smart-table_dex-my-orders .smart-table__tbody .smart-table__row {
+      padding-right: 14px;
     }
   }
 }
 
-@media screen and (max-width: 1440px) {
-  .tab_myOpenOrders {
-    .dex-my-orders {
-      .smart-table {
-        &__cell[data-column-id="average"],
-        &__cell[data-column-id="filled"] {
-          display: none;
-        }
-      }
-    }
-  }
-}
 
 .tab_myOrderHistory {
-  .smart-table__cell {
-    .decimal-muted {
-      color: @color-basic-900;
-    }
-
-    &:not(:first-child):nth-child(odd) {
-      &,
+  .smart-table_dex-my-orders {
+    .smart-table__cell {
       .decimal-muted {
-        color: @color-basic-600;
+        color: @color-basic-900;
+      }
+
+      &:not(:first-child):nth-child(odd) {
+        &,
+        .decimal-muted {
+          color: @color-basic-600;
+        }
       }
     }
   }

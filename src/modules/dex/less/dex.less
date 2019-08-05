@@ -257,52 +257,6 @@
       }
     }
 
-    .smart-table {
-      &__tbody {
-
-        .smart-table {
-          &__row {
-            position: relative;
-
-            &:hover {
-              .underline:after {
-                display: none;
-              }
-            }
-
-            .status-mobile {
-              display: inline-block;
-            }
-
-            &.active {
-              .dropdown {
-                transform: rotate(180deg);
-              }
-
-              & + .active::before {
-                background: @color-basic-100;
-                height: 1px;
-                width: calc(100% ~'- 20px');
-                position: absolute;
-                top: 0;
-                left: 10px;
-                display: block;
-                content: '';
-              }
-            }
-          }
-        }
-      }
-
-      &__cell {
-        padding: 0;
-
-        .dropdown {
-          display: block;
-        }
-      }
-    }
-
     .tabs,
     .dex-watchlist {
       .table {
