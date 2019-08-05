@@ -102,10 +102,12 @@
                 this.error = true;
             }
 
-            onUpdateState(data) {
-                if (data && data.account && this.selectedUser && this.selectedUser.address !== data.account.address) {
-                    this.getUsers();
+            onUpdateState() {
+                if (this.loading) {
+                    return;
                 }
+                clearTimeout(this._time);
+                this._time = setTimeout(() => this.getUsers(), 500);
             }
 
             /**

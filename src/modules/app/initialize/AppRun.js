@@ -376,6 +376,7 @@
                     tryDesktop
                         .then((canChangeState) => this._login(toState, canChangeState))
                         .then(() => {
+                            waiting = false;
                             offInitialTransitions();
 
                             this._stopListenChangeLanguage();

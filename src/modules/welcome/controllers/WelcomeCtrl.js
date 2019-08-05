@@ -29,7 +29,7 @@
 
         const ds = require('data-service');
         const { Money } = require('@waves/data-entities');
-        const { flatten } = require('ramda');
+        const { flatten, uniqBy } = require('ramda');
         const { BigNumber } = require('@waves/bignumber');
 
         const WCT_ID = WavesApp.network.code === 'T' ?
@@ -259,9 +259,9 @@
                         this.userList = list;
                         this.hasUsers = this.userList && this.userList.length > 0;
                         this.pendingRestore = false;
-                        setTimeout(() => {
-                            $scope.$apply(); // TODO FIX!
-                        }, 100);
+                        utils.postDigest($scope).then(() => {
+                            $scope.$apply();
+                        });
                     });
             }
 
@@ -278,15 +278,22 @@
              */
             _loadUserListFromOldOrigin() {
                 const OLD_ORIGIN = 'https://client.wavesplatform.com';
+
                 this.pendingRestore = true;
+
                 utils.importAccountByIframe(OLD_ORIGIN, 5000)
                     .then((userList) => {
-                        this.userList = userList || [];
+                        user.getFilteredUserList()
+                            .then((list) => {
+                                this.pendingRestore = false;
+                                this.userList = uniqBy(user => user.name, userList.concat(list) || list);
 
-                        storage.save('accountImportComplete', this.userList.length > 0);
-                        storage.save('userList', userList);
-
-                        $scope.$apply();
+                                storage.save('accountImportComplete', true);
+                                storage.save('userList', this.userList);
+                                utils.postDigest($scope).then(() => {
+                                    $scope.$apply();
+                                });
+                            });
                     })
                     .catch(() => {
                         storage.save('accountImportComplete', true);

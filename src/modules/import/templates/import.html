@@ -18,15 +18,6 @@
                         <div class="body-2 basic-500 import-modal__content-text" w-i18n="wavesSeedClientDescription"></div>
                     </div>
                 </div>
-                <w-web-only>
-                    <div class="import-modal__block" ng-click="$ctrl.importFromOld()">
-                        <div class="import-modal__icon import-modal__icon-client"></div>
-                        <div class="import-modal__content">
-                            <div class="body-1 margin-1" w-i18n="wavesClient"></div>
-                            <div class="body-2 basic-500 margin-05" w-i18n="wavesClientDescription"></div>
-                        </div>
-                    </div>
-                </w-web-only>
                 <div ng-if="isDesktop" class="import-modal__block" ui-sref="ledger"
                      w-analytics event="'Import Ledger Click'" event-target="'ui'">
                     <div class="import-modal__icon import-modal__icon-ledger"></div>
