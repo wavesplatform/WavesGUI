@@ -34,8 +34,7 @@
     "node_modules/angular-material/angular-material.min.js",
     "node_modules/@uirouter/angularjs/release/angular-ui-router.min.js",
     "node_modules/@uirouter/angularjs/release/stateEvents.min.js",
-    "node_modules/i18next/dist/umd/i18next.js",
-    "node_modules/n3-charts/build/LineChart.min.js"
+    "node_modules/i18next/dist/umd/i18next.js"
   ],
   "sentryVendors": [
     "node_modules/@sentry/browser/build/bundle.min.js"

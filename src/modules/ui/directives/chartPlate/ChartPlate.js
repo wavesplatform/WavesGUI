@@ -12,6 +12,7 @@
             plate: '.chart-plate',
             marker: '.chart-plate__marker'
         };
+        const SCALE = devicePixelRatio || 1;
 
         class ChartPlate extends Base {
 
@@ -54,17 +55,19 @@
             _setMarkerAndPlatePosition({ event, point, id }) {
                 const { x, y } = point;
                 const PLATE_ARROW_WIDTH = 5;
-                const markerX = x - (this.marker.outerWidth() / 2);
-                const markerY = y - (this.marker.outerHeight() / 2);
+                const markerX = x / SCALE - (this.marker.outerWidth() / 2);
+                const markerY = y / SCALE - (this.marker.outerHeight() / 2);
                 let plateX;
+
                 if (event.offsetX < ($element.closest('w-chart').innerWidth() / 2)) {
-                    plateX = x + (this.marker.outerWidth() / 2) + PLATE_ARROW_WIDTH;
+                    plateX = x / SCALE + (this.marker.outerWidth() / 2) + PLATE_ARROW_WIDTH;
                     this.plate.addClass('to-right');
                 } else {
                     plateX = markerX - this.plate.outerWidth() - PLATE_ARROW_WIDTH;
                     this.plate.removeClass('to-right');
                 }
-                const plateY = y - (this.plate.outerHeight() / 2);
+                const plateY = y / SCALE - (this.plate.outerHeight() / 2);
+
                 this.plate.css('transform', `translate(${plateX}px,${plateY}px)`);
                 this.marker.css('transform', `translate(${markerX}px,${markerY}px)`);
                 this.plate.addClass('visible');

@@ -32,8 +32,8 @@
              */
             legendItemsObjects;
             /**
-            * @type {HTMLCanvasElement}
-            */
+             * @type {HTMLCanvasElement}
+             */
             canvas;
 
             /**
@@ -349,7 +349,6 @@
              * TODO Rename and refactor method
              */
             _findIntersection(event) {
-
                 const binarySearch = (data, target, start, end) => {
                     if (end < 1) {
                         return data[0];
@@ -377,13 +376,16 @@
 
                 const intersection = Object.entries(this.chartData.coordinates)
                     .reduce((acc, [id, points]) => {
-                        const point = binarySearch(points, event.offsetX, 0, points.length - 1);
+                        const point = binarySearch(points, event.offsetX * SCALE, 0, points.length - 1);
 
                         const data = {
                             id, point, event
                         };
 
-                        if (!acc || Math.abs(point.x - event.offsetX) < Math.abs(acc.point.x - event.offsetX)) {
+                        if (
+                            !acc ||
+                            Math.abs(point.x - event.offsetX * SCALE) < Math.abs(acc.point.x - event.offsetX * SCALE)
+                        ) {
                             return data;
                         } else {
                             return acc;
