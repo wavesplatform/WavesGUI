@@ -4,6 +4,14 @@
 body.tokens {
   @height-title: 60px;
 
+  .nameHelper {
+   display: none;
+
+    &.showNameHelper {
+      display: block;
+    }
+  }
+
   .main-content .content {
     height: 100%;
     overflow: auto;
@@ -76,13 +84,9 @@ body.tokens {
         border-radius: 100%;
         background-color: @color-basic-100;
         position: relative;
-
-        w-new-asset-logo {
-          cursor: pointer;
-        }
       }
 
-      w-new-asset-logo {
+      .asset-logo_new {
         &:hover + w-info-tooltip .tooltip {
           display: flex;
         }
@@ -134,8 +138,20 @@ body.tokens {
   }
 
   w-info-tooltip {
+    top: -8px;
+    left: 50%;
+
+    &.important-information-tokens {
+      position: absolute;
+    }
+
     .information-icon {
       display: none;
+    }
+
+    .tooltip {
+      align-items: center;
+      transform: translateX(-50%);
     }
   }
 }

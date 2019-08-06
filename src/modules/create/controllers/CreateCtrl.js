@@ -48,6 +48,8 @@
                 this.saveUserData = true;
 
                 this.resetAddress();
+
+                this.showTutorialModals();
             }
 
             showTutorialModals() {

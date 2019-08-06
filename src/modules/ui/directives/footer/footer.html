@@ -2,11 +2,13 @@
     <section>
         <div class="section-wrapper">
             <div class="footer-left">
-                <a class="logo logo-footer margin-2" href="https://wavesplatform.com" target="_blank" rel="noopener noreferrer"></a>
+                <a class="logo logo-footer margin-2" href="https://wavesplatform.com" target="_blank"
+                   rel="noopener noreferrer"></a>
                 <div class="margin-2" w-i18n="welcome.broughtBy"></div>
                 <div class="margin-1" w-i18n="welcome.copyright"></div>
                 <div class="margin-2">
-                    <a class="footer__link" w-i18n="welcome.mailto" target="_blank" rel="noopener noreferrer" href="https://support.wavesplatform.com"></a>
+                    <a class="footer__link" w-i18n="welcome.mailto" target="_blank" rel="noopener noreferrer"
+                       href="https://support.wavesplatform.com"></a>
                 </div>
                 <w-change-language></w-change-language>
             </div>
@@ -19,7 +21,7 @@
                             class="footer__link" target="_blank" rel="noopener noreferrer"
                             href="https://wavesplatform.com/products-wallet"></a></div>
                     <div><a w-analytics event="'Footer Keeper Click'"
-                                w-i18n="welcome.wavesKeeper"
+                            w-i18n="welcome.wavesKeeper"
                             event-target="'ui'"
                             class="footer__link" target="_blank" rel="noopener noreferrer"
                             href="https://wavesplatform.com/products-keeper"></a></div>
@@ -73,35 +75,46 @@
                     <div class="footer-title basic-700" w-i18n="welcome.legal"></div>
                     <div><a w-analytics event="'Footer Privacy Policy Click'"
                             event-target="'ui'"
-                            class="footer__link" w-i18n="welcome.privacyPolicy" target="_blank" rel="noopener noreferrer" href="https://wavesplatform.com/files/docs/Privacy%20Policy_SW.pdf"></a></div>
+                            class="footer__link" w-i18n="welcome.privacyPolicy" target="_blank"
+                            rel="noopener noreferrer"
+                            href="https://wavesplatform.com/files/docs/Privacy%20Policy_SW.pdf"></a></div>
                     <div><a w-analytics event="'Footer Terms of use Click'"
-                             event-target="'ui'"class="footer__link" w-i18n="welcome.termsOfUse" target="_blank" rel="noopener noreferrer" href="https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf"></a></div>
+                            event-target="'ui'" class="footer__link" w-i18n="welcome.termsOfUse" target="_blank"
+                            rel="noopener noreferrer"
+                            href="https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf"></a></div>
                 </div>
 
                 <div>
                     <div class="footer-title basic-700" w-i18n="welcome.social"></div>
                     <div><a w-analytics event="'Footer Blog Click'"
-                            class="footer__link" w-i18n="welcome.blog" target="_blank" rel="noopener noreferrer" href="https://blog.wavesplatform.com/"></a></div>
+                            class="footer__link" w-i18n="welcome.blog" target="_blank" rel="noopener noreferrer"
+                            href="https://blog.wavesplatform.com/"></a></div>
                     <div><a w-analytics event="'Footer Twitter Click'"
-                            class="footer__link" w-i18n="welcome.twitter" target="_blank" rel="noopener noreferrer" href="https://twitter.com/Waves_DEX"></a></div>
+                            class="footer__link" w-i18n="welcome.twitter" target="_blank" rel="noopener noreferrer"
+                            href="https://twitter.com/Waves_DEX"></a></div>
                     <div><a w-analytics event="'Footer Telegram Click'" event-params='{Language: $ctrl.lang}'
-                            class="footer__link" w-i18n="welcome.telegram" target="_blank" rel="noopener noreferrer" href="{{::$ctrl.telegramLink}}"></a></div>
+                            class="footer__link" w-i18n="welcome.telegram" target="_blank" rel="noopener noreferrer"
+                            href="{{::$ctrl.telegramLink}}"></a></div>
                     <div><a w-analytics event="'Footer Forum Click'"
-                            class="footer__link" w-i18n="welcome.forum" target="_blank" rel="noopener noreferrer" href="https://forum.wavesplatform.com"></a></div>
+                            class="footer__link" w-i18n="welcome.forum" target="_blank" rel="noopener noreferrer"
+                            href="https://forum.wavesplatform.com"></a></div>
                 </div>
             </div>
         </div>
     </section>
-    <div class="toaster-mobiles" ng-if="::$ctrl.isToasterMobilesVisible">
-        <a href="{{::$ctrl.mobileAppLink}}" class="toaster-mobiles__link">
-            <div class="toaster-mobiles__mobile-app-logo"></div>
-            <div class="toaster-mobiles__text-wrapper">
-                <div class="toaster-mobiles__title" w-i18n="welcome.downloadMobileApp"></div>
-                <div class="toaster-mobiles__sub-title" w-i18n="welcome.instantAccessWalletDex"></div>
+    <w-web-only>
+        <div class="toaster-mobiles" ng-if="::$ctrl.isToasterMobilesVisible">
+            <a w-analytics event="::'Download Mobile Client Click'" event-target="::'all'"
+               href="{{::$ctrl.mobileAppLink}}" class="toaster-mobiles__link">
+                <div class="toaster-mobiles__mobile-app-logo"></div>
+                <div class="toaster-mobiles__text-wrapper">
+                    <div class="toaster-mobiles__title" w-i18n="welcome.downloadMobileApp"></div>
+                    <div class="toaster-mobiles__sub-title" w-i18n="welcome.instantAccessWalletDex"></div>
+                </div>
+            </a>
+            <div class="toaster-mobiles__close">
+                <button class="toaster-mobiles__close-icon" ng-click="$ctrl.hideToaster()"></button>
             </div>
-        </a>
-        <div class="toaster-mobiles__close">
-            <button class="toaster-mobiles__close-icon" ng-click="$ctrl.hideToaster()"></button>
         </div>
-    </div>
+    </w-web-only>
 </footer>

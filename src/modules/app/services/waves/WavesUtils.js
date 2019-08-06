@@ -6,9 +6,10 @@
      * @param {app.utils} utils
      * @param {app.utils.decorators} decorators
      * @param {Transactions} transactions
+     * @param {Matcher} matcher
      * @return {WavesUtils}
      */
-    const factory = function (assets, utils, decorators, transactions) {
+    const factory = function (assets, utils, decorators, transactions, matcher) {
 
         const ds = require('data-service');
         const entities = require('@waves/data-entities');
@@ -141,9 +142,18 @@
              * @param pair
              * @returns {Promise<string>}
              */
-            @decorators.cachable(60)
             getVolume(pair) {
-                return ds.api.pairs.info(pair)
+                return this._getVolume(pair, matcher.currentMatcherAddress);
+            }
+
+            /**
+             * @param pair
+             * @param {string} currentMatcherAddress
+             * @returns {Promise<string>}
+             */
+            @decorators.cachable(60)
+            _getVolume(pair, currentMatcherAddress) {
+                return ds.api.pairs.info(currentMatcherAddress, [pair])
                     .then((data) => {
                         const [pair = {}] = data.filter(Boolean);
                         return pair && String(pair.volume) || '0';
@@ -166,7 +176,7 @@
                 };
 
                 return ds.api.pairs.get(from, to)
-                    .then(pair => ds.api.pairs.info(pair)
+                    .then(pair => ds.api.pairs.info(matcher.currentMatcherAddress, [pair])
                         .then(([data]) => {
 
                             if (!data || data.status === 'error') {
@@ -323,7 +333,7 @@
         return new WavesUtils();
     };
 
-    factory.$inject = ['assets', 'utils', 'decorators', 'transactions'];
+    factory.$inject = ['assets', 'utils', 'decorators', 'transactions', 'matcher'];
 
     angular.module('app')
         .factory('wavesUtils', factory);

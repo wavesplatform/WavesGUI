@@ -2,6 +2,7 @@ import { Stream } from 'stream';
 
 export interface IMetaJSON {
     vendors: Array<string>;
+    vendorsNotWrapped: Array<string>;
     exportPageVendors: Array<string>;
     stylesheets: Array<string>;
     domain: string;
@@ -59,6 +60,7 @@ export interface IConfItem {
     support: string;
     nodeList: string;
     scamListUrl: string;
+    tokensNameListUrl: string;
     featuresConfigUrl: string;
     origin: string;
     assets: IHash<string>;
