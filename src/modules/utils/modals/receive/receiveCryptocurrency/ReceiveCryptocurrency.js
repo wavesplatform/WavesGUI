@@ -81,7 +81,7 @@
                 if (depositDetails) {
                     depositDetails.then((details) => {
                         this.gatewayAddress = details.address;
-                        this.minAmount = Money.fromTokens(details.in_min || 0.001, this.asset);
+                        this.minAmount = Money.fromTokens(details.details.in_min || 0.001, this.asset);
                         $scope.$apply();
                     }, () => {
                         this.minAmount = Money.fromTokens(0.001, this.asset);
