@@ -10,6 +10,7 @@
      * @param {$injector} $injector
      * @param {State} state
      * @param {Storage} storage
+     * @param {User} user
      * @return {ModalManager}
      */
     const factory = function ($mdDialog, utils, decorators, $templateRequest, $rootScope, $injector, state, storage,
@@ -51,16 +52,8 @@
                  */
                 this._counter = 0;
 
-                const closeModals = () => {
-                    const counter = this._counter;
-
-                    for (let i = 0; i < counter; i++) {
-                        $mdDialog.cancel();
-                    }
-                };
-
-                state.signals.changeRouterStateStart.on(closeModals);
-                user.logoutSignal.on(closeModals);
+                state.signals.changeRouterStateStart.on(this.closeModals, this);
+                user.logoutSignal.on(this.closeModals, this);
             }
 
             showScriptModal() {
@@ -546,6 +539,14 @@
              */
             showCustomModal(options) {
                 return this._getModal(tsUtils.merge({}, DEFAULT_OPTIONS, options));
+            }
+
+            closeModals() {
+                const counter = this._counter;
+
+                for (let i = 0; i < counter; i++) {
+                    $mdDialog.cancel();
+                }
             }
 
             /**
