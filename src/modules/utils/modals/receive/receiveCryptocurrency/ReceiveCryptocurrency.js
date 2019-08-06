@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    const { Money } = require('@waves/data-entities');
+
     /**
      * @param {typeof Base} Base
      * @param {ng.IScope} $scope
@@ -79,8 +81,10 @@
                 if (depositDetails) {
                     depositDetails.then((details) => {
                         this.gatewayAddress = details.address;
+                        this.minAmount = Money.fromTokens(details.details.tunnel.in_min || 0.001, this.asset);
                         $scope.$apply();
                     }, () => {
+                        this.minAmount = Money.fromTokens(0.001, this.asset);
                         this.gatewayAddress = null;
                         this.gatewayServerError = true;
                         $scope.$apply();

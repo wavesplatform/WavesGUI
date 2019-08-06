@@ -41,8 +41,8 @@
     </div>
 
     <div class="plate-warning" ng-if="!$ctrl.gatewayServerError">
-        <div class="body-2 warning-500 margin-05" w-i18n="modal.deposit.{{$ctrl.assetKeyName}}.warningMinAmountTitle"></div>
-        <div class="footnote-1 basic-500" ng-if="!$ctrl.isVostok" w-i18n="modal.deposit.{{$ctrl.assetKeyName}}.warningMinAmountText"></div>
+        <div class="body-2 warning-500 margin-05" w-i18n="modal.deposit.{{$ctrl.assetKeyName}}.warningMinAmountTitle" params="{minAmount: $ctrl.minAmount.getTokens(), assetTicker: $ctrl.asset.displayName}"></div>
+        <div class="footnote-1 basic-500" ng-if="!$ctrl.isVostok" w-i18n="modal.deposit.{{$ctrl.assetKeyName}}.warningMinAmountText" params="{money: $ctrl.minAmount.getTokens()}, assetTicker: $ctrl.asset.displayName"></div>
     </div>
 
     <div class="body-2 basic-900 margin-05" ng-if="!$ctrl.gatewayServerError">
