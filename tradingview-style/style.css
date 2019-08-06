@@ -28,6 +28,9 @@
 .bottom-widgetbar-content.backtesting .button, .header-chart-panel .button, .hotlist-controls .button, .symbol-edit-widget .button {
     border: 1px solid #dae1e9;
 }
+.button.toggle-caption.compare {
+    display: none;
+}
 .favored-list-container span {
     border: 1px solid #dae1e9;
 }
