@@ -300,70 +300,62 @@
                     this.node.querySelector(`.${SELECTORS.SUSPICIOUS_LABEL}`).classList.remove('hidden');
 
                     return null;
+                }
+
+                const suspiciousSelector = this.node.querySelector(`.${SELECTORS.SUSPICIOUS_LABEL}`);
+                if (suspiciousSelector) {
+                    suspiciousSelector.classList.add('hidden');
+                }
+
+                if (WavesApp.defaultAssets.WAVES === balance.asset.id) {
+                    const change24Node = this.node.querySelector(`.${SELECTORS.CHANGE_24}`);
+                    change24Node.innerHTML = '—';
+                    change24Node.classList.remove('minus');
+                    change24Node.classList.remove('plus');
                 } else {
-                    const suspiciousSelector = this.node.querySelector(`.${SELECTORS.SUSPICIOUS_LABEL}`);
-                    if (suspiciousSelector) {
-                        suspiciousSelector.classList.add('hidden');
-                    }
+                    this.waves.utils.getChange(balance.asset.id, WavesApp.defaultAssets.WAVES)
+                        .then(change24 => {
+                            const change24Node = this.node.querySelector(`.${SELECTORS.CHANGE_24}`);
+                            const isMoreZero = typeof change24 === 'number' ? change24 > 0 : change24.gt(0);
+                            const isLessZero = typeof change24 === 'number' ? change24 < 0 : change24.lt(0);
+                            change24Node.classList.toggle('minus', isLessZero);
+                            change24Node.classList.toggle('plus', isMoreZero);
+                            change24Node.innerHTML = `${change24.toFixed(2)}%`;
+                        }, () => {
+                            const change24Node = this.node.querySelector(`.${SELECTORS.CHANGE_24}`);
+                            change24Node.innerHTML = '0.00%';
+                        });
                 }
 
                 const baseAssetId = this.user.getSetting('baseAssetId');
 
                 if (baseAssetId === balance.asset.id) {
-                    const change24Node = this.node.querySelector(`.${SELECTORS.CHANGE_24}`);
-                    change24Node.innerHTML = '—';
-                    change24Node.classList.remove('minus');
-                    change24Node.classList.remove('plus');
                     this.node.querySelector(`.${SELECTORS.EXCHANGE_RATE}`).innerHTML = '—';
                     this.node.querySelector(`.${SELECTORS.BASE_ASSET_BALANCE}`).innerHTML = '—';
+                } else {
+                    this.waves.utils.getRate(balance.asset.id, baseAssetId)
+                        .then(rate => {
+                            const baseAssetBalance = balance.available.getTokens().mul(rate).toFormat(2);
+                            this.node.querySelector(`.${SELECTORS.EXCHANGE_RATE}`).innerHTML = rate.toFixed(2);
+                            this.node.querySelector(`.${SELECTORS.BASE_ASSET_BALANCE}`).innerHTML = baseAssetBalance;
+                        });
 
-                    return null;
-                }
+                    const startDate = this.utils.moment().add().day(-7);
+                    this.waves.utils.getRateHistory(balance.asset.id, baseAssetId, startDate).then(values => {
+                        this.chart = new this.ChartFactory(
+                            this.$node.find(`.${SELECTORS.CHART_CONTAINER}`),
+                            this.chartOptions,
+                            values.map(item => ({ ...item, rate: Number(item.rate.toFixed()) }))
+                        );
+                    }).catch(() => null);
 
-                if (balance.isOnScamList) {
-                    this.node.querySelector(`.${SELECTORS.CHANGE_24}`).innerHTML = '—';
-                    this.node.querySelector(`.${SELECTORS.BASE_ASSET_BALANCE}`).innerHTML = '—';
-                    this.node.querySelector(`.${SELECTORS.EXCHANGE_RATE}`).innerHTML = '—';
-
-                    return null;
-                }
-
-                this.waves.utils.getChange(balance.asset.id, baseAssetId)
-                    .then(change24 => {
-                        const change24Node = this.node.querySelector(`.${SELECTORS.CHANGE_24}`);
-                        const isMoreZero = typeof change24 === 'number' ? change24 > 0 : change24.gt(0);
-                        const isLessZero = typeof change24 === 'number' ? change24 < 0 : change24.lt(0);
-                        change24Node.classList.toggle('minus', isLessZero);
-                        change24Node.classList.toggle('plus', isMoreZero);
-                        change24Node.innerHTML = `${change24.toFixed(2)}%`;
-                    }, () => {
-                        const change24Node = this.node.querySelector(`.${SELECTORS.CHANGE_24}`);
-                        change24Node.innerHTML = '0.00%';
-                    });
-
-                this.waves.utils.getRate(balance.asset.id, baseAssetId)
-                    .then(rate => {
-                        const baseAssetBalance = balance.available.getTokens().mul(rate).toFormat(2);
-
-                        this.node.querySelector(`.${SELECTORS.EXCHANGE_RATE}`).innerHTML = rate.toFixed(2);
-                        this.node.querySelector(`.${SELECTORS.BASE_ASSET_BALANCE}`).innerHTML = baseAssetBalance;
-                    });
-
-                const startDate = this.utils.moment().add().day(-7);
-                this.waves.utils.getRateHistory(balance.asset.id, baseAssetId, startDate).then(values => {
-                    this.chart = new this.ChartFactory(
-                        this.$node.find(`.${SELECTORS.CHART_CONTAINER}`),
-                        this.chartOptions,
-                        values.map(item => ({ ...item, rate: Number(item.rate.toFixed()) }))
-                    );
-                }).catch(() => null);
-
-                if (typeof balance.rating === 'number') {
-                    new RatingStarsFactory({
-                        $container: this.$node.find(`.${SELECTORS.STARS_CONTAINER}`),
-                        rating: balance.rating,
-                        size: 's'
-                    });
+                    if (typeof balance.rating === 'number') {
+                        new RatingStarsFactory({
+                            $container: this.$node.find(`.${SELECTORS.STARS_CONTAINER}`),
+                            rating: balance.rating,
+                            size: 's'
+                        });
+                    }
                 }
 
             }
