@@ -44,7 +44,7 @@
                 const from = GATEWAYS[asset.id].gateway;
                 const to = GATEWAYS[asset.id].waves;
                 return this._loadPaymentDetails(from, to, wavesAddress).then((details) => {
-                    return { address: details.tunnel.wallet_from, details };
+                    return { address: details.tunnel.wallet_from, details: details.tunnel };
                 });
             }
 
