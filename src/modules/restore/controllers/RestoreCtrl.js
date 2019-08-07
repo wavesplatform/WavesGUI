@@ -70,11 +70,19 @@
 
                 this.observe('seed', this._onChangeSeed);
                 this.observeOnce('seedForm', () => {
-                    this.receive(utils.observe(this.seedForm, '$valid'), this._onChangeSeed, this);
+                    this.receive(utils.observe(this.seedForm, '$valid'), () => {
+                        if (this.activeTab === TABS.seed) {
+                            this._onChangeSeed();
+                        }
+                    });
                 });
                 this.observe('key', this._onChangeKey);
                 this.observeOnce('keyForm', () => {
-                    this.receive(utils.observe(this.keyForm, '$valid'), this._onChangeKey, this);
+                    this.receive(utils.observe(this.keyForm, '$valid'), () => {
+                        if (this.activeTab === TABS.key) {
+                            this._onChangeKey();
+                        }
+                    });
                 });
                 this.observe('activeTab', this._onChangeActiveTab);
             }
