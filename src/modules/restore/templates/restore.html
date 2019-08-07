@@ -7,15 +7,26 @@
             <w-step-by-step active-step="$ctrl.activeStep">
                 <w-step>
 
-                    <div class="headline-1 margin-2 text-center" w-i18n="seedForm.title"></div>
-                    <div class="body-2 text-center margin-3">
-                        <span class="basic-500" w-i18n="seedForm.description"></span>
+                    <div class="headline-1 margin-2 text-center" w-i18n="seedOrKeyForm.title"></div>
+                    <div class="body-2 text-center margin-2">
+                        <span class="basic-500" w-i18n="seedOrKeyForm.description"></span>
                     </div>
 
-                    <div class="body-2 margin-05 basic-900" w-i18n="seedForm.seedTitle"></div>
+                    <div class="restore-tabs margin-2">
+                        <div ng-repeat="tab in $ctrl.tabs"
+                             class="restore-tab"
+                             ng-class="{active: $ctrl.activeTab === tab}"
+                             ng-click="$ctrl.setActiveTab(tab)"
+                             w-i18n="{{::tab}}Tab"></div>
+                    </div>
 
-                    <form name="$ctrl.seedForm">
-                        <div class="seed-block margin-2">
+                    <div ng-show="$ctrl.activeTab === TABS.seed" class="body-2 margin-05 basic-900"
+                         w-i18n="seedOrKeyForm.seedTitle"></div>
+                    <div ng-show="$ctrl.activeTab === TABS.key" class="body-2 margin-05 basic-900"
+                         w-i18n="seedOrKeyForm.keyTitle"></div>
+
+                    <div class="seed-block margin-2">
+                        <form ng-show="$ctrl.activeTab === TABS.seed" name="$ctrl.seedForm">
                             <w-input textarea
                                      w-autofocus
                                      class="embed no-icon"
@@ -24,32 +35,50 @@
                                      w-i18n-attr="placeholder"
                                      minlength="25"
                                      required></w-input>
-                            <div class="address-block-info">
-                                <w-avatar ng-if="$ctrl.address" class="address-block-avatar" address="$ctrl.address"></w-avatar>
-                                <div ng-if="!$ctrl.address" class="avatar-fake margin-right-1"></div>
-                                <div class="address-block">
-                                    <div class="footnote-1 basic-700" w-i18n="seedForm.address"></div>
-                                    <div ng-class="{empty: !$ctrl.address}" class="address body-1 basic-500 mobile-caption-2">
-                                        {{$ctrl.address}}
-                                    </div>
+                        </form>
+                        <form ng-show="$ctrl.activeTab === TABS.key" name="$ctrl.keyForm">
+                            <w-input textarea
+                                     w-autofocus
+                                     class="embed no-icon"
+                                     ng-model="$ctrl.key"
+                                     placeholder="keyForm.placeholder"
+                                     w-i18n-attr="placeholder"
+                                     required></w-input>
+                        </form>
+                        <div class="address-block-info">
+                            <w-avatar ng-if="$ctrl.address" class="address-block-avatar"
+                                      address="$ctrl.address"></w-avatar>
+                            <div ng-if="!$ctrl.address" class="avatar-fake margin-right-1"></div>
+                            <div class="address-block">
+                                <div class="footnote-1 basic-700" w-i18n="seedForm.address"></div>
+                                <div ng-class="{empty: !$ctrl.address}"
+                                     class="address body-1 basic-500 mobile-caption-2">
+                                    {{$ctrl.address}}
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                <div class="flex get-started-checkbox-save">
-                    <w-checkbox-submit ng-model="$ctrl.saveUserData" id="save-user-data"></w-checkbox-submit>
-                    <label for="save-user-data"
-                           w-i18n="seedForm.saveUserData"
-                           class="footnote-1 basic-500"></label>
-                </div>
-                <div  ng-if="$ctrl.address && $ctrl.seed.length <= 59"  class="plate-warning warning-500 body-2 margin-3">
-                    <div class="body-2 margin-05" w-i18n="warningSeed.title"></div>
-                    <div class="footnote-1 basic-500" w-i18n="warningSeed.message"></div>
-                </div>
-                <w-button disabled="!$ctrl.address" class="submit big long" on-click="$ctrl.nextStep()">
-                    <span w-i18n="seedForm.continue"></span>
-                </w-button>
-            </form>
+
+                    <div class="flex get-started-checkbox-save">
+                        <w-checkbox-submit ng-model="$ctrl.saveUserData" id="save-user-data"></w-checkbox-submit>
+                        <label for="save-user-data"
+                               w-i18n="seedForm.saveUserData"
+                               class="footnote-1 basic-500"></label>
+                    </div>
+                    <div ng-if="$ctrl.activeTab === TABS.seed && $ctrl.address && $ctrl.seed.length <= 59"
+                         class="plate-warning warning-500 body-2 margin-3">
+                        <div class="body-2 margin-05" w-i18n="warningSeed.title"></div>
+                        <div class="footnote-1 basic-500" w-i18n="warningSeed.message"></div>
+                    </div>
+                    <div ng-if="$ctrl.activeTab === TABS.key && $ctrl.keyForm.$dirty && !$ctrl.address"
+                         class="plate-warning warning-500 body-2 margin-3">
+                        <div class="body-2 margin-05" w-i18n="warningKey.title"></div>
+                        <div class="footnote-1 basic-500" w-i18n="warningKey.message"></div>
+                    </div>
+                    <w-button disabled="!$ctrl.address" class=" submit big long" on-click="$ctrl.nextStep()">
+                        <span w-i18n="seedForm.continue"></span>
+                    </w-button>
 
                 </w-step>
                 <w-step>
