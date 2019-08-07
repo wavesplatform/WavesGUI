@@ -10,9 +10,11 @@
      * @param {$injector} $injector
      * @param {State} state
      * @param {Storage} storage
+     * @param {User} user
      * @return {ModalManager}
      */
-    const factory = function ($mdDialog, utils, decorators, $templateRequest, $rootScope, $injector, state, storage) {
+    const factory = function ($mdDialog, utils, decorators, $templateRequest, $rootScope, $injector, state, storage,
+                              user) {
 
         const tsUtils = require('ts-utils');
         const ds = require('data-service');
@@ -50,13 +52,8 @@
                  */
                 this._counter = 0;
 
-                state.signals.changeRouterStateStart.on(() => {
-                    const counter = this._counter;
-
-                    for (let i = 0; i < counter; i++) {
-                        $mdDialog.cancel();
-                    }
-                });
+                state.signals.changeRouterStateStart.on(this.closeModals, this);
+                user.logoutSignal.on(this.closeModals, this);
             }
 
             showScriptModal() {
@@ -560,6 +557,14 @@
                 return this._getModal(tsUtils.merge({}, DEFAULT_OPTIONS, options));
             }
 
+            closeModals() {
+                const counter = this._counter;
+
+                for (let i = 0; i < counter; i++) {
+                    $mdDialog.cancel();
+                }
+            }
+
             /**
              * @return {User}
              * @private
@@ -798,7 +803,8 @@
         '$rootScope',
         '$injector',
         'state',
-        'storage'];
+        'storage',
+        'user'];
 
     angular.module('app.utils')
         .factory('modalManager', factory);
