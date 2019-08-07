@@ -128,3 +128,40 @@
     }
   }
 }
+
+@media screen and (min-width: 2400px) {
+  .dex-layout {
+    &__tradehistory {
+      max-height: 440px;
+      width: calc(100% ~'- 365px');
+    }
+  }
+}
+
+@media screen and (min-width: 660px) and (max-width: 1024px) {
+  .dex-layout {
+    &__column_tradehistory {
+      width: calc(50% ~' - 3px');
+      min-width: 320px;
+      min-height: calc(50% ~'- 40px');
+      max-height: calc(50% ~'- 40px');
+      height: calc(50% ~'- 40px');
+      left: 0;
+      bottom: 80px;
+    }
+  }
+}
+
+@media screen and (max-width: 659px) {
+  .dex-layout {
+    &__column_tradehistory {
+      width: 100%;
+      margin-bottom: 5px;
+      order: 3;
+
+      .dex-layout__block {
+        height: 304px;
+      }
+    }
+  }
+}

@@ -104,38 +104,6 @@
   overflow: hidden;
 }
 
-.candle-chart-wrapper.error {
-  display: flex;
-
-  & > div {
-    text-align: center;
-    display: flex;
-    margin: auto;
-
-    div:first-child {
-      .body-1();
-      margin: 0 auto 5px auto;
-      color: @color-basic-700;
-
-      &::before {
-        background-image: url(/img/icons/icon-empty.svg);
-        background-repeat: no-repeat;
-        width: 50px;
-        height: 52px;
-        margin: 0 auto 20px;
-        display: block;
-        content: '';
-      }
-    }
-
-    div:last-child {
-      color: @color-basic-500;
-      padding: 0 140px;
-    }
-
-  }
-}
-
 .dex-loader,
 .loading {
   opacity: 0;
@@ -298,43 +266,6 @@
       overflow: auto;
     }
 
-    .dex-layout {
-      &__tradehistory {
-        .dex-my-balance {
-          .smart-table {
-            &__tbody {
-              max-height: 217px;
-            }
-          }
-        }
-
-        .dex-trade-history {
-          .smart-table {
-            &__tbody {
-              max-height: 243px;
-            }
-
-            &.my-trade-history {
-              .smart-table {
-                &__tbody {
-                  max-height: 255px;
-                }
-              }
-            }
-          }
-        }
-
-        .dex-my-orders {
-          .smart-table {
-            &__tbody {
-              max-height: 254px;
-            }
-          }
-        }
-
-      }
-    }
-
     .tabs {
       w-scroll-box {
         height: 392px;
@@ -343,11 +274,5 @@
         overflow-x: hidden;
       }
     }
-  }
-}
-
-w-dex-my-orders {
-  .smart-table__cell[data-column-id="controls"] {
-    flex-shrink: 0;
   }
 }

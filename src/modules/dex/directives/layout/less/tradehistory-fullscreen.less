@@ -3,6 +3,7 @@
 @import (reference) 'icons';
 
 .tradehistory-fullscreen-toggler {
+  display: none;
   position: absolute;
   right: 10px;
   top: 10px;
@@ -21,8 +22,10 @@
   }
 }
 
-.tradehistory-fullscreen .tradehistory-fullscreen-toggler {
-  background-image: @dex-fullscreenclose-icon;
+.tradehistory-fullscreen {
+  .tradehistory-fullscreen-toggler {
+    background-image: @dex-fullscreenclose-icon;
+  }
 }
 
 .tradehistory-fullscreen {
@@ -40,3 +43,17 @@
     transition: .3s;
   }
 }
+
+@media screen and (min-width: 1024px) {
+  .tradehistory-fullscreen {
+    .dex-my-balance .smart-table w-copy-wrap .container {
+      max-width: 300px;
+      width: 300px;
+    }
+  }
+
+  .tradehistory-fullscreen-toggler {
+    display: block;
+  }
+}
+

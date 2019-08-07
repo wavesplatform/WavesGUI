@@ -70,3 +70,166 @@
     }
   }
 }
+
+@media screen and (min-width: 2400px) {
+  .dex-layout {
+    &__orderbook {
+      width: 360px;
+      max-height: calc(100% ~'- 445px') !important;
+
+      .row {
+        font-size: 12px;
+      }
+
+      .info {
+        font-size: 11px;
+      }
+    }
+
+    &__orderbook-collapsed {
+      .dex-layout {
+        &__candlechart {
+          width: calc(100% ~'- 365px');
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 660px) and (max-width: 1024px) {
+  .dex-layout {
+    &__column_orderbook {
+      width: calc(50% ~' - 2px');
+      min-width: 320px;
+      min-height: calc(50% ~'- 40px');
+      max-height: calc(50% ~'- 40px');
+      height: calc(50% ~'- 40px');
+      right: 0;
+      bottom: 80px;
+      transform: translate(0);
+      padding-left: 19px;
+
+      .dex-layout {
+        &__sidebar-toggle-left {
+          display: block;
+          border-radius: 2px 0 0 2px;
+
+          div::after {
+            transform: rotate(270deg);
+          }
+        }
+
+        &__block-top {
+          height: 100%;
+        }
+
+        &__block-bottom {
+          display: none;
+        }
+
+        &__block[data-block="tradevolume"] {
+          width: calc(100% ~'- 21px');
+          height: 211px;
+        }
+      }
+
+      .dex-layout-side-bar-toggle[side="left"] {
+        .dex-layout {
+          &__sidebar-toggle {
+            left: -19px;
+          }
+        }
+      }
+    }
+
+    &_orderbook-collapsed {
+      .dex-layout {
+        &__column_orderbook {
+          background: none transparent;
+          min-width: 20px;
+          width: 20px;
+          right: 19px;
+
+          .dex-layout-side-bar-toggle {
+            position: absolute;
+            height: 100%;
+            width: 19px;
+            left: 0;
+            background: #fff;
+            border-radius: 0 2px 2px 0;
+
+            .dex-layout {
+              &__sidebar-toggle {
+                border-right: 0 none;
+                border-left: 1px solid @color-basic-100;
+                left: 0;
+                div::after {
+                  transform: rotate(-270deg);
+                }
+              }
+            }
+          }
+
+          .dex-layout {
+            &__block {
+              min-width: 0;
+              display: none;
+            }
+          }
+        }
+
+        &__column_tradehistory {
+          border-radius: 2px 0 0 2px;
+          width: calc(100% ~' - 19px');
+        }
+
+        &__block-orderbook-bottom-collapsed {
+          .dex-layout {
+            &__orderbook {
+              .dex-layout__block-top {
+                height: 100%;
+              }
+            }
+          }
+        }
+
+        &__column_candlechart {
+          width: calc(50% ~'- 3px')
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .dex-layout__column_orderbook {
+    .dex-layout-side-bar-toggle[side="left"] {
+      width: 0;
+    }
+  }
+}
+
+@media screen and (max-width: 659px) {
+  .dex-layout {
+    &__column_orderbook {
+      width: 100%;
+      max-height: 420px;
+      margin-left: 0;
+      order: 2;
+
+      .dex-layout {
+        &__block[data-block="tradevolume"] {
+          height: 176px;
+        }
+      }
+    }
+
+    &_orderbook-collapsed {
+      .dex-layout {
+        &__column_orderbook {
+          transform: translate(0px);
+        }
+      }
+    }
+  }
+}

@@ -270,3 +270,35 @@
     }
   }
 }
+
+@media screen and (min-width: 2400px) {
+  .dex-watchlist {
+    &__wrapper a.title {
+      .titles-wrap {
+        height: 42px;
+      }
+      font-size: 13px;
+    }
+
+    .wrapper {
+      .titles-wrap .select a.title {
+        font-size: 13px;
+      }
+    }
+  }
+
+  .dex-layout {
+    &__watchlist {
+      max-height: calc(100% ~'- 445px');
+      width: 360px;
+    }
+
+    &__watchlist-collapsed {
+      .dex-layout {
+        &__candlechart {
+          width: calc(100% ~'- 365px');
+        }
+      }
+    }
+  }
+}

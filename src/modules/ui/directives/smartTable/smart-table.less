@@ -30,42 +30,6 @@
   }
 }
 
-.portfolio {
-  .smart-table {
-    .search-input {
-      width: 36px;
-      border-radius: @border-radius;
-      margin-right: 10px;
-      text-indent: -999px;
-      border-color: @color-basic-200;
-      z-index: 1;
-      background-position: 10px center;
-      padding-left: 35px;
-      .footnote-1();
-
-      &:focus {
-        width: 200px;
-        text-indent: 0;
-        border-color: @color-submit-300;
-      }
-
-      &.not-empty {
-        border-color: @color-submit-300;
-      }
-    }
-  }
-}
-
-.dex {
-  .smart-table {
-    .search-input {
-      &:focus {
-        border-color: transparent;
-      }
-    }
-  }
-}
-
 .smart-table {
   display: flex;
   height: 100%;
@@ -100,7 +64,6 @@
 
   &__cell {
     padding: 0 10px;
-    white-space: nowrap;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -214,6 +177,12 @@
     color: @color-basic-900;
   }
 
+  .search-input {
+    &:focus {
+      border-color: transparent;
+    }
+  }
+
   &_watchlist {
     .smart-table {
       &__row {
@@ -317,7 +286,6 @@
   &_dex-my-orders {
     .smart-table {
       &__row {
-
         &.buy {
           .smart-table {
 
@@ -489,6 +457,7 @@
         &[data-column-id="controls"] {
           flex-grow: 0;
           padding-right: 0;
+          flex-shrink: 0;
         }
       }
 
@@ -810,8 +779,9 @@
     }
   }
 
-  &__mode-large {
+  &_mode-large {
     border-radius: @border-radius;
+    box-shadow: @shadow-type-1;
 
     .smart-table__wrapper {
       color: @color-basic-700;
@@ -819,8 +789,219 @@
       background: @color-white;
     }
 
+    .smart-table__row {
+      min-width: 768px;
+      padding: 0;
+
+      i.toggler {
+        display: none;
+      }
+
+      &.spam {
+        .smart-table__cell:last-child {
+          .cell {
+            span.icon svg {
+              fill: @color-basic-200;
+            }
+          }
+        }
+      }
+    }
+
+    .smart-table__cell {
+      transition: all 0.3s;
+      &:first-child {
+        min-width: 200px;
+      }
+
+      .cell {
+        height: @cell-height;
+
+        .decimal-muted {
+          display: none;
+        }
+      }
+
+      &:first-child {
+        min-width: 200px;
+
+        .cell {
+          min-width: 160px;
+          padding-left: 10px;
+          justify-content: flex-start;
+
+          .sort-by {
+            margin-left: 60px;
+          }
+        }
+      }
+
+      &:last-child {
+        padding-right: 5px;
+        min-width: 250px;
+        width: 250px;
+      }
+    }
+
+    .smart-table__name .cell {
+      .body-2();
+      margin: 0;
+
+      span {
+        display: inline-block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 160px;
+      }
+    }
+
+    .smart-table__available .cell {
+      .body-2();
+      font-family: @font-roboto-medium;
+      margin: 0;
+    }
+
+    .smart-table__available-value .cell,
+    .smart-table__chart-wrap .cell,
+    .smart-table__in-orders .cell {
+      .footnote-1();
+    }
+
+    .smart-table__change .cell {
+      .footnote-1();
+      span {
+        &.plus {
+          color: @color-submit-300;
+        }
+        &.minus {
+          color: @color-error-500;
+        }
+      }
+    }
+
+    .smart-table__cell:last-child {
+
+      .cell {
+        display: flex;
+        align-items: center;
+
+        .spam-icons {
+          span.unspam,
+          span.tospam,
+          svg {
+            display: none;
+          }
+
+          &.icon-hide {
+            svg:first-child {
+              display: inline-block;
+            }
+            &:hover {
+              span.unspam {
+                display: none;
+              }
+              span.tospam {
+                display: block;
+              }
+            }
+          }
+
+          &.icon-show {
+            svg:first-child + svg {
+              display: inline-block;
+            }
+            &:hover {
+              span.unspam {
+                display: block;
+              }
+              span.tospam {
+                display: none;
+              }
+            }
+          }
+        }
+
+        span.icon {
+          z-index: 2;
+          display: inline-block;
+          width: 18px;
+          height: 18px;
+          cursor: pointer;
+          position: absolute;
+          transform: translate3d(0, 0, 0);
+
+          span {
+            display: none;
+            position: absolute;
+            background: @color-basic-700;
+            opacity: .8;
+            top: 0;
+            z-index: 2;
+            left: 50%;
+            transform: translate(-50%, -40px);
+            color: @color-white;
+            padding: 10px 15px;
+            border-radius: @border-radius;
+            .tag-2();
+            text-transform: none;
+
+            &::after {
+              display: block;
+              content: '';
+              width: 10px;
+              height: 10px;
+              background: @color-basic-700;
+              position: absolute;
+              left: 50%;
+              transform: translate(-50%, 5px) rotate(45deg);
+            }
+          }
+
+          svg {
+            fill: @color-basic-500;
+            transition: .3s;
+            vertical-align: top;
+          }
+
+          &:hover {
+            span {
+              display: block;
+            }
+            svg {
+              fill: @color-basic-700;
+            }
+          }
+        }
+
+        .icon-send {
+          right: 181px;
+        }
+
+        .icon-receive {
+          right: 139px;
+          span {
+            margin-left: -2px;
+          }
+          svg {
+            transform: rotate(-180deg);
+          }
+        }
+        .icon-dex {
+          right: 97px;
+        }
+        .icon-hide {
+          right: 55px;
+        }
+        .icon-show {
+          right: 55px;
+        }
+
+      }
+    }
+
     .smart-table__thead {
       .smart-table__row {
+        height: auto;
         min-width: 768px;
         overflow-x: auto;
         background: @color-white;
@@ -857,6 +1038,9 @@
     }
 
     .smart-table__tbody {
+      transform: translate3d(0, 0, 0);
+      will-change: transform;
+
       .smart-table__cell {
         border-bottom: 1px solid @color-basic-50;
         padding: 0 10px;
@@ -879,7 +1063,87 @@
             justify-content: flex-start;
           }
         }
+
+        .w-visible:first-child {
+          .smart-table__cell:last-child .cell span.icon span::after {
+            transform: translate(-50%, -5px) rotate(45deg);
+            top: 0;
+          }
+
+          .smart-table__cell:last-child .cell span.icon span {
+            transform: translate(-50%, 100%);
+            bottom: -5px;
+            top: auto;
+          }
+        }
       }
+
+      .w-visible {
+        min-height: 64px;
+
+        &:first-child {
+          .smart-table {
+            &__control-cell {
+              .cell {
+                span.icon {
+                  span {
+                    top: auto;
+                    bottom: 0;
+                    left: 50%;
+                    transform: translate(-50%, 40px);
+
+                    &::after {
+                      left: 50%;
+                      transform: translate(-50%, -27px) rotate(45deg);
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      @media screen and (min-width: 769px) {
+        .smart-table {
+          &__row:hover {
+            background: @hover-default;
+
+            .asset__logo {
+              .marker {
+                border: 2px solid @custom-asset-marker-border;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .search-input {
+      width: 36px;
+      border-radius: @border-radius;
+      margin-right: 10px;
+      text-indent: -999px;
+      border-color: @color-basic-200;
+      z-index: 1;
+      background-position: 10px center;
+      padding-left: 35px;
+      .footnote-1();
+
+      &:focus {
+        width: 200px;
+        text-indent: 0;
+        border-color: @color-submit-300;
+      }
+
+      &.not-empty {
+        border-color: @color-submit-300;
+      }
+    }
+
+    .z-top {
+      position: relative;
+      z-index: 1;
     }
   }
 }
@@ -901,6 +1165,170 @@
     .smart-table__cell[data-column-id="pair"] {
       span {
         max-width: 126px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1190px) {
+  .smart-table_dex-my-orders {
+    min-width: 100%;
+
+    .smart-table {
+      &__thead {
+        display: none;
+      }
+
+      &__tbody {
+        .smart-table__row {
+          padding-left: 48px;
+          padding-right: 48px;
+          padding-top: 14px;
+          padding-bottom: 14px;
+          flex-wrap: wrap;
+          margin: 0 2px;
+        }
+      }
+
+      &__cell {
+        padding: 0;
+      }
+
+      &__cell {
+        &[data-column-id="average"],
+        &[data-column-id="filled"],
+        &[data-column-id="pair"],
+        &[data-column-id="time"],
+        &[data-column-id="price"],
+        &[data-column-id="amount"] {
+          flex-basis: 50%;
+          height: 18px;
+        }
+
+        .cell-label {
+          display: inline-block;
+        }
+      }
+
+      &__cell[data-column-id="fee"] {
+        display: none;
+        text-align: left;
+      }
+
+      &__cell[data-column-id="pair"] {
+        order: 0;
+        margin-bottom: 5px;
+        font-family: @font-roboto-medium;
+
+        span {
+          max-width: none;
+        }
+      }
+
+      &__cell[data-column-id="price"] {
+        text-align: left;
+        order: 2;
+      }
+
+      &__cell[data-column-id="amount"] {
+        order: 3;
+      }
+
+      &__cell[data-column-id="filled"] {
+        text-align: left;
+      }
+
+      &__cell[data-column-id="type"],
+      &__cell[data-column-id="total"],
+      &__cell[data-column-id="filled"],
+      &__cell[data-column-id="average"] {
+        display: none;
+      }
+
+      &__cell[data-column-id="time"] {
+        margin-bottom: 5px;
+        order: 1;
+        text-align: right;
+        color: @color-basic-500;
+        font-size: @font-size-caption-2;
+
+        .cell-label {
+          display: none;
+        }
+      }
+
+      &__cell[data-column-id="status"] {
+        order: 0;
+        position: absolute;
+        min-width: 36px;
+        left: 10px;
+        top: 50%;
+        transform: translate(0, -50%);
+        height: 36px;
+        width: 36px;
+        font-size: 0;
+
+        .progress-bar,
+        .progress-precents {
+          display: none;
+        }
+      }
+
+      &__cell[data-column-id="controls"] {
+        order: 4;
+        position: absolute;
+        flex-basis: 30px;
+        right: 10px;
+        min-width: 30px;
+        top: 50%;
+        transform: translate(0, -50%);
+        height: 30px;
+        width: 30px;
+        font-size: 0;
+      }
+    }
+
+    .stop {
+      background-size: 10px 10px;
+      background-repeat: no-repeat;
+      background-position: center center;
+      margin-left: 0;
+      height: 30px;
+      width: 30px;
+    }
+
+    .order-row {
+      position: relative;
+
+      &:not(:last-child) {
+        &::before {
+          background: @color-basic-100;
+          height: 1px;
+          width: calc(100% ~'- 20px');
+          position: absolute;
+          bottom: 0;
+          left: 10px;
+          display: block;
+          content: '';
+          z-index: 1;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1180px) {
+  .smart-table {
+    &_mode-large {
+      .smart-table__cell[data-column-id="controls"] {
+        width: 50px;
+        min-width: 50px;
+
+        .cell {
+          .icon {
+            display: none;
+          }
+        }
       }
     }
   }
@@ -1155,246 +1583,92 @@
       width: 30px;
     }
   }
-
-  // My trade history
-
-  .smart-table_dex-trade-history {
-    min-width: 100%;
-
-    .smart-table {
-      &__thead {
-        display: none;
-      }
-
-      &__tbody {
-        .smart-table {
-          &__row {
-            &:hover {
-              background: none transparent;
-            }
-          }
-        }
-      }
-
-      &__row {
-        padding: 14px 12px 14px 12px;
-        flex-wrap: wrap;
-        margin: 0 2px;
-
-        &:not(:first-child) {
-          &::before {
-            background: @color-basic-100;
-            height: 1px;
-            width: calc(100% ~'- 20px');
-            position: absolute;
-            top: 0;
-            left: 10px;
-            display: block;
-            content: '';
-          }
-        }
-      }
-
-      &__cell {
-        flex-basis: 50%;
-
-        .cell-label {
-          display: inline-block;
-        }
-      }
-
-      &__cell[data-column-id="pair"] {
-        order: 0;
-        margin-bottom: 5px;
-        font-family: @font-roboto-medium;
-
-        span {
-          max-width: none;
-        }
-      }
-
-      &__cell[data-column-id="total"],
-      &__cell[data-column-id="fee"],
-      &__cell[data-column-id="type"] {
-        display: none;
-      }
-
-      &__cell[data-column-id="price"] {
-        text-align: left;
-        order: 2;
-      }
-
-      &__cell[data-column-id="amount"] {
-        order: 3;
-      }
-
-      &__cell[data-column-id="time"] {
-        margin-bottom: 5px;
-        order: 1;
-        text-align: right;
-        margin-right: 0;
-        color: @color-basic-500;
-        font-size: @font-size-caption-2;
-
-        .cell-label {
-          display: none;
-        }
-      }
-
-      &__cell[data-column-id="status"] {
-        display: block;
-        position: absolute;
-        right: 0;
-
-        .status {
-          display: none;
-        }
-      }
-    }
-  }
 }
 
-@media screen and (max-width: 1190px) {
-  .smart-table_dex-my-orders {
-    min-width: 100%;
+@media screen and (max-width: 769px) {
+  .smart-table {
+    &_mode-large {
+      max-height: 100%;
 
-    .smart-table {
-      &__thead {
-        display: none;
-      }
+      .smart-table__tbody {
+        max-height: 100%;
+        padding-right: 10px;
 
-      &__tbody {
+        .w-visible {
+          margin: 0 0 5px;
+          height: 70px !important;
+        }
+
         .smart-table__row {
-          padding-left: 48px;
-          padding-right: 48px;
-          padding-top: 14px;
-          padding-bottom: 14px;
+          padding: 0;
+          flex-direction: row;
           flex-wrap: wrap;
-          margin: 0 2px;
+
+          .smart-table__cell {
+            padding: 0;
+          }
+
+          .smart-table__name {
+            min-width: auto;
+
+            .cell {
+              overflow: hidden;
+              text-overflow: ellipsis;
+              width: 100%;
+              max-width: 100%;
+              padding: 0 5px 0 20px;
+
+              span {
+                max-width: 100%;
+              }
+            }
+          }
+
+          .smart-table__control-cell {
+            max-width: 50px;
+            min-width: 50px;
+          }
         }
       }
 
-      &__cell {
-        padding: 0;
-      }
-
-      &__cell {
-        &[data-column-id="average"],
-        &[data-column-id="filled"],
-        &[data-column-id="pair"],
-        &[data-column-id="time"],
-        &[data-column-id="price"],
-        &[data-column-id="amount"] {
-          flex-basis: 50%;
-          height: 18px;
-        }
-
-        .cell-label {
-          display: inline-block;
-        }
-      }
-
-      &__cell[data-column-id="fee"] {
-        display: none;
-        text-align: left;
-      }
-
-      &__cell[data-column-id="pair"] {
-        order: 0;
-        margin-bottom: 5px;
-        font-family: @font-roboto-medium;
-
-        span {
-          max-width: none;
-        }
-      }
-
-      &__cell[data-column-id="price"] {
-        text-align: left;
-        order: 2;
-      }
-
-      &__cell[data-column-id="amount"] {
-        order: 3;
-      }
-
-      &__cell[data-column-id="filled"] {
-        text-align: left;
-      }
-
-      &__cell[data-column-id="type"],
-      &__cell[data-column-id="total"],
-      &__cell[data-column-id="filled"],
-      &__cell[data-column-id="average"] {
-        display: none;
-      }
-
-      &__cell[data-column-id="time"] {
-        margin-bottom: 5px;
-        order: 1;
-        text-align: right;
-        color: @color-basic-500;
-        font-size: @font-size-caption-2;
-
-        .cell-label {
+      .smart-table__row {
+        .smart-table__available-value,
+        .smart-table__chart-wrap,
+        .smart-table__change,
+        .smart-table__in-orders {
           display: none;
         }
-      }
 
-      &__cell[data-column-id="status"] {
-        order: 0;
-        position: absolute;
-        min-width: 36px;
-        left: 10px;
-        top: 50%;
-        transform: translate(0, -50%);
-        height: 36px;
-        width: 36px;
-        font-size: 0;
+        .smart-table__cell[data-column-id="name"] {
+          flex-basis: 50px;
+          max-width: 50px;
+        }
 
-        .progress-bar,
-        .progress-precents {
-          display: none;
+        .smart-table__cell[data-column-id="balance"] {
+          .cell {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 0 0 0 20px;
+          }
         }
       }
 
-      &__cell[data-column-id="controls"] {
-        order: 4;
-        position: absolute;
-        flex-basis: 30px;
-        right: 10px;
-        min-width: 30px;
-        top: 50%;
-        transform: translate(0, -50%);
-        height: 30px;
-        width: 30px;
-        font-size: 0;
-      }
-    }
+      .smart-table__cell {
+        .cell {
+          height: 40px;
+        }
 
-    .stop {
-      background-size: 10px 10px;
-      background-repeat: no-repeat;
-      background-position: center center;
-      margin-left: 0;
-      height: 30px;
-      width: 30px;
-    }
+        &:last-child {
+          padding: 0 0 10px 20px;
 
-    .order-row {
-      position: relative;
+          .cell {
+            height: 20px;
 
-      &:not(:first-child) {
-        &::before {
-          background: @color-basic-100;
-          height: 1px;
-          width: calc(100% ~'- 20px');
-          position: absolute;
-          top: 0;
-          left: 10px;
-          display: block;
-          content: '';
-          z-index: 1;
+            span.icon {
+              display: none;
+            }
+          }
         }
       }
     }
@@ -1403,7 +1677,7 @@
 
 @media screen and (max-width: 768px) {
   .smart-table {
-    &__mode-large {
+    &_mode-large {
       border: 0 none;
       border-radius: 0;
       box-shadow: none;
@@ -1449,3 +1723,31 @@
     }
   }
 }
+
+@media screen and (min-width: 660px) and (max-width: 768px) {
+  .smart-table {
+    &_mode-large {
+      .smart-table__row {
+        min-width: 100%;
+      }
+
+      .smart-table__cell[data-column-id="controls"] {
+        display: block;
+        width: 50px;
+        min-width: 50px;
+
+        .cell {
+          .icon {
+            display: none;
+          }
+        }
+      }
+
+      .smart-table__cell[data-column-id="mirror"],
+      .smart-table__cell[data-column-id="inReserved"] {
+        display: none;
+      }
+    }
+  }
+}
+

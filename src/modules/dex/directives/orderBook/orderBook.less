@@ -22,21 +22,6 @@
   }
 }
 
-@media screen and (max-width: 1024px) {
-  .dex-layout {
-    &__column_orderbook {
-      .dex-layout {
-        &__block[data-block="orderbook"] {
-          w-empty-block,
-          w-error-block {
-            top: 0;
-          }
-        }
-      }
-    }
-  }
-}
-
 @media screen and (max-width: 659px) {
   .dex-order-book {
     min-height: 360px;
@@ -49,14 +34,6 @@
       max-height: 155px;
       overflow-y: auto;
       overflow-x: hidden;
-    }
-  }
-}
-
-@media screen and (min-width: 660px) {
-  .dex-layout__column_orderbook {
-    .dex-layout-side-bar-toggle[side="left"] {
-      width: 0;
     }
   }
 }

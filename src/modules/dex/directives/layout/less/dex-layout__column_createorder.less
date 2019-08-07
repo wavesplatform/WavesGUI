@@ -15,5 +15,226 @@
     .block-title {
       display: none;
     }
+
+    .mask {
+      background: @mask-default;
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      opacity: .5;
+      height: 100%;
+      z-index: 5;
+      display: none;
+    }
+  }
+}
+
+@media screen and (min-width: 2400px) {
+  .dex-layout {
+    &__createorder {
+      max-height: 440px;
+      width: 360px;
+
+      .body .making-order {
+        .fields {
+          padding: 15px 25px 15px;
+        }
+
+        .expiration {
+          margin: 10px 0;
+        }
+
+        .areas .area {
+          height: 42px;
+          line-height: 38px;
+        }
+
+        .fields {
+          .input-like {
+            height: 42px;
+
+            .asset-name-wrap div {
+              line-height: 28px;
+            }
+          }
+
+          .field-label {
+            margin-top: 15px;
+            padding-bottom: 4px;
+          }
+
+          .place-order {
+            height: 42px;
+          }
+
+          .input input {
+            height: 42px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .dex-layout {
+    &__column_createorder {
+      margin-left: -5px;
+      margin-right: -5px;
+      width: calc(100% ~'+ 10px');
+      height: 80px;
+      max-height: none;
+      min-height: auto;
+      position: absolute;
+      bottom: 0;
+      z-index: 7;
+      box-shadow: @shadow-dex-open;
+
+      .dex-layout {
+        &__block {
+          width: 100%;
+          position: absolute;
+          z-index: 8;
+          bottom: 0;
+          height: 80px;
+        }
+      }
+
+      &.expanded {
+        z-index: 7;
+        height: calc(100% ~'+ 10px');
+        top: -5px;
+
+        .dex-layout {
+          &__block {
+            height: 386px;
+          }
+        }
+
+        .mask {
+          display: block;
+        }
+
+        .head {
+          .icon-close {
+            display: block;
+          }
+        }
+
+        .body {
+          .making-order {
+
+            .areas {
+              display: none;
+            }
+
+            .choice {
+              display: flex;
+              border-bottom: 1px solid @color-disabled-100;
+
+              .buy {
+                background: @color-white;
+                flex-basis: 50%;
+                text-align: left;
+                padding-left: 25px;
+              }
+
+              .sell {
+                background: @color-white;
+                flex-basis: 50%;
+                text-align: right;
+                padding-right: 25px;
+              }
+
+              .middle {
+                position: absolute;
+                left: 50%;
+                top: 0;
+                color: @color-submit-400;
+                height: 49px;
+                width: 80px;
+                transform: translate(-50%, 0);
+              }
+
+            }
+
+            &.buy {
+              .buy {
+                background: rgba(31, 90, 245, 0.1);
+
+                .price {
+                  span {
+                    color: @color-submit-400;
+                  }
+                }
+
+                .name {
+                  color: @color-submit-400;
+                }
+              }
+
+              .sell {
+                .price {
+                  span {
+                    color: @color-basic-900;
+                  }
+                }
+
+                .name {
+                  color: @color-basic-500;
+                }
+              }
+            }
+
+            &.sell {
+              .buy {
+                .price {
+                  span {
+                    color: @color-basic-900;
+                  }
+                }
+
+                .name {
+                  color: @color-basic-500;
+                }
+              }
+
+              .sell {
+                background: rgba(239, 72, 41, 0.1);
+
+                .price {
+                  span {
+                    color: @color-error-500;
+                  }
+                }
+
+                .name {
+                  color: @color-error-500;
+                }
+              }
+
+              .middle {
+                color: @color-error-500;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 659px) {
+  .dex-layout {
+    &__column_createorder {
+      position: fixed;
+      box-shadow: @shadow-create-order;
+
+      &.expanded {
+        bottom: 0;
+        top: auto;
+      }
+    }
   }
 }

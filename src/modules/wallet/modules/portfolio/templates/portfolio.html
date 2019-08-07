@@ -33,7 +33,7 @@
             </w-option>
         </w-select>
     </div>
-    <w-smart-table class="smart-table smart-table__mode-large" name="portfolio-balance-list" data="$ctrl.balanceList"
+    <w-smart-table class="smart-table smart-table_mode-large" name="portfolio-balance-list" data="$ctrl.balanceList"
                    header-info="$ctrl.tableHeaders">
         <w-loader ng-if="$ctrl.pending"></w-loader>
         <w-visible ng-repeat="balance in $data track by balance.asset.id" once>

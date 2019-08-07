@@ -100,26 +100,6 @@
   }
 }
 
-@media screen and (max-width: 1440px) {
-  .tab_myOpenOrders {
-    .smart-table_dex-my-orders {
-      &__cell[data-column-id="average"],
-      &__cell[data-column-id="filled"] {
-        display: none;
-      }
-    }
-  }
-}
-
-@media screen and (max-width: 1190px) {
-  .tab_myOrderHistory {
-    .smart-table_dex-my-orders .smart-table__tbody .smart-table__row {
-      padding-right: 14px;
-    }
-  }
-}
-
-
 .tab_myOrderHistory {
   .smart-table_dex-my-orders {
     .smart-table__cell {
@@ -132,6 +112,29 @@
         .decimal-muted {
           color: @color-basic-600;
         }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1440px) {
+  .tab_myOpenOrders {
+    .smart-table_dex-my-orders {
+      .smart-table {
+        &__cell[data-column-id="average"],
+        &__cell[data-column-id="filled"] {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1190px) {
+  .tab_myOrderHistory {
+    .smart-table_dex-my-orders {
+      .smart-table__tbody .smart-table__row {
+        padding-right: 14px;
       }
     }
   }
