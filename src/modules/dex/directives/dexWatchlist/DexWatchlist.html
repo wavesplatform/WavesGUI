@@ -2,9 +2,9 @@
 
     <div class="titles-wrap">
         <div ng-repeat="tab in $ctrl.tabs track by tab.value"
-           class="title"
-           ng-class="{'active': $ctrl.activeTab === tab.value}"
-           ng-click="$ctrl.chooseTab(tab.value)">
+             class="title"
+             ng-class="{'active': $ctrl.activeTab === tab.value}"
+             ng-click="$ctrl.chooseTab(tab.value)">
             <span w-i18n="{{::tab.name}}"></span>
         </div>
 
