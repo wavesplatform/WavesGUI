@@ -34,12 +34,14 @@ export class DataManager {
     }
 
     public applyAddress(address: string): void {
+        this.dropAddress();
         this._address = address;
         this.pollControl.create();
         this.transactions.applyAddress(this._address);
     }
 
     public dropAddress() {
+        this._address = undefined;
         this.pollControl.destroy();
         this.transactions.dropAddress();
     }
