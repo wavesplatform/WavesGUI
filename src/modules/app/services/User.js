@@ -330,6 +330,16 @@
                 }
             }
 
+            initScriptInfoPolling() {
+                clearTimeout(this._scriptInfoPollTimeoutId);
+                this._scriptInfoPollTimeoutId = setTimeout(() => {
+                    if (this._scriptInfoPoll) {
+                        this._scriptInfoPoll.destroy();
+                    }
+                    this._scriptInfoPoll = new Poll(() => this.updateScriptAccountData(), () => null, 10000);
+                }, 30000);
+            }
+
             /**
              * @param {object} data
              * @param {string} data.address
@@ -341,10 +351,7 @@
                 this.networkError = false;
 
                 return this._addUserData(data).then(() => {
-                    this._scriptInfoPollTimeoutId = setTimeout(() => {
-                        this._scriptInfoPoll = new Poll(() => this.updateScriptAccountData(), () => null, 10000);
-                    }, 30000);
-
+                    this.initScriptInfoPolling();
                     analytics.send({ name: 'Sign In Success' });
                 });
             }
@@ -387,6 +394,7 @@
                         dontShowSpam: true
                     }
                 }).then(() => {
+                    this.initScriptInfoPolling();
                     if (restore) {
                         analytics.send({
                             name: 'Import Backup Success',
@@ -418,6 +426,7 @@
                 if (stateName) {
                     this.logoutSignal.dispatch({});
                     this._resetFields();
+                    this.changeTheme(themes.getDefaultTheme());
                     $state.go(stateName, undefined, { custom: { logout: true } });
                 } else if (WavesApp.isDesktop()) {
                     transfer('reload');
@@ -660,7 +669,9 @@
                         ds.app.login(data.address, data.api);
 
                         data.api.onDestroy(() => {
-                            this.logout('welcome');
+                            if (this.isAuthorised) {
+                                this.logout('welcome');
+                            }
                         });
 
                         return this.addMatcherSign()

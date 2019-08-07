@@ -10,10 +10,6 @@
 /electron/**/*.js.map
 /coverage
 /tmp
-/ts-scripts/*.js
-/gulpfile.js
-/karma.conf.js
-/server.js
 *.pdx
 *.cer
 *.p12
@@ -23,6 +19,4 @@ WavesGUI.iml
 /.cache-download
 /data-service/**/*.js
 /data-service/**/*.js.map
-/scripts/**/*.js
-/scripts/**/*.js.map
 /data-service-dist
