@@ -1,0 +1,246 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+@import (reference) '../../../../app/less/typography';
+
+@cell-height: 64px;
+@responsive-cell-height: auto;
+
+.search {
+  &-wrapper {
+    height: 100%;
+    width: 100%;
+    display: inline-block;
+  }
+
+  &-input {
+    background: @input-search-icon 8px center no-repeat @color-white;
+    height: 100%;
+    width: 100%;
+    padding-left: 31px;
+    cursor: pointer;
+    color: @color-disabled-900;
+    transition: .3s;
+    border: 1px solid transparent;
+    font-size: @font-size-caption-2;
+
+    &:focus {
+      border-color: @color-submit-300;
+      cursor: default;
+    }
+  }
+}
+
+.smart-table {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+
+  &__wrapper {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__row {
+    font-size: @font-size-caption-2;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    background: @color-white;
+    padding: 0 14px;
+
+    .cell-label {
+      display: none;
+      color: @color-basic-500;
+      margin-right: 7px;
+      font-size: @font-size-caption-2;
+    }
+  }
+
+  &__cell {
+    padding: 0 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &:first-child {
+      padding-left: 0;
+    }
+
+    &:last-child {
+      padding-right: 0;
+    }
+
+    &[data-column-id="controls"] {
+      color: @color-basic-700;
+    }
+  }
+
+  &__thead {
+    width: 100%;
+    z-index: 1;
+    color: @color-basic-600;
+    border-bottom: 1px solid @color-basic-100;
+
+    .smart-table {
+      &__search-container {
+        position: relative;
+      }
+
+      &__cell {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        .sort-by {
+          cursor: pointer;
+          display: inline-block;
+
+          &::after {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            margin-left: 5px;
+            margin-top: -1px;
+            content: '';
+            background: @sorting-icon center center no-repeat;
+            vertical-align: middle;
+            transform: rotate(0deg);
+          }
+        }
+
+        &.asc .sort-by::after,
+        &.desc .sort-by::after {
+          background-image: @sorting-active-icon;
+        }
+
+        &.desc {
+          .sort-by {
+            &::after {
+              transform: rotate(180deg);
+            }
+          }
+        }
+      }
+
+      &__row {
+        height: 28px;
+      }
+    }
+  }
+
+  &__tbody {
+    height: 100%;
+    display: block;
+    overflow: auto;
+    position: relative;
+    z-index: 2;
+
+    .smart-table {
+      &__row {
+        transition: all 0.3s;
+
+        &:hover {
+          background-color: @dex-selected-item-bg;
+
+          .underline {
+            a {
+              display: inline-block;
+              position: relative;
+
+              &:after {
+                display: block;
+                height: 1px;
+                border-bottom: 1px dashed @color-basic-400;
+                position: absolute;
+                content: '';
+                bottom: 0;
+                width: 100%;
+              }
+            }
+          }
+        }
+
+        a {
+          color: @color-disabled-900;
+        }
+      }
+    }
+  }
+
+  .decimal-muted {
+    color: @color-basic-900;
+  }
+
+  .search-input {
+    &:focus {
+      border-color: transparent;
+    }
+  }
+}
+
+@media screen and (min-width: 2400px) {
+  .dex-layout {
+    .smart-table__thead .smart-table__row {
+      font-size: 12px;
+    }
+
+    .smart-table__row {
+      font-size: 12px;
+    }
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .smart-table {
+    &__tbody {
+      .smart-table {
+        &__row {
+          position: relative;
+
+          &:hover {
+            .underline:after {
+              display: none;
+            }
+          }
+
+          .status-mobile {
+            display: inline-block;
+          }
+
+          &.active {
+            .dropdown {
+              transform: rotate(180deg);
+            }
+
+            & + .active::before {
+              background: @color-basic-100;
+              height: 1px;
+              width: calc(100% ~'- 20px');
+              position: absolute;
+              top: 0;
+              left: 10px;
+              display: block;
+              content: '';
+            }
+          }
+        }
+      }
+    }
+
+    &__cell {
+      padding: 0;
+
+      .dropdown {
+        display: block;
+      }
+    }
+  }
+}
+
+
