@@ -125,7 +125,9 @@
             constructor() {
                 super($scope);
 
-                if (WavesApp.isWeb()) {
+                this._initDeviceTypes();
+
+                if (this.isWeb) {
                     storage.load('accountImportComplete')
                         .then((complete) => {
                             if (complete) {
@@ -137,7 +139,17 @@
                 } else {
                     this._initUserList();
                 }
+
                 this._initPairs();
+                this._initDeviceTypes();
+
+                if (this.isDesktop) {
+                    this.observeOnce('userList', () => {
+                        if (this.userList.length) {
+                            $state.go('signIn');
+                        }
+                    });
+                }
             }
 
             /**
@@ -251,6 +263,14 @@
                             $scope.$apply();
                         });
                     });
+            }
+
+            /**
+             * @private
+             */
+            _initDeviceTypes() {
+                this.isDesktop = WavesApp.isDesktop();
+                this.isWeb = WavesApp.isWeb();
             }
 
             /**
