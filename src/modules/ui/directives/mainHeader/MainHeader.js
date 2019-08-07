@@ -83,6 +83,11 @@
                 this.largeTemplate = `${PATH}/largeHeader.html`;
                 this.mobileTemplate = `${PATH}/mobileHeader.html`;
 
+                user.onLogin().then(
+                    () => this._handleLogin(),
+                    () => this._handleLogout()
+                );
+
                 this.observe('userName', () => {
                     userNameService.setName(this.userName);
                     this.isUniqueUserName = userNameService.isUniqueName();
@@ -138,7 +143,7 @@
              * @public
              */
             logout() {
-                user.logout();
+                user.logout('welcome');
             }
 
             /**
@@ -274,6 +279,48 @@
             onMobileFaderClick() {
                 $element.find(`.${SELECTORS.HEADER}`).removeClass('expanded');
                 this.removeBodyClass();
+            }
+
+            /**
+             * @private
+             */
+            _handleLogin() {
+                this._resetUserFields();
+
+                utils.postDigest($scope).then(() => {
+                    this._initFader();
+                    $scope.$apply();
+                });
+
+                user.getFilteredUserList().then(list => {
+                    this.userList = list;
+                });
+
+                user.logoutSignal.once(this._handleLogout, this);
+            }
+
+            /**
+             * @private
+             */
+            _handleLogout() {
+                this._resetUserFields();
+
+                user.loginSignal.once(this._handleLogin, this);
+            }
+
+            /**
+            * @private
+            */
+            _resetUserFields() {
+                this.address = user.address || '3PHBX4uXhCyaANUxccLHNXw3sqyksV7YnDz';
+                this.isLogined = !!user.address;
+                this.userName = user.name;
+                this.userType = user.userType;
+                this.isScript = user.hasScript();
+                this.isKeeper = user.userType === 'wavesKeeper';
+                this.isLedger = user.userType === 'ledger';
+                this.hasTypeHelp = this.isScript && (this.isLedger || this.isKeeper);
+                this.userList = [];
             }
 
             /**
