@@ -69,8 +69,8 @@
             <w-table-cell>
                 <div ng-class="{cancelled: order.isCancelled}" class="status">
                     <div class="progress-precents">
-                        {{$ctrl.round(order.percent)}}%
-                        <span ng-if="::order.isCancelled" w-i18n="directives.myOrders.cancelled"></span>
+                        <span class="progress-num">{{$ctrl.round(order.percent)}}%</span>
+                        <span class="progress-desc" ng-if="::order.isCancelled" w-i18n="directives.myOrders.cancelled"></span>
                     </div>
                     <div class="progress-bar">
                         <div class="progress-fill" style="width: {{order.percent}}%"></div>
