@@ -142,6 +142,7 @@
                     userNotification.destroyAll();
                     i18nextReady.then(() => {
                         this._updateUserNotifications();
+                        clearInterval(this._notifyTimer);
                         this._notifyTimer = setInterval(() => this._updateUserNotifications(), 10000);
                     });
                 });
