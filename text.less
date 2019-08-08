@@ -75,9 +75,30 @@ body.welcome {
       }
 
       &:hover {
-        &:after {
+        .fake-button-content:after {
           margin-right: 15px;
         }
+      }
+    }
+
+    .icon-arrow-right {
+      margin-left: 10px;
+      display: block;
+      width: 24px;
+      height: 24px;
+      transition: .3s;
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      box-shadow: none;
+      transform: translate(0, -50%);
+      background-image: @arrow-white-right;
+      background-color: transparent;
+    }
+
+    &:hover {
+      .icon-arrow-right {
+        transform: translate(7px, -50%);
       }
     }
   }
