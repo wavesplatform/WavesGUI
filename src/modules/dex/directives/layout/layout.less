@@ -99,12 +99,6 @@ w-layout {
           .dex-layout {
             &__block[data-block="orderbook"] {
               height: calc(100% ~'- 38px');
-
-              w-empty-block,
-              w-error-block {
-                top: 50%;
-                transform: translate(-50%, -50%);
-              }
             }
 
             &__block[data-block="tradevolume"] {
@@ -198,12 +192,6 @@ w-layout {
         &__block[data-block="orderbook"] {
           transition: .3s;
           height: calc(100% ~'- 200px');
-
-          w-empty-block,
-          w-error-block {
-            transform: translate(-50%, 0%);
-            top: 90px;
-          }
 
           .block-wrapper,
           w-scroll-box {
@@ -539,6 +527,12 @@ html body.dex-demo .notifications {
     height: 100%;
     max-height: 100%;
     transition: .3s;
+  }
+}
+
+w-web-only {
+  &:empty {
+    display: none;
   }
 }
 

@@ -26,7 +26,7 @@
                 invoice: false,
                 card: false,
                 bank: false
-            }
+            };
 
             /**
              * @type {boolean}
@@ -78,6 +78,7 @@
                 this.enableTab('invoice');
 
                 if (gatewayService.hasSupportOf(this.asset, 'card')) {
+                    this.purchasablesByCards = [this.asset];
                     this.enableTab('card');
                 }
 

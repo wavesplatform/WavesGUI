@@ -80,6 +80,7 @@
         const isPhone = !!phone;
         const isTablet = !!tablet;
         const isDesktop = !(isPhone || isTablet);
+        const isWeb = WavesApp.isWeb();
 
         $rootScope.isDesktop = isDesktop;
         $rootScope.isNotDesktop = !isDesktop;
@@ -91,6 +92,8 @@
             document.body.classList.add('phone');
         } else if (isTablet) {
             document.body.classList.add('tablet');
+        } else if (isWeb) {
+            document.body.classList.add('web');
         } else {
             document.body.classList.add('desktop');
         }
