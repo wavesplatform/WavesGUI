@@ -132,11 +132,20 @@
                 this._initializeLogin();
                 this._initializeOutLinks();
 
+                user.logoutSignal.on(() => {
+                    notification.destroyAll();
+                    userNotification.removeAll();
+                });
+
+                user.loginSignal.on(() => {
+                    userNotification.destroyAll();
+                    this._updateUserNotifications();
+                });
+
                 Promise.all([
                     user.onLogin(),
                     i18nextReady
                 ]).then(() => {
-                    this._updateUserNotifications();
                     setInterval(() => this._updateUserNotifications(), 10000);
                 });
 
