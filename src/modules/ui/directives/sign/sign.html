@@ -14,11 +14,11 @@
 
 <div ng-if="!$ctrl.signPending && $ctrl.signError"
      class="buttons-wrapper">
-    <w-button class="big" on-click="$ctrl.cancel()">
+    <w-button class="button button__elem button__elem_big" on-click="$ctrl.cancel()">
         <span ng-if="::$ctrl.isLedger" w-i18n="directives.sign.confirmRequestLedger.cancel"></span>
         <span ng-if="::$ctrl.isKeeper" w-i18n="directives.sign.confirmRequestKeeper.cancel"></span>
     </w-button>
-    <w-button class="big submit" on-click="$ctrl.trySign()">
+    <w-button class="button button__elem button__elem_big button__elem_submit" on-click="$ctrl.trySign()">
         <span ng-if="::$ctrl.isLedger" w-i18n="directives.sign.confirmRequestLedger.sign"></span>
         <span ng-if="::$ctrl.isKeeper" w-i18n="directives.sign.confirmRequestKeeper.sign"></span>
     </w-button>

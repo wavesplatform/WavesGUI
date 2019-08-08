@@ -1,0 +1,191 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+@import (reference) '../../../../app/less/app';
+
+@candy-animation: candyDotsAnimation 1.6s infinite ease-in-out;
+@candy-size: 10px;
+
+.fake-button,
+.button {
+  display: inline-block;
+
+  & > * {
+    transition: all 0.3s;
+    border: 0 none;
+    background-color: @color-white;
+    box-shadow: 0 0 0 1px @color-basic-200 inset;
+    color: @color-basic-500;
+
+    &:hover, &.hover,
+    &:active, &.active {
+      box-shadow: 0 0 0 1px @color-basic-500 inset;
+      color: @color-basic-700;
+    }
+
+    &:disabled, &.disabled {
+      color: @color-basic-200;
+    }
+
+    &.transparent {
+      background: transparent;
+      color: @color-white;
+      box-shadow: none;
+    }
+
+    &.success {
+      box-shadow: none;
+      background-color: @color-success-300;
+      color: @color-white;
+
+      &:hover, &.hover {
+        background-color: @color-success-400;
+      }
+
+      &:active, &.active {
+        background-color: @color-success-500;
+      }
+
+      &:disabled, &.disabled {
+        background-color: @color-success-100;
+      }
+    }
+
+    &.warning {
+      box-shadow: none;
+      background-color: @color-error-400;
+      color: @white-only;
+
+      &:hover, &.hover,
+      &:active, &.active {
+        background-color: @color-error-600;
+        border-color: transparent;
+      }
+
+      &:disabled, &.disabled {
+        background-color: @color-error-200;
+        box-shadow: inset -1px 1px 0 0 rgba(255, 255, 255, 0);
+      }
+    }
+  }
+
+  &__elem {
+    display: block;
+    border-radius: @border-radius;
+    width: 100%;
+    white-space: nowrap;
+
+    &_small {
+      padding: 0 20px;
+      height: 36px;
+      line-height: 36px;
+    }
+  }
+
+  &__icon {
+    display: block;
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    right: 30px;
+    top: 50%;
+    box-shadow: none;
+    transform: translate(0, -50%);
+    background-image: @arrow-white-right;
+    background-color: transparent;
+  }
+
+  &:hover {
+    .fake-button__icon {
+      transform: translate(7px, -50%);
+      box-shadow: none;
+    }
+  }
+
+  &.long {
+    width: 100%;
+  }
+
+  &.half {
+    width: 50%;
+  }
+
+  &.long > *, &.half > * {
+    width: 100%;
+  }
+}
+
+//Candy effect
+.button {
+  w-loader {
+    display: none;
+  }
+
+  &.pending {
+    .button__content {
+      display: none;
+    }
+
+    w-loader {
+      display: block;
+      margin: 0 auto;
+
+      .loader-dots() {
+        position: absolute;
+        width: @candy-size;
+        height: @candy-size;
+        border-radius: 50%;
+        top: -12px;
+        left: calc(50% ~'- 5px');
+        display: inline-block;
+        animation-fill-mode: both;
+        animation: @candy-animation;
+      }
+
+      .preloader {
+        .loader-dots();
+        top: -12px;
+        animation-delay: .16s;
+
+        &::before,
+        &::after {
+          .loader-dots();
+          top: 0;
+          content: '';
+        }
+
+        &::before {
+          transform: translateX(-15px);
+          animation-delay: 0s;
+        }
+
+        &::after {
+          transform: translateX(15px);
+          animation-delay: .32s;
+        }
+      }
+    }
+  }
+
+  @keyframes candyDotsAnimation {
+    0%,
+    80%,
+    100% {
+      box-shadow: 0 13px 0 0 @color-white,
+      0 15px 0 0 transparent;
+    }
+    40% {
+      box-shadow: 0 13px 0 -13px @color-white;
+    }
+  }
+}
+
+/* Mac button text centering fix */
+.button > button {
+  w-i18n,
+  .button__elem,
+  .full-width,
+  .full-width * {
+    width: 100%;
+    display: block;
+  }
+}

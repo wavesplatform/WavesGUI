@@ -63,7 +63,7 @@
             <w-button disabled="$ctrl.loginForm.$invalid"
                       on-click="$ctrl.showSeed()"
                       type="submit"
-                      class="submit big long">
+                      class="button button__elem button__elem_submit button__elem_big long">
                 <span w-i18n="continue"></span>
             </w-button>
         </w-analytics>
@@ -89,10 +89,10 @@
         <w-seed-read type="read" seed="{{::$ctrl.seed}}" class="no-user-select margin-2 margin-top-1"></w-seed-read>
 
         <div class="margin-top-4">
-            <a class="fake-button submit big long"
+            <a class="fake-button"
                       ng-click="$ctrl.clickCopySeed()"
                       w-copy="::$ctrl.seed">
-                <span class="fake-button-content submit big long" w-i18n="copy"></span>
+                <span class="fake-button__elem button__elem_submit button__elem_big long" w-i18n="copy"></span>
             </a>
         </div>
     </div>

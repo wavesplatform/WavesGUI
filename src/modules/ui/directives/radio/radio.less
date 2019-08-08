@@ -27,3 +27,36 @@ w-radio-wrap.split-mode {
     background-color: @color-white;
   }
 }
+
+.btn-wrap.btn-group {
+  box-sizing: border-box;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  & > *:first-child .btn, & > .btn:first-child {
+    border-left: 1px solid @color-disabled-100;
+    border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+  }
+
+  & > *:last-child .btn, & > .btn:last-child {
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+
+  .btn {
+    display: block;
+    box-sizing: border-box;
+    cursor: pointer;
+    padding: 4px 10px;
+    border-bottom: 1px solid @color-disabled-100;
+    border-top: 1px solid @color-disabled-100;
+    border-right: 1px solid @color-disabled-100;
+
+    &:active {
+      .btn-active();
+    }
+  }
+}

@@ -1,0 +1,21 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+@import (reference) '../../../../app/less/app';
+
+.fake-button,
+.button {
+  &__elem_big {
+    text-align: center;
+    height: @height-control-big;
+    font-size: @font-size-control-big;
+    font-family: @font-roboto-medium;
+    padding: 0 26px;
+    line-height: 54px;
+
+    @media screen and (max-width: 768px) {
+      height: @height-control-big-responsive;
+      line-height: @height-control-big-responsive;
+      font-size: @font-size-control-big-responsive;
+    }
+  }
+}

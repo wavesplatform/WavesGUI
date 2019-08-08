@@ -101,10 +101,10 @@
                         </div>
 
                         <div class="buttons-wrapper margin-top-3" ng-if="!$ctrl.loadingSignFromDevice">
-                            <w-button ng-if="!$ctrl.noBackButton" class="big" on-click="$ctrl.back()">
+                            <w-button ng-if="!$ctrl.noBackButton" class="button button__elem button__elem_big" on-click="$ctrl.back()">
                                 <span w-i18n="confirmTransaction.back"></span>
                             </w-button>
-                            <w-button class="big submit"
+                            <w-button class="button button__elem button__elem_big button__elem_submit"
                                       disabled="$ctrl.errors.length > 0 || !$ctrl.txId"
                                       ng-class="{long: $ctrl.noBackButton}"
                                       w-next-step
@@ -155,7 +155,7 @@
                          w-i18n="confirmTransaction.description.{{::$ctrl.tx.typeName}}" params="{moneyCurrency: $ctrl.votedAssetID}">
                     </div>
                     <div>
-                        <w-button class="submit half big" on-click="$ctrl.showTxInfo()">
+                        <w-button class="button button__elem button__elem_submit half button__elem_big" on-click="$ctrl.showTxInfo()">
                             <span w-i18n="confirmTransaction.details"></span>
                         </w-button>
                     </div>

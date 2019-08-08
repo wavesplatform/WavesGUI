@@ -1,0 +1,18 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+@import (reference) '../../../../app/less/app';
+
+.fake-button,
+.button {
+  &__elem_medium {
+    font-family: @font-roboto-medium;
+    font-size: 15px;
+    padding: 0 20px;
+    height: 42px;
+    line-height: 42px;
+
+    @media screen and (max-width: 480px) {
+      padding: 0 18px;
+    }
+  }
+}

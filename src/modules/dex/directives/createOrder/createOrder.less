@@ -18,7 +18,7 @@
   }
 }
 
-w-button.inactive-order-button {
+.button.inactive-order-button {
   width: 100%;
   & > *:not(.transparent) {
     width: 100%;
@@ -283,18 +283,9 @@ w-create-order {
             padding-bottom: 25px;
             justify-content: space-between;
           }
-
-          .place-order {
-            width: 100%;
-            color: @white-only;
-            border: none;
-            height: 36px;
-            box-shadow: none;
-            border-radius: @border-radius / 2;
-          }
         }
 
-        button.micro {
+        button.button__elem_micro {
           &[disabled] {
             border: 1px solid @color-accent-50;
             color: @color-basic-500;
@@ -308,20 +299,6 @@ w-create-order {
             cursor: default;
             opacity: 1;
           }
-
-          button.place-order {
-            background: @color-submit-400;
-            &:hover {
-              background: @color-submit-600;
-            }
-            &:active {
-              background: @color-submit-700;
-            }
-            &[disabled] {
-              background: @color-submit-400;
-              opacity: 0.3;
-            }
-          }
         }
 
         &.sell {
@@ -330,20 +307,6 @@ w-create-order {
             border-bottom: 1px solid @color-white;
             cursor: default;
             opacity: 1;
-          }
-
-          button.place-order {
-            background: @color-error-400;
-            &:hover {
-              background: @color-error-600;
-            }
-            &:active {
-              background: @color-error-700;
-            }
-            &[disabled] {
-              background: @color-error-400;
-              opacity: 0.3;
-            }
           }
         }
 
@@ -577,11 +540,11 @@ w-create-order {
     justify-content: space-between;
     margin-top: 7px;
 
-    w-button {
-      width: ~'calc(25% - 6px)';
-
-      > * {
-        box-shadow: none;
+    &__button {
+      flex: 1;
+      
+      &:not(:last-child) {
+        margin-right: 6px;
       }
     }
   }

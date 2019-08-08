@@ -1,14 +1,14 @@
 <div w-i18n-ns="app.wallet.assets" class="toolbar">
-    <w-button class="submit medium btn-send" on-click="$ctrl.showSend()">
+    <w-button class="button button__elem toolbar__button button__elem_submit button__elem_medium" on-click="$ctrl.showSend()">
         <span w-i18n="send"></span>
     </w-button>
 
-    <w-button class="interface btn-receive" on-click="$ctrl.showReceivePopup()">
+    <w-button class="button button__elem button__elem_interface" on-click="$ctrl.showReceivePopup()">
         <span w-i18n="directives.asset.receive"></span>
     </w-button>
 
-    <w-analytics event="'Wallet Assets JSON Click'" event-target="'ui'">
-        <w-button ng-if="$ctrl.advancedMode" on-click="$ctrl.openAnyTxModal()" class="interface btn-json">
+    <w-analytics event="'Wallet Assets JSON Click'" event-target="'ui'" class="analytics toolbar__analytics">
+        <w-button ng-if="$ctrl.advancedMode" on-click="$ctrl.openAnyTxModal()" class="button button__elem button__elem_interface btn-json">
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
                 <path d="M4.394 1.7a.591.591 0 1 1 0 1.182c-.665 0-1.182.517-1.182 1.182v1.182a2.35 2.35 0 0 1-.82 1.772c.498.435.82 1.066.82 1.773v1.182c0 .665.517 1.182 1.182 1.182a.591.591 0 1 1 0 1.181A2.372 2.372 0 0 1 2.03 9.973V8.79A1.167 1.167 0 0 0 .807 7.609a.591.591 0 0 1-.115-.02.591.591 0 0 1-.257-.141.591.591 0 0 1 .413-1.018c.666 0 1.182-.517 1.182-1.182V4.066c0-1.3 1.065-2.364 2.364-2.364V1.7zm5.15.002a2.372 2.372 0 0 1 2.424 2.364v1.182c0 .665.517 1.182 1.182 1.182a.591.591 0 1 1 0 1.181c-.665 0-1.182.517-1.182 1.182v1.182c0 1.3-1.064 2.364-2.364 2.364a.591.591 0 1 1 0-1.182c.665 0 1.182-.517 1.182-1.182V8.793c0-.707.323-1.338.82-1.772a2.35 2.35 0 0 1-.82-1.773V4.066c0-.665-.517-1.182-1.182-1.182a.592.592 0 0 1-.06-1.182z"/>
             </svg>

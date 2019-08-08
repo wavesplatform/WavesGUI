@@ -1,0 +1,38 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+@import (reference) '../../../../app/less/app';
+
+.fake-button,
+.button {
+  &__elem_micro {
+    border: 1px solid @color-basic-100;
+    color: @color-basic-700;
+    font-size: @font-size-control-micro;
+    padding: @padding-control-button-micro;
+    box-shadow: none;
+
+    &:hover, &.hover {
+      border-color: @color-submit-300;
+      color: @color-basic-700;
+      box-shadow: none;
+    }
+
+    &:disabled, &.disabled {
+      border: 1px solid @color-accent-50;
+      color: @color-basic-500;
+      pointer-events: none;
+    }
+  }
+
+  &:active, &.active {
+    &:not(.transparent) {
+      .button__elem_micro {
+        &,
+        &:hover {
+          border-color: @color-submit-300;
+          color: @color-submit-300;
+        }
+      }
+    }
+  }
+}

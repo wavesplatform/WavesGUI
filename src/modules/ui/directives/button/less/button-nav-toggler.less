@@ -1,0 +1,30 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+@import (reference) '../../../../app/less/app';
+
+@media screen and (max-width: 767px) {
+  .fake-button,
+  .button {
+    &__elem_nav-toggler {        
+      z-index: 10;
+      background: none transparent;
+      width: 30px;
+      height: 30px;
+      box-shadow: none;
+
+      .dots {
+        display: flex;
+        justify-content: space-between;
+        margin: 0 auto;
+        width: 16px;
+        height: 4px;
+
+        .dot {
+          width: 4px;
+          border-radius: 100%;
+          background-color: @white-only;
+        }
+      }
+    }
+  }
+}

@@ -9,10 +9,11 @@ w-responsive-menu {
   .navigation-menu {
     width: 100%;
   }
+}
 
-  w-button.nav-toggler {
+@media screen and (min-width: 769px) {
+  .navigation-menu__button {
     display: none;
-    cursor: pointer;
   }
 }
 
@@ -30,28 +31,6 @@ w-responsive-menu {
     .navigation-menu {
       display: flex;
       flex-direction: column;
-    }
-
-    w-button.nav-toggler {
-      display: block;
-
-      & > button.nav-toggler {
-        position: absolute;
-        cursor: pointer;
-        display: block;
-        border: 0 none;
-        padding: 0;
-        z-index: 10;
-        background: none transparent;
-
-        .dots {
-          display: flex;
-          flex-direction: row;
-          justify-content: space-between;
-          cursor: pointer;
-          margin: 0 auto;
-        }
-      }
     }
   }
 }
@@ -71,27 +50,12 @@ w-responsive-menu {
         display: flex;
         flex-direction: column;
       }
-
-      w-button.nav-toggler {
-        display: block;
-
-        & > button.nav-toggler {
-          position: absolute;
-          cursor: pointer;
-          display: block;
-          border: 0 none;
-          padding: 0;
-          z-index: 10;
-          background: none transparent;
-
-          .dots {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            cursor: pointer;
-          }
-        }
-      }
     }
+  }
+
+  .navigation-menu__button {
+    position: absolute;
+    right: 26px;
+    top: 10px;
   }
 }

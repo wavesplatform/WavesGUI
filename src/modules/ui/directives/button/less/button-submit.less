@@ -1,0 +1,38 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+@import (reference) '../../../../app/less/app';
+
+.fake-button,
+.button {
+  &__elem_submit {
+    box-shadow: none;
+    background-color: @color-submit-400;
+    color: @white-only;
+
+    &:hover, &.hover {
+      background-color: @color-submit-500;
+      color: @color-white;
+    }
+
+    &:active, &.active {
+      background-color: @color-submit-600;
+    }
+
+    &:disabled, &.disabled {
+      opacity: 0.3;
+    }
+
+    &-light {
+      background: @color-submit-50;
+      color: @color-submit-400;
+      box-shadow: none;
+      border-radius: @border-radius;
+
+      &:hover {
+        background: @color-submit-100;
+        color: @color-submit-400;
+        box-shadow: none;
+      }
+    }
+  }
+}

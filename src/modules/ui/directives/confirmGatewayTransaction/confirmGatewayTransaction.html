@@ -104,10 +104,10 @@
 
             <div class="bottom-wrapper">
                 <div class="buttons-wrapper">
-                    <w-button class="big" on-click="$ctrl.onClickBack()">
+                    <w-button class="button button__elem button__elem_big" on-click="$ctrl.onClickBack()">
                         <span w-i18n="confirmGatewayTransaction.back"></span>
                     </w-button>
-                    <w-button class="big submit"
+                    <w-button class="button button__elem button__elem_big button__elem_submit"
                               w-next-step
                               on-click="$ctrl.confirm()">
                         <span w-i18n="confirmGatewayTransaction.confirm"></span>
@@ -119,7 +119,7 @@
             <div class="icon icon-tx-success margin-2"></div>
             <h2 class="text-center basic-900 margin-4" w-i18n="confirmGatewayTransaction.success"></h2>
             <div class="text-center">
-                <w-button class="submit half big" on-click="$ctrl.showTxInfo()">
+                <w-button class="button button__elem button__elem_submit half button__elem_big" on-click="$ctrl.showTxInfo()">
                     <span w-i18n="confirmTransaction.details"></span>
                 </w-button>
             </div>

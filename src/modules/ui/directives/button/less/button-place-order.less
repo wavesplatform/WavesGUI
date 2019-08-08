@@ -1,0 +1,56 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+@import (reference) '../../../../app/less/app';
+
+.fake-button,
+.button {
+  &__elem_place-order {
+    width: 100%;
+    transition: all .3s;
+    color: @white-only;
+    border: none;
+    height: 36px;
+    box-shadow: none;
+    border-radius: @border-radius / 2;
+  }
+}
+
+.buy {
+  .button__elem_place-order {
+    background: @color-submit-400;
+
+    &:hover {
+      background: @color-submit-600;
+      color: @color-white;
+    }
+
+    &:active {
+      background: @color-submit-700;
+    }
+    
+    &[disabled] {
+      background: @color-submit-400;
+      opacity: 0.3;
+    }
+  }
+}
+
+.sell {
+  .button__elem_place-order {
+    background: @color-error-400;
+
+    &:hover {
+      background: @color-error-600;
+      color: @color-white;
+    }
+
+    &:active {
+      background: @color-error-700;
+    }
+
+    &[disabled] {
+      background: @color-error-400;
+      opacity: 0.3;
+    }
+  }
+}

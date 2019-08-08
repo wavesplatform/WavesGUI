@@ -23,7 +23,7 @@
                         <div class="get-started-footer">
                             <div class="margin-2 margin-top-3">
                                 <a class="fake-button long" href="https://chrome.google.com/webstore/detail/waves-keeper/lpilbniiabackdjcionkobglmddfbcjo?hl">
-                                    <span w-i18n="keeperForm.error.install" class="fake-button-content big long submit"></span>
+                                    <span w-i18n="keeperForm.error.install" class="fake-button__elem button__elem_big long button__elem_submit"></span>
                                 </a>
                             </div>
                             <div class="get-started-footer">
@@ -55,7 +55,7 @@
                     </div>
                     <div class="get-started-footer">
                         <div class="margin-3">
-                            <w-button class="submit big long" on-click="">
+                            <w-button class="button button__elem button__elem_submit button__elem_big long" on-click="">
                                 <span w-i18n="keeperForm.retry"></span>
                             </w-button>
                         </div>
@@ -105,11 +105,9 @@
                     </label>
                 </div>
 
-                <div class="margin-3">
-                    <w-button class="submit big long" on-click="$ctrl.login()">
-                        <span w-i18n="keeperForm.login"></span>
-                    </w-button>
-                </div>
+                <w-button class="button button__elem button__elem_submit button__elem_big keeper-content__button" on-click="$ctrl.login()">
+                    <span w-i18n="keeperForm.login"></span>
+                </w-button>
 
                 <w-get-started-link has-sign-in="::true" has-create="::true"></w-get-started-link>
             </div>

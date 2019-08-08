@@ -116,13 +116,13 @@
 
 <w-web-only class="block-right">
     <div ng-if="!$ctrl.isLogined"
-         class="login-buttons buttons-wrapper buttons-wrapper-nowidth">
+        class="login-buttons buttons-wrapper buttons-wrapper-nowidth">
         <a class="body-2 margin-right-3 submit-400 signIn-hidden" ng-if="$ctrl.userList.length > 0" ui-sref="signIn"
-           w-analytics event="'Sign In Click'" event-target="ui"
-           w-i18n="welcome.signIn"></a>
+        w-analytics event="'Sign In Click'" event-target="ui"
+        w-i18n="welcome.signIn"></a>
         <div class="create-hidden">
-            <a class="fake-button submit medium" ui-sref="create">
-                <span w-i18n="welcome.getStarted" class="fake-button-content medium submit"></span>
+            <a class="fake-button" ui-sref="create">
+                <span w-i18n="welcome.getStarted" class="fake-button__elem button__elem_medium button__elem_submit"></span>
             </a>
         </div>
     </div>

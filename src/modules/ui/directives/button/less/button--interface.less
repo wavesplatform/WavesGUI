@@ -1,0 +1,58 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+@import (reference) '../../../../app/less/app';
+
+.fake-button,
+.button {
+  &__elem_interface {
+    color: @color-basic-700;
+    font-family: @font-roboto-medium;
+    font-size: 15px;
+    height: 42px;
+    line-height: 42px;
+    padding: 0 30px;
+    text-transform: capitalize;
+    box-shadow: @shadow-buttons-default;
+    white-space: nowrap;
+
+    @media screen and (max-width: 480px) {
+      padding: 0 18px;
+    }
+
+    &:hover, &.hover {
+      box-shadow: @shadow-buttons-hover;
+      color: @color-basic-700;
+      svg {
+        fill: @color-basic-700;
+      }
+    }
+
+    svg {
+      transition: .3s;
+      vertical-align: middle;
+      fill: @color-basic-500;
+      margin: -3px 7px 0 -4px;
+
+      @media screen and (max-width: 560px) {
+        margin-right: 0;
+        margin-left: 0;
+      }
+    }
+
+    &:active, &.active {
+      box-shadow: @shadow-buttons-hover;
+      color: @color-basic-500;
+    }
+
+    &:disabled, &.disabled {
+      opacity: 0.5;
+      cursor: default;
+      border: none;
+    }
+
+    &.bordered {
+      box-shadow: none;
+      border: 1px solid @color-basic-100;
+    }
+  }
+}

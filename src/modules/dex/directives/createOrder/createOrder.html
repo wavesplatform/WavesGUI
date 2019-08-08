@@ -170,27 +170,27 @@
                         <div class="field-buttons">
                             <w-button ng-class="{active: $ctrl.isActiveBalanceButton(0.25)}"
                                       on-click="$ctrl.setAmountByBalance(0.25)"
-                                      class="micro"
+                                      class="button button__elem field-buttons__button button__elem_micro"
                                       disabled="!$ctrl.hasBalance()">
-                                <span class="button">25%</span>
+                                <span class="button__text">25%</span>
                             </w-button>
                             <w-button ng-class="{active: $ctrl.isActiveBalanceButton(0.5)}"
                                       on-click="$ctrl.setAmountByBalance(0.5)"
-                                      class="micro"
+                                      class="button button__elem field-buttons__button button__elem_micro"
                                       disabled="!$ctrl.hasBalance()">
-                                <span class="button">50%</span>
+                                <span class="button__text">50%</span>
                             </w-button>
                             <w-button ng-class="{active: $ctrl.isActiveBalanceButton(0.75)}"
                                       on-click="$ctrl.setAmountByBalance(0.75)"
-                                      class="micro"
+                                      class="button button__elem field-buttons__button button__elem_micro"
                                       disabled="!$ctrl.hasBalance()">
-                                <span class="button">75%</span>
+                                <span class="button__text">75%</span>
                             </w-button>
                             <w-button ng-class="{active: $ctrl.isActiveBalanceButton(1)}"
                                       on-click="$ctrl.setAmountByBalance(1)"
-                                      class="micro"
+                                      class="button button__elem field-buttons__button button__elem_micro"
                                       disabled="!$ctrl.hasBalance()">
-                                <span class="button">100%</span>
+                                <span class="button__text">100%</span>
                             </w-button>
                         </div>
                     </div>
@@ -253,7 +253,7 @@
 
                     <w-permit name="CAN_CREATE_ORDER" mode="on">
                         <w-button disabled="$ctrl.order.$invalid || $ctrl.order.$pristine || $ctrl.isLockedPair"
-                                  class="place-order small footnote-3"
+                                  class="button button__elem button__elem_place-order button__elem_small footnote-3 long"
                                   on-click="$ctrl.createOrder($event, order)">
                             <span ng-if="$ctrl.type === 'sell'"
                                   w-i18n="directives.createOrder.placeSellOrder"

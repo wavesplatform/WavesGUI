@@ -74,6 +74,19 @@
                             $scope.$apply();
                         }
                     }, false);
+
+                const classList = $element.prop('class').split(' ');
+                const buttonWrapperClassList = classList.filter(className => {
+                    return className.includes('__button') || className.includes('long') || className.includes('half');
+                });
+                const buttonInnerClassList = classList.filter(className => {
+                    return !(className.includes('__button') || className.includes('long') ||
+                            className.includes('half'));
+                });
+                $element.attr('class', buttonWrapperClassList.join(' '));
+                this._$button.attr('class', buttonInnerClassList.join(' '));
+                $element.addClass('button');
+                this._$button.removeClass('button');
             }
 
             /**

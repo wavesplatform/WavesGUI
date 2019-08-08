@@ -1,0 +1,23 @@
+.buttons-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .button,
+  .fake-button {
+    flex-basis: 48%;
+    max-width: 48%;
+  }
+
+  &-nowidth {
+    width: auto;
+    justify-content: flex-start;
+
+    .button,
+    .fake-button {
+      flex-basis: auto;
+      max-width: none;
+    }
+  }
+}

@@ -24,7 +24,7 @@
                     <w-permit name="CAN_CREATE_ALIAS_TRANSACTION" mode="on">
                         <div class="create-alias-wrap">
                             <w-analytics event="'Account Alias New Click'" event-target="'ui'">
-                                <w-button class="tiny margin-right-1" w-step-next>
+                                <w-button class="button button__elem button__elem_tiny alias-list__button" w-step-next>
                                     <span w-i18n="modal.account.create"></span>
                                 </w-button>
                             </w-analytics>
@@ -62,7 +62,7 @@
                                     <w-analytics event="'Account Alias New Click With Name'" event-target="'ui'">
                                         <w-button
                                                 disabled="$ctrl.signLoader || $ctrl.invalid || $ctrl.pendingAlias || !$ctrl.newAlias"
-                                                class="tiny submit margin-right-1" type="submit">
+                                                class="button button__elem button__elem_tiny button__elem_submit margin-right-1" type="submit">
                                             <span w-i18n="modal.account.create"></span>
                                         </w-button>
                                     </w-analytics>

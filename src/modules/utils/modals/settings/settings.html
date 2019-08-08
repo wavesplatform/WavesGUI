@@ -119,7 +119,7 @@
                         <a class="settings-copy" w-copy="::$ctrl.phrase" w-i18n="modal.settings.network.copy"></a>
                     </div>
                     <div class="data-field">
-                        <w-button ng-if="!$ctrl.shownSeed" class="tiny" on-click="$ctrl.shownSeed = true">
+                        <w-button ng-if="!$ctrl.shownSeed" class="button button__elem button__elem_tiny" on-click="$ctrl.shownSeed = true">
                             <span w-i18n="modal.settings.security.show"></span>
                         </w-button>
                         <pre class="footnote-1 pre" ng-if="$ctrl.shownSeed">{{::$ctrl.phrase}}</pre>
@@ -134,7 +134,7 @@
                            w-i18n="modal.settings.network.copy"></a>
                     </div>
                     <div class="data-field">
-                        <w-button ng-if="!$ctrl.shownKey" class="tiny" on-click="$ctrl.shownKey = true">
+                        <w-button ng-if="!$ctrl.shownKey" class="button button__elem button__elem_tiny" on-click="$ctrl.shownKey = true">
                             <span w-i18n="modal.settings.security.show"></span>
                         </w-button>
                         <div class="mobile-low-fsize" ng-if="$ctrl.shownKey">{{::$ctrl.privateKey}}</div>
@@ -153,7 +153,7 @@
                 <div ng-if="$ctrl.advancedMode" class="row flex-row row-style solid-border text-right">
                     <div class="footnote basic-500" w-i18n="modal.settings.security.script"></div>
                     <div>
-                        <w-button on-click="$ctrl.showScriptModal()" class="tiny submit" w-modal-close>
+                        <w-button on-click="$ctrl.showScriptModal()" class="button button__elem button__elem_tiny button__elem_submit" w-modal-close>
                             <span ng-if="$ctrl.isScript" w-i18n="modal.settings.security.scriptButtonUpdate"></span>
                             <span ng-if="!$ctrl.isScript" w-i18n="modal.settings.security.scriptButton"></span>
                         </w-button>
@@ -291,7 +291,7 @@
                 </div>
 
                 <div class="margin-4">
-                    <w-button class="interface bordered" on-click="$ctrl.setNetworkDefault()">
+                    <w-button class="button button__elem button__elem_interface bordered" on-click="$ctrl.setNetworkDefault()">
                         <span w-i18n="modal.settings.setDefault"></span>
                     </w-button>
                 </div>

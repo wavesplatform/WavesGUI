@@ -1,0 +1,21 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+@import (reference) '../../../../app/less/app';
+
+.fake-button,
+.button {
+  &__elem_download {
+    flex-grow: 0;
+    padding: 0 20px;
+
+    @media screen and (max-width: 1024px) {
+      width: 42px;
+      height: 42px;
+      padding: 0;
+      background-position: center;
+      span {
+        display: none;
+      }
+    }
+  }
+}
