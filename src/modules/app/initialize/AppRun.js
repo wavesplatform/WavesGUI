@@ -374,7 +374,7 @@
                     waiting = true;
 
                     tryDesktop
-                        .then((canChangeState) => this._login(toState, canChangeState))
+                        .then(canChangeState => this._login(toState, canChangeState))
                         .then(() => {
                             waiting = false;
                             offInitialTransitions();
