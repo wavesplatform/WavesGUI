@@ -199,6 +199,7 @@
                 this.signals.destroy.dispatch();
                 this.stopReceive();
                 this.signals.destroy.off();
+                this.signals.logout.off();
                 this.stopListenEventEmitter();
                 this.wasDestroed = true;
             }
