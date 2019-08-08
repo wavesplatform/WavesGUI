@@ -1888,7 +1888,7 @@
                  */
                 const modalManager = $injector.get('modalManager');
 
-                if (user.userType === 'seed') {
+                if (user.userType === 'seed' || user.userType === 'privateKey') {
                     return signable.addMyProof()
                         .then(() => signable);
                 }
