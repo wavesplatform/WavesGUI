@@ -104,7 +104,7 @@
                         <span w-i18n="keeperForm.saveUserData"></span>
                     </label>
                 </div>
-                <div ng-if="$ctrl.isPriorityUserTypeExists" w-i18n="keeperForm.addressSaved"></div>
+                <div class="margin-1 margin-top-1 error-500" ng-if="$ctrl.isPriorityUserTypeExists" w-i18n="keeperForm.addressSaved"></div>
                 <div ng-if="$ctrl.isNameExists" w-i18n="keeperForm.nameExists"></div>
                 <div class="margin-3">
                     <w-button disabled="$ctrl.isPriorityUserTypeExists || $ctrl.isNameExists" class="submit big long" on-click="$ctrl.login()">
