@@ -135,19 +135,19 @@
                 user.logoutSignal.on(() => {
                     notification.destroyAll();
                     userNotification.removeAll();
+                    clearInterval(this._notifyTimer);
                 });
 
                 user.loginSignal.on(() => {
                     userNotification.destroyAll();
                     this._updateUserNotifications();
+                    this._notifyTimer = setInterval(() => this._updateUserNotifications(), 10000);
                 });
 
                 Promise.all([
                     user.onLogin(),
                     i18nextReady
-                ]).then(() => {
-                    setInterval(() => this._updateUserNotifications(), 10000);
-                });
+                ]);
 
                 if (WavesApp.isDesktop()) {
                     window.listenMainProcessEvent((type, url) => {
