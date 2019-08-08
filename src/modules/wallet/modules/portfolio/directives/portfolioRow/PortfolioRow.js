@@ -182,8 +182,10 @@
                     this.isSmart = balance.asset.hasScript;
                     const firstAssetChar = this.balance.asset.name.slice(0, 1);
                     const canPayFee = list.find(item => item.asset.id === this.balance.asset.id) && !this._isWaves;
-                    const { isVerified, isGateway,
-                        isTokenomica, logo, isGatewaySoon } = utils.getDataFromOracles(this.balance.asset.id);
+                    const {
+                        isVerified, isGateway,
+                        isTokenomica, logo, isGatewaySoon
+                    } = utils.getDataFromOracles(this.balance.asset.id);
 
                     this.isVerifiedOrGateway = isVerified || isGateway;
 
@@ -232,14 +234,13 @@
                      */
                     this._poll = createPoll(this, this._initSponsorShips, angular.noop, 5000);
                     this._onUpdateBalance();
-                    // this._initSponsorShips();
                     this._setHandlers();
                     this.changeLanguageHandler();
                 });
             }
 
             $onDestroy() {
-                i18next.off('languageChanged', this.changeLanguageHandler);
+                super.$onDestroy();
                 this.$node.off();
             }
 
@@ -256,6 +257,7 @@
                         'app.wallet.portfolio');
                 });
             }
+
             /**
              * @return {boolean}
              * @private
@@ -274,13 +276,13 @@
                 const isAssetLockedInDex = utils.isLockedInDex(this.balance.asset.id);
                 return !isAssetLockedInDex &&
                     (this.balance.isPinned ||
-                    this._isMyAsset ||
-                    this.balance.asset.isMyAsset ||
-                    this.balance.asset.id === WavesApp.defaultAssets.WAVES ||
-                    this.gatewayService.getPurchasableWithCards()[this.balance.asset.id] ||
-                    this.gatewayService.getCryptocurrencies()[this.balance.asset.id] ||
-                    this.gatewayService.getFiats()[this.balance.asset.id] ||
-                    path(statusPath, ds.dataManager.getOracleData('oracleWaves')) === STATUS_LIST.VERIFIED);
+                        this._isMyAsset ||
+                        this.balance.asset.isMyAsset ||
+                        this.balance.asset.id === WavesApp.defaultAssets.WAVES ||
+                        this.gatewayService.getPurchasableWithCards()[this.balance.asset.id] ||
+                        this.gatewayService.getCryptocurrencies()[this.balance.asset.id] ||
+                        this.gatewayService.getFiats()[this.balance.asset.id] ||
+                        path(statusPath, ds.dataManager.getOracleData('oracleWaves')) === STATUS_LIST.VERIFIED);
 
             }
 
@@ -403,7 +405,7 @@
             _setHandlers() {
                 this._initActions();
 
-                i18next.on('languageChanged', this.changeLanguageHandler);
+                this.listenEventEmitter(i18next, 'languageChanged', this.changeLanguageHandler);
 
                 this.$node.on('click', `.${SELECTORS.BUTTONS.SEND}`, () => {
                     analytics.send({
