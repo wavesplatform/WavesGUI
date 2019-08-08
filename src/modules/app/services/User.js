@@ -92,6 +92,10 @@
             /**
              * @type {string}
              */
+            encryptedPrivateKey;
+            /**
+             * @type {string}
+             */
             userType;
             /**
              * @type {object}
@@ -362,6 +366,7 @@
              * @param {string} data.name
              * @param {string} data.id
              * @param {string} data.encryptedSeed
+             * @param {string} data.encryptedPrivateKey
              * @param {string} data.publicKey
              * @param {string} data.password
              * @param {string} data.userType
@@ -384,6 +389,7 @@
                     name: data.name,
                     userType: data.userType,
                     encryptedSeed: data.encryptedSeed,
+                    encryptedPrivateKey: data.encryptedPrivateKey,
                     publicKey: data.publicKey,
                     settings: {
                         termsAccepted: false,
@@ -593,6 +599,7 @@
                 this.name = null;
                 this.publicKey = null;
                 this.encryptedSeed = null;
+                this.encryptedPrivateKey = null;
                 this.userType = null;
                 this.settings = Object.create(null);
                 this.lastLogin = Date.now();

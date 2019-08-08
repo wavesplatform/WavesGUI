@@ -47,10 +47,6 @@
                 /**
                  * @type {string}
                  */
-                this.encryptedSeed = '';
-                /**
-                 * @type {string}
-                 */
                 this.password = '';
                 /**
                  * @type {boolean}

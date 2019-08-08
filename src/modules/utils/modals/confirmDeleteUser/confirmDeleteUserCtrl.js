@@ -13,6 +13,7 @@
                 this.isSeed = !locals.user.userType || locals.user.userType === 'seed';
                 this.isLedger = locals.user.userType === 'ledger';
                 this.isKeeper = locals.user.userType === 'wavesKeeper';
+                this.isPrivateKey = locals.user.userType === 'privateKey';
             }
 
         }
