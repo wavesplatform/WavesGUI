@@ -2,8 +2,9 @@
     'use strict';
 
     const analytics = require('@waves/event-sender');
-    const { validators } = require('@waves/waves-transactions');
+    const { validators, libs } = require('@waves/waves-transactions');
     const { isPublicKey } = validators;
+    const { address, publicKey } = libs.crypto;
     const TABS = {
         seed: 'seed',
         key: 'key'
@@ -98,8 +99,7 @@
                     analytics.send({ name: 'Import Backup Protect Your Account Continue Click', target: 'ui' });
                 }
 
-                const { phrase, type } = this._getPhraseAndType();
-                const encryptedSeed = new ds.Seed(phrase, window.WavesApp.network.code).encrypt(this.password);
+                const { encrypted, type } = this._getEncryptedAndType();
                 const userSettings = user.getDefaultUserSettings({ termsAccepted: false });
 
                 const newUser = {
@@ -111,7 +111,7 @@
                     path: this.userPath,
                     settings: userSettings,
                     saveToStorage: this.saveUserData,
-                    encryptedSeed
+                    ...encrypted
                 };
 
                 const api = ds.signature.getDefaultSignatureApi(newUser);
@@ -156,7 +156,7 @@
              * @private
              */
             _onChangeSeed() {
-                if (this.seedForm && this.seedForm.$valid) {
+                if (this.seedForm.$valid) {
                     this.address = new ds.Seed(this.seed, window.WavesApp.network.code).address;
                 } else {
                     this.address = '';
@@ -167,8 +167,9 @@
              * @private
              */
             _onChangeKey() {
-                if (this.keyForm && this.keyForm.$valid && isPublicKey(this.key)) {
-                    this.address = new ds.Seed(this.key, window.WavesApp.network.code).address;
+                if (this.keyForm.$valid && isPublicKey(this.key)) {
+                    const pubKey = publicKey({ privateKey: this.key });
+                    this.address = address({ publicKey: pubKey }, window.WavesApp.network.code);
                 } else {
                     this.address = '';
                 }
@@ -183,19 +184,26 @@
             }
 
             /**
-             * @return {{phrase: string, type: string}}
+             * @return {{encrypted: {encryptedSeed: string}, type: string}|
+             * {encrypted: {encryptedPrivateKey: string}, type: string}}
              * @private
              */
-            _getPhraseAndType() {
+            _getEncryptedAndType() {
                 switch (this.activeTab) {
                     case TABS.key:
                         return ({
-                            phrase: this.key,
+                            encrypted: {
+                                encryptedPrivateKey: new ds.Seed(this.key, window.WavesApp.network.code)
+                                    .encrypt(this.password)
+                            },
                             type: 'privateKey'
                         });
                     default:
                         return ({
-                            phrase: this.seed,
+                            encrypted: {
+                                encryptedSeed: new ds.Seed(this.seed, window.WavesApp.network.code)
+                                    .encrypt(this.password)
+                            },
                             type: 'seed'
                         });
                 }
