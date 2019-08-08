@@ -208,7 +208,7 @@
                 this._timer = timeLine.timeout(() => {
                     this._timer = null;
                     const time = Date.now() - this._seepStartTime;
-                    const sleepMinutes = Math.floor(time / (1000 * 60));
+                    const sleepMinutes = Math.floor(time / (1000 * 1));
                     this._sleep();
                     this._setSleepStep(sleepMinutes);
                 }, 1000);
