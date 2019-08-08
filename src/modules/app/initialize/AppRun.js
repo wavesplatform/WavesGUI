@@ -132,21 +132,6 @@
                 this._initializeLogin();
                 this._initializeOutLinks();
 
-                user.logoutSignal.on(() => {
-                    notification.destroyAll();
-                    userNotification.removeAll();
-                    clearInterval(this._notifyTimer);
-                });
-
-                user.loginSignal.on(() => {
-                    userNotification.destroyAll();
-                    i18nextReady.then(() => {
-                        this._updateUserNotifications();
-                        clearInterval(this._notifyTimer);
-                        this._notifyTimer = setInterval(() => this._updateUserNotifications(), 10000);
-                    });
-                });
-
                 if (WavesApp.isDesktop()) {
                     window.listenMainProcessEvent((type, url) => {
                         const parts = utils.parseElectronUrl(url);
@@ -339,6 +324,21 @@
                 analytics.activate();
 
                 this._onInitialTransitions();
+
+                user.logoutSignal.on(() => {
+                    notification.destroyAll();
+                    userNotification.removeAll();
+                    clearInterval(this._notifyTimer);
+                });
+
+                user.loginSignal.on(() => {
+                    userNotification.destroyAll();
+                    i18nextReady.then(() => {
+                        this._updateUserNotifications();
+                        clearInterval(this._notifyTimer);
+                        this._notifyTimer = setInterval(() => this._updateUserNotifications(), 10000);
+                    });
+                });
             }
 
             _onInitialTransitions() {
