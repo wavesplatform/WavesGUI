@@ -1,6 +1,23 @@
 #!/usr/bin/env groovy
 
-// This is a Jenkins scripted pipeline for building and deploying Waves Web Client docker images
+/*
+This is a Jenkins scripted pipeline for building and deploying Waves Web Client docker images
+This pipeline requires:
+- Active Choices Plug-in: https://wiki.jenkins.io/display/JENKINS/Active+Choices+Plugin
+- Generic Webhook Trigger plugin: https://wiki.jenkins.io/display/JENKINS/Generic+Webhook+Trigger+Plugin
+
+In the GitHub repo navigate to repository settings > Webhooks and add following WebHook:
+- Payload URL: https://<jenkins_web_address>/generic-webhook-trigger/invoke?token=wavesGuiGithubToken
+- Content type: application/json
+- SSL Verification: enabled
+- Events: choose the events you want to trigger build on
+
+To set up pipeline in Jenkins: New Item > Pipeline > name it > OK > Scroll to Pipeline pane >
+- Definition: Pipeline script from SCM, SCM: Git, Repo: 'https://github.com/wavesplatform/WavesGUI.git',
+- Lightweight checkout: disabled. Save settings and launch pipeline
+
+Note: this pipeline uses a private repository as well as private shared library which is not available externally.
+*/
 
 @Library('jenkins-shared-lib')
 import devops.waves.*
@@ -8,6 +25,7 @@ ut = new utils()
 def buildTasks = [:]
 def deployTasks = [:]
 def container_info = ''
+def artifactsDir = 'out'
 buildTasks.failFast = true
 def repo_url = 'https://github.com/wavesplatform/WavesGUI.git'
 def pipeline_trigger_token = 'wavesGuiGithubToken'
@@ -17,6 +35,10 @@ properties([
 
     parameters([
         choice(choices: ['Build', 'Build and Deploy', 'Deploy'], description: '', name: 'action'),
+
+        // source depends on choice parameter above and dynamically
+        // loads either Git repo branches for building
+        // or Docker Registry tags for deploy
         [$class: 'CascadeChoiceParameter',
             choiceType: 'PT_SINGLE_SELECT',
             description: '', filterLength: 1,
@@ -88,6 +110,7 @@ properties([
                 ]
             ]
         ],
+        // image to deploy from - depends on choice parameter above and used if deploying is specified.
         [$class: 'CascadeChoiceParameter',
             choiceType: 'PT_SINGLE_SELECT',
             description: '', filterLength: 1,
@@ -106,6 +129,7 @@ properties([
                 ]
             ]
         ],
+        // destination is a remote server to deploy to - depends on choice parameter above and used if deploying is specified.
         [$class: 'CascadeChoiceParameter',
             choiceType: 'PT_SINGLE_SELECT',
             description: '', filterLength: 1,
@@ -124,6 +148,7 @@ properties([
                 ]
             ]
         ],
+        // network is either mainnet or testnet - depends on choice parameter above and used if deploying is specified.
         [$class: 'CascadeChoiceParameter',
             choiceType: 'PT_SINGLE_SELECT',
             description: '', filterLength: 1,
@@ -144,6 +169,7 @@ properties([
         ]
     ]),
 
+    // this is a trigger to run a build when hooks from GitHub received
     pipelineTriggers([
         [$class: 'GenericTrigger',
         genericVariables: [
@@ -165,6 +191,7 @@ stage('Aborting this build'){
         currentBuild.result = Constants.PIPELINE_ABORTED
         return
     }
+
     if (! source ) {
         echo "Aborting this build. Please run it again with the required parameters specified."
         currentBuild.result = Constants.PIPELINE_ABORTED
@@ -209,6 +236,9 @@ timeout(time:20, unit:'MINUTES') {
                                 cp -R ./WavesGUI_tmp/ ./WavesGUI/build-wallet/WavesGUI/
                                 mv ./WavesGUI_tmp/ ./WavesGUI/build-wallet-desktop/WavesGUI/
                                 """
+
+                                // container_info contains all info about Jenkins build and
+                                // git parameters
                                 container_info = "<p>Job name: ${env.JOB_NAME}</p>\n" +
                                 "<p>Job build tag: ${env.BUILD_TAG}</p>\n" +
                                 "<p>Git URL: ${scmVars.GIT_URL}</p>\n" +
@@ -225,7 +255,7 @@ timeout(time:20, unit:'MINUTES') {
                                     userRemoteConfigs: [[credentialsId: Constants.KUBERNETES_REPO_CREDS, url: Constants.KUBERNETES_REPO]]
                                 ])
                             }
-                            sh 'mkdir out'
+                            sh "mkdir ${artifactsDir}"
                         }
 
                     ['wallet', 'wallet-electron'].each{ serviceName ->
@@ -236,28 +266,34 @@ timeout(time:20, unit:'MINUTES') {
                                         try {
                                             def platform = (serviceName == 'wallet') ? 'web' : 'desktop'
 
+                                            // configure nginx template
                                             def waves_wallet_nginx_map = Constants.WAVES_WALLET_NGINX_MAP.clone()
                                             waves_wallet_nginx_map.waves_wallet_nginx_platform = "${platform}"
                                             String nginxConfFileContent = ut.replaceTemplateVars('./nginx/default_template.conf', waves_wallet_nginx_map)
                                             writeFile file: './nginx/default.conf', text: nginxConfFileContent
 
+                                            // configure Dockerfile template
                                             def waves_wallet_dockerfile_map = Constants.WAVES_WALLET_DOCKERFILE_MAP.clone()
                                             waves_wallet_dockerfile_map.jenkins_platform = "${platform}"
                                             String dockerfileConfFileContent = ut.replaceTemplateVars('./Dockerfile_template', waves_wallet_dockerfile_map)
                                             writeFile file: './Dockerfile', text: dockerfileConfFileContent
 
+                                            // configure nginx base auth users
                                             writeFile file: './nginx/htpasswd.users', text: Constants.WAVES_WALLET_NGINX_HTPASSWD_USERS
 
+                                            // configure a page with container_info
                                             container_info += "<p>Docker image: ${Constants.DOCKER_REGISTRY}/waves/${serviceName}:${source}.latest</p>\n<p>Web environemnt: \${WEB_ENVIRONMENT}</p>"
                                             writeFile file: './info.html', text: container_info
 
+                                            // copy all the generated text files
                                              sh """
-                                                cp ./nginx/default.conf "${env.WORKSPACE}/out/default.conf-${serviceName}"
-                                                cp ./Dockerfile "${env.WORKSPACE}/out/Dockerfile-${serviceName}"
-                                                cp ./nginx/htpasswd.users "${env.WORKSPACE}/out/htpasswd.users-${serviceName}"
-                                                cp ./info.html "${env.WORKSPACE}/out/info.html-${serviceName}"
+                                                cp ./nginx/default.conf "${env.WORKSPACE}/${artifactsDir}/default.conf-${serviceName}"
+                                                cp ./Dockerfile "${env.WORKSPACE}/${artifactsDir}/Dockerfile-${serviceName}"
+                                                cp ./nginx/htpasswd.users "${env.WORKSPACE}/${artifactsDir}/htpasswd.users-${serviceName}"
+                                                cp ./info.html "${env.WORKSPACE}/${artifactsDir}/info.html-${serviceName}"
                                                 """
 
+                                            // run build
                                             ut.buildDockerImage('waves/' + serviceName, source, "--build-arg trading_view_token=${Constants.WAVES_WALLET_TRADING_VIEW_TOKEN} --build-arg platform=${platform}")
                                         }
                                         catch(err){
@@ -294,14 +330,16 @@ timeout(time:20, unit:'MINUTES') {
                                             if (action.contains('Build')) {
                                                 waves_wallet_deployment_map.tag += '.latest'
                                             }
+                                            // configure deployment template
                                             String deploymentConfFileContent = ut.replaceTemplateVars('./kubernetes/waves-client-stage-waveswallet-io/deployment.yaml', waves_wallet_deployment_map)
-                                            def deployment_config = "./out/${image}-deployment.yaml"
-                                            writeFile file: "./out/${image}-deployment.yaml", text: deploymentConfFileContent
+                                            def deployment_config = "./${artifactsDir}/${image}-deployment.yaml"
+                                            writeFile file: "./${artifactsDir}/${image}-deployment.yaml", text: deploymentConfFileContent
 
+                                            // deploy container to kuber
                                             withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: Constants.AWS_KUBERNETES_KEY, secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
                                                 sh """
                                                     docker run -i --rm \
-                                                        -v "${env.WORKSPACE}/out":/root/app \
+                                                        -v "${env.WORKSPACE}/${artifactsDir}":/root/app \
                                                         -e AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}" \
                                                         -e AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}" \
                                                         -e KUBE_CLUSTER_NAME="${Constants.AWS_KUBERNETES_KUBE_CLUSTER_NAME}" \
@@ -344,7 +382,7 @@ timeout(time:20, unit:'MINUTES') {
                     println(err.toString())
                  }
                 finally{
-                    sh "tar -czvf artifacts.tar.gz -C ./out ."
+                    sh "tar -czvf artifacts.tar.gz -C ./${artifactsDir} ."
                     archiveArtifacts artifacts: 'artifacts.tar.gz'
                 }
             }
