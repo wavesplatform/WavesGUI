@@ -61,26 +61,24 @@ body.welcome {
 
     .fake-button-content {
       padding-right: 50px;
-    }
 
-    .icon-arrow-right {
-      margin-left: 10px;
-      display: block;
-      width: 24px;
-      height: 24px;
-      transition: .3s;
-      position: absolute;
-      right: 20px;
-      top: 50%;
-      box-shadow: none;
-      transform: translate(0, -50%);
-      background-image: @arrow-white-right;
-      background-color: transparent;
-    }
+      &:after {
+        content: '';
+        width: 24px;
+        height: 24px;
+        position: absolute;
+        top: 50%;
+        right: 0;
+        margin-right: 25px;
+        margin-top: -12px;
+        background: @arrow-right-white-icon;
+        transition: margin 0.3s;
+      }
 
-    &:hover {
-      .icon-arrow-right {
-        transform: translate(7px, -50%);
+      &:hover {
+        &:after {
+          margin-right: 15px;
+        }
       }
     }
   }
@@ -318,7 +316,6 @@ body.welcome {
 
 @media screen and (max-width: 1440px) {
   body.welcome {
-
     .section-wrapper {
       padding-left: @welcomeSectionWrapperPaddingMedium;
       padding-right: @welcomeSectionWrapperPaddingMedium;
@@ -495,6 +492,7 @@ body.welcome {
       padding-left: @welcomeSectionWrapperPaddingSmall;
       padding-right: @welcomeSectionWrapperPaddingSmall;
     }
+
     footer {
       .section-wrapper {
         margin-top: 0px;

@@ -416,6 +416,10 @@
              * @param {string} [stateName]
              */
             logout(stateName) {
+                if (!this.isAuthorised) {
+                    return null;
+                }
+
                 ds.app.logOut();
                 clearTimeout(this._scriptInfoPollTimeoutId);
 
