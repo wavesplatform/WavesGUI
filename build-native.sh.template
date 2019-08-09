@@ -6,15 +6,18 @@ export CSC_KEY_PASSWORD=******
 export WIN_CSC_LINK=/path/to/certificate.pfx
 export WIN_CSC_KEY_PASSWORD=******
 export USE_SYSTEM_WINE=true
+my_os="$(uname)"
+
+{ [[ "${my_os}" =~ "CYGWIN" ]] && os='-w'   ;}    || \
+    { [[ "${my_os}" == "Darwin" ]] && os='-m' ;}  || \
+    { [[ "${my_os}" == "Linux" ]] && os='-l' ;}   || \
+    { echo "Unsupported OS" && exit 0 ;}
 
 # building the browser version of the app
-./node_modules/.bin/tsc -p ./
-./node_modules/.bin/gulp all
+for i in mainnet testnet ; do
+	npm ci --unsafe-perm
+	node_modules/.bin/gulp build --platform desktop --config ./configs/${i}.json
 
-
-# building executables for testnet
-WAVES_CONFIGURATION=testnet ./node_modules/.bin/build -mwl --config.directories.output=dist/desktop/testnet/electron --config.directories.app=dist/desktop/testnet/normal
-
-# building executables for mainnet
-WAVES_CONFIGURATION=mainnet ./node_modules/.bin/build -mwl --config.directories.output=dist/desktop/mainnet/electron --config.directories.app=dist/desktop/mainnet/normal
-
+	# building the electron client
+	WAVES_CONFIGURATION=${i} ./node_modules/.bin/build  ${os} --config.directories.output=out/${i}/ --config.directories.app=dist/desktop/${i}
+done
