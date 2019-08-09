@@ -24,8 +24,8 @@ import devops.waves.*
 ut = new utils()
 def buildTasks = [:]
 def deployTasks = [:]
-def container_info = ''
 def artifactsDir = 'out'
+def container_info = [:]
 buildTasks.failFast = true
 def repo_url = 'https://github.com/wavesplatform/WavesGUI.git'
 def pipeline_trigger_token = 'wavesGuiGithubToken'
@@ -236,14 +236,6 @@ timeout(time:20, unit:'MINUTES') {
                                 cp -R ./WavesGUI_tmp/ ./WavesGUI/build-wallet/WavesGUI/
                                 mv ./WavesGUI_tmp/ ./WavesGUI/build-wallet-desktop/WavesGUI/
                                 """
-
-                                // container_info contains all info about Jenkins build and
-                                // git parameters
-                                container_info = "<p>Job name: ${env.JOB_NAME}</p>\n" +
-                                "<p>Job build tag: ${env.BUILD_TAG}</p>\n" +
-                                "<p>Git URL: ${scmVars.GIT_URL}</p>\n" +
-                                "<p>Git branch: ${scmVars.GIT_BRANCH}</p>\n" +
-                                "<p>Git commit: ${scmVars.GIT_COMMIT}</p>\n"
                             }
                             if (action.contains('Deploy')) {
                                 checkout([
@@ -281,9 +273,16 @@ timeout(time:20, unit:'MINUTES') {
                                             // configure nginx base auth users
                                             writeFile file: './nginx/htpasswd.users', text: Constants.WAVES_WALLET_NGINX_HTPASSWD_USERS
 
-                                            // configure a page with container_info
-                                            container_info += "<p>Docker image: ${Constants.DOCKER_REGISTRY}/waves/${serviceName}:${source}.latest</p>\n<p>Web environemnt: \${WEB_ENVIRONMENT}</p>"
-                                            writeFile file: './info.html', text: container_info
+                                            // configure a page with container_info which 
+                                            // contains all info about Jenkins build and git parameters
+                                            container_info["${serviceName}"] = "<p>Job name: ${env.JOB_NAME}</p>" +
+                                                "<p>Job build tag: ${env.BUILD_TAG}</p>" +
+                                                "<p>Git URL: ${scmVars.GIT_URL}</p>" +
+                                                "<p>Git branch: ${scmVars.GIT_BRANCH}</p>" +
+                                                "<p>Git commit: ${scmVars.GIT_COMMIT}</p>" +
+                                                "<p>Docker image: ${Constants.DOCKER_REGISTRY}/waves/${serviceName}:${source}.latest</p>" +
+                                                "<p>Web environemnt: \${WEB_ENVIRONMENT}</p>"
+                                            writeFile file: './info.html', text: container_info["${serviceName}"]
 
                                             // copy all the generated text files
                                              sh """
