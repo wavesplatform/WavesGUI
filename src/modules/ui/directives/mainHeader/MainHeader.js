@@ -90,7 +90,10 @@
 
                 this.observe('userName', () => {
                     userNameService.setName(this.userName);
-                    this.isUniqueUserName = userNameService.isUniqueName();
+                    userNameService.isUniqueName()
+                        .then(data => {
+                            this.isUniqueUserName = data;
+                        });
                 });
 
                 this.receive(utils.observe(userNameService, 'name'), function () {
@@ -286,11 +289,6 @@
              */
             _handleLogin() {
                 this._resetUserFields();
-
-                utils.postDigest($scope).then(() => {
-                    this._initFader();
-                    $scope.$apply();
-                });
 
                 user.getFilteredUserList().then(list => {
                     this.userList = list;

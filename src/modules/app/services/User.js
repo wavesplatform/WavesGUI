@@ -622,7 +622,7 @@
              * @return {Promise<string>}
              */
             async getDefaultUserName() {
-                const defaultNameRegexps = [/^Account\s\d+\s*$/, /^Account\s*$/];
+                const defaultNameRegexp = /^Account\s?\d*$/;
                 const accoutString = 'Account';
                 const list = await this.getFilteredUserList();
 
@@ -632,7 +632,7 @@
 
                 const accountCounters = list
                     .map(user => user.name)
-                    .filter(name => defaultNameRegexps.some(defaultName => defaultName.test(name)))
+                    .filter(name => defaultNameRegexp.test(name))
                     .map(name => +name.substring(accoutString.length + 1));
 
                 if (!accountCounters.length) {

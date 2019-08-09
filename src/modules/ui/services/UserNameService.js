@@ -24,11 +24,6 @@
             defaultName;
             /**
              * @public
-             * @type {Array}
-             */
-            userList = [];
-            /**
-             * @public
              * @type {string}
              */
             address;
@@ -38,10 +33,6 @@
                 super(base);
 
                 this.MAX_USER_NAME_LENGTH = 24;
-
-                user.getFilteredUserList().then(list => {
-                    this.userList = list;
-                });
 
                 user.onLogin().then(() => {
                     this.name = user.name;
@@ -85,10 +76,12 @@
              * @return {boolean}
              */
             isUniqueName() {
-                const isUnique = this.userList
-                    .filter(user => user.address !== this.address)
-                    .every(user => user.name !== this.name);
-                return !this.name || isUnique;
+                return this._getUserList().then(list => {
+                    const isUnique = list
+                        .filter(user => user.address !== this.address)
+                        .every(user => user.name !== this.name);
+                    return !this.name || isUnique;
+                });
             }
 
             /**
@@ -104,9 +97,9 @@
              * @private
              */
             _setDefaultName() {
-                const defaultNameRegexps = [/^Account\s\d+\s*$/, /^Account\s*$/];
+                const defaultNameRegexp = /^Account\s?\d*$/;
 
-                if (defaultNameRegexps.some(name => name.test(this.name))) {
+                if (defaultNameRegexp.test(this.name)) {
                     this.defaultName = this.name;
                     return null;
                 }
@@ -114,6 +107,10 @@
                 user.getDefaultUserName().then(name => {
                     this.defaultName = name;
                 });
+            }
+
+            _getUserList() {
+                return user.getFilteredUserList();
             }
 
         }
