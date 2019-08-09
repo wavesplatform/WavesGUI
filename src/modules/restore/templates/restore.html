@@ -12,9 +12,9 @@
                         <span class="basic-500" w-i18n="seedOrKeyForm.description"></span>
                     </div>
 
-                    <div class="restore-tabs margin-2">
+                    <div class="restore-tabs tab">
                         <div ng-repeat="tab in $ctrl.tabs"
-                             class="restore-tab"
+                             class="tab__item"
                              ng-class="{active: $ctrl.activeTab === tab}"
                              ng-click="$ctrl.setActiveTab(tab)"
                              w-i18n="{{::tab}}Tab"></div>
