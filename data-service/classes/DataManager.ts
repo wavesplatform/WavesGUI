@@ -22,6 +22,11 @@ export class DataManager {
 
     constructor() {
         this.pollControl = new PollControl<TPollHash>(() => this._createPolls());
+        change.on((key) => {
+            if (key === 'oracleWaves' && !this._silentMode) {
+                this.pollControl.restart('oracleWaves');
+            }
+        });
     }
 
     public setSilentMode(silent: boolean): void {
@@ -34,12 +39,14 @@ export class DataManager {
     }
 
     public applyAddress(address: string): void {
+        this.dropAddress();
         this._address = address;
         this.pollControl.create();
         this.transactions.applyAddress(this._address);
     }
 
     public dropAddress() {
+        this._address = undefined;
         this.pollControl.destroy();
         this.transactions.dropAddress();
     }
@@ -169,12 +176,6 @@ export class DataManager {
         const aliases = new Poll(this._getPollAliasesApi(), 10000);
         const oracleWaves = new Poll(this._getPollOracleApi(get('oracleWaves')), 30000);
         const oracleTokenomica = new Poll(this._getPollOracleApi(get('oracleTokenomica')), 30000);
-
-        change.on((key) => {
-            if (key === 'oracleWaves') {
-                oracleWaves.restart();
-            }
-        });
 
         return { balance, orders, aliases, oracleWaves, oracleTokenomica };
     }

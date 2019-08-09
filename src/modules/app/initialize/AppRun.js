@@ -80,6 +80,7 @@
         const isPhone = !!phone;
         const isTablet = !!tablet;
         const isDesktop = !(isPhone || isTablet);
+        const isWeb = WavesApp.isWeb();
 
         $rootScope.isDesktop = isDesktop;
         $rootScope.isNotDesktop = !isDesktop;
@@ -91,6 +92,8 @@
             document.body.classList.add('phone');
         } else if (isTablet) {
             document.body.classList.add('tablet');
+        } else if (isWeb) {
+            document.body.classList.add('web');
         } else {
             document.body.classList.add('desktop');
         }
@@ -128,14 +131,6 @@
                 this._stopLoader();
                 this._initializeLogin();
                 this._initializeOutLinks();
-
-                Promise.all([
-                    user.onLogin(),
-                    i18nextReady
-                ]).then(() => {
-                    this._updateUserNotifications();
-                    setInterval(() => this._updateUserNotifications(), 10000);
-                });
 
                 if (WavesApp.isDesktop()) {
                     window.listenMainProcessEvent((type, url) => {
@@ -329,6 +324,21 @@
                 analytics.activate();
 
                 this._onInitialTransitions();
+
+                user.logoutSignal.on(() => {
+                    notification.destroyAll();
+                    userNotification.removeAll();
+                    clearInterval(this._notifyTimer);
+                });
+
+                user.loginSignal.on(() => {
+                    userNotification.destroyAll();
+                    i18nextReady.then(() => {
+                        this._updateUserNotifications();
+                        clearInterval(this._notifyTimer);
+                        this._notifyTimer = setInterval(() => this._updateUserNotifications(), 10000);
+                    });
+                });
             }
 
             _onInitialTransitions() {
@@ -371,7 +381,7 @@
                     waiting = true;
 
                     tryDesktop
-                        .then((canChangeState) => this._login(toState, canChangeState))
+                        .then(canChangeState => this._login(toState, canChangeState))
                         .then(() => {
                             waiting = false;
                             offInitialTransitions();

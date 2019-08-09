@@ -2,26 +2,20 @@
 @import (reference) 'icons';
 @import (reference) '../../../app/less/typography';
 
-.footer {
-
+.web-footer {
   background: @color-basic-900;
+  color: @color-basic-600;
 
+  .footer-left {
+    width: 250px;
+  }
 
   .section-wrapper {
-    max-width: 1440px;
-    color: @color-basic-600;
-    display: flex;
-    width: 100%;
     padding: 60px 80px;
-    align-items: flex-start;
-    font-size: 15px;
-    margin: 0 auto;
-    position: relative;
-    z-index: 1;
 
     .links {
       display: flex;
-      width: calc(100% ~'- 250px');
+      width: 100%;
       padding-left: 150px;
       & > div {
         flex-basis: 25%;
@@ -35,7 +29,7 @@
     font-size: 13px;
   }
 
-  &__link {
+  .footer__link {
     margin-bottom: 14px;
     display: inline-block;
     color: @color-basic-600;
@@ -46,14 +40,31 @@
     }
   }
 
-  .footer-left {
-    width: 250px;
+  .footer-links {
+    &,
+    & > div {
+      display: flex;
+      flex: 1 0;
+    }
   }
 
   .logo {
     margin-top: -8px;
     background-position: left;
     width: 105px;
+  }
+}
+
+.footer {
+  .section-wrapper {
+    max-width: 1440px;
+    display: flex;
+    width: 100%;
+    align-items: flex-start;
+    font-size: 15px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
   }
 }
 
@@ -118,19 +129,13 @@
 }
 
 @media screen and (max-width: 1340px) {
-  .footer .section-wrapper {
+  .web-footer .section-wrapper {
     padding: 40px;
   }
 }
 
-body.welcome {
-  .toaster-mobiles {
-    display: none;
-  }
-}
-
 @media screen and (max-width: 1174px) {
-  .footer {
+  .web-footer {
     .section-wrapper {
       .links {
         padding-left: 0;
@@ -140,7 +145,7 @@ body.welcome {
 }
 
 @media screen and (max-width: 1024px) {
-  .footer {
+  .web-footer {
     .section-wrapper {
       .links > div {
         margin-left: 20px;
@@ -150,7 +155,7 @@ body.welcome {
 }
 
 @media screen and (max-width: 860px) {
-  .footer {
+  .web-footer {
     .section-wrapper {
       padding: 40px 40px 0;
       font-size: 13px;
