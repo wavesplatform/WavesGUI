@@ -26,6 +26,7 @@ def buildTasks = [:]
 def deployTasks = [:]
 def artifactsDir = 'out'
 def container_info = [:]
+def scmVars
 buildTasks.failFast = true
 def repo_url = 'https://github.com/wavesplatform/WavesGUI.git'
 def pipeline_trigger_token = 'wavesGuiGithubToken'
@@ -222,7 +223,7 @@ timeout(time:20, unit:'MINUTES') {
                             sh 'env'
                             step([$class: 'WsCleanup'])
                             if (action.contains('Build')) {
-                                def scmVars = checkout([
+                                scmVars = checkout([
                                     $class: 'GitSCM',
                                     branches: [[ name: source ]],
                                     doGenerateSubmoduleConfigurations: false,
@@ -255,54 +256,48 @@ timeout(time:20, unit:'MINUTES') {
                             dir(Constants.DOCKERFILE_LOCATION_MAP[serviceName]) {
                                 stage("Building " + serviceName) {
                                     if (action.contains('Build')) {
-                                        try {
-                                            def platform = (serviceName == 'wallet') ? 'web' : 'desktop'
+                                        def platform = (serviceName == 'wallet') ? 'web' : 'desktop'
 
-                                            // configure nginx template
-                                            def waves_wallet_nginx_map = Constants.WAVES_WALLET_NGINX_MAP.clone()
-                                            waves_wallet_nginx_map.waves_wallet_nginx_platform = "${platform}"
-                                            String nginxConfFileContent = ut.replaceTemplateVars('./nginx/default_template.conf', waves_wallet_nginx_map)
-                                            writeFile file: './nginx/default.conf', text: nginxConfFileContent
+                                        // configure nginx template
+                                        def waves_wallet_nginx_map = Constants.WAVES_WALLET_NGINX_MAP.clone()
+                                        waves_wallet_nginx_map.waves_wallet_nginx_platform = "${platform}"
+                                        String nginxConfFileContent = ut.replaceTemplateVars('./nginx/default_template.conf', waves_wallet_nginx_map)
+                                        writeFile file: './nginx/default.conf', text: nginxConfFileContent
 
-                                            // configure Dockerfile template
-                                            def waves_wallet_dockerfile_map = Constants.WAVES_WALLET_DOCKERFILE_MAP.clone()
-                                            waves_wallet_dockerfile_map.jenkins_platform = "${platform}"
-                                            String dockerfileConfFileContent = ut.replaceTemplateVars('./Dockerfile_template', waves_wallet_dockerfile_map)
-                                            writeFile file: './Dockerfile', text: dockerfileConfFileContent
+                                        // configure Dockerfile template
+                                        def waves_wallet_dockerfile_map = Constants.WAVES_WALLET_DOCKERFILE_MAP.clone()
+                                        waves_wallet_dockerfile_map.jenkins_platform = "${platform}"
+                                        String dockerfileConfFileContent = ut.replaceTemplateVars('./Dockerfile_template', waves_wallet_dockerfile_map)
+                                        writeFile file: './Dockerfile', text: dockerfileConfFileContent
 
-                                            // configure nginx base auth users
-                                            writeFile file: './nginx/htpasswd.users', text: Constants.WAVES_WALLET_NGINX_HTPASSWD_USERS
+                                        // configure nginx base auth users
+                                        writeFile file: './nginx/htpasswd.users', text: Constants.WAVES_WALLET_NGINX_HTPASSWD_USERS
 
-                                            // configure a page with container_info which 
-                                            // contains all info about Jenkins build and git parameters
-                                            container_info["${serviceName}"] = "<p>Job name: ${env.JOB_NAME}</p>" +
-                                                "<p>Job build tag: ${env.BUILD_TAG}</p>" +
-                                                "<p>Git URL: ${scmVars.GIT_URL}</p>" +
-                                                "<p>Git branch: ${scmVars.GIT_BRANCH}</p>" +
-                                                "<p>Git commit: ${scmVars.GIT_COMMIT}</p>" +
-                                                "<p>Docker image: ${Constants.DOCKER_REGISTRY}/waves/${serviceName}:${source}.latest</p>" +
-                                                "<p>Web environemnt: \${WEB_ENVIRONMENT}</p>"
-                                            writeFile file: './info.html', text: container_info["${serviceName}"]
+                                        // configure a page with container_info which 
+                                        // contains all info about Jenkins build and git parameters
+                                        container_info["${serviceName}"] = "<p>Job name: ${env.JOB_NAME}</p>" +
+                                            "<p>Job build tag: ${env.BUILD_TAG}</p>" +
+                                            "<p>Git URL: ${scmVars.GIT_URL}</p>" +
+                                            "<p>Git branch: ${scmVars.GIT_BRANCH}</p>" +
+                                            "<p>Git commit: ${scmVars.GIT_COMMIT}</p>" +
+                                            "<p>Docker image: ${Constants.DOCKER_REGISTRY}/waves/${serviceName}:${source}.latest</p>" +
+                                            "<p>Web environemnt: \${WEB_ENVIRONMENT}</p>"
+                                        writeFile file: './info.html', text: container_info["${serviceName}"]
 
-                                            // copy all the generated text files
-                                             sh """
-                                                cp ./nginx/default.conf "${env.WORKSPACE}/${artifactsDir}/default.conf-${serviceName}"
-                                                cp ./Dockerfile "${env.WORKSPACE}/${artifactsDir}/Dockerfile-${serviceName}"
-                                                cp ./nginx/htpasswd.users "${env.WORKSPACE}/${artifactsDir}/htpasswd.users-${serviceName}"
-                                                cp ./info.html "${env.WORKSPACE}/${artifactsDir}/info.html-${serviceName}"
-                                                """
+                                        // copy all the generated text files
+                                         sh """
+                                            cp ./nginx/default.conf "${env.WORKSPACE}/${artifactsDir}/default.conf-${serviceName}"
+                                            cp ./Dockerfile "${env.WORKSPACE}/${artifactsDir}/Dockerfile-${serviceName}"
+                                            cp ./nginx/htpasswd.users "${env.WORKSPACE}/${artifactsDir}/htpasswd.users-${serviceName}"
+                                            cp ./info.html "${env.WORKSPACE}/${artifactsDir}/info.html-${serviceName}"
+                                            """
 
-                                            // run build
-                                            ut.buildDockerImage('waves/' + serviceName, source, "--build-arg trading_view_token=${Constants.WAVES_WALLET_TRADING_VIEW_TOKEN} --build-arg platform=${platform}")
-                                        }
-                                        catch(err){
-                                            currentBuild.result = Constants.PIPELINE_FAILURE
-                                        }
-                                        finally {
-                                            ut.notifySlack("docker_builds",
-                                                currentBuild.result,
-                                                "Built image: ${Constants.DOCKER_REGISTRY}/waves/${serviceName}:${source}.latest")
-                                        }
+                                        // run build
+                                        ut.buildDockerImage('waves/' + serviceName, source, "--build-arg trading_view_token=${Constants.WAVES_WALLET_TRADING_VIEW_TOKEN} --build-arg platform=${platform}")
+                                    
+                                        ut.notifySlack("docker_builds",
+                                            currentBuild.result,
+                                            "Built image: ${Constants.DOCKER_REGISTRY}/waves/${serviceName}:${source}.latest")
                                     }
                                     else{
                                         org.jenkinsci.plugins.pipeline.modeldefinition.Utils.markStageSkippedForConditional("Building " + serviceName)
@@ -318,44 +313,38 @@ timeout(time:20, unit:'MINUTES') {
                             stage("Deploying " + serviceName) {
                                 if (action.contains('Deploy')) {
                                     if (serviceName == image) {
-                                        try {
-                                            def waves_wallet_deployment_map = [
-                                                domain_name: destination.replaceAll("\\.","-"),
-                                                network: network,
-                                                tag: source,
-                                                image: image,
-                                                current_date: "'${ut.shWithOutput('date +%s')}'"
-                                            ]
-                                            if (action.contains('Build')) {
-                                                waves_wallet_deployment_map.tag += '.latest'
-                                            }
-                                            // configure deployment template
-                                            String deploymentConfFileContent = ut.replaceTemplateVars('./kubernetes/waves-client-stage-waveswallet-io/deployment.yaml', waves_wallet_deployment_map)
-                                            def deployment_config = "./${artifactsDir}/${image}-deployment.yaml"
-                                            writeFile file: "./${artifactsDir}/${image}-deployment.yaml", text: deploymentConfFileContent
+                                        def waves_wallet_deployment_map = [
+                                            domain_name: destination.replaceAll("\\.","-"),
+                                            network: network,
+                                            tag: source,
+                                            image: image,
+                                            current_date: "'${ut.shWithOutput('date +%s')}'"
+                                        ]
+                                        if (action.contains('Build')) {
+                                            waves_wallet_deployment_map.tag += '.latest'
+                                        }
+                                        // configure deployment template
+                                        String deploymentConfFileContent = ut.replaceTemplateVars('./kubernetes/waves-client-stage-waveswallet-io/deployment.yaml', waves_wallet_deployment_map)
+                                        def deployment_config = "./${artifactsDir}/${image}-deployment.yaml"
+                                        writeFile file: "./${artifactsDir}/${image}-deployment.yaml", text: deploymentConfFileContent
 
-                                            // deploy container to kuber
-                                            withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: Constants.AWS_KUBERNETES_KEY, secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-                                                sh """
-                                                    docker run -i --rm \
-                                                        -v "${env.WORKSPACE}/${artifactsDir}":/root/app \
-                                                        -e AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}" \
-                                                        -e AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}" \
-                                                        -e KUBE_CLUSTER_NAME="${Constants.AWS_KUBERNETES_KUBE_CLUSTER_NAME}" \
-                                                        -e AWS_REGION="${Constants.AWS_KUBERNETES_AWS_REGION}" \
-                                                        -e CONFIG_PATH="${image}-deployment.yaml" \
-                                                        "${Constants.DOCKER_KUBERNETES_EXECUTOR_IMAGE}"
-                                                    """
-                                            }
+                                        // deploy container to kuber
+                                        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: Constants.AWS_KUBERNETES_KEY, secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+                                            sh """
+                                                docker run -i --rm \
+                                                    -v "${env.WORKSPACE}/${artifactsDir}":/root/app \
+                                                    -e AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}" \
+                                                    -e AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}" \
+                                                    -e KUBE_CLUSTER_NAME="${Constants.AWS_KUBERNETES_KUBE_CLUSTER_NAME}" \
+                                                    -e AWS_REGION="${Constants.AWS_KUBERNETES_AWS_REGION}" \
+                                                    -e CONFIG_PATH="${image}-deployment.yaml" \
+                                                    "${Constants.DOCKER_KUBERNETES_EXECUTOR_IMAGE}"
+                                                """
                                         }
-                                        catch(err){
-                                                currentBuild.result = Constants.PIPELINE_FAILURE
-                                        }
-                                        finally {
-                                            ut.notifySlack("waves-deploy-alerts",
-                                                currentBuild.result,
-                                                "Deployed image:\n${Constants.DOCKER_REGISTRY}/waves/${serviceName}:${source}.latest ${network} to ${destination}")
-                                        }
+                                    
+                                        ut.notifySlack("waves-deploy-alerts",
+                                            currentBuild.result,
+                                            "Deployed image:\n${Constants.DOCKER_REGISTRY}/waves/${serviceName}:${source}.latest ${network} to ${destination}")
 
                                     } else {
                                         org.jenkinsci.plugins.pipeline.modeldefinition.Utils.markStageSkippedForConditional("Deploying " + serviceName)
