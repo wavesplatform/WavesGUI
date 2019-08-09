@@ -376,15 +376,15 @@
 
                 const intersection = Object.entries(this.chartData.coordinates)
                     .reduce((acc, [id, points]) => {
-                        const point = binarySearch(points, event.offsetX * SCALE, 0, points.length - 1);
-
+                        const offsetX = event.pageX - $(event.target).offset().left;
+                        const point = binarySearch(points, offsetX * SCALE, 0, points.length - 1);
                         const data = {
                             id, point, event
                         };
 
                         if (
                             !acc ||
-                            Math.abs(point.x - event.offsetX * SCALE) < Math.abs(acc.point.x - event.offsetX * SCALE)
+                            Math.abs(point.x - offsetX * SCALE) < Math.abs(acc.point.x - offsetX * SCALE)
                         ) {
                             return data;
                         } else {
