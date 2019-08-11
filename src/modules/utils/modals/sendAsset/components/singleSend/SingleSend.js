@@ -41,105 +41,6 @@
         class SingleSend extends Base {
 
             /**
-             * @type {string}
-             */
-            txType = WavesApp.TRANSACTION_TYPES.NODE.TRANSFER;
-            /**
-             * @type {string}
-             */
-            digiLiraUserLink = 'https://www.digilira.com/';
-            /**
-             * @type {Function}
-             */
-            onContinue = null;
-            /**
-             * @type {string}
-             */
-            focus = null;
-            /**
-             * @type {Money}
-             */
-            mirror = null;
-            /**
-             * @type {boolean}
-             */
-            noMirror = false;
-            /**
-             * @type {boolean}
-             */
-            hasComission = true;
-            /**
-             * @type {Array}
-             */
-            feeList = null;
-            /**
-             * @type {Money}
-             */
-            minAmount = null;
-            /**
-             * @type {Money}
-             */
-            maxAmount = null;
-            /**
-             * @type {ISendState}
-             */
-            state = Object.create(null);
-            /**
-             * @type {Money}
-             */
-            maxGatewayAmount = null;
-            /**
-             * @type {boolean}
-             */
-            gatewayDetailsError = false;
-            /**
-             * @type {boolean}
-             */
-            gatewayAddressError = false;
-            /**
-             * @type {boolean}
-             */
-            gatewayWrongAddress = false;
-            /**
-             * @type {boolean}
-             */
-            gatewayError = false;
-            /**
-             * @type {boolean}
-             */
-            termsIsPending = true;
-            /**
-             * @type {boolean}
-             */
-            termsLoadError = false;
-            /**
-             * @type {boolean}
-             */
-            signInProgress = false;
-            /**
-             * @type {ISingleSendTx}
-             */
-            wavesTx = {
-                type: SIGN_TYPE.TRANSFER,
-                amount: null,
-                attachment: '',
-                fee: null,
-                recipient: '',
-                assetId: ''
-            };
-            /**
-             * @type {boolean}
-             * @private
-             */
-            _noCurrentRate = false;
-
-            constructor() {
-                super();
-
-                $scope.WavesApp = WavesApp;
-            }
-
-            /**
              * @return {boolean}
              */
             get hasSendToBank() {
@@ -269,6 +170,11 @@
             }
 
             /**
+             * @type {string}
+             */
+            txType = WavesApp.TRANSACTION_TYPES.NODE.TRANSFER;
+
+            /**
              * @type {boolean}
              */
             get toBankMode() {
@@ -277,6 +183,101 @@
 
             set toBankMode(value) {
                 this.state.toBankMode = value;
+            }
+
+            /**
+             * @type {string}
+             */
+            digiLiraUserLink = 'https://www.digilira.com/';
+            /**
+             * @type {Function}
+             */
+            onContinue = null;
+            /**
+             * @type {string}
+             */
+            focus = null;
+            /**
+             * @type {Money}
+             */
+            mirror = null;
+            /**
+             * @type {boolean}
+             */
+            noMirror = false;
+            /**
+             * @type {boolean}
+             */
+            hasComission = true;
+            /**
+             * @type {Array}
+             */
+            feeList = null;
+            /**
+             * @type {Money}
+             */
+            minAmount = null;
+            /**
+             * @type {Money}
+             */
+            maxAmount = null;
+            /**
+             * @type {ISendState}
+             */
+            state = Object.create(null);
+            /**
+             * @type {Money}
+             */
+            maxGatewayAmount = null;
+            /**
+             * @type {boolean}
+             */
+            gatewayDetailsError = false;
+            /**
+             * @type {boolean}
+             */
+            gatewayAddressError = false;
+            /**
+             * @type {boolean}
+             */
+            gatewayWrongAddress = false;
+            /**
+             * @type {boolean}
+             */
+            gatewayError = false;
+            /**
+             * @type {boolean}
+             */
+            termsIsPending = true;
+            /**
+             * @type {boolean}
+             */
+            termsLoadError = false;
+            /**
+             * @type {boolean}
+             */
+            signInProgress = false;
+            /**
+             * @type {ISingleSendTx}
+             */
+            wavesTx = {
+                type: SIGN_TYPE.TRANSFER,
+                amount: null,
+                attachment: '',
+                fee: null,
+                recipient: '',
+                assetId: ''
+            };
+            /**
+             * @type {boolean}
+             * @private
+             */
+            _noCurrentRate = false;
+
+            constructor() {
+                super();
+
+                $scope.WavesApp = WavesApp;
             }
 
             $postLink() {
