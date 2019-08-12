@@ -59,7 +59,7 @@
                 /**
                  * @type {string[]}
                  */
-                this.tabs = Object.keys(TABS).map(key => TABS[key]);
+                this.tabs = Object.values(TABS);
                 /**
                  * @type {string}
                  */
