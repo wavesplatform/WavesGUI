@@ -6,6 +6,7 @@
     const { path } = require('ramda');
     const { SIGN_TYPE } = require('@waves/signature-adapter');
     const analytics = require('@waves/event-sender');
+    const { BigNumber } = require('@waves/bignumber');
 
     const TEMPLATE_PATH = 'modules/wallet/modules/portfolio/directives/portfolioRow/row.hbs';
     const SELECTORS = {
@@ -322,8 +323,9 @@
                         WavesApp.defaultAssets.WAVES;
                     this.waves.utils.getChange(balance.asset.id, baseChange24AssetId)
                         .then(change24 => {
-                            const isMoreZero = typeof change24 === 'number' ? change24 > 0 : change24.gt(0);
-                            const isLessZero = typeof change24 === 'number' ? change24 < 0 : change24.lt(0);
+                            const change24BN = new BigNumber(change24);
+                            const isMoreZero = change24BN.gt(0);
+                            const isLessZero = change24BN.lt(0);
                             change24Node.classList.toggle('minus', isLessZero);
                             change24Node.classList.toggle('plus', isMoreZero);
                             change24Node.innerHTML = `${change24.toFixed(2)}%`;
