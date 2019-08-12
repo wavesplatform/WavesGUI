@@ -374,17 +374,22 @@
                     return null;
                 }
 
+                const eventOffsetX = event.pageX - $(event.target).offset().left;
                 const intersection = Object.entries(this.chartData.coordinates)
                     .reduce((acc, [id, points]) => {
-                        const offsetX = event.pageX - $(event.target).offset().left;
-                        const point = binarySearch(points, offsetX * SCALE, 0, points.length - 1);
+                        const point = binarySearch(points, eventOffsetX * SCALE, 0, points.length - 1);
                         const data = {
-                            id, point, event
+                            id,
+                            point,
+                            event: {
+                                ...event,
+                                offsetX: eventOffsetX
+                            }
                         };
 
                         if (
                             !acc ||
-                            Math.abs(point.x - offsetX * SCALE) < Math.abs(acc.point.x - offsetX * SCALE)
+                            Math.abs(point.x - eventOffsetX * SCALE) < Math.abs(acc.point.x - eventOffsetX * SCALE)
                         ) {
                             return data;
                         } else {
