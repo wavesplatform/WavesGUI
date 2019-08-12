@@ -19,7 +19,7 @@
             '1.2.1': function (storage) {
                 return newTerms(storage);
             },
-            '1.3.5': function (storage) {
+            '1.3.18': function (storage) {
                 return addDefaultUserName(storage);
             }
         };

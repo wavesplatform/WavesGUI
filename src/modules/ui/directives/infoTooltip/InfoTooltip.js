@@ -40,7 +40,7 @@
         templateUrl: 'modules/ui/directives/infoTooltip/infoTooltip.html',
         transclude: true,
         bindings: {
-            delay: '=',
+            delay: '<',
             noIcon: '<'
         },
         controller
