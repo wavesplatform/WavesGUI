@@ -92,7 +92,7 @@
 
             constructor() {
                 super($scope);
-                this.adapter.onUpdate((state) => this.onUpdateState(state));
+                this.adapter.onUpdate(this._onUpdateAdapter);
 
                 user.getFilteredUserList().then(users => {
                     this._usersInStorage = users;
@@ -101,6 +101,10 @@
                 this.observe('selectedUser', this._onSelectUser);
 
                 this.getUsers();
+            }
+
+            $onDestroy() {
+                this.adapter.offUpdate(this._onUpdateAdapter);
             }
 
             /**
@@ -231,6 +235,8 @@
                     return user.name === this.selectedUser.name && user.address !== this.selectedUser.address;
                 });
             }
+
+            _onUpdateAdapter = (state) => this.onUpdateState(state);
 
         }
 
