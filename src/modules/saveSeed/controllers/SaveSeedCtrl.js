@@ -86,7 +86,7 @@
 
                     let canLoginPromise;
 
-                    if (this._isSeedAdapter(api)) {
+                    if (this._isSeedAdapter(api) || this._isPrivateKey(api)) {
                         canLoginPromise = adapterAvailablePromise.then(() => api.getAddress())
                             .then(address => address === activeUser.address ? true : Promise.reject('Wrong address!'));
                     } else {
@@ -143,6 +143,15 @@
             }
 
             /**
+             * @param {Adapter} api
+             * @return boolean
+             * @private
+             */
+            _isPrivateKey(api) {
+                return api.type && api.type === 'privateKey';
+            }
+
+            /**
              * @private
              */
             _showPasswordError() {
@@ -172,7 +181,8 @@
             _updateActiveUserAddress() {
                 if (this.userList.length) {
                     this.activeUserAddress = this.userList[0].address;
-                    this.needPassword = !this.userList[0].userType || this.userList[0].userType === 'seed';
+                    this.needPassword = !this.userList[0].userType || this.userList[0].userType === 'seed' ||
+                                        this.userList[0].userType === 'privateKey';
                 } else {
                     this.activeUserAddress = null;
                     this.needPassword = true;
@@ -211,7 +221,8 @@
                 });
 
                 this._activeUserIndex = index;
-                this.needPassword = !this.userList[index].userType || this.userList[index].userType === 'seed';
+                this.needPassword = !this.userList[index].userType || this.userList[index].userType === 'seed' ||
+                                    this.userList[index].userType === 'privateKey';
             }
 
         }
