@@ -155,7 +155,7 @@
 
                 <div class="user-account__name">
 
-                    <div class="user-account__block" ng-show="!$ctrl.showInput" ng-click="$ctrl.toggleNameView()">
+                    <div class="user-account__block" ng-show="!$ctrl.showInput" ng-click="$ctrl.setNameView()">
                         <div class="user-account__text">{{user.name}}</div>
                         <w-info-tooltip class="{{SELECTORS.TOOLTIP_RENAME}}" no-icon="true">
                             <span class="tooltip__content" w-i18n="welcome.renameAccount"></span>
@@ -165,9 +165,8 @@
                         <form name="$ctrl.setUserName">
                             <w-input-container>
                                 <w-input type="text"
-                                         class="tiny long no-validate"
+                                         class="tiny long"
                                          ng-focus="$ctrl.onFocus()"
-                                         ng-blur="$ctrl.onBlur()"
                                          ng-model="$ctrl.userName"
                                          maxlength="{{::MAX_USER_NAME_LENGTH}}"
                                          name="userName"
@@ -177,6 +176,8 @@
                                     <span w-i18n="welcome.inputErrorNameExists"></span>
                                 </w-input-error>
                             </w-input-container>
+                            <button ng-disabled="!$ctrl.isUniqueUserName" ng-click="$ctrl.onSave()">OK</button>
+                            <button ng-click="$ctrl.onCancel()">CANCEL</button>
                         </form>
                     </div>
 

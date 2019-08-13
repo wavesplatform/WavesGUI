@@ -132,10 +132,19 @@
             /**
              * @public
              */
-            onBlur() {
-                this._saveUserName();
+            onCancel() {
                 this.showTooltip();
-                this.toggleNameView();
+                this.setNameView();
+                this._resetUserName();
+            }
+
+            /**
+             * @public
+             */
+            onSave() {
+                this.showTooltip();
+                userNameService.save();
+                this.setNameView();
             }
 
             $onDestroy() {
@@ -238,9 +247,10 @@
 
             /**
              * public
+             * @param {boolean} value
              */
-            toggleNameView() {
-                this.showInput = !this.showInput;
+            setNameView(value) {
+                this.showInput = value !== undefined ? value : !this.showInput;
                 utils.postDigest($scope).then(() => {
                     if (this.showInput) {
                         this.setUserName.userName.$$element.focus();
@@ -265,6 +275,10 @@
                     mainHeaderUser.removeClass('open');
                     $element.find(`.${SELECTORS.MAIN_HEADER_FADER}`).removeClass('show-fader');
                 }
+
+                this.showTooltip();
+                this.setNameView(false);
+                this._resetUserName();
             }
 
             /**
@@ -352,8 +366,8 @@
             /**
              * @private
              */
-            _saveUserName() {
-                userNameService.save();
+            _resetUserName() {
+                userNameService.setName(user.name);
             }
 
         }

@@ -54,13 +54,14 @@
                     this.setName(this.defaultName);
                 }
 
-                const isNameValid = this.isUniqueName() && this._isNameLengthValid();
-
-                if (isNameValid) {
-                    user.name = this.name;
-                } else {
-                    this.name = user.name;
-                }
+                this.isUniqueName().then(isUniqueName => {
+                    const isNameValid = isUniqueName && this._isNameLengthValid();
+                    if (isNameValid) {
+                        user.name = this.name;
+                    } else {
+                        this.name = user.name;
+                    }
+                });
             }
 
             /**
