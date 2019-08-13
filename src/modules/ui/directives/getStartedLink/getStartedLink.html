@@ -2,9 +2,9 @@
     <div class="or">
         <span class="basic-900" w-i18n="noBackupNoMoney.or"></span>
     </div>
-    <div class="text-center body-2 flex-column-center-min">
 
-        <a ui-sref="signIn" class="get-started-btnLink" ng-if="$ctrl.hasSignIn && !!$ctrl._userList.length">
+    <div class="text-center body-2 flex-column-center-min">
+        <a ui-sref="signIn" class="get-started-btnLink" ng-if="$ctrl.hasSignIn && $ctrl.hasMultiAccount">
             <div class="get-started-btnLink-content">
                 <i class="get-started-btnLink-icon icon-dex-lock"></i>
                 <div w-i18n="createAccount.signIn" class="get-started-btnLink-title body-2"></div>

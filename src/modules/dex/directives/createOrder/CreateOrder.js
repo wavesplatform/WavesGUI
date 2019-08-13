@@ -278,7 +278,7 @@
                     e.stopPropagation();
                 });
 
-                user.getFilteredUserList().then(list => {
+                user.getMultiAccountUsers().then(list => {
                     this._userList = list;
                 });
 

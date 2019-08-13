@@ -10,11 +10,13 @@
                 <h1 class="margin-2 headline-0 welcome-text" w-i18n="welcome.tradeOnWaves"></h1>
                 <div class="basic-500 body-1 margin-5" w-i18n="welcome.tradeOnWavesDescription"></div>
                 <div class="buttons-wrapper buttons-wrapper-nowidth">
-                    <a class="fake-button get-started-btn" ui-sref="create">
-                        <span class="fake-button-content big submit" w-i18n="welcome.getStarted"></span>
+                    <a ng-if="!$ctrl.hasMultiAccount" class="fake-button get-started-btn" ui-sref="signUp">
+                        <span class="fake-button-content big submit" w-i18n="welcome.getStarted">
+                            <i class="promo-icon-min promo-icon-arrow-right"></i>
+                        </span>
                     </a>
 
-                    <a ng-if="$ctrl.userList.length" ui-sref="signIn" class="fake-button"
+                    <a ng-if="$ctrl.hasMultiAccount" ui-sref="signIn" class="fake-button"
                         w-analytics event="'Sign In Click'" event-target="ui">
 
                         <span class="fake-button-content big submit-light" w-i18n="welcome.signIn"></span>

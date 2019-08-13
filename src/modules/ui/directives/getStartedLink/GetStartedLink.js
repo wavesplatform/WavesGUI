@@ -5,29 +5,27 @@
 
         class GetStartedLinkCtrl extends Base {
 
-            /**
-             * @private
-             * @type {Array}
-             */
-            _userList = [];
+            hasMultiAccount;
+            hasSignIn;
+            hasCreate;
+            hasImport;
 
             constructor() {
                 super($scope);
                 this.hovered = false;
-                this._initUserList();
+                this._init();
             }
 
             /**
              * @private
              */
-            _initUserList() {
-                user.getFilteredUserList()
-                    .then((list) => {
-                        this._userList = list;
-                        angularUtils.postDigest($scope).then(() => {
-                            $scope.$apply();
-                        });
+            _init() {
+                user.getMultiAccountData().then(data => {
+                    this.hasMultiAccount = !!data;
+                    angularUtils.postDigest($scope).then(() => {
+                        $scope.$apply();
                     });
+                });
             }
 
         }

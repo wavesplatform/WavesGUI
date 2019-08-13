@@ -120,7 +120,7 @@
             /**
              * @type {boolean}
              */
-            hasUsers = false;
+            hasMultiAccount = false;
 
             constructor() {
                 super($scope);
@@ -139,6 +139,10 @@
                 } else {
                     this._initUserList();
                 }
+
+                user.getMultiAccountData().then(data => {
+                    this.hasMultiAccount = !!data;
+                });
 
                 this._initPairs();
                 this._initDeviceTypes();
@@ -260,7 +264,6 @@
                 user.getFilteredUserList()
                     .then((list) => {
                         this.userList = list;
-                        this.hasUsers = this.userList && this.userList.length > 0;
                         this.pendingRestore = false;
                         utils.postDigest($scope).then(() => {
                             $scope.$apply();
