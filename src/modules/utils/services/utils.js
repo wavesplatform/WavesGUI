@@ -177,6 +177,7 @@
     };
     const IMPORT_PRIORITY_MAP = {
         seed: 0,
+        key: 0,
         wavesKeeper: 1,
         ledger: 2
     };
@@ -1899,7 +1900,7 @@
                  */
                 const modalManager = $injector.get('modalManager');
 
-                if (user.userType === 'seed') {
+                if (user.userType === 'seed' || user.userType === 'privateKey') {
                     return signable.addMyProof()
                         .then(() => signable);
                 }

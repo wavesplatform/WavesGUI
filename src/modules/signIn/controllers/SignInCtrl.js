@@ -91,7 +91,7 @@
 
                     let canLoginPromise;
 
-                    if (this._isSeedAdapter(api)) {
+                    if (this._isSeedAdapter(api) || this._isPrivateKeyAdapter(api)) {
                         canLoginPromise = adapterAvailablePromise.then(() => api.getAddress())
                             .then(address => address === activeUser.address ? true : Promise.reject('Wrong address!'));
                     } else {
@@ -106,7 +106,7 @@
                             address: activeUser.address
                         });
                     }, () => {
-                        if (!this._isSeedAdapter(api)) {
+                        if (!this._isSeedAdapter(api) && !this._isPrivateKeyAdapter(api)) {
                             const errorData = {
                                 error: 'load-user-error',
                                 userType: api.type,
@@ -145,6 +145,15 @@
              */
             _isSeedAdapter(api) {
                 return api.type && api.type === 'seed';
+            }
+
+            /**
+             * @param {Adapter} api
+             * return boolean
+             * @private
+             */
+            _isPrivateKeyAdapter(api) {
+                return api.type && api.type === 'privateKey';
             }
 
             /**
@@ -187,7 +196,9 @@
             _updateActiveUserAddress() {
                 if (this.userList.length) {
                     this.activeUserAddress = this.userList[0].address;
-                    this.needPassword = !this.userList[0].userType || this.userList[0].userType === 'seed';
+                    this.needPassword = !this.userList[0].userType ||
+                                        this.userList[0].userType === 'seed' ||
+                                        this.userList[0].userType === 'privateKey';
                 } else {
                     this.activeUserAddress = null;
                     this.needPassword = true;
@@ -226,7 +237,9 @@
                 });
 
                 this._activeUserIndex = index;
-                this.needPassword = !this.userList[index].userType || this.userList[index].userType === 'seed';
+                this.needPassword = !this.userList[index].userType ||
+                                    this.userList[index].userType === 'seed' ||
+                                    this.userList[index].userType === 'privateKey';
             }
 
         }

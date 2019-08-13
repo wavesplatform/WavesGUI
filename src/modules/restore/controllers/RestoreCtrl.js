@@ -2,6 +2,13 @@
     'use strict';
 
     const analytics = require('@waves/event-sender');
+    const { validators, libs } = require('@waves/waves-transactions');
+    const { isPublicKey } = validators;
+    const { address, publicKey } = libs.crypto;
+    const TABS = {
+        seed: 'seed',
+        key: 'key'
+    };
 
     /**
      * @param Base
@@ -17,12 +24,10 @@
 
             constructor() {
                 super($scope);
+                $scope.TABS = TABS;
 
                 this.seedForm = null;
-                /**
-                 * @type {string}
-                 */
-                this.address = '';
+                this.keyForm = null;
                 /**
                  * @type {string}
                  */
@@ -30,19 +35,19 @@
                 /**
                  * @type {string}
                  */
+                this.key = '';
+                /**
+                 * @type {string}
+                 */
+                this.address = '';
+                /**
+                 * @type {string}
+                 */
                 this.name = '';
                 /**
                  * @type {string}
                  */
-                this.encryptedSeed = '';
-                /**
-                 * @type {string}
-                 */
                 this.password = '';
-                /**
-                 * @type {string}
-                 */
-                this.restoreType = '';
                 /**
                  * @type {boolean}
                  */
@@ -51,6 +56,14 @@
                  * @type {number}
                  */
                 this.activeStep = 0;
+                /**
+                 * @type {string[]}
+                 */
+                this.tabs = Object.values(TABS);
+                /**
+                 * @type {string}
+                 */
+                this.activeTab = TABS.seed;
                 /**
                  * @type {boolean}
                  */
@@ -69,11 +82,6 @@
                  */
                 this._usersInStorage = [];
                 /**
-                 * @type {string}
-                 * @private
-                 */
-                this._type = 'seed';
-                /**
                  * @type {object}
                  * @private
                  */
@@ -85,10 +93,23 @@
 
                 this.observe('seed', this._onChangeSeed);
                 this.observeOnce('seedForm', () => {
-                    this.receive(utils.observe(this.seedForm, '$valid'), this._onChangeSeed, this);
+                    this.receive(utils.observe(this.seedForm, '$valid'), () => {
+                        if (this.activeTab === TABS.seed) {
+                            this._onChangeSeed();
+                        }
+                    });
                 });
                 this.observe('address', this._onChangeAddress);
                 this.observe('name', this._onChangeName);
+                this.observe('key', this._onChangeKey);
+                this.observeOnce('keyForm', () => {
+                    this.receive(utils.observe(this.keyForm, '$valid'), () => {
+                        if (this.activeTab === TABS.key) {
+                            this._onChangeKey();
+                        }
+                    });
+                });
+                this.observe('activeTab', this._onChangeActiveTab);
             }
 
             showTutorialModals() {
@@ -103,7 +124,7 @@
                     analytics.send({ name: 'Import Backup Protect Your Account Continue Click', target: 'ui' });
                 }
 
-                const encryptedSeed = new ds.Seed(this.seed, window.WavesApp.network.code).encrypt(this.password);
+                const { encrypted, type } = this._getEncryptedAndType();
                 const userSettings = user.getDefaultUserSettings({ termsAccepted: false });
 
                 if (!this.name) {
@@ -111,7 +132,7 @@
                 }
 
                 const newUser = {
-                    userType: this.restoreType,
+                    userType: type,
                     address: this.address,
                     name: this.name,
                     password: this.password,
@@ -119,7 +140,7 @@
                     path: this.userPath,
                     settings: userSettings,
                     saveToStorage: this.saveUserData,
-                    encryptedSeed
+                    ...encrypted
                 };
 
                 const api = ds.signature.getDefaultSignatureApi(newUser);
@@ -154,6 +175,13 @@
             }
 
             /**
+             * @param {string} tab
+             */
+            setActiveTab(tab) {
+                this.activeTab = tab;
+            }
+
+            /**
              * @private
              */
             _onChangeSeed() {
@@ -171,13 +199,59 @@
                 this.userExisted = this._usersInStorage.find(user => user.address === this.address) || null;
                 this.isPriorityUserTypeExists =
                     !!this.userExisted &&
-                    this._priorityMap[this._type] <= this._priorityMap[this.userExisted.userType];
+                    this._priorityMap[this.activeTab] <= this._priorityMap[this.userExisted.userType];
             }
 
             _onChangeName() {
                 this.isNameExists = this._usersInStorage.some(user => {
                     return user.name === this.name && user.address !== this.address;
                 });
+            }
+
+            /**
+             * @private
+             */
+            _onChangeKey() {
+                if (this.keyForm.$valid && isPublicKey(this.key)) {
+                    const pubKey = publicKey({ privateKey: this.key });
+                    this.address = address({ publicKey: pubKey }, window.WavesApp.network.code);
+                } else {
+                    this.address = '';
+                }
+            }
+
+            /**
+             * @private
+             */
+            _onChangeActiveTab() {
+                const tab = this.activeTab[0].toUpperCase() + this.activeTab.substring(1);
+                this[`_onChange${tab}`]();
+            }
+
+            /**
+             * @return {{encrypted: {encryptedSeed: string}, type: string}|
+             * {encrypted: {encryptedPrivateKey: string}, type: string}}
+             * @private
+             */
+            _getEncryptedAndType() {
+                switch (this.activeTab) {
+                    case TABS.key:
+                        return ({
+                            encrypted: {
+                                encryptedPrivateKey: new ds.Seed(this.key, window.WavesApp.network.code)
+                                    .encrypt(this.password)
+                            },
+                            type: 'privateKey'
+                        });
+                    default:
+                        return ({
+                            encrypted: {
+                                encryptedSeed: new ds.Seed(this.seed, window.WavesApp.network.code)
+                                    .encrypt(this.password)
+                            },
+                            type: 'seed'
+                        });
+                }
             }
 
         }
