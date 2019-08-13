@@ -1,4 +1,4 @@
-/* global transfer Mousetrap WavesApp: true */
+/* global transfer Mousetrap WavesApp: readonly */
 (function () {
     'use strict';
 
@@ -24,14 +24,28 @@
      * @param {*} $state
      * @param {app.defaultSettings} defaultSettings
      * @param {State} state
+     * @param {ng.auto.IInjectorService} $injector
      * @param {UserRouteState} UserRouteState
      * @param {Poll} Poll
      * @param {TimeLine} timeLine
      * @param {app.utils} utils
      * @param {*} themes
+     * @param {MultiAccount} multiAccount
      * @return {User}
      */
-    const factory = function (storage, $state, defaultSettings, state, UserRouteState, Poll, timeLine, utils, themes) {
+    const factory = function (
+        storage,
+        $state,
+        $injector,
+        defaultSettings,
+        state,
+        UserRouteState,
+        Poll,
+        timeLine,
+        utils,
+        themes,
+        multiAccount
+    ) {
 
         const tsUtils = require('ts-utils');
         const ds = require('data-service');
@@ -323,6 +337,75 @@
             /**
              * @return {Promise}
              */
+            getMultiAccountData() {
+                return storage.load('multiAccountData');
+            }
+
+            /**
+             * @return {Promise}
+             */
+            getMultiAccountHash() {
+                return storage.load('multiAccountHash');
+            }
+
+            /**
+             * @return {Promise}
+             */
+            getMultiAccountUsers() {
+                return storage.load('multiAccountUsers').then(users => {
+                    return multiAccount.toList(users)
+                        .filter(user => this.isValidAddress(user.address));
+                });
+            }
+
+            /**
+             * @return {Promise}
+             */
+            saveMultiAccount(data) {
+                return Promise.all([
+                    storage.save('multiAccountData', data.multiAccountData),
+                    storage.save('multiAccountHash', data.multiAccountHash)
+                ]);
+            }
+
+            /**
+             * @return {Promise}
+             */
+            migrateUser(userToMigrate, userHash) {
+                // TODO map user settings to a new schema
+                const user = {
+                    userType: userToMigrate.userType,
+                    name: userToMigrate.name,
+                    lastLogin: userToMigrate.lastLogin,
+                    matcherSign: userToMigrate.matcherSign,
+                    settings: userToMigrate.settings
+                };
+
+                return this.addMultiAccountUser(user, userHash)
+                    .then(() => this.removeUserByAddress(userToMigrate.address));
+            }
+
+            /**
+             * @return {Promise}
+             */
+            addMultiAccountUser(user, userHash) {
+                return storage.load('multiAccountUsers')
+                    .then(users => this.saveMultiAccountUsers({
+                        ...users,
+                        [userHash]: user
+                    }));
+            }
+
+            /**
+             * @return {Promise}
+             */
+            saveMultiAccountUsers(users) {
+                return storage.save('multiAccountUsers', users);
+            }
+
+            /**
+             * @return {Promise}
+             */
             onLogin() {
                 if (this.isAuthorised) {
                     return Promise.resolve();
@@ -345,18 +428,40 @@
             }
 
             /**
-             * @param {object} data
-             * @param {string} data.address
-             * @param {string} data.password
-             * @return {Promise}
-             *
+             * @param {object} userData
+             * @returns {Promise}
              */
-            login(data) {
+            login(userData) {
                 this.networkError = false;
 
-                return this._addUserData(data).then(() => {
-                    this.initScriptInfoPolling();
-                    analytics.send({ name: 'Sign In Success' });
+                return multiAccount.getAdapter(userData.hash).then(adapter => {
+                    const adapterAvailablePromise = adapter.isAvailable(true);
+                    const modalManager = $injector.get('modalManager');
+                    let canLoginPromise;
+
+                    if (this._isSeedAdapter(adapter)) {
+                        canLoginPromise = adapterAvailablePromise.then(() => adapter.getAddress())
+                            .then(address => address === userData.address || Promise.reject('Wrong address!'));
+                    } else {
+                        canLoginPromise = modalManager.showLoginByDevice(adapterAvailablePromise, adapter.type);
+                    }
+
+                    return canLoginPromise.then(() => {
+                        return this._addUserData(userData, adapter).then(() => {
+                            this.initScriptInfoPolling();
+                            analytics.send({ name: 'Sign In Success' });
+                        });
+                    }, () => {
+                        if (!this._isSeedAdapter(adapter)) {
+                            const errorData = {
+                                error: 'load-user-error',
+                                userType: adapter.type,
+                                address: userData.address
+                            };
+                            return modalManager.showSignDeviceError(errorData)
+                                .catch(() => Promise.resolve());
+                        }
+                    });
                 });
             }
 
@@ -452,11 +557,11 @@
              */
             getActiveState(name) {
                 const userState = tsUtils.find(this._stateList || [], { name });
+
                 if (userState) {
                     return userState.state;
                 } else {
-                    return WavesApp.stateTree.getPath(name)
-                        .join('.');
+                    return WavesApp.stateTree.getPath(name).join('.');
                 }
             }
 
@@ -626,79 +731,74 @@
 
             /**
              * @param {object} data
-             * @param {Adapter} data.api
              * @param {string} data.address
              * @param {string} data.userType
              * @param {string} [data.encryptedSeed]
-             * @param {string} [data.publicKey]
-             * @param {string} data.password
+             * @param {string} data.publicKey
              * @param {string} data.userType
+             * @param {string} data.hash
              * @param {object} [data.settings]
              * @param {boolean} [data.settings.termsAccepted]
-             * @return Promise
+             * @param {Adapter} adapter
+             * @return {Promise}
              * @private
              */
-            _addUserData(data) {
-                return data.api.getPublicKey()
-                    .then(publicKey => (data.publicKey = publicKey))
-                    .then(() => this._loadUserByAddress(data.address))
-                    .then((item) => {
-                        this._fieldsForSave.forEach((propertyName) => {
-                            if (data[propertyName] != null) {
-                                this[propertyName] = data[propertyName];
-                            } else if (item[propertyName] != null) {
-                                this[propertyName] = item[propertyName];
-                            }
-                        });
+            _addUserData(data, adapter) {
+                this._fieldsForSave.forEach((propertyName) => {
+                    if (data[propertyName] != null) {
+                        this[propertyName] = data[propertyName];
+                    } else if (data[propertyName] != null) {
+                        this[propertyName] = data[propertyName];
+                    }
+                });
 
-                        analytics.addDefaultParams({ userType: this.userType });
-                        this.lastLogin = Date.now();
+                analytics.addDefaultParams({ userType: this.userType });
+                this.lastLogin = Date.now();
 
-                        if (this._settings) {
-                            this._settings.change.off();
-                        }
+                if (this._settings) {
+                    this._settings.change.off();
+                }
 
-                        this._settings = defaultSettings.create(this.settings);
-                        this._settings.change.on(() => this._onChangeSettings());
+                this._settings = defaultSettings.create(this.settings);
+                this._settings.change.on(() => this._onChangeSettings());
 
-                        if (this._settings.get('savePassword')) {
-                            this._password = data.password;
-                        }
+                if (this._settings.get('savePassword')) {
+                    this._password = data.password;
+                }
 
-                        const states = WavesApp.stateTree.find('main').getChildren();
-                        this._stateList = states.map((baseTree) => {
-                            const id = baseTree.id;
-                            return new UserRouteState('main', id, this._settings.get(`${id}.activeState`));
-                        });
+                const states = WavesApp.stateTree.find('main').getChildren();
+                this._stateList = states.map((baseTree) => {
+                    const id = baseTree.id;
+                    return new UserRouteState('main', id, this._settings.get(`${id}.activeState`));
+                });
 
-                        Object.keys(WavesApp.network).forEach((key) => {
-                            ds.config.set(key, this._settings.get(`network.${key}`));
-                        });
+                Object.keys(WavesApp.network).forEach((key) => {
+                    ds.config.set(key, this._settings.get(`network.${key}`));
+                });
 
-                        ds.config.set('oracleWaves', this.getSetting('oracleWaves'));
+                ds.config.set('oracleWaves', this.getSetting('oracleWaves'));
 
-                        ds.app.login(data.address, data.api);
+                ds.app.login(data.address, adapter);
 
-                        data.api.onDestroy(() => {
-                            if (this.isAuthorised) {
-                                this.logout('welcome');
-                            }
-                        });
+                adapter.onDestroy(() => {
+                    if (this.isAuthorised) {
+                        this.logout('welcome');
+                    }
+                });
 
-                        return this.addMatcherSign()
-                            .catch(() => Promise.resolve())
-                            .then(() => {
-                                this.changeTheme();
-                                this.changeCandle();
-                                return this._save();
-                            })
-                            .then(() => this._logoutTimer())
-                            .then(() => this.updateScriptAccountData())
-                            .then(() => this.loginSignal.dispatch())
-                            .catch((e) => {
-                                ds.app.logOut();
-                                return Promise.reject(e);
-                            });
+                return this.addMatcherSign()
+                    .catch(() => Promise.resolve())
+                    .then(() => {
+                        this.changeTheme();
+                        this.changeCandle();
+                        return this._save();
+                    })
+                    .then(() => this._logoutTimer())
+                    .then(() => this.updateScriptAccountData())
+                    .then(() => this.loginSignal.dispatch())
+                    .catch((e) => {
+                        ds.app.logOut();
+                        return Promise.reject(e);
                     });
             }
 
@@ -786,11 +886,13 @@
                     });
             }
 
-            _loadUserByAddress(address) {
-                return storage.load('userList')
-                    .then((list) => {
-                        return tsUtils.find(list || [], { address }) || Object.create(null);
-                    });
+            /**
+             * @param {Adapter} adapter
+             * @returns {boolean}
+             * @private
+             */
+            _isSeedAdapter(adapter) {
+                return adapter.type && adapter.type === 'seed';
             }
 
         }
@@ -817,13 +919,15 @@
     factory.$inject = [
         'storage',
         '$state',
+        '$injector',
         'defaultSettings',
         'state',
         'UserRouteState',
         'Poll',
         'timeLine',
         'utils',
-        'themes'
+        'themes',
+        'multiAccount'
     ];
 
     angular.module('app').factory('user', factory);
