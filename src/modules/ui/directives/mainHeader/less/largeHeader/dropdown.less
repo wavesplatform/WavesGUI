@@ -7,7 +7,7 @@
   &__link {
     display: flex;
     align-items: center;
-    padding: 11px 10px;
+    padding: 18px 10px;
     font-size: 15px;
     color: @color-basic-900;
     position: relative;
@@ -16,6 +16,26 @@
 
     &:hover {
       background-color: @color-basic-50;
+
+      &::after {
+        display: none;
+      }
+    }
+
+    &::after {
+      content: "";
+      transition: .2s;
+      display: block;
+      position: absolute;
+      width: calc(100% ~'- 8px');
+      height: 1px;
+      background: #f5f8fc;
+      top: 100%;
+      left: 4px;
+    }
+
+    &:last-child::after {
+      display: none;
     }
   }
 

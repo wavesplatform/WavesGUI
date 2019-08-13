@@ -53,6 +53,11 @@
       .main-header__dropdown {
         display: block;
       }
+
+      .dropdown-toggler::before {
+        transform: translateY(-50%) rotate(180deg);
+        background: @drop-down-hover-icon center no-repeat;
+      }
     }
   }
 
@@ -80,7 +85,7 @@
 
   &__dropdown {
     display: none;
-    padding: 20px 25px;
+    padding: 20px;
     box-shadow: 0 2px 44px 0 rgba(31, 39, 61, 0.15);
     background: @color-white;
     border-radius: 8px;
