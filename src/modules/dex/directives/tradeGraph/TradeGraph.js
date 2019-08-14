@@ -5,29 +5,35 @@
         asks: 'asks',
         bids: 'bids'
     };
-    const SERIES_SETTINGS = {
-        asks: {
-            dataset: ORDERS_TYPES.asks,
-            key: 'amount',
-            label: 'Asks',
-            color: '#e5494d',
-            type: ['line', 'area']
-        },
-        bids: {
-            dataset: ORDERS_TYPES.bids,
-            key: 'amount',
-            label: 'Bids',
-            color: '#5a81ea',
-            type: ['line', 'area']
-        }
-    };
     const ORDER_LIST_STUB = [{ amount: 0, price: 0 }];
     const THRESHOLD_VALUES = {
         asks: 2,
         bids: 2
     };
+    const COLORS = {
+        default: {
+            lineColor: {
+                asks: '#e5494d',
+                bids: '#1f5af6'
+            },
+            fillColor: {
+                asks: '#ffe4e4',
+                bids: '#eaf0fe'
+            }
+        },
+        black: {
+            lineColor: {
+                asks: '#e5494d',
+                bids: '#5a81ea'
+            },
+            fillColor: {
+                asks: 'rgba(229, 73, 77, 0.15)',
+                bids: 'rgba(90, 129, 234, 0.15)'
+            }
+        }
+    };
 
-    const tsUtils = require('ts-utils');
+    const { Signal } = require('ts-utils');
     const { BigNumber } = require('@waves/bignumber');
 
     /**
@@ -37,88 +43,123 @@
      * @param {IPollCreate} createPoll
      * @param {$rootScope.Scope} $scope
      * @param {app.utils} utils
+     * @param {User} user
      * @return {TradeGraph}
      */
-    const controller = function (Base, utils, waves, createPoll, $scope) {
+    const controller = function (Base, utils, waves, createPoll, $scope, user) {
 
+        /**
+         * @class TradeGraph
+         * @extends Base
+         */
         class TradeGraph extends Base {
+
+            /**
+             * @type {boolean}
+             */
+            loadingError = false;
+            /**
+             * @type {{amount: string, price: string}}
+             * @private
+             */
+            _assetIdPair = null;
+
+            /**
+             * @type {number}
+             * @private
+             */
+            _chartCropRate = null;
+            /**
+             * @type {Signal<void>}
+             * @private
+             */
+            _setDataSignal = new Signal();
+
+            /**
+             * @type {boolean}
+             * @private
+             */
+            canShowGraph = false;
+            /**
+             * @type {boolean}
+             */
+            pending = true;
+            /**
+             * @type {TChartOptions}
+             */
+            options = {
+                axisX: 'price',
+                axisY: 'amount',
+                marginBottom: 0,
+                hasDates: false,
+                checkWidth: true,
+                view: {
+                    asks: {
+                        lineColor: COLORS.default.lineColor.asks,
+                        fillColor: COLORS.default.fillColor.asks,
+                        lineWidth: 4
+                    },
+                    bids: {
+                        lineColor: COLORS.default.lineColor.bids,
+                        fillColor: COLORS.default.fillColor.bids,
+                        lineWidth: 4
+                    }
+                }
+            };
+            /**
+             * @type {object}
+             */
+            chartPlateOptions = {};
+            /**
+             * @type {string}
+             */
+            theme = 'default';
+            /**
+             * @type {object<string, TChartData[]>}
+             */
+            data = {
+                asks: ORDER_LIST_STUB,
+                bids: ORDER_LIST_STUB
+            };
 
             constructor() {
                 super();
 
-                /**
-                 * @type {boolean}
-                 */
-                this.loadingError = false;
-                /**
-                 * @type {{amount: string, price: string}}
-                 * @private
-                 */
-                this._assetIdPair = null;
-
-                /**
-                 * @type {number}
-                 * @private
-                 */
-                this._chartCropRate = null;
-                /**
-                 * @type {Signal<void>}
-                 * @private
-                 */
-                this._setDataSignal = new tsUtils.Signal();
-
-                /**
-                 * @type {boolean}
-                 * @private
-                 */
-                this.canShowGraph = false;
-                /**
-                 * @type {boolean}
-                 */
-                this.pending = true;
-
-                this.options = {
-                    margin: {
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0
-                    },
-                    grid: {
-                        x: false,
-                        y: false
-                    },
-                    series: [
-                        SERIES_SETTINGS.asks,
-                        SERIES_SETTINGS.bids
-                    ],
-                    axes: {
-                        x: { key: 'price', type: 'linear', ticks: 2 },
-                        y: { key: 'amount', ticks: 4 }
-                    }
-                };
-
-                this.data = {
-                    asks: ORDER_LIST_STUB,
-                    bids: ORDER_LIST_STUB
-                };
-
                 this.syncSettings({
                     _assetIdPair: 'dex.assetIdPair',
-                    _chartCropRate: 'dex.chartCropRate'
+                    _chartCropRate: 'dex.chartCropRate',
+                    theme: 'theme'
                 });
-
                 this.observe(['_assetIdPair', '_chartCropRate'], this._onChangeAssets);
-
                 /**
                  * @type {Poll}
                  * @private
                  */
                 this._poll = createPoll(this, this._getOrderBook, this._setOrderBook, 1000, { $scope });
-
                 this._resetPending();
+
+                this.theme = user.getSetting('theme');
+                this._setChartPlateOptions();
+                this._setChartOptionsView();
+                this.observe('theme', this._onThemeChange);
             }
 
+            onMouse(chartData) {
+                const id = chartData.id;
+                const { xValue, yValue } = chartData.point;
+
+                this.chartEvent = {
+                    ...chartData,
+                    id: `${id[0].toUpperCase()}${id.substring(1)}`,
+                    amount: new BigNumber(yValue).toFormat(),
+                    price: new BigNumber(xValue).toFormat()
+                };
+            }
+
+            /**
+             * @param {boolean} noRestart
+             * @private
+             */
             _onChangeAssets(noRestart) {
                 if (!noRestart) {
                     this._poll.restart();
@@ -126,6 +167,9 @@
                 }
             }
 
+            /**
+             * @private
+             */
             _resetPending() {
                 this.pending = true;
                 this.receiveOnce(this._setDataSignal, () => {
@@ -133,9 +177,11 @@
                 });
             }
 
+            /**
+             * @private
+             */
             _getOrderBook() {
-                return (waves.matcher
-                    .getOrderBook(this._assetIdPair.amount, this._assetIdPair.price)
+                return waves.matcher.getOrderBook(this._assetIdPair.amount, this._assetIdPair.price)
                     .then((orderBook) => this._cutOffOutlyingOrdersIfNecessary(orderBook))
                     .then(TradeGraph._buildCumulativeOrderBook)
                     .then(data => {
@@ -146,13 +192,15 @@
                         this.loadingError = true;
                         this.pending = false;
                         $scope.$apply();
-                    }));
+                    });
             }
 
             _setOrderBook(orderBook) {
                 this._updateGraphAccordingToOrderBook(orderBook);
-                this.data.asks = orderBook.asks;
-                this.data.bids = orderBook.bids;
+                this.data = {
+                    asks: orderBook.asks,
+                    bids: orderBook.bids
+                };
 
                 this._setDataSignal.dispatch();
 
@@ -178,55 +226,70 @@
             }
 
             _updateGraphAccordingToOrderBook(orderBook) {
-                if (TradeGraph._areEitherAsksOrBids(orderBook)) {
-                    this._prepareGraphForOrders(orderBook);
-                } else {
-                    this._hideGraphAndShowStub();
-                }
-
+                this.canShowGraph = !!TradeGraph._areEitherAsksOrBids(orderBook);
                 return orderBook;
             }
 
-            _prepareGraphForOrders(orderBook) {
-                this._showGraphAndHideStub();
+            _setChartOptionsView() {
+                this.options = {
+                    ...this.options,
+                    view: this._getViewOptions()
+                };
+            }
 
-                if (TradeGraph._areEnoughAsks(orderBook) && TradeGraph._areEnoughBids(orderBook)) {
-                    this._setGraphToShowAsksAndBids();
+            _getViewOptions() {
+                switch (this.theme) {
+                    case 'black':
+                        return ({
+                            asks: {
+                                lineColor: COLORS[this.theme].lineColor.asks,
+                                fillColor: COLORS[this.theme].fillColor.asks,
+                                lineWidth: 2
+                            },
+                            bids: {
+                                lineColor: COLORS[this.theme].lineColor.bids,
+                                fillColor: COLORS[this.theme].fillColor.bids,
+                                lineWidth: 2
+                            }
+                        });
+                    default:
+                        return ({
+                            asks: {
+                                lineColor: COLORS.default.lineColor.asks,
+                                fillColor: COLORS.default.fillColor.asks,
+                                lineWidth: 4
+                            },
+                            bids: {
+                                lineColor: COLORS.default.lineColor.bids,
+                                fillColor: COLORS.default.fillColor.bids,
+                                lineWidth: 4
+                            }
+                        });
+                }
+            }
+
+            _setChartPlateOptions() {
+                switch (this.theme) {
+                    case 'black':
+                        this.chartPlateOptions = {
+                            ...this.chartPlateOptions,
+                            markerColors: COLORS[this.theme].lineColor
+                        };
+                        break;
+                    default:
+                        this.chartPlateOptions = {
+                            ...this.chartPlateOptions,
+                            markerColors: COLORS.default.lineColor
+                        };
                 }
 
-                if (TradeGraph._isLackOfAsks(orderBook)) {
-                    this._setGraphToShowOnly(ORDERS_TYPES.bids);
-                }
-
-                if (TradeGraph._isLackOfBids(orderBook)) {
-                    this._setGraphToShowOnly(ORDERS_TYPES.asks);
-                }
             }
 
-            _showGraphAndHideStub() {
-                this.canShowGraph = true;
-            }
-
-            _setGraphToShowAsksAndBids() {
-                this._updateGraphSeriesOptions([
-                    SERIES_SETTINGS.asks,
-                    SERIES_SETTINGS.bids
-                ]);
-            }
-
-            _setGraphToShowOnly(orderType) {
-                this._updateGraphSeriesOptions([
-                    SERIES_SETTINGS[orderType]
-                ]);
-            }
-
-            _hideGraphAndShowStub() {
-                this._updateGraphSeriesOptions([]);
-                this.canShowGraph = false;
-            }
-
-            _updateGraphSeriesOptions(seriesOptions) {
-                this.options.series = seriesOptions;
+            _onThemeChange() {
+                utils.wait(1000).then(() => {
+                    this._setChartOptionsView();
+                    this._setChartPlateOptions();
+                });
             }
 
             static _areEitherAsksOrBids(orderBook) {
@@ -279,7 +342,7 @@
         return new TradeGraph();
     };
 
-    controller.$inject = ['Base', 'utils', 'waves', 'createPoll', '$scope'];
+    controller.$inject = ['Base', 'utils', 'waves', 'createPoll', '$scope', 'user'];
 
     angular.module('app.dex')
         .component('wDexTradeGraph', {
@@ -287,3 +350,30 @@
             controller
         });
 })();
+
+/**
+ * @typedef {object} TChartOptions
+ * @property {string} axisX
+ * @property {string} axisY
+ * @property {number} marginBottom
+ * @property {boolean} hasDates
+ * @property {boolean | number} checkWidth
+ * @property {TView} view
+ */
+
+/**
+ * @typedef {Object<string, IView>} TView
+ */
+
+/**
+ * @typedef {object} IView
+ * @property {string} fillColor
+ * @property {string} lineColor
+ * @property {number} lineWidth
+ */
+
+/**
+ * @typedef {object} TChartData
+ * @property {number} amount
+ * @property {number} price
+ */

@@ -178,6 +178,7 @@ w-layout {
       border-radius: @border-radius / 2;
       background: @color-white;
       display: flex;
+      overflow: visible;
 
       .dex-layout {
         &__sidebar-toggle {
@@ -212,6 +213,10 @@ w-layout {
 
           .dex-block-top-btn:last-child {
             display: none;
+          }
+
+          .dex-block-content {
+            overflow: visible;
           }
         }
       }
