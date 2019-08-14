@@ -1,0 +1,39 @@
+FROM node:lts-alpine as trading-view-${jenkins_platform}
+ARG trading_view_token
+WORKDIR /root
+RUN echo "//registry.npmjs.org/:_authToken=${trading_view_token}" > /root/.npmrc && \
+    npm i @waves/trading-view
+
+FROM node:lts-alpine as static-${jenkins_platform}
+RUN apk update && apk add git
+
+COPY ./WavesGUI/ /srv/www/WavesGUI/
+WORKDIR /srv/www/WavesGUI
+ARG platform=web
+RUN npm ci --unsafe-perm && \
+    node_modules/.bin/gulp build --platform $platform --config ./configs/testnet.json && \
+    mv ./dist/$platform/testnet ./testnet && \
+    node_modules/.bin/gulp build --platform $platform --config ./configs/mainnet.json && \
+    mv ./testnet ./dist/$platform/testnet
+RUN rm -rf /srv/www/WavesGUI/node_modules/
+
+FROM nginx:stable-alpine
+ARG web_environment=mainnet
+ARG platform=web
+ENV WEB_ENVIRONMENT=$web_environment
+ENV PLATFORM=$platform
+
+RUN  mkdir -p /etc/nginx/sites-enabled && \
+    apk update && \
+    apk add gettext libintl
+WORKDIR /srv/www
+COPY --from=trading-view-${jenkins_platform} /root/node_modules node_modules
+COPY --from=static-${jenkins_platform} /srv/www .
+COPY ./nginx/default.conf /etc/nginx/sites-available/default.conf
+COPY ./nginx/htpasswd.users /etc/nginx/htpasswd.users
+COPY ./info.html /srv/www/info
+COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
+COPY ./files/ /srv/www/WavesGUI/dist/web/mainnet/
+EXPOSE 80
+
+CMD ["/bin/sh","-c", "envsubst '${WEB_ENVIRONMENT}' < /etc/nginx/sites-available/default.conf > /etc/nginx/sites-enabled/${PLATFORM}-${WEB_ENVIRONMENT}.conf ; envsubst '${WEB_ENVIRONMENT}' < /srv/www/info > /srv/www/info.html ; nginx -g 'daemon off;'"]
