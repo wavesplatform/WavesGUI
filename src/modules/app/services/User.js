@@ -439,7 +439,7 @@
                     const modalManager = $injector.get('modalManager');
                     let canLoginPromise;
 
-                    if (this._isSeedAdapter(adapter)) {
+                    if (this._isSeedAdapter(adapter) || this._isPrivateKeyAdapter(api)) {
                         canLoginPromise = adapterAvailablePromise.then(() => adapter.getAddress())
                             .then(address => address === userData.address || Promise.reject('Wrong address!'));
                     } else {
@@ -452,7 +452,7 @@
                             analytics.send({ name: 'Sign In Success' });
                         });
                     }, () => {
-                        if (!this._isSeedAdapter(adapter)) {
+                        if (!this._isSeedAdapter(adapter) || this._isPrivateKeyAdapter(api)) {
                             const errorData = {
                                 error: 'load-user-error',
                                 userType: adapter.type,
@@ -893,6 +893,15 @@
              */
             _isSeedAdapter(adapter) {
                 return adapter.type && adapter.type === 'seed';
+            }
+
+            /**
+             * @param {Adapter} api
+             * @returns {boolean}
+             * @private
+             */
+            _isPrivateKeyAdapter(api) {
+                return api.type && api.type === 'privateKey';
             }
 
         }

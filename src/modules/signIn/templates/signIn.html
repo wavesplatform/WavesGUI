@@ -1,6 +1,50 @@
 <w-main-header class="main-header"></w-main-header>
+
 <div class="main-container movable">
-    <ng-include w-i18n-ns="app.signIn" src="$ctrl.pageUrl" class="main-container-wrapper"></ng-include>
-    <w-loader ng-if="$ctrl.pendingRestore"></w-loader>
+    <div w-i18n-ns="app.signIn" class="main-container-wrapper">
+        <div class="get-started-content">
+            <div class="text-center">
+                <div class="headline-1 margin-1">
+                    <!-- TODO:1978 i18n -->
+                    <span w-i18n="Welcome Back"></span>
+                </div>
+
+                <div class="body-2 basic-500 margin-top-2 margin-4">
+                    <!-- TODO:1978 i18n -->
+                    <span w-i18n="Please enter your password to continue"></span>
+                </div>
+            </div>
+
+            <form name="$ctrl.loginForm" ng-submit="$ctrl.loginForm.$valid && $ctrl.onSubmit()" novalidate>
+                <w-input-container class="margin-3">
+                    <div class="left body-2 margin-05">
+                        <!-- TODO:1978 i18n -->
+                        <span w-i18n="Password"></span>
+                    </div>
+
+                    <w-show-hide-password>
+                        <w-input
+                            name="password"
+                            type="password"
+                            class="big no-validate no-icon"
+                            ng-model="$ctrl.password"
+                            required
+                            w-autofocus>
+                        </w-input>
+                    </w-show-hide-password>
+
+                    <div class="like-input-error" ng-if="$ctrl.showPasswordError">
+                        <span class="error active" w-i18n="password.error"></span>
+                    </div>
+                </w-input-container>
+
+                <w-button disabled="$ctrl.migrateForm.$invalid" class="submit long big">
+                    <!-- TODO:1978 i18n -->
+                    <div class="full-width" w-i18n="Sign in"></div>
+                </w-button>
+            </form>
+        </div>
+    </div>
 </div>
+
 <w-footer></w-footer>
