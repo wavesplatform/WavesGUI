@@ -28,6 +28,7 @@
     };
 
     const tsUtils = require('ts-utils');
+    const { BigNumber } = require('@waves/bignumber');
 
     /**
      * @param Base
@@ -263,7 +264,7 @@
                 let amount = new BigNumber(0);
 
                 return list.reduce((result, item) => {
-                    amount = amount.plus(new BigNumber(item.amount));
+                    amount = amount.add(new BigNumber(item.amount));
                     result.push({
                         amount: Number(amount.toFixed(this._chartCropRate)),
                         price: Number(item.price)

@@ -13,8 +13,9 @@
             [WavesApp.defaultAssets.DASH]: /^X[a-km-zA-HJ-NP-Z1-9]{25,34}$/,
             [WavesApp.defaultAssets.XMR]: /^([a-km-zA-HJ-NP-Z1-9]{95}|[a-km-zA-HJ-NP-Z1-9]{106})$/,
             [WavesApp.defaultAssets.VST]: address => {
-                return waves.node.isValidAddressWithNetworkByte(address, WavesApp.network.vostok.networkByte);
-            }
+                return waves.node.isValidAddressWithNetworkByte(address, WavesApp.network.VSTNetworkByte);
+            },
+            [WavesApp.defaultAssets.ERGO]: /^9[a-km-zA-HJ-NP-Z1-9]{5,}$/
         };
 
         return Object.keys(VALIDATOR).reduce((result, key) => {

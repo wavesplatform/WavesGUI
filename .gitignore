@@ -10,10 +10,6 @@
 /electron/**/*.js.map
 /coverage
 /tmp
-/ts-scripts/*.js
-/gulpfile.js
-/karma.conf.js
-/server.js
 *.pdx
 *.cer
 *.p12

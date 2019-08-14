@@ -9,11 +9,12 @@
                                  waves,
                                  modalManager,
                                  balanceWatcher,
-                                 $mdDialog) {
+                                 $mdDialog,
+                                 utils) {
 
         const { SIGN_TYPE } = require('@waves/signature-adapter');
-        const WCT_ID = 'DHgwrRvVyqJsepd32YbBqUeDH4GJ1N984X8QoekjgH8J';
-        const WAVES_ID = 'WAVES';
+        const WCT_ID = WavesApp.WCTAsset;
+        const WAVES_ID = WavesApp.defaultAssets.WAVES;
         const NEED_WCT = 1;
 
         class RatingStars extends Base {
@@ -76,7 +77,7 @@
                 const balance = balanceWatcher.getBalance();
                 this.wavesBalance = balance[WAVES_ID];
                 this.wctBalance = balance[WCT_ID];
-                if (this.wavesBalance.gte(this.fee) && this.wctBalance.getTokens().gte(NEED_WCT)) {
+                if (this.wavesBalance.gte(this.fee) && this.wctBalance && this.wctBalance.getTokens().gte(NEED_WCT)) {
                     this.hasBalance = true;
                     $scope.$apply();
                 }
@@ -121,6 +122,10 @@
                 return modalManager.showConfirmTx(signable);
             }
 
+            openDex() {
+                utils.openDex(WCT_ID);
+            }
+
         }
 
         return new RatingStars();
@@ -135,7 +140,8 @@
         'waves',
         'modalManager',
         'balanceWatcher',
-        '$mdDialog'];
+        '$mdDialog',
+        'utils'];
 
     angular.module('app.ui').component('wRatingStars', {
         bindings: {

@@ -119,13 +119,14 @@
                     const hasOrder = !!priceHash[this._data.price.toFixed(pair.priceAsset.precision)];
                     const inRange = this._data.price.gte(crop.min) && this._data.price.lte(crop.max);
 
+                    this._tooltip.classList.toggle('active', true);
                     this._root.classList.toggle('active', hasOrder);
                     this._root.classList.toggle('no-market-price', !inRange);
                 } else {
                     this._amountNode.innerText = '—';
                     this._priceNode.innerText = '—';
                     this._totalNode.innerText = '—';
-
+                    this._tooltip.classList.toggle('active', false);
                     this._root.classList.toggle('active', false);
                     this._root.classList.toggle('no-market-price', false);
                 }
@@ -148,6 +149,9 @@
              * @private
              */
             _onHoverIn() {
+                if (!this._pair || !this._data) {
+                    return null;
+                }
                 const sellTooltip = i18n.translate('orderbook.ask.tooltipText', 'app.dex', {
                     amountAsset: this._pair.amountAsset.displayName,
                     priceAsset: this._pair.priceAsset.displayName,
@@ -170,7 +174,7 @@
             _createDom() {
                 this._root.appendChild(
                     OrderListItem._createElement('div', 'table-row', [
-                        OrderListItem._createElement('div', 'tooltip-dex', [
+                        this._tooltip = OrderListItem._createElement('div', 'tooltip-dex', [
                             this._tooltipSell = OrderListItem._createElement('span', 'tooltip-ask'),
                             this._tooltipBuy = OrderListItem._createElement('span', 'tooltip-bid')
                         ]),

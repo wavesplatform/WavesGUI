@@ -11,7 +11,7 @@
     const SELECTORS = {
         AVAILABLE: 'js-balance-available',
         SPONSORED: 'js-sponsored-asset',
-        IN_ORDERS: 'js-balance-in-orders',
+        IN_RESERVED: 'js-balance-in-reserved',
         BASE_ASSET_BALANCE: 'js-balance-in-base-asset',
         EXCHANGE_RATE: 'js-exchange-rate',
         CHANGE_24: 'js-change-24',
@@ -39,6 +39,7 @@
         SUSPICIOUS_LABEL: 'js-suspicious-label'
     };
 
+    const i18next = require('i18next');
     const ds = require('data-service');
     /**
      * @param Base
@@ -181,8 +182,10 @@
                     this.isSmart = balance.asset.hasScript;
                     const firstAssetChar = this.balance.asset.name.slice(0, 1);
                     const canPayFee = list.find(item => item.asset.id === this.balance.asset.id) && !this._isWaves;
-                    const { isVerified, isGateway,
-                        isTokenomica, logo, isGatewaySoon } = utils.getDataFromOracles(this.balance.asset.id);
+                    const {
+                        isVerified, isGateway,
+                        isTokenomica, logo, isGatewaySoon
+                    } = utils.getDataFromOracles(this.balance.asset.id);
 
                     this.isVerifiedOrGateway = isVerified || isGateway;
 
@@ -231,14 +234,13 @@
                      */
                     this._poll = createPoll(this, this._initSponsorShips, angular.noop, 5000);
                     this._onUpdateBalance();
-                    // this._initSponsorShips();
                     this._setHandlers();
                     this.changeLanguageHandler();
                 });
             }
 
             $onDestroy() {
-                i18next.off('languageChanged', this.changeLanguageHandler);
+                super.$onDestroy();
                 this.$node.off();
             }
 
@@ -271,15 +273,16 @@
              */
             _getCanShowDex() {
                 const statusPath = ['assets', this.balance.asset.id, 'status'];
-
-                return this.balance.isPinned ||
-                    this._isMyAsset ||
-                    this.balance.asset.isMyAsset ||
-                    this.balance.asset.id === WavesApp.defaultAssets.WAVES ||
-                    this.gatewayService.getPurchasableWithCards()[this.balance.asset.id] ||
-                    this.gatewayService.getCryptocurrencies()[this.balance.asset.id] ||
-                    this.gatewayService.getFiats()[this.balance.asset.id] ||
-                    path(statusPath, ds.dataManager.getOracleData('oracleWaves')) === STATUS_LIST.VERIFIED;
+                const isAssetLockedInDex = utils.isLockedInDex(this.balance.asset.id);
+                return !isAssetLockedInDex &&
+                    (this.balance.isPinned ||
+                        this._isMyAsset ||
+                        this.balance.asset.isMyAsset ||
+                        this.balance.asset.id === WavesApp.defaultAssets.WAVES ||
+                        this.gatewayService.getPurchasableWithCards()[this.balance.asset.id] ||
+                        this.gatewayService.getCryptocurrencies()[this.balance.asset.id] ||
+                        this.gatewayService.getFiats()[this.balance.asset.id] ||
+                        path(statusPath, ds.dataManager.getOracleData('oracleWaves')) === STATUS_LIST.VERIFIED);
 
             }
 
@@ -342,18 +345,18 @@
 
                 this.waves.utils.getRate(balance.asset.id, baseAssetId)
                     .then(rate => {
-                        const baseAssetBalance = balance.available.getTokens().times(rate).toFormat(2);
+                        const baseAssetBalance = balance.available.getTokens().mul(rate).toFormat(2);
 
                         this.node.querySelector(`.${SELECTORS.EXCHANGE_RATE}`).innerHTML = rate.toFixed(2);
                         this.node.querySelector(`.${SELECTORS.BASE_ASSET_BALANCE}`).innerHTML = baseAssetBalance;
                     });
 
                 const startDate = this.utils.moment().add().day(-7);
-                this.waves.utils.getRateHistory(balance.asset.id, baseAssetId, startDate).then((values) => {
+                this.waves.utils.getRateHistory(balance.asset.id, baseAssetId, startDate).then(values => {
                     this.chart = new this.ChartFactory(
                         this.$node.find(`.${SELECTORS.CHART_CONTAINER}`),
                         this.chartOptions,
-                        values
+                        values.map(item => ({ ...item, rate: Number(item.rate.toFixed()) }))
                     );
                 }).catch(() => null);
 
@@ -414,7 +417,7 @@
             _setHandlers() {
                 this._initActions();
 
-                i18next.on('languageChanged', this.changeLanguageHandler);
+                this.listenEventEmitter(i18next, 'languageChanged', this.changeLanguageHandler);
 
                 this.$node.on('click', `.${SELECTORS.BUTTONS.SEND}`, () => {
                     analytics.send({
@@ -440,7 +443,7 @@
                         params: { Currency: this.balance.asset.id },
                         target: 'ui'
                     });
-                    this.modalManager.showReceiveModal(this.user, this.balance.asset);
+                    this.modalManager.showReceiveModal(this.balance.asset);
                 });
 
                 this.$node.on('click', `.${SELECTORS.BUTTONS.TOGGLE_SPAM}`, () => {
@@ -467,7 +470,7 @@
                         params: { Currency: this.balance.asset.id },
                         target: 'ui'
                     });
-                    this.modalManager.showReceiveModal(this.user, this.balance.asset);
+                    this.modalManager.showReceiveModal(this.balance.asset);
                 });
 
                 this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.BURN}`, () => {
@@ -603,10 +606,11 @@
                 const asset = this.balance.asset;
                 const available = this.balance.available.getTokens();
                 const inOrders = this.balance.inOrders.getTokens();
+                const leasedOut = this.balance.leasedOut.getTokens();
                 const availableHtml = this.utils.getNiceNumberTemplate(available, asset.precision, true);
-                const inOrdersHtml = this.utils.getNiceNumberTemplate(inOrders, asset.precision);
+                const inReservedHtml = this.utils.getNiceNumberTemplate(inOrders.add(leasedOut), asset.precision);
                 this.node.querySelector(`.${SELECTORS.AVAILABLE}`).innerHTML = availableHtml;
-                this.node.querySelector(`.${SELECTORS.IN_ORDERS}`).innerHTML = inOrdersHtml;
+                this.node.querySelector(`.${SELECTORS.IN_RESERVED}`).innerHTML = inReservedHtml;
             }
 
             /**
@@ -652,7 +656,8 @@
         'i18n',
         '$scope',
         'gatewayService',
-        'createPoll'];
+        'createPoll'
+    ];
 
     angular.module('app.wallet.portfolio').component('wPortfolioRow', {
         controller,

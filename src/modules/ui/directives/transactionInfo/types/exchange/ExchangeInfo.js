@@ -23,6 +23,8 @@
                 this.transaction = this.signable.getTxData();
                 this.id = this.transaction.id;
                 this.fee = utils.getExchangeFee(this.transaction);
+                this.showSellMatcherFee = this.transaction.exchangeType === this.transaction.sellOrder.orderType;
+                this.showBuyMatcherFee = this.transaction.exchangeType === this.transaction.buyOrder.orderType;
             }
 
         }

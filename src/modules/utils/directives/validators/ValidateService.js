@@ -2,6 +2,8 @@
 (function () {
     'use strict';
 
+    const { BigNumber } = require('@waves/bignumber');
+
     /**
      * @param {Waves} waves
      * @param {$q} $q
@@ -47,7 +49,7 @@
             @notNullArgs
             precision(inputValue, precision) {
                 const [int, dec] = inputValue.toFixed().split('.'); // TODO add separator
-                return dec ? dec.length <= precision : true; // TODO remove empty zero
+                return dec ? precision.gte(dec.length) : true; // TODO remove empty zero
             }
 
             @notNullArgs
@@ -160,7 +162,7 @@
             }
 
             getByteFromString(str) {
-                return new Blob([str], { type: 'text/html' }).size;
+                return new Blob([str], { type: 'text/plain' }).size;
             }
 
             static toBigNumber(item) {

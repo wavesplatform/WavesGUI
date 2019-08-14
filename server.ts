@@ -1,13 +1,13 @@
 import { createSecureServer } from 'http2';
 import { createServer } from 'https';
 import { route, parseArguments, stat, loadLocales } from './ts-scripts/utils';
-import { readFileSync, existsSync, mkdirSync } from 'fs';
+import { readFileSync, existsSync, mkdirSync, readdirSync } from 'fs';
 import { serialize, parse as parserCookie } from 'cookie';
 import { compile } from 'handlebars';
 import { parse } from 'url';
 import { TBuild, TConnection, TPlatform } from './ts-scripts/interface';
 import { readFile } from 'fs-extra';
-import { join } from 'path';
+import { join, basename, extname } from 'path';
 import * as fs from 'fs';
 import * as qs from 'querystring';
 import * as opn from 'opn';
@@ -16,7 +16,7 @@ const ip = require('my-local-ip')();
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 const connectionTypes: Array<TConnection> = ['mainnet', 'testnet'];
-const buildTypes: Array<TBuild> = ['dev', 'normal', 'min'];
+const buildTypes: Array<TBuild> = ['development', 'production'];
 const privateKey = readFileSync('localhost.key').toString();
 const certificate = readFileSync('localhost.crt').toString();
 const args = parseArguments() || Object.create(null);
@@ -101,14 +101,16 @@ function getBuildsLinks(userAgent: string = ''): Array<{ url: string; text: stri
     const result = [];
     const platform: TPlatform = userAgent.includes('Electron') ? 'desktop' : 'web';
 
-    connectionTypes.forEach((connection) => {
-        buildTypes.forEach((build) => {
-            result.push({
-                url: `/choose/${platform}/${connection}/${build}`,
-                text: `${platform} ${connection} ${build}`
+    readdirSync(join(__dirname, 'configs'))
+        .map(config => basename(config, extname(config)))
+        .forEach((connection) => {
+            buildTypes.forEach((build) => {
+                result.push({
+                    url: `/choose/${platform}/${connection}/${build}`,
+                    text: `${platform} ${connection} ${build}`
+                });
             });
         });
-    });
 
     return result;
 }

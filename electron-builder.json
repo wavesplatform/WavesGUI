@@ -1,7 +1,7 @@
 {
   "appId": "com.wavesplatform.client.lite",
   "copyright": "Waves Platform",
-  "productName": "Waves Client",
+  "productName": "Waves DEX",
   "files": "**/*",
   "asar": true,
   "compression": "normal",

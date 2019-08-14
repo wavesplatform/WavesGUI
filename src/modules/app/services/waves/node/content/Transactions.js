@@ -16,9 +16,13 @@
         const R = require('ramda');
         const { SIGN_TYPE } = require('@waves/signature-adapter');
         const ds = require('data-service');
+        const { Money } = require('@waves/data-entities');
 
         const TYPES = WavesApp.TRANSACTION_TYPES.EXTENDED;
 
+        /**
+         * @class Transactions
+         */
         class Transactions extends BaseNodeComponent {
 
             constructor() {
@@ -61,27 +65,25 @@
 
             /**
              * Get transactions list by user
-             * @param {number} [limit]
-             * @param {string} [after]
+             * @param {number} limit
+             * @param {string} after
              * @return {Promise<ITransaction[]>}
              */
-            @decorators.cachable(1)
             list(limit = 1000, after) {
-                return ds.api.transactions.list(user.address, limit, after)
-                    .then(list => list.map(this._pipeTransaction()));
+                return this._list(limit, after, user.address);
             }
 
             /**
              * @return {Promise<ITransaction[]>}
              */
-            @decorators.cachable(120)
             getActiveLeasingTx() {
-                return ds.fetch(`${this.node}/leasing/active/${user.address}`)
-                    .then(R.uniqBy(R.prop('id')))
-                    .then(R.map(item => ({ ...item, status: 'active' })))
-                    .then(list => ds.api.transactions.parseTx(list, false))
-                    .then(list => list.map(this._pipeTransaction()));
+                return this._getActiveLeasingTx(user.address);
             }
+
+            /**
+             * @param {string} address
+             * @return {Promise<ITransaction[]>}
+             */
 
             /**
              * Get transactions list by user from utx
@@ -102,14 +104,15 @@
             }
 
             /**
-             * @param {ExchangeTxFilters} options
+             * @param {ExchangeTxFilters} prams
+             * @param {IGetExchangeOptions} [options]
              * @returns {Promise<IExchange[]>}
              */
-            getExchangeTxList(options) {
+            getExchangeTxList(prams, options) {
                 return ds.api.transactions.getExchangeTxList({
                     matcher: matcher.currentMatcherAddress,
-                    ...options
-                });
+                    ...prams
+                }, options);
             }
 
             createTransaction(txData) {
@@ -122,8 +125,37 @@
                 if (tx.type === SIGN_TYPE.MASS_TRANSFER) {
                     tx.totalAmount = tx.totalAmount || tx.transfers.map(({ amount }) => amount)
                         .reduce((result, item) => result.add(item));
+                    tx.assetId = tx.totalAmount && tx.totalAmount.asset.id;
                 }
+
+                if (!tx.fee) {
+                    tx.fee = Money.fromCoins(0, ds.api.assets.wavesAsset);
+                }
+
                 return this._pipeTransaction(false)(tx);
+            }
+
+            @decorators.cachable(120)
+            _getActiveLeasingTx(address) {
+                return ds.fetch(`${this.node}/leasing/active/${address}`)
+                    .then(R.uniqBy(R.prop('id')))
+                    .then(R.map(item => ({ ...item, status: 'active' })))
+                    .then(list => ds.api.transactions.parseTx(list, false))
+                    .then(list => list.map(this._pipeTransaction()));
+            }
+
+            /**
+             * @private
+             * Get transactions list by user
+             * @param {number} [limit]
+             * @param {string} [after]
+             * @param {string} [address]
+             * @return {Promise<ITransaction[]>}
+             */
+            @decorators.cachable(1)
+            _list(limit, after, address) {
+                return ds.api.transactions.list(address, limit, after)
+                    .then(list => list.map(this._pipeTransaction()));
             }
 
             /**
@@ -254,6 +286,7 @@
                     case TYPES.LEASE_IN:
                     case TYPES.CREATE_ALIAS:
                     case TYPES.SPONSORSHIP_FEE:
+                    case TYPES.SCRIPT_INVOCATION:
                         return sender;
                     default:
                         return recipient;

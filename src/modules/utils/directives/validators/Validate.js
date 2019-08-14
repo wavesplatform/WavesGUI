@@ -2,6 +2,7 @@
 (function () {
     'use strict';
 
+    const { BigNumber } = require('@waves/bignumber');
     const AVAILABLE_VALIDATORS = [
         'gt',
         'gte',
@@ -265,7 +266,7 @@
                                 handler: (modelValue) => {
                                     try {
                                         const num = Validate._toBigNumber(modelValue);
-                                        return !modelValue || num.dp(0).eq(Validate._toBigNumber(modelValue));
+                                        return !modelValue || num.roundTo(0).eq(Validate._toBigNumber(modelValue));
                                     } catch (e) {
                                         return false;
                                     }

@@ -44,6 +44,10 @@ input[type="checkbox"] {
     }
   }
 
+  &.warning {
+    border-color: @color-warning-400;
+  }
+
   &.tiny {
     height: @height-control-tiny;
     padding: @padding-control-tiny;
@@ -169,10 +173,10 @@ w-input {
         }
 
         &.ng-touched {
-          &.ng-valid:not(:focus):not(.focus):not(.ng-empty) {
+          &.ng-valid:not(:focus):not(.focus):not(.ng-empty):not(.warning) {
             border-color: @color-success-300;
           }
-          &.ng-invalid:not(:focus):not(.focus) {
+          &.ng-invalid:not(:focus):not(.focus):not(.warning) {
             border-color: @color-error-200;
           }
         }

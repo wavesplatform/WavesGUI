@@ -1,5 +1,6 @@
-import { WAVES_ID } from '@waves/signature-generator';
-import { Asset, AssetPair, BigNumber, Money, OrderPrice } from '@waves/data-entities';
+import { WAVES_ID } from '@waves/signature-adapter';
+import { Asset, AssetPair, Money, OrderPrice } from '@waves/data-entities';
+import { BigNumber } from '@waves/bignumber';
 import { IHash, IMoneyFactory, IPriceMoneyFactory } from '../../interface';
 import { coinsMoneyFactory, normalizeAssetId, normalizeTime, priceMoneyFactory, toHash } from '../../utils/utils';
 import { Signal } from 'ts-utils';
@@ -24,8 +25,8 @@ export const remapOrder = (factory: IFactory) => (assets: IHash<Asset>) => (orde
     const amount = factory.money(order.amount, amountAsset);
     const price = factory.price(order.price, assetPair);
     const filled = factory.money(order.filled, amountAsset);
-    const total = Money.fromTokens(amount.getTokens().times(price.getTokens()), priceAsset);
-    const progress = filled.getTokens().div(amount.getTokens()).toNumber();
+    const total = Money.fromTokens(amount.getTokens().mul(price.getTokens()), priceAsset);
+    const progress = Number(filled.getTokens().div(amount.getTokens()).toFixed());
     const timestamp = new Date(order.timestamp);
     const isActive = order.status === 'Accepted' || order.status === 'PartiallyFilled';
     return { ...order, amount, price, filled, assetPair, progress, timestamp, isActive, total };
@@ -75,12 +76,15 @@ export const parse = (list) => {
     });
 };
 
-
-export function getOrders(): Promise<Array<IOrder>> {
+export function getOrders(options?: IGetOrdersOptions): Promise<Array<IOrder>> {
     if (!signatureData) {
         throw new Error('Get orders without signature! Call method "addSignature"!');
     }
-    return fetch<Array<api.IOrder>>(`orderbook/${signatureData.publicKey}?activeOnly=true`)
+
+    options = options ? options : { isActive: true };
+    const activeOnly = options.isActive;
+
+    return fetch<Array<api.IOrder>>(`orderbook/${signatureData.publicKey}?activeOnly=${activeOnly}`)
         .then(parse);
 }
 
@@ -142,6 +146,10 @@ interface ISignatureData {
     publicKey: string;
     timestamp: number;
     signature: string;
+}
+
+interface IGetOrdersOptions {
+    isActive?: boolean;
 }
 
 export interface IReservedBalanceApi {

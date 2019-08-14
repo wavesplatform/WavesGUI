@@ -22,14 +22,18 @@
         return result;
     }
 
-    bus.WindowAdapter.createSimpleWindowAdapter().then(adapter => {
-        const webBus = new bus.Bus(adapter);
+    var adapter = new bus.WindowAdapter(
+            [new bus.WindowProtocol(window, 'listen')],
+            [new bus.WindowProtocol(window.opener || window.parent, 'dispatch')],
+            {
+                origins: 'https://dex.wavesplatform.com'
+            }
+    );
 
-        webBus.dispatchEvent('ready');
-
-        webBus.registerRequestHandler('getLocalStorageData', () => {
-            return parse(JSON.parse(localStorage.getItem('userList')));
-        });
+    var webBus = new bus.Bus(adapter);
+    webBus.dispatchEvent('ready');
+    webBus.registerRequestHandler('getLocalStorageData', () => {
+        return parse(JSON.parse(localStorage.getItem('userList')));
     });
 
 

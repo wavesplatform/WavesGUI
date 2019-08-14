@@ -6,9 +6,10 @@
      * @param {Poll} Poll
      * @param {ModalManager} modalManager
      * @param {EventManager} eventManager
+     * @param {typeof Base} Base
      * @return {Function}
      */
-    const factory = function (BaseClassComponent, Poll, modalManager, eventManager) {
+    const factory = function (BaseClassComponent, Poll, modalManager, eventManager, Base) {
 
         const pollComponents = Object.create(null);
         const tsUtils = require('ts-utils');
@@ -77,11 +78,20 @@
              * @return {Poll}
              */
             static create(base, getter, setter, time, options) {
+                if (!(base instanceof Base)) {
+                    throw new Error('Component must be an instance of Base');
+                }
+
                 if (base.wasDestroed) {
                     return null;
                 }
-                return PollComponent._getPoll(base)
+
+                const poll = PollComponent._getPoll(base)
                     .createPoll(getter, setter, time, options);
+
+                base.signals.logout.once(poll.destroy, poll);
+
+                return poll;
             }
 
             /**
@@ -139,7 +149,7 @@
         return PollComponent.create;
     };
 
-    factory.$inject = ['BaseClassComponent', 'Poll', 'modalManager', 'eventManager'];
+    factory.$inject = ['BaseClassComponent', 'Poll', 'modalManager', 'eventManager', 'Base'];
 
     angular.module('app.utils')
         .factory('createPoll', factory);

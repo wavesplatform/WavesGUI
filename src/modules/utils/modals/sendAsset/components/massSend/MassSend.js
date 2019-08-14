@@ -15,6 +15,7 @@
     const controller = function (Base, readFile, $scope, utils, validateService, waves, user, decorators) {
 
         const Papa = require('papaparse');
+        const { BigNumber } = require('@waves/bignumber');
         const analytics = require('@waves/event-sender');
 
         class MassSend extends Base {
@@ -100,6 +101,7 @@
                 const transfers = this.tx.transfers || [];
                 this.tx.attachment = this.tx.attachment || '';
                 const assetId = this.state.assetId;
+                this.tx.assetId = assetId;
                 transfers.forEach((item) => {
                     item.amount = this.state.moneyHash[assetId].cloneWithTokens(item.amount.toTokens());
                 });
@@ -185,9 +187,8 @@
                 const transfers = this.transfers;
                 if (transfers && transfers.length) {
                     const assetId = this.state.assetId;
-
                     this.clear();
-
+                    this.tx.assetId = assetId;
                     this.transfers = transfers.map((item) => {
                         return {
                             recipient: item.recipient,
@@ -223,6 +224,11 @@
                 if (MassSend._isNotEqual(this.tx.transfers, transfers)) {
                     this.tx.transfers = transfers;
                 }
+
+                if (this.tx.assetId !== this.state.assetId) {
+                    this.tx.assetId = this.state.assetId;
+                }
+
                 this._currentHasFee();
             }
 
@@ -272,7 +278,7 @@
                                 return new BigNumber(0);
                             }
                         })
-                        .reduce((result, item) => result.plus(item));
+                        .reduce((result, item) => result.add(item));
                     const amount = this.state.moneyHash[this.state.assetId].cloneWithTokens(amountNum);
                     transfers.push({ recipient, amount });
                 });

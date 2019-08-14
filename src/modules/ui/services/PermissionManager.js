@@ -10,6 +10,9 @@
         const { Signal } = require('ts-utils');
 
 
+        /**
+         * @class
+         */
         class PermissionManager {
 
             change = new Signal();

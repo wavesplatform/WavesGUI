@@ -201,67 +201,34 @@ w-asset {
   cursor: pointer;
   margin-left: 7px;
 
-  span {
+  &__icon {
     display: inline-block;
     width: 18px;
     height: 18px;
     background-image: @unpin-asset-icon;
     background-repeat: no-repeat;
-    background-position: left top;
+    background-position: 0 0;
   }
 
-  &:hover {
-    span {
-      background-position: right top;
+  &:hover & {
+    &__icon {
+      background-position: 100% 0;
+    }
+  }
+
+  &__wrapper {
+    position: relative;
+    width: 100%;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:hover {
+      .tooltip_unpin {
+        visibility: visible;
+      }
     }
   }
 }
 
-// todo @uIsk - Refactor all tooltips to w-tooltip
-.tooltip-holder {
-  position: relative;
-  width: 100%;
-  height: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  &:hover {
-    .tooltip.unpin-tooltip {
-      display: block;
-    }
-  }
-}
-
-.tooltip.unpin-tooltip {
-  display: none;
-  position: absolute;
-  top: 5px;
-  background: @color-basic-700;
-  right: -12px;
-  transform: translate(0, -40px);
-  color: @color-white;
-  padding: 10px 15px;
-  border-radius: 4px;
-  font-family: @font-roboto-regular;
-  font-size: 11px;
-  line-height: 12px;
-  text-transform: none;
-  opacity: .8;
-
-  &::after {
-    display: none;
-  }
-
-  &::before {
-    content: '';
-    display: block;
-    width: 10px;
-    height: 10px;
-    position: absolute;
-    transform: rotate(45deg);
-    bottom: -4px;
-    left: calc(100% ~'- 26px');
-    background: @color-basic-700;
-  }
-}

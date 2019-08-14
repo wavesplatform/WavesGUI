@@ -8,9 +8,11 @@
      * @param {ModalManager} modalManager
      * @param {BalanceWatcher} balanceWatcher
      * @param {app.utils} utils
+     * @param {STService} stService
+     * @param {VisibleService} visibleService
      * @return {MyBalance}
      */
-    const controller = function (Base, $scope, user, modalManager, balanceWatcher, utils) {
+    const controller = function (Base, $scope, user, modalManager, balanceWatcher, utils, stService, visibleService) {
 
         class MyBalance extends Base {
 
@@ -32,7 +34,27 @@
             headers = [
                 {
                     id: 'asset',
-                    search: true,
+                    search: (key, value, list) => {
+                        const serchValue = (key[value] || '').trim();
+                        const serachTxt = serchValue.toLowerCase();
+
+                        if (!serachTxt) {
+                            return list;
+                        }
+
+                        return list.filter(item => {
+                            if (item.asset.id === serchValue) {
+                                return true;
+                            }
+
+                            const name = (
+                                (item.asset.ticker || '') +
+                                (item.asset.name || '')
+                            ).toLowerCase();
+
+                            return name.includes(serachTxt);
+                        });
+                    },
                     sort: true,
                     placeholder: 'directives.filter',
                     valuePath: 'item.asset.displayName'
@@ -89,43 +111,8 @@
                 user.getFilteredUserList().then(list => {
                     this.userList = list;
                 });
-            }
 
-            showAssetInfo(asset) {
-                return modalManager.showAssetInfo(asset);
-            }
-
-            /**
-             * @param {Asset} asset
-             * @return boolean
-             */
-            isSelected(asset) {
-                return this._assetIdPair.amount === asset.id ||
-                    this._assetIdPair.price === asset.id;
-            }
-
-            /**
-             * @param {string} assetId
-             */
-            setPair(assetId) {
-                const wavesId = WavesApp.defaultAssets.WAVES;
-                const btcId = WavesApp.defaultAssets.BTC;
-                const assetId2 = assetId === wavesId ? btcId : wavesId;
-
-                ds.api.pairs.get(assetId, assetId2).then((pair) => {
-                    user.setSetting('dex.assetIdPair', {
-                        amount: pair.amountAsset.id,
-                        price: pair.priceAsset.id
-                    });
-                });
-            }
-
-            /**
-             * @private
-             */
-            _onChangeBalance() {
-                this.balanceList = MyBalance._getBalanceList();
-                $scope.$apply();
+                this.receive(stService.draw, this._updateVisible, this);
             }
 
             static _getBalanceList() {
@@ -144,12 +131,79 @@
                 return item => !user.scam[item.asset.id] && !spamHash[item.asset.id];
             }
 
+            showAssetInfo(asset) {
+                return modalManager.showAssetInfo(asset);
+            }
+
+            /**
+             * @param {Asset} asset
+             * @return boolean
+             */
+            isSelected(asset) {
+                return this._assetIdPair.amount === asset.id ||
+                    this._assetIdPair.price === asset.id;
+            }
+
+            /**
+             * @public
+             * @param assetID
+             */
+            isLockedPair(assetID) {
+                return utils.isLockedInDex(assetID);
+            }
+
+            /**
+             * @param {string} assetId
+             */
+            setPair(assetId) {
+                if (this.isLockedPair(assetId)) {
+                    return null;
+                }
+                const wavesId = WavesApp.defaultAssets.WAVES;
+                const btcId = WavesApp.defaultAssets.BTC;
+                const assetId2 = assetId === wavesId ? btcId : wavesId;
+
+                ds.api.pairs.get(assetId, assetId2).then((pair) => {
+                    user.setSetting('dex.assetIdPair', {
+                        amount: pair.amountAsset.id,
+                        price: pair.priceAsset.id
+                    });
+                });
+            }
+
+            /**
+             * @private
+             * @param {string} name
+             */
+            _updateVisible(name) {
+                if (name === 'balanceList') {
+                    visibleService.updateSort();
+                }
+            }
+
+            /**
+             * @private
+             */
+            _onChangeBalance() {
+                this.balanceList = MyBalance._getBalanceList();
+                $scope.$apply();
+            }
+
         }
 
         return new MyBalance();
     };
 
-    controller.$inject = ['Base', '$scope', 'user', 'modalManager', 'balanceWatcher', 'utils'];
+    controller.$inject = [
+        'Base',
+        '$scope',
+        'user',
+        'modalManager',
+        'balanceWatcher',
+        'utils',
+        'stService',
+        'visibleService'
+    ];
 
     angular.module('app.dex').component('wDexMyBalance', {
         bindings: {},

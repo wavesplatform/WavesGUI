@@ -1,6 +1,7 @@
 import { IAssetPair, IHash } from '../interface';
-import { WAVES_ID } from '@waves/signature-generator';
-import { BigNumber, Asset, Money, AssetPair, OrderPrice } from '@waves/data-entities';
+import { WAVES_ID } from '@waves/signature-adapter';
+import { Asset, Money, AssetPair, OrderPrice } from '@waves/data-entities';
+import { BigNumber } from '@waves/bignumber';
 import { get } from '../api/assets/assets';
 import { get as configGet, timeDiff } from '../config';
 
@@ -179,6 +180,6 @@ export function setTransferFeeItem(item: ITramsferFee) {
 
 export function getTransferFeeList() {
     return transferFeeList
-        .filter(item => item.balance.getTokens().gt(1.005) || item.isMy )
+        .filter(item => item.balance.getTokens().gt(1.005) || item.isMy)
         .map(item => item.fee);
 }

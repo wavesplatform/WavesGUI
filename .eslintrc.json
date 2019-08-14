@@ -195,6 +195,7 @@
     "no-catch-shadow": "error",
     "no-confusing-arrow": "off",
     "no-continue": "off",
+    "no-debugger": "error",
     "no-div-regex": "error",
     "no-duplicate-imports": "error",
     "no-else-return": "off",
@@ -281,7 +282,16 @@
     "no-useless-return": "error",
     "no-var": "error",
     "no-void": "error",
-    "no-warning-comments": "off",
+    "no-warning-comments": [
+      "error",
+      {
+        "terms": [
+          "todo!",
+          "TODO!"
+        ],
+        "location": "anywhere"
+      }
+    ],
     "no-whitespace-before-property": "error",
     "no-with": "error",
     "nonblock-statement-body-position": [

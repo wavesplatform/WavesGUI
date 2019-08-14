@@ -90,7 +90,10 @@
                         this._fillGraphs();
                         this._remapSlides();
 
-                        const onResize = utils.debounceRequestAnimationFrame(() => this._remapSlides());
+                        const onResize = utils.debounceRequestAnimationFrame(() => {
+                            this._remapSlides();
+                            this.initializeInterval();
+                        });
                         this.listenEventEmitter($(window), 'resize', onResize);
 
                         $element.hover(() => {
@@ -98,6 +101,7 @@
                         }, () => {
                             this.initializeInterval();
                         });
+
                         this.initializeInterval();
                     });
                 });
@@ -150,6 +154,7 @@
              * @private
              */
             _remapSlides() {
+                this._stopSlides();
                 this.slidesAmount = Carousel._getSlidesInWindowAmount(window.innerWidth);
 
                 const { width, startCoords } = this._getWidthAndStart();
@@ -262,6 +267,15 @@
                     default:
                         return 1;
                 }
+            }
+
+            /**
+             * @private
+             */
+            _stopSlides() {
+                this._mapSlides.forEach(slide => {
+                    slide.$slide.stop();
+                });
             }
 
         }

@@ -1,5 +1,6 @@
 @import (reference) 'config';
 
+.asset-logo,
 w-asset-logo {
   position: relative;
 
@@ -16,6 +17,11 @@ w-asset-logo {
       background-size: 12px;
       border: 2px solid @color-white;
     }
+  }
+
+  &_new {
+    cursor: pointer;
+    user-select: none;
   }
 }
 
