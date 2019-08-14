@@ -5,11 +5,30 @@ w-portfolio-row {
   width: 100%;
 
   .asset {
+    &__logo {
+      position: relative;
+      left: 0;
+    }
+
+    &__marker {
+      display: none;
+      position: absolute;
+      bottom: calc(50% ~'- 16px');
+
+      &_smart,
+      &_sponsored {
+        display: block;
+      }
+    }
     &__marker {
       display: none;
     }
   }
 
+    .spam &,
+    .spam & &__marker {
+      background-color: @color-basic-200 !important;
+    }
   .spam &,
   .spam & .asset__marker {
     background-color: @color-basic-200 !important;
@@ -35,8 +54,8 @@ w-portfolio-row {
     }
   }
 
-  .actions-wrapper {
-    .action {
+  .actions__wrapper {
+    .action-item {
       &.icon-hide {
         .unspam {
           display: none;

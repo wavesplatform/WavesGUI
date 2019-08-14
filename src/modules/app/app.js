@@ -68,6 +68,8 @@
                     const instance = new controller(...args);
                     const originalPostLink = instance.$postLink;
 
+                    $element.addClass($element.prop('tagName').toLowerCase().replace(/^w-/, ''));
+
                     if (originalPostLink) {
                         instance.$postLink = function (...args) {
                             try {
