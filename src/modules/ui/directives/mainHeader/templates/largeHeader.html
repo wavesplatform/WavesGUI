@@ -162,7 +162,7 @@
                     </div>
 
                     <div class="user-account__input" ng-show="$ctrl.showInput">
-                        <form name="$ctrl.setUserName">
+                        <form ng-submit="$ctrl.onSave()" name="$ctrl.setUserName">
                             <w-input-container>
                                 <w-input type="text"
                                          class="tiny long"
