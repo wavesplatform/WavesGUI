@@ -176,8 +176,10 @@
                                     <span w-i18n="welcome.inputErrorNameExists"></span>
                                 </w-input-error>
                             </w-input-container>
-                            <button ng-disabled="!$ctrl.isUniqueUserName" ng-click="$ctrl.onSave()">OK</button>
-                            <button ng-click="$ctrl.onCancel()">CANCEL</button>
+                            <div class="user-account__btns">
+                                <button ng-click="$ctrl.onCancel()" class="user-account__btn"></button>
+                                <button ng-disabled="!$ctrl.isUniqueUserName" ng-click="$ctrl.onSave()" class="user-account__btn"></button>
+                            </div>
                         </form>
                     </div>
 

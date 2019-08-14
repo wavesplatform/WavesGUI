@@ -74,5 +74,58 @@
         }
       }
     }
+
+    & w-input-container .w-input-wrap input[type="text"] {
+      border-bottom-right-radius: 0;
+    }
+  }
+
+  &__btns {
+    height: 21px;
+    width: 52px;
+    margin-left: auto;
+    display: flex;
+    background: @color-submit-400;
+    padding: 1px 4px;
+    border-bottom-left-radius: @border-radius;
+    border-bottom-right-radius: @border-radius;
+    position: absolute;
+    z-index: 1;
+    right: 0;
+    transform: translateY(-1px);
+  }
+
+  &__btn {
+    flex: 1;
+    background: @color-submit-400;
+    border: 0;
+    cursor: pointer;
+    padding: 4px;
+    margin: 0 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    border-radius: @border-radius;
+
+    &::after {
+      content: '';
+      display: block;
+      height: 20px;
+      width: 20px;
+      position: absolute;
+    }
+
+    &:first-child::after {
+      background: url('../../../../../../img/icons/close-white.svg') center no-repeat;
+      }
+
+    &:last-child::after {
+      background: url('../../../../../../img/icons/checkbox-icon.svg') center no-repeat;
+    }
+
+    &:hover {
+      background: @color-submit-300;
+    }
   }
 }
