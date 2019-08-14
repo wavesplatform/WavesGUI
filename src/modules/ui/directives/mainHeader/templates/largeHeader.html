@@ -178,9 +178,9 @@
                                 </w-input-error>
                             </w-input-container>
                             <div class="user-account__btns">
-                                <button class="user-account__btn"
+                                <button class="user-account__btn user-account__btn_cancel"
                                         ng-mousedown="$ctrl.onCancel()" ng-touchstart="$ctrl.onCancel()"></button>
-                                <button class="user-account__btn" ng-disabled="!$ctrl.isUniqueUserName"
+                                <button class="user-account__btn user-account__btn_ok" ng-disabled="!$ctrl.isUniqueUserName"
                                         ng-mousedown="$ctrl.onSave()" ng-touchstart="$ctrl.onSave()"></button>
                             </div>
                         </form>

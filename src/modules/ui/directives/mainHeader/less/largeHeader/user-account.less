@@ -67,7 +67,7 @@
   &__input {
     width: 100%;
 
-    .w-input-wrap.focused {
+    .w-input-wrap .focused {
       &.invalid {
         input {
           border-color: @color-error-200;
@@ -75,8 +75,35 @@
       }
     }
 
-    & w-input-container .w-input-wrap input[type="text"] {
-      border-bottom-right-radius: 0;
+    .w-input-wrap input[type="text"] {
+      &:not(.no-validate).ng-touched.ng-valid {
+        &:not(:focus):not(.focus):not(.ng-empty) {
+          border-bottom-right-radius: 0;
+          border-color: transparent;
+        }
+      }
+    }
+
+    .ng-invalid {
+      .user-account__btns, .user-account__btn {
+        background: @color-error-200;
+        border-bottom-right-radius: @border-radius;
+  
+      }
+  
+      .user-account__btns {
+        width: 26px;
+      }
+      
+      .user-account__btn {
+        &:hover {
+          background: rgba(250, 250, 250, .2);
+        }
+
+        &_ok {
+          display: none;
+        }
+      }
     }
   }
 
@@ -116,16 +143,16 @@
       position: absolute;
     }
 
-    &:first-child::after {
+    &_cancel::after {
       background: url('../../../../../../img/icons/close-white.svg') center no-repeat;
       }
 
-    &:last-child::after {
+    &_ok::after {
       background: url('../../../../../../img/icons/checkbox-icon.svg') center no-repeat;
     }
 
     &:hover {
-      background: @color-submit-300;
+      background: rgba(250, 250, 250, .2);
     }
   }
 }
