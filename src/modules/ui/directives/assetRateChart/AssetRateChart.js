@@ -18,31 +18,18 @@
             constructor() {
                 super();
 
+                /**
+                 * @type {TChartOptions}
+                 * */
                 this.options = {
-                    grid: {
-                        x: false,
-                        y: false
-                    },
-                    margin: {
-                        top: 0,
-                        right: 0,
-                        left: 0,
-                        bottom: 0
-                    },
-                    series: [
-                        {
-                            dataset: 'values',
-                            key: 'rate',
-                            label: 'Rate',
-                            color: '#5a81ea',
-                            type: ['line', 'area']
-                        }
-                    ],
-                    axes: {
-                        x: {
-                            key: 'timestamp',
-                            type: 'date',
-                            ticks: 4
+                    axisX: 'timestamp',
+                    axisY: 'rate',
+                    checkWidth: true,
+                    view: {
+                        rate: {
+                            lineColor: '#5a81ea',
+                            fillColor: '#FFF',
+                            lineWidth: 4
                         }
                     }
                 };
@@ -92,8 +79,8 @@
              */
             _setThemSettings() {
                 const { wAssetRateChart } = user.getThemeSettings();
-                this.options = { ...this.options };
-                this.options.series[0] = { ...this.options.series[0], color: wAssetRateChart.seriesColor };
+                this.options.view.rate.fillColor = wAssetRateChart.seriesColor;
+                this.options.view.rate.lineColor = wAssetRateChart.lineColor;
             }
 
             /**
@@ -140,7 +127,7 @@
 
                 return waves.utils.getRateHistory(assetId, baseAssetId, startDate)
                     .then(map(item => ({ ...item, rate: Number(item.rate.toFixed()) })))
-                    .then(values => ({ values }));
+                    .then(rate => ({ rate }));
             }
 
             /**
@@ -156,7 +143,13 @@
         return new AssetRateChart();
     };
 
-    controller.$inject = ['Base', 'createPoll', 'waves', 'utils', 'user'];
+    controller.$inject = [
+        'Base',
+        'createPoll',
+        'waves',
+        'utils',
+        'user'
+    ];
 
     angular.module('app.ui').component('wAssetRateChart', {
         bindings: {
@@ -165,8 +158,22 @@
             noUpdate: '<',
             chartToId: '<'
         },
-        template: '<linechart ng-if="$ctrl.chartData" options="$ctrl.options" data="$ctrl.chartData"></linechart>',
+        template: '<w-chart ng-if="$ctrl.chartData" data="$ctrl.chartData" options="$ctrl.options""></w-chart>',
         transclude: false,
         controller
     });
 })();
+
+/**
+ * @typedef {object} TChartOptions
+ * @property {string} axisX
+ * @property {string} axisY
+ * @property {number} marginBottom
+ * @property {boolean} hasDates
+ * @property {boolean | number} checkWidth
+ * @property {TView} view
+ */
+
+/**
+ * @typedef {Object<string, IView>} TView
+ */
