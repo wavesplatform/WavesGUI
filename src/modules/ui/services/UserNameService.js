@@ -54,7 +54,7 @@
                     this.setName(this.defaultName);
                 }
 
-                this.isUniqueName().then(isUniqueName => {
+                return this.isUniqueName().then(isUniqueName => {
                     const isNameValid = isUniqueName && this._isNameLengthValid();
                     if (isNameValid) {
                         user.name = this.name;

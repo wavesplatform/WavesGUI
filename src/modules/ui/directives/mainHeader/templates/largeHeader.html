@@ -154,19 +154,20 @@
             <div class="user-account text-center has-helper">
 
                 <div class="user-account__name">
-
                     <div class="user-account__block" ng-show="!$ctrl.showInput" ng-click="$ctrl.setNameView()">
                         <div class="user-account__text">{{user.name}}</div>
                         <w-info-tooltip class="{{SELECTORS.TOOLTIP_RENAME}}" no-icon="true">
                             <span class="tooltip__content" w-i18n="welcome.renameAccount"></span>
                         </w-info-tooltip>
                     </div>
+
                     <div class="user-account__input" ng-show="$ctrl.showInput">
                         <form name="$ctrl.setUserName">
                             <w-input-container>
                                 <w-input type="text"
                                          class="tiny long"
                                          ng-focus="$ctrl.onFocus()"
+                                         ng-blur="$ctrl.onBlur()"
                                          ng-model="$ctrl.userName"
                                          maxlength="{{::MAX_USER_NAME_LENGTH}}"
                                          name="userName"
@@ -177,8 +178,10 @@
                                 </w-input-error>
                             </w-input-container>
                             <div class="user-account__btns">
-                                <button ng-click="$ctrl.onCancel()" class="user-account__btn"></button>
-                                <button ng-disabled="!$ctrl.isUniqueUserName" ng-click="$ctrl.onSave()" class="user-account__btn"></button>
+                                <button class="user-account__btn"
+                                        ng-mousedown="$ctrl.onCancel()" ng-touchstart="$ctrl.onCancel()"></button>
+                                <button class="user-account__btn" ng-disabled="!$ctrl.isUniqueUserName"
+                                        ng-mousedown="$ctrl.onSave()" ng-touchstart="$ctrl.onSave()"></button>
                             </div>
                         </form>
                     </div>

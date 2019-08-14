@@ -125,6 +125,17 @@
             /**
              * @public
              */
+            onBlur() {
+                userNameService.save()
+                    .then(() => {
+                        this.setNameView(false);
+                        this.showTooltip();
+                    });
+            }
+
+            /**
+             * @public
+             */
             showTooltip() {
                 $element.find(`.${SELECTORS.TOOLTIP_RENAME}`).show();
             }
@@ -142,9 +153,11 @@
              * @public
              */
             onSave() {
-                this.showTooltip();
-                userNameService.save();
-                this.setNameView();
+                userNameService.save()
+                    .then(() => {
+                        this.showTooltip();
+                        this.setNameView();
+                    });
             }
 
             $onDestroy() {
@@ -276,9 +289,7 @@
                     $element.find(`.${SELECTORS.MAIN_HEADER_FADER}`).removeClass('show-fader');
                 }
 
-                this.showTooltip();
-                this.setNameView(false);
-                this._resetUserName();
+                this.onBlur();
             }
 
             /**
