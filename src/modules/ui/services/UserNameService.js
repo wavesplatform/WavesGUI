@@ -34,7 +34,7 @@
 
                 this.MAX_USER_NAME_LENGTH = 24;
 
-                user.onLogin().then(() => {
+                user.loginSignal.on(() => {
                     this.name = user.name;
                     this.address = user.address;
                     this._setDefaultName();
@@ -98,7 +98,7 @@
              * @private
              */
             _setDefaultName() {
-                const defaultNameRegexp = /^Account\s?\d*$/;
+                const defaultNameRegexp = /^Account(\s\d*)?$/;
 
                 if (defaultNameRegexp.test(this.name)) {
                     this.defaultName = this.name;

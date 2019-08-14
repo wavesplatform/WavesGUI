@@ -629,7 +629,7 @@
              * @return {Promise<string>}
              */
             async getDefaultUserName() {
-                const defaultNameRegexp = /^Account\s?\d*$/;
+                const defaultNameRegexp = /^Account(\s\d*)?$/;
                 const accoutString = 'Account';
                 const list = await this.getFilteredUserList();
 
