@@ -1,4 +1,5 @@
 (function () {
+    /* eslint-disable */
     'use strict';
 
     const MODULES_MAP = {

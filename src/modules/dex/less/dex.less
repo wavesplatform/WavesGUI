@@ -176,6 +176,37 @@
       }
     }
   }
+
+  w-dex-trade-graph {
+    height: 100%;
+    max-height: 100%;
+  }
+
+  .candle-chart-wrapper.error {
+    display: flex;
+
+    & > div {
+      text-align: center;
+      display: flex;
+      margin: auto;
+
+      div:first-child {
+        .body-1();
+        margin: 0 auto 5px auto;
+        color: @color-basic-700;
+
+        &::before {
+          background-image: url(/img/icons/icon-empty.svg);
+          background-repeat: no-repeat;
+          width: 50px;
+          height: 52px;
+          margin: 0 auto 20px;
+          display: block;
+          content: '';
+        }
+      }
+    }
+  }
 }
 
 @media screen and (max-width: 1024px) {

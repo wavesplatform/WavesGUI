@@ -1450,7 +1450,15 @@
                         clientY: event.changedTouches[0].clientY
                     };
                 } else {
-                    newEvent = event;
+                    newEvent = {
+                        ...event,
+                        pageX: event.pageX,
+                        pageY: event.pageY,
+                        screenX: event.screenX,
+                        screenY: event.screenY,
+                        clientX: event.clientX,
+                        clientY: event.clientY
+                    };
                 }
                 return newEvent;
             },
@@ -1888,7 +1896,7 @@
                  */
                 const modalManager = $injector.get('modalManager');
 
-                if (user.userType === 'seed') {
+                if (user.userType === 'seed' || user.userType === 'privateKey') {
                     return signable.addMyProof()
                         .then(() => signable);
                 }

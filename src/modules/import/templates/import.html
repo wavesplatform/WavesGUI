@@ -14,8 +14,9 @@
                      w-analytics event="'Import Backup Click'" event-target="'ui'">
                     <div class="import-modal__icon import-modal__icon-beta"></div>
                     <div class="import-modal__content">
-                        <div class="body-1 margin-1 import-modal__content-title" w-i18n="wavesSeedClient"></div>
-                        <div class="body-2 basic-500 import-modal__content-text" w-i18n="wavesSeedClientDescription"></div>
+                        <div class="body-1 margin-1 import-modal__content-title" w-i18n="seedAndKey"></div>
+                        <div class="body-2 basic-500 import-modal__content-text"
+                             w-i18n="seedAndKeyDescription"></div>
                     </div>
                 </div>
                 <div ng-if="isDesktop" class="import-modal__block" ui-sref="ledger"
@@ -23,7 +24,7 @@
                     <div class="import-modal__icon import-modal__icon-ledger"></div>
                     <div class="import-modal__content">
                         <div class="body-1 margin-1 import-modal__content-title" w-i18n="LedgerClient"></div>
-                        <div class="body-2 basic-500 import-modal__content-text" w-i18n="ledgerDescription"></div>
+                        <div class="body-2 basic-500 import-modal__content-text margin-05" w-i18n="ledgerDescription"></div>
                     </div>
                 </div>
                 <w-web-only ng-if="isNotPhone" w-web-only-class="import-modal__block" ui-sref="keeper">
@@ -31,7 +32,7 @@
                         <div class="import-modal__icon import-modal__icon-keeper"></div>
                         <div class="import-modal__content">
                             <div class="body-1 margin-1 import-modal__content-title" w-i18n="KeeperClient"></div>
-                            <div class="body-2 basic-500 import-modal__content-text" w-i18n="keeperDescription"></div>
+                            <div class="body-2 basic-500 import-modal__content-text margin-05" w-i18n="keeperDescription"></div>
                         </div>
                     </w-analytics>
                 </w-web-only>
