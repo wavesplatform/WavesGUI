@@ -83,8 +83,8 @@ function createBuildTask(args?: { platform: TPlatform; env: TBuild; config: stri
                     : null
             ),
             createConcatTask(
-                getFileName('sentry-vendors.js', env as TBuild),
-                meta.sentryVendors,
+                getFileName('not-wrapped-vendors.js', env as TBuild),
+                meta.vendorsNotWrapped,
                 join(outputPath, 'js')
             ),
             createConcatTask(

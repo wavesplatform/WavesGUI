@@ -158,7 +158,7 @@ export function getScripts(param: IPrepareHTMLOptions, pack, meta) {
         const sourceFiles = getFilesFrom(join(__dirname, '../src'), '.js', function (name, path) {
             return !name.includes('.spec') && !path.includes('/test/');
         });
-        const sentryScripts = meta.sentryVendors.map((i) => join(__dirname, '..', i));
+        const sentryScripts = meta.vendorsNotWrapped.map((i) => join(__dirname, '..', i));
         const cacheKiller = `?v${pack.version}`;
         scripts = meta.vendors.map((i) => join(__dirname, '..', i)).concat(sentryScripts).concat(sourceFiles);
         meta.debugInjections.forEach((path) => {

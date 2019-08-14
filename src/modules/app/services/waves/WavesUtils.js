@@ -142,9 +142,18 @@
              * @param pair
              * @returns {Promise<string>}
              */
-            @decorators.cachable(60)
             getVolume(pair) {
-                return ds.api.pairs.info(matcher.currentMatcherAddress, [pair])
+                return this._getVolume(pair, matcher.currentMatcherAddress);
+            }
+
+            /**
+             * @param pair
+             * @param {string} currentMatcherAddress
+             * @returns {Promise<string>}
+             */
+            @decorators.cachable(60)
+            _getVolume(pair, currentMatcherAddress) {
+                return ds.api.pairs.info(currentMatcherAddress, [pair])
                     .then((data) => {
                         const [pair = {}] = data.filter(Boolean);
                         return pair && String(pair.volume) || '0';
