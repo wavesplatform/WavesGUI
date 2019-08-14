@@ -102,6 +102,7 @@
         'app.utils',
         'app.ui',
         'app.welcome',
+        'app.signUp',
         'app.signIn',
         'app.create',
         'app.restore',
