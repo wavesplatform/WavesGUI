@@ -6,7 +6,7 @@
 .user-account {
   position: relative;
   margin: 5px 0;
-  padding-bottom: 15px;
+  padding-bottom: 10px;
   display: flex;
   flex-direction: column;
   border-bottom: 1px solid @color-info-50;
@@ -64,7 +64,7 @@
     }
   }
 
-  &__input {
+  .user-account__input {
     width: 100%;
 
     .w-input-wrap .focused {
@@ -76,9 +76,12 @@
     }
 
     .w-input-wrap input[type="text"] {
+      &:focus {
+        border-bottom-right-radius: 0;
+      }
+
       &:not(.no-validate).ng-touched.ng-valid {
         &:not(:focus):not(.focus):not(.ng-empty) {
-          border-bottom-right-radius: 0;
           border-color: transparent;
         }
       }
@@ -92,6 +95,7 @@
       }
   
       .user-account__btns {
+        padding: 2px;
         width: 26px;
       }
       
@@ -108,12 +112,12 @@
   }
 
   &__btns {
-    height: 21px;
+    height: 22px;
     width: 52px;
     margin-left: auto;
     display: flex;
     background: @color-submit-400;
-    padding: 1px 4px;
+    padding: 2px 4px;
     border-bottom-left-radius: @border-radius;
     border-bottom-right-radius: @border-radius;
     position: absolute;
@@ -123,23 +127,24 @@
   }
 
   &__btn {
-    flex: 1;
+    height: 18px;
+    width: 18px;
     background: @color-submit-400;
     border: 0;
     cursor: pointer;
-    padding: 4px;
+    padding: 2px;
     margin: 0 2px;
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
-    border-radius: @border-radius;
+    border-radius: @border-radius / 2;
 
     &::after {
       content: '';
       display: block;
-      height: 20px;
-      width: 20px;
+      height: 100%;
+      width: 100%;
       position: absolute;
     }
 
@@ -148,7 +153,7 @@
       }
 
     &_ok::after {
-      background: url('../../../../../../img/icons/checkbox-icon.svg') center no-repeat;
+      background: url('../../../../../../img/icons/check-user-account.svg') center no-repeat;
     }
 
     &:hover {
