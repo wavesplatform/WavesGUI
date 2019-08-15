@@ -91,10 +91,6 @@
                  */
                 this.isPriorityUserTypeExists = false;
                 /**
-                 * @type {boolean}
-                 */
-                this.isNameExists = false;
-                /**
                  * @type {string}
                  * @private
                  */
@@ -116,7 +112,6 @@
                 this.observe('selectDefault', this._onChangeSelectDefault);
                 this.getUsers(PRELOAD_USERS_COUNT);
                 this.observe('selectedUser', this._onSelectUser);
-                this.observe('name', this._onChangeName);
             }
 
             /**
@@ -294,15 +289,6 @@
                 this.isPriorityUserTypeExists =
                     !!this.userExisted &&
                     this._priorityMap[this._type] <= this._priorityMap[this.userExisted.userType];
-            }
-
-            /**
-             * @private
-             */
-            _onChangeName() {
-                this.isNameExists = this._usersInStorage.some(user => {
-                    return user.name === this.name && user.address !== this.selectedUser.address;
-                });
             }
 
         }

@@ -54,14 +54,11 @@
                     this.setName(this.defaultName);
                 }
 
-                return this.isUniqueName().then(isUniqueName => {
-                    const isNameValid = isUniqueName && this._isNameLengthValid();
-                    if (isNameValid) {
-                        user.name = this.name;
-                    } else {
-                        this.name = user.name;
-                    }
-                });
+                if (this._isNameLengthValid()) {
+                    user.name = this.name;
+                } else {
+                    this.name = user.name;
+                }
             }
 
             /**

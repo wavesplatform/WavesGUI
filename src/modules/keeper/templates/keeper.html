@@ -95,7 +95,8 @@
                              class="big no-validate no-icon flex"
                              type="text"
                              maxlength="24"
-                             ng-model="$ctrl.selectedUser.name">
+                             ng-model="$ctrl.selectedUser.name"
+                             required>
                     </w-input>
                 </div>
                 <div class="flex get-started-checkbox-save">
@@ -105,9 +106,10 @@
                     </label>
                 </div>
                 <div class="margin-1 margin-top-1 error-500" ng-if="$ctrl.isPriorityUserTypeExists" w-i18n="keeperForm.addressSaved"></div>
-                <div ng-if="$ctrl.isNameExists" w-i18n="keeperForm.nameExists"></div>
                 <div class="margin-3">
-                    <w-button disabled="$ctrl.isPriorityUserTypeExists || $ctrl.isNameExists" class="submit big long" on-click="$ctrl.login()">
+                    <w-button class="submit big long"
+                              disabled="$ctrl.isPriorityUserTypeExists || !$ctrl.selectedUser.name"
+                              on-click="$ctrl.login()">
                         <span w-i18n="keeperForm.login"></span>
                     </w-button>
                 </div>

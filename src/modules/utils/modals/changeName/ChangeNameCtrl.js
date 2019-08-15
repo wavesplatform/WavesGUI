@@ -19,11 +19,6 @@
              * @type {string}
              */
             userName;
-            /**
-             * @public
-             * @type {boolean}
-             */
-            isUniqueUserName = true;
 
             constructor() {
                 super($scope);
@@ -35,33 +30,29 @@
 
                 this.observe('userName', () => {
                     userNameService.setName(this.userName);
-                    userNameService.isUniqueName()
-                        .then(data => {
-                            this.isUniqueUserName = data;
-                        });
-                });
-
-                this.observe('isUniqueUserName', () => {
-                    if (this.setUserName) {
-                        this.setUserName.userName.$setValidity('user-name-unique', this.isUniqueUserName);
-                    }
                 });
             }
 
             /**
              * @public
              */
-            saveUserName() {
-                if (this.isUniqueUserName) {
-                    userNameService.save();
-                    notification.info({
-                        ns: 'app.welcome',
-                        title: {
-                            literal: 'welcome.nameSaved'
-                        }
-                    });
-                    $mdDialog.cancel();
-                }
+            onSave() {
+                userNameService.save();
+                notification.info({
+                    ns: 'app.welcome',
+                    title: {
+                        literal: 'welcome.nameSaved'
+                    }
+                });
+                $mdDialog.cancel();
+            }
+
+            /**
+             * @public
+             */
+            onCancel() {
+                userNameService.setName(user.name);
+                $mdDialog.cancel();
             }
 
         }
