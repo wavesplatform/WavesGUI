@@ -375,11 +375,11 @@
             _initActions() {
                 let expanded = false;
 
-                const $wrapper = this.$node.find('.actions-wrapper');
+                const $wrapper = this.$node.find('.actions__container');
 
                 const toggleExpanded = () => {
                     expanded = !expanded;
-                    const conteiner = this.$node.find('.actions-container');
+                    const conteiner = this.$node.find('.actions__container');
                     const conteinerNode = conteiner.get(0);
                     conteiner.toggleClass('expanded', expanded);
 
@@ -401,7 +401,7 @@
                     }
                 };
 
-                this.$node.find('.click-area').on('click', () => {
+                this.$node.find('.actions__click').on('click', () => {
                     toggleExpanded();
                 });
 
@@ -576,7 +576,7 @@
                 const btnCreate = this.node.querySelector(`.${SELECTORS.ACTION_BUTTONS.SPONSORSHIP_CREATE}`);
                 const btnEdit = this.node.querySelector(`.${SELECTORS.ACTION_BUTTONS.SPONSORSHIP_EDIT}`);
                 const btnStop = this.node.querySelector(`.${SELECTORS.ACTION_BUTTONS.SPONSORSHIP_STOP}`);
-                const icon = this.node.querySelector(`.${SELECTORS.SPONSORED} .marker`);
+                const icon = this.node.querySelector(`.${SELECTORS.SPONSORED} .asset-logo__marker`);
 
                 btnCreate.classList.toggle('hidden', isSmart || !(canSponsored && !canStopSponsored));
                 btnEdit.classList.toggle('hidden', !(canSponsored && canStopSponsored));
@@ -585,7 +585,7 @@
                 Promise.resolve(list || this.waves.node.getFeeList({ type: SIGN_TYPE.TRANSFER }))
                     .then((list) => {
                         const canPayFee = list.find(item => item.asset.id === this.balance.asset.id) && !this._isWaves;
-                        icon.classList.toggle('sponsored-asset', !!canPayFee);
+                        icon.classList.toggle('asset-logo__marker_sponsored', !!canPayFee);
                     });
             }
 
