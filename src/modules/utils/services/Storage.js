@@ -52,10 +52,26 @@
 
         function addDefaultUserName(storage) {
             return storage.load('userList').then((users = []) => {
-                let counter = 0;
-                users.forEach((user) => {
+
+                users.forEach((user, i) => {
+
                     if (!user.name) {
-                        user.name = ++counter >= 2 ? `Account ${counter}` : 'Account';
+                        user.name = 'Account';
+                    }
+
+                    let counter = 1;
+                    const restUsers = users.filter((user, j) => j !== i);
+                    const getIdx = (name) => {
+                        if (restUsers.some(user => user.name === name)) {
+                            return getIdx(`${user.name} ${++counter}`);
+                        } else {
+                            return counter;
+                        }
+                    };
+
+                    const idx = getIdx(user.name);
+                    if (idx > 1) {
+                        user.name = `${user.name} ${idx}`;
                     }
                 });
 
