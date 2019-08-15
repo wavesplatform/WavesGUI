@@ -73,6 +73,10 @@
                  */
                 this.userExisted = Object.create(null);
                 /**
+                 * @type {boolean}
+                 */
+                this.isNameExists = false;
+                /**
                  * @type {Array}
                  * @private
                  */
@@ -96,6 +100,7 @@
                     });
                 });
                 this.observe('address', this._onChangeAddress);
+                this.observe('name', this._onChangeName);
                 this.observe('key', this._onChangeKey);
                 this.observeOnce('keyForm', () => {
                     this.receive(utils.observe(this.keyForm, '$valid'), () => {
@@ -195,6 +200,12 @@
                 this.isPriorityUserTypeExists =
                     !!this.userExisted &&
                     this._priorityMap[this.activeTab] <= this._priorityMap[this.userExisted.userType];
+            }
+
+            _onChangeName() {
+                this.isNameExists = this._usersInStorage.some(user => {
+                    return user.name === this.name && user.address !== this.address;
+                });
             }
 
             /**

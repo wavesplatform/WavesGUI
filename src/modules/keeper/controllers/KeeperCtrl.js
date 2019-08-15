@@ -59,6 +59,10 @@
              */
             saveUserData = true;
             /**
+             * @type {string}
+             */
+            name = '';
+            /**
              * @type {boolean}
              */
             isPriorityUserTypeExists = false;
@@ -66,6 +70,10 @@
              * @type {object | null}
              */
             userExisted = Object.create(null);
+            /**
+             * @type {boolean}
+             */
+            isNameExists = false;
             /**
              * @type {Array}
              * @private
@@ -159,6 +167,7 @@
                             return Promise.reject({ code: 'locked' });
                         }
                         this.selectedUser = user;
+                        this.receive(utils.observe(this.selectedUser, 'name'), this._onChangeName, this);
                         delete this.selectedUser.type;
                     })
                     .catch((e) => this.onError(e))
@@ -203,6 +212,7 @@
              */
             _onSelectUser() {
                 this._onChangeAddress();
+                this._onChangeName();
             }
 
             /**
@@ -215,6 +225,15 @@
                 this.isPriorityUserTypeExists =
                     !!this.userExisted &&
                     this._priorityMap[this._type] <= this._priorityMap[this.userExisted.userType];
+            }
+
+            /**
+             * @private
+             */
+            _onChangeName() {
+                this.isNameExists = this._usersInStorage.some(user => {
+                    return user.name === this.selectedUser.name && user.address !== this.selectedUser.address;
+                });
             }
 
             _onUpdateAdapter = (state) => this.onUpdateState(state);

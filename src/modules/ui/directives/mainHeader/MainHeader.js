@@ -46,6 +46,11 @@
              */
             userList = [];
             /**
+             * @public
+             * @type {boolean}
+             */
+            isUniqueUserName = true;
+            /**
              * @type {boolean}
              */
             showInput = false;
@@ -85,11 +90,21 @@
 
                 this.observe('userName', () => {
                     userNameService.setName(this.userName);
+                    userNameService.isUniqueName()
+                        .then(data => {
+                            this.isUniqueUserName = data;
+                        });
                 });
 
                 this.receive(utils.observe(userNameService, 'name'), function () {
                     this.userName = userNameService.name;
                 }, this);
+
+                this.observe('isUniqueUserName', () => {
+                    if (this.setUserName) {
+                        this.setUserName.userName.$setValidity('user-name-unique', this.isUniqueUserName);
+                    }
+                });
 
             }
 
@@ -111,9 +126,11 @@
              * @public
              */
             onBlur() {
-                userNameService.save();
-                this.setNameView(false);
-                this.showTooltip();
+                userNameService.save()
+                    .then(() => {
+                        this.setNameView(false);
+                        this.showTooltip();
+                    });
             }
 
             /**
@@ -136,9 +153,11 @@
              * @public
              */
             onSave() {
-                userNameService.save();
-                this.showTooltip();
-                this.setNameView();
+                userNameService.save()
+                    .then(() => {
+                        this.showTooltip();
+                        this.setNameView();
+                    });
             }
 
             $onDestroy() {

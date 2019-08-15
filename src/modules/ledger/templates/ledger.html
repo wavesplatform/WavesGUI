@@ -77,8 +77,7 @@
                              class="big no-validate no-icon"
                              type="text"
                              maxlength="24"
-                             ng-model="$ctrl.name"
-                             required>
+                             ng-model="$ctrl.name">
                     </w-input>
                 </div>
 
@@ -91,7 +90,9 @@
 
                 <div class="margin-1 margin-top-1 error-500" ng-if="$ctrl.isPriorityUserTypeExists" w-i18n="ledgerForm.addressSaved"></div>
 
-                <w-button disabled="$ctrl.disabledLogin || $ctrl.isPriorityUserTypeExists || !$ctrl.name"
+                <div ng-if="$ctrl.isNameExists" w-i18n="ledgerForm.nameExists"></div>
+
+                <w-button disabled="$ctrl.disabledLogin || $ctrl.isPriorityUserTypeExists || $ctrl.isNameExists"
                           class="submit big long" on-click="$ctrl.login()">
                     <span w-i18n="ledgerForm.login"></span>
                 </w-button>
