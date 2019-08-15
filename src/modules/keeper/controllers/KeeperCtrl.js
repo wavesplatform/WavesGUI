@@ -2,8 +2,8 @@
     'use strict';
 
     /**
-     * @param Base
-     * @param $scope
+     * @param {typeof Base} Base
+     * @param {ng.IScope} $scope
      * @param {User} user
      * @param {app.utils} utils
      * @return {KeeperCtrl}

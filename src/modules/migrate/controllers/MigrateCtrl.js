@@ -36,7 +36,10 @@
                     this.userListLocked = userList;
                     this.userListUnlocked = multiAccountUsers;
 
-                    this.migrateUsersWithoutPassword(userList.filter(lockedUser => lockedUser.userType !== 'seed'));
+                    this.migrateUsersWithoutPassword(userList.filter(lockedUser => (
+                        lockedUser.userType !== 'seed' &&
+                        lockedUser.userType !== 'privateKey'
+                    )));
                 });
             }
 
@@ -95,13 +98,26 @@
                     const { userType, id, publicKey, address } = this.userToMigrate;
                     const networkByte = base58Decode(address)[1];
                     const seed = userType === 'seed' ?
-                        this.userToMigrate.seed = ds.Seed.decryptSeedPhrase(
+                        ds.Seed.decryptSeedPhrase(
                             this.userToMigrate.encryptedSeed,
                             this.migratePassword
                         ) :
                         undefined;
+                    const privateKey = userType === 'privateKey' ?
+                        ds.Seed.decryptSeedPhrase(
+                            this.userToMigrate.encryptedPrivateKey,
+                            this.migratePassword
+                        ) :
+                        undefined;
 
-                    this.migrateUser({ userType, networkByte, seed, id, publicKey }).then(() => {
+                    this.migrateUser({
+                        userType,
+                        networkByte,
+                        seed,
+                        id,
+                        privateKey,
+                        publicKey
+                    }).then(() => {
                         this.migratePassword = '';
                         this.prevStep();
                     });

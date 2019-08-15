@@ -4,15 +4,14 @@
     const analytics = require('@waves/event-sender');
 
     /**
-     * @param Base
-     * @param $scope
-     * @param $state
-     * @param user
-     * @param multiAccount
-     * @param modalManager
+     * @param {typeof Base} Base
+     * @param {ng.IScope} $scope
+     * @param {*} $state
+     * @param {User} user
+     * @param {MultiAccount} multiAccount
      * @returns {SignInCtrl}
      */
-    const controller = function (Base, $scope, $state, user, multiAccount, modalManager) {
+    const controller = function (Base, $scope, $state, user, multiAccount) {
 
         class SignInCtrl extends Base {
 
@@ -86,10 +85,6 @@
                 });
             }
 
-            showTutorialModals() {
-                return modalManager.showTutorialModals();
-            }
-
             _login(userData) {
                 user.login(userData).then(() => {
                     $state.go(user.getActiveState('wallet'));
@@ -112,7 +107,7 @@
         return new SignInCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', '$state', 'user', 'multiAccount', 'modalManager'];
+    controller.$inject = ['Base', '$scope', '$state', 'user', 'multiAccount'];
 
     angular.module('app.signIn').controller('SignInCtrl', controller);
 })();

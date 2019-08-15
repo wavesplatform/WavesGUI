@@ -1,12 +1,10 @@
 <w-main-header class="main-header"></w-main-header>
+
 <div w-i18n-ns="app.restore" class="main-container movable">
     <div class="main-container-wrapper">
-
         <div class="restore-content get-started-content">
-
             <w-step-by-step active-step="$ctrl.activeStep">
                 <w-step>
-
                     <div class="headline-1 margin-2 text-center" w-i18n="seedOrKeyForm.title"></div>
                     <div class="body-2 text-center margin-2">
                         <span class="basic-500" w-i18n="seedOrKeyForm.description"></span>
@@ -59,13 +57,14 @@
                         </div>
                     </div>
 
-
+                    <!-- hidden by #1978
                     <div class="flex get-started-checkbox-save">
                         <w-checkbox-submit ng-model="$ctrl.saveUserData" id="save-user-data"></w-checkbox-submit>
                         <label for="save-user-data"
                                w-i18n="seedForm.saveUserData"
                                class="footnote-1 basic-500"></label>
                     </div>
+                     -->
                     <div ng-if="$ctrl.activeTab === TABS.seed && $ctrl.address && $ctrl.seed.length <= 59"
                          class="plate-warning warning-500 body-2 margin-3">
                         <div class="body-2 margin-05" w-i18n="warningSeed.title"></div>
@@ -84,10 +83,12 @@
                         <a w-i18n="passwordForm.back" w-step-prev ng-click="$ctrl.resetNameAndPassword()"></a>
                     </div>
 
-                    <w-password name="$ctrl.name"
-                                password="$ctrl.password"
-                                address="$ctrl.address"
-                                on-submit="$ctrl.restore()">
+                    <w-password
+                        name="$ctrl.name"
+                        password="$ctrl.password"
+                        address="$ctrl.address"
+                        on-submit="$ctrl.restore()"
+                    >
                         <span w-i18n-ns="app.restore">
                             <span w-i18n="passwordForm.login"></span>
                         </span>
@@ -96,8 +97,9 @@
                 </w-step>
             </w-step-by-step>
 
-            <w-get-started-link has-sign-in="::true" has-create="::true"></w-get-started-link>
+            <w-get-started-link has-sign-in="::false" has-create="::true"></w-get-started-link>
         </div>
     </div>
 </div>
+
 <w-footer></w-footer>

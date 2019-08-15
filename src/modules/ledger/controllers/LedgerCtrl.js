@@ -7,14 +7,15 @@
     const PRELOAD_USERS_COUNT = 5;
 
     /**
-     * @param Base
-     * @param $scope
+     * @param {typeof Base} Base
+     * @param {ng.IScope} $scope
+     * @param {*} $state
      * @param {User} user
      * @param {ModalManager} modalManager
      * @param {app.utils} utils
      * @return {LedgerCtrl}
      */
-    const controller = function (Base, $scope, user, modalManager, utils) {
+    const controller = function (Base, $scope, $state, user, modalManager, utils) {
 
         class LedgerCtrl extends Base {
 
@@ -229,24 +230,19 @@
              */
             login() {
                 this._runLedgerCommand = 'login';
-                const userSettings = user.getDefaultUserSettings({ termsAccepted: false });
 
                 const newUser = {
                     ...this.selectedUser,
                     userType: this.adapter.type,
                     name: this.name,
-                    settings: userSettings,
-                    saveToStorage: this.saveUserData
+                    networkByte: WavesApp.network.code.charCodeAt(0)
                 };
 
                 this._calculateDisabled(true);
-                const api = ds.signature.getDefaultSignatureApi(newUser);
 
-                return user.create({
-                    ...newUser,
-                    settings: userSettings.getSettings(),
-                    api
-                }, true, true).catch(() => {
+                return user.create(newUser, true, true).then(() => {
+                    $state.go(user.getActiveState('wallet'));
+                }).catch(() => {
                     this.error = true;
                     $scope.$digest();
                 });
@@ -303,7 +299,7 @@
         return new LedgerCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'user', 'modalManager', 'utils'];
+    controller.$inject = ['Base', '$scope', '$state', 'user', 'modalManager', 'utils'];
 
     angular.module('app.ledger').controller('LedgerCtrl', controller);
 })();

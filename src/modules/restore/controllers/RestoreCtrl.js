@@ -12,13 +12,14 @@
 
     /**
      * @param Base
-     * @param $scope
+     * @param {ng.IScope} $scope
+     * @param {*} $state
      * @param {User} user
      * @param {app.utils} utils
      * @param {ModalManager} modalManager
      * @return {RestoreCtrl}
      */
-    const controller = function (Base, $scope, user, utils, modalManager) {
+    const controller = function (Base, $scope, $state, user, utils, modalManager) {
 
         class RestoreCtrl extends Base {
 
@@ -44,10 +45,6 @@
                  * @type {string}
                  */
                 this.name = '';
-                /**
-                 * @type {string}
-                 */
-                this.password = '';
                 /**
                  * @type {boolean}
                  */
@@ -112,35 +109,22 @@
             }
 
             restore() {
-
-                if (!this.saveUserData) {
-                    this.password = Date.now().toString();
-                } else {
+                if (this.saveUserData) {
                     analytics.send({ name: 'Import Backup Protect Your Account Continue Click', target: 'ui' });
                 }
 
-                const { encrypted, type } = this._getEncryptedAndType();
-                const userSettings = user.getDefaultUserSettings({ termsAccepted: false });
+                const { keyOrSeed, type } = this._getEncryptedAndType();
 
                 const newUser = {
                     userType: type,
-                    address: this.address,
                     name: this.name,
-                    password: this.password,
-                    id: this.userId,
-                    path: this.userPath,
-                    settings: userSettings,
-                    saveToStorage: this.saveUserData,
-                    ...encrypted
+                    networkByte: WavesApp.network.code.charCodeAt(0),
+                    ...keyOrSeed
                 };
 
-                const api = ds.signature.getDefaultSignatureApi(newUser);
-
-                return user.create({
-                    ...newUser,
-                    settings: userSettings.getSettings(),
-                    api
-                }, true, true);
+                return user.create(newUser, true, true).then(() => {
+                    $state.go(user.getActiveState('wallet'));
+                });
             }
 
             resetNameAndPassword() {
@@ -214,25 +198,22 @@
             }
 
             /**
-             * @return {{encrypted: {encryptedSeed: string}, type: string}|
-             * {encrypted: {encryptedPrivateKey: string}, type: string}}
+             * @return {{keyOrSeed: {seed: string}, type: string}|{keyOrSeed: {privateKey: string}, type: string}}
              * @private
              */
             _getEncryptedAndType() {
                 switch (this.activeTab) {
                     case TABS.key:
                         return ({
-                            encrypted: {
-                                encryptedPrivateKey: new ds.Seed(this.key, window.WavesApp.network.code)
-                                    .encrypt(this.password)
+                            keyOrSeed: {
+                                privateKey: this.key
                             },
                             type: 'privateKey'
                         });
                     default:
                         return ({
-                            encrypted: {
-                                encryptedSeed: new ds.Seed(this.seed, window.WavesApp.network.code)
-                                    .encrypt(this.password)
+                            keyOrSeed: {
+                                seed: this.seed
                             },
                             type: 'seed'
                         });
@@ -244,7 +225,7 @@
         return new RestoreCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'user', 'utils', 'modalManager'];
+    controller.$inject = ['Base', '$scope', '$state', 'user', 'utils', 'modalManager'];
 
     angular.module('app.restore').controller('RestoreCtrl', controller);
 })();

@@ -1,5 +1,4 @@
 <div class="get-started-content create-account movable">
-
     <div class="text-center">
         <div class="headline-1 margin-4">
             <span w-i18n="createAccount.createNewAccount"></span>
@@ -27,12 +26,14 @@
         <w-loader ng-if="!$ctrl.address"></w-loader>
     </w-copy-wrap>
 
+    <!-- hidden by #1978
     <div class="flex get-started-checkbox-save">
         <w-checkbox-submit ng-model="$ctrl.saveUserData" id="save-user-data"></w-checkbox-submit>
         <label for="save-user-data" class="footnote-1">
             <span class="basic-500" w-i18n="createAccount.saveUserData"></span>
         </label>
     </div>
+    -->
 
     <w-button
         on-click="$ctrl.next($ctrl.stepIndex + $ctrl.saveUserData ? 1 : 2)"
@@ -40,7 +41,5 @@
         <span w-i18n="button.continue"></span>
     </w-button>
 
-    <w-get-started-link has-sign-in="::true" has-import="::true"></w-get-started-link>
-
+    <w-get-started-link has-sign-in="::false" has-import="::true"></w-get-started-link>
 </div>
-

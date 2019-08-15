@@ -11,7 +11,8 @@
         base58Decode,
         blake2b,
         stringToBytes,
-        address: buildAddress
+        address: buildAddress,
+        publicKey: buildPublicKey
     } = libs.crypto;
 
     let _password;
@@ -20,15 +21,8 @@
 
     class MultiAccount {
 
-        static $inject = ['utils'];
-
-        /**
-         * @type {app.utils}
-         */
-        utils;
-
-        constructor(utils) {
-            this.utils = utils;
+        get isSignedIn() {
+            return !!_password;
         }
 
         signUp(password, rounds) {
@@ -70,15 +64,17 @@
             _users = {};
         }
 
-        addUser({ userType, networkByte, seed, id, publicKey }) {
-            const userHash = this._hash(networkByte + publicKey);
+        addUser({ userType, networkByte, seed, id, privateKey, publicKey }) {
+            const _publicKey = publicKey || buildPublicKey(seed || privateKey);
+            const userHash = this._hash(networkByte + _publicKey);
 
             _users[userHash] = {
                 userType,
                 networkByte,
                 seed,
                 id,
-                publicKey
+                privateKey,
+                publicKey: _publicKey
             };
 
             const str = JSON.stringify(_users);
@@ -107,32 +103,34 @@
         }
 
         getAdapter(userHash) {
-            const user = _users[userHash];
+            const _user = _users[userHash];
 
-            if (!user) {
+            if (!_user) {
                 return Promise.reject();
             }
 
-            const Adapter = getAdapterByType(user.userType);
+            const Adapter = getAdapterByType(_user.userType);
 
-            if (user.userType === 'seed') {
-                return Promise.resolve(new Adapter(user.seed, user.networkByte));
+            if (_user.userType === 'seed') {
+                return Promise.resolve(new Adapter(_user.seed, _user.networkByte));
             } else {
-                return Promise.resolve(new Adapter(user));
+                return Promise.resolve(new Adapter(_user));
             }
         }
 
         toList(multiAccountUsers) {
-            return Object.entries(multiAccountUsers || {}).map(([userHash, user]) => {
-                const _user = _users[userHash];
+            return this.isSignedIn ?
+                Object.entries(multiAccountUsers || {}).map(([userHash, user]) => {
+                    const _user = _users[userHash];
 
-                return {
-                    ..._user,
-                    ...user,
-                    address: buildAddress({ publicKey: _user.publicKey }, String.fromCharCode(_user.networkByte)),
-                    hash: userHash
-                };
-            }).sort(this.utils.comparators.process(user => user.lastLogin).asc);
+                    return {
+                        ..._user,
+                        ...user,
+                        address: buildAddress({ publicKey: _user.publicKey }, String.fromCharCode(_user.networkByte)),
+                        hash: userHash
+                    };
+                }).sort((a, b) => b.lastLogin - a.lastLogin) :
+                [];
         }
 
         /**

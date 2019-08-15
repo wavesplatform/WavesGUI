@@ -1,23 +1,10 @@
+// @ts-check
 /* global transfer Mousetrap WavesApp: readonly */
 (function () {
     'use strict';
 
     const { equals } = require('ramda');
     const { isValidAddress } = require('@waves/signature-adapter');
-
-    const NOT_SYNC_FIELDS = [
-        'changeSetting',
-        'isAuthorised',
-        'extraFee',
-        'networkError',
-        'changeScript',
-        'setScamSignal',
-        'scam',
-        'loginSignal',
-        'logoutSignal',
-        'setTokensNameSignal',
-        'tokensName'
-    ];
 
     /**
      * @param {Storage} storage
@@ -64,6 +51,26 @@
                 return this._settings.change;
             }
 
+            get address() {
+                return this.currentUser ? this.currentUser.address : null;
+            }
+
+            get name() {
+                return this.currentUser ? this.currentUser.name : null;
+            }
+
+            get userType() {
+                return this.currentUser ? this.currentUser.userType : null;
+            }
+
+            get publicKey() {
+                return this.currentUser ? this.currentUser.publicKey : null;
+            }
+
+            get matcherSign() {
+                return this.currentUser ? this.currentUser.matcherSign : null;
+            }
+
             /**
              * @type {boolean}
              */
@@ -84,45 +91,9 @@
              */
             networkError;
             /**
-             * @type {string}
+             * @type {ICurrentUser|null}
              */
-            address;
-            /**
-             * @type {string}
-             */
-            id;
-            /**
-             * @type {string}
-             */
-            name;
-            /**
-             * @type {string}
-             */
-            publicKey;
-            /**
-             * @type {string}
-             */
-            encryptedSeed;
-            /**
-             * @type {string}
-             */
-            encryptedPrivateKey;
-            /**
-             * @type {string}
-             */
-            userType;
-            /**
-             * @type {object}
-             */
-            settings;
-            /**
-             * @type {number}
-             */
-            lastLogin;
-            /**
-             * @type {{signature: string, timestamp: number}}
-             */
-            matcherSign;
+            currentUser = null
             /**
              * @type {Money}
              */
@@ -158,11 +129,6 @@
              */
             __props;
             /**
-             * @type {string}
-             * @private
-             */
-            _password;
-            /**
              * @type {number}
              * @private
              */
@@ -172,11 +138,6 @@
              * @private
              */
             _stateList;
-            /**
-             * @type {Array}
-             * @private
-             */
-            _fieldsForSave = [];
             /**
              * @type {Array}
              * @private
@@ -196,15 +157,9 @@
              * @type {number}
              */
             _scriptInfoPollTimeoutId;
-            /**
-             * @type {boolean}
-             * @private
-             */
-            _noSaveToStorage;
 
             constructor() {
                 this._resetFields();
-                this._setObserve();
                 this._settings.change.on(() => this._onChangeSettings());
 
                 Mousetrap.bind(['ctrl+shift+k'], () => this.switchNextTheme());
@@ -229,13 +184,6 @@
              */
             hasScript() {
                 return this._hasScript;
-            }
-
-            /**
-             * @return {boolean}
-             */
-            isMaster() {
-                return !!this._password;
             }
 
             /**
@@ -304,22 +252,12 @@
                 return list.includes(value);
             }
 
-            /**
-             * @param {User} user
-             * @param {string} name
-             * @return {*}
-             */
-            getSettingByUser(user, name) {
-                const settings = defaultSettings.create(user.settings);
-                return settings.get(name);
-            }
-
             getDefaultUserSettings(settings) {
                 return defaultSettings.create({ ...settings });
             }
 
             /**
-             * @param {User} user
+             * @param {*} user
              * @return {DefaultSettings}
              */
             getSettingsByUser(user) {
@@ -372,27 +310,23 @@
              * @return {Promise}
              */
             migrateUser(userToMigrate, userHash) {
-                // TODO map user settings to a new schema
-                const user = {
-                    userType: userToMigrate.userType,
-                    name: userToMigrate.name,
-                    lastLogin: userToMigrate.lastLogin,
-                    matcherSign: userToMigrate.matcherSign,
-                    settings: userToMigrate.settings
-                };
-
-                return this.addMultiAccountUser(user, userHash)
+                return this.saveMultiAccountUser(userToMigrate, userHash)
                     .then(() => this.removeUserByAddress(userToMigrate.address));
             }
 
             /**
              * @return {Promise}
              */
-            addMultiAccountUser(user, userHash) {
+            saveMultiAccountUser(user, userHash) {
                 return storage.load('multiAccountUsers')
                     .then(users => this.saveMultiAccountUsers({
                         ...users,
-                        [userHash]: user
+                        [userHash]: { // TODO map user settings to a new schema
+                            name: user.name,
+                            settings: user.settings,
+                            matcherSign: user.matcherSign,
+                            lastLogin: user.lastLogin
+                        }
                     }));
             }
 
@@ -439,7 +373,7 @@
                     const modalManager = $injector.get('modalManager');
                     let canLoginPromise;
 
-                    if (this._isSeedAdapter(adapter) || this._isPrivateKeyAdapter(api)) {
+                    if (this._isSeedAdapter(adapter) || this._isPrivateKeyAdapter(adapter)) {
                         canLoginPromise = adapterAvailablePromise.then(() => adapter.getAddress())
                             .then(address => address === userData.address || Promise.reject('Wrong address!'));
                     } else {
@@ -452,7 +386,7 @@
                             analytics.send({ name: 'Sign In Success' });
                         });
                     }, () => {
-                        if (!this._isSeedAdapter(adapter) || this._isPrivateKeyAdapter(api)) {
+                        if (!this._isSeedAdapter(adapter) || this._isPrivateKeyAdapter(adapter)) {
                             const errorData = {
                                 error: 'load-user-error',
                                 userType: adapter.type,
@@ -466,57 +400,56 @@
             }
 
             /**
-             * @param {object} data
-             * @param {string} data.address
-             * @param {string} data.name
-             * @param {string} data.id
-             * @param {string} data.encryptedSeed
-             * @param {string} data.encryptedPrivateKey
-             * @param {string} data.publicKey
-             * @param {string} data.password
-             * @param {string} data.userType
-             * @param {string} data.api
-             * @param {boolean} data.saveToStorage
-             * @param {boolean} hasBackup
-             * @param {boolean} restore
+             * @param {object} userData
+             * @param {string} userData.userType
+             * @param {number} userData.networkByte
+             * @param {string} [userData.seed]
+             * @param {string} [userData.privateKey]
+             * @param {string} [userData.publicKey]
+             * @param {string} [userData.id]
+             * @param {string} userData.name
+             * @param {boolean} [hasBackup]
+             * @param {boolean} [restore]
              * @return {Promise}
              */
-            create(data, hasBackup, restore) {
-                this._noSaveToStorage = !data.saveToStorage;
+            create(userData, hasBackup, restore) {
+                return multiAccount.addUser({
+                    userType: userData.userType || 'seed',
+                    seed: userData.seed,
+                    networkByte: userData.networkByte,
+                    privateKey: userData.privateKey,
+                    publicKey: userData.publicKey,
+                    id: userData.id
+                }).then(({ multiAccountData, multiAccountHash, userHash }) => {
+                    return Promise.all([
+                        this.saveMultiAccountUser({
+                            ...userData,
+                            settings: {
+                                hasBackup
+                            }
+                        }, userHash),
+                        this.saveMultiAccount({ multiAccountData, multiAccountHash })
+                    ]).then(
+                        () => this.getMultiAccountUsers()
+                    ).then(multiAccountUsers => {
+                        const createdUser = multiAccountUsers.find(user => user.hash === userHash);
 
-                data.userType = data.userType || 'seed';
-
-                return this._addUserData({
-                    id: data.id,
-                    api: data.api,
-                    address: data.address,
-                    password: data.password,
-                    name: data.name,
-                    userType: data.userType,
-                    encryptedSeed: data.encryptedSeed,
-                    encryptedPrivateKey: data.encryptedPrivateKey,
-                    publicKey: data.publicKey,
-                    settings: {
-                        termsAccepted: false,
-                        hasBackup,
-                        lng: i18next.language,
-                        theme: themes.getDefaultTheme(),
-                        candle: 'blue',
-                        dontShowSpam: true
-                    }
+                        this.login(createdUser);
+                    });
                 }).then(() => {
                     this.initScriptInfoPolling();
+
                     if (restore) {
                         analytics.send({
                             name: 'Import Backup Success',
-                            params: { userType: data.userType }
+                            params: { userType: userData.userType }
                         });
                     } else {
                         analytics.send({
                             name: 'Create Success',
                             params: {
                                 hasBackup,
-                                userType: data.userType
+                                userType: userData.userType
                             }
                         });
                     }
@@ -525,8 +458,9 @@
 
             /**
              * @param {string} [stateName]
+             * @param {boolean} [isSwitch]
              */
-            logout(stateName) {
+            logout(stateName, isSwitch) {
                 if (!this.isAuthorised) {
                     return null;
                 }
@@ -542,7 +476,11 @@
                     this.logoutSignal.dispatch({});
                     this._resetFields();
                     this.changeTheme(themes.getDefaultTheme());
-                    $state.go(stateName, undefined, { custom: { logout: true } });
+
+                    if (!isSwitch) {
+                        multiAccount.signOut();
+                        $state.go(stateName, undefined, { custom: { logout: true } });
+                    }
                 } else if (WavesApp.isDesktop()) {
                     transfer('reload');
                 } else {
@@ -567,7 +505,7 @@
 
             /**
              * Apply active state for children of state with name {{state}}
-             * @param {string} state    state name
+             * @param {*} state    state name
              */
             applyState(state) {
                 this._history.push(state.name);
@@ -585,14 +523,9 @@
              * @return {Promise}
              */
             getUserList() {
-                return storage.onReady().then(() => storage.load('userList'))
-                    .then(list => {
-                        list = list || [];
-
-                        list.sort((a, b) => a.lastLogin - b.lastLogin).reverse();
-
-                        return list;
-                    });
+                return storage.onReady()
+                    .then(() => storage.load('userList'))
+                    .then(list => (list || []).sort((a, b) => b.lastLogin - a.lastLogin));
             }
 
             /**
@@ -682,20 +615,15 @@
             }
 
             /**
-             * @return {Promise<{signature, timestamp}>}
+             * @returns {Promise<{signature: string, timestamp: number}>}
              */
             addMatcherSign() {
-                /**
-                 * @type {Promise<{signature: string, timestamp: number}>}
-                 */
-                const promise = utils.signUserOrders({ matcherSign: this.matcherSign });
-
-                promise.then(matcherSign => {
-                    this.matcherSign = matcherSign;
+                return utils.signUserOrders({
+                    matcherSign: this.matcherSign
+                }).then(matcherSign => {
+                    this.currentUser.matcherSign = matcherSign;
                     ds.app.addMatcherSign(matcherSign.timestamp, matcherSign.signature);
                 });
-
-                return promise;
             }
 
             /**
@@ -703,68 +631,58 @@
              */
             _resetFields() {
                 this.networkError = false;
-                this.address = null;
-                this.id = null;
-                this.name = null;
-                this.publicKey = null;
-                this.encryptedSeed = null;
-                this.encryptedPrivateKey = null;
-                this.userType = null;
-                this.settings = Object.create(null);
-                this.lastLogin = Date.now();
-                this.matcherSign = null;
+                this.currentUser = null;
                 this.extraFee = null;
                 this.changeScript = new tsUtils.Signal();
                 this.setScamSignal = new tsUtils.Signal();
                 this.scam = Object.create(null);
                 this._settings = defaultSettings.create(Object.create(null));
                 this.__props = Object.create(null);
-                this._password = null;
                 this._changeTimer = null;
                 this._stateList = null;
                 this._history = [];
                 this._hasScript = false;
                 this._scriptInfoPoll = null;
                 this._scriptInfoPollTimeoutId = null;
-                this._noSaveToStorage = false;
             }
 
             /**
-             * @param {object} data
-             * @param {string} data.address
-             * @param {string} data.userType
-             * @param {string} [data.encryptedSeed]
-             * @param {string} data.publicKey
-             * @param {string} data.userType
-             * @param {string} data.hash
-             * @param {object} [data.settings]
-             * @param {boolean} [data.settings.termsAccepted]
+             * @param {object} userData
+             * @param {string} userData.name
+             * @param {string} userData.userType
+             * @param {string} userData.address
+             * @param {string} userData.hash
+             * @param {string} [userData.id]
+             * @param {string} [userData.publicKey]
+             * @param {string} [userData.matcherSign]
+             * @param {object} [userData.settings]
              * @param {Adapter} adapter
              * @return {Promise}
              * @private
              */
-            _addUserData(data, adapter) {
-                this._fieldsForSave.forEach((propertyName) => {
-                    if (data[propertyName] != null) {
-                        this[propertyName] = data[propertyName];
-                    } else if (data[propertyName] != null) {
-                        this[propertyName] = data[propertyName];
-                    }
-                });
+            _addUserData(userData, adapter) {
+                this.currentUser = {
+                    hash: userData.hash,
+                    name: userData.name,
+                    id: userData.id,
+                    address: userData.address,
+                    publicKey: userData.publicKey,
+                    userType: userData.userType,
+                    settings: userData.settings,
+                    matcherSign: userData.matcherSign,
+                    lastLogin: Date.now()
+                };
+
+                this._setObserve();
 
                 analytics.addDefaultParams({ userType: this.userType });
-                this.lastLogin = Date.now();
 
                 if (this._settings) {
                     this._settings.change.off();
                 }
 
-                this._settings = defaultSettings.create(this.settings);
+                this._settings = defaultSettings.create(this.currentUser.settings);
                 this._settings.change.on(() => this._onChangeSettings());
-
-                if (this._settings.get('savePassword')) {
-                    this._password = data.password;
-                }
 
                 const states = WavesApp.stateTree.find('main').getChildren();
                 this._stateList = states.map((baseTree) => {
@@ -778,11 +696,11 @@
 
                 ds.config.set('oracleWaves', this.getSetting('oracleWaves'));
 
-                ds.app.login(data.address, adapter);
+                ds.app.login(this.currentUser.address, adapter);
 
                 adapter.onDestroy(() => {
                     if (this.isAuthorised) {
-                        this.logout('welcome');
+                        this.logout('signIn');
                     }
                 });
 
@@ -791,7 +709,8 @@
                     .then(() => {
                         this.changeTheme();
                         this.changeCandle();
-                        return this._save();
+
+                        return this.saveMultiAccountUser(this.currentUser, this.currentUser.hash);
                     })
                     .then(() => this._logoutTimer())
                     .then(() => this.updateScriptAccountData())
@@ -808,7 +727,7 @@
             _logoutTimer() {
                 this.receive(state.signals.sleep, min => {
                     if (min >= this._settings.get('logoutAfterMin')) {
-                        this.logout('welcome');
+                        this.logout('signIn');
                     }
                 });
             }
@@ -817,7 +736,9 @@
              * @private
              */
             _onChangeSettings() {
-                this.settings = { ...this._settings.getSettings() };
+                if (this.currentUser) {
+                    this.currentUser.settings = { ...this._settings.getSettings() };
+                }
             }
 
             /**
@@ -827,7 +748,7 @@
                 if (!this._changeTimer) {
                     this._changeTimer = timeLine.timeout(() => {
                         this._changeTimer = null;
-                        this._save();
+                        this.saveMultiAccountUser(this.currentUser, this.currentUser.hash);
                     }, 500);
                 }
             }
@@ -836,10 +757,8 @@
              * @private
              */
             _setObserve() {
-                this._fieldsForSave = Object.keys(this)
-                    .filter((property) => property.charAt(0) !== '_' && NOT_SYNC_FIELDS.indexOf(property) === -1);
-                this._fieldsForSave.forEach((key) => {
-                    this._observe(key, this);
+                Object.keys(this.currentUser).forEach(key => {
+                    this._observe(key, this.currentUser);
                 });
             }
 
@@ -862,31 +781,6 @@
             }
 
             /**
-             * @return {Promise}
-             * @private
-             */
-            _save() {
-                if (this._noSaveToStorage || !this.address) {
-                    return Promise.resolve();
-                }
-
-                return storage.load('userList')
-                    .then((list) => {
-                        list = list || [];
-                        list = list.filter(tsUtils.notContains({ address: this.address }));
-                        const props = this._fieldsForSave.reduce((result, propertyName) => {
-                            const property = this[propertyName];
-                            if (property != null) {
-                                result[propertyName] = property;
-                            }
-                            return result;
-                        }, Object.create(null));
-                        list.push(props);
-                        return storage.save('userList', list);
-                    });
-            }
-
-            /**
              * @param {Adapter} adapter
              * @returns {boolean}
              * @private
@@ -896,12 +790,12 @@
             }
 
             /**
-             * @param {Adapter} api
+             * @param {Adapter} adapter
              * @returns {boolean}
              * @private
              */
-            _isPrivateKeyAdapter(api) {
-                return api.type && api.type === 'privateKey';
+            _isPrivateKeyAdapter(adapter) {
+                return adapter.type && adapter.type === 'privateKey';
             }
 
         }
@@ -949,9 +843,13 @@
 
 /**
  * @typedef {object} ICurrentUser
+ * @property {string} hash
  * @property {string} address
+ * @property {string} id
  * @property {string} name
  * @property {string} publicKey
  * @property {string} userType
  * @property {number} lastLogin
+ * @property {object} settings
+ * @property {object} matcherSign
  */
