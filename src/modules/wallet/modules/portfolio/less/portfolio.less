@@ -68,12 +68,6 @@
           .smart-table {
             &__row:hover {
               background: @hover-default;
-
-              .asset__logo {
-                .marker {
-                  border: 2px solid @custom-asset-marker-border;
-                }
-              }
             }
           }
         }
@@ -332,6 +326,15 @@
 
       }
     }
+
+    .cell {
+      &__actions {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        margin-top: -8px;
+      }
+    }
   }
 }
 
@@ -420,7 +423,7 @@
       }
     }
 
-    .asset-name-desktop {
+    .asset__wrapper-desktop {
       display: none;
     }
 
