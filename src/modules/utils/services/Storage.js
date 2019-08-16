@@ -23,7 +23,7 @@
                 return addNewGateway(storage, WavesApp.defaultAssets.BNCR);
             },
             '1.3.18': function (storage) {
-                return addDefaultUserName(storage);
+                return saveUsersWithUniqueName(storage);
             }
         };
 
@@ -53,30 +53,38 @@
             });
         }
 
-        function addDefaultUserName(storage) {
-            return storage.load('userList').then((users = []) => {
+        function saveUsersWithUniqueName(storage) {
+            return storage.load('userList').then((usersInStorage = []) => {
 
-                users.forEach((user, i) => {
+                const getUniqueName = (arr, userName) => {
+                    let counter = 1;
+                    const getNum = (name) => {
+                        if (arr.some(user => user.name === name)) {
+                            return getNum(`${userName} ${++counter}`);
+                        } else {
+                            return counter;
+                        }
+                    };
+                    const num = getNum(userName);
+                    return num > 1 ? `${userName} ${num}` : userName;
+                };
+
+                const users = usersInStorage.reduce((acc, user) => {
+                    const otherUsers = acc.filter(item => item !== user);
 
                     if (!user.name) {
                         user.name = 'Account';
                     }
 
-                    let counter = 1;
-                    const restUsers = users.filter((user, j) => j !== i);
-                    const getIdx = (name) => {
-                        if (restUsers.some(user => user.name === name)) {
-                            return getIdx(`${user.name} ${++counter}`);
-                        } else {
-                            return counter;
+                    return ([
+                        ...otherUsers,
+                        {
+                            ...user,
+                            name: getUniqueName(otherUsers, user.name)
                         }
-                    };
+                    ]);
 
-                    const idx = getIdx(user.name);
-                    if (idx > 1) {
-                        user.name = `${user.name} ${idx}`;
-                    }
-                });
+                }, usersInStorage);
 
                 return storage.save('userList', users);
             });
