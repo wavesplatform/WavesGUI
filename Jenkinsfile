@@ -232,6 +232,8 @@ timeout(time:20, unit:'MINUTES') {
                                     userRemoteConfigs: [[url: repo_url]]
                                 ])
                                 println scmValues
+                                println env.GIT_BRANCH
+                                println env.GIT_COMMIT
                                 sh """
                                 cp -R ./WavesGUI/build-wallet/ ./WavesGUI/build-wallet-desktop/
                                 cp -R ./WavesGUI/ ./WavesGUI_tmp/
