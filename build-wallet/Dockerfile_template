@@ -13,8 +13,11 @@ ARG platform=web
 RUN npm ci --unsafe-perm && \
     node_modules/.bin/gulp build --platform $platform --config ./configs/testnet.json && \
     mv ./dist/$platform/testnet ./testnet && \
+    node_modules/.bin/gulp build --platform $platform --config ./configs/stagenet.json && \
+    mv ./dist/$platform/stagenet ./stagenet && \
     node_modules/.bin/gulp build --platform $platform --config ./configs/mainnet.json && \
-    mv ./testnet ./dist/$platform/testnet
+    mv ./testnet ./dist/$platform/testnet  && \
+    mv ./stagenet ./dist/$platform/stagenet
 RUN rm -rf /srv/www/WavesGUI/node_modules/
 
 FROM nginx:stable-alpine
