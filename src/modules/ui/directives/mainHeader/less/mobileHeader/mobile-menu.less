@@ -80,21 +80,6 @@
     background-position: 20px center;
     background-repeat: no-repeat;
 
-    &_menu,
-    &_aliases,
-    &_settings,
-    &_dashboard,
-    &_transactions,
-    &_portfolio,
-    &_leasing,
-    &_logout,
-    &_apple,
-    &_android,
-    &_name,
-    &_address {
-      padding-left: 58px;
-    }
-
     &_main {
       display: none;
     }
@@ -208,6 +193,23 @@
         bottom: auto;
         top: 0;
       }
+    }
+  }
+  
+  .mobile-menu__link_menu,
+  .mobile-menu__link_aliases,
+  .mobile-menu__link_settings,
+  .mobile-menu__link_dashboard,
+  .mobile-menu__link_transactions,
+  .mobile-menu__link_portfolio,
+  .mobile-menu__link_leasing,
+  .mobile-menu__link_logout,
+  .mobile-menu__link_apple,
+  .mobile-menu__link_android,
+  .mobile-menu__link_name,
+  .mobile-menu__link_address {
+    @media screen and (max-width: 860px) {
+      padding-left: 58px;
     }
   }
 
