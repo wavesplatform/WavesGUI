@@ -86,13 +86,12 @@
 
                     <w-password name="$ctrl.name"
                                 password="$ctrl.password"
+                                address="$ctrl.address"
                                 on-submit="$ctrl.restore()">
                         <span w-i18n-ns="app.restore">
                             <span w-i18n="passwordForm.login"></span>
                         </span>
                     </w-password>
-
-                    <div ng-if="$ctrl.isNameExists" w-i18n="seedForm.nameExists"></div>
 
                 </w-step>
             </w-step-by-step>

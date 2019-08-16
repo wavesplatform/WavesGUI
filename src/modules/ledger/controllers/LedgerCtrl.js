@@ -91,10 +91,6 @@
                  */
                 this.isPriorityUserTypeExists = false;
                 /**
-                 * @type {boolean}
-                 */
-                this.isNameExists = false;
-                /**
                  * @type {string}
                  * @private
                  */
@@ -231,13 +227,9 @@
             /**
              * @return {void}
              */
-            async login() {
+            login() {
                 this._runLedgerCommand = 'login';
                 const userSettings = user.getDefaultUserSettings({ termsAccepted: false });
-
-                if (!this.name) {
-                    this.name = await user.getDefaultUserName();
-                }
 
                 const newUser = {
                     ...this.selectedUser,
@@ -300,9 +292,10 @@
              * @private
              */
             _onChangeName() {
-                this.isNameExists = this._usersInStorage.some(user => {
+                const isUnique = this._usersInStorage.some(user => {
                     return user.name === this.name && user.address !== this.selectedUser.address;
                 });
+                this.importForm.userName.$setValidity('isUnique', !isUnique);
             }
 
         }

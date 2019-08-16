@@ -73,10 +73,6 @@
                  */
                 this.userExisted = Object.create(null);
                 /**
-                 * @type {boolean}
-                 */
-                this.isNameExists = false;
-                /**
                  * @type {Array}
                  * @private
                  */
@@ -100,7 +96,6 @@
                     });
                 });
                 this.observe('address', this._onChangeAddress);
-                this.observe('name', this._onChangeName);
                 this.observe('key', this._onChangeKey);
                 this.observeOnce('keyForm', () => {
                     this.receive(utils.observe(this.keyForm, '$valid'), () => {
@@ -116,7 +111,7 @@
                 return modalManager.showTutorialModals();
             }
 
-            async restore() {
+            restore() {
 
                 if (!this.saveUserData) {
                     this.password = Date.now().toString();
@@ -126,10 +121,6 @@
 
                 const { encrypted, type } = this._getEncryptedAndType();
                 const userSettings = user.getDefaultUserSettings({ termsAccepted: false });
-
-                if (!this.name) {
-                    this.name = await user.getDefaultUserName();
-                }
 
                 const newUser = {
                     userType: type,
@@ -200,12 +191,6 @@
                 this.isPriorityUserTypeExists =
                     !!this.userExisted &&
                     this._priorityMap[this.activeTab] <= this._priorityMap[this.userExisted.userType];
-            }
-
-            _onChangeName() {
-                this.isNameExists = this._usersInStorage.some(user => {
-                    return user.name === this.name && user.address !== this.address;
-                });
             }
 
             /**

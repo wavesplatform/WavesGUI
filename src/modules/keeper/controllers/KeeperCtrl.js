@@ -53,7 +53,7 @@
             /**
              * @type {user}
              */
-            selectedUser = null;
+            selectedUser = Object.create(null);
             /**
              * @type {boolean}
              */
@@ -70,10 +70,6 @@
              * @type {object | null}
              */
             userExisted = Object.create(null);
-            /**
-             * @type {boolean}
-             */
-            isNameExists = false;
             /**
              * @type {Array}
              * @private
@@ -92,13 +88,13 @@
 
             constructor() {
                 super($scope);
+
+                this.observe('selectedUser', this._onSelectUser);
                 this.adapter.onUpdate(this._onUpdateAdapter);
 
                 user.getFilteredUserList().then(users => {
                     this._usersInStorage = users;
                 });
-
-                this.observe('selectedUser', this._onSelectUser);
 
                 this.getUsers();
             }
@@ -175,18 +171,15 @@
                         this.isInit = true;
                         this.loading = false;
                         $scope.$apply();
+                        this._onSelectUser();
                     });
             }
 
             /**
              * @return {void}
              */
-            async login() {
+            login() {
                 const userSettings = user.getDefaultUserSettings({ termsAccepted: false });
-
-                if (!this.selectedUser.name) {
-                    this.selectedUser.name = await user.getDefaultUserName();
-                }
 
                 const newUser = {
                     ...this.selectedUser,
@@ -231,9 +224,13 @@
              * @private
              */
             _onChangeName() {
-                this.isNameExists = this._usersInStorage.some(user => {
+                const isUnique = this._usersInStorage.some(user => {
                     return user.name === this.selectedUser.name && user.address !== this.selectedUser.address;
                 });
+
+                if (this.importForm) {
+                    this.importForm.userName.$setValidity('isUnique', !isUnique);
+                }
             }
 
             _onUpdateAdapter = (state) => this.onUpdateState(state);

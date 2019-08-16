@@ -40,6 +40,11 @@
                     this._setDefaultName();
                 });
 
+                user.logoutSignal.on(() => {
+                    this.name = '';
+                    this.address = '';
+                });
+
                 this.receive(utils.observe(user, 'name'), function () {
                     this.name = user.name;
                 }, this);
