@@ -143,6 +143,7 @@
     "password": {
         "minLength": "{{minLength}}자 이상 입력 필수",
         "name": "계정 아이디",
+        "nameExists": "That name is taken",
         "repeat": "비밀번호 확인",
         "secure": "비밀번호 보안",
         "title": "새로운 비밀번호로 계정 보호",

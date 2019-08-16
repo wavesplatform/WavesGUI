@@ -6,7 +6,7 @@
         }
     },
     "dex": {
-        "contest": "Contest"
+        "contest": "Wedstrijd"
     },
     "directives": {
         "balance": {
@@ -40,10 +40,17 @@
             "fee": "Tarief {{fee}} WAVES",
             "hasScript": "Annuleer [script](https://docs.wavesplatform.com/en/waves-client/advanced_features/script_transaction.html) om te handelen",
             "last": "Laatste",
-            "matcherFee": "Fee",
+            "matcherFee": "Transactiekosten",
             "notifications": {
                 "error": {
-                    "30702": "Het script van het account van {{address}} heeft de bestelling afgewezen",
+                    "11536128": "Het script van het item van {{assetId}} heeft de volgende fout geretourneerd: {{scriptError}}",
+                    "11536129": "Het script van het item van {{assetId}} werkt niet. Neem contact op met de eigenaar. De geretourneerde fout is {{errorName}}, de tekst is: {{errorText}}",
+                    "11536130": "Het script van het account van {{assetId}} heeft de order afgewezen",
+                    "11536132": "Het script van het item van {{assetId}} werkt niet. Neem contact op met de eigenaar. Het geretourneerde object is ' {{returnedObject}} '",
+                    "3147520": "Het script van het account van {{address}} heeft de volgende fout geretourneerd: {{scriptError}}",
+                    "3147521": "Het script van het account van {{address}} heeft de bestelling afgewezen",
+                    "3147522": "Het script van het account van {{address}} heeft de bestelling afgewezen",
+                    "3147524": "Het script van het account van {{address}} werkt niet. Neem contact op met de eigenaar. Het geretourneerde object is ' {{returnedObject}} '",
                     "title": "Error bericht"
                 },
                 "isCreated": "De order is gemaakt",
@@ -81,7 +88,7 @@
         },
         "myOrders": {
             "amount": "Bedrag",
-            "average": "Average",
+            "average": "Gemiddelde",
             "back": "Nee",
             "cancel": "annuleren",
             "cancelAll": "alles annuleren",
@@ -95,10 +102,11 @@
             "delete": "verwijderen",
             "detail": "detail",
             "fee": "tarief",
-            "filled": "Filled",
+            "filled": "Gevuld",
             "filter": "Filter",
             "noPermissionCancelOrder": "Order annuleren is tijdelijk niet beschikbaar",
             "notifications": {
+                "canceledAll": "Alle orders zijn geannuleerd",
                 "isCanceled": "De order is geannuleerd",
                 "somethingWentWrong": "Er is iets fout gegaan"
             },
@@ -109,7 +117,7 @@
             },
             "pair": "Paar",
             "placeholders": {
-                "lockedPair": "Trading in {{amountAssetTicker}} / {{priceAssetTicker}} is currently unavailable. You can cancel the order"
+                "lockedPair": "Handelen in {{amountAssetTicker}} / {{priceAssetTicker}} is momenteel niet beschikbaar. U kunt de order annuleren"
             },
             "price": "Prijs",
             "status": "Status",
@@ -174,7 +182,7 @@
                 "base": "Basis munt",
                 "coin": "Zoeken",
                 "filter": "Filter",
-                "lockedPair": "Trading in {{amountAssetTicker}} / {{priceAssetTicker}} is currently unavailable",
+                "lockedPair": "Handelen in {{amountAssetTicker}} / {{priceAssetTicker}} is momenteel niet beschikbaar",
                 "noMarkets": "Geen markten die overeenkomen met uw filters"
             },
             "price": "Prijs",

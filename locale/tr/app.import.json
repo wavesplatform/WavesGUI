@@ -11,6 +11,8 @@
     "LedgerClient": "Ledger cihazı",
     "ledgerDescription": "Hesapları Ledger Nano S'den içeri aktar",
     "or": "Veya",
+    "seedAndKey": "Anahtar kelimeler veya özel anahtar",
+    "seedAndKeyDescription": "Hesabı anahtar kelimelerden veya özel anahtardan içeri aktar",
     "selectButton": "Seç",
     "wavesClient": "Waves Uygulaması",
     "wavesClientDescription": "Waves Uygulamasından hesabı içe aktar",

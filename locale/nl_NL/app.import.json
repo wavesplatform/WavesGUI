@@ -11,6 +11,8 @@
     "LedgerClient": "Ledger Device",
     "ledgerDescription": "Accounts importeren van uw Ledger",
     "or": "OF",
+    "seedAndKey": "SEED of sleutel",
+    "seedAndKeyDescription": "Account importeren vanuit een back-up SEED of privésleutel",
     "selectButton": "Selecteer",
     "wavesClient": "Waves Client",
     "wavesClientDescription": "Account importeren van Waves Client",

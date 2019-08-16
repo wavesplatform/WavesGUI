@@ -43,7 +43,14 @@
             "matcherFee": "Prowizja",
             "notifications": {
                 "error": {
-                    "30702": "Skrypt konta {{address}} odrzucił zamówienie",
+                    "11536128": "The asset's script of {{assetId}} returned the error: {{scriptError}}",
+                    "11536129": "The asset's script of {{assetId}} is broken, please contact with the owner. The returned error is {{errorName}}, the text is: {{errorText}}",
+                    "11536130": "The asset's script of {{assetId}} rejected the order",
+                    "11536132": "The asset's script of {{assetId}} is broken, please contact with the owner. The returned object is '{{returnedObject}}'",
+                    "3147520": "The account's script of {{address}} returned the error: {{scriptError}}",
+                    "3147521": "Skrypt konta {{address}} odrzucił zamówienie",
+                    "3147522": "Skrypt konta {{address}} odrzucił zamówienie",
+                    "3147524": "The account's script of {{address}} is broken, please contact with the owner. The returned object is '{{returnedObject}}'",
                     "title": "Komunikat o błędzie"
                 },
                 "isCreated": "Zlecenie zostało wysłane",
@@ -99,7 +106,8 @@
             "filter": "Filtr",
             "noPermissionCancelOrder": "Chwilowo niedostępna możliwość anulowania zlecenia",
             "notifications": {
-                "isCanceled": "Zlecenie zostało anulowane",
+                "canceledAll": "Wszystkie zlecenia zostały anulowane",
+                "isCanceled": "To zlecenie zostało anulowane",
                 "somethingWentWrong": "Coś poszło nie tak"
             },
             "opened": "otwarte",
@@ -164,7 +172,7 @@
             "helpIcon": {
                 "assetId": "Kod Aktywa",
                 "AssetId1AssetId2": "Kod Aktywa nr 1 / Kod Aktywa nr 2",
-                "description": "Możesz dowiedzieć się więcej na temat wyszukiwania zasobów [here](https://docs.wavesplatform.com/en/waves-dex/start-trading-on-the-waves-dex.html)",
+                "description": "Możesz dowiedzieć się więcej na temat wyszukiwania aktywów [here](https://docs.wavesplatform.com/en/waves-dex/start-trading-on-the-waves-dex.html)",
                 "header": "Możesz wyszukiwać według:",
                 "name": "Nazwa",
                 "name1Name2": "Nazwa 1 / Nazwa 2"

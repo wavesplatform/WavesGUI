@@ -40,10 +40,17 @@
             "fee": "Komisyon {{fee}} WAVES",
             "hasScript": "Takas yapabilmek için [script]'i(https://docs.wavesplatform.com/en/waves-client/advanced_features/script_transaction.html) iptal edin",
             "last": "Son",
-            "matcherFee": "Fee",
+            "matcherFee": "Komisyon",
             "notifications": {
                 "error": {
-                    "30702": "{{address}} Hesabının script'i emri iptal etti.",
+                    "11536128": "{{assetId}} varlığının script'i bu hatayı döndürüyor: {{scriptError}}",
+                    "11536129": "{{assetId}} varlığının script'i bozulmuş. Lütfen sahibi ile iletişime geçin. Geri dönen hata: {{errorName}}, mesaj: {{errorText}}",
+                    "11536130": "{{assetId}} varlığının script'i emri reddetti.",
+                    "11536132": "{{assetId}} varlığının scripti bozulmuş, Lütfen sahibi ile iletişime geçin. Geri dönen değer: '{{returnedObject}}'",
+                    "3147520": "{{address}} Adresi bu hatayı döndürüyor: {{scriptError}}",
+                    "3147521": "{{address}} Hesabının script'i emri iptal etti.",
+                    "3147522": "{{address}} Hesabının script'i emri iptal etti.",
+                    "3147524": "{{address}} adresinin script'i bozulmuş, lütfen sahibi ile iletişime geçin. Dönen değer: '{{returnedObject}}'",
                     "title": "Hata mesajı"
                 },
                 "isCreated": "Emir girildi",
@@ -99,6 +106,7 @@
             "filter": "Filtrele",
             "noPermissionCancelOrder": "Emir iptali geçici olarak devre dışı",
             "notifications": {
+                "canceledAll": "Tüm emirler iptal edildi",
                 "isCanceled": "Emir iptal edildi",
                 "somethingWentWrong": "Birşeyler ters gitti"
             },

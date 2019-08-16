@@ -7,6 +7,7 @@
     },
     "ledgerForm": {
         "address": "Account address:",
+        "addressSaved": "Address saved",
         "avatarUnique": "This avatar is unique, you can’t change it later.",
         "back": "Go back",
         "choose": "Choose your account",
@@ -14,6 +15,7 @@
         "ImportOrSignIn": "Import account or",
         "login": "Continue",
         "name": "Account name",
+        "nameExists": "That name is taken",
         "or": "Or",
         "retry": "Retry",
         "savedOne": "to a saved account",

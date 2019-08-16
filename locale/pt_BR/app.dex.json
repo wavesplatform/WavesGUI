@@ -43,7 +43,14 @@
             "matcherFee": "Fee",
             "notifications": {
                 "error": {
-                    "30702": "The account's script of {{address}} rejected the order",
+                    "11536128": "The asset's script of {{assetId}} returned the error: {{scriptError}}",
+                    "11536129": "The asset's script of {{assetId}} is broken, please contact with the owner. The returned error is {{errorName}}, the text is: {{errorText}}",
+                    "11536130": "The asset's script of {{assetId}} rejected the order",
+                    "11536132": "The asset's script of {{assetId}} is broken, please contact with the owner. The returned object is '{{returnedObject}}'",
+                    "3147520": "The account's script of {{address}} returned the error: {{scriptError}}",
+                    "3147521": "The account's script of {{address}} rejected the order",
+                    "3147522": "The account's script of {{address}} rejected the order",
+                    "3147524": "The account's script of {{address}} is broken, please contact with the owner. The returned object is '{{returnedObject}}'",
                     "title": "Mensagem de erro"
                 },
                 "isCreated": "A ordem foi criada",
@@ -99,6 +106,7 @@
             "filter": "Filtrar",
             "noPermissionCancelOrder": "O cancelamento das ordens está temporariamente indisponível",
             "notifications": {
+                "canceledAll": "All orders have been canceled",
                 "isCanceled": "A ordem foi cancelada",
                 "somethingWentWrong": "Algo deu errado"
             },

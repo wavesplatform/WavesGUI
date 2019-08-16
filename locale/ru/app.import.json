@@ -11,6 +11,8 @@
     "LedgerClient": "Ledger",
     "ledgerDescription": "Импорт аккаунтов с устройства Ledger",
     "or": "ИЛИ",
+    "seedAndKey": "Секретная фраза или приватный ключ",
+    "seedAndKeyDescription": "Импорт аккаунта из сохраненной фразы или по приватному ключу",
     "selectButton": "Импортировать",
     "wavesClient": "Waves Client",
     "wavesClientDescription": "Import account from a Waves Client",

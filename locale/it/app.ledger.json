@@ -7,6 +7,7 @@
     },
     "ledgerForm": {
         "address": "Indirizzo dell'account:",
+        "addressSaved": "Indirizzo salvato",
         "avatarUnique": "Questo avatar è immodificabile, non potrà essere cambiato successivamente.",
         "back": "Torna indietro",
         "choose": "Seleziona il tuo account",
@@ -14,6 +15,7 @@
         "ImportOrSignIn": "Importa account oppure",
         "login": "Continua",
         "name": "Nome dell'account",
+        "nameExists": "Questo nome è già in uso",
         "or": "Oppure",
         "retry": "Riprova",
         "savedOne": "verso un account salvato",

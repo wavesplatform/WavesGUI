@@ -7,6 +7,7 @@
     },
     "ledgerForm": {
         "address": "Accountadres:",
+        "addressSaved": "Adres opgeslagen",
         "avatarUnique": "Deze avatar is uniek, u kunt deze later niet wijzigen.",
         "back": "Ga terug",
         "choose": "Kies uw account",
@@ -14,6 +15,7 @@
         "ImportOrSignIn": "Account importeren of",
         "login": "Doorgaan",
         "name": "Accountnaam",
+        "nameExists": "Die naam is in gebruik",
         "or": "of",
         "retry": "opnieuw proberen",
         "savedOne": "naar een opgeslagen account",

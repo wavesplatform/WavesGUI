@@ -1,4 +1,8 @@
 {
+    "keyForm": {
+        "placeholder": "Enter your private key here"
+    },
+    "keyTab": "Private key",
     "password": {
         "error": "Wrong Password!"
     },
@@ -32,10 +36,12 @@
     },
     "seedForm": {
         "address": "Address",
+        "addressSaved": "Address saved",
         "back": "Go back",
         "continue": "Continue",
         "create": "Create a new account",
         "description": "Your Seed the 15 words you saved when creating your account",
+        "nameExists": "That name is taken",
         "or": "or",
         "placeholder": "Your seed is the 15 words you saved when creating your account",
         "saveUserData": "Keep the account on this computer",
@@ -43,6 +49,13 @@
         "title": "Import from Seed",
         "tosaved": "to a saved account"
     },
+    "seedOrKeyForm": {
+        "description": "Enter your Seed phrase or private key to access your wallet",
+        "keyTitle": "Private key",
+        "seedTitle": "Seed phrase",
+        "title": "Import from seed or key"
+    },
+    "seedTab": "Seed phrase",
     "warningSeed": {
         "message": "Make sure you do not confuse the phrase with a wallet address. Using an address as a SEED phrase can result in loss of funds. The SEED phrase must consist of 15 words with spaces between each word.",
         "title": "The SEED phrase you entered is too short."

@@ -1,4 +1,8 @@
 {
+    "keyForm": {
+        "placeholder": "Enter your private key here"
+    },
+    "keyTab": "Private key",
     "password": {
         "error": "गलत पासवर्ड!"
     },
@@ -32,10 +36,12 @@
     },
     "seedForm": {
         "address": "पता",
+        "addressSaved": "Address saved",
         "back": "वापस जाओ",
         "continue": "जारी रखें",
         "create": "एक नया खाता बनाएं",
         "description": "नीचे अपने खाते में साइन इन हों या",
+        "nameExists": "That name is taken",
         "or": "या",
         "placeholder": "आपका सीड वे 15 शब्द हैं जिनको आपने अपना खाता बनाते समय सहेजा था",
         "saveUserData": "मुझे इस कम्प्यूटर पर साइन इन रखें",
@@ -43,6 +49,13 @@
         "title": "पहले से सहेजे खाते में",
         "tosaved": "वापसी पर स्वागत\""
     },
+    "seedOrKeyForm": {
+        "description": "Enter your Seed phrase or private key to access your wallet",
+        "keyTitle": "Private key",
+        "seedTitle": "Seed phrase",
+        "title": "Import from seed or key"
+    },
+    "seedTab": "Seed phrase",
     "warningSeed": {
         "message": "Make sure you do not confuse the phrase with a wallet address. Using an address as a SEED phrase can result in loss of funds. The SEED phrase must consist of 15 words with spaces between each word.",
         "title": "The SEED phrase you entered is too short."

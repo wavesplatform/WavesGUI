@@ -62,6 +62,7 @@
     },
     "keeperForm": {
         "address": "Hesap adresi",
+        "addressSaved": "Adres kaydedildi",
         "back": "Geri dön",
         "error": {
             "hasLockedKeeperDescription": "Waves Keeper ile devam edebilmek için önceden oluşturmuş olduğunuz parolayı girmeniz veya yeni bir parola oluşturmanız gerekmektedir.",
@@ -79,6 +80,7 @@
         "loading": "Hesabı Waves Keeper'dan içeri aktar",
         "login": "Devam",
         "name": "Hesap adı",
+        "nameExists": "Bu isim alınmış",
         "or": "VEYA",
         "retry": "Tekrar deneyin",
         "saveUserData": "Bu bilgisayardan çıkış yapma"
@@ -143,8 +145,8 @@
             "rating": {
                 "canVoteTip": "Kripto parayı değerlendirmek için tıklayın",
                 "tooltipLink": "Daha fazla",
-                "tooltipNeedWAVES": "and 0.001 WAVES",
-                "tooltipNeedWCT": "To rate a token, you must have at least 1",
+                "tooltipNeedWAVES": "ve 0.001 WAVES",
+                "tooltipNeedWCT": "Oy vermek için en az 1 WCT'niz olması gerekmektedir.",
                 "tooltipText": "İşlem komisyon ücreti 0.001 WAVES'dir. Kripto paralarınız cüzdanınızı terketmez. Oylama için bakiyeniz olması gerekmektedir. Puanlar 24 saat sonra işlenir. Bu süre zarfında mevcut bakiyenizi koruyun.",
                 "tooltipTitle": "Oy vermek için en az 1 WCT'niz olması gerekmektedir."
             },
@@ -195,64 +197,64 @@
             "coinomatBCH": {
                 "helpDescrText": "İşlemler onaylandıktan sonra BCH geçidi tarafından Waves adresinize transfer gerçekleştirilecektir.",
                 "helpDescrTitle": "Bu adresi Bitcoin Cash cüzdanına ya da uygulamasına giriniz.",
-                "warningMinAmountText": "0.001 BCH'ın altında gönderim yaparsanız paranızı kaybedersiniz.",
-                "warningMinAmountTitle": "Minimum yatırma tutarı 0.001 BCH'dır",
+                "warningMinAmountText": "{{minAmount, BigNumber}} {{assetTicker}}'ın altında gönderim yaparsanız paranızı kaybedersiniz.",
+                "warningMinAmountTitle": "Minimum yatırma tutarı {{minAmount, BigNumber}} {{assetTicker}}'dır",
                 "warningText": "Bu adrese başka bir kripto para gönderilmesi kayıplara yol açabilir.",
                 "warningTitle": "Bu adrese sadece BCH gönderin"
             },
             "coinomatBSV": {
                 "helpDescrText": "İşlemler onaylandıktan sonra BCH geçidi tarafından Waves adresinize transfer gerçekleştirilecektir.",
                 "helpDescrTitle": "Bu adresi Bitcoin Satoshi Vision cüzdanına veya uygulamasına giriniz.",
-                "warningMinAmountText": "Eğer 0.001 BSV'den daha az gönderirseniz, paranızı kaybedersiniz.",
-                "warningMinAmountTitle": "Minimum yatırma miktarı 0.001 BSV'dir",
+                "warningMinAmountText": "Eğer {{minAmount, BigNumber}} {{assetTicker}}'den daha az gönderirseniz, paranızı kaybedersiniz.",
+                "warningMinAmountTitle": "Minimum yatırma miktarı {{minAmount, BigNumber}} {{assetTicker}}'dir",
                 "warningText": "Bu adrese başka bir kripto para gönderimi kayıpla sonuçlanabilir.",
                 "warningTitle": "Bu adrese sadece BSV gönderin"
             },
             "coinomatBTC": {
                 "helpDescrText": "İşlemler onaylandıktan sonra Bitcoin geçidi tarafından Waves adresinize transfer gerçekleştirilecektir.",
                 "helpDescrTitle": "Bu adresi Bitcoin cüzdanına ya da uygulamasına giriniz.",
-                "warningMinAmountText": "0.001 BTC'nin altında gönderim yaparsanız paranızı kaybedersiniz.",
-                "warningMinAmountTitle": "Minimum yatırma tutarı 0.001 BTC'dir",
+                "warningMinAmountText": "{{minAmount, BigNumber}} {{assetTicker}}'nin altında gönderim yaparsanız paranızı kaybedersiniz.",
+                "warningMinAmountTitle": "Minimum yatırma tutarı {{minAmount, BigNumber}} {{assetTicker}}'dir",
                 "warningText": "Bu adrese başka bir kripto para gönderilmesi kayıplara yol açabilir.",
                 "warningTitle": "Bu adrese sadece BTC gönderin"
             },
             "coinomatDASH": {
                 "helpDescrText": "İşlemler onaylandıktan sonra DASH geçidi tarafından Waves adresinize transfer gerçekleştirilecektir.",
                 "helpDescrTitle": "Bu adresi DASH cüzdanınıza girin",
-                "warningMinAmountText": "0.1 DASH'in altında gönderim yaparsanız paranızı kaybedersiniz.",
-                "warningMinAmountTitle": "Minimum yatırma tutarı 0.1 DASH'dir",
+                "warningMinAmountText": "{{minAmount, BigNumber}} {{assetTicker}}'in altında gönderim yaparsanız paranızı kaybedersiniz.",
+                "warningMinAmountTitle": "Minimum yatırma tutarı {{minAmount, BigNumber}} {{assetTicker}}'dir",
                 "warningText": "Bu adrese başka bir kripto para gönderilmesi kayıplara yol açabilir.",
                 "warningTitle": "Bu adrese sadece DASH gönderin"
             },
             "coinomatETH": {
                 "helpDescrText": "İşlemler onaylandıktan sonra Ethereum geçidi tarafından Waves adresinize transfer gerçekleştirilecektir.",
                 "helpDescrTitle": "Bu adresi Ethereum cüzdanına ya da uygulamasına giriniz.",
-                "warningMinAmountText": "0.001 ETH'nin altında gönderim yaparsanız paranızı kaybedersiniz.",
-                "warningMinAmountTitle": "Minimum yatırma tutarı 0.001 ETH'dir",
+                "warningMinAmountText": "{{minAmount, BigNumber}} {{assetTicker}}'nin altında gönderim yaparsanız paranızı kaybedersiniz.",
+                "warningMinAmountTitle": "Minimum yatırma tutarı {{minAmount, BigNumber}} {{assetTicker}}'dir",
                 "warningText": "Cüzdanınızın veya Kripto para borsasının ETH çekimlerinde akıllı kontrat kullanıp kullanmadığını kontrol edin. Akıllı kontratlar tarafından gelen transferleri kabul edemiyoruz. Paranızı kaybedersiniz.",
                 "warningTitle": "ETH akıllı kontratlarından yatırma işlemi yapmayınız. ERC20 tokenleri yatırmayınız! Sadece Ethereum transferleri kabul edilir."
             },
             "coinomatLTC": {
                 "helpDescrText": "İşlemler onaylandıktan sonra Litecoin geçidi tarafından Waves adresinize transfer gerçekleştirilecektir.",
                 "helpDescrTitle": "Bu adresi Litecoin cüzdanına ya da uygulamasına giriniz.",
-                "warningMinAmountText": "0.001 LTC'nin altında gönderim yaparsanız paranızı kaybedersiniz.",
-                "warningMinAmountTitle": "Minimum yatırma tutarı 0.001 LTC'dir",
+                "warningMinAmountText": "{{minAmount, BigNumber}} {{assetTicker}}'nin altında gönderim yaparsanız paranızı kaybedersiniz.",
+                "warningMinAmountTitle": "Minimum yatırma tutarı {{minAmount, BigNumber}} {{assetTicker}}'dir",
                 "warningText": "Bu adrese başka bir kripto para gönderilmesi kayıplara yol açabilir.",
                 "warningTitle": "Bu adrese LTC dışında bir kripto para göndermeyin"
             },
             "coinomatXMR": {
                 "helpDescrText": "İşlemler onaylandıktan sonra Monero geçidi tarafından Waves adresinize transfer gerçekleştirilecektir.",
                 "helpDescrTitle": "Bu adresi Monero cüzdanına ya da uygulamasına giriniz.",
-                "warningMinAmountText": "0.1 XMR'ın altında gönderim yaparsanız paranızı kaybedersiniz.",
-                "warningMinAmountTitle": "Minimum yatırma tutarı 0.1 XMR'dır.",
+                "warningMinAmountText": "{{minAmount, BigNumber}} {{assetTicker}}'ın altında gönderim yaparsanız paranızı kaybedersiniz.",
+                "warningMinAmountTitle": "Minimum yatırma tutarı {{minAmount, BigNumber}} {{assetTicker}}'dır.",
                 "warningText": "Bu adrese başka bir kripto para gönderilmesi kayıplara yol açabilir.",
                 "warningTitle": "Bu adrese XMR dışında bir kripto para göndermeyin"
             },
             "coinomatZEC": {
                 "helpDescrText": "İşlemler onaylandıktan sonra ZCash geçidi tarafından Waves adresinize transfer gerçekleştirilecektir.",
                 "helpDescrTitle": "Bu adresi ZCash cüzdanına ya da uygulamasına giriniz.",
-                "warningMinAmountText": "0.001 Zcash'in altında gönderim yaparsanız paranızı kaybedersiniz.",
-                "warningMinAmountTitle": "Minimum yatırma tutarı 0.001 ZEC'dir.",
+                "warningMinAmountText": "{{minAmount, BigNumber}} Zcash'in altında gönderim yaparsanız paranızı kaybedersiniz.",
+                "warningMinAmountTitle": "Minimum yatırma tutarı {{minAmount, BigNumber}} {{assetTicker}}'dir.",
                 "warningText": "Bu adrese başka bir kripto para gönderilmesi kayıplara yol açabilir.",
                 "warningTitle": "Bu adrese ZCash dışında bir kripto para göndermeyin"
             },
@@ -262,7 +264,15 @@
             "pleaseNote": "Bu işlem için geçit herhangi bir komisyon almamaktadır.",
             "scanQrCode": "QR kodu tara",
             "title": "Yatır {{assetName}}",
-            "vostokVST": {
+            "wavesGatewayERGO": {
+                "helpDescrText": "İşlemler onaylandıktan sonra ERGO geçidi tarafından Waves adresinize transfer gerçekleştirilecektir.",
+                "helpDescrTitle": "Bu adresi ERGO cüzdanınıza girin",
+                "warningMinAmountText": "0.1 ERGO'nun altında gönderim yaparsanız paranızı kaybedersiniz.",
+                "warningMinAmountTitle": "Minimum yatırma tutarı 0.1 ERGO'dur. Maksimum yatırma tutarı ise 50 000 ERGO'dur.",
+                "warningText": "Bu adrese başka bir kripto para gönderimi kayıpla sonuçlanabilir.",
+                "warningTitle": "Bu adrese ERGO dışında bir kripto para göndermeyin"
+            },
+            "wavesGatewayVST": {
                 "helpDescrText": "İşlem onaylandıktan sonra Vostoklar Waves adresinize geçit tarafından gönderilir.",
                 "helpDescrTitle": "Bu adresi Vostok cüzdanına ya da uygulamasına giriniz.",
                 "warningMinAmountTitle": "Minimum yatırma tutarı 0.1 VST'dir. Maksimum yatırma tutarı ise 50 000 VST'dir."
@@ -433,6 +443,7 @@
             "receive": "Yatır",
             "serverAddressError": "Geçit adresi hatası",
             "serverError": "Coinomat hizmeti geçici olarak durdurulmuştur. Lütfen tekrar deneyin",
+            "serverWrongAddress": "Hatalı adres",
             "shareInvoiceLink": "Faturanın bir kopyasını paylaş",
             "verified": "Doğrulandı",
             "vostok": {
@@ -460,6 +471,9 @@
         "removeLedgerAccount": {
             "heading": "Ledger hesabını çıkart",
             "text": "Bu işlem sadece hesabınıza erişim yollarını siler. Ledger içerisindeki hesabınızı silmez."
+        },
+        "removePrivateKeyAccount": {
+            "text": "{div}[Eğer özel anahtarınızı kaydetmediyseniz hesabınızın kaldırılması ile birlikte bir daha bu hesaba erişemezsiniz.]\n{div}[KALDIR butonuna basarak bu hesabı kaldırabilir veya İPTAL butonuna basarak işlemi iptal edebilirsiniz.]"
         },
         "script": {
             "anyTx": "JSON",
@@ -596,7 +610,7 @@
                 "language": "Dil",
                 "minutes": "{{minutes}} dakika",
                 "openLinkViaWeb": "Linkleri Web uygulaması aracılığı ile açmak istiyorum.",
-                "playSound": "Play user interface sound effects",
+                "playSound": "Kullanıcı arayüzü ses efektlerini çal",
                 "theme": "Şema",
                 "timeout": "Oturum zaman aşımına uğradı",
                 "title": "Genel",
@@ -886,9 +900,11 @@
                 "1_2_6": "{span.line}[1. Çağırma scripti ile işlem desteği eklendi. [Daha Fazla](https://blog.wavesplatform.com/ride-for-dapps-hits-waves-testnet-e3f2906dd2aa)]\n{span.line}[2. Görsel tasarım geliştirildi ve ufak hatalar giderildi.]",
                 "1_2_8": "{span.line}[1. Spam kripto paralar ve işlemler gizlendi.]\n{span.line}[2. Görsel tasarım geliştirildi ve ufak hatalar giderildi.]",
                 "1_3_0": "{span.line}[1. Açılış sayfası güncellendi ve sayfalar arası dolaşım geliştirildi.]",
+                "1_3_18": "{span.line}[1. Özel anahtar ile giriş eklendi]\n{span.line}[2. Bir token'in 24 saatlik değişimi token/WAVES olarak ayarlandı.]",
                 "1_3_2": "{span.line}[1. Vostok geçidi faaliyete alındı.]\n{span.line}[2. Görsel tasarım geliştirildi ve ufak hatalar giderildi.]",
                 "1_3_5": "{span.line}[1. [wsoc.io](https://wsoc.io) Yarışma kripto paraları eklendi.]\n{span.line}[2. Fransızca desteği eklendi.]\n{span.line}[3. Ufak hatalar giderildi.]",
-                "1_3_7": "{span.line}[1. Integration with [tokenrating.wavesexplorer.com](https://tokenrating.wavesexplorer.com) Now you can rate tokens directly in the app.]\n{span.line}[2. Additional minor bugs have been fixed.]"
+                "1_3_7": "{span.line}[1. [tokenrating.wavesexplorer.com] entegrasyonu (https://tokenrating.wavesexplorer.com) Artık uygulamadan kripto paralar için derecelendirme puanı verebilirsiniz.]\n{span.line}[2. Ufak hatalar giderildi.]",
+                "1_3_9": "{span.line}[1. Görsel tasarım iyileştirildi. Borsa ve cüzdan geliştirmeleri yapıldı.]\n{span.line}[2. Ufak hatalar giderildi.]"
             },
             "title": "Güncelleme ile birlikte gelen yenilikler {{version}}"
         }

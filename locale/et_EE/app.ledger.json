@@ -7,6 +7,7 @@
     },
     "ledgerForm": {
         "address": "Konto aadress:",
+        "addressSaved": "Address saved",
         "avatarUnique": "See turvapilt on ainulaadne, te ei saa seda hiljem muuta.",
         "back": "Mine tagasi",
         "choose": "Valige oma konto",
@@ -14,6 +15,7 @@
         "ImportOrSignIn": "Importige konto või",
         "login": "Jätka",
         "name": "Kontonimi",
+        "nameExists": "That name is taken",
         "or": "Või",
         "retry": "Proovi uuesti",
         "savedOne": "salvestatud kontole",

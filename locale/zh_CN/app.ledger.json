@@ -7,6 +7,7 @@
     },
     "ledgerForm": {
         "address": "帐户地址：",
+        "addressSaved": "地址已保存",
         "avatarUnique": "这个头像是独一无二的，您以后不能改变头像。",
         "back": "返回",
         "choose": "选择您的帐户",
@@ -14,6 +15,7 @@
         "ImportOrSignIn": "导入帐户或",
         "login": "继续",
         "name": "帐户名",
+        "nameExists": "这个名字被采用了",
         "or": "或",
         "retry": "重试",
         "savedOne": "保存的帐户",

@@ -62,6 +62,7 @@
     },
     "keeperForm": {
         "address": "帐户地址",
+        "addressSaved": "地址已保存",
         "back": "回去",
         "error": {
             "hasLockedKeeperDescription": "要继续使用Waves Keeper，您必须输入以前创建的密码，或创建一个新密码。",
@@ -79,6 +80,7 @@
         "loading": "来自Waves Keeper的导入帐户",
         "login": "继续",
         "name": "用户名",
+        "nameExists": "这个名字被采用了",
         "or": "或",
         "retry": "再试一次",
         "saveUserData": "让我在这台电脑上登录"
@@ -145,8 +147,8 @@
                 "tooltipLink": "更多细节",
                 "tooltipNeedWAVES": "和 0.001 WAVES",
                 "tooltipNeedWCT": "要为代币评分，您必须至少有1个",
-                "tooltipText": "Tokens are not transferred, only on existing balance is required for voting.our score will be applied after 24 hours. Please keep the current tokens in the account during this time. \nFee 0.001 WAVES.",
-                "tooltipTitle": "To rate a token, you must have at least 1 WCT in your wallet."
+                "tooltipText": "代币不转让，投票只需要现有余额。您的分数将在24小时后应用。在此期间请保留帐户中的当前代币。 \n费用0.001波浪币。",
+                "tooltipTitle": "要为代币评分，您的钱包中必须至少有1个WCT。"
             },
             "reissue": {
                 "no": "不可再发行",
@@ -195,64 +197,64 @@
             "coinomatBCH": {
                 "helpDescrText": "交易确认后，网关将处理BCH转账到Waves账户中的代币。",
                 "helpDescrTitle": "将此地址输入在您的Bitcoin Cash客户端或钱包",
-                "warningMinAmountText": "如果您发送少于0.001 BCH，您将失去这笔钱。",
-                "warningMinAmountTitle": "最低存款金额为0.001 BCH",
+                "warningMinAmountText": "如果您发送少于{{minAmount, BigNumber}} {{assetTicker}}，您将失去这笔钱。",
+                "warningMinAmountTitle": "最低存款金额为{{minAmount, BigNumber}} {{assetTicker}}",
                 "warningText": "如通过该地址发送任何其他代币，您的代币将失去。",
                 "warningTitle": "只能将BCH发送到这个存款地址"
             },
             "coinomatBSV": {
                 "helpDescrText": "确认交易后，网关将处理将BSV转移到Waves帐户中的代币。",
                 "helpDescrTitle": "在您的比特币Satoshi Vision客户端或钱包中输入此地址",
-                "warningMinAmountText": "如果您发送的BSV低于0.001，您将失去这笔钱。",
-                "warningMinAmountTitle": "最低存款金额为0.001 BSV",
+                "warningMinAmountText": "如果您发送的{{assetTicker}}低于{{minAmount, BigNumber}}，您将失去这笔钱。",
+                "warningMinAmountTitle": "最低存款金额为{{minAmount, BigNumber}} {{assetTicker}}",
                 "warningText": "将任何其他货币发送到此地址可能会导致您的存款损失。",
                 "warningTitle": "仅将 BSV 发送到此存款地址"
             },
             "coinomatBTC": {
                 "helpDescrText": "交易确认之后，网关将处理BTC转账至您Waves帐户的代币。",
                 "helpDescrTitle": "将此地址输入您的比特币客户端或在线钱包",
-                "warningMinAmountText": "如果您发送的费用低于0.001 BTC，您将失去这笔钱。",
-                "warningMinAmountTitle": "最低存款金额为0.001 BTC",
+                "warningMinAmountText": "如果您发送的费用低于{{minAmount, BigNumber}} {{assetTicker}}，您将失去这笔钱。",
+                "warningMinAmountTitle": "最低存款金额为{{minAmount, BigNumber}} {{assetTicker}}",
                 "warningText": "如通过该地址发送任何其他代币，您的代币将失去。",
                 "warningTitle": "通过该存款地址只能发送BTC"
             },
             "coinomatDASH": {
                 "helpDescrText": "确认交易后，网关将处理将DASH转移到Waves帐户中的代币。",
                 "helpDescrTitle": "将此地址输入您的DASH客户端或钱包",
-                "warningMinAmountText": "如果您发送小于0.1的DASH，你会失去这笔钱。",
-                "warningMinAmountTitle": "最低存款金额为0.1 DASH",
+                "warningMinAmountText": "如果您发送小于{{minAmount, BigNumber}}的{{assetTicker}}，你会失去这笔钱。",
+                "warningMinAmountTitle": "最低存款金额为{{minAmount, BigNumber}} {{assetTicker}}",
                 "warningText": "如通过该地址发送任何其他代币，您的代币将失去。",
                 "warningTitle": "只能将DASH发送到这个存款地址"
             },
             "coinomatETH": {
                 "helpDescrText": "交易确认之后，网关将处理ETH转账至您Waves帐户的代币。",
                 "helpDescrTitle": "将此地址输入您的 以太坊客户端或在线钱包",
-                "warningMinAmountText": "如果您发送的费用低于0.001 ETH，您将失去这笔钱。",
-                "warningMinAmountTitle": "最低存款金额为0.001 ETH",
+                "warningMinAmountText": "如果您发送的费用低于{{minAmount, BigNumber}} {{assetTicker}}，您将失去这笔钱。",
+                "warningMinAmountTitle": "最低存款金额为{{minAmount, BigNumber}} {{assetTicker}}",
                 "warningText": "检查您的钱包或交易所是否为收回ETH使用智能合约。我们不接受这种交易，也不能退款。您将会失去这笔钱。",
                 "warningTitle": "请不要从智能合约中交存ETH！别交存ERC20代币！您只能交存以太坊Ethereum。"
             },
             "coinomatLTC": {
                 "helpDescrText": "交易确认之后，网关将处理LTC转账至您Waves帐户的代币。",
                 "helpDescrTitle": "将此地址输入您的莱特币客户端或在线钱包",
-                "warningMinAmountText": "如果您发送的费用低于0.001 LTC，您将失去这笔钱。",
-                "warningMinAmountTitle": "最低存款金额为0.001 LTC",
+                "warningMinAmountText": "如果您发送的费用低于{{minAmount, BigNumber}} {{assetTicker}}，您将失去这笔钱。",
+                "warningMinAmountTitle": "最低存款金额为{{minAmount, BigNumber}} {{assetTicker}}",
                 "warningText": "如通过该地址发送任何其他代币，您的代币将失去。",
                 "warningTitle": "通过该存款地址只能发送LTC"
             },
             "coinomatXMR": {
                 "helpDescrText": "交易确认之后，网关将处理XMR转账至您Waves帐户的代币。",
                 "helpDescrTitle": "将此地址输入在您的Monero客户端或钱包",
-                "warningMinAmountText": "如果您发送的费用低于0.001 XMR，您将失去这笔钱。",
-                "warningMinAmountTitle": "最低存款金额为0.001 XMR",
+                "warningMinAmountText": "如果您发送的费用低于{{minAmount, BigNumber}} {{assetTicker}}，您将失去这笔钱。",
+                "warningMinAmountTitle": "最低存款金额为{{minAmount, BigNumber}} {{assetTicker}}",
                 "warningText": "{div}[付款ID不是必需的.] 如通过该地址发送任何其他代币，您的代币将失去。",
                 "warningTitle": "通过该存款地址只能发送 XMR"
             },
             "coinomatZEC": {
                 "helpDescrText": "交易确认之后，网关将处理ZEC转账至您Waves帐户的代币。",
                 "helpDescrTitle": "将此地址输入您的Zcash客户端或在线钱包",
-                "warningMinAmountText": "如果您发送的费用低于0.001 ZEC，您将失去这笔钱。",
-                "warningMinAmountTitle": "最低存款金额为0.001 ZEC",
+                "warningMinAmountText": "如果您发送的费用低于{{minAmount, BigNumber}} {{assetTicker}}，您将失去这笔钱。",
+                "warningMinAmountTitle": "最低存款金额为{{minAmount, BigNumber}} {{assetTicker}}",
                 "warningText": "如通过该地址发送任何其他代币，您的代币将失去。",
                 "warningTitle": "通过该存款地址只能发送 Zcash"
             },
@@ -262,7 +264,15 @@
             "pleaseNote": "请注意，网关对此操作不收取费用。",
             "scanQrCode": "扫描二维码",
             "title": "存款{{assetName}}",
-            "vostokVST": {
+            "wavesGatewayERGO": {
+                "helpDescrText": "确认交易后，网关将处理将ERGO转移到Waves帐户中的代币。",
+                "helpDescrTitle": "在ERGO客户端或钱包中输入此地址",
+                "warningMinAmountText": "如果您发送的ERGO少于0.1，您将失去这笔钱。",
+                "warningMinAmountTitle": "最低存款金额为0.1 ERGO，最高存款金额为50 000 ERGO",
+                "warningText": "将任何其他货币发送到此地址可能会导致您的存款损失。",
+                "warningTitle": "仅将ERGO发送至此存款地址"
+            },
+            "wavesGatewayVST": {
                 "helpDescrText": "确认交易后，网关将处理将Vostok转移到Waves帐户中的代币。",
                 "helpDescrTitle": "在您的Vostok客户端或钱包中输入此地址",
                 "warningMinAmountTitle": "最低存款金额为0.1 VST，最高存款金额为50 000 VST"
@@ -433,6 +443,7 @@
             "receive": "存款",
             "serverAddressError": "Gateway地址错误",
             "serverError": "Service Coinomat暂时无法使用。稍后再试。",
+            "serverWrongAddress": "错误的地址",
             "shareInvoiceLink": "分享单据链接",
             "verified": "验证",
             "vostok": {
@@ -460,6 +471,9 @@
         "removeLedgerAccount": {
             "heading": "删除Ledger帐户",
             "text": "This will not delete the account from your Ledger. It will only delete the saved path to this account on your Ledger."
+        },
+        "removePrivateKeyAccount": {
+            "text": "{div} [如果您没有保存私钥，删除帐户将导致无法挽回的损失。] \n {div} [单击REMOVE按钮继续删除帐户，或单击CANCEL返回上一屏幕。]"
         },
         "script": {
             "anyTx": "JSON",
@@ -596,7 +610,7 @@
                 "language": "语言",
                 "minutes": "{{minutes}} 分钟",
                 "openLinkViaWeb": "我愿意通过网页版打开链接",
-                "playSound": "Play user interface sound effects",
+                "playSound": "播放用户界面音效",
                 "theme": "Theme",
                 "timeout": "您的访问超时在",
                 "title": "常规设置",
@@ -886,9 +900,11 @@
                 "1_2_6": "{span.line}[1。添加了调用脚本事务支持。 [阅读更多]（https://blog.wavesplatform.com/ride-for-dapps-hits-waves-testnet-e3f2906dd2aa)] \n {span.line}[2。改进的用户界面和其他小错误已得到修复。]",
                 "1_2_8": "{span.line} [1。垃圾邮件令牌和交易已隐藏在客户端中。] \n {span.line} [2。改进的用户界面和其他小错误已得到修复。]",
                 "1_3_0": "{span.line}[1。改进了应用程序导航和起始页面界面。]",
+                "1_3_18": "{span.line} [1。使用私钥添加了对钱包的登录。] \n {span.line} [2。令牌的24小时价格变化现在绑定到代币/ WAVES对。]",
                 "1_3_2": "{span.line} [1。 Vostok网关已经推出。] \n {span.line} [2。改进的用户界面和其他小错误已得到修复。]",
-                "1_3_5": "{span.line}[1. A tab with [wsoc.io](https://wsoc.io) contest tokens has been added.]\n{span.line}[2. French language support added.]\n{span.line}[3. Additional minor bugs have been fixed.]",
-                "1_3_7": "{span.line}[1. Integration with [tokenrating.wavesexplorer.com](https://tokenrating.wavesexplorer.com) Now you can rate tokens directly in the app.]\n{span.line}[2. Additional minor bugs have been fixed.]"
+                "1_3_5": "{span.line} [1。已添加包含[wsoc.io]（https://wsoc.io）竞赛代币的标签。 \n {span.line} [2。增加了法语支持。] \n {span.line} [3。其他小错误已得到修复。]",
+                "1_3_7": "{span.line} [1。与[tokenrating.wavesexplorer.com]集成（https://tokenrating.wavesexplorer.com）现在您可以直接在应用程序中对令牌进行评分。 \n {span.line} [2。其他小错误已得到修复。]",
+                "1_3_9": "{span.line} [1。改进了Exchange和电子钱包部分的UI和功能。] \n {span.line} [2。其他小错误已得到修复。]"
             },
             "title": "此更新 {{version}}中的新功能"
         }

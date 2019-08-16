@@ -7,6 +7,7 @@
     },
     "ledgerForm": {
         "address": "Alamat akun:",
+        "addressSaved": "Alamat disimpan",
         "avatarUnique": "Avatar ini unik, Anda tidak dapat mengubahnya nanti.",
         "back": "Kembali",
         "choose": "Pilih akun Anda",
@@ -14,6 +15,7 @@
         "ImportOrSignIn": "Impor akun atau",
         "login": "Lanjutkan",
         "name": "Nama akun",
+        "nameExists": "Nama itu diambil",
         "or": "Atau",
         "retry": "Ulangi",
         "savedOne": "ke akun yang disimpan",

@@ -1,4 +1,8 @@
 {
+    "keyForm": {
+        "placeholder": "Masukkan kunci pribadi Anda di sini"
+    },
+    "keyTab": "Kunci pribadi",
     "password": {
         "error": "Kata sandi salah!"
     },
@@ -32,10 +36,12 @@
     },
     "seedForm": {
         "address": "Alamat",
+        "addressSaved": "Alamat disimpan",
         "back": "Kembali",
         "continue": "Lanjut",
         "create": "buat akun baru",
         "description": "SEED Anda, 15 kata yang Anda simpan saat membuat akun",
+        "nameExists": "Nama itu diambil",
         "or": "atau",
         "placeholder": "SEED Anda adalah 15 kata yang Anda simpan saat membuat akun Anda",
         "saveUserData": "Simpan akun di komputer ini",
@@ -43,6 +49,13 @@
         "title": "Impor dari SEED",
         "tosaved": "ke akun yang disimpan"
     },
+    "seedOrKeyForm": {
+        "description": "Masukkan frase Seed atau kunci pribadi Anda untuk mengakses dompet Anda",
+        "keyTitle": "Kunci pribadi",
+        "seedTitle": "Frasa SEED",
+        "title": "Impor dari seed atau kunci"
+    },
+    "seedTab": "Frasa SEED",
     "warningSeed": {
         "message": "Pastikan Anda tidak mengacaukan frasa dengan alamat dompet. Menggunakan alamat sebagai frasa SEED dapat menyebabkan hilangnya dana. Frasa SEED harus terdiri dari 15 kata dengan spasi di antara setiap kata.",
         "title": "Frasa SEED yang Anda masukkan terlalu pendek."

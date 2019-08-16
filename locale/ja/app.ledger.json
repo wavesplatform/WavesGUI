@@ -7,6 +7,7 @@
     },
     "ledgerForm": {
         "address": "アカウントアドレス:",
+        "addressSaved": "Address saved",
         "avatarUnique": "このアバターはユニークです。あとで変更することはできません。",
         "back": "戻る",
         "choose": "アカウントを選択",
@@ -14,6 +15,7 @@
         "ImportOrSignIn": "アカウントをインポート。または、",
         "login": "次へ",
         "name": "アカウント名",
+        "nameExists": "That name is taken",
         "or": "または",
         "retry": "リトライ",
         "savedOne": "(保存されたアカウントへ)",

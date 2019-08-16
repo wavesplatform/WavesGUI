@@ -43,7 +43,14 @@
             "matcherFee": "手数料",
             "notifications": {
                 "error": {
-                    "30702": "{{address}} のアカウントに付加されたスクリプトが注文を拒否しました",
+                    "11536128": "The asset's script of {{assetId}} returned the error: {{scriptError}}",
+                    "11536129": "The asset's script of {{assetId}} is broken, please contact with the owner. The returned error is {{errorName}}, the text is: {{errorText}}",
+                    "11536130": "The asset's script of {{assetId}} rejected the order",
+                    "11536132": "The asset's script of {{assetId}} is broken, please contact with the owner. The returned object is '{{returnedObject}}'",
+                    "3147520": "The account's script of {{address}} returned the error: {{scriptError}}",
+                    "3147521": "{{address}} のアカウントに付加されたスクリプトが注文を拒否しました",
+                    "3147522": "{{address}} のアカウントに付加されたスクリプトが注文を拒否しました",
+                    "3147524": "The account's script of {{address}} is broken, please contact with the owner. The returned object is '{{returnedObject}}'",
                     "title": "エラーメッセージ"
                 },
                 "isCreated": "注文が作成されました",
@@ -99,6 +106,7 @@
             "filter": "フィルター",
             "noPermissionCancelOrder": "現在、注文のキャンセルはできません",
             "notifications": {
+                "canceledAll": "All orders have been canceled",
                 "isCanceled": "注文がキャンセルされました",
                 "somethingWentWrong": "何かがおかしいようです"
             },

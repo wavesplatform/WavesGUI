@@ -11,6 +11,8 @@
     "LedgerClient": "Perangkat Ledger",
     "ledgerDescription": "Impor akun dari Perangkat Ledger Anda",
     "or": "Atau",
+    "seedAndKey": "SEED atau kunci",
+    "seedAndKeyDescription": "Impor akun dari SEED cadangan atau kunci pribadi",
     "selectButton": "Memilih",
     "wavesClient": "Klien Waves",
     "wavesClientDescription": "Mengimpor akun dari klien Waves",

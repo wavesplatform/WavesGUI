@@ -43,7 +43,14 @@
             "matcherFee": "수수료",
             "notifications": {
                 "error": {
-                    "30702": "{{address}}의 계정 스크립트가 주문을 거부했습니다",
+                    "11536128": "The asset's script of {{assetId}} returned the error: {{scriptError}}",
+                    "11536129": "The asset's script of {{assetId}} is broken, please contact with the owner. The returned error is {{errorName}}, the text is: {{errorText}}",
+                    "11536130": "The asset's script of {{assetId}} rejected the order",
+                    "11536132": "The asset's script of {{assetId}} is broken, please contact with the owner. The returned object is '{{returnedObject}}'",
+                    "3147520": "The account's script of {{address}} returned the error: {{scriptError}}",
+                    "3147521": "{{address}}의 계정 스크립트가 주문을 거부했습니다",
+                    "3147522": "{{address}}의 계정 스크립트가 주문을 거부했습니다",
+                    "3147524": "The account's script of {{address}} is broken, please contact with the owner. The returned object is '{{returnedObject}}'",
                     "title": "오류 메세지"
                 },
                 "isCreated": "주문이 접수되었습니다",
@@ -99,6 +106,7 @@
             "filter": "필터",
             "noPermissionCancelOrder": "일시적으로 주문을 취소할 수 없습니다",
             "notifications": {
+                "canceledAll": "All orders have been canceled",
                 "isCanceled": "주문이 취소되었습니다",
                 "somethingWentWrong": "문제가 발생했습니다"
             },

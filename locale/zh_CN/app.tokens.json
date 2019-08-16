@@ -30,8 +30,8 @@
     },
     "name": "您的资产名称",
     "NFT": {
-        "description": "A non-fungible token (NFT) is a unique, individual token existing on the Waves blockchain. Currently, display of NFTs in Waves Wallet and on Waves DEX is not supported. You can see your NFTs in [Waves Explorer](https://wavesexplorer.com/)",
-        "title": "You are creating a non-fungible token."
+        "description": "不可互换代币（NFT）是Waves区块链中存在的唯一个人令牌。目前，不支持在Waves Wallet和Waves DEX中显示NFT。您可以在[Waves Explorer]（https://wavesexplorer.com/）中查看您的NFT",
+        "title": "您正在创建一个不可替代的代币。"
     },
     "notifications": {
         "isNotCreated": "代币尚未创建"

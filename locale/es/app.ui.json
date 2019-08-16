@@ -24,8 +24,8 @@
             "cancel-leasing": "Has cancelado una transsación de arrendamiento",
             "circular": "Has enviado {{amount, money-currency}} a ti mismo",
             "create-alias": "Has creado un alias",
-            "data": "You have sent data transaction",
-            "data-vote": "{div.line}[You have voted for {{moneyCurrency}}.]\n{div.line}[Your score will be applied after 24 hours. Rating in processing.]",
+            "data": "Ha enviado una transacción de datos",
+            "data-vote": "{div.line} [Has votado por {{moneyCurrency}} .] \n {div.line} [Su puntaje se aplicará después de 24 horas. Clasificación en proceso.]",
             "issue": "Has generado",
             "lease-out": "Has alquilado {{amount, money-currency}}",
             "mass-send": "Has enviado {{totalAmount, money-currency}}",
@@ -42,7 +42,7 @@
         "JSON": "JSON",
         "ledgerUnconfirmed": {
             "description": "Inténtalo de nuevo. Si el error persiste, consulte [este artículo](https://support.ledgerwallet.com/hc/en-us/articles/115005165269-Fix-connection-issues)",
-            "header": "No confirmó la solicitud en su Ledger"
+            "header": "No confirmó la solicitud en su dispositivo Ledger"
         },
         "notPermited": {
             "cancel-leasing": "El 'leasing' no está disponible temporalmente"
@@ -106,7 +106,7 @@
             "confirmRequestLedger": {
                 "cancel": "Anular",
                 "errorDescription": "Por favor, inténtelo de nuevo. Si el error persiste, por favor, consulte [este artículo](https://support.ledgerwallet.com/hc/en-us/articles/115005165269-Fix-connection-issues)",
-                "errorHeader": "No ha confirmado la solicitud en el dispositivo Ledger Nano S",
+                "errorHeader": "No ha confirmado la solicitud en el dispositivo Ledger",
                 "sign": "Reintentar la firma",
                 "waiting": "Esperando confirmación del Ledger Nano S..."
             },
@@ -130,12 +130,12 @@
             "gateway_ui": "gateway"
         },
         "sign": {
-            "signByLedger": "Esperando confirmación del Ledger..."
+            "signByLedger": "Esperando confirmación de su dispositivo Ledger"
         },
         "token": {
             "warning": {
                 "header": "Usted acepta que:",
-                "text": "{div.line}[I) You will not use the token for fraudulent purposes;]\n{div.line}[II) You will not duplicate, fully or in part, the name of an existing cryptocurrency or a well-known company with the aim of misleading users;]\n{div.line}[III) You will not use names of states, other administrative units or municipal institutions for the token's name with the aim of misleading users;]\n{div.line}[IV) You will not set a script on a smart asset that limits exchange transactions on Waves DEX by asset quantity;]\n{div.line}[V) You will not give false information in a smart asset's description concerning the rules governing the token's use, which do not correspond to those of the script installed on it;]",
+                "text": "{div.line} [I) No utilizará el token con fines fraudulentos;] \n {div.line} [II) No duplicará, ni total ni parcialmente, el nombre de una criptomoneda existente o una empresa conocida con el objetivo de engañar a los usuarios;] \n {div.line} [III) No usará nombres de estados, otras unidades administrativas o instituciones municipales para el nombre del token con el objetivo de engañar a los usuarios;] \n {div.line} [IV) No establecerá un script en un activo inteligente que limite las transacciones de intercambio en Waves DEX mediante cantidad de activos;] \n {div.line} [V) No proporcionará información falsa en la descripción de un activo inteligente con respecto a las reglas que rigen el uso del token, que no corresponden a las del script instalado en él;]",
                 "textWarning": "En caso de incumplir alguno de estos puntos, sus tokens serán clasificados como spam, y solo será posible su búsqueda mediante la ID."
             }
         }
@@ -143,6 +143,7 @@
     "password": {
         "minLength": "debe ser al menos de {{minLength}} caracteres",
         "name": "Nombre de la cuenta",
+        "nameExists": "That name is taken",
         "repeat": "Confirma la contraseña",
         "secure": "contraseña segura",
         "title": "Protege tu cuenta con una nueva contraseña",
@@ -194,7 +195,7 @@
             "circular": "Auto-transferido {{name}}",
             "create-alias": "Alias creado",
             "data": "Transacción de datos",
-            "data-vote": "Voted for {{assetName}}",
+            "data-vote": "Voto por {{assetName}} realizado",
             "exchange-amount": "{{amountAsset}}/{{priceAsset}}",
             "exchange-buy": "Compra-intercambio:",
             "exchange-sell": "Venta-intercambio:",
@@ -205,7 +206,7 @@
             "mass-send": "Enviado {{name}}",
             "receive": "Recibidos {{name}}",
             "reissue": "{{name}} Re-emisión de token",
-            "script-invocation": "Script Invocation",
+            "script-invocation": "Invocación de script",
             "send": "Enviado {{name}}",
             "set-asset-script": "Establecer transacción activo de script",
             "set-script": "Establecer transacción de script",
@@ -222,27 +223,27 @@
             "attachment": "Mensaje adjunto",
             "cancelTx": "Leasing TX",
             "confirmations": "Confirmaciones",
-            "copyCode": "Copy Code",
+            "copyCode": "Copiar código",
             "data": "Datos",
-            "dataKey": "Key",
-            "dataType": "Type",
-            "dataValue": "Value",
+            "dataKey": "Llave",
+            "dataType": "Tipo",
+            "dataValue": "Valor",
             "description": "Descripción",
             "exchange": {
-                "buy": "Buy",
-                "buyMatcherFee": "Buy Matcher Fee",
-                "exchangeType": "Order type",
-                "matcherFee": "Matcher Fee",
-                "pair": "Pair",
-                "sell": "Sell"
+                "buy": "Comprar",
+                "buyMatcherFee": "Tarifa de compra del Matcher",
+                "exchangeType": "Tipo de orden",
+                "matcherFee": "Tarifa del Matcher",
+                "pair": "Par",
+                "sell": "Vender"
             },
             "fee": "Comisión",
             "from": "De",
-            "function": "Function",
-            "functionCall": "Function call",
+            "function": "Función",
+            "functionCall": "Llamada de función",
             "height": "Bloque",
-            "hide": "Hide",
-            "hideAll": "Hide all",
+            "hide": "Ocultar",
+            "hideAll": "Ocultar todo",
             "leasingStatus": "Estado",
             "massSend": {
                 "showAll": {
@@ -254,19 +255,19 @@
             "numberOfRecipients": "Número de receptores",
             "orderType": "La clase de orden",
             "pair": "Par",
-            "payment": "Payment",
+            "payment": "Pago",
             "price": "{{name}} Precio",
             "script": "Script",
-            "scriptAddress": "Script address",
-            "seeAll": "See all",
+            "scriptAddress": "Dirección de script",
+            "seeAll": "Ver todo",
             "setAssetScript": {
                 "showScript-false": "Monstrar",
                 "showScript-true": "Ocultar"
             },
-            "show": "Show",
-            "showAll": "Show all ({{count}})",
-            "showFirstTree": "Show first 3 keys",
-            "status": "Status",
+            "show": "Mostrar",
+            "showAll": "Mostrar todas ({{count}})",
+            "showFirstTree": "Mostrar las 3 primeras llaves",
+            "status": "Estado",
             "timestamp": "Marca de tiempo",
             "to": "A",
             "toBeReissued": "Volverá a emitir",

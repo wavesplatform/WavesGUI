@@ -21,7 +21,7 @@
         "filter": "Buscar"
     },
     "qr": "Tu dirección",
-    "qualified": "qualified",
+    "qualified": "calificado",
     "qualifieds": "Calificado ({span}[{{count}}])",
     "receive": "Recibir",
     "reissue": "Reeditar Token",

@@ -62,6 +62,7 @@
     },
     "keeperForm": {
         "address": "Адрес аккаунта",
+        "addressSaved": "Адрес сохранен",
         "back": "Вернуться назад",
         "error": {
             "hasLockedKeeperDescription": "Для продолжения работы с Waves Keeper вам необходимо ввести ранее созданный пароль, или создать новый.",
@@ -79,6 +80,7 @@
         "loading": "Импортировать аккаунт из Waves Keeper",
         "login": "Продолжить",
         "name": "Название аккаунта",
+        "nameExists": "Имя занято",
         "or": "ИЛИ",
         "retry": "Try again",
         "saveUserData": "Сохранить аккаунт на этом устройстве"
@@ -145,7 +147,7 @@
                 "tooltipLink": "More Details",
                 "tooltipNeedWAVES": "and 0.001 WAVES",
                 "tooltipNeedWCT": "To rate a token, you must have at least 1",
-                "tooltipText": "Tokens are not transferred, only on existing balance is required for voting.our score will be applied after 24 hours. Please keep the current tokens in the account during this time. \nFee 0.001 WAVES.",
+                "tooltipText": "Tokens are not transferred, only an existing balance is required for voting.  Your score will be applied after 24 hours. Please keep the current tokens in the account during this time. \nFee 0.001 WAVES.",
                 "tooltipTitle": "To rate a token, you must have at least 1 WCT in your wallet."
             },
             "reissue": {
@@ -195,64 +197,64 @@
             "coinomatBCH": {
                 "helpDescrText": "Как только транзакция будет подтверждена, шлюз отправит BCH-токен на ваш аккаунт Waves.",
                 "helpDescrTitle": "Введите этот адрес в ваш Bitcoin Cash клиент или кошелёк.",
-                "warningMinAmountText": "Если вы отправите меньше чем 0.001 BCH, вы потеряете деньги.",
-                "warningMinAmountTitle": "Минимальная сумма депозита 0.001 BCH.",
+                "warningMinAmountText": "Если вы отправите меньше чем {{minAmount, BigNumber}} {{assetTicker}}, вы потеряете деньги.",
+                "warningMinAmountTitle": "Минимальная сумма депозита {{minAmount, BigNumber}} {{assetTicker}}.",
                 "warningText": "Отправка любой другой валюты на этот адрес может повлечь за собой потерю средств.",
                 "warningTitle": "Отправляйте только BCH на этот адрес"
             },
             "coinomatBSV": {
                 "helpDescrText": "Как только транзакция будет подтверждена, шлюз отправит BSV-токен на ваш аккаунт Waves.",
                 "helpDescrTitle": "Введите этот адрес в ваш Bitcoin Cash клиент или кошелёк.",
-                "warningMinAmountText": "Если вы отправите меньше чем 0.001 BSV, вы потеряете деньги.",
-                "warningMinAmountTitle": "Минимальная сумма депозита 0.001 BSV.",
+                "warningMinAmountText": "Если вы отправите меньше чем {{minAmount, BigNumber}} {{assetTicker}}, вы потеряете деньги.",
+                "warningMinAmountTitle": "Минимальная сумма депозита {{minAmount, BigNumber}} {{assetTicker}}.",
                 "warningText": "Отправка любой другой валюты на этот адрес может повлечь за собой потерю средств.",
                 "warningTitle": "Отправляйте только BSV на этот адрес"
             },
             "coinomatBTC": {
                 "helpDescrText": "Как только транзакция будет подтверждена, шлюз отправит BTC-токен на ваш аккаунт Waves.",
                 "helpDescrTitle": "Введите этот адрес в ваш Bitcoin клиент или кошелёк.",
-                "warningMinAmountText": "Если вы отправите меньше чем 0.001 BTC, вы потеряете деньги.",
-                "warningMinAmountTitle": "Минимальная сумма депозита 0.001 BTC.",
+                "warningMinAmountText": "Если вы отправите меньше чем {{minAmount, BigNumber}} {{assetTicker}}, вы потеряете деньги.",
+                "warningMinAmountTitle": "Минимальная сумма депозита {{minAmount, BigNumber}} {{assetTicker}}.",
                 "warningText": "Отправка любой другой валюты на этот адрес может повлечь за собой потерю средств.",
                 "warningTitle": "Отправляйте только BTC на этот адрес"
             },
             "coinomatDASH": {
                 "helpDescrText": "Как только транзакция будет подтверждена, шлюз отправит DASH-токен на ваш аккаунт Waves.",
                 "helpDescrTitle": "Введите этот адрес в ваш DASH клиент или кошелёк.",
-                "warningMinAmountText": "Если вы отправите меньше чем 0.1 DASH, вы потеряете деньги.",
-                "warningMinAmountTitle": "Минимальная сумма депозита 0.1 DASH.",
+                "warningMinAmountText": "Если вы отправите меньше чем {{minAmount, BigNumber}} {{assetTicker}}, вы потеряете деньги.",
+                "warningMinAmountTitle": "Минимальная сумма депозита {{minAmount, BigNumber}} {{assetTicker}}.",
                 "warningText": "Отправка любой другой валюты на этот адрес может повлечь за собой потерю средств.",
                 "warningTitle": "Отправляйте только DASH на этот адрес"
             },
             "coinomatETH": {
                 "helpDescrText": "Как только транзакция будет подтверждена, шлюз отправит ETH-токен на ваш аккаунт Waves.",
                 "helpDescrTitle": "Введите этот адрес в ваш Ethereum клиент или кошелёк.",
-                "warningMinAmountText": "Если вы отправите меньше чем 0.001 ETH, вы потеряете деньги.",
-                "warningMinAmountTitle": "Минимальная сумма депозита 0.001 ETH.",
+                "warningMinAmountText": "Если вы отправите меньше чем {{minAmount, BigNumber}} {{assetTicker}}, вы потеряете деньги.",
+                "warningMinAmountTitle": "Минимальная сумма депозита {{minAmount, BigNumber}} {{assetTicker}}.",
                 "warningText": "Проверьте, не использует ли ваш кошелёк или биржа смарт-контракты для отправки ETH. Мы не принимаем такие переводы и не можем возместить их. Вы потеряете эти деньги.",
                 "warningTitle": "Не отправляйте ETH со смарт-контрактов! Не отправляйте ERC20-токены! Только Ethereum."
             },
             "coinomatLTC": {
                 "helpDescrText": "Как только транзакция будет подтверждена, шлюз отправит LTC-токен на ваш аккаунт Waves.",
                 "helpDescrTitle": "Введите этот адрес в ваш Litecoin клиент или кошелёк.",
-                "warningMinAmountText": "Если вы отправите меньше чем 0.001 LTC, вы потеряете деньги.",
-                "warningMinAmountTitle": "Минимальная сумма депозита 0.001 LTC.",
+                "warningMinAmountText": "Если вы отправите меньше чем {{minAmount, BigNumber}} {{assetTicker}}, вы потеряете деньги.",
+                "warningMinAmountTitle": "Минимальная сумма депозита {{minAmount, BigNumber}} {{assetTicker}}.",
                 "warningText": "Отправка любой другой валюты на этот адрес может повлечь за собой потерю средств.",
                 "warningTitle": "Отправляйте только LTC на этот адрес"
             },
             "coinomatXMR": {
                 "helpDescrText": "Как только транзакция будет подтверждена, шлюз отправит XMR-токен на ваш аккаунт Waves.",
                 "helpDescrTitle": "Введите этот адрес в ваш Monero клиент или кошелёк.",
-                "warningMinAmountText": "Если вы отправите меньше чем 0.1 XMR, вы потеряете деньги.",
-                "warningMinAmountTitle": "Минимальная сумма депозита 0.1 XMR",
+                "warningMinAmountText": "Если вы отправите меньше чем {{minAmount, BigNumber}} {{assetTicker}}, вы потеряете деньги.",
+                "warningMinAmountTitle": "Минимальная сумма депозита {{minAmount, BigNumber}} {{assetTicker}}",
                 "warningText": "{div}[Payment ID не требуется.]Отправка любой другой валюты на этот адрес может повлечь за собой потерю средств.",
                 "warningTitle": "Отправляйте только XMR на этот адрес"
             },
             "coinomatZEC": {
                 "helpDescrText": "Как только транзакция будет подтверждена, шлюз отправит ZEC-токен на ваш аккаунт Waves.",
                 "helpDescrTitle": "Введите этот адрес в ваш Zcash клиент или кошелёк.",
-                "warningMinAmountText": "Если вы отправите меньше чем 0.001 ZEC, вы потеряете деньги.",
-                "warningMinAmountTitle": "Минимальная сумма депозита 0.001 ZEC.",
+                "warningMinAmountText": "Если вы отправите меньше чем {{minAmount, BigNumber}} {{assetTicker}}, вы потеряете деньги.",
+                "warningMinAmountTitle": "Минимальная сумма депозита {{minAmount, BigNumber}} {{assetTicker}}.",
                 "warningText": "Отправка любой другой валюты на этот адрес может повлечь за собой потерю средств.",
                 "warningTitle": "Отправляйте только Zcash на этот адрес"
             },
@@ -262,7 +264,15 @@
             "pleaseNote": "Обратите внимание, что шлюз не взимает комиссию за эту операцию.",
             "scanQrCode": "Просканируйте QR-код",
             "title": "Пополнить {{assetName}}",
-            "vostokVST": {
+            "wavesGatewayERGO": {
+                "helpDescrText": "Как только транзакция будет подтверждена, шлюз отправит ERGO-токен на ваш аккаунт Waves.",
+                "helpDescrTitle": "Введите этот адрес в ваш ERGO клиент или кошелёк.",
+                "warningMinAmountText": "Если вы отправите меньше чем 0.1 ERGO, вы потеряете деньги.",
+                "warningMinAmountTitle": "Минимальная сумма депозита 0.1 ERGO, максимальная сумма депозита 50 000 ERGO",
+                "warningText": "Отправка любой другой валюты на этот адрес может повлечь за собой потерю средств.",
+                "warningTitle": "Отправляйте только ERGO на этот адрес"
+            },
+            "wavesGatewayVST": {
                 "helpDescrText": "Как только транзакция будет подтверждена, шлюз отправит Vostok-токен на ваш аккаунт Waves.",
                 "helpDescrTitle": "Введите этот адрес в ваш Vostok клиент или кошелёк.",
                 "warningMinAmountTitle": "Минимальная сумма депозита 0.1 VST, максимальная сумма депозита 50 000 VST"
@@ -433,6 +443,7 @@
             "receive": "Пополнить",
             "serverAddressError": "Перевод на указанный вами адрес невозможен",
             "serverError": "Сервис Coinomat временно недоступен. Попробуйте, пожалуйста, позже.",
+            "serverWrongAddress": "Wrong address",
             "shareInvoiceLink": "Ссылка на выставленный счет",
             "verified": "Проверенный",
             "vostok": {
@@ -460,6 +471,9 @@
         "removeLedgerAccount": {
             "heading": "Удалить Ledger аккаунт",
             "text": "Удаление Ledger аккаунта не приведет к его утрате. Вы удалите его только из списка сохраненных аккаунтов."
+        },
+        "removePrivateKeyAccount": {
+            "text": "{div}[Удаление аккаунта приведет к его утрате, если вы не сохранили Приватный ключ.]{div}[Нажмите кнопку УДАЛИТЬ, чтобы удалить аккаунт, или ОТМЕНА, чтобы вернуться к предыдущему экрану.]"
         },
         "script": {
             "anyTx": "JSON",
@@ -580,7 +594,7 @@
             "scripted": "Установлен",
             "title": "Обновить скрипт",
             "unavailable": "Обновление скрипта временно недоступно",
-            "warningDescription": "{div}[Мы не рекомендуем устанавливать скрипт на аккаунт, если вы неопытный пользователь. Ошибка может привести к потере вашего ассета навсегда.]",
+            "warningDescription": "{div}[Мы не рекомендуем устанавливать скрипт, если вы неопытный пользователь. Ошибка может привести к потере вашего ассета навсегда.]",
             "warningHeader": "Действия могут привести к потере ассета."
         },
         "settings": {
@@ -886,9 +900,11 @@
                 "1_2_6": "{span.line}[1. Добавлена поддержка Invocation-скриптов. [Подробнее](https://blog.wavesplatform.com/ride-for-dapps-hits-waves-testnet-e3f2906dd2aa)]\n{span.line}[2. Улучшен UI и исправлено несколько багов.]",
                 "1_2_8": "{span.line}[1. Спам токены и транзакции скрыты в клиенте.]\n{span.line}[2. Улучшен UI и исправлено несколько багов.]",
                 "1_3_0": "{span.line}[1. Улучшена навигация приложения и интерфейс стартовых страниц.]",
+                "1_3_18": "{span.line}[1. Добавлен импорт из приватного ключа.]\n{span.line}[2. Изменение цены токена теперь считается по паре с WAVES.]",
                 "1_3_2": "{span.line}[1. Запущен шлюз Vostok.]\n{span.line}[2. Улучшен UI и исправлено несколько багов.]",
                 "1_3_5": "{span.line}[1. Добавлена вкладка с токенами конкурса [wsoc.io](https://wsoc.io)]\n{span.line}[2. Добавлена поддержка франзуского языка]\n{span.line}[3. Исправлены мелкие ошибки]",
-                "1_3_7": "{span.line}[1. Интеграция с [tokenrating.wavesexplorer.com](https://tokenrating.wavesexplorer.com) Теперь вы можете голосовать за токены прямо в приложении]\n{span.line}[2. Исправлены мелкие ошибки]"
+                "1_3_7": "{span.line}[1. Интеграция с [tokenrating.wavesexplorer.com](https://tokenrating.wavesexplorer.com) Теперь вы можете голосовать за токены прямо в приложении]\n{span.line}[2. Исправлены мелкие ошибки]",
+                "1_3_9": "{span.line}[1. Улучшен UI и функциональность разделов Биржа и Кошелек.]\n{span.line}[2. Исправлены мелкие ошибки.]"
             },
             "title": "Новое в этом обновлении {{version}}"
         }

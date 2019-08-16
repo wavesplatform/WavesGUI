@@ -1,4 +1,8 @@
 {
+    "keyForm": {
+        "placeholder": "Inserisci la tua chiave privata qui"
+    },
+    "keyTab": "Chiave Privata",
     "password": {
         "error": "Password Errata!"
     },
@@ -32,10 +36,12 @@
     },
     "seedForm": {
         "address": "Indirizzo",
+        "addressSaved": "Indirizzo salvato",
         "back": "Torna indietro",
         "continue": "Continua",
         "create": "crea un nuovo account",
         "description": "Il tuo Seed è composto di 15 parole che dovresti aver salvato al momento della creazione del tuo account",
+        "nameExists": "Questo nome è già in uso",
         "or": "oppure",
         "placeholder": "Il tuo seed è composto di 15 parole che dovresti aver salvato al momento della creazione del tuo account",
         "saveUserData": "Salva l'account su questo computer",
@@ -43,6 +49,13 @@
         "title": "Importa dal Seed",
         "tosaved": "su un account salvato"
     },
+    "seedOrKeyForm": {
+        "description": "Inserisci la tua frase Seed o la chiave privata per accedere al tuo wallet",
+        "keyTitle": "Chiave Privata",
+        "seedTitle": "La tua frase Seed",
+        "title": "Importa dal Seed o da una chiave"
+    },
+    "seedTab": "La tua frase Seed",
     "warningSeed": {
         "message": "Utilizzare un indirizzo come frase SEED è assolutamente sconsigliato, in quanto altamente insicuro. Sei sicuro di voler continuare?SEED",
         "title": "la frase SEED inserita è troppo corta"

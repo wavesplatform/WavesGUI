@@ -62,6 +62,7 @@
     },
     "keeperForm": {
         "address": "계정 주소",
+        "addressSaved": "Address saved",
         "back": "뒤로가기",
         "error": {
             "hasLockedKeeperDescription": "Waves Keeper로 작업을 계속하려면 귀하의 비밀번호를 입력하거나 새로 생성하세요.",
@@ -79,6 +80,7 @@
         "loading": "Waves Keeper에서 계정 불러오기",
         "login": "계속",
         "name": "계정 이름",
+        "nameExists": "That name is taken",
         "or": "또는",
         "retry": "다시 시도하세요",
         "saveUserData": "이 컴퓨터에서 로그인 계속 유지"
@@ -195,64 +197,64 @@
             "coinomatBCH": {
                 "helpDescrText": "트랜잭션이 승인되면 게이트웨이가 귀하의 Waves 계정에서 BCH를 토큰으로 전송하는 작업을 처리할 것입니다.",
                 "helpDescrTitle": "이 주소를 Bitcoin Cash 클라이언트 또는 지갑에 입력하세요",
-                "warningMinAmountText": "0.001 미만의 BCH를 입금할 경우 귀하의 자산을 잃게 됩니다.",
-                "warningMinAmountTitle": "최소 입금액은 0.001 BCH 입니다",
+                "warningMinAmountText": "{{minAmount, BigNumber}} 미만의 {{assetTicker}}를 입금할 경우 귀하의 자산을 잃게 됩니다.",
+                "warningMinAmountTitle": "최소 입금액은 {{minAmount, BigNumber}} {{assetTicker}} 입니다",
                 "warningText": "이 주소로 다른 암호화폐를 전송할 경우 귀하의 자산을 잃게 됩니다.",
                 "warningTitle": "이 입금 주소로 BCH만 전송하세요"
             },
             "coinomatBSV": {
                 "helpDescrText": "트랜잭션이 승인되면 게이트웨이가 귀하의 Waves 계정에서 BSV를 토큰으로 전송하는 작업을 처리할 것입니다.",
                 "helpDescrTitle": "이 주소를 Bitcoin Satoshi Vision 클라이언트 또는 지갑에 입력하세요",
-                "warningMinAmountText": "0.001 미만의 BSV를 입금할 경우 귀하의 자산을 잃게 됩니다.",
-                "warningMinAmountTitle": "최소 입금액은 0.001 BSV입니다",
+                "warningMinAmountText": "{{minAmount, BigNumber}} 미만의 {{assetTicker}}를 입금할 경우 귀하의 자산을 잃게 됩니다.",
+                "warningMinAmountTitle": "최소 입금액은 {{minAmount, BigNumber}} {{assetTicker}}입니다",
                 "warningText": "해당 주소로 다른 자산을 보내면 귀하의 자산을 잃을 수 있습니다.",
                 "warningTitle": "본 입금 주소로 BTC만 전송하세요"
             },
             "coinomatBTC": {
                 "helpDescrText": "트랜잭션이 승인되면 게이트웨이가 귀하의 Waves 계정에서 BTC를 토큰으로 전송하는 작업을 처리할 것입니다.",
                 "helpDescrTitle": "이 주소를 Bitcoin 클라이언트 또는 지갑에 입력하세요",
-                "warningMinAmountText": "0.001 미만의 BTC를 입금할 경우 귀하의 자산을 잃게 됩니다.",
-                "warningMinAmountTitle": "최소 입금액은 0.001 BTC 입니다",
+                "warningMinAmountText": "{{minAmount, BigNumber}} 미만의  {{assetTicker}}를 입금할 경우 귀하의 자산을 잃게 됩니다.",
+                "warningMinAmountTitle": "최소 입금액은 {{minAmount, BigNumber}} {{assetTicker}} 입니다",
                 "warningText": "이 주소로 다른 암호화폐를 전송할 경우 귀하의 자산을 잃게 됩니다.",
                 "warningTitle": "본 입금 주소로 BTC만 전송하세요"
             },
             "coinomatDASH": {
                 "helpDescrText": "트랜잭션이 승인되면 게이트웨이가 귀하의 Waves 계정에서 DASH를 토큰으로 전송하는 작업을 처리할 것입니다.",
                 "helpDescrTitle": "이 주소를 DASH 클라이언트 또는 지갑에 입력하세요",
-                "warningMinAmountText": "0.1 미만의 DASH를 입금할 경우 귀하의 자산을 잃게 됩니다.",
-                "warningMinAmountTitle": "최소 입금액은 0.1 DASH 입니다",
+                "warningMinAmountText": "{{minAmount, BigNumber}} 미만의 {{assetTicker}}를 입금할 경우 귀하의 자산을 잃게 됩니다.",
+                "warningMinAmountTitle": "최소 입금액은 {{minAmount, BigNumber}} {{assetTicker}} 입니다",
                 "warningText": "이 주소로 다른 암호화폐를 전송할 경우 귀하의 자산을 잃게 됩니다.",
                 "warningTitle": "본 입금 주소로 DASH만 전송하세요"
             },
             "coinomatETH": {
                 "helpDescrText": "트랜잭션이 승인되면 게이트웨이가 귀하의 Waves 계정에서 ETH를 토큰으로 전송하는 작업을 처리할 것입니다.",
                 "helpDescrTitle": "이 주소를 Ethereum 클라이언트 또는 지갑에 입력하세요",
-                "warningMinAmountText": "0.001 미만의 ETH를 입금할 경우 귀하의 자산을 잃게 됩니다.",
-                "warningMinAmountTitle": "최소 입금액은 0.001 ETH 입니다",
+                "warningMinAmountText": "{{minAmount, BigNumber}} 미만의 {{assetTicker}}를 입금할 경우 귀하의 자산을 잃게 됩니다.",
+                "warningMinAmountTitle": "최소 입금액은 {{minAmount, BigNumber}} {{assetTicker}} 입니다",
                 "warningText": "ETH를 출금하려고 하는 지갑 또는 거래소가 Smart-Contracts를 사용하는지 확인하세요. 당사는 해당 트랜잭션을 수신하지 않으며 환불 또한 불가능합니다. 귀하의 자산을 잃게 됩니다.",
                 "warningTitle": "Smart Contracts에서 ETH를 입금하지 마세요! ERC20 토큰을 입금하지 마세요! Ethereum 입금만 가능합니다."
             },
             "coinomatLTC": {
                 "helpDescrText": "트랜잭션이 승인되면 게이트웨이가 귀하의 Waves 계정에서 LTC를 토큰으로 전송하는 작업을 처리할 것입니다.",
                 "helpDescrTitle": "이 주소를 Litecoin 클라이언트 또는 지갑에 입력하세요",
-                "warningMinAmountText": "0.001 미만의 LTC를 입금할 경우 귀하의 자산을 잃게 됩니다.",
-                "warningMinAmountTitle": "최소 입금액은 0.001 LTC 입니다",
+                "warningMinAmountText": "{{minAmount, BigNumber}} 미만의 {{assetTicker}}를 입금할 경우 귀하의 자산을 잃게 됩니다.",
+                "warningMinAmountTitle": "최소 입금액은 {{minAmount, BigNumber}} {{assetTicker}} 입니다",
                 "warningText": "이 주소로 다른 암호화폐를 전송할 경우 귀하의 자산을 잃게 됩니다.",
                 "warningTitle": "이 입금 주소로 LTC만 전송하세요"
             },
             "coinomatXMR": {
                 "helpDescrText": "트랜잭션이 승인되면 게이트웨이가 귀하의 Waves 계정에서 XMR을 토큰으로 전송하는 작업을 처리할 것입니다.",
                 "helpDescrTitle": "이 주소를 XMR 클라이언트 또는 지갑에 입력하세요",
-                "warningMinAmountText": "0.1 미만의 XMR를 입금할 경우 귀하의 자산을 잃게 됩니다.",
-                "warningMinAmountTitle": "최소 입금액은 0.1 XMR 입니다",
+                "warningMinAmountText": "{{minAmount, BigNumber}} 미만의 {{assetTicker}}를 입금할 경우 귀하의 자산을 잃게 됩니다.",
+                "warningMinAmountTitle": "최소 입금액은 {{minAmount, BigNumber}} {{assetTicker}} 입니다",
                 "warningText": "{div}[Payment ID는 필요하지 않습니다.]이 주소로 다른 암호화폐를 전송할 경우 귀하의 자산을 잃게 됩니다.",
                 "warningTitle": "이 입금 주소로 XMR만 전송하세요"
             },
             "coinomatZEC": {
                 "helpDescrText": "트랜잭션이 승인되면 게이트웨이가 귀하의 Waves 계정에서 ZEC를 토큰으로 전송하는 작업을 처리할 것입니다.",
                 "helpDescrTitle": "이 주소를 Zcash 클라이언트 또는 지갑에 입력하세요",
-                "warningMinAmountText": "0.001 미만의 ZEC를 입금할 경우 귀하의 자산을 잃게 됩니다.",
-                "warningMinAmountTitle": "최소 입금액은 0.001 ZEC 입니다",
+                "warningMinAmountText": "{{minAmount, BigNumber}} 미만의 {{assetTicker}}를 입금할 경우 귀하의 자산을 잃게 됩니다.",
+                "warningMinAmountTitle": "최소 입금액은 {{minAmount, BigNumber}} {{assetTicker}} 입니다",
                 "warningText": "이 주소로 다른 암호화폐를 전송할 경우 귀하의 자산을 잃게 됩니다.",
                 "warningTitle": "이 입금 주소로 Zcash만 전송하세요"
             },
@@ -262,7 +264,15 @@
             "pleaseNote": "게이트웨이는 본 작업을 위해 수수료를 적용하지 않습니다.",
             "scanQrCode": "QR 코드 스캔",
             "title": "{{assetName}} 입금",
-            "vostokVST": {
+            "wavesGatewayERGO": {
+                "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of ERGO to a token in your Waves account.",
+                "helpDescrTitle": "Enter this address into your ERGO client or wallet",
+                "warningMinAmountText": "If you will send less than 0.1 ERGO, you will lose that money.",
+                "warningMinAmountTitle": "The minimum amount of deposit is 0.1 ERGO, the maximum amount of deposit is 50 000 ERGO",
+                "warningText": "Sending any other currency to this address may result in the loss of your deposit.",
+                "warningTitle": "Send only ERGO to this deposit address"
+            },
+            "wavesGatewayVST": {
                 "helpDescrText": "트랜잭션이 승인되면 게이트웨이가 귀하의 Waves 계정에서 Vostok를 토큰으로 전송하는 작업을 처리할 것입니다.",
                 "helpDescrTitle": "이 주소를 Vostok 클라이언트 또는 지갑에 입력하세요",
                 "warningMinAmountTitle": "최소 입금액은 0.1 VST 이며 최대 입금액은 50,000 VST 입니다."
@@ -433,6 +443,7 @@
             "receive": "입금",
             "serverAddressError": "게이트웨이 주소 오류",
             "serverError": "Coinomat 서비스를 일시적으로 사용할 수 없습니다. 나중에 다시 시도하세요.",
+            "serverWrongAddress": "Wrong address",
             "shareInvoiceLink": "인보이스 링크 복사",
             "verified": "인증 완료",
             "vostok": {
@@ -460,6 +471,9 @@
         "removeLedgerAccount": {
             "heading": "Ledger 계정 삭제",
             "text": "본 작업은 귀하의 Ledger에서 계정을 삭제하지 않습니다. 귀하의 Ledger에서 이 계정으로 저장된 경로만 삭제합니다."
+        },
+        "removePrivateKeyAccount": {
+            "text": "{div}[Deleting an account will lead to its irretrievable loss if you didn't save a Private key.]\n{div}[Click on the REMOVE button to proceed with account removal, or CANCEL to return to the previous screen.]"
         },
         "script": {
             "anyTx": "JSON",
@@ -886,9 +900,11 @@
                 "1_2_6": "{span.line}[1. Invocation 스크립트 트랜잭션 지원 추가. [자세히 보기](https://blog.wavesplatform.com/ride-for-dapps-hits-waves-testnet-e3f2906dd2aa)]\n{span.line}[2. UI 개선 및 기타 버그 픽스.]",
                 "1_2_8": "{span.line}[1. 스팸 토큰과 스팸 트랜잭션을 클라이언트에서 숨깁니다.]\n{span.line}[2. UI 개선 및 기타 버그 픽스.]",
                 "1_3_0": "{span.line}[1. 앱 네비게이션 및 시작 페이지 인터페이스 개선.]",
+                "1_3_18": "{span.line}[1. Added login to wallet using a private key.]\n{span.line}[2. The 24 hours price change of a token is now bound to token/WAVES pair.]",
                 "1_3_2": "{span.line}[1. Vostok 게이트웨이 런칭 완료.]\n{span.line}[2. UI 개선 및 기타 버그 픽스.]",
                 "1_3_5": "{span.line}[1. [wsoc.io](https://wsoc.io) 컨테스트 토큰 탭 추가 완료.]\n{span.line}[2. 프랑스어 지원 추가.]\n{span.line}[3. 기타 버그 픽스.]",
-                "1_3_7": "{span.line}[1. Integration with [tokenrating.wavesexplorer.com](https://tokenrating.wavesexplorer.com)과의 통합. 앱에서 토큰을 평가할 수 있습니다.]\n{span.line}[2. 기타 버그 픽스.]"
+                "1_3_7": "{span.line}[1. Integration with [tokenrating.wavesexplorer.com](https://tokenrating.wavesexplorer.com)과의 통합. 앱에서 토큰을 평가할 수 있습니다.]\n{span.line}[2. 기타 버그 픽스.]",
+                "1_3_9": "{span.line}[1. Improved UI and functionality of Exchange and Wallet sections.]\n{span.line}[2. Additional minor bugs have been fixed.]"
             },
             "title": "{{version}} 업데이트의 새로운 기능 및 변경 사항"
         }

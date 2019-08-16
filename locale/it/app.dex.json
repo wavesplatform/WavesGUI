@@ -40,10 +40,17 @@
             "fee": "Spese {{fee}} WAVES",
             "hasScript": "Cancella [script](https://docs.wavesplatform.com/en/waves-client/advanced_features/script_transaction.html) da scambiare",
             "last": "Ultimi",
-            "matcherFee": "Fee",
+            "matcherFee": "Spese",
             "notifications": {
                 "error": {
-                    "30702": "Lo script dell'account di {{address}} ha rifiutato l'ordine",
+                    "11536128": "Lo script dell'asset di {{assetId}} ha riportato il seguente errore: {{scriptError}}",
+                    "11536129": "Lo script dell'asset di {{assetId}} è malfunzionante, contatta il proprietario. L'oggetto restituito è {{errorName}}, il testo riportato è: {{errorText}}",
+                    "11536130": "Lo script dell'asset di {{assetId}} ha rifiutato l'ordine",
+                    "11536132": "Lo script dell'asset di {{assetId}} è malfunzionante, contatta il proprietario. L'oggetto restituito è '{{returnedObject}}'",
+                    "3147520": "Lo script dell'asset di {{address}} ha riportato il seguente errore: {{scriptError}}",
+                    "3147521": "Lo script dell'account di {{address}} ha rifiutato l'ordine",
+                    "3147522": "Lo script dell'account di {{address}} ha rifiutato l'ordine",
+                    "3147524": "Lo script dell'asset di {{address}} è malfunzionante, contatta il proprietario. L'oggetto restituito è '{{returnedObject}}'",
                     "title": "Messaggio d'errore"
                 },
                 "isCreated": "L'ordine è stato creato",
@@ -99,6 +106,7 @@
             "filter": "Filtro",
             "noPermissionCancelOrder": "La cancellazione degli ordini è temporaneamente non disponibile",
             "notifications": {
+                "canceledAll": "Tutti gli ordini sono stati annullati",
                 "isCanceled": "L'ordine è stato cancellato",
                 "somethingWentWrong": "Qualcosa non ha funzionato"
             },
@@ -164,7 +172,7 @@
             "helpIcon": {
                 "assetId": "ID Asset",
                 "AssetId1AssetId2": "ID Asset1 / ID Asset2",
-                "description": "Puoi trovare maggiori dettagli sulla ricerca di asset [qui](https://docs.wavesplatform.com/en/waves-dex/start-trading-on-the-waves-dex.html)",
+                "description": "Puoi trovare maggiori dettagli riguardo la ricerca di asset [qui] (https://docs.wavesplatform.com/en/waves-dex/start-trading-on-the-waves-dex.html)",
                 "header": "Ricerca per:",
                 "name": "Nome",
                 "name1Name2": "Nome1 / Nome2"

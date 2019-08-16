@@ -1,4 +1,8 @@
 {
+    "keyForm": {
+        "placeholder": "Özel anahtarınızı buraya girin"
+    },
+    "keyTab": "Özel Anahtar",
     "password": {
         "error": "Hatalı Parola!"
     },
@@ -32,10 +36,12 @@
     },
     "seedForm": {
         "address": "Adres",
+        "addressSaved": "Adres kaydedildi",
         "back": "Geri dön",
         "continue": "Devam",
         "create": "Yeni bir hesap oluşturun",
         "description": "Anahtar kelimeleriniz cüzdanınızı oluştururken size verilen 15 kelimeden oluşmaktadır",
+        "nameExists": "Bu isim alınmış",
         "or": "veya",
         "placeholder": "Anahtar kelimeleriniz cüzdanınızı oluştururken size verilen 15 kelimeden oluşmaktadır",
         "saveUserData": "Bu bilgisayarda otomatik çıkış yapma",
@@ -43,6 +49,13 @@
         "title": "Anahtar kelimelerden içeri aktar",
         "tosaved": "kaydedilmiş hesaba"
     },
+    "seedOrKeyForm": {
+        "description": "Cüzdanınıza erişmek için Anahtar kelimeleri veya özel anahtarınızı girin.",
+        "keyTitle": "Özel Anahtar",
+        "seedTitle": "Anahtar kelimeler",
+        "title": "Anahtar kelimelerden içeri aktar"
+    },
+    "seedTab": "Anahtar kelimeler",
     "warningSeed": {
         "message": "Bir adresin anahtar kelime (SEED) yerine kullanılmasını önermiyoruz. Bu yöntem güvenli değil! Devam etmek istediğinizden emin misiniz?",
         "title": "Anahtar kelimeleri (SEED) değil, bir adres girdiniz."

@@ -1,6 +1,6 @@
 {
-    "createAccount": "Create account",
-    "notHaveAccounts": "You do not have saved accounts",
+    "createAccount": "Crear una cuenta",
+    "notHaveAccounts": "No tienes cuentas guardadas.",
     "nothingHere": "Nada por aquí...",
     "password": {
         "error": "¡Contraseña incorrecta!"
@@ -10,11 +10,11 @@
         "buttons": {
             "login": "Iniciar sesión"
         },
-        "notHaveAccount": "Please sign in to continue",
+        "notHaveAccount": "Por favor inicie sesión para continuar",
         "password": "Contraseña",
         "placeholders": {
             "password": "Contraseña"
         },
-        "title": "Registrarse"
+        "title": "Bienvenido de nuevo"
     }
 }

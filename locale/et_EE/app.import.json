@@ -11,6 +11,8 @@
     "LedgerClient": "Ledger Device",
     "ledgerDescription": "Importige kontosid Teie Ledger Nano S'st",
     "or": "VÕI",
+    "seedAndKey": "Seed or Key",
+    "seedAndKeyDescription": "Import account from a backup SEED or Private key",
     "selectButton": "Vali",
     "wavesClient": "Waves Client",
     "wavesClientDescription": "Import account from a Waves Client",

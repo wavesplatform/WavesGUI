@@ -7,6 +7,7 @@
     },
     "ledgerForm": {
         "address": "खाता पता:",
+        "addressSaved": "Address saved",
         "avatarUnique": "यह अवतार अनोखा है, आप इसे बाद में नहीं बदल सकते।",
         "back": "वापस जाओ",
         "choose": "अपना खाता चुनें",
@@ -14,6 +15,7 @@
         "ImportOrSignIn": "इम्पोर्ट खाता या",
         "login": "जारी रहना",
         "name": "खाते का नाम",
+        "nameExists": "That name is taken",
         "or": "या",
         "retry": "पुन: प्रयास करें",
         "savedOne": "एक सेव्ड खाते में",

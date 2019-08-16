@@ -11,6 +11,8 @@
     "LedgerClient": "Ledger Device",
     "ledgerDescription": "Import accounts from your Ledger Device",
     "or": "OR",
+    "seedAndKey": "Seed or Key",
+    "seedAndKeyDescription": "Import account from a backup SEED or Private key",
     "selectButton": "Select",
     "wavesClient": "Waves Client",
     "wavesClientDescription": "Import account from a Waves Client",

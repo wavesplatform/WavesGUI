@@ -30,8 +30,8 @@
     },
     "name": "Nama aset Anda",
     "NFT": {
-        "description": "A non-fungible token (NFT) is a unique, individual token existing on the Waves blockchain. Currently, display of NFTs in Waves Wallet and on Waves DEX is not supported. You can see your NFTs in [Waves Explorer](https://wavesexplorer.com/)",
-        "title": "You are creating a non-fungible token."
+        "description": "Token non-fungible (NFT) adalah token individual unik yang ada di blockchain Waves. Saat ini, tampilan NFTs di dompet Waves dan pada WAVES DEX tidak didukung. Anda dapat melihat NFTs Anda di [Waves Explorer] (https://wavesexplorer.com/)",
+        "title": "Anda membuat token yang tidak dapat dipertukarkan."
     },
     "notifications": {
         "isNotCreated": "Token belum dibuat"

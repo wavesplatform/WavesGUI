@@ -1,4 +1,8 @@
 {
+    "keyForm": {
+        "placeholder": "Enter your private key here"
+    },
+    "keyTab": "Private key",
     "password": {
         "error": "Mot de passe erroné !"
     },
@@ -32,10 +36,12 @@
     },
     "seedForm": {
         "address": "Adresse",
+        "addressSaved": "Address saved",
         "back": "Retour",
         "continue": "Continuer",
         "create": "Créer un nouveau compte",
         "description": "Votre SEED est constituée des 15 mots que vous avez sauvegardés à la création de votre compte",
+        "nameExists": "That name is taken",
         "or": "ou",
         "placeholder": "Votre phrase secrète est constituée des 15 mots que vous avez enregistrés lors de la création de votre compte",
         "saveUserData": "Conserver le compte sur cet ordinateur",
@@ -43,6 +49,13 @@
         "title": "Importer depuis une phrase secrète (SEED)",
         "tosaved": "vers un compte enregistré"
     },
+    "seedOrKeyForm": {
+        "description": "Enter your Seed phrase or private key to access your wallet",
+        "keyTitle": "Private key",
+        "seedTitle": "Seed phrase",
+        "title": "Import from seed or key"
+    },
+    "seedTab": "Seed phrase",
     "warningSeed": {
         "message": "Veillez à ne pas confondre la phrase avec une adresse de portefeuille. Utiliser une adresse comme phrase secrète (SEED) peut entraîner une perte de fonds. La phrase secrète (SEED) doit être constituée de 15 mots séparés par des espaces.",
         "title": "La phrase secrète (SEED) que vous avez entrée est trop courte."

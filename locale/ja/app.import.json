@@ -11,6 +11,8 @@
     "LedgerClient": "Ledgerデバイス",
     "ledgerDescription": "Ledger デバイスからアカウントをインポート",
     "or": "または",
+    "seedAndKey": "Seed or Key",
+    "seedAndKeyDescription": "Import account from a backup SEED or Private key",
     "selectButton": "選択",
     "wavesClient": "Waves クライアント",
     "wavesClientDescription": "Waves クライアントからアカウントをインポート",

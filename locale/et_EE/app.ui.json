@@ -143,6 +143,7 @@
     "password": {
         "minLength": "peab olema vähemalt {{minLength}} tähemärki",
         "name": "Kontonimi",
+        "nameExists": "That name is taken",
         "repeat": "Kinnita salasõna",
         "secure": "turvaline parool",
         "title": "Kaitsta oma kontot uue parooliga",

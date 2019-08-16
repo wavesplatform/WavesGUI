@@ -6,7 +6,7 @@
         }
     },
     "dex": {
-        "contest": "Contest"
+        "contest": "Concurso"
     },
     "directives": {
         "balance": {
@@ -43,7 +43,14 @@
             "matcherFee": "Fee",
             "notifications": {
                 "error": {
-                    "30702": "The account's script of {{address}} rejected the order",
+                    "11536128": "The asset's script of {{assetId}} returned the error: {{scriptError}}",
+                    "11536129": "The asset's script of {{assetId}} is broken, please contact with the owner. The returned error is {{errorName}}, the text is: {{errorText}}",
+                    "11536130": "The asset's script of {{assetId}} rejected the order",
+                    "11536132": "The asset's script of {{assetId}} is broken, please contact with the owner. The returned object is '{{returnedObject}}'",
+                    "3147520": "The account's script of {{address}} returned the error: {{scriptError}}",
+                    "3147521": "El script de la cuenta  {{address}} rechazó la transacción.",
+                    "3147522": "El script de la cuenta  {{address}} rechazó la transacción.",
+                    "3147524": "The account's script of {{address}} is broken, please contact with the owner. The returned object is '{{returnedObject}}'",
                     "title": "Un mensaje de error"
                 },
                 "isCreated": "La orden se ha creado",
@@ -81,13 +88,13 @@
         },
         "myOrders": {
             "amount": "Cantidad",
-            "average": "Average",
+            "average": "Promedio",
             "back": "No",
             "cancel": "cancelar",
             "cancelAll": "cancelar todo",
             "cancelAllConfirm": "Sí",
             "canceled": "cancelado",
-            "cancelled": "CANCELED",
+            "cancelled": "CANCELADO",
             "confirm": {
                 "header": "¿Está seguro?",
                 "literalDescription": "No se puede deshacer esta acción"
@@ -95,10 +102,11 @@
             "delete": "borrar",
             "detail": "detalle",
             "fee": "comisión",
-            "filled": "Filled",
+            "filled": "Rellenado",
             "filter": "Filtro",
             "noPermissionCancelOrder": "La anulación del pedido no està disponible temporalmente",
             "notifications": {
+                "canceledAll": "Todas las ordenes han sido canceladas.",
                 "isCanceled": "La orden ha sido cancelada",
                 "somethingWentWrong": "Algo salió mal"
             },
@@ -109,7 +117,7 @@
             },
             "pair": "Pareja",
             "placeholders": {
-                "lockedPair": "Trading in {{amountAssetTicker}} / {{priceAssetTicker}} is currently unavailable. You can cancel the order"
+                "lockedPair": "El intercambio de {{amountAssetTicker}} / {{priceAssetTicker}} no está actualmente disponible. Esta orden puede ser cancelada."
             },
             "price": "Precio",
             "status": "Estado",
@@ -121,7 +129,7 @@
             "type": "Tipo",
             "withScript": "No se puede utilizar el DEX mientras un [script](https://docs.wavesplatform.com/en/waves-client/advanced_features/script_transaction.html)esté instalado en su cuenta"
         },
-        "noChartDataMessage": "{div}[Not enough bids and asks]{div}[to create market depth chart]",
+        "noChartDataMessage": "{div}[No hay suficientes ordenes de compra y venta]{div}[para crear un gráfico de Profundidad de Mercado]",
         "noChartDataTitle": "Nada por aquí...",
         "orderBook": {
             "amount": "Cantidad {{assetName}}",
@@ -164,7 +172,7 @@
             "helpIcon": {
                 "assetId": "Identificación de Activo",
                 "AssetId1AssetId2": "Activo1 ID/ Activo2 ID",
-                "description": "Puede encontrar más información sobre [aquí](https://docs.wavesplatform.com/en/waves-dex/start-trading-on-the-waves-dex.html)",
+                "description": "Puede encontrar más información sobre la búsqueda de activos [aquí] (https://docs.wavesplatform.com/en/waves-dex/start-trading-on-the-waves-dex.html)",
                 "header": "Puede buscar por:",
                 "name": "Nombre",
                 "name1Name2": "Nombre 1/ Nombre 2"
@@ -174,7 +182,7 @@
                 "base": "Moneda base",
                 "coin": "Añadir moneda",
                 "filter": "Filtro",
-                "lockedPair": "Trading in {{amountAssetTicker}} / {{priceAssetTicker}} is currently unavailable",
+                "lockedPair": "El intercambio de {{amountAssetTicker}} / {{priceAssetTicker}} no se encuentra actualmente disponible.",
                 "noMarkets": "No hay mercados en base a sus filtros"
             },
             "price": "Precio",
@@ -224,7 +232,7 @@
             "myBalance": "Mi balance",
             "myTradeHistory": "Mi historial",
             "openOrders": "Mis órdenes abiertas",
-            "OrderHistory": "My Order History",
+            "OrderHistory": "Mi historial de ordenes",
             "tradeHistory": "Historial",
             "waves": "Waves"
         }

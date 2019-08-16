@@ -143,6 +143,7 @@
     "password": {
         "minLength": "минимум {{minLength}} символов",
         "name": "Название аккаунта",
+        "nameExists": "Имя занято",
         "repeat": "Подтвердите пароль",
         "secure": "надёжный пароль",
         "title": "Защитите ваш кошелёк паролем",
@@ -187,7 +188,7 @@
             "true": "ВЫПОЛНЕНО"
         },
         "headers": {
-            "activeLeasing": "активен",
+            "activeLeasing": "Активен",
             "burn": "Сожжение токена {{name}}",
             "cancel-leasing": "Отмена лизинга",
             "canceled": "Отменен",

@@ -62,6 +62,7 @@
     },
     "keeperForm": {
         "address": "Indirizzo account",
+        "addressSaved": "Indirizzo salvato",
         "back": "Indietro",
         "error": {
             "hasLockedKeeperDescription": "Per continuare a lavorare con Waves Keeper, è necessario inserire la password precedentemente generata, o inserirne una nuova",
@@ -79,6 +80,7 @@
         "loading": "Importa account da Waves Keeper",
         "login": "Continua",
         "name": "Nome utente",
+        "nameExists": "Questo nome è già in uso",
         "or": "OPPURE",
         "retry": "Riprova",
         "saveUserData": "Mantieni attivo l'accesso su questo computer"
@@ -141,12 +143,12 @@
             "qualified": "qualificato",
             "quantity": "Quantitativo totale",
             "rating": {
-                "canVoteTip": "Click to rate token",
-                "tooltipLink": "More Details",
-                "tooltipNeedWAVES": "and 0.001 WAVES",
-                "tooltipNeedWCT": "To rate a token, you must have at least 1",
-                "tooltipText": "Tokens are not transferred, only on existing balance is required for voting.our score will be applied after 24 hours. Please keep the current tokens in the account during this time. \nFee 0.001 WAVES.",
-                "tooltipTitle": "To rate a token, you must have at least 1 WCT in your wallet."
+                "canVoteTip": "Clicca per valutare il token",
+                "tooltipLink": "Maggiori dettagli",
+                "tooltipNeedWAVES": "e 0.001 WAVES",
+                "tooltipNeedWCT": "Per valutare un token, devi averne almeno 1",
+                "tooltipText": "I token non verranno trasferiti, per votare è sufficiente un saldo positivo. Il tuo punteggio verrà applicato dopo 24 ore. Si prega di conservare nell'account i token necessari durante questo periodo.\nSpese 0,001 WAVES.",
+                "tooltipTitle": "Per valutare un token, devi avere almeno 1 WCT nel tuo portafoglio."
             },
             "reissue": {
                 "no": "Non riemettibile",
@@ -195,64 +197,64 @@
             "coinomatBCH": {
                 "helpDescrText": "Una volta che la transazione sarà confermata, il gateway processerà il trasferimento di BCH come token nel tuo account Waves.",
                 "helpDescrTitle": "Inserisci questo indirizzo nel tuo client Bitcoin Cash o nel tuo wallet",
-                "warningMinAmountText": "Inviando meno di 0.001 BCH, l'importo trasferito andrà perduto.",
-                "warningMinAmountTitle": "Il deposito minimo è di 0.001 BCH",
+                "warningMinAmountText": "Inviando meno di {{minAmount, BigNumber}} {{assetTicker}}, l'importo trasferito andrà perduto.",
+                "warningMinAmountTitle": "Il deposito minimo è di {{minAmount, BigNumber}} {{assetTicker}}",
                 "warningText": "Inviare qualunque altra valuta a questo indirizzo potrebbe risultare in una perdita di quanto inviato.",
                 "warningTitle": "Invia esclusivamente BCH a questo indirizzo"
             },
             "coinomatBSV": {
                 "helpDescrText": "Una volta che la transazione sarà confermata, il gateway processerà il trasferimento di BSV in favore di un token nel tuo account Waves.",
                 "helpDescrTitle": "Inserisci questo indirizzo nel tuo client BSV o nel tuo wallet",
-                "warningMinAmountText": "Inviando meno di 0.001 BSV, i fondi andranno perduti",
-                "warningMinAmountTitle": "Il deposito minimo è di 0.001 BSV",
+                "warningMinAmountText": "Inviando meno di {{minAmount, BigNumber}} {{assetTicker}}, i fondi andranno perduti",
+                "warningMinAmountTitle": "Il deposito minimo è di {{minAmount, BigNumber}} {{assetTicker}}",
                 "warningText": "L'invio di qualsiasi altra valuta a questo indirizzo potrebbe comportare la perdita della somma depositata.",
                 "warningTitle": "Inviare esclusivamente BSV a questo indirizzo"
             },
             "coinomatBTC": {
                 "helpDescrText": "Una volta che la transazione sarà confermata, il gateway processerà il trasferimento di BTC come token nel tuo account Waves.",
                 "helpDescrTitle": "Inserisci questo indirizzo nel tuo client Bitcoin o nel tuo wallet",
-                "warningMinAmountText": "Inviando meno di 0.001 BTC, l'importo trasferito andrà perduto.",
-                "warningMinAmountTitle": "Il deposito minimo è di 0.001 BTC",
+                "warningMinAmountText": "Inviando meno di {{minAmount, BigNumber}} {{assetTicker}}, l'importo trasferito andrà perduto.",
+                "warningMinAmountTitle": "Il deposito minimo è di {{minAmount, BigNumber}} {{assetTicker}}",
                 "warningText": "Inviare qualunque altra valuta a questo indirizzo potrebbe risultare in una perdita di quanto inviato.",
                 "warningTitle": "Invia esclusivamente BTC a questo indirizzo"
             },
             "coinomatDASH": {
                 "helpDescrText": "Una volta che la transazione sarà confermata, il gateway processerà il trasferimento di DASH come token nel tuo account Waves.",
                 "helpDescrTitle": "Inserisci questo indirizzo nel tuo client DASH o nel tuo wallet",
-                "warningMinAmountText": "Inviando meno di 0.1 DASH, l'importo trasferito andrà perduto.",
-                "warningMinAmountTitle": "Il deposito minimo è di 0.1 DASH",
+                "warningMinAmountText": "Inviando meno di {{minAmount, BigNumber}} {{assetTicker}}, l'importo trasferito andrà perduto.",
+                "warningMinAmountTitle": "Il deposito minimo è di {{minAmount, BigNumber}} {{assetTicker}}",
                 "warningText": "Inviare qualunque altra valuta a questo indirizzo potrebbe risultare in una perdita di quanto inviato.",
                 "warningTitle": "Invia esclusivamente DASH a questo indirizzo"
             },
             "coinomatETH": {
                 "helpDescrText": "Una volta che la transazione sarà confermata, il gateway processerà il trasferimento di ETH come token nel tuo account Waves.",
                 "helpDescrTitle": "Inserisci questo indirizzo nel tuo client ETH o nel tuo wallet",
-                "warningMinAmountText": "Inviando meno di 0.001 ETH, l'importo trasferito andrà perduto.",
-                "warningMinAmountTitle": "Il deposito mimino è di 0.001 ETH",
+                "warningMinAmountText": "Inviando meno di {{minAmount, BigNumber}} {{assetTicker}}, l'importo trasferito andrà perduto.",
+                "warningMinAmountTitle": "Il deposito mimino è di {{minAmount, BigNumber}} {{assetTicker}}",
                 "warningText": "Controlla se il tuo wallet o exchange utilizza smart contract per trasferire ETH. Non accettiamo questo tipo di transazioni e non ci sarà possibile rimborsarle. L'importo trasferito andrà perduto.",
                 "warningTitle": "Per favore, non inviare ETH da smart contracts! Non inviare token ERC20! Accettiamo esclusivamente Ethereum."
             },
             "coinomatLTC": {
                 "helpDescrText": "Una volta che la transazione sarà confermata, il gateway processerà il trasferimento di LTC come token nel tuo account Waves.",
                 "helpDescrTitle": "Inserisci questo indirizzo nel tuo client Litecoin o nel tuo wallet",
-                "warningMinAmountText": "Inviando meno di 0.001 LTC, l'importo trasferito andrà perduto.",
-                "warningMinAmountTitle": "Il deposito mimino è di 0.001 LTC",
+                "warningMinAmountText": "Inviando meno di {{minAmount, BigNumber}} {{assetTicker}}, l'importo trasferito andrà perduto.",
+                "warningMinAmountTitle": "Il deposito mimino è di {{minAmount, BigNumber}} {{assetTicker}}",
                 "warningText": "Inviare qualunque altra valuta a questo indirizzo potrebbe risultare in una perdita di quanto inviato.",
                 "warningTitle": "Invia esclusivamente LTC a questo indirizzo"
             },
             "coinomatXMR": {
                 "helpDescrText": "Una volta che la transazione sarà confermata, il gateway processerà il trasferimento di XMR come token nel tuo account Waves.",
                 "helpDescrTitle": "Inserisci questo indirizzo nel tuo client Monero o nel tuo wallet",
-                "warningMinAmountText": "Inviando meno di 0.1 XMR, l'importo trasferito andrà perduto.",
-                "warningMinAmountTitle": "Il deposito mimino è di 0.1 XMR",
+                "warningMinAmountText": "Inviando meno di {{minAmount, BigNumber}} {{assetTicker}}, l'importo trasferito andrà perduto.",
+                "warningMinAmountTitle": "Il deposito mimino è di {{minAmount, BigNumber}} {{assetTicker}}",
                 "warningText": "{div}[ID del Pagamento non indispensabile.]Inviare qualunque altra valuta a questo indirizzo potrebbe risultare in una perdita di quanto inviato.",
                 "warningTitle": "Invia esclusivamente XMR a questo indirizzo"
             },
             "coinomatZEC": {
                 "helpDescrText": "Una volta che la transazione sarà confermata, il gateway processerà il trasferimento di ZEC come token nel tuo account Waves.",
                 "helpDescrTitle": "Inserisci questo indirizzo nel tuo client Zcash o nel tuo wallet",
-                "warningMinAmountText": "Inviando meno di 0.001 ZEC, l'importo trasferito andrà perduto.",
-                "warningMinAmountTitle": "Il deposito mimino è di 0.001 ZEC",
+                "warningMinAmountText": "Inviando meno di {{minAmount, BigNumber}} {{assetTicker}}, l'importo trasferito andrà perduto.",
+                "warningMinAmountTitle": "Il deposito mimino è di {{minAmount, BigNumber}} {{assetTicker}}",
                 "warningText": "Inviare qualunque altra valuta a questo indirizzo potrebbe risultare in una perdita di quanto inviato.",
                 "warningTitle": "Invia esclusivamente ZEC a questo indirizzo"
             },
@@ -262,7 +264,15 @@
             "pleaseNote": "Notare che il gateway non applica alcun costo per questa operazione.",
             "scanQrCode": "Scansione Codice QR",
             "title": "Deposita {{assetName}}",
-            "vostokVST": {
+            "wavesGatewayERGO": {
+                "helpDescrText": "Una volta che la transazione sarà confermata, il gateway processerà il trasferimento di ERGO come token nel tuo account Waves.",
+                "helpDescrTitle": "Inserisci questo indirizzo nel client ERGO o nel tuo wallet",
+                "warningMinAmountText": "Inviando meno di 0.1 ERGO, l'importo trasferito andrà perduto.",
+                "warningMinAmountTitle": "L'importo minimo di deposito è di 0.1 ERGO, l'importo massimo di deposito è di 50 000 ERGO.",
+                "warningText": "Inviare qualunque altra valuta a questo indirizzo potrebbe risultare in una perdita di quanto inviato.",
+                "warningTitle": "Invia esclusivamente ERGO a questo indirizzo"
+            },
+            "wavesGatewayVST": {
                 "helpDescrText": "Una volta che la transazione sarà confermata, il gateway processerà il trasferimento di Vostok in favore di un token nel tuo account Waves.",
                 "helpDescrTitle": "Inserisci questo indirizzo nel tuo client Vostok o nel tuo wallet",
                 "warningMinAmountTitle": "L'importo minimo di deposito è di 0,1 VST, l'importo massimo di deposito è di 50 000 VST."
@@ -433,6 +443,7 @@
             "receive": "Deposita",
             "serverAddressError": "Errore nell'indirizzo del gateway",
             "serverError": "Sevizio Coinomat temporaneamente non disponibile. Riprova più tardi.",
+            "serverWrongAddress": "Indirizzo errato",
             "shareInvoiceLink": "Condividi il link ad una fattura",
             "verified": "Verificato",
             "vostok": {
@@ -460,6 +471,9 @@
         "removeLedgerAccount": {
             "heading": "Elimina account Ledger",
             "text": "Questa operazione non cancellerà l'account dal tuo Ledger. Cancellerà solo il collegamento di questo account al tuo Ledger."
+        },
+        "removePrivateKeyAccount": {
+            "text": "{div}[Cancellare l'account renderà impossibile un nuovo accesso in caso di indisponibilità della chiave privata.]{div}[Clicca sul tasto ELIMINA per procedere con la rimozione, oppure su ANNULLA per tornare alla schermata precedente.]"
         },
         "script": {
             "anyTx": "JSON",
@@ -596,7 +610,7 @@
                 "language": "Lingua",
                 "minutes": "{{minutes}} min",
                 "openLinkViaWeb": "Preferisco aprire sempre i link via Web app",
-                "playSound": "Play user interface sound effects",
+                "playSound": "Riproduci gli effetti sonori dell'interfaccia utente",
                 "theme": "Tema",
                 "timeout": "Scadenza sessione in",
                 "title": "Generale",
@@ -886,9 +900,11 @@
                 "1_2_6": "{span.line}[1. Aggiunto il supporto alla transazione degli script di invocazione. [Leggi di più](https://blog.wavesplatform.com/ride-for-dapps-hits-waves-testnet-e3f2906dd2aa)] \n {span.line}[2. Miglioramento dell'interfaccia utente e altri bug minori sono stati risolti.]",
                 "1_2_8": "{span.line}[1. I token Spam sono stati nascosti nel client.]\n{span.line}[2. Miglioramento dell'interfaccia utente e risoluzione di bug minori.]",
                 "1_3_0": "{span.line}[1. Miglioramento dell'interfaccia do navigazione della pagina iniziale.]",
+                "1_3_18": "{span.line}[1. Added login to wallet using a private key.]\n{span.line}[2. The 24 hours price change of a token is now bound to token/WAVES pair.]",
                 "1_3_2": "{span.line} [1. Lancio del gateway Vostok.] \n{span.line} [2. Miglioramento dell'interfaccia utente e risoluzione di altri bug minori.]",
                 "1_3_5": "{span.line}[1. Aggiunto il tab al concorso [wsoc.io](https://wsoc.io) tokens.]\n{span.line}[2. Aggiunto il supporto alla lingua Francese.]\n{span.line}[3. Risoluzione di bug minori.]",
-                "1_3_7": "{span.line}[1. Integration with [tokenrating.wavesexplorer.com](https://tokenrating.wavesexplorer.com) Now you can rate tokens directly in the app.]\n{span.line}[2. Additional minor bugs have been fixed.]"
+                "1_3_7": "{span.line} [1. Integrazione con [tokenrating.wavesexplorer.com] (https://tokenrating.wavesexplorer.com) Ora puoi valutare i token direttamente nell'app.] \n {span.line} [2. Sono stati corretti altri bug minori.]",
+                "1_3_9": "{span.line} [1. Miglioramento Interfaccia utente e funzionalità delle sezioni di Exchange e Wallet.] \n {span.line} [2. Correzione di altri bug minori.]"
             },
             "title": "Le novità della versione {{version}}"
         }

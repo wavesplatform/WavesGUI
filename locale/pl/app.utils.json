@@ -62,6 +62,7 @@
     },
     "keeperForm": {
         "address": "Adres portfela",
+        "addressSaved": "Address saved",
         "back": "Wróć",
         "error": {
             "hasLockedKeeperDescription": "Aby kontynuować pracę z Waves Keeper, musisz wprowadzić wcześniej utworzone hasło lub utworzyć nowe.",
@@ -79,6 +80,7 @@
         "loading": "Importuj konto z Waves Keeper",
         "login": "Kontynuuj",
         "name": "Nazwa konta",
+        "nameExists": "That name is taken",
         "or": "LUB",
         "retry": "Spróbuj ponownie",
         "saveUserData": "Nie wylogowuj mnie"
@@ -145,7 +147,7 @@
                 "tooltipLink": "Więcej szczegółów",
                 "tooltipNeedWAVES": "i 0,001 WAVES",
                 "tooltipNeedWCT": "Aby móc ocenić token, musisz mieć co najmniej 1",
-                "tooltipText": "Tokeny nie są transferowane, istniejące saldo jest wymagane tylko do samego głosowania. Głosowanie zostanie uwzględnione w naszych wynikach po 24 godzinach. Prosimy o zachowanie tokenów na koncie w tym czasie.\nOpłata 0,001 WAVES.",
+                "tooltipText": "Tokeny nie są transferowane, tylko istniejące saldo jest wymagane do głosowania. Twój glos zostanie uwzględniony w naszych wynikach po 24 godzinach. Prosimy o zachowanie tokenów na koncie w tym czasie.\nOpłata 0,001 WAVES.",
                 "tooltipTitle": "Aby ocenić token, musisz mieć co najmniej 1 WCT w Twoim portfelu."
             },
             "reissue": {
@@ -195,64 +197,64 @@
             "coinomatBCH": {
                 "helpDescrText": "Jeżeli transakcja zostanie potwierdzona, system wymieni BCH na tokeny w waszym koncie Waves.",
                 "helpDescrTitle": "Wprowadź ten adress w swoim kliencie albo portfelu Bitcoin Cash",
-                "warningMinAmountText": "Jeśli wyślesz mniej niż 0.001 BCH, stracisz te pieniądze.",
-                "warningMinAmountTitle": "Minimalna kwota depozytu wynosi 0.001 BCH",
+                "warningMinAmountText": "Jeśli wyślesz mniej niż {{minAmount, BigNumber}} {{assetTicker}}, stracisz te pieniądze.",
+                "warningMinAmountTitle": "Minimalna kwota depozytu wynosi {{minAmount, BigNumber}} {{assetTicker}}",
                 "warningText": "Przesłanie dowolnej innej waluty pod ten adres może spowodować utratę depozytu.",
                 "warningTitle": "Wyślij tylko BCH do tego adresu depozytowego"
             },
             "coinomatBSV": {
                 "helpDescrText": "Jeżeli transakcja zostanie potwierdzona, system wymieni BSV na tokeny w Twoim koncie Waves.",
                 "helpDescrTitle": "Wprowadź ten adress w swoim kliencie albo portfelu Bitcoin Satoshi Vision",
-                "warningMinAmountText": "Jeśli wyślesz mniej niż 0,001 BSV, stracisz te środki.",
-                "warningMinAmountTitle": "Minimalna kwota depozytu wynosi 0,001 BSV",
+                "warningMinAmountText": "Jeśli wyślesz mniej niż {{minAmount, BigNumber}} {{assetTicker}}, stracisz te środki.",
+                "warningMinAmountTitle": "Minimalna kwota depozytu wynosi {{minAmount, BigNumber}} {{assetTicker}}",
                 "warningText": "Wysłanie innej waluty na ten adres może spowodować utratę takiego depozytu.",
                 "warningTitle": "Wysyłaj tylko BSV na ten adres depozytu"
             },
             "coinomatBTC": {
                 "helpDescrText": "Jeżeli transakcja zostanie potwierdzona, system wymieni BTC na tokeny w waszym koncie Waves.",
                 "helpDescrTitle": "Wprowadź ten adress w swoim kliencie albo portfelu Bitcoin",
-                "warningMinAmountText": "Jeśli wyślesz mniej niż 0.001 BTC, stracisz te pieniądze.",
-                "warningMinAmountTitle": "Minimalna kwota depozytu wynosi 0.001 BTC",
+                "warningMinAmountText": "Jeśli wyślesz mniej niż {{minAmount, BigNumber}} {{assetTicker}}, stracisz te pieniądze.",
+                "warningMinAmountTitle": "Minimalna kwota depozytu wynosi {{minAmount, BigNumber}} {{assetTicker}}",
                 "warningText": "Przesłanie dowolnej innej waluty pod ten adres może spowodować utratę depozytu.",
                 "warningTitle": "Wyślij tylko BTC do tego adresu depozytowego"
             },
             "coinomatDASH": {
                 "helpDescrText": "Jeżeli transakcja zostanie potwierdzona, system wymieni DASH na tokeny w waszym koncie Waves.",
                 "helpDescrTitle": "Wprowadź ten adress w swoim kliencie albo portfelu DASH",
-                "warningMinAmountText": "Jeśli wyślesz mniej niż 0.1 DASH, stracisz te pieniądze.",
-                "warningMinAmountTitle": "Minimalna kwota depozytu wynosi 0.1 DASH",
+                "warningMinAmountText": "Jeśli wyślesz mniej niż {{minAmount, BigNumber}} {{assetTicker}}, stracisz te pieniądze.",
+                "warningMinAmountTitle": "Minimalna kwota depozytu wynosi {{minAmount, BigNumber}} {{assetTicker}}",
                 "warningText": "Przesłanie dowolnej innej waluty pod ten adres może spowodować utratę depozytu.",
                 "warningTitle": "Wyślij tylko DASH do tego adresu depozytowego"
             },
             "coinomatETH": {
                 "helpDescrText": "Jeżeli transakcja zostanie potwierdzona, system wymieni ETH na tokeny w waszym koncie Waves.",
                 "helpDescrTitle": "Wprowadź ten adress w swoim kliencie albo portfelu ETH",
-                "warningMinAmountText": "Jeśli wyślesz mniej niż 0.001 ETH, stracisz te pieniądze.",
-                "warningMinAmountTitle": "Minimalna kwota depozytu wynosi 0.001 ETH",
+                "warningMinAmountText": "Jeśli wyślesz mniej niż {{minAmount, BigNumber}} {{assetTicker}}, stracisz te pieniądze.",
+                "warningMinAmountTitle": "Minimalna kwota depozytu wynosi {{minAmount, BigNumber}} {{assetTicker}}",
                 "warningText": "Sprawdź czy portfel lub giełda używają inteligentnych kontraktów (smart contracts) do wycofania ETH. Nie akceptujemy takich transakcji i nie możemy ich zwrócić. Stracisz te pieniądze.",
                 "warningTitle": "Proszę nie deponować ETH z inteligentnych kontraktów (smart contracts)! Proszę nie deponować tokenów ERC20! Tylko Ethereum dozwolone."
             },
             "coinomatLTC": {
                 "helpDescrText": "Jeżeli transakcja zostanie potwierdzona, system wymieni LTC na tokeny w waszym koncie Waves.",
                 "helpDescrTitle": "Wprowadź ten adress w swoim kliencie albo portfelu LTC",
-                "warningMinAmountText": "Jeśli wyślesz mniej niż 0.001 LTC, stracisz te pieniądze.",
-                "warningMinAmountTitle": "Minimalna kwota depozytu wynosi 0.001 LTC",
+                "warningMinAmountText": "Jeśli wyślesz mniej niż {{minAmount, BigNumber}} {{assetTicker}}, stracisz te pieniądze.",
+                "warningMinAmountTitle": "Minimalna kwota depozytu wynosi {{minAmount, BigNumber}} {{assetTicker}}",
                 "warningText": "Przesłanie dowolnej innej waluty pod ten adres może spowodować utratę depozytu.",
                 "warningTitle": "Wyślij tylko LTC do tego adresu depozytowego"
             },
             "coinomatXMR": {
                 "helpDescrText": "Jeżeli transakcja zostanie potwierdzona, system wymieni XMR na tokeny w waszym koncie Waves.",
                 "helpDescrTitle": "Wprowadź ten adress w swoim kliencie albo portfelu XMR",
-                "warningMinAmountText": "Jeśli wyślesz mniej niż 0.1 XMR, stracisz te pieniądze.",
-                "warningMinAmountTitle": "Minimalna kwota depozytu wynosi 0.1 XMR",
+                "warningMinAmountText": "Jeśli wyślesz mniej niż {{minAmount, BigNumber}} {{assetTicker}}, stracisz te pieniądze.",
+                "warningMinAmountTitle": "Minimalna kwota depozytu wynosi {{minAmount, BigNumber}} {{assetTicker}}",
                 "warningText": "{div}[Payment ID is not required.]Przesłanie dowolnej innej waluty pod ten adres może spowodować utratę depozytu.",
                 "warningTitle": "Wyślij tylko XMR do tego adresu depozytowego"
             },
             "coinomatZEC": {
                 "helpDescrText": "Jeżeli transakcja zostanie potwierdzona, system wymieni ZEC na tokeny w waszym koncie Waves.",
                 "helpDescrTitle": "Wprowadź ten adress w swoim kliencie albo portfelu ZEC",
-                "warningMinAmountText": "Jeśli wyślesz mniej niż 0.001 ZEC, stracisz te pieniądze.",
-                "warningMinAmountTitle": "Minimalna kwota depozytu wynosi 0.001 ZEC",
+                "warningMinAmountText": "Jeśli wyślesz mniej niż {{minAmount, BigNumber}} {{assetTicker}}, stracisz te pieniądze.",
+                "warningMinAmountTitle": "Minimalna kwota depozytu wynosi {{minAmount, BigNumber}} {{assetTicker}}",
                 "warningText": "Przesłanie dowolnej innej waluty pod ten adres może spowodować utratę depozytu.",
                 "warningTitle": "Wyślij tylko Zcash do tego adresu depozytowego"
             },
@@ -262,7 +264,15 @@
             "pleaseNote": "Proszę zwróć uwagę, że brama sieciowa nie pobiera żadnych opłat za tę operację.",
             "scanQrCode": "Skanuj QR kod",
             "title": "Deponuj {{assetName}}",
-            "vostokVST": {
+            "wavesGatewayERGO": {
+                "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of ERGO to a token in your Waves account.",
+                "helpDescrTitle": "Enter this address into your ERGO client or wallet",
+                "warningMinAmountText": "If you will send less than 0.1 ERGO, you will lose that money.",
+                "warningMinAmountTitle": "The minimum amount of deposit is 0.1 ERGO, the maximum amount of deposit is 50 000 ERGO",
+                "warningText": "Sending any other currency to this address may result in the loss of your deposit.",
+                "warningTitle": "Send only ERGO to this deposit address"
+            },
+            "wavesGatewayVST": {
                 "helpDescrText": "Jeżeli transakcja zostanie potwierdzona, system wymieni Vostok na tokeny w Twoim koncie Waves.",
                 "helpDescrTitle": "Wprowadź ten adres w swoim kliencie albo portfelu Vostok",
                 "warningMinAmountTitle": "Minimalna kwota depozytu to 0,1 VST, maksymalna kwota depozytu to 50 000 VST"
@@ -433,6 +443,7 @@
             "receive": "Depozyt",
             "serverAddressError": "Błąd adresu bramy",
             "serverError": "Usługa Coinomat chwilowo niedostępna. Spróbuj ponownie później.",
+            "serverWrongAddress": "Zły adres",
             "shareInvoiceLink": "Udostępnij link do faktury",
             "verified": "Zweryfikowany",
             "vostok": {
@@ -460,6 +471,9 @@
         "removeLedgerAccount": {
             "heading": "Usuń konto LEDGER",
             "text": "Nie spowoduje to usunięcia konta z Ledger. Spowoduje to tylko usunięcie zapisanej ścieżki do tego konta w Ledger."
+        },
+        "removePrivateKeyAccount": {
+            "text": "{div}[Deleting an account will lead to its irretrievable loss if you didn't save a Private key.]\n{div}[Click on the REMOVE button to proceed with account removal, or CANCEL to return to the previous screen.]"
         },
         "script": {
             "anyTx": "JSON",
@@ -886,9 +900,11 @@
                 "1_2_6": "{span.line}[1. Dodano obsługę transakcji skryptu wywołania. [Czytaj więcej](https://blog.wavesplatform.com/ride-for-dapps-hits-waves-testnet-e3f2906dd2aa)]{span.line}[2. Poprawiony interfejs użytkownika i dodatkowe drobne błędy zostały naprawione.]",
                 "1_2_8": "{span.line} [1. Tokeny ze spamem i transakcje zostały ukryte w kliencie.] \n {span.line} [2. Poprawiony interfejs użytkownika i dodatkowo zostały naprawione drobne błędy.]",
                 "1_3_0": "{span.line}[1. Ulepszona nawigacja aplikacji i interfejs strony startowej.]",
+                "1_3_18": "{span.line}[1. Added login to wallet using a private key.]\n{span.line}[2. The 24 hours price change of a token is now bound to token/WAVES pair.]",
                 "1_3_2": "{span.line} [1. Uruchomiono bramę (gateway) Vostok.] \n {span.line} [2. Poprawiony interfejs użytkownika i dodatkowo zostały naprawione drobne błędy.]",
                 "1_3_5": "{span.line} [1. Dodano zakładkę z tokenami konkursowymi [wsoc.io] (https://wsoc.io).] \n {span.line} [2. Dodano obsługę języka francuskiego.] \n {span.line} [3. Dodatkowe drobne błędy zostały naprawione.]",
-                "1_3_7": "{span.line} [1. Integracja z [tokenrating.wavesexplorer.com] (https://tokenrating.wavesexplorer.com) Teraz możesz oceniać tokeny bezpośrednio w aplikacji.] \n {span.line} [2. Dodatkowe drobne błędy zostały naprawione.]"
+                "1_3_7": "{span.line} [1. Integracja z [tokenrating.wavesexplorer.com] (https://tokenrating.wavesexplorer.com) Teraz możesz oceniać tokeny bezpośrednio w aplikacji.] \n {span.line} [2. Dodatkowe drobne błędy zostały naprawione.]",
+                "1_3_9": "{span.line} [1. Ulepszony interfejs użytkownika i funkcjonalność sekcji Giełda i Portfel.] \n {span.line} [2. Dodatkowe drobne błędy zostały naprawione.]"
             },
             "title": "Co nowego w aktualizacji {{version}}"
         }

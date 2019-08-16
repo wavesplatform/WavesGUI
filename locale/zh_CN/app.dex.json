@@ -43,7 +43,14 @@
             "matcherFee": "费用",
             "notifications": {
                 "error": {
-                    "30702": "该帐户的{{address}}脚本拒绝了该订单",
+                    "11536128": "资产的{{assetId}}脚本返回错误： {{scriptError}}",
+                    "11536129": "资产的{{assetId}}脚本已损坏，请与所有者联系。返回的错误是{{errorName}} ，文本为： {{errorText}}",
+                    "11536130": "资产的{{assetId}}脚本拒绝了该订单",
+                    "11536132": "资产的{{assetId}}脚本已损坏，请与所有者联系。返回的对象是' {{returnedObject}} '",
+                    "3147520": "帐户的{{address}}脚本返回错误： {{scriptError}}",
+                    "3147521": "该帐户的{{address}}脚本拒绝了该订单",
+                    "3147522": "该帐户的{{address}}脚本拒绝了该订单",
+                    "3147524": "该帐户的{{address}}脚本已损坏，请与所有者联系。返回的对象是' {{returnedObject}} '",
                     "title": "错误信息"
                 },
                 "isCreated": "订单已被创建",
@@ -99,7 +106,8 @@
             "filter": "筛选",
             "noPermissionCancelOrder": "订单取消暂时无法使用",
             "notifications": {
-                "isCanceled": "订单已被取消",
+                "canceledAll": "所有订单均已取消",
+                "isCanceled": "该命令已经取消了",
                 "somethingWentWrong": "出了问题"
             },
             "opened": "开",
@@ -164,7 +172,7 @@
             "helpIcon": {
                 "assetId": "资产ID",
                 "AssetId1AssetId2": "资产 1 ID/资产 2 ID",
-                "description": "您可以找到有关搜索资产的更多信息[这里]（https://docs.wavesplatform.com/en/waves-dex/start-trading-on-the-waves-dex.html）",
+                "description": "您可以找到有关搜索资产的更多信息[这里]（https://docs.wavesplatform.com/en/waves-dex/start-trading-on-the-waves-dex.html )",
                 "header": "你可以搜索：",
                 "name": "名称",
                 "name1Name2": "名称1/名称2"

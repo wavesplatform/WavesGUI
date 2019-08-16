@@ -143,6 +143,7 @@
     "password": {
         "minLength": "deve ter pelo menos {{minLength}} caracteres",
         "name": "Nome da conta",
+        "nameExists": "That name is taken",
         "repeat": "Confirmar senha",
         "secure": "senha segura",
         "title": "Proteja Sua Conta com uma Nova Senha",

@@ -42,16 +42,16 @@
     },
     "errors": {
         "complete": {
-            "body": "The list of transactions is not completely downloaded. Please retry later.",
-            "title": "Download is not complete."
+            "body": "La lista de transacciones no está completamente descargada. Por favor, vuelva a intentarlo más tarde.",
+            "title": "La descarga no está completa."
         },
         "download": {
-            "body": "The list of transactions is not downloaded. Please retry later.",
-            "title": "Download error."
+            "body": "La lista de transacciones no está completamente descargada. Por favor, vuelva a intentarlo más tarde.",
+            "title": "Error de descarga."
         },
         "empty": {
-            "body": "There are no transactions in your history",
-            "title": "Export error"
+            "body": "No hay transacciones en tu historial.",
+            "title": "Error de exportación"
         }
     },
     "exchanged": "Intercambiado",

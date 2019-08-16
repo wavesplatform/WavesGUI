@@ -43,7 +43,14 @@
             "matcherFee": "Комис.",
             "notifications": {
                 "error": {
-                    "30702": "Скрипт аккаунта {{address}} отклонил ордер",
+                    "11536128": "The asset's script of {{assetId}} returned the error: {{scriptError}}",
+                    "11536129": "The asset's script of {{assetId}} is broken, please contact with the owner. The returned error is {{errorName}}, the text is: {{errorText}}",
+                    "11536130": "The asset's script of {{assetId}} rejected the order",
+                    "11536132": "The asset's script of {{assetId}} is broken, please contact with the owner. The returned object is '{{returnedObject}}'",
+                    "3147520": "The account's script of {{address}} returned the error: {{scriptError}}",
+                    "3147521": "Скрипт аккаунта {{address}} отклонил ордер",
+                    "3147522": "Скрипт аккаунта {{address}} отклонил ордер",
+                    "3147524": "The account's script of {{address}} is broken, please contact with the owner. The returned object is '{{returnedObject}}'",
                     "title": "Текст ошибки"
                 },
                 "isCreated": "Ордер поставлен",
@@ -99,6 +106,7 @@
             "filter": "Фильтр",
             "noPermissionCancelOrder": "Отмена ордеров временно недоступна",
             "notifications": {
+                "canceledAll": "All orders have been canceled",
                 "isCanceled": "Ордер был отменён",
                 "somethingWentWrong": "Произошла ошибка"
             },
@@ -164,7 +172,7 @@
             "helpIcon": {
                 "assetId": "ID Ассета",
                 "AssetId1AssetId2": "ID Ассета1 / ID Ассета2",
-                "description": "Больше информации вы можете найти [здесь](https://docs.wavesplatform.com/ru/waves-client/waves-dex/start-trading-on-the-waves-dex.html)",
+                "description": "Больше информации вы можете найти [здесь](https://docs.wavesplatform.com/ru/waves-dex/start-trading-on-the-waves-dex.html)",
                 "header": "Вы можете искать по:",
                 "name": "Имя",
                 "name1Name2": "Имя1 / Имя2"

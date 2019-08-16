@@ -11,6 +11,8 @@
     "LedgerClient": "Ledger Device",
     "ledgerDescription": "Importieren Sie ihren Account von ihrem Ledger",
     "or": "Oder",
+    "seedAndKey": "Seed or Key",
+    "seedAndKeyDescription": "Import account from a backup SEED or Private key",
     "selectButton": "Wählen",
     "wavesClient": "Waves-Client",
     "wavesClientDescription": "Accounts importieren aus einem Waves-Client",

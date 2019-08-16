@@ -1,12 +1,13 @@
 {
     "ledger": {
         "article": "este artículo",
-        "connectionError": "No se puede conectar a Ledger Nano S",
+        "connectionError": "No se puede conectar al dispositivo Ledger",
         "connectionText": "La conexión puede haber agotado el tiempo de espera. Inténtalo de nuevo.",
         "referTo": "Si el error persiste, consulte a"
     },
     "ledgerForm": {
         "address": "Direccion de cuenta:",
+        "addressSaved": "Address saved",
         "avatarUnique": "Este avatar es único, no puedes cambiarlo después.",
         "back": "Ir para atrás",
         "choose": "Elige tu cuenta",
@@ -14,6 +15,7 @@
         "ImportOrSignIn": "Importar cuenta o",
         "login": "Continuar",
         "name": "Nombre de cuenta",
+        "nameExists": "That name is taken",
         "or": "O",
         "retry": "Reintentar",
         "savedOne": "a una cuenta guardada",

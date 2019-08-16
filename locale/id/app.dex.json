@@ -40,10 +40,17 @@
             "fee": "Biaya {{fee}} WAVES",
             "hasScript": "Batalkan [skrip](https://docs.wavesplatform.com/en/waves-client/advanced_features/script_transaction.html) untuk pertukaran",
             "last": "Terakhir",
-            "matcherFee": "Fee",
+            "matcherFee": "Biaya",
             "notifications": {
                 "error": {
-                    "30702": "Skrip akun {{address}} menolak pesanan",
+                    "11536128": "Skrip aset {{assetId}} mengembalikan kesalahan: {{scriptError}}",
+                    "11536129": "Skrip aset {{assetId}} rusak, harap hubungi pemiliknya. Kesalahan yang dikembalikan adalah {{errorName}} , teksnya adalah: {{errorText}}",
+                    "11536130": "Skrip aset {{assetId}} menolak pesanan",
+                    "11536132": "Skrip aset {{assetId}} rusak, harap hubungi pemiliknya. Objek yang dikembalikan adalah ' {{returnedObject}} '",
+                    "3147520": "Script akun {{address}} mengembalikan kesalahan: {{scriptError}}",
+                    "3147521": "Skrip akun {{address}} menolak pesanan",
+                    "3147522": "Skrip akun {{address}} menolak pesanan",
+                    "3147524": "Skrip akun {{address}} rusak, silakan kontak dengan pemilik. Objek yang dikembalikan adalah ' {{returnedObject}} '",
                     "title": "Pesan eror"
                 },
                 "isCreated": "Pesanan dibuat",
@@ -99,7 +106,8 @@
             "filter": "Filter",
             "noPermissionCancelOrder": "Pembatalan pesanan untuk sementara tidak tersedia",
             "notifications": {
-                "isCanceled": "Pesanan telah dibatalkan",
+                "canceledAll": "Semua pesanan telah dibatalkan",
+                "isCanceled": "Pesanan dibatalkan",
                 "somethingWentWrong": "Ada yang salah"
             },
             "opened": "terbuka",
@@ -164,7 +172,7 @@
             "helpIcon": {
                 "assetId": "ID Aset",
                 "AssetId1AssetId2": "ID Asset1 / ID Asset2",
-                "description": "Anda dapat mengetahui lebih lanjut tentang mencari aset [di sini](https://docs.wavesplatform.com/en/waves-dex/start-trading-on-the-waves-dex.html)",
+                "description": "Anda dapat mengetahui lebih lanjut tentang mencari aset [di sini] (https://docs.wavesplatform.com/en/waves-dex/start-trading-on-the-waves-dex.html)",
                 "header": "Anda dapat mencari berdasarkan:",
                 "name": "Nama",
                 "name1Name2": "Name1 / Name2"

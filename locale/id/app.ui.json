@@ -25,7 +25,7 @@
             "circular": "Anda telah mengirimkan {{amount, money-currency}} ke dirimu sendiri.",
             "create-alias": "Anda telah membuat sebuah alias",
             "data": "Anda telah mengirim data transaksi",
-            "data-vote": "{div.line}[You have voted for {{moneyCurrency}}.]\n{div.line}[Your score will be applied after 24 hours. Rating in processing.]",
+            "data-vote": "{div.line}[Anda telah memilih {{moneyCurrency}}.] \n {div.line}[Skor Anda akan diterapkan setelah 24 jam. Peringkat dalam pemrosesan.]",
             "issue": "Anda telah menghasilkan",
             "lease-out": "Anda telah menyewakan {{amount, money-currency}}",
             "mass-send": "Anda telah mengirim {{totalAmount, money-currency}}",
@@ -135,7 +135,7 @@
         "token": {
             "warning": {
                 "header": "Anda setuju bahwa:",
-                "text": "{div.line}[I) Anda tidak akan menggunakan token untuk tujuan penipuan;]\n{div.line}[II) Anda tidak akan menduplikasi, sepenuhnya atau sebagian, nama cryptocurrency yang ada atau perusahaan terkenal dengan tujuan menyesatkan pengguna;]\n{div.line}[III) Anda tidak akan menggunakan nama negara, unit administratif lain, atau institusi kota untuk nama token dengan tujuan menyesatkan pengguna;]\n{div.line}[IV) Anda tidak akan menetapkan skrip pada aset pintar yang membatasi transaksi pertukaran pada Gelombang DEX dengan jumlah aset;]\n{div.line}[V) Anda tidak akan memberikan informasi palsu dalam uraian aset pintar mengenai aturan yang mengatur penggunaan token, yang tidak sesuai dengan skrip yang dipasang di sana;]",
+                "text": "{div.line}[I) Anda tidak akan menggunakan token untuk tujuan penipuan;]\n{div.line}[II) Anda tidak akan menduplikasi, sepenuhnya atau sebagian, nama cryptocurrency yang ada atau perusahaan terkenal dengan tujuan menyesatkan pengguna;]\n{div.line}[III) Anda tidak akan menggunakan nama negara, unit administratif lain, atau institusi kota untuk nama token dengan tujuan menyesatkan pengguna;]\n{div.line}[IV) Anda tidak akan menetapkan skrip pada aset pintar yang membatasi transaksi pertukaran pada Waves DEX dengan jumlah aset;]\n{div.line}[V) Anda tidak akan memberikan informasi palsu dalam uraian aset pintar mengenai aturan yang mengatur penggunaan token, yang tidak sesuai dengan skrip yang dipasang di sana;]",
                 "textWarning": "Kegagalan untuk mengamati titik-titik ini akan menyebabkan token Anda diklasifikasikan sebagai Aset Mencurigakan, dan akan tersedia untuk mencari hanya dengan ID."
             }
         }
@@ -143,6 +143,7 @@
     "password": {
         "minLength": "harus paling tidak {{minLength}} karakter",
         "name": "Nama akun",
+        "nameExists": "That name is taken",
         "repeat": "Konfirmasi sandi",
         "secure": "kata sandi aman",
         "title": "Lindungi Akun Anda dengan Kata Sandi Baru",
@@ -194,7 +195,7 @@
             "circular": "Ditransfer sendiri {{name}}",
             "create-alias": "Alias ​​yang Dibuat",
             "data": "Transaksi Data",
-            "data-vote": "Voted for {{assetName}}",
+            "data-vote": "Dipilih untuk {{assetName}}",
             "exchange-amount": "{{amountAsset}}/{{priceAsset}}",
             "exchange-buy": "Pertukaran Beli:",
             "exchange-sell": "Exchange Jual:",

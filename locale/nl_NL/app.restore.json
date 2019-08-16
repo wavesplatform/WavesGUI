@@ -1,4 +1,8 @@
 {
+    "keyForm": {
+        "placeholder": "Voer hier uw privésleutel in"
+    },
+    "keyTab": "Privésleutel",
     "password": {
         "error": "Onjuist wachtwoord!"
     },
@@ -32,10 +36,12 @@
     },
     "seedForm": {
         "address": "Adres",
+        "addressSaved": "Adres opgeslagen",
         "back": "Ga terug",
         "continue": "Ga verder",
         "create": "Maak een nieuw account aan",
         "description": "Uw seed zijn de 15 woorden die u heeft genoteerd toen u uw account aanmaakte",
+        "nameExists": "Die naam is in gebruik",
         "or": "of",
         "placeholder": "Uw seed zijn de 15 woorden die u heeft genoteerd toen u uw account aanmaakte",
         "saveUserData": "Houd mij ingelogd op deze computer",
@@ -43,6 +49,13 @@
         "title": "Importeer vanuit back-up regel",
         "tosaved": "naar een opgeslagen account"
     },
+    "seedOrKeyForm": {
+        "description": "Voer uw seed-regel of privésleutel in om toegang te krijgen tot uw portemonnee",
+        "keyTitle": "Privésleutel",
+        "seedTitle": "SEED regel",
+        "title": "Importeren vanuit SEED of sleutel"
+    },
+    "seedTab": "SEED regel",
     "warningSeed": {
         "message": "Zorg ervoor dat u deze zin niet verwart met een adres. Het gebruik van een adres als een backup-regel kan leiden tot verlies van geld. De backup-regel moet bestaan uit 15 woorden met spaties tussen elk woord.",
         "title": "De backup-regel die u hebt ingevoerd, is te kort."

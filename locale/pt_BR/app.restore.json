@@ -1,4 +1,8 @@
 {
+    "keyForm": {
+        "placeholder": "Enter your private key here"
+    },
+    "keyTab": "Private key",
     "password": {
         "error": "Senha incorreta!"
     },
@@ -32,10 +36,12 @@
     },
     "seedForm": {
         "address": "Endereço",
+        "addressSaved": "Address saved",
         "back": "Voltar",
         "continue": "Continuar",
         "create": "Criar uma nova conta",
         "description": "Your Seed the 15 words you saved when creating your account",
+        "nameExists": "That name is taken",
         "or": "ou",
         "placeholder": "Seu seed são as 15 palavras que você salvou ao criar sua conta",
         "saveUserData": "Mantenha-me conectado neste computador",
@@ -43,6 +49,13 @@
         "title": "Import from Seed",
         "tosaved": "para uma conta salva"
     },
+    "seedOrKeyForm": {
+        "description": "Enter your Seed phrase or private key to access your wallet",
+        "keyTitle": "Private key",
+        "seedTitle": "Seed phrase",
+        "title": "Import from seed or key"
+    },
+    "seedTab": "Seed phrase",
     "warningSeed": {
         "message": "Não recomendamos o uso de um endereço como uma SEED, pois não é seguro. Você tem certeza que deseja continuar?",
         "title": "Você digitou um endereço, não uma SEED."

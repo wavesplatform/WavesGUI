@@ -1,4 +1,8 @@
 {
+    "keyForm": {
+        "placeholder": "Enter your private key here"
+    },
+    "keyTab": "Private key",
     "password": {
         "error": "パスワードが間違っています！"
     },
@@ -32,10 +36,12 @@
     },
     "seedForm": {
         "address": "アドレス",
+        "addressSaved": "Address saved",
         "back": "戻る",
         "continue": "次へ",
         "create": "新しいアカウントを作成",
         "description": "あなたのシードはアカウントの作成時に保存した15の単語です",
+        "nameExists": "That name is taken",
         "or": "または",
         "placeholder": "あなたのシードはアカウントの作成時に保存した15の単語です",
         "saveUserData": "アカウントをこのコンピューターに保存",
@@ -43,6 +49,13 @@
         "title": "シードからインポート",
         "tosaved": "(保存されたアカウントへ)"
     },
+    "seedOrKeyForm": {
+        "description": "Enter your Seed phrase or private key to access your wallet",
+        "keyTitle": "Private key",
+        "seedTitle": "Seed phrase",
+        "title": "Import from seed or key"
+    },
+    "seedTab": "Seed phrase",
     "warningSeed": {
         "message": "フレーズをウォレットアドレスと混同しないようにしてください。 アドレスをシードフレーズ（SEED）として使用すると、資金を失う可能性があります。 SEEDは15語で構成され、各語間にスペースが必要です。",
         "title": "入力されたシードフレーズは短すぎます。"

@@ -1,10 +1,10 @@
 {
     "continue": "Continuar",
-    "copy": "Copy",
-    "copySeed": "Copy Seed phrase",
-    "createAccount": "Create account",
-    "goBack": "go back",
-    "notHaveAccounts": "You do not have saved accounts",
+    "copy": "Copiar",
+    "copySeed": "Copiar frase SEED",
+    "createAccount": "Crear una cuenta",
+    "goBack": "Volver",
+    "notHaveAccounts": "No tienes cuentas guardadas.",
     "nothingHere": "Nada por aquí...",
     "password": {
         "error": "¡Contraseña incorrecta!"
@@ -14,14 +14,14 @@
         "buttons": {
             "login": "Iniciar sesión"
         },
-        "exportUser": "Export your account",
-        "notHaveAccount": "Please sign in to continue",
+        "exportUser": "Exporta tu cuenta",
+        "notHaveAccount": "Por favor inicie sesión para continuar",
         "password": "Contraseña",
         "placeholders": {
             "password": "Contraseña"
         },
-        "title": "Registrarse"
+        "title": "Bienvenido de nuevo"
     },
-    "warn": "Since only you control your money, you’ll need to save your Seed phrase in case this app is deleted or",
-    "yourSeed": "Your Seed phrase"
+    "warn": "Dado que solo usted controla su dinero, deberá guardar su frase SEED en caso de que esta aplicación se elimine o",
+    "yourSeed": "Su frase SEED"
 }
