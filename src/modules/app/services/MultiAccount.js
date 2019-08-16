@@ -66,7 +66,7 @@
 
         addUser({ userType, networkByte, seed, id, privateKey, publicKey }) {
             const _publicKey = publicKey || buildPublicKey(seed || privateKey);
-            const userHash = this._hash(networkByte + _publicKey);
+            const userHash = this.hash(networkByte + _publicKey);
 
             _users[userHash] = {
                 userType,
@@ -136,7 +136,7 @@
         /**
          * @param {string} str
          */
-        _hash(str) {
+        hash(str) {
             return base58Encode(blake2b(base58Decode(str)));
         }
 

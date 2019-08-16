@@ -40,6 +40,18 @@
                         lockedUser.userType !== 'seed' &&
                         lockedUser.userType !== 'privateKey'
                     )));
+
+                    const { id } = $state.params;
+
+                    if (id) {
+                        const lockedUserByHash = this.userListLocked.find(lockedUser => (
+                            multiAccount.hash(lockedUser.address) === id
+                        ));
+
+                        if (lockedUserByHash) {
+                            this.startMigrate(lockedUserByHash);
+                        }
+                    }
                 });
             }
 

@@ -330,6 +330,20 @@
                     }));
             }
 
+            deleteMultiAccountUser(userHash) {
+                return Promise.all([
+                    multiAccount.deleteUser(userHash),
+                    storage.load('multiAccountUsers')
+                ]).then(([data, users]) => {
+                    delete users[userHash];
+
+                    return Promise.all([
+                        this.saveMultiAccountUsers(users),
+                        this.saveMultiAccount(data)
+                    ]);
+                });
+            }
+
             /**
              * @return {Promise}
              */

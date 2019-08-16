@@ -64,14 +64,14 @@
      * @param {Storage} storage
      * @param {INotification} notification
      * @param {app.utils.decorators} decorators
-     * @param {Waves} waves
+     * @param {MultiAccount} multiAccount
      * @param {ModalRouter} ModalRouter
      * @param {ConfigService} configService
      * @param {INotification} userNotification
      * @return {AppRun}
      */
     const run = function ($rootScope, utils, user, $state, $transitions, state, modalManager, storage,
-                          notification, decorators, waves, ModalRouter, configService, userNotification) {
+                          notification, decorators, multiAccount, ModalRouter, configService, userNotification) {
 
         const phone = WavesApp.device.phone();
         const tablet = WavesApp.device.tablet();
@@ -357,7 +357,9 @@
                             return $state.target(START_STATES[0]);
                         }
 
-                        transition.abort();
+                        if (!multiAccount.isSignedIn) {
+                            transition.abort();
+                        }
                     }
 
                     if (toState.name === 'unavailable' && !this._unavailable) {
@@ -704,7 +706,7 @@
         'storage',
         'notification',
         'decorators',
-        'waves',
+        'multiAccount',
         'ModalRouter',
         'configService',
         'userNotification',
