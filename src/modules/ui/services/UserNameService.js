@@ -21,11 +21,6 @@
              * @public
              * @type {string}
              */
-            defaultName;
-            /**
-             * @public
-             * @type {string}
-             */
             address;
 
 
@@ -37,7 +32,6 @@
                 user.loginSignal.on(() => {
                     this.name = user.name;
                     this.address = user.address;
-                    this._setDefaultName();
                 });
 
                 user.logoutSignal.on(() => {
@@ -55,10 +49,6 @@
              * @public
              */
             save() {
-                if (!this.name) {
-                    this.setName(this.defaultName);
-                }
-
                 return this.isUniqueName().then(isUniqueName => {
                     const isNameValid = isUniqueName && this._isNameLengthValid();
                     if (isNameValid) {
@@ -99,22 +89,9 @@
             }
 
             /**
-             * @return {null}
+             * @return {Promise[]}
              * @private
              */
-            _setDefaultName() {
-                const defaultNameRegexp = /^Account(\s\d*)?$/;
-
-                if (defaultNameRegexp.test(this.name)) {
-                    this.defaultName = this.name;
-                    return null;
-                }
-
-                user.getDefaultUserName().then(name => {
-                    this.defaultName = name;
-                });
-            }
-
             _getUserList() {
                 return user.getFilteredUserList();
             }

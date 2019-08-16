@@ -18,7 +18,8 @@
                                  ng-model="$ctrl.userName"
                                  maxlength="{{::MAX_USER_NAME_LENGTH}}"
                                  name="userName"
-                                 autocomplete="off"></w-input>
+                                 autocomplete="off"
+                                 required></w-input>
 
                         <w-input-error class="medium mobile-caption-5" ng-class='{hidden: $ctrl.isUniqueUserName}'>
                             <span w-i18n="welcome.inputErrorNameExists"></span>
@@ -32,7 +33,8 @@
             <w-button w-modal-close class="big long">
                 <span w-i18n="welcome.cancel"></span>
             </w-button>
-            <w-button class="big long submit" on-click="$ctrl.saveUserName()" disabled="!$ctrl.isUniqueUserName">
+            <w-button class="big long submit" on-click="$ctrl.saveUserName()"
+                      disabled="!$ctrl.userName || !$ctrl.isUniqueUserName">
                 <span w-i18n="welcome.save"></span>
             </w-button>
         </div>

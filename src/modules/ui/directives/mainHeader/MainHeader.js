@@ -126,11 +126,16 @@
              * @public
              */
             onBlur() {
-                userNameService.save()
-                    .then(() => {
-                        this.setNameView(false);
-                        this.showTooltip();
-                    });
+                if (!this.userName) {
+                    this.onCancel();
+                } else {
+                    userNameService.save()
+                        .then(() => {
+                            this.setNameView(false);
+                            this.showTooltip();
+                        });
+                }
+
             }
 
             /**
