@@ -149,6 +149,7 @@
     max-height: calc(100% ~'- 28px');
     background: none transparent;
     display: block;
+    overflow: auto;
 
     .dex-layout__line-graph {
       height: 100%;
@@ -190,7 +191,7 @@
     text-transform: uppercase;
 
     &-title {
-      flex-basis: 33.3%;
+      flex: 1;
     }
 
     .spread {
@@ -213,6 +214,7 @@
     position: relative;
     white-space: nowrap;
     padding-left: 5px;
+    flex: 1;
 
     &:after {
       background-repeat: no-repeat;
