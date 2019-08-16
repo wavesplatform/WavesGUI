@@ -87,6 +87,7 @@ export class DataManager {
             [WavesApp.defaultAssets.XMR]: true,
             [WavesApp.defaultAssets.VST]: true,
             [WavesApp.defaultAssets.ERGO]: true,
+            [WavesApp.defaultAssets.BNCR]: true,
         };
 
         const gatewaysSoon = (window as any).angular
