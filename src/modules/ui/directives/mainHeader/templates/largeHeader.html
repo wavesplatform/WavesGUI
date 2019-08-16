@@ -120,8 +120,8 @@
     </div>
 </div>
 
-<w-click-outside on-click-outside="$ctrl.closeDropdown()">
-    <div class="main-header__user {{SELECTORS.MAIN_HEADER_USER}}" ng-if="$ctrl.isLogined">
+<w-click-outside on-click-outside="$ctrl.closeDropdown()" ng-if="$ctrl.isLogined">
+    <div class="main-header__user {{SELECTORS.MAIN_HEADER_USER}}">
 
         <div class="dropdown-toggler dropdown-toggler_right" ng-click="$ctrl.toggleDropdown()">
             <div class="dropdown-toggler__avatar dropdown-toggler__avatar_has-helper">

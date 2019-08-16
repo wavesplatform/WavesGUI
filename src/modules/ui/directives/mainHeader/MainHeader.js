@@ -292,9 +292,8 @@
                 if (mainHeaderUser.hasClass('open')) {
                     mainHeaderUser.removeClass('open');
                     $element.find(`.${SELECTORS.MAIN_HEADER_FADER}`).removeClass('show-fader');
+                    this.onBlur();
                 }
-
-                this.onBlur();
             }
 
             /**

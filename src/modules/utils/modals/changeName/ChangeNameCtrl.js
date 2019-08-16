@@ -52,7 +52,7 @@
              * @public
              */
             saveUserName() {
-                if (this.name && this.isUniqueUserName) {
+                if (this.userName && this.isUniqueUserName) {
                     userNameService.save();
                     notification.info({
                         ns: 'app.welcome',
