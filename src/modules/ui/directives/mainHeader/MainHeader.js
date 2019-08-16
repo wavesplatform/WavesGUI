@@ -165,10 +165,6 @@
                     });
             }
 
-            $onDestroy() {
-                super.$onDestroy();
-            }
-
             /**
              * @public
              */

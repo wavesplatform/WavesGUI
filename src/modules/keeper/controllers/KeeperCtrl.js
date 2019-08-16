@@ -100,6 +100,7 @@
             }
 
             $onDestroy() {
+                super.$onDestroy();
                 this.adapter.offUpdate(this._onUpdateAdapter);
             }
 
