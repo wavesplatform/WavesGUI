@@ -26,7 +26,6 @@ def buildTasks = [:]
 def deployTasks = [:]
 def artifactsDir = 'out'
 def container_info = [:]
-def scmValues
 buildTasks.failFast = true
 def repo_url = 'https://github.com/wavesplatform/WavesGUI.git'
 def pipeline_trigger_token = 'wavesGuiGithubToken'
@@ -223,7 +222,7 @@ timeout(time:20, unit:'MINUTES') {
                             sh 'env'
                             step([$class: 'WsCleanup'])
                             if (action.contains('Build')) {
-                                scmValues = checkout([
+                                checkout([
                                     $class: 'GitSCM',
                                     branches: [[ name: source ]],
                                     doGenerateSubmoduleConfigurations: false,
@@ -231,9 +230,7 @@ timeout(time:20, unit:'MINUTES') {
                                     submoduleCfg: [],
                                     userRemoteConfigs: [[url: repo_url]]
                                 ])
-                                println scmValues
-                                println env.GIT_BRANCH
-                                println env.GIT_COMMIT
+
                                 sh """
                                 cp -R ./WavesGUI/build-wallet/ ./WavesGUI/build-wallet-desktop/
                                 cp -R ./WavesGUI/ ./WavesGUI_tmp/
@@ -280,7 +277,6 @@ timeout(time:20, unit:'MINUTES') {
                                         // contains all info about Jenkins build and git parameters
                                         container_info["${serviceName}"] = "<p>Job name: ${env.JOB_NAME}</p>" +
                                             "<p>Job build tag: ${env.BUILD_TAG}</p>" +
-                                            "<p>Git VALUES: ${scmValues}</p>" +
                                             "<p>Docker image: ${Constants.DOCKER_REGISTRY}/waves/${serviceName}:${source}.latest</p>" +
                                             "<p>Web environment: \${WEB_ENVIRONMENT}</p>"
                                         writeFile file: './info.html', text: container_info["${serviceName}"]
