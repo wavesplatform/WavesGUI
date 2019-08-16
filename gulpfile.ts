@@ -83,6 +83,11 @@ function createBuildTask(args?: { platform: TPlatform; env: TBuild; config: stri
                     : null
             ),
             createConcatTask(
+                getFileName('not-wrapped-vendors.js', env as TBuild),
+                meta.vendorsNotWrapped,
+                join(outputPath, 'js')
+            ),
+            createConcatTask(
                 getFileName('vendor-styles.css', env as TBuild),
                 meta.stylesheets,
                 join(outputPath, 'css')

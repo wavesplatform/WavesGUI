@@ -19,6 +19,7 @@
                 this.userAddress = locals.address;
                 this.isLedger = this.userType === 'ledger';
                 this.isKeeper = this.userType === 'wavesKeeper';
+                this.isPrivateKey = this.userType === 'privateKey';
                 this.loading = true;
             }
 

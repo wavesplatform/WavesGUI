@@ -6,6 +6,7 @@
 
 body.dex,
 body.dex-demo {
+  background-color: @dex-background;
   color: @color-basic-900;
 
   .dex-wrapper {
@@ -396,12 +397,6 @@ body.dex-demo {
                 }
               }
             }
-
-            .smart-table__cell {
-              .cancelled {
-                opacity: .5;
-              }
-            }
           }
           // end
 
@@ -483,7 +478,6 @@ body.dex-demo {
   w-dex-trade-graph {
     height: 100%;
     max-height: 100%;
-    overflow: hidden;
   }
 
   .candle-chart-wrapper.error {
@@ -699,3 +693,17 @@ w-dex-my-orders {
     flex-shrink: 0;
   }
 }
+
+@media screen and (min-width: 1190px) {
+  body.dex .dex-wrapper,
+  body.dex-demo .dex-wrapper {
+    .smart-table__cell {
+      .cancelled {
+        opacity: .5;
+      }
+    }
+  }
+}
+
+
+
