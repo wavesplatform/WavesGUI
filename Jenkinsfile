@@ -315,7 +315,6 @@ timeout(time:20, unit:'MINUTES') {
                                          sh """
                                             cp ./nginx/default.conf "${env.WORKSPACE}/${artifactsDir}/default.conf-${serviceName}"
                                             cp ./Dockerfile "${env.WORKSPACE}/${artifactsDir}/Dockerfile-${serviceName}"
-                                            cp ./nginx/htpasswd.users "${env.WORKSPACE}/${artifactsDir}/htpasswd.users-${serviceName}"
                                             cp ./info.html "${env.WORKSPACE}/${artifactsDir}/info.html-${serviceName}"
                                             """
 
