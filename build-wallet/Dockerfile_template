@@ -33,7 +33,6 @@ WORKDIR /srv/www
 COPY --from=trading-view-${jenkins_platform} /root/node_modules node_modules
 COPY --from=static-${jenkins_platform} /srv/www .
 COPY ./nginx/default.conf /etc/nginx/sites-available/default.conf
-COPY ./nginx/htpasswd.users /etc/nginx/htpasswd.users
 COPY ./info.html /srv/www/info
 COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
 COPY ./files/ /srv/www/WavesGUI/dist/web/mainnet/
