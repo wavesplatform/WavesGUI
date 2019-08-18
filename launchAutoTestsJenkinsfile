@@ -1,0 +1,147 @@
+#!/usr/bin/env groovy
+
+@Library('jenkins-shared-lib')
+import devops.waves.*
+ut = new utils()
+def deployTasks = [:]
+def repo_url = 'https://github.com/wavesplatform/WavesGUI.git'
+def networkServerMap = [:]
+properties([
+	parameters([
+        gitParameter(
+            branch: '',
+            branchFilter: 'origin/(.*)',
+            defaultValue: 'no values in a list or failed to retrieve it', description: '',
+            name: 'branch',
+            quickFilterEnabled: false,
+            selectedValue: 'NONE',
+            sortMode: 'ASCENDING_SMART',
+            tagFilter: '*',
+            type: 'PT_BRANCH',
+            listSize: '15',
+            useRepository: repo_url
+        ),
+	extendedChoice(bindings: '',
+		defaultValue: 'stage1.waveswallet.io',
+		groovyScript: '''
+		['stage.waveswallet.io',
+		'stage1.waveswallet.io',
+		'stage2.waveswallet.io',
+		'stage3.waveswallet.io',
+		'stage4.waveswallet.io']
+		''',
+		name: 'first_server',
+		type: 'PT_RADIO',
+		visibleItemCount: 3
+	),
+	extendedChoice(bindings: '',
+		defaultValue: 'stage2.waveswallet.io',
+		groovyScript: '''
+		['stage.waveswallet.io',
+		'stage1.waveswallet.io',
+		'stage2.waveswallet.io',
+		'stage3.waveswallet.io',
+		'stage4.waveswallet.io']
+		''',
+		name: 'second_server',
+		type: 'PT_RADIO',
+		visibleItemCount: 3
+	),
+        choice(choices: ['chrome', 'firefox'], name: 'browser', description: '')
+    ])
+])
+
+stage('Aborting this build'){
+    // On the first launch pipeline doesn't have any parameters configured and must skip all the steps
+    if (env.BUILD_NUMBER == '1'){
+        echo "This is the first run of the pipeline! It is now should be configured and ready to go!"
+        currentBuild.result = Constants.PIPELINE_ABORTED
+        return
+    }
+    if (! params.branch ) {
+        echo "Aborting this build. Please run it again with the required parameters specified."
+        currentBuild.result = Constants.PIPELINE_ABORTED
+        return
+    }
+    if (params.first_server == params.second_server){
+    	echo "Aborting this build. Please cpedify different servers for deployment."
+        currentBuild.result = Constants.PIPELINE_ABORTED
+        return	
+    }
+    else
+        echo "Parameters are specified. Branch: ${branch}\n" +
+        	"first_server: ${first_server}\n" +
+        	"second_server: ${second_server}\n"
+        networkServerMap[first_server]="mainnet"
+        networkServerMap[second_server]="testnet"
+}
+
+if (currentBuild.result == Constants.PIPELINE_ABORTED){
+    return
+}
+
+timeout(time:20, unit:'MINUTES') {
+    node('buildagent'){
+        currentBuild.result = Constants.PIPELINE_SUCCESS
+        timestamps {
+            try {
+                currentBuild.displayName = "#${env.BUILD_NUMBER} - ${branch}"
+
+                stage('Checkout') {
+                    sh 'env'
+                    step([$class: 'WsCleanup'])
+                    ut.checkout(branch, repo_url)
+                }
+
+                stage('Build image') {
+	                 build job: 'Waves/Build and Deploy WavesWallet Web Client Stage', 
+	                 parameters: [
+	                 	[$class: 'StringParameterValue', name: 'action', value: "Build"], 
+	                 	[$class: 'StringParameterValue', name: 'source', value: "${branch}"],
+	                 	[$class: 'StringParameterValue', name: 'image', value: ""],
+	                 	[$class: 'StringParameterValue', name: 'destination', value: ""],
+	                 	[$class: 'StringParameterValue', name: 'network', value: ""]
+	                 ]
+	            }
+
+	            stage("Deploy images") {
+	            	["${first_server}","${second_server}"].each { serverName ->
+	            		deployTasks["Deploying " + serverName] = {
+	            			build job: 'Waves/Build and Deploy WavesWallet Web Client Stage', 
+			                parameters: [
+			                 	[$class: 'StringParameterValue', name: 'action', value: "Deploy"], 
+			                 	[$class: 'StringParameterValue', name: 'source', value: "${branch}.latest"],
+			                 	[$class: 'StringParameterValue', name: 'image', value: "wallet"],
+			                 	[$class: 'StringParameterValue', name: 'destination', value: "${serverName}"],
+			                 	[$class: 'StringParameterValue', name: 'network', value: networkServerMap[serverName]]
+			                 ]
+	            		}
+	            	}
+	            }
+	            parallel deployTasks
+
+	            stage("Run tests") {
+	            	build job: 'Waves_GUI_autotests/Waves wavesgui tests', 
+	            	parameters:[
+		            	[$class: 'StringParameterValue', name: 'mainnet_url', value: "${first_server}"], 
+		            	[$class: 'StringParameterValue', name: 'testnet_url', value: "${second_server}"], 
+		            	[$class: 'StringParameterValue', name: 'browser', value: "${browser}"]
+		            ]
+	            }
+            }
+            catch (err) {
+                currentBuild.result = Constants.PIPELINE_FAILURE
+                println("ERROR caught")
+                println(err)
+                println(err.getMessage())
+                println(err.getStackTrace())
+                println(err.getCause())
+                println(err.getLocalizedMessage())
+                println(err.toString())
+             }
+            finally{
+                ut.notifySlack("mtuktarov-test", currentBuild.result)
+            }
+        }
+    }
+}
