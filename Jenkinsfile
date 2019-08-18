@@ -166,7 +166,7 @@ properties([
                     if (binding.variables.get('action') == 'Build' || binding.variables.get('action') == 'Deploy PROD' || binding.variables.get('action') == 'Deploy TEST') {
                         return []
                     } else {
-                        return ${Constants.WAVES_WALLET_NETWORKS}
+                        return ['mainnet', 'testnet', 'stagenet']
                     }
                     """
                 ]
@@ -291,7 +291,7 @@ timeout(time:20, unit:'MINUTES') {
 
                                         // configure nginx template
                                         def waves_wallet_nginx_map = Constants.WAVES_WALLET_NGINX_MAP.clone()
-                                        waves_wallet_nginx_map.waves_wallet_nginx_platform = "${platform}"
+                                        waves_wallet_nginx_map.nginx_platform = "${platform}"
                                         String nginxConfFileContent = ut.replaceTemplateVars('./nginx/default_template.conf', waves_wallet_nginx_map)
                                         writeFile file: './nginx/default.conf', text: nginxConfFileContent
 
@@ -301,15 +301,14 @@ timeout(time:20, unit:'MINUTES') {
                                         String dockerfileConfFileContent = ut.replaceTemplateVars('./Dockerfile_template', waves_wallet_dockerfile_map)
                                         writeFile file: './Dockerfile', text: dockerfileConfFileContent
 
-                                        // configure nginx base auth users
-                                        writeFile file: './nginx/htpasswd.users', text: Constants.WAVES_WALLET_NGINX_HTPASSWD_USERS
-
                                         // configure a page with container_info which 
                                         // contains all info about Jenkins build and git parameters
-                                        container_info["${serviceName}"] = "<p>Job name: ${env.JOB_NAME}</p>" +
-                                            "<p>Job build tag: ${env.BUILD_TAG}</p>" +
-                                            "<p>Docker image: ${Constants.DOCKER_REGISTRY}/waves/${serviceName}:${source}.latest</p>" +
+                                        container_info["${serviceName}"] = ""           +
+                                            "<p>Job name:       ${env.JOB_NAME}</p>"    +
+                                            "<p>Job build tag:  ${env.BUILD_TAG}</p>"   +
+                                            "<p>Docker image:   ${Constants.DOCKER_REGISTRY}/waves/${serviceName}:${source}.latest</p>" +
                                             "<p>Web environment: \${WEB_ENVIRONMENT}</p>"
+
                                         writeFile file: './info.html', text: container_info["${serviceName}"]
 
                                         // copy all the generated text files
