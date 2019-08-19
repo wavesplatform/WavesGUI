@@ -28,7 +28,7 @@ def artifactsDir = 'out'
 def container_info = [:]
 buildTasks.failFast = true
 def repo_url = 'https://github.com/wavesplatform/WavesGUI.git'
-def deploymentFile = "./kubernetes/waves-wallet-stage/deployment.yaml"
+def deploymentFile = "./kubernetes/waves-wallet-stage-io/deployment.yaml"
 
 def pipeline_trigger_token = 'wavesGuiGithubToken'
 properties([
@@ -36,7 +36,7 @@ properties([
     [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '14', numToKeepStr: '30']],
 
     parameters([
-        choice(choices: ['Build', 'Build and Deploy', 'Deploy', 'Deploy PROD', 'Deploy TEST'], description: '', name: 'action'),
+        choice(choices: ['Build', 'Build and Deploy', 'Deploy', 'Deploy PROD', 'Deploy TEST', 'Deploy STAGE'], description: '', name: 'action'),
 
         // source depends on choice parameter above and dynamically
         // loads either Git repo branches for building
@@ -60,7 +60,7 @@ properties([
                     import com.cloudbees.plugins.credentials.*
                     import com.cloudbees.plugins.credentials.domains.*
 
-                    if (binding.variables.get('action') == 'Deploy' || binding.variables.get('action') == 'Deploy PROD' || binding.variables.get('action') == 'Deploy TEST') {
+                    if (binding.variables.get('action') == 'Deploy' || binding.variables.get('action') == 'Deploy PROD' || binding.variables.get('action') == 'Deploy TEST' || binding.variables.get('action') == 'Deploy STAGE') {
 
                         def image_name = 'waves/wallet'
                         cred_id = "${Constants.DOCKER_REGISTRY_CREDS}"
@@ -124,7 +124,7 @@ properties([
                 script: [ classpath: [], sandbox: false, script: """
                     if (binding.variables.get('action') == 'Build') {
                         return []
-                    } else if (binding.variables.get('action') == 'Deploy PROD' || binding.variables.get('action') == 'Deploy TEST') {
+                    } else if (binding.variables.get('action') == 'Deploy PROD' || binding.variables.get('action') == 'Deploy TEST' || binding.variables.get('action') == 'Deploy STAGE') {
                         return ['wallet', 'wallet-electron', 'both']
                     }
                     else {
@@ -144,7 +144,7 @@ properties([
             script: [$class: 'GroovyScript',
                 fallbackScript: [classpath: [], sandbox: false, script: 'return ["There was a problem..."]'],
                 script: [ classpath: [], sandbox: false, script: """
-                    if (binding.variables.get('action') == 'Build' || binding.variables.get('action') == 'Deploy PROD' || binding.variables.get('action') == 'Deploy TEST') {
+                    if (binding.variables.get('action') == 'Build' || binding.variables.get('action') == 'Deploy PROD' || binding.variables.get('action') == 'Deploy TEST' || binding.variables.get('action') == 'Deploy STAGE') {
                         return []
                     } else {
                         return ${Constants.WAVES_WALLET_STAGE_SERVERS}
@@ -163,7 +163,7 @@ properties([
             script: [$class: 'GroovyScript',
                 fallbackScript: [classpath: [], sandbox: false, script: 'return ["There was a problem..."]'],
                 script: [ classpath: [], sandbox: false, script: """
-                    if (binding.variables.get('action') == 'Build' || binding.variables.get('action') == 'Deploy PROD' || binding.variables.get('action') == 'Deploy TEST') {
+                    if (binding.variables.get('action') == 'Build' || binding.variables.get('action') == 'Deploy PROD' || binding.variables.get('action') == 'Deploy TEST' || binding.variables.get('action') == 'Deploy STAGE') {
                         return []
                     } else {
                         return ['mainnet', 'testnet', 'stagenet']
@@ -185,6 +185,9 @@ properties([
                     }
                     else if (binding.variables.get('action') == 'Deploy TEST') {
                         return ['I am aware I am deploying TEST']
+                    }
+                    else if (binding.variables.get('action') == 'Deploy STAGE') {
+                        return ['I am aware I am deploying STAGE']
                     }
                     else{
                         return false
@@ -361,6 +364,12 @@ timeout(time:20, unit:'MINUTES') {
                                             deploymentFile = "./kubernetes/waves-wallet-test/deployment.yaml"
                                             waves_wallet_deployment_map.domain_name = Constants.WALLET_TEST_DOMAIN_NAMES[serviceName].replaceAll("\\.","-")
                                             waves_wallet_deployment_map.network = "testnet"
+                                        }
+
+                                        if (action.contains('STAGE')) {
+                                            deploymentFile = "./kubernetes/waves-wallet-stagenet/deployment.yaml"
+                                            waves_wallet_deployment_map.domain_name = Constants.WALLET_TEST_DOMAIN_NAMES[serviceName].replaceAll("\\.","-")
+                                            waves_wallet_deployment_map.network = "stagenet"
                                         }
 
                                         // configure deployment template
