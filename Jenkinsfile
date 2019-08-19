@@ -26,16 +26,17 @@ def buildTasks = [:]
 def deployTasks = [:]
 def artifactsDir = 'out'
 def container_info = [:]
-def scmVars
 buildTasks.failFast = true
 def repo_url = 'https://github.com/wavesplatform/WavesGUI.git'
+def deploymentFile = "./kubernetes/waves-wallet-stage-io/deployment.yaml"
+
 def pipeline_trigger_token = 'wavesGuiGithubToken'
 properties([
 
     [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '14', numToKeepStr: '30']],
 
     parameters([
-        choice(choices: ['Build', 'Build and Deploy', 'Deploy'], description: '', name: 'action'),
+        choice(choices: ['Build', 'Build and Deploy', 'Deploy', 'Deploy PROD', 'Deploy TEST', 'Deploy STAGE'], description: '', name: 'action'),
 
         // source depends on choice parameter above and dynamically
         // loads either Git repo branches for building
@@ -59,7 +60,7 @@ properties([
                     import com.cloudbees.plugins.credentials.*
                     import com.cloudbees.plugins.credentials.domains.*
 
-                    if (binding.variables.get('action') == 'Deploy') {
+                    if (binding.variables.get('action') == 'Deploy' || binding.variables.get('action') == 'Deploy PROD' || binding.variables.get('action') == 'Deploy TEST' || binding.variables.get('action') == 'Deploy STAGE') {
 
                         def image_name = 'waves/wallet'
                         cred_id = "${Constants.DOCKER_REGISTRY_CREDS}"
@@ -123,7 +124,10 @@ properties([
                 script: [ classpath: [], sandbox: false, script: """
                     if (binding.variables.get('action') == 'Build') {
                         return []
-                    } else {
+                    } else if (binding.variables.get('action') == 'Deploy PROD' || binding.variables.get('action') == 'Deploy TEST' || binding.variables.get('action') == 'Deploy STAGE') {
+                        return ['wallet', 'wallet-electron', 'both']
+                    }
+                    else {
                         return ['wallet', 'wallet-electron']
                     }
                     """
@@ -140,7 +144,7 @@ properties([
             script: [$class: 'GroovyScript',
                 fallbackScript: [classpath: [], sandbox: false, script: 'return ["There was a problem..."]'],
                 script: [ classpath: [], sandbox: false, script: """
-                    if (binding.variables.get('action') == 'Build') {
+                    if (binding.variables.get('action') == 'Build' || binding.variables.get('action') == 'Deploy PROD' || binding.variables.get('action') == 'Deploy TEST' || binding.variables.get('action') == 'Deploy STAGE') {
                         return []
                     } else {
                         return ${Constants.WAVES_WALLET_STAGE_SERVERS}
@@ -159,12 +163,36 @@ properties([
             script: [$class: 'GroovyScript',
                 fallbackScript: [classpath: [], sandbox: false, script: 'return ["There was a problem..."]'],
                 script: [ classpath: [], sandbox: false, script: """
-                    if (binding.variables.get('action') == 'Build') {
+                    if (binding.variables.get('action') == 'Build' || binding.variables.get('action') == 'Deploy PROD' || binding.variables.get('action') == 'Deploy TEST' || binding.variables.get('action') == 'Deploy STAGE') {
                         return []
                     } else {
-                        return ${Constants.WAVES_WALLET_NETWORKS}
+                        return ['mainnet', 'testnet', 'stagenet']
                     }
                     """
+                ]
+            ]
+        ],
+        [$class: 'CascadeChoiceParameter',
+            choiceType: 'PT_CHECKBOX',
+            description: '', filterLength: 1,
+            filterable: false,
+            name: 'confirm',
+            randomName: 'choice-parameter-306677463453518',
+            referencedParameters: 'action',
+            script: [$class: 'GroovyScript', fallbackScript: [classpath: [], sandbox: false, script: ''], script: [classpath: [], sandbox: false, script: '''
+                    if (binding.variables.get('action') == 'Deploy PROD') {
+                        return ['I am aware I am deploying PROD']
+                    }
+                    else if (binding.variables.get('action') == 'Deploy TEST') {
+                        return ['I am aware I am deploying TEST']
+                    }
+                    else if (binding.variables.get('action') == 'Deploy STAGE') {
+                        return ['I am aware I am deploying STAGE']
+                    }
+                    else{
+                        return false
+                    }
+                    '''
                 ]
             ]
         ]
@@ -198,6 +226,11 @@ stage('Aborting this build'){
         currentBuild.result = Constants.PIPELINE_ABORTED
         return
     }
+    if (( action.contains('PROD') || action.contains('TEST')) && ! confirm){
+        echo "Aborting this build. Deploy to PROD was not confirmed."
+        currentBuild.result = Constants.PIPELINE_ABORTED
+        return
+    }
     else
         echo "Parameters are specified:\n" +
         "action: ${action}\n" +
@@ -223,14 +256,15 @@ timeout(time:20, unit:'MINUTES') {
                             sh 'env'
                             step([$class: 'WsCleanup'])
                             if (action.contains('Build')) {
-                                scmVars = checkout([
+                                checkout([
                                     $class: 'GitSCM',
                                     branches: [[ name: source ]],
                                     doGenerateSubmoduleConfigurations: false,
-                                    extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'WavesGUI']],
+                                    extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'WavesGUI'], [$class: 'LocalBranch', localBranch: "**"]],
                                     submoduleCfg: [],
                                     userRemoteConfigs: [[url: repo_url]]
                                 ])
+
                                 sh """
                                 cp -R ./WavesGUI/build-wallet/ ./WavesGUI/build-wallet-desktop/
                                 cp -R ./WavesGUI/ ./WavesGUI_tmp/
@@ -260,7 +294,7 @@ timeout(time:20, unit:'MINUTES') {
 
                                         // configure nginx template
                                         def waves_wallet_nginx_map = Constants.WAVES_WALLET_NGINX_MAP.clone()
-                                        waves_wallet_nginx_map.waves_wallet_nginx_platform = "${platform}"
+                                        waves_wallet_nginx_map.nginx_platform = "${platform}"
                                         String nginxConfFileContent = ut.replaceTemplateVars('./nginx/default_template.conf', waves_wallet_nginx_map)
                                         writeFile file: './nginx/default.conf', text: nginxConfFileContent
 
@@ -270,25 +304,20 @@ timeout(time:20, unit:'MINUTES') {
                                         String dockerfileConfFileContent = ut.replaceTemplateVars('./Dockerfile_template', waves_wallet_dockerfile_map)
                                         writeFile file: './Dockerfile', text: dockerfileConfFileContent
 
-                                        // configure nginx base auth users
-                                        writeFile file: './nginx/htpasswd.users', text: Constants.WAVES_WALLET_NGINX_HTPASSWD_USERS
-
                                         // configure a page with container_info which 
                                         // contains all info about Jenkins build and git parameters
-                                        container_info["${serviceName}"] = "<p>Job name: ${env.JOB_NAME}</p>" +
-                                            "<p>Job build tag: ${env.BUILD_TAG}</p>" +
-                                            "<p>Git URL: ${scmVars.GIT_URL}</p>" +
-                                            "<p>Git branch: ${scmVars.GIT_BRANCH}</p>" +
-                                            "<p>Git commit: ${scmVars.GIT_COMMIT}</p>" +
-                                            "<p>Docker image: ${Constants.DOCKER_REGISTRY}/waves/${serviceName}:${source}.latest</p>" +
-                                            "<p>Web environemnt: \${WEB_ENVIRONMENT}</p>"
+                                        container_info["${serviceName}"] = ""           +
+                                            "<p>Job name:       ${env.JOB_NAME}</p>"    +
+                                            "<p>Job build tag:  ${env.BUILD_TAG}</p>"   +
+                                            "<p>Docker image:   ${Constants.DOCKER_REGISTRY}/waves/${serviceName}:${source}.latest</p>" +
+                                            "<p>Web environment: \${WEB_ENVIRONMENT}</p>"
+
                                         writeFile file: './info.html', text: container_info["${serviceName}"]
 
                                         // copy all the generated text files
                                          sh """
                                             cp ./nginx/default.conf "${env.WORKSPACE}/${artifactsDir}/default.conf-${serviceName}"
                                             cp ./Dockerfile "${env.WORKSPACE}/${artifactsDir}/Dockerfile-${serviceName}"
-                                            cp ./nginx/htpasswd.users "${env.WORKSPACE}/${artifactsDir}/htpasswd.users-${serviceName}"
                                             cp ./info.html "${env.WORKSPACE}/${artifactsDir}/info.html-${serviceName}"
                                             """
 
@@ -312,32 +341,52 @@ timeout(time:20, unit:'MINUTES') {
                         deployTasks["Deploying " + serviceName] = {
                             stage("Deploying " + serviceName) {
                                 if (action.contains('Deploy')) {
-                                    if (serviceName == image) {
+                                    if (image == serviceName || image =="both" ) {
                                         def waves_wallet_deployment_map = [
                                             domain_name: destination.replaceAll("\\.","-"),
                                             network: network,
                                             tag: source,
-                                            image: image,
+                                            image: serviceName,
                                             current_date: "'${ut.shWithOutput('date +%s')}'"
                                         ]
+
                                         if (action.contains('Build')) {
                                             waves_wallet_deployment_map.tag += '.latest'
                                         }
+
+                                        if (action.contains('PROD')) {
+                                            deploymentFile = "./kubernetes/waves-wallet-prod/deployment.yaml"
+                                            waves_wallet_deployment_map.domain_name = Constants.WALLET_PROD_DOMAIN_NAMES[serviceName].replaceAll("\\.","-")
+                                            waves_wallet_deployment_map.network = "mainnet"
+                                        }
+
+                                        if (action.contains('TEST')) {
+                                            deploymentFile = "./kubernetes/waves-wallet-test/deployment.yaml"
+                                            waves_wallet_deployment_map.domain_name = Constants.WALLET_TEST_DOMAIN_NAMES[serviceName].replaceAll("\\.","-")
+                                            waves_wallet_deployment_map.network = "testnet"
+                                        }
+
+                                        if (action.contains('STAGE')) {
+                                            deploymentFile = "./kubernetes/waves-wallet-stagenet/deployment.yaml"
+                                            waves_wallet_deployment_map.domain_name = Constants.WALLET_TEST_DOMAIN_NAMES[serviceName].replaceAll("\\.","-")
+                                            waves_wallet_deployment_map.network = "stagenet"
+                                        }
+
                                         // configure deployment template
-                                        String deploymentConfFileContent = ut.replaceTemplateVars('./kubernetes/waves-client-stage-waveswallet-io/deployment.yaml', waves_wallet_deployment_map)
-                                        def deployment_config = "./${artifactsDir}/${image}-deployment.yaml"
-                                        writeFile file: "./${artifactsDir}/${image}-deployment.yaml", text: deploymentConfFileContent
+                                        String deploymentConfFileContent = ut.replaceTemplateVars(deploymentFile, waves_wallet_deployment_map)
+                                        def deployment_config = "./${artifactsDir}/${serviceName}-deployment.yaml"
+                                        writeFile file: "./${artifactsDir}/${serviceName}/${serviceName}-deployment.yaml", text: deploymentConfFileContent
 
                                         // deploy container to kuber
                                         withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: Constants.AWS_KUBERNETES_KEY, secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
                                             sh """
                                                 docker run -i --rm \
-                                                    -v "${env.WORKSPACE}/${artifactsDir}":/root/app \
+                                                    -v "${env.WORKSPACE}/${artifactsDir}/${serviceName}":/root/app \
                                                     -e AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}" \
                                                     -e AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}" \
                                                     -e KUBE_CLUSTER_NAME="${Constants.AWS_KUBERNETES_KUBE_CLUSTER_NAME}" \
                                                     -e AWS_REGION="${Constants.AWS_KUBERNETES_AWS_REGION}" \
-                                                    -e CONFIG_PATH="${image}-deployment.yaml" \
+                                                    -e CONFIG_PATH="${serviceName}-deployment.yaml" \
                                                     "${Constants.DOCKER_KUBERNETES_EXECUTOR_IMAGE}"
                                                 """
                                         }
