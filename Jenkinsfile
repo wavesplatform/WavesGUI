@@ -368,7 +368,7 @@ timeout(time:20, unit:'MINUTES') {
 
                                         if (action.contains('STAGE')) {
                                             deploymentFile = "./kubernetes/waves-wallet-stagenet/deployment.yaml"
-                                            waves_wallet_deployment_map.domain_name = Constants.WALLET_TEST_DOMAIN_NAMES[serviceName].replaceAll("\\.","-")
+                                            waves_wallet_deployment_map.domain_name = Constants.WALLET_STAGENET_DOMAIN_NAMES[serviceName].replaceAll("\\.","-")
                                             waves_wallet_deployment_map.network = "stagenet"
                                         }
 
