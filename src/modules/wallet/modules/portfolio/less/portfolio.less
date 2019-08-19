@@ -23,6 +23,10 @@
 
     .smart-table__cell:first-child {
       padding-left: 10px;
+
+      @media screen and (max-width: 768px) {
+        padding-left: 0;
+      }
     }
   }
 
@@ -76,6 +80,10 @@
 @media screen and (max-width: 769px) {
   .portfolio-wrapper {
     padding: 10px 0 10px 10px;
+
+    .smart-table__row .smart-table__cell {
+      border: 0;
+    }
   }
 
   .main.wallet.portfolio {
@@ -87,6 +95,7 @@
     .asset__text-mobile {
       .js-stars-container {
         margin-left: 6px;
+        margin-top: 2px;
       }
     }
 
