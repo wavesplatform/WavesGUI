@@ -18,6 +18,9 @@
             },
             '1.2.1': function (storage) {
                 return newTerms(storage);
+            },
+            '1.3.19': function (storage) {
+                return addNewGateway(storage, WavesApp.defaultAssets.BNCR);
             }
         };
 
