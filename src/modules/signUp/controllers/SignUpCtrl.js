@@ -39,7 +39,6 @@
                         }
                     } else {
                         this.hasLegacyUsers = userList && userList.length > 0;
-                        this.activeStep = this.hasLegacyUsers ? 0 : 1;
                     }
                 });
             }

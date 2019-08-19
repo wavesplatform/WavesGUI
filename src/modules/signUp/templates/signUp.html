@@ -3,7 +3,7 @@
 <div class="get-started-content movable">
     <w-step-by-step active-step="$ctrl.activeStep">
         <w-step>
-            <div class="text-center">
+            <div class="text-center" ng-if="$ctrl.hasLegacyUsers">
                 <!-- TODO:1978 lock image -->
 
                 <div class="headline-1 margin-1">
@@ -15,6 +15,58 @@
                     <!-- TODO:1978 i18n -->
                     <span w-i18n="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley."></span>
                 </div>
+
+                <w-button class="submit long big" on-click="$ctrl.nextStep()">
+                    <!-- TODO:1978 i18n -->
+                    <div class="full-width" w-i18n="Let's start"></div>
+                </w-button>
+            </div>
+
+            <div class="text-center" ng-if="!$ctrl.hasLegacyUsers">
+                <w-slider interval="2000" class="margin-3">
+                    <!-- TODO:1978 slider with 3 slides -->
+                    <div>
+                        <!-- TODO:1978 image -->
+
+                        <div class="headline-1 margin-1">
+                            <!-- TODO:1978 i18n -->
+                            <span w-i18n="Get Started with Blockchain 1"></span>
+                        </div>
+
+                        <div class="body-2 basic-500 margin-top-2">
+                            <!-- TODO:1978 i18n -->
+                            <span w-i18n="Become part of a fast-growing area of the crypto world. You are the only person who can access your crypto assets."></span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <!-- TODO:1978 image -->
+
+                        <div class="headline-1 margin-1">
+                            <!-- TODO:1978 i18n -->
+                            <span w-i18n="Get Started with Blockchain 2"></span>
+                        </div>
+
+                        <div class="body-2 basic-500 margin-top-2">
+                            <!-- TODO:1978 i18n -->
+                            <span w-i18n="Become part of a fast-growing area of the crypto world. You are the only person who can access your crypto assets."></span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <!-- TODO:1978 image -->
+
+                        <div class="headline-1 margin-1">
+                            <!-- TODO:1978 i18n -->
+                            <span w-i18n="Get Started with Blockchain 3"></span>
+                        </div>
+
+                        <div class="body-2 basic-500 margin-top-2">
+                            <!-- TODO:1978 i18n -->
+                            <span w-i18n="Become part of a fast-growing area of the crypto world. You are the only person who can access your crypto assets."></span>
+                        </div>
+                    </div>
+                </w-slider>
 
                 <w-button class="submit long big" on-click="$ctrl.nextStep()">
                     <!-- TODO:1978 i18n -->
