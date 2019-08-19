@@ -1,45 +1,103 @@
 <div class="get-started-content create-account movable">
-    <div class="text-center">
-        <div class="headline-1 margin-4">
-            <span w-i18n="createAccount.createNewAccount"></span>
-        </div>
+    <w-step-by-step active-step="$ctrl.invitationStep">
+        <w-step>
+            <div class="text-center">
+                <w-slider interval="2000" class="margin-3">
+                    <!-- TODO:1978 slider with 3 slides -->
+                    <div>
+                        <!-- TODO:1978 image -->
 
-        <div class="body-2 margin-top-2 basic-500">
-            <span w-i18n="createAccount.from"></span>
-        </div>
+                        <div class="headline-1 margin-1">
+                            <!-- TODO:1978 i18n -->
+                            <span w-i18n="Get Started with Blockchain 1"></span>
+                        </div>
 
-    </div>
+                        <div class="body-2 basic-500 margin-top-2">
+                            <!-- TODO:1978 i18n -->
+                            <span w-i18n="Become part of a fast-growing area of the crypto world. You are the only person who can access your crypto assets."></span>
+                        </div>
+                    </div>
 
-    <div class="avatars-list flex margin-2 margin-top-2">
-        <div class="avatar-wrapper"
-             ng-repeat="seed in $ctrl.seedList track by seed.address"
-             ng-class="{active: seed.active}"
-             ng-click="$ctrl.setActiveSeed(seed)">
-            <w-avatar address="seed.address"></w-avatar>
-        </div>
-    </div>
+                    <div>
+                        <!-- TODO:1978 image -->
 
-    <div class="body-2 basic-900 margin-05" w-i18n="createAccount.address"></div>
+                        <div class="headline-1 margin-1">
+                            <!-- TODO:1978 i18n -->
+                            <span w-i18n="Get Started with Blockchain 2"></span>
+                        </div>
 
-    <w-copy-wrap class="body-2 margin-2"
-         info="$ctrl.address">{{$ctrl.address}}
-        <w-loader ng-if="!$ctrl.address"></w-loader>
-    </w-copy-wrap>
+                        <div class="body-2 basic-500 margin-top-2">
+                            <!-- TODO:1978 i18n -->
+                            <span w-i18n="Become part of a fast-growing area of the crypto world. You are the only person who can access your crypto assets."></span>
+                        </div>
+                    </div>
 
-    <!-- hidden by #1978
-    <div class="flex get-started-checkbox-save">
-        <w-checkbox-submit ng-model="$ctrl.saveUserData" id="save-user-data"></w-checkbox-submit>
-        <label for="save-user-data" class="footnote-1">
-            <span class="basic-500" w-i18n="createAccount.saveUserData"></span>
-        </label>
-    </div>
-    -->
+                    <div>
+                        <!-- TODO:1978 image -->
 
-    <w-button
-        on-click="$ctrl.next($ctrl.stepIndex + $ctrl.saveUserData ? 1 : 2)"
-        class="submit long big">
-        <span w-i18n="button.continue"></span>
-    </w-button>
+                        <div class="headline-1 margin-1">
+                            <!-- TODO:1978 i18n -->
+                            <span w-i18n="Get Started with Blockchain 3"></span>
+                        </div>
+
+                        <div class="body-2 basic-500 margin-top-2">
+                            <!-- TODO:1978 i18n -->
+                            <span w-i18n="Become part of a fast-growing area of the crypto world. You are the only person who can access your crypto assets."></span>
+                        </div>
+                    </div>
+                </w-slider>
+
+                <w-button class="submit long big" on-click="$ctrl.nextInvitationStep()">
+                    <!-- TODO:1978 i18n -->
+                    <div class="full-width" w-i18n="Create a new account"></div>
+                </w-button>
+            </div>
+        </w-step>
+
+        <w-step>
+            <div class="text-center">
+                <div class="headline-1 margin-4">
+                    <span w-i18n="createAccount.createNewAccount"></span>
+                </div>
+
+                <div class="body-2 margin-top-2 basic-500">
+                    <span w-i18n="createAccount.from"></span>
+                </div>
+
+            </div>
+
+            <div class="avatars-list flex margin-2 margin-top-2">
+                <div class="avatar-wrapper"
+                        ng-repeat="seed in $ctrl.seedList track by seed.address"
+                        ng-class="{active: seed.active}"
+                        ng-click="$ctrl.setActiveSeed(seed)">
+                    <w-avatar address="seed.address"></w-avatar>
+                </div>
+            </div>
+
+            <div class="body-2 basic-900 margin-05" w-i18n="createAccount.address"></div>
+
+            <w-copy-wrap class="body-2 margin-2"
+                    info="$ctrl.address">{{$ctrl.address}}
+                <w-loader ng-if="!$ctrl.address"></w-loader>
+            </w-copy-wrap>
+
+            <!-- hidden by #1978
+            <div class="flex get-started-checkbox-save">
+                <w-checkbox-submit ng-model="$ctrl.saveUserData" id="save-user-data"></w-checkbox-submit>
+                <label for="save-user-data" class="footnote-1">
+                    <span class="basic-500" w-i18n="createAccount.saveUserData"></span>
+                </label>
+            </div>
+            -->
+
+            <w-button
+                on-click="$ctrl.next($ctrl.stepIndex + $ctrl.saveUserData ? 1 : 2)"
+                class="submit long big">
+                <span w-i18n="button.continue"></span>
+            </w-button>
+        </w-step>
+    </w-step-by-step>
 
     <w-get-started-link has-sign-in="::false" has-import="::true"></w-get-started-link>
 </div>

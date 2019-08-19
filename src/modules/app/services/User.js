@@ -62,6 +62,12 @@
                 return this.currentUser ? this.currentUser.name : null;
             }
 
+            set name(name) {
+                if (this.currentUser) {
+                    this.currentUser.name = name;
+                }
+            }
+
             get userType() {
                 return this.currentUser ? this.currentUser.userType : null;
             }

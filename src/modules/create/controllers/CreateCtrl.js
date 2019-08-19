@@ -36,6 +36,7 @@
             constructor() {
                 super($scope);
 
+                this.invitationStep = 0;
                 this.stepIndex = 0;
                 this.password = '';
                 this.name = '';
@@ -159,6 +160,10 @@
                             }
                         });
                 }
+            }
+
+            nextInvitationStep() {
+                this.invitationStep += 1;
             }
 
             checkNext() {
