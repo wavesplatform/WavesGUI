@@ -150,7 +150,7 @@
             onBlur() {
                 if (!this.userName) {
                     this.onCancel();
-                } else {
+                } else if (this.showInput) {
                     userNameService.save()
                         .then(() => {
                             this.setNameView(false);
@@ -312,11 +312,15 @@
              */
             closeDropdown() {
                 const mainHeaderUser = $element.find(`.${SELECTORS.MAIN_HEADER_USER}`);
+
                 if (mainHeaderUser.hasClass('open')) {
                     mainHeaderUser.removeClass('open');
                     $element.find(`.${SELECTORS.MAIN_HEADER_FADER}`).removeClass('show-fader');
                     this.onBlur();
                 }
+
+                this.isShowAccounts = false;
+                this.isMenuOpen = false;
             }
 
             /**

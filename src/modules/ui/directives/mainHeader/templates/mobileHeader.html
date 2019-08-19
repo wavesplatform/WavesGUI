@@ -169,18 +169,18 @@
                    href="#"></a>
             </li>
 
+            <li w-toggle-class="show-accounts" class="mobile-menu__item">
+                <!-- TODO:1978 i18n & icon -->
+                <a class="mobile-menu__link mobile-menu__link_accounts has-child"
+                    w-i18n="Switch account"
+                    href="#"></a>
+            </li>
+
             <li w-toggle-class="show-aliases expanded" class="mobile-menu__item">
                 <a class="mobile-menu__link mobile-menu__link_settings"
                    ng-click="$ctrl.showSettings()"
                    w-i18n="welcome.settings"
                    href="#"></a>
-            </li>
-
-            <li w-toggle-class="show-accounts">
-                <!-- TODO:1978 i18n & icon -->
-                <a class="menu-link menu-link-accounts has-child"
-                    w-i18n="Switch account"
-                    href="#"></a>
             </li>
 
             <li w-toggle-class="show-aliases expanded" class="mobile-menu__item mobile-menu__item_logout">
@@ -233,11 +233,11 @@
         </ul>
     </div>
 
-    <div class="mobile-menu-wrapper mobile-menu-wrapper-inner accounts-menu" ng-if="$ctrl.isLogined">
+    <div class="mobile-menu__wrapper mobile-menu__wrapper_inner accounts-menu" ng-if="$ctrl.isLogined">
         <div>
-            <ul>
+            <ul class="mobile-menu__list">
                 <li w-toggle-class="mobile-menu-inner-expanded">
-                    <a class="menu-link menu-link-menu"
+                    <a class="mobile-menu__link mobile-menu__link_menu"
                         w-toggle-class="show-accounts" href="#"
                         w-i18n="welcome.menu"></a>
                 </li>
@@ -281,11 +281,11 @@
                 </li>
                 <li w-toggle-class="expanded show-accounts">
                     <!-- TODO:1978 icon & i18n -->
-                    <a ui-sref="create" w-i18n="Add account" ng-click="$ctrl.removeBodyClass()"></a>
+                    <a ui-sref="create" class="mobile-menu__link" w-i18n="Add account" ng-click="$ctrl.removeBodyClass()"></a>
                 </li>
                 <li class="separator"></li>
                 <li w-toggle-class="expanded show-accounts">
-                    <a class="menu-link menu-link-logout"
+                    <a class="mobile-menu__link mobile-menu__link_logout"
                         ng-click="$ctrl.removeBodyClass();$ctrl.logout()"
                         href="#"
                         w-i18n="welcome.logout"></a>
