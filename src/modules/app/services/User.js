@@ -1,4 +1,3 @@
-// @ts-check
 /* global transfer Mousetrap WavesApp: readonly */
 (function () {
     'use strict';
@@ -49,6 +48,10 @@
              */
             get changeSetting() {
                 return this._settings.change;
+            }
+
+            get hash() {
+                return this.currentUser ? this.currentUser.hash : null;
             }
 
             get address() {

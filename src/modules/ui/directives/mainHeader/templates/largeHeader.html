@@ -108,13 +108,13 @@
     <a class="top-menu__link top-menu__link-tokens" ui-sref="main.tokens" w-i18n="welcome.createToken"></a>
 </nav>
 
-<div ng-if="!$ctrl.isLogined"
-     class="login-buttons buttons-wrapper buttons-wrapper-nowidth">
-    <a class="body-2 margin-right-3 submit-400 signIn-hidden" ng-if="$ctrl.userList.length > 0" ui-sref="signIn"
-       w-analytics event="'Sign In Click'" event-target="ui"
-       w-i18n="welcome.signIn"></a>
+<div ng-if="!$ctrl.isSignedIn" class="login-buttons buttons-wrapper buttons-wrapper-nowidth">
+    <a class="body-2 submit-400 signIn-hidden" ng-class="{'margin-right-3': !$ctrl.hasMultiAccount}"
+        ng-if="$ctrl.hasMultiAccount" ui-sref="signIn"
+        w-analytics event="'Sign In Click'" event-target="ui"
+        w-i18n="welcome.signIn"></a>
     <div class="create-hidden">
-        <a class="fake-button submit medium" ui-sref="create">
+        <a class="fake-button submit medium" ui-sref="signUp" ng-if="!$ctrl.hasMultiAccount">
             <span w-i18n="welcome.getStarted" class="fake-button-content medium submit"></span>
         </a>
     </div>
@@ -150,70 +150,129 @@
 
 
         <div class="main-header__dropdown main-header__dropdown_user dropdown">
+            <div class="main-header__dropdown-menu-wrapper">
+                <div class="main-header__dropdown-menu" ng-class="{'main-header__dropdown-menu_open': $ctrl.isMenuOpen}">
+                    <div>
+                        <div class="user-account text-center has-helper">
+                            <div class="user-account__name">
+                                <div class="user-account__block" ng-show="!$ctrl.showInput" ng-click="$ctrl.setNameView()">
+                                    <div class="user-account__text">{{user.name}}</div>
+                                    <w-info-tooltip class="{{SELECTORS.TOOLTIP_RENAME}}" no-icon="true">
+                                        <span class="tooltip__content" w-i18n="welcome.renameAccount"></span>
+                                    </w-info-tooltip>
+                                </div>
 
-            <div class="user-account text-center has-helper">
+                                <div class="user-account__input" ng-show="$ctrl.showInput">
+                                    <form ng-submit="$ctrl.onSave()" name="$ctrl.setUserName">
+                                        <w-input-container>
+                                            <w-input type="text"
+                                                    class="tiny long"
+                                                    ng-focus="$ctrl.onFocus()"
+                                                    ng-blur="$ctrl.onBlur()"
+                                                    ng-model="$ctrl.userName"
+                                                    maxlength="{{::MAX_USER_NAME_LENGTH}}"
+                                                    name="userName"
+                                                    autocomplete="off"
+                                                    required></w-input>
 
-                <div class="user-account__name">
-                    <div class="user-account__block" ng-show="!$ctrl.showInput" ng-click="$ctrl.setNameView()">
-                        <div class="user-account__text">{{user.name}}</div>
-                        <w-info-tooltip class="{{SELECTORS.TOOLTIP_RENAME}}" no-icon="true">
-                            <span class="tooltip__content" w-i18n="welcome.renameAccount"></span>
-                        </w-info-tooltip>
-                    </div>
+                                            <w-input-error class="tiny" ng-class='{hidden: $ctrl.isUniqueUserName}'>
+                                                <span w-i18n="welcome.inputErrorNameExists"></span>
+                                            </w-input-error>
+                                        </w-input-container>
+                                        <div class="user-account__btns">
+                                            <button class="user-account__btn user-account__btn_cancel"
+                                                    ng-mousedown="$ctrl.onCancel()" ng-touchstart="$ctrl.onCancel()"></button>
+                                            <button class="user-account__btn user-account__btn_ok"
+                                                    ng-disabled="!$ctrl.userName || !$ctrl.isUniqueUserName"
+                                                    ng-mousedown="$ctrl.onSave()" ng-touchstart="$ctrl.onSave()"></button>
+                                        </div>
+                                    </form>
+                                </div>
 
-                    <div class="user-account__input" ng-show="$ctrl.showInput">
-                        <form ng-submit="$ctrl.onSave()" name="$ctrl.setUserName">
-                            <w-input-container>
-                                <w-input type="text"
-                                         class="tiny long"
-                                         ng-focus="$ctrl.onFocus()"
-                                         ng-blur="$ctrl.onBlur()"
-                                         ng-model="$ctrl.userName"
-                                         maxlength="{{::MAX_USER_NAME_LENGTH}}"
-                                         name="userName"
-                                         autocomplete="off"
-                                         required></w-input>
-
-                                <w-input-error class="tiny" ng-class='{hidden: $ctrl.isUniqueUserName}'>
-                                    <span w-i18n="welcome.inputErrorNameExists"></span>
-                                </w-input-error>
-                            </w-input-container>
-                            <div class="user-account__btns">
-                                <button class="user-account__btn user-account__btn_cancel"
-                                        ng-mousedown="$ctrl.onCancel()" ng-touchstart="$ctrl.onCancel()"></button>
-                                <button class="user-account__btn user-account__btn_ok"
-                                        ng-disabled="!$ctrl.userName || !$ctrl.isUniqueUserName"
-                                        ng-mousedown="$ctrl.onSave()" ng-touchstart="$ctrl.onSave()"></button>
                             </div>
-                        </form>
+
+                            <div class="user-account__address">
+                                <w-copy-wrap-default class="copy-underline basic-500 caption-4" info="$ctrl.address">
+                                    {{$ctrl.address}}
+                                </w-copy-wrap-default>
+
+                                <w-info-tooltip no-icon="true">
+                                    <span class="tooltip__content" w-i18n="welcome.copyAddress"></span>
+                                </w-info-tooltip>
+                            </div>
+                        </div>
+
+                        <a class="dropdown__link dropdown__link_aliases" ng-click="$ctrl.showAliases()">
+                            <i class="dropdown__icon dropdown__icon_aliases icon-18"></i>
+                            <span class="dropdown__text" w-i18n="welcome.aliases"></span>
+                        </a>
+                        <a class="dropdown__link dropdown__link_settings" ng-click="$ctrl.showSettings()">
+                            <i class="dropdown__icon dropdown__icon_settings icon-18"></i>
+                            <span class="dropdown__text" w-i18n="welcome.settings"></span>
+                        </a>
+                        <a class="dropdown__link dropdown__link_accounts" ng-click="$ctrl.toggleAccounts()">
+                            <i class="dropdown__icon dropdown__icon_accounts icon-18"></i>
+                            <!-- TODO:1978 i18n & icon -->
+                            <span class="dropdown__text" w-i18n="Switch account"></span>
+                        </a>
+                        <a class="dropdown__link dropdown__link_logout" ng-click="$ctrl.logout()">
+                            <i class="dropdown__icon dropdown__icon_logout icon-18"></i>
+                            <span class="dropdown__text" w-i18n="welcome.logout"></span>
+                        </a>
                     </div>
 
-                </div>
+                    <div>
+                        <!-- TODO:1978 i18n & icon -->
+                        <a class="menu-link menu-link-menu"
+                            ng-click="$ctrl.toggleAccounts()"
+                            w-i18n="Menu"
+                        ></a>
 
-                <div class="user-account__address">
-                    <w-copy-wrap-default class="copy-underline basic-500 caption-4" info="$ctrl.address">
-                        {{$ctrl.address}}
-                    </w-copy-wrap-default>
-
-                    <w-info-tooltip no-icon="true">
-                        <span class="tooltip__content" w-i18n="welcome.copyAddress"></span>
-                    </w-info-tooltip>
+                        <div class="main-header__accounts">
+                            <div ng-repeat="user in $ctrl.userList track by $index"
+                                style="cursor: pointer; position: relative;"
+                            >
+                                <div ng-click="$ctrl.switchUser(user)" style="display: flex;">
+                                    <w-avatar
+                                        type="{{::user.userType}}"
+                                        size="30"
+                                        address="user.address"
+                                    ></w-avatar>
+                                    <div class="user-info-wrapper">
+                                        <div class="account-name body-2 basic-700" ng-if="user.name">{{user.name}}</div>
+                                        <div class="account-address basic-500 body-3">{{::user.address}}</div>
+                                    </div>
+                                </div>
+                                <div class="icon-remove-user icon-close" ng-click="$ctrl.deleteUser(user)"></div>
+                            </div>
+                            <div ng-if="$ctrl.userListLocked.length">
+                                <!-- TODO:1978 i18n -->
+                                <span class="basic-50" w-i18n="Require unlock"></span>
+                            </div>
+                            <div ng-repeat="user in $ctrl.userListLocked track by $index"
+                                style="cursor: pointer; position: relative;"
+                            >
+                                <div ng-click="$ctrl.unlockUser(user)" style="display: flex;">
+                                    <w-avatar
+                                        type="{{::user.userType}}"
+                                        size="30"
+                                        address="user.address"
+                                    ></w-avatar>
+                                    <div class="user-info-wrapper">
+                                        <div class="basic-50" ng-if="user.name">{{user.name}}</div>
+                                        <div class="basic-500">{{::user.address}}</div>
+                                    </div>
+                                </div>
+                                <div class="icon-remove-user icon-close" ng-click="$ctrl.deleteUser(user)"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <!-- TODO:1978 icon & i18n -->
+                            <a ui-sref="create" w-i18n="Add account"></a>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <a class="dropdown__link dropdown__link_aliases" ng-click="$ctrl.showAliases()">
-                <i class="dropdown__icon dropdown__icon_aliases icon-18"></i>
-                <span class="dropdown__text" w-i18n="welcome.aliases"></span>
-            </a>
-            <a class="dropdown__link dropdown__link_settings" ng-click="$ctrl.showSettings()">
-                <i class="dropdown__icon dropdown__icon_settings icon-18"></i>
-                <span class="dropdown__text" w-i18n="welcome.settings"></span>
-            </a>
-            <a class="dropdown__link dropdown__link_logout" ng-click="$ctrl.logout()">
-                <i class="dropdown__icon dropdown__icon_logout icon-18"></i>
-                <span class="dropdown__text" w-i18n="welcome.logout"></span>
-            </a>
         </div>
-
     </div>
 </w-click-outside>

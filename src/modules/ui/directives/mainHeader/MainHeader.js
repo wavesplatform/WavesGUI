@@ -13,24 +13,28 @@
      * @param {stateManager} stateManager
      * @param {ModalManager} modalManager
      * @param {app.utils} utils
-     * @param $scope
+     * @param {ng.IScope} $scope
      * @param {User} user
-     * @param {$state} $state
+     * @param {*} $state
      * @param {JQuery} $document
      * @param {JQuery} $element
      * @param {UserNameService} userNameService
+     * @param {MultiAccount} multiAccount
      * @return {MainHeaderCtrl}
      */
-    const controller = function (Base,
-                                 stateManager,
-                                 modalManager,
-                                 user,
-                                 $state,
-                                 $element,
-                                 $document,
-                                 utils,
-                                 $scope,
-                                 userNameService) {
+    const controller = function (
+        Base,
+        stateManager,
+        modalManager,
+        user,
+        $state,
+        $element,
+        $document,
+        utils,
+        $scope,
+        userNameService,
+        multiAccount
+    ) {
 
         const PATH = 'modules/ui/directives/mainHeader/templates';
         class MainHeaderCtrl extends Base {
@@ -47,6 +51,16 @@
             userList = [];
             /**
              * @public
+             * @type {Array}
+             */
+            userListLocked = [];
+            /**
+             * @public
+             * @type {boolean}
+             */
+            hasMultiAccount = false;
+            /**
+             * @public
              * @type {boolean}
              */
             isUniqueUserName = true;
@@ -54,6 +68,18 @@
              * @type {boolean}
              */
             showInput = false;
+            /**
+             * @type {number}
+             */
+            isMenuOpen = 0;
+            /**
+             * @type {boolean}
+             */
+            isShowAccounts = false;
+
+            get isSignedIn() {
+                return multiAccount.isSignedIn;
+            }
 
             constructor() {
                 super($scope);
@@ -75,10 +101,6 @@
                 this.isLedger = user.userType === 'ledger';
 
                 this.hasTypeHelp = this.isScript && (this.isLedger || this.isKeeper);
-
-                user.getFilteredUserList().then(list => {
-                    this.userList = list;
-                });
 
                 this.largeTemplate = `${PATH}/largeHeader.html`;
                 this.mobileTemplate = `${PATH}/mobileHeader.html`;
@@ -169,7 +191,7 @@
              * @public
              */
             logout() {
-                user.logout('welcome');
+                user.logout('signIn');
             }
 
             /**
@@ -234,6 +256,11 @@
                         () => $state.go('create')
                     );
                 }
+            }
+
+            toggleAccounts() {
+                this.isMenuOpen = !this.isMenuOpen;
+                this.isShowAccounts = !this.isShowAccounts;
             }
 
             /**
@@ -309,14 +336,51 @@
                 this.removeBodyClass();
             }
 
+            switchUser(toUser) {
+                user.logout('.', true);
+                user.login(toUser);
+            }
+
+            unlockUser(userToUnlock) {
+                $state.go('migrate', {
+                    id: multiAccount.hash(userToUnlock.address)
+                });
+            }
+
+            deleteUser(userToDelete) {
+                modalManager.showConfirmDeleteUser(userToDelete).then(() => {
+                    if (userToDelete.hash) {
+                        return user.deleteMultiAccountUser(userToDelete.hash).then(() => {
+                            this.userList = this.userList.filter(
+                                userInList => userInList.hash !== userToDelete.hash
+                            );
+
+                            if (this.userList.length === 0) {
+                                $state.go('create');
+                            }
+                        });
+                    } else {
+                        return user.removeUserByAddress(userToDelete.address).then(() => {
+                            this.userListLocked = this.userList.filter(
+                                userInList => userInList.address !== userToDelete.address
+                            );
+                        });
+                    }
+                });
+            }
+
             /**
              * @private
              */
             _handleLogin() {
                 this._resetUserFields();
 
-                user.getFilteredUserList().then(list => {
-                    this.userList = list;
+                user.getMultiAccountUsers().then((users = []) => {
+                    this.userList = users.filter(x => x.hash !== user.hash);
+                });
+
+                user.getFilteredUserList().then((users = []) => {
+                    this.userListLocked = users;
                 });
 
                 user.logoutSignal.once(this._handleLogout, this);
@@ -344,6 +408,10 @@
                 this.isLedger = user.userType === 'ledger';
                 this.hasTypeHelp = this.isScript && (this.isLedger || this.isKeeper);
                 this.userList = [];
+
+                user.getMultiAccountData().then(data => {
+                    this.hasMultiAccount = !!data;
+                });
             }
 
             /**
@@ -396,7 +464,8 @@
         '$document',
         'utils',
         '$scope',
-        'userNameService'
+        'userNameService',
+        'multiAccount'
     ];
 
     angular.module('app.ui').component('wMainHeader', {

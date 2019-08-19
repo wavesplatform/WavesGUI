@@ -34,7 +34,7 @@
             /**
              * @type {Array|null}
              */
-            userList = null;
+            legacyUserList = null;
 
             constructor() {
                 super($scope);
@@ -53,7 +53,7 @@
                     } else {
                         this.multiAccountData = multiAccountData;
                         this.multiAccountHash = multiAccountHash;
-                        this.userList = userList;
+                        this.legacyUserList = userList;
                     }
                 });
             }
@@ -77,7 +77,7 @@
 
                     if (firstUser) {
                         this._login(firstUser);
-                    } else if (this.userList && this.userList.length) {
+                    } else if (this.legacyUserList && this.legacyUserList.length) {
                         $state.go('migrate');
                     } else {
                         $state.go('create');

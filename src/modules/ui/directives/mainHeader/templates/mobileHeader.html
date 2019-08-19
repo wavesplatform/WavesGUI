@@ -24,7 +24,8 @@
                    target="_blank"
                    rel="noopener noreferrer"
                    w-i18n="welcome.api"
-                   class="mobile-menu__link"></a></li>
+                   class="mobile-menu__link"></a>
+            </li>
             <li class="mobile-menu__item">
                 <a href="https://docs.wavesplatform.com/en/waves-client/install-waves-client.html"
                    w-analytics event-target="'ui'"
@@ -32,7 +33,8 @@
                    target="_blank"
                    rel="noopener noreferrer"
                    w-i18n="welcome.help"
-                   class="mobile-menu__link"></a></li>
+                   class="mobile-menu__link"></a>
+            </li>
             <li class="mobile-menu__item">
                 <a href="https://twitter.com/Waves_DEX"
                    w-analytics event-target="'ui'"
@@ -40,21 +42,25 @@
                    target="_blank"
                    rel="noopener noreferrer"
                    w-i18n="welcome.news"
-                   class="mobile-menu__link"></a></li>
+                   class="mobile-menu__link"></a>
+            </li>
             <li class="mobile-menu__item" ng-if="!$ctrl.isDesktop">
                 <a class="mobile-menu__link mobile-menu__link_has-child"
                    w-toggle-class="show-downloads"
                    w-i18n="welcome.download"
-                   href="#"></a></li>
+                   href="#"></a>
+            </li>
             <li class="mobile-menu__item">
                 <a class="mobile-menu__link mobile-menu__link_sign-in-link signIn-hidden"
-                   ng-if="$ctrl.hasUsers"
+                   ng-if="$ctrl.hasMultiAccount"
                    ng-click="$ctrl.removeBodyClass()"
-                   ui-sref="signIn" w-i18n="welcome.signIn"></a></li>
+                   ui-sref="signIn" w-i18n="welcome.signIn"></a>
+            </li>
             <li class="mobile-menu__item mobile-menu__item_get-started-link">
                 <a class="mobile-menu__link mobile-menu__link_get-started-link create-hidden"
-                   ng-click="$ctrl.removeBodyClass()"
-                   ui-sref="create" w-i18n="welcome.getStarted"></a></li>
+                    ng-if="!$ctrl.hasMultiAccount"
+                    ui-sref="signUp" w-i18n="welcome.getStarted"></a>
+            </li>
         </ul>
 
         <ul class="mobile-menu__list" ng-if="$ctrl.isLogined">
@@ -81,7 +87,8 @@
                 <a ui-sref="main.dex"
                    ng-click="$ctrl.removeBodyClass()"
                    w-i18n="welcome.exchange"
-                   class="mobile-menu__link"></a></li>
+                   class="mobile-menu__link"></a>
+            </li>
             <li w-toggle-class="show-wallet" class="mobile-menu__item">
                 <a href="#" class="mobile-menu__link mobile-menu__link_has-child" w-i18n="welcome.wallet"
                    w-toggle-class="mobile-menu-inner-expanded"></a>
@@ -89,12 +96,14 @@
             <li w-toggle-class="expanded" class="mobile-menu__item">
                 <a ng-click="$ctrl.removeBodyClass()"
                    ui-sref="main.tokens" w-i18n="welcome.createToken"
-                   class="mobile-menu__link"></a></li>
+                   class="mobile-menu__link"></a>
+            </li>
             <li w-toggle-class="expanded" ng-click="$ctrl.logout()" class="mobile-menu__item mobile-menu__item_logout">
                 <a ng-click="$ctrl.removeBodyClass()"
                    class="mobile-menu__link mobile-menu__link_logout"
                    w-i18n="welcome.logout"
-                   href="#"></a></li>
+                   href="#"></a>
+            </li>
         </ul>
     </div>
 
@@ -104,7 +113,8 @@
                 <a class="mobile-menu__link mobile-menu__link_menu"
                    w-toggle-class="show-downloads"
                    href="#"
-                   w-i18n="welcome.menu"></a></li>
+                   w-i18n="welcome.menu"></a>
+            </li>
             <li w-toggle-class="expanded mobile-menu-inner-expanded" class="mobile-menu__item">
                 <a class="mobile-menu__link mobile-menu__link_apple"
                    w-analytics
@@ -114,7 +124,8 @@
                    ng-click="$ctrl.removeBodyClass()"
                    target="_blank"
                    rel="noopener noreferrer"
-                   w-i18n="welcome.apple"></a></li>
+                   w-i18n="welcome.apple"></a>
+            </li>
             <li w-toggle-class="expanded mobile-menu-inner-expanded" class="mobile-menu__item">
                 <a class="mobile-menu__link mobile-menu__link_android"
                    w-analytics
@@ -124,7 +135,8 @@
                    target="_blank"
                    ng-click="$ctrl.removeBodyClass()"
                    rel="noopener noreferrer"
-                   w-i18n="welcome.android"></a></li>
+                   w-i18n="welcome.android"></a>
+            </li>
         </ul>
     </div>
 
@@ -133,37 +145,50 @@
             <li w-toggle-class="mobile-menu-inner-expanded" class="mobile-menu__item">
                 <a class="mobile-menu__link mobile-menu__link_menu"
                    w-toggle-class="show-aliases" href="#"
-                   w-i18n="welcome.menu"></a></li>
+                   w-i18n="welcome.menu"></a>
+            </li>
 
             <li w-toggle-class="show-name expanded" class="mobile-menu__item">
                 <a class="mobile-menu__link mobile-menu__link_name"
                    ng-click="$ctrl.changeName()"
                    w-i18n="welcome.name"
-                   href="#"></a></li>
+                   href="#"></a>
+            </li>
 
             <li w-toggle-class="show-address expanded" class="mobile-menu__item">
                 <a class="mobile-menu__link mobile-menu__link_address"
                    ng-click="$ctrl.showAddress()"
                    w-i18n="welcome.address"
-                   href="#"></a></li>
+                   href="#"></a>
+            </li>
 
             <li w-toggle-class="show-aliases expanded" class="mobile-menu__item">
                 <a class="mobile-menu__link mobile-menu__link_aliases"
                    ng-click="$ctrl.showAliases()"
                    w-i18n="welcome.aliases"
-                   href="#"></a></li>
+                   href="#"></a>
+            </li>
 
             <li w-toggle-class="show-aliases expanded" class="mobile-menu__item">
                 <a class="mobile-menu__link mobile-menu__link_settings"
                    ng-click="$ctrl.showSettings()"
                    w-i18n="welcome.settings"
-                   href="#"></a></li>
+                   href="#"></a>
+            </li>
+
+            <li w-toggle-class="show-accounts">
+                <!-- TODO:1978 i18n & icon -->
+                <a class="menu-link menu-link-accounts has-child"
+                    w-i18n="Switch account"
+                    href="#"></a>
+            </li>
 
             <li w-toggle-class="show-aliases expanded" class="mobile-menu__item mobile-menu__item_logout">
                 <a class="mobile-menu__link mobile-menu__link_logout"
                    ng-click="$ctrl.logout()"
                    w-i18n="welcome.logout"
-                   href="#"></a></li>
+                   href="#"></a>
+            </li>
         </ul>
     </div>
 
@@ -172,7 +197,8 @@
             <li w-toggle-class="show-wallet" class="mobile-menu__item">
                 <a class="mobile-menu__link mobile-menu__link_menu"
                    href="#"
-                   w-i18n="welcome.menu"></a></li>
+                   w-i18n="welcome.menu"></a>
+            </li>
             <li w-toggle-class="expanded show-wallet" class="mobile-menu__item">
                 <a class="mobile-menu__link mobile-menu__link_dashboard"
                    ng-click="$ctrl.removeBodyClass()"
@@ -183,24 +209,88 @@
                 <a class="mobile-menu__link mobile-menu__link_portfolio"
                    ng-click="$ctrl.removeBodyClass()"
                    ui-sref="main.wallet.portfolio"
-                   w-i18n="welcome.portfolio"></a></li>
+                   w-i18n="welcome.portfolio"></a>
+            </li>
             <li w-toggle-class="expanded show-wallet" class="mobile-menu__item">
                 <a class="mobile-menu__link mobile-menu__link_transactions"
                    ng-click="$ctrl.removeBodyClass()"
                    ui-sref="main.wallet.transactions"
-                   w-i18n="welcome.transactions"></a></li>
+                   w-i18n="welcome.transactions"></a>
+            </li>
             <li w-toggle-class="expanded show-wallet" class="mobile-menu__item">
                 <a class="mobile-menu__link mobile-menu__link_leasing"
                    ng-click="$ctrl.removeBodyClass()"
                    ui-sref="main.wallet.leasing"
-                   w-i18n="welcome.leasing"></a></li>
+                   w-i18n="welcome.leasing"></a>
+            </li>
             <li w-toggle-class="expanded show-wallet" class="mobile-menu__item mobile-menu__item_logout">
                 <a class="mobile-menu__link mobile-menu__link_logout"
                    ng-click="$ctrl.removeBodyClass()"
                    ng-click="$ctrl.logout()"
                    href="#"
-                   w-i18n="welcome.logout"></a></li>
+                   w-i18n="welcome.logout"></a>
+            </li>
         </ul>
     </div>
 
+    <div class="mobile-menu-wrapper mobile-menu-wrapper-inner accounts-menu" ng-if="$ctrl.isLogined">
+        <div>
+            <ul>
+                <li w-toggle-class="mobile-menu-inner-expanded">
+                    <a class="menu-link menu-link-menu"
+                        w-toggle-class="show-accounts" href="#"
+                        w-i18n="welcome.menu"></a>
+                </li>
+                <li w-toggle-class="expanded show-accounts" ng-click="$ctrl.removeBodyClass()">
+                    <div ng-repeat="user in $ctrl.userList track by $index"
+                        style="cursor: pointer; position: relative;"
+                    >
+                        <div ng-click="$ctrl.switchUser(user)" style="display: flex;">
+                            <w-avatar
+                                type="{{::user.userType}}"
+                                size="30"
+                                address="user.address"
+                            ></w-avatar>
+                            <div class="user-info-wrapper">
+                                <div class="basic-50" ng-if="user.name">{{user.name}}</div>
+                                <div class="basic-500">{{::user.address}}</div>
+                            </div>
+                        </div>
+                        <div class="icon-remove-user icon-close" ng-click="$ctrl.deleteUser(user)"></div>
+                    </div>
+                    <div ng-if="$ctrl.userListLocked.length">
+                        <!-- TODO:1978 i18n -->
+                        <span class="basic-50" w-i18n="Require unlock"></span>
+                    </div>
+                    <div ng-repeat="user in $ctrl.userListLocked track by $index"
+                        style="cursor: pointer; position: relative;"
+                    >
+                        <div ng-click="$ctrl.unlockUser(user)" style="display: flex;">
+                            <w-avatar
+                                type="{{::user.userType}}"
+                                size="30"
+                                address="user.address"
+                            ></w-avatar>
+                            <div class="user-info-wrapper">
+                                <div class="basic-50" ng-if="user.name">{{user.name}}</div>
+                                <div class="basic-500">{{::user.address}}</div>
+                            </div>
+                        </div>
+                        <div class="icon-remove-user icon-close" ng-click="$ctrl.deleteUser(user)"></div>
+                    </div>
+                </li>
+                <li w-toggle-class="expanded show-accounts">
+                    <!-- TODO:1978 icon & i18n -->
+                    <a ui-sref="create" w-i18n="Add account" ng-click="$ctrl.removeBodyClass()"></a>
+                </li>
+                <li class="separator"></li>
+                <li w-toggle-class="expanded show-accounts">
+                    <a class="menu-link menu-link-logout"
+                        ng-click="$ctrl.removeBodyClass();$ctrl.logout()"
+                        href="#"
+                        w-i18n="welcome.logout"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
 </nav>
