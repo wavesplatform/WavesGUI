@@ -3,7 +3,8 @@
 
     const GATEWAYS = {
         [WavesApp.defaultAssets.VST]: { waves: 'WVST', gateway: 'VST' },
-        [WavesApp.defaultAssets.ERGO]: { waves: 'WERGO', gateway: 'ERGO' }
+        [WavesApp.defaultAssets.ERGO]: { waves: 'WERGO', gateway: 'ERGO' },
+        [WavesApp.defaultAssets.BNCR]: { waves: 'WBNCR', gateway: 'BNCR' }
     };
 
     const PATH = `${WavesApp.network.wavesGateway}/api/v1`;
