@@ -1,14 +1,14 @@
 (function () {
     'use strict';
 
-
     /**
      * @param Base
      * @param $scope
      * @param {User} user
+     * @param {app.utils} utils
      * @return {KeeperCtrl}
      */
-    const controller = function (Base, $scope, user) {
+    const controller = function (Base, $scope, user, utils) {
 
         const signatureAdapter = require('@waves/signature-adapter');
 
@@ -53,7 +53,7 @@
             /**
              * @type {user}
              */
-            selectedUser = null;
+            selectedUser = Object.create(null);
             /**
              * @type {boolean}
              */
@@ -62,11 +62,46 @@
              * @type {string}
              */
             name = '';
+            /**
+             * @type {boolean}
+             */
+            isPriorityUserTypeExists = false;
+            /**
+             * @type {object | null}
+             */
+            userExisted = Object.create(null);
+            /**
+             * @type {Array}
+             * @private
+             */
+            _usersInStorage = [];
+            /**
+             * @type {string}
+             * @private
+             */
+            _type = 'wavesKeeper';
+            /**
+             * @type {object}
+             * @private
+             */
+            _priorityMap = utils.getImportPriorityMap();
 
             constructor() {
                 super($scope);
-                this.adapter.onUpdate((state) => this.onUpdateState(state));
+
+                this.observe('selectedUser', this._onSelectUser);
+                this.adapter.onUpdate(this._onUpdateAdapter);
+
+                user.getFilteredUserList().then(users => {
+                    this._usersInStorage = users;
+                });
+
                 this.getUsers();
+            }
+
+            $onDestroy() {
+                super.$onDestroy();
+                this.adapter.offUpdate(this._onUpdateAdapter);
             }
 
             /**
@@ -129,6 +164,7 @@
                             return Promise.reject({ code: 'locked' });
                         }
                         this.selectedUser = user;
+                        this.receive(utils.observe(this.selectedUser, 'name'), this._onChangeName, this);
                         delete this.selectedUser.type;
                     })
                     .catch((e) => this.onError(e))
@@ -136,6 +172,7 @@
                         this.isInit = true;
                         this.loading = false;
                         $scope.$apply();
+                        this._onSelectUser();
                     });
             }
 
@@ -164,12 +201,47 @@
                 });
             }
 
+            /**
+             * @private
+             */
+            _onSelectUser() {
+                this._onChangeAddress();
+                this._onChangeName();
+            }
+
+            /**
+             * @private
+             */
+            _onChangeAddress() {
+                this.userExisted =
+                    this._usersInStorage.find(user => user.address === this.selectedUser.address) ||
+                    null;
+                this.isPriorityUserTypeExists =
+                    !!this.userExisted &&
+                    this._priorityMap[this._type] <= this._priorityMap[this.userExisted.userType];
+            }
+
+            /**
+             * @private
+             */
+            _onChangeName() {
+                const isUnique = this._usersInStorage.some(user => {
+                    return user.name === this.selectedUser.name && user.address !== this.selectedUser.address;
+                });
+
+                if (this.importForm) {
+                    this.importForm.userName.$setValidity('isUnique', !isUnique);
+                }
+            }
+
+            _onUpdateAdapter = (state) => this.onUpdateState(state);
+
         }
 
         return new KeeperCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'user'];
+    controller.$inject = ['Base', '$scope', 'user', 'utils'];
 
     angular.module('app.keeper').controller('KeeperCtrl', controller);
 })();

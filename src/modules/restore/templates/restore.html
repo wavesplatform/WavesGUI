@@ -1,4 +1,4 @@
-<w-site-header></w-site-header>
+<w-main-header class="main-header"></w-main-header>
 <div w-i18n-ns="app.restore" class="main-container movable">
     <div class="main-container-wrapper">
 
@@ -86,11 +86,13 @@
 
                     <w-password name="$ctrl.name"
                                 password="$ctrl.password"
+                                address="$ctrl.address"
                                 on-submit="$ctrl.restore()">
                         <span w-i18n-ns="app.restore">
                             <span w-i18n="passwordForm.login"></span>
                         </span>
                     </w-password>
+
                 </w-step>
             </w-step-by-step>
 

@@ -267,6 +267,22 @@
                 });
             }
 
+            showAccountChangeName() {
+                return this._getModal({
+                    id: 'changeName',
+                    templateUrl: 'modules/utils/modals/changeName/changeName.html',
+                    controller: 'ChangeNameCtrl'
+                });
+            }
+
+            showAccountAddress() {
+                return this._getModal({
+                    id: 'addressInfo',
+                    templateUrl: 'modules/utils/modals/addressInfo/addressInfo.html',
+                    controller: 'AddressInfoCtrl'
+                });
+            }
+
             showAccountInfo() {
                 /**
                  * @type {User}
