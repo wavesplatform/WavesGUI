@@ -393,7 +393,7 @@ timeout(time:20, unit:'MINUTES') {
                                     
                                         ut.notifySlack("waves-deploy-alerts",
                                             currentBuild.result,
-                                            "Deployed image:\n${Constants.DOCKER_REGISTRY}/waves/${serviceName}:${source}.latest ${network} to ${destination}")
+                                            "Deployed image:\n${Constants.DOCKER_REGISTRY}/waves/${serviceName}:${waves_wallet_deployment_map.tag} ${network} to ${destination}")
 
                                     } else {
                                         org.jenkinsci.plugins.pipeline.modeldefinition.Utils.markStageSkippedForConditional("Deploying " + serviceName)
