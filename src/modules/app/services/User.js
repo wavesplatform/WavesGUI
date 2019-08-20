@@ -511,6 +511,15 @@
                 }
             }
 
+            resetAll() {
+                return Promise.all([
+                    storage.save('multiAccountData', ''),
+                    storage.save('multiAccountHash', ''),
+                    storage.save('multiAccountUsers', ''),
+                    storage.save('userList', '')
+                ]);
+            }
+
             /**
              * Get active state from children of state "name"
              * @param {string} name     Name of state

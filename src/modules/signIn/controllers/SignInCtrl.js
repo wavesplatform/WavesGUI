@@ -9,9 +9,10 @@
      * @param {*} $state
      * @param {User} user
      * @param {MultiAccount} multiAccount
+     * @param {ModalManager} modalManager
      * @returns {SignInCtrl}
      */
-    const controller = function (Base, $scope, $state, user, multiAccount) {
+    const controller = function (Base, $scope, $state, user, multiAccount, modalManager) {
 
         class SignInCtrl extends Base {
 
@@ -85,6 +86,12 @@
                 });
             }
 
+            showForgotPasswordModal() {
+                modalManager.showForgotPasswordModal().then(() => {
+                    $state.go('signUp');
+                });
+            }
+
             _login(userData) {
                 user.login(userData).then(() => {
                     $state.go(user.getActiveState('wallet'));
@@ -107,7 +114,7 @@
         return new SignInCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', '$state', 'user', 'multiAccount'];
+    controller.$inject = ['Base', '$scope', '$state', 'user', 'multiAccount', 'modalManager'];
 
     angular.module('app.signIn').controller('SignInCtrl', controller);
 })();

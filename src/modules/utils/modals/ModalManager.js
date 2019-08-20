@@ -74,6 +74,14 @@
                 });
             }
 
+            showForgotPasswordModal() {
+                return this._getModal({
+                    id: 'forgot-password-modal',
+                    contentUrl: 'modules/utils/modals/forgot-password/forgot-password.html',
+                    controller: 'ForgotPasswordModalCtrl'
+                });
+            }
+
             showTryDesktopModal() {
                 analytics.send({ name: 'Onboarding Platform Popup Show', target: 'ui' });
                 return this._getModal({
