@@ -105,6 +105,7 @@
         'app.signUp',
         'app.signIn',
         'app.migrate',
+        'app.switch',
         'app.create',
         'app.restore',
         'app.saveSeed',

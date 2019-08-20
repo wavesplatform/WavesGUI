@@ -345,6 +345,7 @@
 
             switchUser(toUser) {
                 user.logout('.', true);
+                $state.go('switch');
                 user.login(toUser);
             }
 

@@ -9,11 +9,12 @@
      * @param {typeof Base} Base
      * @param {ng.IScope} $scope
      * @param {*} $state
+     * @param {ng.IWindowService} $window
      * @param {MultiAccount} multiAccount
      * @param {User} user
      * @return {SignUpCtrl}
      */
-    const controller = function (Base, $scope, $state, multiAccount, user) {
+    const controller = function (Base, $scope, $state, $window, multiAccount, user) {
 
         class MigrateCtrl extends Base {
 
@@ -60,7 +61,11 @@
             }
 
             prevStep() {
-                this.activeStep -= 1;
+                if ($state.params.id) {
+                    $window.history.back();
+                } else {
+                    this.activeStep -= 1;
+                }
             }
 
             startMigrate(userToMigrate) {
@@ -160,7 +165,7 @@
         return new MigrateCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', '$state', 'multiAccount', 'user'];
+    controller.$inject = ['Base', '$scope', '$state', '$window', 'multiAccount', 'user'];
 
     angular.module('app.migrate').controller('MigrateCtrl', controller);
 })();
