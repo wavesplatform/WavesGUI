@@ -264,6 +264,12 @@
             "pleaseNote": "게이트웨이는 본 작업을 위해 수수료를 적용하지 않습니다.",
             "scanQrCode": "QR 코드 스캔",
             "title": "{{assetName}} 입금",
+            "wavesGatewayBNCR": {
+                "warningMinAmountText": "If you will send less than 0.1 Bancor, you will lose that money.",
+                "warningMinAmountTitle": "The minimum amount of deposit is 0.1 Bancor, the maximum amount of deposit is 50 000 Bancor",
+                "warningText": "Enter this address into your Bancor client or wallet",
+                "warningTitle": "Once the transaction is confirmed, the gateway will process the transfer of Bancor to a token in your Waves account."
+            },
             "wavesGatewayERGO": {
                 "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of ERGO to a token in your Waves account.",
                 "helpDescrTitle": "Enter this address into your ERGO client or wallet",

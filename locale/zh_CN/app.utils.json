@@ -264,6 +264,12 @@
             "pleaseNote": "请注意，网关对此操作不收取费用。",
             "scanQrCode": "扫描二维码",
             "title": "存款{{assetName}}",
+            "wavesGatewayBNCR": {
+                "warningMinAmountText": "If you will send less than 0.1 Bancor, you will lose that money.",
+                "warningMinAmountTitle": "The minimum amount of deposit is 0.1 Bancor, the maximum amount of deposit is 50 000 Bancor",
+                "warningText": "Enter this address into your Bancor client or wallet",
+                "warningTitle": "Once the transaction is confirmed, the gateway will process the transfer of Bancor to a token in your Waves account."
+            },
             "wavesGatewayERGO": {
                 "helpDescrText": "确认交易后，网关将处理将ERGO转移到Waves帐户中的代币。",
                 "helpDescrTitle": "在ERGO客户端或钱包中输入此地址",

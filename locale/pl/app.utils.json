@@ -264,6 +264,12 @@
             "pleaseNote": "Proszę zwróć uwagę, że brama sieciowa nie pobiera żadnych opłat za tę operację.",
             "scanQrCode": "Skanuj QR kod",
             "title": "Deponuj {{assetName}}",
+            "wavesGatewayBNCR": {
+                "warningMinAmountText": "If you will send less than 0.1 Bancor, you will lose that money.",
+                "warningMinAmountTitle": "The minimum amount of deposit is 0.1 Bancor, the maximum amount of deposit is 50 000 Bancor",
+                "warningText": "Enter this address into your Bancor client or wallet",
+                "warningTitle": "Once the transaction is confirmed, the gateway will process the transfer of Bancor to a token in your Waves account."
+            },
             "wavesGatewayERGO": {
                 "helpDescrText": "Po potwierdzeniu transakcji bramka przetworzy transfer ERGO na token na Twoim koncie Waves.",
                 "helpDescrTitle": "Wpisz ten adres do swojego klienta lub portfela ERGO",

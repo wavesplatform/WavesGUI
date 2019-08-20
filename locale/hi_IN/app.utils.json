@@ -264,6 +264,12 @@
             "pleaseNote": "कृपया नोट करें कि यह गेटवे इस ऑपरेशन के लिए कोई फीस नहीं लगाता है।",
             "scanQrCode": "QR कोड स्कैन करें",
             "title": "{{assetName}} जमा करें",
+            "wavesGatewayBNCR": {
+                "warningMinAmountText": "If you will send less than 0.1 Bancor, you will lose that money.",
+                "warningMinAmountTitle": "The minimum amount of deposit is 0.1 Bancor, the maximum amount of deposit is 50 000 Bancor",
+                "warningText": "Enter this address into your Bancor client or wallet",
+                "warningTitle": "Once the transaction is confirmed, the gateway will process the transfer of Bancor to a token in your Waves account."
+            },
             "wavesGatewayERGO": {
                 "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of ERGO to a token in your Waves account.",
                 "helpDescrTitle": "Enter this address into your ERGO client or wallet",
