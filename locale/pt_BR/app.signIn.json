@@ -1,0 +1,20 @@
+{
+    "createAccount": "Create account",
+    "notHaveAccounts": "You do not have saved accounts",
+    "nothingHere": "Não há nada aqui…",
+    "password": {
+        "error": "Senha incorreta!"
+    },
+    "userList": {
+        "address": "Endereço / Nome da conta",
+        "buttons": {
+            "login": "Entrar"
+        },
+        "notHaveAccount": "Please sign in to continue",
+        "password": "Senha",
+        "placeholders": {
+            "password": "Senha"
+        },
+        "title": "Bem-vindo de volta"
+    }
+}

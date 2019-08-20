@@ -1,0 +1,94 @@
+{
+    "back": "Powrót do strony głównej",
+    "button": {
+        "cancel": "Anuluj",
+        "continue": "Kontynuuj"
+    },
+    "confirmTransaction": {
+        "notPermitted": {
+            "issue": "Emisja tokena jest czasowo niedostępna.",
+            "issue-title": "Generacja tokena",
+            "massSendTitle": "Transfer masowy",
+            "reissue": "Ponowna emisja tokena jest czasowo niedostępna.",
+            "sendTitle": "Wyślij",
+            "set-script-title": "Transakcja ze skryptem"
+        },
+        "send": {
+            "errors": {
+                "fee": "Nie masz wystarczającej ilości środków na opłatę za transakcję. Opłata wynosi {{fee, money-currency}};"
+            }
+        }
+    },
+    "date": {
+        "month": [
+            "Styczeń",
+            "Luty",
+            "Marzec",
+            "Kwiecień",
+            "Maj",
+            "Czerwiec",
+            "Lipiec",
+            "Sierpień",
+            "Wrzesień",
+            "Październik",
+            "Listopad",
+            "Grudzień"
+        ]
+    },
+    "EXK2jJo1PbL9CUNr5FSedw6cueZH5MUCDXNhR1WQEZa4": {
+        "description": "Coin Aloha, dla zabawy, dla jakichkolwiek - dobrych lub innych celów ;)"
+    },
+    "fee": "{{money, money-fee}}",
+    "header": {
+        "assets": "Aktywa",
+        "dex": "DEX",
+        "leasing": "Leasing",
+        "portfolio": "Portfolio",
+        "tokens": "Tokeny",
+        "transactions": "Transakcje",
+        "wallet": "Portfel"
+    },
+    "inputs": {
+        "errors": {
+            "required": "To pole jest wymagane!"
+        }
+    },
+    "leftmenu": {
+        "login": "Zaloguj się",
+        "logout": "Wyloguj się",
+        "settings": "Ustawienia"
+    },
+    "matcher": {
+        "orders": {
+            "statuses": {
+                "canceled": "Anulowane",
+                "filled": "Wypełnione ({{percent}}%)",
+                "opened": "Otwarte"
+            }
+        }
+    },
+    "modal": {
+        "enterPassword": {
+            "ok": "OK",
+            "title": "Wpisz hasło"
+        },
+        "pairing": {
+            "showQr": "Pokaż"
+        },
+        "tryDesktop": {
+            "cancel": "Kontynuuj przez stronę",
+            "label": "Zapamiętaj mój wybór",
+            "message": "Jeśli nie posiadasz aplikacji, możesz pobrać ją ze strony official site.",
+            "title": "Użyj aplikacji Waves.",
+            "try": "Otwórz platformę"
+        }
+    },
+    "money-currency": "{{money, money-currency}}",
+    "number": {
+        "short": {
+            "million": "mil.",
+            "thousand": "tys."
+        }
+    },
+    "Suspicious": "Podejrzany"
+}

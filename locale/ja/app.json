@@ -1,0 +1,94 @@
+{
+    "back": "戻る",
+    "button": {
+        "cancel": "キャンセル",
+        "continue": "次へ"
+    },
+    "confirmTransaction": {
+        "notPermitted": {
+            "issue": "現在、トークン発行機能は利用できません",
+            "issue-title": "トークンを発行",
+            "massSendTitle": "マストランスファー",
+            "reissue": "現在、トークン追加発行機能は利用できません",
+            "sendTitle": "送信",
+            "set-script-title": "スクリプトトランザクション"
+        },
+        "send": {
+            "errors": {
+                "fee": "要求された手数料を支払う為に必要な資金を持っていません。{{fee, money-currency}} をトランザクション手数料として支払う必要があります:"
+            }
+        }
+    },
+    "date": {
+        "month": [
+            "1月",
+            "2月",
+            "3月",
+            "4月",
+            "5月",
+            "6月",
+            "7月",
+            "8月",
+            "9月",
+            "10月",
+            "11月",
+            "12月"
+        ]
+    },
+    "EXK2jJo1PbL9CUNr5FSedw6cueZH5MUCDXNhR1WQEZa4": {
+        "description": "Aloha funky coin, for any good&evil purposes ;)"
+    },
+    "fee": "{{money, money-fee}}",
+    "header": {
+        "assets": "アセット",
+        "dex": "DEX",
+        "leasing": "リース",
+        "portfolio": "ポートフォリオ",
+        "tokens": "トークン",
+        "transactions": "トランザクション",
+        "wallet": "ウォレット"
+    },
+    "inputs": {
+        "errors": {
+            "required": "この項目は必須です！"
+        }
+    },
+    "leftmenu": {
+        "login": "ログイン",
+        "logout": "ログアウト",
+        "settings": "設定"
+    },
+    "matcher": {
+        "orders": {
+            "statuses": {
+                "canceled": "キャンセル済",
+                "filled": "約定済 ({{percent}}%)",
+                "opened": "未約定"
+            }
+        }
+    },
+    "modal": {
+        "enterPassword": {
+            "ok": "OK",
+            "title": "パスワードを入力"
+        },
+        "pairing": {
+            "showQr": "表示"
+        },
+        "tryDesktop": {
+            "cancel": "ウェブ版で続ける",
+            "label": "設定を保存し、次回は表示しない",
+            "message": "Wavesのデスクトップアプリを利用することを推奨します。ダウンロードは 公式サイトより可能です。",
+            "title": "Wavesのデスクトップアプリを利用",
+            "try": "デスクトップアプリを開く"
+        }
+    },
+    "money-currency": "{{money, money-currency}}",
+    "number": {
+        "short": {
+            "million": "M",
+            "thousand": "k"
+        }
+    },
+    "Suspicious": "注意"
+}

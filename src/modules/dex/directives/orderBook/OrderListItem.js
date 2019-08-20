@@ -24,7 +24,7 @@
              * @type {HTMLElement}
              * @private
              */
-            _root = document.createElement('w-row');
+            _root = OrderListItem._createElement('w-row', 'table__row');
             /**
              * @type {HTMLElement}
              * @private
@@ -173,19 +173,19 @@
              */
             _createDom() {
                 this._root.appendChild(
-                    OrderListItem._createElement('div', 'table-row', [
+                    OrderListItem._createElement('div', 'table__row-wrap', [
                         this._tooltip = OrderListItem._createElement('div', 'tooltip-dex', [
                             this._tooltipSell = OrderListItem._createElement('span', 'tooltip-ask'),
                             this._tooltipBuy = OrderListItem._createElement('span', 'tooltip-bid')
                         ]),
-                        OrderListItem._createElement('w-cell', 'cell-0', [
-                            this._amountNode = OrderListItem._createElement('div', 'table-cell')
+                        OrderListItem._createElement('w-cell', 'table__cell cell-0', [
+                            this._amountNode = OrderListItem._createElement('div', 'table__cell-wrap')
                         ]),
-                        OrderListItem._createElement('w-cell', 'cell-1', [
-                            this._priceNode = OrderListItem._createElement('div', 'table-cell')
+                        OrderListItem._createElement('w-cell', 'table__cell cell-1', [
+                            this._priceNode = OrderListItem._createElement('div', 'table__cell-wrap')
                         ]),
-                        OrderListItem._createElement('w-cell', 'cell-2', [
-                            this._totalNode = OrderListItem._createElement('div', 'table-cell')
+                        OrderListItem._createElement('w-cell', 'table__cell cell-2', [
+                            this._totalNode = OrderListItem._createElement('div', 'table__cell-wrap')
                         ])
                     ])
                 );
@@ -211,7 +211,9 @@
              */
             static _createElement(tagName, className, children) {
                 const element = document.createElement(tagName);
-                element.classList.add(className);
+                className.split(' ').forEach(name => {
+                    element.classList.add(name);
+                });
 
                 if (children && children.length) {
                     children.forEach(child => {

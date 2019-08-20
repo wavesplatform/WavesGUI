@@ -1,0 +1,40 @@
+{
+    "allactive": "アクティブなトークン ({span}[{{count}}])",
+    "burn": "トークンをバーン",
+    "deposit": "デポジット",
+    "dex": "DEXで開く",
+    "info": "アセット情報",
+    "list": {
+        "actions": "アクション",
+        "ask": "Ask",
+        "balance": "残高",
+        "bid": "Bid",
+        "change": "24時間の変化",
+        "inOrders": "注文中",
+        "mirror": "数量, {span.currency}[{{currency}}]",
+        "name": "アセット名",
+        "rate": "価格, {span.currency}[{{currency}}]"
+    },
+    "myassets": "私のアセット ({span}[{{count}}])",
+    "pin": "ピン",
+    "portfolio": {
+        "filter": "検索"
+    },
+    "qr": "あなたのアドレス",
+    "qualified": "認証済",
+    "qualifieds": "認証済のアセット ({span}[{{count}}])",
+    "receive": "受信",
+    "reissue": "トークンの追加発行",
+    "send": "送信",
+    "setAssetScript": "アセットのスクリプトを更新",
+    "spam": "スパム",
+    "spamAsset": "スパム",
+    "spamselect": "注意が必要なアセット ({span}[{{count}}])",
+    "sponsorship": "スポンサーシップを有効化",
+    "sponsorshipChange": "スポンサーシップを変更",
+    "sponsorshipStop": "スポンサーシップを無効化",
+    "tokenomica": "tokenomica",
+    "tospam": "非表示にする",
+    "unpin": "ピン留めを外す",
+    "unspam": "表示"
+}

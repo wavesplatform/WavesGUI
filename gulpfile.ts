@@ -106,13 +106,12 @@ function createBuildTask(args?: { platform: TPlatform; env: TBuild; config: stri
                 ))
             )
         ),
-        createLocalesTask(join(__dirname, distPath)),
         createCopyTask([
             ...SOURCE_JSON_LIST.map(path => ({ from: path, to: path.replace(reg, outputPath) })),
             ...meta.exportPageVendors.map(path => ({ from: path, to: join(outputPath, path) })),
             ...meta.copyNodeModules.map(path => ({ from: join(path), to: join(outputPath, path) })),
             { from: join('src', 'fonts'), to: join(outputPath, 'fonts') },
-            { from: join(distPath, 'locale'), to: join(outputPath, 'locales') },
+            { from: 'locale', to: join(outputPath, 'locales') },
             { from: 'tradingview-style', to: join(outputPath, 'tradingview-style') },
             { from: 'LICENSE', to: join(outputPath, 'LICENSE') },
             { from: 'googleAnalytics.js', to: join(outputPath, 'googleAnalytics.js') },
@@ -159,6 +158,8 @@ task('eslint', createEslintTask());
 task('clean', createCleanTask());
 
 task('data-services', createDataServicesTask());
+
+task('locales', createLocalesTask(__dirname));
 
 task('electron-debug', createElectronDebugTask());
 

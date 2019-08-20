@@ -1,0 +1,27 @@
+{
+    "continue": "Continua",
+    "copy": "Copia",
+    "copySeed": "Copia frase seed",
+    "createAccount": "Crea account",
+    "goBack": "torna indietro",
+    "notHaveAccounts": "Non hai account salvati",
+    "nothingHere": "Niente qui…",
+    "password": {
+        "error": "Password Errata!"
+    },
+    "userList": {
+        "address": "Indirizzo / nome Account",
+        "buttons": {
+            "login": "Accedi"
+        },
+        "exportUser": "Esporta il tuo account",
+        "notHaveAccount": "Accedi per continuare",
+        "password": "Password",
+        "placeholders": {
+            "password": "Password"
+        },
+        "title": "Bentornato"
+    },
+    "warn": "Poichè soltanto tu hai il controllo sui tuoi fondi, sarà bene copiare questa frase di backup in caso quest'app venisse rimossa oppure",
+    "yourSeed": "La tua frase Seed"
+}
