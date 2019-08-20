@@ -1,18 +1,19 @@
 <w-waves-send ng-if="$ctrl.sendMode === 'waves'"
               state="$ctrl.state"
-              on-continue="$ctrl.onContinue"
+              on-sign="$ctrl.onSign(signable)"
               on-change-mode="$ctrl.onChangeMode(mode)">
     <ng-transclude></ng-transclude>
 </w-waves-send>
 
 <w-gateway-send ng-if="$ctrl.sendMode === 'gateway'"
                 state="$ctrl.state"
-                on-continue="$ctrl.onContinue"
+                on-sign="$ctrl.onSign(signable)"
                 on-change-mode="$ctrl.onChangeMode(mode)">
     <ng-transclude></ng-transclude>
 </w-gateway-send>
 
 <w-bank-send ng-if="$ctrl.sendMode === 'bank'"
-             state="$ctrl.state">
+             state="$ctrl.state"
+             on-sign="$ctrl.onSign(signable)">
     <ng-transclude></ng-transclude>
 </w-bank-send>

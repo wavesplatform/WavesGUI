@@ -7,35 +7,24 @@
         [WavesApp.defaultAssets.TRY]: true
     };
 
-    const { BigNumber } = require('@waves/bignumber');
     const ds = require('data-service');
     const { SIGN_TYPE } = require('@waves/signature-adapter');
     const analytics = require('@waves/event-sender');
-
-    const BANK_RECIPIENT = WavesApp.bankRecipient;
-    const MIN_TOKEN_COUNT = 100;
-    const MAX_TOKEN_COUNT = 50000;
 
     /**
      * @param {Base} Base
      * @param {$rootScope.Scope} $scope
      * @param {app.utils} utils
-     * @param {IPollCreate} createPoll
-     * @param {ConfigService} configService
-     * @param {IOuterBlockchains} outerBlockchains
      * @param {User} user
-     * @param {GatewayService} gatewayService
      * @param {Waves} waves
+     * @param {IOuterBlockchains} outerBlockchains
      */
     const controller = function (Base,
                                  $scope,
                                  utils,
-                                 createPoll,
                                  waves,
-                                 configService,
-                                 outerBlockchains,
                                  user,
-                                 gatewayService) {
+                                 outerBlockchains) {
 
         class WavesSend extends Base {
 
@@ -67,10 +56,6 @@
                 return this.state.assetId;
             }
 
-            set assetId(id) {
-                this.state.assetId = id;
-            }
-
             /**
              * @return {string}
              */
@@ -93,94 +78,9 @@
             }
 
             /**
-             * @return {boolean}
-             */
-            get outerSendMode() {
-                return this.state.outerSendMode;
-            }
-
-            set outerSendMode(value) {
-                this.state.outerSendMode = value;
-            }
-
-            /**
-             * @return {string}
-             */
-            get paymentId() {
-                return this.state.paymentId;
-            }
-
-            set paymentId(value) {
-                this.state.paymentId = value;
-            }
-
-            /**
-             * @return {IGatewayDetails}
-             */
-            get gatewayDetails() {
-                return this.state.gatewayDetails;
-            }
-
-            set gatewayDetails(value) {
-                this.state.gatewayDetails = value;
-            }
-
-            get isBankPending() {
-                return this.toBankMode && this.termsIsPending;
-            }
-
-            get isBankError() {
-                return this.toBankMode && this.termsLoadError;
-            }
-
-            get isGatewayAccepted() {
-                return !configService
-                    .get('PERMISSIONS.CANT_TRANSFER_GATEWAY').includes(this.balance.asset.id);
-            }
-
-            get isBankAccepted() {
-                return this.toBankMode ? this.isGatewayAccepted : true;
-            }
-
-            get isBankPendingOrError() {
-                return this.isBankError || this.isBankPending;
-            }
-
-            get minimumAmount() {
-                return this.gatewayDetails &&
-                    this.gatewayDetails.minimumAmount ||
-                    this.toBankMode &&
-                    new BigNumber(MIN_TOKEN_COUNT);
-            }
-
-            get maximumAmount() {
-                return this.maxGatewayAmount || this.toBankMode && this.balance.cloneWithTokens(MAX_TOKEN_COUNT);
-            }
-
-            /**
-             * @type {string}
-             */
-            txType = WavesApp.TRANSACTION_TYPES.NODE.TRANSFER;
-
-            /**
-             * @type {boolean}
-             */
-            get toBankMode() {
-                return this.state.toBankMode;
-            }
-
-            set toBankMode(value) {
-                this.state.toBankMode = value;
-            }
-
-            /**
-             * @type {string}
-             */
-            digiLiraUserLink = 'https://www.digilira.com/';
-            /**
              * @type {Function}
              */
-            onContinue = null;
+            onSign = null;
             /**
              * @type {Function}
              */
@@ -188,9 +88,9 @@
             /**
              * @type {string}
              */
-            focus = null;
+            focus = '';
             /**
-             * @type {Money}
+             * @type {Money | null}
              */
             mirror = null;
             /**
@@ -204,51 +104,15 @@
             /**
              * @type {Array}
              */
-            feeList = null;
+            feeList = [];
             /**
-             * @type {Money}
+             * @type {Money | null}
              */
             minAmount = null;
             /**
              * @type {Money}
              */
             maxAmount = null;
-            /**
-             * @type {ISendState}
-             */
-            state = Object.create(null);
-            /**
-             * @type {Money}
-             */
-            maxGatewayAmount = null;
-            /**
-             * @type {boolean}
-             */
-            gatewayDetailsError = false;
-            /**
-             * @type {boolean}
-             */
-            gatewayAddressError = false;
-            /**
-             * @type {boolean}
-             */
-            gatewayWrongAddress = false;
-            /**
-             * @type {boolean}
-             */
-            gatewayError = false;
-            /**
-             * @type {boolean}
-             */
-            termsIsPending = true;
-            /**
-             * @type {boolean}
-             */
-            termsLoadError = false;
-            /**
-             * @type {boolean}
-             */
-            signInProgress = false;
             /**
              * @type {ISingleSendTx}
              */
@@ -261,46 +125,29 @@
                 assetId: ''
             };
 
-            constructor() {
-                gatewayService.getFiats();
-                super();
-            }
-
             $postLink() {
                 this.receive(utils.observe(this.tx, 'recipient'), this._onUpdateRecipient, this);
+
                 const onHasMoneyHash = () => {
-                    // this.receive(utils.observe(this.state, 'toBankMode'), this._onChangeBankMode, this);
-                    // this.observe('gatewayDetails', this._checkFee);
-                    this.receive(utils.observe(this.tx, 'fee'), this._onUpdateFee, this);
-                    this.tx.amount = this.tx.amount || this.moneyHash[this.assetId].cloneWithTokens('0');
-                    // this._fillMirror();
-
-                    // this.receive(utils.observe(this.state, 'assetId'), this._onChangeAssetId, this);
-                    // this.receive(utils.observe(this.state, 'mirrorId'), this._onChangeMirrorId, this);
-
-                    // this.receive(utils.observe(this.state, 'paymentId'), this._updateGatewayDetails, this);
-                    // this.receive(utils.observe(this.tx, 'recipient'), this._updateGatewayDetails, this);
-
-                    // this.receive(utils.observe(this.state, 'paymentId'), this._updateGatewayPermisson, this);
-                    // this.receive(utils.observe(this.tx, 'recipient'), this._updateGatewayPermisson, this);
-
+                    this.tx.amount = this.tx.amount || this.balance.cloneWithTokens('0');
+                    this.receive(utils.observe(this.tx, 'fee'), this._onChangeFee, this);
                     this.receive(utils.observe(this.tx, 'amount'), this._onChangeAmount, this);
+
+                    this.receive(utils.observe(this.state, 'assetId'), this._onChangeAssetId, this);
+                    this.receive(utils.observe(this.state, 'mirrorId'), this._onChangeMirrorId, this);
+
                     this.observe('mirror', this._onChangeAmountMirror);
 
-                    // this.observe('gatewayDetails', this._updateWavesTxObject);
-                    // this.receive(utils.observe(this.tx, 'amount'), this._updateWavesTxObject, this);
-                    // this.receive(utils.observe(this.tx, 'recipient'), this._updateWavesTxObject, this);
-                    // this.receive(utils.observe(this.tx, 'attachment'), this._updateWavesTxObject, this);
-                    //
-                    // this.observe('mirror', this._onChangeAmountMirror);
-                    // this.observe(['gatewayAddressError', 'gatewayDetailsError', 'gatewayWrongAddress'],
-                    //     this._updateGatewayError);
+                    this.receive(utils.observe(this.tx, 'amount'), this._updateWavesTxObject, this);
+                    this.receive(utils.observe(this.tx, 'recipient'), this._updateWavesTxObject, this);
+                    this.receive(utils.observe(this.tx, 'attachment'), this._updateWavesTxObject, this);
 
-                    this._onUpdateFee();
+                    this._onUpdateRecipient();
+                    this._onChangeFee();
                     this._setMinAndMaxAmount();
                     this._onChangeBaseAssets();
-                    // this._updateGatewayDetails();
-                    // this._updateGatewayPermisson();
+                    this._updateWavesTxObject();
+                    this._fillMirror();
                 };
 
                 if (!this.state.moneyHash) {
@@ -310,37 +157,25 @@
                 }
 
                 this.receive(utils.observe(this.state, 'moneyHash'), () => {
-                    this._onUpdateFee();
+                    this._onChangeFee();
                     this._setMinAndMaxAmount();
                     this._onChangeBaseAssets();
-                    // this._updateGatewayDetails();
                 });
 
-                this._onChangeBaseAssets();
-                this._updateWavesTxObject();
             }
 
             setSendMode(mode) {
                 this.onChangeMode({ mode });
             }
 
-            onSignCoinomatStart() {
-                this.signInProgress = true;
-            }
-
-            onSignCoinomatEnd() {
-                this.signInProgress = false;
-            }
-
+            /**
+             * @return {Signable}
+             */
             createTx() {
-                const toGateway = this.outerSendMode && this.gatewayDetails;
-                const fee = toGateway ? this.tx.amount.cloneWithTokens(toGateway.gatewayFee) : null;
                 const attachmentString = this.tx.attachment ? this.tx.attachment.toString() : '';
                 const tx = waves.node.transactions.createTransaction({
                     ...this.tx,
-                    recipient: toGateway ? this.gatewayDetails.address : this.tx.recipient,
-                    attachment: utils.stringToBytes(toGateway ? this.gatewayDetails.attachment : attachmentString),
-                    amount: toGateway ? this.tx.amount.add(fee) : this.tx.amount
+                    attachment: utils.stringToBytes(attachmentString)
                 });
 
                 const signable = ds.signature.getSignatureApi().makeSignable({
@@ -353,7 +188,7 @@
 
             onSignTx(signable) {
                 analytics.send({ name: 'Transfer Continue Click', target: 'ui' });
-                this.onContinue({ signable });
+                this.onSign({ signable });
             }
 
             fillMax() {
@@ -437,31 +272,15 @@
             }
 
             /**
-             * @return {boolean}
-             */
-            isMoneroNotIntegratedAddress() {
-                const moneroAddressLength = 95;
-                const assetIsMonero = this.state.assetId === WavesApp.defaultAssets.XMR;
-                return assetIsMonero && this.tx.recipient.length === moneroAddressLength;
-            }
-
-            getGatewayDetails() {
-                this._onChangeAssetId();
-            }
-
-            /**
              * @private
              */
             _updateWavesTxObject() {
-                const toGateway = this.outerSendMode && this.gatewayDetails;
-                const fee = toGateway ? this.tx.amount.cloneWithTokens(toGateway.gatewayFee) : null;
                 const attachmentString = this.tx.attachment ? this.tx.attachment.toString() : '';
                 const isWavesAddress = user.isValidAddress(this.tx.recipient);
                 this.wavesTx = {
                     ...this.wavesTx,
-                    recipient: toGateway ? this.gatewayDetails.address : isWavesAddress && this.tx.recipient || '',
-                    attachment: utils.stringToBytes(toGateway ? this.gatewayDetails.attachment : attachmentString),
-                    amount: toGateway ? this.tx.amount.add(fee) : this.tx.amount,
+                    recipient: isWavesAddress && this.tx.recipient || '',
+                    attachment: utils.stringToBytes(attachmentString),
                     assetId: this.assetId
                 };
             }
@@ -473,22 +292,10 @@
                 if (this.tx.amount.getTokens().gt(0) || this.tx.recipient) {
                     this.wavesSend.$setDirty(true);
                     this.wavesSend.$setSubmitted(true);
+                    if (this.wavesSend.amount) {
+                        this.wavesSend.amount.$setTouched(true);
+                    }
                 }
-            }
-
-            /**
-             * @private
-             */
-            _onChangeBankMode() {
-                if (this.toBankMode && !this.isLira) {
-                    this.tx.recipient = BANK_RECIPIENT;
-                    this.termsIsPending = true;
-                } else {
-                    this.tx.recipient = '';
-                    this.termsIsPending = false;
-                }
-
-                this._updateGatewayPermisson();
             }
 
             /**
@@ -525,13 +332,12 @@
 
                 this.tx.amount = this.moneyHash[this.assetId].cloneWithTokens('0');
                 this.mirror = this.moneyHash[this.mirrorId].cloneWithTokens('0');
-                this._updateGatewayPermisson();
             }
 
             /**
              * @private
              */
-            _onUpdateFee() {
+            _onChangeFee() {
                 this.feeList = [this.tx.fee];
 
                 const feeHash = utils.groupMoney(this.feeList);
@@ -551,15 +357,18 @@
                 if (this.assetId === this.mirrorId) {
                     this.noMirror = true;
                 } else {
-                    waves.utils.getRate(this.assetId, this.mirrorId).then((rate) => {
+                    waves.utils.getRate(this.assetId, this.mirrorId).then(rate => {
                         this.noMirror = rate.eq(0);
                     });
                 }
             }
 
+            /**
+             * @private
+             */
             _setMinAndMaxAmount() {
-                this.minAmount = this.state.moneyHash[this.state.assetId].cloneWithTokens('0');
-                this.maxAmount = this.moneyHash[this.assetId];
+                this.minAmount = this.balance.cloneWithTokens('0');
+                this.maxAmount = this.balance;
             }
 
             /**
@@ -569,7 +378,6 @@
                 if (!this.noMirror && this.focus === 'amount') {
                     this._fillMirror();
                 }
-
             }
 
             /**
@@ -590,7 +398,7 @@
                     return;
                 }
 
-                waves.utils.getRate(this.assetId, this.mirrorId).then((rate) => {
+                waves.utils.getRate(this.assetId, this.mirrorId).then(rate => {
                     this.mirror = this.tx.amount.convertTo(this.moneyHash[this.mirrorId].asset, rate);
                 });
             }
@@ -604,7 +412,7 @@
                     return null;
                 }
 
-                waves.utils.getRate(this.mirrorId, this.assetId).then((rate) => {
+                waves.utils.getRate(this.mirrorId, this.assetId).then(rate => {
                     this.tx.amount = this.mirror.convertTo(this.moneyHash[this.assetId].asset, rate);
                 });
             }
@@ -613,21 +421,21 @@
              * @private
              */
             _onUpdateRecipient() {
+                this._checkOuterBlockchains();
                 this._validateForm();
             }
 
             /**
              * @private
              */
-            _updateGatewayPermisson() {
-                this.gatewayDetailsError = this.outerSendMode ? !this.isGatewayAccepted : this.gatewayDetailsError;
-            }
-
-            /**
-             * @private
-             */
-            _updateGatewayError() {
-                this.gatewayError = this.gatewayAddressError || this.gatewayDetailsError || this.gatewayWrongAddress;
+            _checkOuterBlockchains() {
+                const outerChain = outerBlockchains[this.assetId];
+                const isValidWavesAddress = user.isValidAddress(this.tx.recipient);
+                const gatewayAddress = !isValidWavesAddress &&
+                                        outerChain && outerChain.isValidAddress(this.tx.recipient);
+                if (gatewayAddress) {
+                    this.setSendMode('gateway');
+                }
             }
 
         }
@@ -639,18 +447,15 @@
         'Base',
         '$scope',
         'utils',
-        'createPoll',
         'waves',
-        'configService',
-        'outerBlockchains',
         'user',
-        'gatewayService'
+        'outerBlockchains'
     ];
 
     angular.module('app.ui').component('wWavesSend', {
         bindings: {
             state: '<',
-            onContinue: '&',
+            onSign: '&',
             onChangeMode: '&'
         },
         templateUrl: 'modules/utils/modals/sendAsset/components/singleSend/wavesSend/waves-send.html',
@@ -658,11 +463,3 @@
         controller
     });
 })();
-
-/**
- * @typedef {object} ISendTx
- * @property {Money} fee
- * @property {Money} amount
- * @property {string} recipient
- * @property {string} attachment
- */

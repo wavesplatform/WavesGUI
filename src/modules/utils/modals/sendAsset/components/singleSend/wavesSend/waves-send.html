@@ -19,7 +19,7 @@
             <div class="read-address-wrap">
                 <w-input type="text"
                          name="recipient"
-                         ng-model="$ctrl.state.singleSend.recipient"
+                         ng-model="$ctrl.tx.recipient"
                          placeholder="modal.send.placeholderRecipient"
                          w-i18n-attr="placeholder"
                          w-validate
@@ -44,13 +44,13 @@
 
             <w-balance-input name="amount"
                              input-classes="big"
-                             asset-id="$ctrl.state.assetId"
+                             asset-id="$ctrl.assetId"
                              max-balance="$ctrl.maxAmount"
                              fee="$ctrl.feeList"
                              min="$ctrl.minAmount"
                              on-focus="$ctrl.focus = 'amount'"
                              on-blur="$ctrl.focus = ''"
-                             amount="$ctrl.state.singleSend.amount">
+                             amount="$ctrl.tx.amount">
             </w-balance-input>
             <div class="amount-modal-icon"></div>
             <w-balance-input name="amountMirror"
@@ -60,14 +60,13 @@
                              on-focus="$ctrl.focus = 'mirror'"
                              on-blur="$ctrl.onBlurMirror()"
                              fill-max="$ctrl.fillMax()"
-                             fee="$ctrl.tx.fee"
+                             fee="$ctrl.feeList"
                              amount="$ctrl.mirror">
             </w-balance-input>
 
         </div>
 
-        <div class="like-input-error multiline"
-             ng-if="$ctrl.wavesSend.amount.$touched && $ctrl.wavesSend.amount.$invalid && $ctrl.focus !== 'amount'">
+        <div class="like-input-error multiline" ng-if="$ctrl.wavesSend.amount.$touched && $ctrl.wavesSend.amount.$invalid && $ctrl.focus !== 'amount'">
             <div class="error">
                 <span ng-if="$ctrl.wavesSend.amount.$error.required"
                       class="error-list-row"
@@ -78,7 +77,7 @@
                 <span ng-if="$ctrl.wavesSend.amount.$error.precision"
                       class="error-list-row"
                       w-i18n="modal.send.errors.precision"
-                      params="{precision: $ctrl.state.moneyHash[$ctrl.state.assetId].asset.precision}"></span>
+                      params="{precision: $ctrl.balance.asset.precision}"></span>
                 <span ng-if="$ctrl.wavesSend.amount.$error.lte"
                       class="error-list-row"
                       w-i18n="modal.send.errors.max"></span>
@@ -91,7 +90,7 @@
         <w-input-container>
             <w-input textarea="true"
                      name="attachment"
-                     ng-model="$ctrl.state.singleSend.attachment"
+                     ng-model="$ctrl.tx.attachment"
                      w-i18n-attr="placeholder"
                      w-validate
                      w-validator-byte-lte="140"
@@ -117,11 +116,9 @@
     </div>
 
     <div class="margin-top-3">
-        <w-sign-button
-                ng-if="!$ctrl.hasOuterError && !$ctrl.isBankPending && !($ctrl.toBankMode && $ctrl.isLira)"
-                on-click="$ctrl.createTx()"
-                on-success="$ctrl.onSignTx(signable)"
-                disabled="$ctrl.wavesSend.$invalid || !$ctrl.hasFee">
+        <w-sign-button on-click="$ctrl.createTx()"
+                       on-success="$ctrl.onSignTx(signable)"
+                       disabled="$ctrl.wavesSend.$invalid || !$ctrl.hasFee">
             <span w-i18n="button.continue"></span>
         </w-sign-button>
     </div>
