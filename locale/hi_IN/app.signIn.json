@@ -1,0 +1,20 @@
+{
+    "createAccount": "Create account",
+    "notHaveAccounts": "You do not have saved accounts",
+    "nothingHere": "यहां कुछ नहीं...",
+    "password": {
+        "error": "गलत पासवर्ड!"
+    },
+    "userList": {
+        "address": "एड्रेस/खाता नाम",
+        "buttons": {
+            "login": "लॉग इन"
+        },
+        "notHaveAccount": "Please sign in to continue",
+        "password": "पासवर्ड",
+        "placeholders": {
+            "password": "पासवर्ड"
+        },
+        "title": "साइन इन करें"
+    }
+}

@@ -1,0 +1,30 @@
+{
+    "menu": {
+        "copy": "Kopeeri",
+        "cut": "Lõika",
+        "dev_tools": "Arendaja tööriistad",
+        "paste": "Kleebi",
+        "quit": "Välju",
+        "title": {
+            "application": "Rakendus",
+            "edit": "Muuda",
+            "god_mode": "God Mode"
+        }
+    },
+    "modal": {
+        "set_protocol_error": {
+            "close": "Sulge",
+            "message": "Waves Kliendi käivituse vaikeprotokolli ei saa seadistada. Lingid brauserist ajutiselt ei toeta!",
+            "report": "Aruanne",
+            "title": "Määrake avatud protokolli viga"
+        }
+    },
+    "storage": {
+        "read": {
+            "error": {
+                "body": "Teie võtmete laadimise ajal ilmnes viga. Me taastasime teie kontod varukoopiast.",
+                "title": "Kontod taastati varukoopiast edukalt"
+            }
+        }
+    }
+}

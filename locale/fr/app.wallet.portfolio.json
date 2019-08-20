@@ -1,0 +1,40 @@
+{
+    "allactive": "Tous actifs ({span}[{{count}}])",
+    "burn": "Brûlage de Token",
+    "deposit": "Dépôt",
+    "dex": "Ouvert sur la plateforme d'échange décentralisée",
+    "info": "Infos de l'actif",
+    "list": {
+        "actions": "Actions",
+        "ask": "Demande",
+        "balance": "Solde",
+        "bid": "Offre",
+        "change": "Changement 24h",
+        "inOrders": "Réservé",
+        "mirror": "Valeur, {span.currency}[{{currency}}]",
+        "name": "Nom de l'actif",
+        "rate": "Prix, {span.currency}[{{currency}}]"
+    },
+    "myassets": "Mes actifs ({span}[{{count}}])",
+    "pin": "Épingler",
+    "portfolio": {
+        "filter": "Rechercher"
+    },
+    "qr": "Votre adresse",
+    "qualified": "Qualifié",
+    "qualifieds": "Qualifié ({span}[{{count}}])",
+    "receive": "Recevoir",
+    "reissue": "Réémission d'un Token",
+    "send": "Envoyer",
+    "setAssetScript": "Mettre à jour le script de l'actif",
+    "spam": "Spam",
+    "spamAsset": "SPAM",
+    "spamselect": "Suspect ({span}[{{count}}])",
+    "sponsorship": "Activer le parrainage",
+    "sponsorshipChange": "Changer le parrainage",
+    "sponsorshipStop": "Désactiver le parrainage",
+    "tokenomica": "tokenomica",
+    "tospam": "Masquer",
+    "unpin": "Désépingler",
+    "unspam": "Afficher"
+}

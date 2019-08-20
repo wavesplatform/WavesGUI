@@ -1,0 +1,20 @@
+{
+    "createAccount": "アカウントを作成",
+    "notHaveAccounts": "保存したアカウントがありません",
+    "nothingHere": "表示するデータがありません",
+    "password": {
+        "error": "パスワードが間違っています！"
+    },
+    "userList": {
+        "address": "アドレス / アカウント名",
+        "buttons": {
+            "login": "ログイン"
+        },
+        "notHaveAccount": "サインインして続行",
+        "password": "パスワード",
+        "placeholders": {
+            "password": "パスワード"
+        },
+        "title": "おかえりなさい"
+    }
+}
