@@ -214,6 +214,7 @@
                             <i class="dropdown__icon dropdown__icon_accounts icon-18"></i>
                             <!-- TODO:1978 i18n & icon -->
                             <span class="dropdown__text" w-i18n="Switch account"></span>
+                            <i class="dropdown__icon dropdown__icon_arrow-right"></i>
                         </a>
                         <a class="dropdown__link dropdown__link_logout" ng-click="$ctrl.logout()">
                             <i class="dropdown__icon dropdown__icon_logout icon-18"></i>
@@ -221,54 +222,56 @@
                         </a>
                     </div>
 
-                    <div>
+                    <div class="switch-accounts">
                         <!-- TODO:1978 i18n & icon -->
-                        <a class="menu-link menu-link-menu"
+                        <a class="switch-accounts__back"
                             ng-click="$ctrl.toggleAccounts()"
                             w-i18n="Menu"
                         ></a>
 
-                        <div class="main-header__accounts">
+                        <div class="switch-accounts__list">
                             <div ng-repeat="user in $ctrl.userList track by $index"
-                                style="cursor: pointer; position: relative;"
+                                class="switch-accounts__item-wrap"
                             >
-                                <div ng-click="$ctrl.switchUser(user)" style="display: flex;">
+                                <div ng-click="$ctrl.switchUser(user)" style="display: flex;" class="switch-accounts__item">
                                     <w-avatar
                                         type="{{::user.userType}}"
                                         size="30"
                                         address="user.address"
+                                        class="switch-accounts__avatar"
                                     ></w-avatar>
-                                    <div class="user-info-wrapper">
-                                        <div class="account-name body-2 basic-700" ng-if="user.name">{{user.name}}</div>
-                                        <div class="account-address basic-500 body-3">{{::user.address}}</div>
+                                    <div class="switch-accounts__info-wrap">
+                                        <div class="switch-accounts__name body-2" ng-if="user.name">{{user.name}}</div>
+                                        <div class="switch-accounts__address body-3">{{::user.address}}</div>
                                     </div>
                                 </div>
-                                <div class="icon-remove-user icon-close" ng-click="$ctrl.deleteUser(user)"></div>
+                                <div class="switch-accounts__remove icon-remove-user icon-close" ng-click="$ctrl.deleteUser(user)"></div>
                             </div>
-                            <div ng-if="$ctrl.userListLocked.length">
+                            <div ng-if="$ctrl.userListLocked.length" class="switch-accounts__unlock">
                                 <!-- TODO:1978 i18n -->
-                                <span class="basic-50" w-i18n="Require unlock"></span>
+                                <span w-i18n="Require unlock"></span>
                             </div>
                             <div ng-repeat="user in $ctrl.userListLocked track by $index"
-                                style="cursor: pointer; position: relative;"
+                                class="switch-accounts__item-wrap switch-accounts__item-wrap_unlock"
                             >
-                                <div ng-click="$ctrl.unlockUser(user)" style="display: flex;">
+                                <div ng-click="$ctrl.unlockUser(user)" style="display: flex;" class="switch-accounts__item">
                                     <w-avatar
                                         type="{{::user.userType}}"
                                         size="30"
                                         address="user.address"
+                                        class="switch-accounts__avatar"
                                     ></w-avatar>
-                                    <div class="user-info-wrapper">
-                                        <div class="basic-50" ng-if="user.name">{{user.name}}</div>
-                                        <div class="basic-500">{{::user.address}}</div>
+                                    <div class="switch-accounts__info-wrap">
+                                        <div class="switch-accounts__name" ng-if="user.name">{{user.name}}</div>
+                                        <div class="switch-accounts__address">{{::user.address}}</div>
                                     </div>
                                 </div>
-                                <div class="icon-remove-user icon-close" ng-click="$ctrl.deleteUser(user)"></div>
+                                <div class="switch-accounts__remove icon-remove-user icon-close" ng-click="$ctrl.deleteUser(user)"></div>
                             </div>
                         </div>
                         <div>
                             <!-- TODO:1978 icon & i18n -->
-                            <a ui-sref="create" w-i18n="Add account"></a>
+                            <a ui-sref="create" w-i18n="Add account" class="switch-accounts__add"></a>
                         </div>
                     </div>
                 </div>

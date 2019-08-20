@@ -1,0 +1,122 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+@import (reference) "../../../../../app/less/app-icons";
+@import (reference) '../../../../../app/less/typography';
+
+.switch-accounts {
+  &__back {
+    .headline-3();
+    margin: 0 10px;
+    padding-left: 33px;
+    padding-bottom: 20px;
+    position: relative;
+    display: block;
+    color: @color-basic-900;
+    border-bottom: 1px solid @color-info-50;
+
+    &::before {
+      content: "";
+      display: block;
+      background: @dropdown-arrow-back-icon;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  &__list {
+    max-height: 195px;
+    overflow: auto;
+    overflow-x: hidden;
+  }
+
+  &__item {
+    &-wrap {
+      padding: 6px 10px;
+      margin: 8px 0;
+      cursor: pointer;
+      position: relative;
+      height: 42px;
+      border-radius: @border-radius;
+      transition: all .3s;
+
+      &:hover {
+        background: @color-basic-50;
+
+        & .switch-accounts__remove {
+          display: block;
+        }
+
+        & .switch-accounts__address {
+          width: 170px;
+        }
+      }
+
+      &_unlock {
+        opacity: .7;
+      }
+    }
+  }
+
+  &__avatar {
+    height: 30px;
+    width: 30px;
+    margin-right: 8px;
+  }
+
+  &__info-wrap {
+    width: 185px;
+  }
+
+  &__name {
+    font-size: 13px;
+    color: @color-basic-900;
+  }
+
+  &__address {
+    font-size: 11px;
+    text-overflow: ellipsis;
+    width: 100%;
+    overflow: hidden;
+    color: @color-basic-500;
+  }
+
+  &__remove {
+    display: none;
+  }
+
+  &__add {
+    display: flex;
+    align-items: center;
+    padding: 20px 0 0 38px;
+    margin: 0 10px 5px 10px;
+    border-top: 1px solid @color-basic-50;
+    color: @color-basic-900;
+    position: relative;
+
+    &::before {
+      content: "";
+      display: block;
+      height: 30px;
+      width: 30px;
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      border-radius: 50px;
+      background-color: @color-basic-50;
+      background-image: @add-account-icon;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 14px 14px;
+      transition: all .3s;
+    }
+  }
+
+  &__unlock {
+    font-size: 13px;
+    color: @color-basic-700;
+    margin: 0 10px;
+  }
+}
