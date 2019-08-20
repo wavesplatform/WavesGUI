@@ -128,6 +128,9 @@
                     }
                 });
 
+                user.getMultiAccountData().then(data => {
+                    this.hasMultiAccount = !!data;
+                });
             }
 
             /**

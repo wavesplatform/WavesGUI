@@ -65,6 +65,15 @@
                 });
             }
 
+            showPasswordModal() {
+                return this._getModal({
+                    id: 'password-modal',
+                    contentUrl: 'modules/utils/modals/password/password.html',
+                    controller: 'PasswordModalCtrl',
+                    title: 'Change password' // TODO:1978 i18n
+                });
+            }
+
             showTryDesktopModal() {
                 analytics.send({ name: 'Onboarding Platform Popup Show', target: 'ui' });
                 return this._getModal({

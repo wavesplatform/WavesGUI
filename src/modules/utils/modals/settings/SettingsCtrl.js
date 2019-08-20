@@ -253,6 +253,10 @@
                 modalManager.showScriptModal();
             }
 
+            showPasswordModal() {
+                modalManager.showPasswordModal();
+            }
+
         }
 
         return new SettingsCtrl();

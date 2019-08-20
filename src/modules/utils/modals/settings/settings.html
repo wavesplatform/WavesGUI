@@ -150,6 +150,17 @@
                     <div class="mobile-low-fsize">{{::$ctrl.address}}</div>
                 </div>
 
+                <div class="row flex-row row-style solid-border text-right">
+                    <!-- TODO:1978 i18n -->
+                    <div class="footnote basic-500" w-i18n="Password"></div>
+                    <div>
+                        <a class="label link" ng-click="$ctrl.showPasswordModal()" w-modal-close>
+                            <!-- TODO:1978 i18n -->
+                            <span w-i18n="Change password"></span>
+                        </a>
+                    </div>
+                </div>
+
                 <div ng-if="$ctrl.advancedMode" class="row flex-row row-style solid-border text-right">
                     <div class="footnote basic-500" w-i18n="modal.settings.security.script"></div>
                     <div>

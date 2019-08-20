@@ -64,6 +64,29 @@
             _users = {};
         }
 
+        changePassword(encryptedAccount, oldPassword, newPassword, rounds, hash) {
+            try {
+                const str = decryptSeed(encryptedAccount, oldPassword, rounds);
+
+                if (base58Encode(blake2b(stringToBytes(str))) !== hash) {
+                    throw new Error('hash does not match');
+                }
+
+                _password = newPassword;
+                _rounds = rounds;
+                _users = JSON.parse(str);
+
+                const multiAccountData = encryptSeed(str, _password, _rounds);
+
+                return Promise.resolve({
+                    multiAccountData,
+                    multiAccountHash: hash
+                });
+            } catch (e) {
+                return Promise.reject(e);
+            }
+        }
+
         addUser({ userType, networkByte, seed, id, privateKey, publicKey }) {
             const _publicKey = publicKey || buildPublicKey(seed || privateKey);
             const userHash = this.hash(networkByte + _publicKey);
@@ -124,8 +147,9 @@
                     const _user = _users[userHash];
 
                     return {
-                        ..._user,
                         ...user,
+                        userType: _user.userType,
+                        publicKey: _user.publicKey,
                         address: buildAddress({ publicKey: _user.publicKey }, String.fromCharCode(_user.networkByte)),
                         hash: userHash
                     };

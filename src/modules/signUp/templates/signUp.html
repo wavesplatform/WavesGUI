@@ -85,6 +85,11 @@
                                 required>
                             </w-input>
                         </w-show-hide-password>
+
+                        <div class="like-input-error" ng-if="$ctrl.form.confirm.$dirty && $ctrl.form.confirm.$error.compare">
+                            <!-- TODO:1978 i18n -->
+                            <span class="error active" w-i18n="Password does not match"></span>
+                        </div>
                     </w-input-container>
 
                     <w-button disabled="$ctrl.form.$invalid" class="submit long big">
