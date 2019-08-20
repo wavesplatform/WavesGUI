@@ -25,11 +25,10 @@ w-portfolio-row {
     }
   }
 
-    .spam &,
     .spam & &__marker {
       background-color: @color-basic-200 !important;
     }
-  .spam &,
+    
   .spam & .asset__marker {
     background-color: @color-basic-200 !important;
   }
@@ -73,5 +72,14 @@ w-portfolio-row {
   .spam & {
     color: @color-basic-500;
   }
+}
 
+.spam {
+  w-portfolio-row {
+    .asset-logo {
+      &__logo, &__marker {
+        background-color: @color-basic-200 !important;
+      }
+    }
+  }
 }

@@ -5,6 +5,15 @@
   vertical-align: top;
   cursor: pointer;
   user-select: none;
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+
+  @media screen and (max-width: 768px) {
+    right: 16px;
+  }
 
   &__container {
     z-index: 4;
@@ -27,7 +36,7 @@
   &__click {
     display: flex;
     justify-content: center;
-    width: 24px;
+    width: 18px;
     height: 16px;
     cursor: pointer;
   }
