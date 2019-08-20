@@ -112,7 +112,7 @@
                     this._amountNode.innerHTML =
                         utils.getNiceNumberTemplate(this._data.amount, pair.amountAsset.precision, true);
                     this._priceNode.innerHTML =
-                        utils.getNiceNumberTemplate(this._data.price, pair.priceAsset.precision, true);
+                        utils.getNiceNumberTemplate(this._data.price, pair.priceAsset.precision, false);
                     this._totalNode.innerHTML =
                         utils.getNiceNumberTemplate(this._data.total, pair.priceAsset.precision, true);
 
