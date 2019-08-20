@@ -62,7 +62,7 @@
     },
     "keeperForm": {
         "address": "アカウントアドレス",
-        "addressSaved": "Address saved",
+        "addressSaved": "保存されたアドレス",
         "back": "戻る",
         "error": {
             "hasLockedKeeperDescription": "Waves Keeperの利用を続けるには、過去に作成したパスワードを入力するか、新しいパスワードを作成してください。",
@@ -80,7 +80,7 @@
         "loading": "Waves Keeperからアカウントをインポート",
         "login": "次へ",
         "name": "アカウント名",
-        "nameExists": "That name is taken",
+        "nameExists": "その名前はすでに使用されています",
         "or": "または",
         "retry": "再度お試し下さい",
         "saveUserData": "ログイン状態を保持"
@@ -265,12 +265,12 @@
             "scanQrCode": "QRコードをスキャン",
             "title": "デポジット {{assetName}}",
             "wavesGatewayERGO": {
-                "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of ERGO to a token in your Waves account.",
-                "helpDescrTitle": "Enter this address into your ERGO client or wallet",
-                "warningMinAmountText": "If you will send less than 0.1 ERGO, you will lose that money.",
-                "warningMinAmountTitle": "The minimum amount of deposit is 0.1 ERGO, the maximum amount of deposit is 50 000 ERGO",
-                "warningText": "Sending any other currency to this address may result in the loss of your deposit.",
-                "warningTitle": "Send only ERGO to this deposit address"
+                "helpDescrText": "トランザクションが承認されると、ゲートウェイはERGOの送信を進め、完了するとあなたのWavesアカウントにトークンが反映されます。",
+                "helpDescrTitle": "このアドレスをERGOクライアント、またはウォレットに入力してください",
+                "warningMinAmountText": "0.1以下のERGOを送金した場合、資産を紛失します。",
+                "warningMinAmountTitle": "最小デポジット額は0.1 ERGO、最大デポジット額は50,000 ERGOです",
+                "warningText": "このアドレスに他の通貨を送信した場合、資産の消失につながる可能性があります。",
+                "warningTitle": "このデポジットアドレスにはERGOのみ送信してください"
             },
             "wavesGatewayVST": {
                 "helpDescrText": "トランザクションが承認されると、ゲートウェイはVostokの送信を進め、あなたのWavesアカウントにトークンが反映されます。",
@@ -443,7 +443,7 @@
             "receive": "デポジット",
             "serverAddressError": "ゲートウェイアドレスが不正です",
             "serverError": "現在、一時的にCoinomatのサービスはご利用いただけません。再度お試しください。",
-            "serverWrongAddress": "Wrong address",
+            "serverWrongAddress": "アドレスが不正です",
             "shareInvoiceLink": "請求書リンクを共有",
             "verified": "承認済",
             "vostok": {
@@ -466,14 +466,14 @@
         },
         "removeKeeperAccount": {
             "heading": "Waves Keeperアカウントを除去",
-            "text": "これは保存済みのアカウントへの経路を削除するのみで、Waves Keeperからアカウントを削除するわけではありません。"
+            "text": "これは保存済みのアカウントへの経路を除去するのみで、Waves Keeperからアカウントを削除するわけではありません。"
         },
         "removeLedgerAccount": {
             "heading": "Ledgerアカウントを除去",
-            "text": "これはLedgerに保存済みのアカウントへの経路を削除するのみで、Ledgerからアカウントを削除するわけではありません。"
+            "text": "これはLedgerに保存済みのアカウントへの経路を除去するのみで、Ledgerからアカウントを削除するわけではありません。"
         },
         "removePrivateKeyAccount": {
-            "text": "{div}[Deleting an account will lead to its irretrievable loss if you didn't save a Private key.]\n{div}[Click on the REMOVE button to proceed with account removal, or CANCEL to return to the previous screen.]"
+            "text": "{div}[あなたが秘密鍵を保存していない場合、アカウントの除去が復元不可能な損失につながる可能性があります。]\n {div}[除去ボタンを押してアカウントの除去に進んでください。または、キャンセルを押して前の画面に戻ってください。]"
         },
         "script": {
             "anyTx": "JSON",
@@ -610,7 +610,7 @@
                 "language": "言語",
                 "minutes": "{{minutes}} 分",
                 "openLinkViaWeb": "ウェブ版クライアントからは常にリンクを開く",
-                "playSound": "Play user interface sound effects",
+                "playSound": "ユーザーインターフェイスの効果音を再生",
                 "theme": "テーマ",
                 "timeout": "セッションタイムアップ",
                 "title": "一般",
@@ -900,11 +900,11 @@
                 "1_2_6": "{span.line} [1. InvokeScriptTransactionをサポート。 [もっと読む](https://blog.wavesplatform.com/ride-for-dapps-hits-waves-testnet-e3f2906dd2aa)]\n {span.line} [2. UIの改善と、いくつかのマイナーバグを修正しました。]",
                 "1_2_8": "{span.line}[1. スパムトークンとトランザクションが非表示になりました。]{span.line}[2. UIの改善と、いくつかのマイナーなバグを修正しました。]",
                 "1_3_0": "{span.line} [1. アプリのナビゲーションとスタートページのインターフェースが改善されました。]",
-                "1_3_18": "{span.line}[1. Added login to wallet using a private key.]\n{span.line}[2. The 24 hours price change of a token is now bound to token/WAVES pair.]",
+                "1_3_18": "{span.line}[1. 秘密鍵によるログインが可能になりました。]{span.line}[2. 24時間以内のトークン価格の変化がトークン/WAVESペアに対応しました。]",
                 "1_3_2": "{span.line} [1. Vostokのゲートウェイが追加されました。 \n{span.line} [2. UIの改善と、いくつかのマイナーなバグを修正しました。]",
                 "1_3_5": "{span.line}[1. [wsoc.io](https://wsoc.io) コンテスト用のトークンタブが追加されました。]{span.line}[2. フランス語に対応しました。]{span.line}[3. 一部のマイナーバグを修正しました。]",
                 "1_3_7": "{span.line}[1.[tokenrating.wavesexplorer.com](https://tokenrating.wavesexplorer.com) に対応。アプリから直接トークンのレーティングが可能に。]{span.line}[2. 追加のマイナーバグを修正しました。]",
-                "1_3_9": "{span.line}[1. Improved UI and functionality of Exchange and Wallet sections.]\n{span.line}[2. Additional minor bugs have been fixed.]"
+                "1_3_9": "{span.line}[1. 交換とウォレットセクションにおけるUIと機能の改善。]\n {span.line}[2. マイナーバグを修正。]"
             },
             "title": "このアップデート {{version}} の新機能"
         }

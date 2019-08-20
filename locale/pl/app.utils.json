@@ -62,7 +62,7 @@
     },
     "keeperForm": {
         "address": "Adres portfela",
-        "addressSaved": "Address saved",
+        "addressSaved": "Adres zapisany",
         "back": "Wróć",
         "error": {
             "hasLockedKeeperDescription": "Aby kontynuować pracę z Waves Keeper, musisz wprowadzić wcześniej utworzone hasło lub utworzyć nowe.",
@@ -80,7 +80,7 @@
         "loading": "Importuj konto z Waves Keeper",
         "login": "Kontynuuj",
         "name": "Nazwa konta",
-        "nameExists": "That name is taken",
+        "nameExists": "Ta nazwa jest zajęta",
         "or": "LUB",
         "retry": "Spróbuj ponownie",
         "saveUserData": "Nie wylogowuj mnie"
@@ -265,12 +265,12 @@
             "scanQrCode": "Skanuj QR kod",
             "title": "Deponuj {{assetName}}",
             "wavesGatewayERGO": {
-                "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of ERGO to a token in your Waves account.",
-                "helpDescrTitle": "Enter this address into your ERGO client or wallet",
-                "warningMinAmountText": "If you will send less than 0.1 ERGO, you will lose that money.",
-                "warningMinAmountTitle": "The minimum amount of deposit is 0.1 ERGO, the maximum amount of deposit is 50 000 ERGO",
-                "warningText": "Sending any other currency to this address may result in the loss of your deposit.",
-                "warningTitle": "Send only ERGO to this deposit address"
+                "helpDescrText": "Po potwierdzeniu transakcji bramka przetworzy transfer ERGO na token na Twoim koncie Waves.",
+                "helpDescrTitle": "Wpisz ten adres do swojego klienta lub portfela ERGO",
+                "warningMinAmountText": "Jeśli wyślesz mniej niż 0,1 ERGO, stracisz te środki.",
+                "warningMinAmountTitle": "Minimalna kwota depozytu wynosi 0,1 ERGO, maksymalna kwota depozytu to 50 000 ERGO",
+                "warningText": "Wysłanie innej waluty na ten adres może spowodować utratę depozytu.",
+                "warningTitle": "Wysyłaj tylko ERGO na ten adres depozytu"
             },
             "wavesGatewayVST": {
                 "helpDescrText": "Jeżeli transakcja zostanie potwierdzona, system wymieni Vostok na tokeny w Twoim koncie Waves.",
@@ -473,7 +473,7 @@
             "text": "Nie spowoduje to usunięcia konta z Ledger. Spowoduje to tylko usunięcie zapisanej ścieżki do tego konta w Ledger."
         },
         "removePrivateKeyAccount": {
-            "text": "{div}[Deleting an account will lead to its irretrievable loss if you didn't save a Private key.]\n{div}[Click on the REMOVE button to proceed with account removal, or CANCEL to return to the previous screen.]"
+            "text": "{div} [Usunięcie konta spowoduje jego nieodwracalną utratę, jeśli nie zapisałeś klucza prywatnego.] \n {div} [Kliknij przycisk USUŃ, aby kontynuować usuwanie konta, lub ANULUJ, aby powrócić do poprzedniego ekranu.]"
         },
         "script": {
             "anyTx": "JSON",
@@ -900,7 +900,7 @@
                 "1_2_6": "{span.line}[1. Dodano obsługę transakcji skryptu wywołania. [Czytaj więcej](https://blog.wavesplatform.com/ride-for-dapps-hits-waves-testnet-e3f2906dd2aa)]{span.line}[2. Poprawiony interfejs użytkownika i dodatkowe drobne błędy zostały naprawione.]",
                 "1_2_8": "{span.line} [1. Tokeny ze spamem i transakcje zostały ukryte w kliencie.] \n {span.line} [2. Poprawiony interfejs użytkownika i dodatkowo zostały naprawione drobne błędy.]",
                 "1_3_0": "{span.line}[1. Ulepszona nawigacja aplikacji i interfejs strony startowej.]",
-                "1_3_18": "{span.line}[1. Added login to wallet using a private key.]\n{span.line}[2. The 24 hours price change of a token is now bound to token/WAVES pair.]",
+                "1_3_18": "{span.line} [1. Dodano login do portfela za pomocą klucza prywatnego.] \n {span.line} [2. 24-godzinna zmiana ceny tokena jest teraz powiązana z parą token / WAVES.]",
                 "1_3_2": "{span.line} [1. Uruchomiono bramę (gateway) Vostok.] \n {span.line} [2. Poprawiony interfejs użytkownika i dodatkowo zostały naprawione drobne błędy.]",
                 "1_3_5": "{span.line} [1. Dodano zakładkę z tokenami konkursowymi [wsoc.io] (https://wsoc.io).] \n {span.line} [2. Dodano obsługę języka francuskiego.] \n {span.line} [3. Dodatkowe drobne błędy zostały naprawione.]",
                 "1_3_7": "{span.line} [1. Integracja z [tokenrating.wavesexplorer.com] (https://tokenrating.wavesexplorer.com) Teraz możesz oceniać tokeny bezpośrednio w aplikacji.] \n {span.line} [2. Dodatkowe drobne błędy zostały naprawione.]",

@@ -143,7 +143,7 @@
     "password": {
         "minLength": "字段至少要有{{minLength}}个字符长。",
         "name": "用户名",
-        "nameExists": "That name is taken",
+        "nameExists": "这个名字被采用了",
         "repeat": "确认密码",
         "secure": "安全密码",
         "title": "使用新密码保护您的账户",

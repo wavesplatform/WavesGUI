@@ -143,7 +143,7 @@
     "password": {
         "minLength": "最低 {{minLength}} 文字",
         "name": "アカウント名",
-        "nameExists": "That name is taken",
+        "nameExists": "この名前はすでに使用されています",
         "repeat": "パスワードを再入力して確認",
         "secure": "パスワードを強化",
         "title": "アカウントを新しいパスワードで保護",

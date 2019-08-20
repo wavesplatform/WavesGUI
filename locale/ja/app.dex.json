@@ -43,14 +43,14 @@
             "matcherFee": "手数料",
             "notifications": {
                 "error": {
-                    "11536128": "The asset's script of {{assetId}} returned the error: {{scriptError}}",
-                    "11536129": "The asset's script of {{assetId}} is broken, please contact with the owner. The returned error is {{errorName}}, the text is: {{errorText}}",
-                    "11536130": "The asset's script of {{assetId}} rejected the order",
-                    "11536132": "The asset's script of {{assetId}} is broken, please contact with the owner. The returned object is '{{returnedObject}}'",
-                    "3147520": "The account's script of {{address}} returned the error: {{scriptError}}",
+                    "11536128": "{{assetId}}のアセットスクリプトが不正です。所有者に連絡してください。返されたオブジェクトは次の通りです：{{returnedObject}}",
+                    "11536129": "{{assetId}}のアセットスクリプトが不正です。所有者に連絡してください。返されたエラーは{{errorName}}、メッセージは：{{errorText}}です",
+                    "11536130": "{{assetId}}のアセットスクリプトが注文を拒否しました",
+                    "11536132": "{{assetId}}のアセットスクリプトが不正です。所有者に連絡してください。返されたオブジェクトは次の通りです：{{returnedObject}}",
+                    "3147520": "{{address}}のアカウントスクリプトがエラーを返しました：{{scriptError}}",
                     "3147521": "{{address}} のアカウントに付加されたスクリプトが注文を拒否しました",
                     "3147522": "{{address}} のアカウントに付加されたスクリプトが注文を拒否しました",
-                    "3147524": "The account's script of {{address}} is broken, please contact with the owner. The returned object is '{{returnedObject}}'",
+                    "3147524": "{{address}}のアカウントスクリプトが不正です。所有者に連絡してください。返されたオブジェクトは次の通りです：{{returnedObject}}",
                     "title": "エラーメッセージ"
                 },
                 "isCreated": "注文が作成されました",
@@ -106,7 +106,7 @@
             "filter": "フィルター",
             "noPermissionCancelOrder": "現在、注文のキャンセルはできません",
             "notifications": {
-                "canceledAll": "All orders have been canceled",
+                "canceledAll": "すべての注文がキャンセルされました",
                 "isCanceled": "注文がキャンセルされました",
                 "somethingWentWrong": "何かがおかしいようです"
             },

@@ -30,8 +30,8 @@
     },
     "name": "あなたのアセットの名称",
     "NFT": {
-        "description": "A non-fungible token (NFT) is a unique, individual token existing on the Waves blockchain. Currently, display of NFTs in Waves Wallet and on Waves DEX is not supported. You can see your NFTs in [Waves Explorer](https://wavesexplorer.com/)",
-        "title": "You are creating a non-fungible token."
+        "description": "Non-fungibleトークン（NFT）は、Wavesブロックチェーンに存在する一意かつ個別のトークンです。現在、Waves WalletおよびWaves DEXでのNFTの表示はサポートされていません。 NFTは[Waves Explorer]（https://wavesexplorer.com/）で確認可能です。",
+        "title": "あなたはNFTを作成しています。"
     },
     "notifications": {
         "isNotCreated": "トークンはまだ発行されていません"

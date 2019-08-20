@@ -1,8 +1,8 @@
 {
     "keyForm": {
-        "placeholder": "Enter your private key here"
+        "placeholder": "Wprowadź tutaj swój klucz prywatny."
     },
-    "keyTab": "Private key",
+    "keyTab": "Klucz prywatny",
     "password": {
         "error": "Złe hasło!"
     },
@@ -36,12 +36,12 @@
     },
     "seedForm": {
         "address": "Adres",
-        "addressSaved": "Address saved",
+        "addressSaved": "Adres zapisany",
         "back": "Wróć",
         "continue": "Kontynuuj",
         "create": "utwórz nowe konto",
         "description": "Twój SEED to 15 słów zapisanych podczas tworzenia konta",
-        "nameExists": "That name is taken",
+        "nameExists": "Ta nazwa jest zajęta",
         "or": "albo",
         "placeholder": "SEED = 15 słów wygenerowanych podczas tworzenia konta",
         "saveUserData": "Zachowaj konto na tym komputerze",
@@ -50,12 +50,12 @@
         "tosaved": "do zapisanego konta"
     },
     "seedOrKeyForm": {
-        "description": "Enter your Seed phrase or private key to access your wallet",
-        "keyTitle": "Private key",
-        "seedTitle": "Seed phrase",
-        "title": "Import from seed or key"
+        "description": "Wpisz swoją frazę Seed lub klucz prywatny, aby uzyskać dostęp do portfela",
+        "keyTitle": "Klucz prywatny",
+        "seedTitle": "Fraza Seed",
+        "title": "Importuj z Seed lub klucza"
     },
-    "seedTab": "Seed phrase",
+    "seedTab": "Fraza Seed",
     "warningSeed": {
         "message": "Upewnij się, że nie mylisz tego wyrażenia z adresem portfela. Używanie adresu jako frazy SEED może spowodować utratę środków. Wyrażenie SEED musi składać się z 15 słów z odstępami między poszczególnymi słowami.",
         "title": "Wprowadzona fraza SEED jest za krótka."

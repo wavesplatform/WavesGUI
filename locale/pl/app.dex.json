@@ -43,14 +43,14 @@
             "matcherFee": "Prowizja",
             "notifications": {
                 "error": {
-                    "11536128": "The asset's script of {{assetId}} returned the error: {{scriptError}}",
-                    "11536129": "The asset's script of {{assetId}} is broken, please contact with the owner. The returned error is {{errorName}}, the text is: {{errorText}}",
-                    "11536130": "The asset's script of {{assetId}} rejected the order",
-                    "11536132": "The asset's script of {{assetId}} is broken, please contact with the owner. The returned object is '{{returnedObject}}'",
-                    "3147520": "The account's script of {{address}} returned the error: {{scriptError}}",
+                    "11536128": "Skrypt aktywa {{assetId}} zwrócił błąd: {{scriptError}}",
+                    "11536129": "Skrypt aktywa {{assetId}} jest uszkodzony, skontaktuj się z właścicielem. Zwrócony błąd to {{errorName}} , tekst to: {{errorText}}",
+                    "11536130": "Skrypt aktywa {{assetId}} odrzucił zamówienie",
+                    "11536132": "Skrypt aktywa {{assetId}} jest uszkodzony, skontaktuj się z właścicielem. Zwrócony obiekt to „ {{returnedObject}} ”",
+                    "3147520": "Skrypt konta {{address}} zwrócił błąd: {{scriptError}}",
                     "3147521": "Skrypt konta {{address}} odrzucił zamówienie",
                     "3147522": "Skrypt konta {{address}} odrzucił zamówienie",
-                    "3147524": "The account's script of {{address}} is broken, please contact with the owner. The returned object is '{{returnedObject}}'",
+                    "3147524": "Skrypt konta {{address}} jest uszkodzony, skontaktuj się z właścicielem. Zwrócony obiekt to „ {{returnedObject}} ”",
                     "title": "Komunikat o błędzie"
                 },
                 "isCreated": "Zlecenie zostało wysłane",

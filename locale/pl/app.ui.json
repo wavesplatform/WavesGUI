@@ -143,7 +143,7 @@
     "password": {
         "minLength": "musi być conajmniej {{minLength}} znaków",
         "name": "Nazwa konta",
-        "nameExists": "That name is taken",
+        "nameExists": "Ta nazwa jest zajęta",
         "repeat": "Potwierdź hasło",
         "secure": "bezpieczne hasło",
         "title": "Chroń swoje konto za pomocą nowego hasła",
