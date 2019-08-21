@@ -188,6 +188,7 @@
       &__thead {
         .smart-table {
           &__cell[data-column-id="controls"] {
+            overflow: visible;
 
             .disabled {
               display: none;
@@ -206,7 +207,7 @@
 
               .confirm-tooltip {
                 position: absolute;
-                top: calc(100% ~'+ 1px');
+                top: calc(100% ~'+ 8px');
                 right: -10px;
                 background: @color-white;
                 box-shadow: @shadow-tooltip-confirm;
@@ -261,6 +262,8 @@
       }
 
       &__tbody {
+        z-index: 0;
+
         .smart-table {
           &__row {
             padding: 3.5px 14px;
