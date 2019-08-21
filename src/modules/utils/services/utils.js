@@ -1114,9 +1114,10 @@
                 const bigNum = this.parseNiceNumber(num);
                 const formatted = this.getNiceNumber(bigNum, precision);
 
-                const shortModeCondition = typeof shortMode === 'number' ? bigNum.gte(shortMode) : bigNum.gte(10000);
+                const isShortMode = typeof shortMode === 'number' ? true : shortMode;
+                const minValue = typeof shortMode === 'number' ? shortMode : 10000;
 
-                if (shortMode && shortModeCondition) {
+                if (isShortMode && bigNum.gte(minValue)) {
                     return this.getNiceBigNumberTemplate(bigNum);
                 } else {
                     const separatorDecimal = WavesApp.getLocaleData().separators.decimal;
