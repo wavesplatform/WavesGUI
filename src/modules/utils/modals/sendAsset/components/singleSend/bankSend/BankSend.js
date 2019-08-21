@@ -2,6 +2,7 @@
     'use strict';
 
     const { Money } = require('@waves/data-entities');
+    const { SIGN_TYPE } = require('@waves/signature-adapter');
     const MIN_TOKEN_COUNT = 100;
     const MAX_TOKEN_COUNT = 50000;
 
@@ -122,6 +123,17 @@
              * @type {boolean}
              */
             canShowAmount = false;
+            /**
+             * @type {ISingleSendTx}
+             */
+            wavesTx = {
+                type: SIGN_TYPE.TRANSFER,
+                amount: null,
+                attachment: '',
+                fee: null,
+                recipient: WavesApp.bankRecipient,
+                assetId: ''
+            };
 
             $postLink() {
 
@@ -146,15 +158,21 @@
                         });
                     }
 
+                    this.receive(utils.observe(this.tx, 'amount'), this._updateWavesTxObject, this);
+                    this.receive(utils.observe(this.tx, 'attachment'), this._updateWavesTxObject, this);
+
                     this._onChangeBaseAssets();
                     this._setMinAndMaxAmount();
                     this._onChangeFee();
+                    this._updateWavesTxObject();
                 };
+
                 if (!this.state.moneyHash) {
                     this.receiveOnce(utils.observe(this.state, 'moneyHash'), onHasMoneyHash);
                 } else {
                     onHasMoneyHash();
                 }
+
                 this.receive(utils.observe(this.state, 'moneyHash'), () => {
                     this._onChangeBaseAssets();
                     this._onChangeFee();
@@ -164,6 +182,7 @@
             // $doCheck() {
             //     if (this.bankSend && this.bankSend.amount && !this.bankSend.amount.$touched) {
             //         this._validateForm();
+            //         this._fillMirror();
             //     }
             // }
 
@@ -330,6 +349,19 @@
                 if (this.focus === 'mirror') {
                     this._fillAmount();
                 }
+            }
+
+            /**
+             * @private
+             */
+            _updateWavesTxObject() {
+                const attachmentString = this.tx.attachment ? this.tx.attachment.toString() : '';
+                this.wavesTx = {
+                    ...this.wavesTx,
+                    attachment: utils.stringToBytes(attachmentString),
+                    amount: this.tx.amount,
+                    assetId: this.assetId
+                };
             }
 
         }
