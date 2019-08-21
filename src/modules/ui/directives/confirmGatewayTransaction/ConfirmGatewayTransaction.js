@@ -4,6 +4,11 @@
 
     const analytics = require('@waves/event-sender');
     const ds = require('data-service');
+    const WAVES_GATEWAY_ASSETS_ID = [
+        WavesApp.defaultAssets.VST,
+        WavesApp.defaultAssets.ERGO,
+        WavesApp.defaultAssets.BNCR
+    ];
 
     /**
      * @param {typeof ConfirmTxService} ConfirmTxService
@@ -40,10 +45,7 @@
 
             sendTransaction() {
                 const signableAmountAsset = this.signable.getTxData().amount.asset;
-                if (
-                    signableAmountAsset.id !== WavesApp.defaultAssets.VST &&
-                    signableAmountAsset.id !== WavesApp.defaultAssets.ERGO
-                ) {
+                if (!WAVES_GATEWAY_ASSETS_ID.includes(signableAmountAsset.id)) {
                     return super.sendTransaction();
                 }
 
