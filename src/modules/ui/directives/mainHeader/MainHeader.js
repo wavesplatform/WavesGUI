@@ -477,9 +477,6 @@
     ];
 
     angular.module('app.ui').component('wMainHeader', {
-        bindings: {
-            userList: '<'
-        },
         templateUrl: 'modules/ui/directives/mainHeader/templates/mainHeader.html',
         transclude: false,
         controller

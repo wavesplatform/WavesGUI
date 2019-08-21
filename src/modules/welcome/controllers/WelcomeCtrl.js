@@ -2,30 +2,30 @@
     'use strict';
 
     /**
-     * @param Base
-     * @param $scope
-     * @param $state
-     * @param user
-     * @param modalManager
-     * @param storage
-     * @param ChartFactory
+     * @param {typeof Base} Base
+     * @param {ng.IScope} $scope
+     * @param {User} user
+     * @param {ModalManager} modalManager
+     * @param {app.utils.Storage} storage
+     * @param {ChartFactory} ChartFactory
      * @param {app.utils} utils
      * @param {JQuery} $element
      * @param {Waves} waves
      * @param {Matcher} matcher
      * @return {WelcomeCtrl}
      */
-    const controller = function (Base,
-                                 $scope,
-                                 $state,
-                                 user,
-                                 modalManager,
-                                 utils,
-                                 waves,
-                                 $element,
-                                 ChartFactory,
-                                 storage,
-                                 matcher) {
+    const controller = function (
+        Base,
+        $scope,
+        user,
+        modalManager,
+        utils,
+        waves,
+        $element,
+        ChartFactory,
+        storage,
+        matcher
+    ) {
 
         const ds = require('data-service');
         const { Money } = require('@waves/data-entities');
@@ -127,33 +127,19 @@
 
                 this._initDeviceTypes();
 
-                if (this.isWeb) {
-                    storage.load('accountImportComplete')
-                        .then((complete) => {
-                            if (complete) {
-                                this._initUserList();
-                            } else {
+                user.getMultiAccountData().then(data => {
+                    this.hasMultiAccount = !!data;
+
+                    if (!this.hasMultiAccount && this.isWeb) {
+                        storage.load('accountImportComplete').then(complete => {
+                            if (!complete) {
                                 this._loadUserListFromOldOrigin();
                             }
                         });
-                } else {
-                    this._initUserList();
-                }
-
-                user.getMultiAccountData().then(data => {
-                    this.hasMultiAccount = !!data;
+                    }
                 });
 
                 this._initPairs();
-                this._initDeviceTypes();
-
-                if (this.isDesktop) {
-                    this.observeOnce('userList', () => {
-                        if (this.userList.length) {
-                            $state.go('signIn');
-                        }
-                    });
-                }
             }
 
             /**
@@ -256,21 +242,6 @@
                 });
             }
 
-
-            /**
-             * @private
-             */
-            _initUserList() {
-                user.getFilteredUserList()
-                    .then((list) => {
-                        this.userList = list;
-                        this.pendingRestore = false;
-                        utils.postDigest($scope).then(() => {
-                            $scope.$apply();
-                        });
-                    });
-            }
-
             /**
              * @private
              */
@@ -292,10 +263,10 @@
                         user.getFilteredUserList()
                             .then((list) => {
                                 this.pendingRestore = false;
-                                this.userList = uniqBy(user => user.name, userList.concat(list) || list);
+                                const newUserList = uniqBy(user => user.name, userList.concat(list) || list);
 
                                 storage.save('accountImportComplete', true);
-                                storage.save('userList', this.userList);
+                                storage.save('userList', newUserList);
                                 utils.postDigest($scope).then(() => {
                                     $scope.$apply();
                                 });
@@ -303,7 +274,6 @@
                     })
                     .catch(() => {
                         storage.save('accountImportComplete', true);
-                        this._initUserList();
                     });
             }
 
@@ -315,7 +285,6 @@
     controller.$inject = [
         'Base',
         '$scope',
-        '$state',
         'user',
         'modalManager',
         'utils',
