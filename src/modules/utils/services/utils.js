@@ -1107,14 +1107,16 @@
              * @name app.utils#getNiceNumberTemplate
              * @param {BigNumber|string|number} num
              * @param {number} precision
-             * @param {boolean} [shortMode]
+             * @param {boolean | number} [shortMode]
              * @return {string}
              */
             getNiceNumberTemplate(num, precision, shortMode) {
                 const bigNum = this.parseNiceNumber(num);
                 const formatted = this.getNiceNumber(bigNum, precision);
 
-                if (shortMode && bigNum.gte(10000)) {
+                const shortModeCondition = typeof shortMode === 'number' ? bigNum.gte(shortMode) : bigNum.gte(10000);
+
+                if (shortMode && shortModeCondition) {
                     return this.getNiceBigNumberTemplate(bigNum);
                 } else {
                     const separatorDecimal = WavesApp.getLocaleData().separators.decimal;
