@@ -1,6 +1,6 @@
 {
     "keyForm": {
-        "placeholder": "Masukkan kunci pribadi Anda di sini"
+        "placeholder": "Masukkan kunci pribadimu di sini"
     },
     "keyTab": "Kunci pribadi",
     "password": {
@@ -41,7 +41,7 @@
         "continue": "Lanjut",
         "create": "buat akun baru",
         "description": "SEED Anda, 15 kata yang Anda simpan saat membuat akun",
-        "nameExists": "Nama itu diambil",
+        "nameExists": "Nama telah diambil",
         "or": "atau",
         "placeholder": "SEED Anda adalah 15 kata yang Anda simpan saat membuat akun Anda",
         "saveUserData": "Simpan akun di komputer ini",
