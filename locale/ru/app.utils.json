@@ -265,9 +265,9 @@
             "scanQrCode": "Просканируйте QR-код",
             "title": "Пополнить {{assetName}}",
             "wavesGatewayBNCR": {
-                "warningMinAmountText": "Если вы отправите меньше чем 0.1 Bancor, вы потеряете деньги.",
-                "warningMinAmountTitle": "Минимальная сумма депозита 0.1 Bancor, максимальная сумма депозита 50 000 Bancor",
-                "warningText": "Введите этот адрес в ваш Bancor клиент или кошелёк.",
+                "warningMinAmountText": "Если вы отправите меньше чем 0.4 Bancor, вы потеряете деньги.",
+                "warningMinAmountTitle": "Минимальная сумма депозита 0.4 Bancor, максимальная сумма депозита 100 000 Bancor",
+                "warningText": "Введите этот адрес в ваш клиент или кошелёк.",
                 "warningTitle": "Как только транзакция будет подтверждена, шлюз отправит Bancor-токен на ваш аккаунт Waves."
             },
             "wavesGatewayERGO": {
