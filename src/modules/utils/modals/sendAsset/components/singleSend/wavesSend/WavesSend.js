@@ -318,11 +318,11 @@
 
                 this._onChangeBaseAssets();
 
-                if (!this.moneyHash[this.assetId]) {
+                if (!this.balance) {
                     return null;
                 }
 
-                this.tx.amount = this.moneyHash[this.assetId].cloneWithTokens('0');
+                this.tx.amount = this.balance.cloneWithTokens('0');
                 this.mirror = this.moneyHash[this.mirrorId].cloneWithTokens('0');
             }
 
