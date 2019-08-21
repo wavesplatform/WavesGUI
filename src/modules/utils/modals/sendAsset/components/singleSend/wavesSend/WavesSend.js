@@ -3,8 +3,7 @@
 
     const FIAT_ASSETS = {
         [WavesApp.defaultAssets.USD]: true,
-        [WavesApp.defaultAssets.EUR]: true,
-        [WavesApp.defaultAssets.TRY]: true
+        [WavesApp.defaultAssets.EUR]: true
     };
 
     const ds = require('data-service');
@@ -32,14 +31,7 @@
              * @return {boolean}
              */
             get canSendToBank() {
-                return (FIAT_ASSETS[this.assetId] && !this.isLira) || false;
-            }
-
-            /**
-             * @return {boolean}
-             */
-            get isLira() {
-                return this.assetId === WavesApp.defaultAssets.TRY;
+                return FIAT_ASSETS[this.assetId] || false;
             }
 
             /**

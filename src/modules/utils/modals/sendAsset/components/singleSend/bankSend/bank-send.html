@@ -1,2 +1,60 @@
-Bank send
-<ng-transclude></ng-transclude>
+<form class="send-form"
+      name="$ctrl.bankSend"
+      novalidate>
+
+    <ng-transclude></ng-transclude>
+
+    <div class="row">
+        <div ng-if="!$ctrl.isVerified && !$ctrl.isBankPendingOrError"
+             class="plate-error">
+            <div class="body-2 error-500 margin-05" w-i18n="modal.send.notVerifiedHeader"></div>
+            <div class="footnote-1 basic-500" w-i18n="modal.send.notVerifiedText"></div>
+        </div>
+    </div>
+
+    <div class="row margin-top-2">
+        <div class="flex-row-title">
+            <div class="body-2 margin-05" w-i18n="modal.send.recipient"></div>
+            <div class="toggle-mode-container">
+                <span class="link"
+                      ng-click="$ctrl.setSendMode('waves')"
+                      w-i18n="modal.send.toWaves"></span>
+            </div>
+        </div>
+
+        <div class="input-like big disabled">
+            <span w-i18n="modal.send.bankAccount"></span>
+        </div>
+    </div>
+
+    <div class="row relative" style="min-height: 60px;"
+         ng-if="$ctrl.termsIsPending && $ctrl.isBankAccepted">
+        <w-loader class="asd"></w-loader>
+    </div>
+
+    <div ng-if="!$ctrl.isBankPendingOrError && $ctrl.isVerified && $ctrl.isBankAccepted" class="margin-1">
+        <div class="plate-warning">
+            <div class="body-2 warning-500 margin-05" w-i18n="modal.send.coinomatWarningHeader"></div>
+            <div class="footnote-1 basic-500" w-i18n="modal.send.coinomatWarningText"></div>
+        </div>
+    </div>
+
+    <div ng-if="!$ctrl.isBankPendingOrError && $ctrl.isVerified && $ctrl.isBankAccepted" class="row">
+        <div class="plate-warning">
+            <div class="body-2 warning-500 margin-05" w-i18n="modal.send.coinomatLimits"></div>
+        </div>
+    </div>
+
+
+
+
+    <div ng-if="!$ctrl.isLira && $ctrl.isBankAccepted" class="margin-top-2">
+        <w-coinomat-terms force-show-terms="::false"
+                          terms-pending="$ctrl.termsIsPending"
+                          load-error="$ctrl.termsLoadError"
+                          show-accepted-checkbox="::false"
+                          is-verified="$ctrl.isVerified"
+                          terms-accepted="$ctrl.termsAccepted"></w-coinomat-terms>
+    </div>
+
+</form>
