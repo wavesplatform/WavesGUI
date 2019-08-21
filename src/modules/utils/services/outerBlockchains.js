@@ -15,7 +15,8 @@
             [WavesApp.defaultAssets.VST]: address => {
                 return waves.node.isValidAddressWithNetworkByte(address, WavesApp.network.VSTNetworkByte);
             },
-            [WavesApp.defaultAssets.ERGO]: /^9[a-km-zA-HJ-NP-Z1-9]{5,}$/
+            [WavesApp.defaultAssets.ERGO]: /^9[a-km-zA-HJ-NP-Z1-9]{5,}$/,
+            [WavesApp.defaultAssets.BNCR]: /^0x[0-9a-f]{40}$/i
         };
 
         return Object.keys(VALIDATOR).reduce((result, key) => {
