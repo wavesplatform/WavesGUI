@@ -81,7 +81,7 @@
                 if (depositDetails) {
                     depositDetails.then((details) => {
                         this.gatewayAddress = details.address;
-                        this.minAmount = Money.fromTokens(details.minimumAmount || 0.001, this.asset);
+                        this.minAmount = Money.fromTokens(this._getMin(details), this.asset);
                         $scope.$apply();
                     }, () => {
                         this.minAmount = Money.fromTokens(0.001, this.asset);
@@ -93,6 +93,21 @@
                     this.assetKeyName = gatewayService.getAssetKeyName(this.asset, 'deposit');
                     this.isVostok = this.asset.id === WavesApp.defaultAssets.VST;
                 }
+            }
+
+            /**
+             * @param {object} data
+             * @return {number | BigNumber}
+             * @private
+             */
+            _getMin(data) {
+                if (data.details && data.details.in_min) {
+                    return data.details.in_min;
+                }
+                if (data.minimumAmount) {
+                    return data.minimumAmount;
+                }
+                return 0.001;
             }
 
         }
