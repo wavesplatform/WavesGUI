@@ -1,0 +1,22 @@
+{
+    "available": "Available",
+    "chart": {
+        "available": "Available",
+        "create": "Start Lease",
+        "leased": "Leased",
+        "title": "WAVES Balance"
+    },
+    "description": {
+        "text1": "You can only transfer or trade WAVES that aren’t leased. The leased amount cannot be transferred or traded by you or anyone else.",
+        "text2": "You can cancel a leasing transaction as soon as it appears in the blockchain which usually occurs in a minute or less.",
+        "text3": "The generating balance will be updated after 1000 blocks.",
+        "title": "Quick note"
+    },
+    "leased": "Leased",
+    "leasedIn": "Leased in",
+    "nodeListLink": "List of nodes",
+    "test": {
+        "test": "text test"
+    },
+    "title_leasing": "You have chosen to log into the Waves desktop app"
+}

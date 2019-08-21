@@ -1,0 +1,94 @@
+{
+    "back": "Retour",
+    "button": {
+        "cancel": "Annuler",
+        "continue": "Continuer"
+    },
+    "confirmTransaction": {
+        "notPermitted": {
+            "issue": "L'émission d'un nouveau Token est temporairement indisponible.",
+            "issue-title": "Génération de Token",
+            "massSendTitle": "Transfert de masse",
+            "reissue": "La réémission de Token est temporairement indisponible.",
+            "sendTitle": "Envoyer",
+            "set-script-title": "Transaction de script"
+        },
+        "send": {
+            "errors": {
+                "fee": "Vous n'avez pas assez de fonds pour payer les frais requis. Vous devez payer {{fee, money-currency}} de frais de transaction ;"
+            }
+        }
+    },
+    "date": {
+        "month": [
+            "Janvier",
+            "Février",
+            "Mars",
+            "Avril",
+            "Mai",
+            "Juin",
+            "Juillet",
+            "Août",
+            "Septembre",
+            "Octobre",
+            "Novembre",
+            "Décembre"
+        ]
+    },
+    "EXK2jJo1PbL9CUNr5FSedw6cueZH5MUCDXNhR1WQEZa4": {
+        "description": "Aloha funky coin, for any good&evil purposes ;)"
+    },
+    "fee": "{{money, money-fee}}",
+    "header": {
+        "assets": "Actifs",
+        "dex": "Échange décentralisé",
+        "leasing": "Location",
+        "portfolio": "Portfolio",
+        "tokens": "Tokens",
+        "transactions": "Transactions",
+        "wallet": "Portefeuille"
+    },
+    "inputs": {
+        "errors": {
+            "required": "Ce champ est obligatoire !"
+        }
+    },
+    "leftmenu": {
+        "login": "Connexion",
+        "logout": "Déconnexion",
+        "settings": "Paramètres"
+    },
+    "matcher": {
+        "orders": {
+            "statuses": {
+                "canceled": "Annulé",
+                "filled": "Rempli ({{percent}}%)",
+                "opened": "Ouvert"
+            }
+        }
+    },
+    "modal": {
+        "enterPassword": {
+            "ok": "OK",
+            "title": "Entrez votre mot de passe"
+        },
+        "pairing": {
+            "showQr": "Montrer"
+        },
+        "tryDesktop": {
+            "cancel": "Continuer sur le web",
+            "label": "Se souvenir de mon choix et ne plus me le rappeler",
+            "message": "Nous recommandons que vous utilisiez l'application de bureau Waves. Si vous ne l'avez pas, vous pouvez la télécharger depuis le site officiel.",
+            "title": "Utiliser l'application de bureau Waves",
+            "try": "Ouvrir l'application de bureau"
+        }
+    },
+    "money-currency": "{{money, money-currency}}",
+    "number": {
+        "short": {
+            "million": "M",
+            "thousand": "k"
+        }
+    },
+    "Suspicious": "Suspect"
+}

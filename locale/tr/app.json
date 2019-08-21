@@ -1,0 +1,94 @@
+{
+    "back": "Ana sayfaya dön",
+    "button": {
+        "cancel": "İptal",
+        "continue": "Devam"
+    },
+    "confirmTransaction": {
+        "notPermitted": {
+            "issue": "Kripto para oluşturma geçici olarak kapalı",
+            "issue-title": "Kripto para oluşturma",
+            "massSendTitle": "Toplu transfer",
+            "reissue": "Tekrar kripto para oluşturma geçici olarak kapalı",
+            "sendTitle": "Gönder",
+            "set-script-title": "Script işlemi"
+        },
+        "send": {
+            "errors": {
+                "fee": "Gerekli olan komisyonu ödemek için yeterli bakiyeniz bulunmamaktadır. İşlem komisyonu için {{fee, money-currency}} ödemeniz gerekmektedir;"
+            }
+        }
+    },
+    "date": {
+        "month": [
+            "Ocak",
+            "Şubat",
+            "Mart",
+            "Nisan",
+            "Mayıs",
+            "Haziran",
+            "Temmuz",
+            "Ağustos",
+            "Eylül",
+            "Ekim",
+            "Kasım",
+            "Aralık"
+        ]
+    },
+    "EXK2jJo1PbL9CUNr5FSedw6cueZH5MUCDXNhR1WQEZa4": {
+        "description": "Selam harika para, her ne amaçla karşıma çıkıyorsan ;)"
+    },
+    "fee": "{{money, money-fee}}",
+    "header": {
+        "assets": "Varlıklar",
+        "dex": "DEX",
+        "leasing": "Kiralama",
+        "portfolio": "Portföy",
+        "tokens": "Kripto Paralar",
+        "transactions": "İşlemler",
+        "wallet": "Cüzdan"
+    },
+    "inputs": {
+        "errors": {
+            "required": "Bu alanın doldurulması zorunludur!"
+        }
+    },
+    "leftmenu": {
+        "login": "Giriş yap",
+        "logout": "Çıkış Yap",
+        "settings": "Ayarlar"
+    },
+    "matcher": {
+        "orders": {
+            "statuses": {
+                "canceled": "İptal edildi",
+                "filled": "Gerçekleşti ({{percent}}%)",
+                "opened": "Açıldı"
+            }
+        }
+    },
+    "modal": {
+        "enterPassword": {
+            "ok": "TAMAM",
+            "title": "Parolanızı Girin"
+        },
+        "pairing": {
+            "showQr": "Göster"
+        },
+        "tryDesktop": {
+            "cancel": "Web ile devam et",
+            "label": "Seçimimi hatırla ve beni tekrar uyarma",
+            "message": "Waves masaüstü uygulamasını kullanmanızı öneriyoruz. Eğer sizde yüklü değil ise Waves Platform resmi web sitesinden indirebilirsiniz.",
+            "title": "Waves masaüstü uygulamasını kullanın",
+            "try": "Waves masaüstü uygulamasını açın"
+        }
+    },
+    "money-currency": "{{money, money-currency}}",
+    "number": {
+        "short": {
+            "million": "M",
+            "thousand": "Bin"
+        }
+    },
+    "Suspicious": "Şüpheli"
+}

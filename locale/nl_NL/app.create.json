@@ -1,0 +1,65 @@
+{
+    "backupSeed": {
+        "back": "terug",
+        "copySeed": "kopieer ze",
+        "needConfirm": "U bevestigt deze zin op het volgende scherm.",
+        "ok": "Ik heb het opgeschreven",
+        "or": "of",
+        "saveSecret": "Bewaar back-up regel",
+        "warn": "Omdat alleen u uw geld beheert, moet u uw back-up regel bewaren voor het geval deze app wordt verwijderd of",
+        "writeSeed": "Noteer deze 15 woorden zorgvuldig"
+    },
+    "confirmBackup": {
+        "again": "en tik opnieuw",
+        "back": "ga terug",
+        "clear": "Wissen",
+        "confirm": "Bevestig back-up regel",
+        "description": "Bevestig uw back-up regel of",
+        "enterCorrect": "Tik alsjeblieft op elk woord in de juiste volgorde",
+        "error": "Verkeerde volgorde, probeer opnieuw.",
+        "ok": "Bevestigen",
+        "tapAgain": "en druk opnieuw"
+    },
+    "createAccount": {
+        "address": "Accountadres:",
+        "avatarUnique": "Deze afbeelding is uniek en kunt u later niet wijzigen.",
+        "choose": "Kies een afbeelding voor dit adres",
+        "create": "Maak een nieuw account",
+        "createDescription": "Snel en gratis",
+        "createNewAccount": "Kies een afbeelding",
+        "from": "Deze avatar is uniek, u kunt deze later niet wijzigen.",
+        "import": "Importeer accounts",
+        "importDescription": "via back-up regel, Ledger of Waves Keeper",
+        "protect": "Beveilig uw account met een wachtwoord of",
+        "protectYourAccount": "Beveilig uw account",
+        "restore": "bestaand account terug zetten",
+        "saveUserData": "Houd mij ingelogd op deze computer",
+        "signDescription": "naar een opgeslagen account",
+        "signIn": "Inloggen",
+        "signUp": "Maak hieronder een nieuw account aan of",
+        "tosaved": "op een opgeslagen account",
+        "toWalet": "naar je wallet of"
+    },
+    "modal": {
+        "confirmBackupDescription": "Bevestig uw back-up regel",
+        "next": "Bevestig",
+        "prev": "Terug",
+        "successContent": "U kunt uw geheime regel later niet wijzigen. Als deze geheime regel per abuis in het bezit van iemand anders komt of u vermoed dat het in het bezit van scammers is gekomen dient u onmiddelijk een nieuwe Waves wallet te maken en alle inhoud over te zetten.",
+        "successHeadline": "Behandel uw backup regel zorgvuldig!",
+        "understand": "Ik begrijp het"
+    },
+    "noBackupNoMoney": {
+        "backup": "Maak nu een backup",
+        "description": "U moet uw geheime regel (backup regel) opslaan. Dit is cruciaal om in uw account te komen.",
+        "modal": {
+            "descriptionP1": "Waves Platform waarschuwt u voor de steeds vaker terugkerende scam en phishing aanvallen. Fraudeurs verbergen hun malware in eigen versies van Waves software uit en beloven bonussen en korting om gebruikers te lokken hun credentials in te voeren.",
+            "descriptionP2": "Kijk uit voor deze scams en voer nooit uw SEED bij deze clients in. Uw account is dan gecompromitteerd en u raakt de gehele inhoud van uw account kwijt.",
+            "descriptionP3": "Gebruik enkel de officiële Waves client.",
+            "ok": "Ik begrijp het",
+            "title": "Behandel uw backup regel zorgvuldig!"
+        },
+        "or": "of",
+        "skip": "Doe het later",
+        "title": "Geen Backup, Geen Geld"
+    }
+}

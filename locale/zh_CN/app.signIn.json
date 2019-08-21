@@ -1,0 +1,20 @@
+{
+    "createAccount": "创建帐号",
+    "notHaveAccounts": "您没有已保存的帐户",
+    "nothingHere": "这里没有什么…",
+    "password": {
+        "error": "密码不正确"
+    },
+    "userList": {
+        "address": "地址 / 用户名",
+        "buttons": {
+            "login": "登入"
+        },
+        "notHaveAccount": "请登录以继续",
+        "password": "密码",
+        "placeholders": {
+            "password": "密码"
+        },
+        "title": "欢迎回来"
+    }
+}

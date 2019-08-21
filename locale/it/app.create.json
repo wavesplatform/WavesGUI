@@ -1,0 +1,65 @@
+{
+    "backupSeed": {
+        "back": "torna indietro",
+        "copySeed": "copiali",
+        "needConfirm": "Potrai confermare questa frase nella prossima schermata.",
+        "ok": "L'ho scritta",
+        "or": "oppure",
+        "saveSecret": "Salva frase di backup",
+        "warn": "Poichè soltanto tu hai il controllo sui tuoi fondi, sarà bene copiare questa frase di backup in caso quest'app venisse rimossa oppure",
+        "writeSeed": "Per favore, scrivi attentamente queste 15 parole"
+    },
+    "confirmBackup": {
+        "again": "e seleziona nuovamente",
+        "back": "torna indietro",
+        "clear": "Pulisci",
+        "confirm": "Conferma la frase Seed",
+        "description": "Verifica la tua frase Seed oppure",
+        "enterCorrect": "Per favore, seleziona ogni parola nel corretto ordine",
+        "error": "Ordine errato, prova di nuovo.",
+        "ok": "Conferma",
+        "tapAgain": "e tocca di nuovo"
+    },
+    "createAccount": {
+        "address": "Indirizzo dell'account:",
+        "avatarUnique": "L'avatar è immodificabile. Non potrai cambiarlo successivamente.",
+        "choose": "Scegli l'avatar per il tuo indirizzo",
+        "create": "Crea un nuovo account",
+        "createDescription": "Veloce e gratuito",
+        "createNewAccount": "Scegli il tuo Avatar",
+        "from": "Questo avatar è una rappresentazione visiva, non potrai cambiarlo successivamente",
+        "import": "Importa account",
+        "importDescription": "attraverso la frase Seed, Ledger o Keeper",
+        "protect": "Proteggi il tuo account con una password oppure",
+        "protectYourAccount": "Tutela il tuo Account",
+        "restore": "ripristina un account",
+        "saveUserData": "Mantieni l'account su questo computer",
+        "signDescription": "su un account salvato",
+        "signIn": "Accedi",
+        "signUp": "Registrati per un un account gratuito qui sotto oppure",
+        "tosaved": "in un account precedentemente salvato",
+        "toWalet": "nel tuo wallet oppure"
+    },
+    "modal": {
+        "confirmBackupDescription": "Verifica la tua frase di backup",
+        "next": "Conferma",
+        "prev": "Indietro",
+        "successContent": "Non puoi cambiare la tua frase segreta. In caso l'avessi accidentalmente inviata a qualcuno o sospettassi di essere vittima di scammers, crea immediatamente un nuovo wallet Waves e trasferisci immediatamente tutti i tuoi fondi.",
+        "successHeadline": "Conserva con la massima cura la tua frase di backup!",
+        "understand": "Ho capito"
+    },
+    "noBackupNoMoney": {
+        "backup": "Esegui subito il backup",
+        "description": "Salva la tua frase Seed. È cruciale per accedere al tuo account.",
+        "modal": {
+            "descriptionP1": "Lo staff di Waves Platform ci tiene a sottolineare l'aumento degli attacchi di scam e phishing durante l'ultimo mese. I truffatori tendono a nascondere i malware all'interno di versioni modificate del client di Waves, promettendo bonus e sconti per attrarre utenti.",
+            "descriptionP2": "Fai sempre molta attenzione e non inserire in nessun caso il tuo SEED in questi 'client', poichè il tuo account sarà inevitabilmente compromesso e perderai tutti i tuoi fondi in esso contenuti.",
+            "descriptionP3": "Usa SEMPRE e SOLTANTO il client ufficiale Waves.",
+            "ok": "Ho capito",
+            "title": "Conserva con la massima cura la tua frase di backup!"
+        },
+        "or": "oppure",
+        "skip": "Lo faccio dopo",
+        "title": "Niente Backup, Niente Soldi"
+    }
+}

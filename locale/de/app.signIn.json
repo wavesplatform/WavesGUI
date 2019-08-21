@@ -1,0 +1,20 @@
+{
+    "createAccount": "Account erstellen",
+    "notHaveAccounts": "Sie haben keine Konten gespeichert",
+    "nothingHere": "Nichts hier…",
+    "password": {
+        "error": "Falsches Passwort!"
+    },
+    "userList": {
+        "address": "Account Name",
+        "buttons": {
+            "login": "Einloggen"
+        },
+        "notHaveAccount": "Bitte melden Sie sich an, um fortzufahren.",
+        "password": "Passwort",
+        "placeholders": {
+            "password": "Passwort"
+        },
+        "title": "Willkommen zurück"
+    }
+}
