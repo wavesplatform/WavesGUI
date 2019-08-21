@@ -909,6 +909,7 @@
                 "1_2_8": "\"span.line\" [1. Los tokens y transaccionesconsideradas spam han sido ocultadas en el cliente.]\n\"span.line\" [2. Se han corregido la interfaz de usuario y algunos errores menores.]",
                 "1_3_0": "\"span.line\" [1. Se ha mejorado la navegación de la aplicación y la interfaz de la página de inicio.]",
                 "1_3_18": "{span.line}[1. Added login to wallet using a private key.]\n{span.line}[2. The 24 hours price change of a token is now bound to token/WAVES pair.]",
+                "1_3_19": "{span.line}[1. Bancor gateway has been launched.]\n{span.line}[2. User menu interface has been improved.]",
                 "1_3_2": "\"span.line\" [1. Se ha puesto en marcha la puerta de enlace Vostok.]\n\"span.line\" [2. Se ha corregido la interfaz de usuario y algunos errores menores.]",
                 "1_3_5": "\"span.line\" [1. Se ha añadido una pestaña con tokens de concurso [wsoc.io](https://wsoc.io).\n\"span.line\" [2. Se ha añadido compatibilidad con el idioma francés.]\n\"span.line\" [3. Se han corregido errores menores adicionales.]",
                 "1_3_7": "\"span.line\" [1. Integración con [tokenrating.wavesexplorer.com](https://tokenrating.wavesexplorer.com) Ahora puede calificar tokens directamente en la aplicación.]\n\"span.line\" [2. Se han corregido errores menores.]",
