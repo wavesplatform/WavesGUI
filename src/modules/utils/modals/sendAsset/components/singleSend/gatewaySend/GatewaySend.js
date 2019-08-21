@@ -54,13 +54,6 @@
             }
 
             /**
-             * @return {string}
-             */
-            get paymentId() {
-                return this.state.paymentId;
-            }
-
-            /**
              * @type {Function}
              */
             onSign = null;
@@ -140,6 +133,7 @@
 
                     this.receive(utils.observe(this.state, 'assetId'), this._onChangeAssetId, this);
                     this.receive(utils.observe(this.state, 'mirrorId'), this._onChangeMirrorId, this);
+                    this.receive(utils.observe(this.state, 'paymentId'), this._updateGatewayDetails, this);
 
                     this.observe('mirror', this._onChangeAmountMirror);
                     this.observe('gatewayDetails', this._onChangeGatewayDetails);
@@ -161,10 +155,7 @@
                     this._onChangeFee();
                 });
 
-                this._updateGatewayDetails()
-                    .then(() => {
-                        this._validateForm();
-                    });
+                this._updateGatewayDetails();
             }
 
             setSendMode(mode) {
@@ -302,7 +293,7 @@
                     this.gatewayWrongAddress = false;
                 }
 
-                return gatewayService.getWithdrawDetails(this.balance.asset, this.tx.recipient, this.paymentId)
+                return gatewayService.getWithdrawDetails(this.balance.asset, this.tx.recipient, this.state.paymentId)
                     .then(details => {
                         const max = BigNumber.min(
                             details.maximumAmount.add(details.gatewayFee),
@@ -334,6 +325,7 @@
              */
             _onUpdateRecipient() {
                 this._checkOuterBlockchains();
+                this._updateGatewayDetails();
             }
 
             /**
@@ -480,6 +472,7 @@
             _onChangeGatewayDetails() {
                 this._updateWavesTxObject();
                 this._onChangeFee();
+                this._validateForm();
             }
 
             /**
