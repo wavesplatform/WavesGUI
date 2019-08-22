@@ -267,8 +267,8 @@
             "wavesGatewayBNT": {
                 "helpDescrText": "Une fois la transaction confirmée, le portail procédera au transfert de Bancor à un jeton dans votre compte Waves.",
                 "helpDescrTitle": "Entrez cette adresse dans votre client ou portefeuille",
-                "warningMinAmountText": "Si vous envoyez moins de 1 Bancor, vous perdrez cet argent.",
-                "warningMinAmountTitle": "Le montant minimum du dépôt est de 1 Bancor, le montant maximum du dépôt est de 100 000 Bancor",
+                "warningMinAmountText": "Si vous envoyez moins de 2 Bancor, vous perdrez cet argent.",
+                "warningMinAmountTitle": "Le montant minimum du dépôt est de 2 Bancor, le montant maximum du dépôt est de 100 000 Bancor",
                 "warningText": "Vérifiez si votre portefeuille ou votre plateforme d'échange utilise des smart-contracts pour retirer Bancor. Nous n'acceptons pas de telles transactions et ne pouvons pas les rembourser. Vous perdrez cet argent.",
                 "warningTitle": "Veuillez ne pas déposer BNT depuis un smart-contract! Ne déposez pas d'autres jetons ERC20! Seul Bancor est autorisé."
             },
