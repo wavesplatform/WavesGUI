@@ -47,7 +47,7 @@
                         isGateway &&
                         this.assetId !== WavesApp.defaultAssets.VST &&
                         this.assetId !== WavesApp.defaultAssets.ERGO &&
-                        this.assetId !== WavesApp.defaultAssets.BNCR;
+                        this.assetId !== WavesApp.defaultAssets.BNT;
                     $scope.$apply();
                 });
 

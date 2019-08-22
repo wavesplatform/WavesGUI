@@ -264,7 +264,7 @@
             "pleaseNote": "Обратите внимание, что шлюз не взимает комиссию за эту операцию.",
             "scanQrCode": "Просканируйте QR-код",
             "title": "Пополнить {{assetName}}",
-            "wavesGatewayBNCR": {
+            "wavesGatewayBNT": {
                 "helpDescrText": "Как только транзакция будет подтверждена, шлюз отправит Bancor-токен на ваш аккаунт Waves.",
                 "helpDescrTitle": "Введите этот адрес в вашем клиенте или кошельке.",
                 "warningMinAmountText": "Если вы отправите меньше чем 1 Bancor, вы потеряете деньги.",
