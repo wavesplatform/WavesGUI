@@ -2,49 +2,20 @@
     'use strict';
 
     const { Money } = require('@waves/data-entities');
-    const { SIGN_TYPE } = require('@waves/signature-adapter');
+
     const MIN_TOKEN_COUNT = 100;
     const MAX_TOKEN_COUNT = 50000;
 
     /**
-     * @param {Base} Base
+     * @param {SingleSend} SingleSend
      * @param {$rootScope.Scope} $scope
      * @param {ConfigService} configService
      * @param {Waves} waves
      * @param {app.utils} utils
      */
-    const controller = function (Base,
-                                 $scope,
-                                 configService,
-                                 waves,
-                                 utils) {
+    const controller = function (SingleSend, $scope, configService, waves, utils) {
 
-        class BankSend extends Base {
-
-            /**
-             * @return {string}
-             */
-            get assetId() {
-                return this.state.assetId;
-            }
-
-            set assetId(id) {
-                this.state.assetId = id;
-            }
-
-            /**
-             * @return {Money}
-             */
-            get balance() {
-                return this.moneyHash[this.assetId];
-            }
-
-            /**
-             * @return {Object<string, Money>}
-             */
-            get moneyHash() {
-                return this.state.moneyHash;
-            }
+        class BankSend extends SingleSend {
 
             /**
              * @return {boolean}
@@ -62,20 +33,6 @@
             }
 
             /**
-             * @return {string}
-             */
-            get mirrorId() {
-                return this.state.mirrorId;
-            }
-
-            /**
-             * @return {ISingleSendTx}
-             */
-            get tx() {
-                return this.state.singleSend;
-            }
-
-            /**
              * @type {boolean}
              */
             termsIsPending = true;
@@ -88,34 +45,6 @@
              */
             termsAccepted = false;
             /**
-             * @type {boolean}
-             */
-            noMirror = false;
-            /**
-             * @type {Money}
-             */
-            minAmount = null;
-            /**
-             * @type {Money}
-             */
-            maxAmount = null;
-            /**
-             * @type {Array}
-             */
-            feeList = [];
-            /**
-             * @type {boolean}
-             */
-            hasFee = true;
-            /**
-             * @type {string}
-             */
-            focus = '';
-            /**
-             * @type {Money | null}
-             */
-            mirror = null;
-            /**
              * @type {Money | null}
              */
             maxCoinomatAmount = null;
@@ -124,27 +53,17 @@
              */
             canShowAmount = false;
             /**
-             * @type {ISingleSendTx}
-             */
-            wavesTx = {
-                type: SIGN_TYPE.TRANSFER,
-                amount: null,
-                attachment: '',
-                fee: null,
-                recipient: WavesApp.bankRecipient,
-                assetId: ''
-            };
-            /**
-             * @type {Function}
-             */
-            onSign = null;
-            /**
              * @type {Function}
              */
             onChangeMode = null;
 
-            $postLink() {
+            constructor(props) {
+                super(props);
+                this.test = 'test';
+                this.wavesTx.recipient = WavesApp.bankRecipient;
+            }
 
+            $postLink() {
                 const onHasMoneyHash = () => {
                     this.receive(utils.observe(this.tx, 'fee'), this._onChangeFee, this);
                     this.receive(utils.observe(this.tx, 'amount'), this._onChangeAmount, this);
@@ -170,7 +89,6 @@
                     this.receive(utils.observe(this.tx, 'attachment'), this._updateWavesTxObject, this);
 
                     this._onChangeBaseAssets();
-                    this._setMinAndMaxAmount();
                     this._onChangeFee();
                     this._updateWavesTxObject();
                 };
@@ -188,6 +106,7 @@
                 this.receive(utils.observe(this.state, 'moneyHash'), () => {
                     this._onChangeBaseAssets();
                     this._onChangeFee();
+                    this._setMinAndMaxAmount();
                 });
             }
 
@@ -200,33 +119,6 @@
 
             setSendMode(mode) {
                 this.onChangeMode({ mode });
-            }
-
-            fillMax() {
-                let amount = null;
-                const moneyHash = utils.groupMoney(this.feeList);
-                if (moneyHash[this.assetId]) {
-                    amount = this.balance.sub(moneyHash[this.assetId]);
-                } else {
-                    amount = this.balance;
-                }
-
-                if (amount.getTokens().lt(0)) {
-                    amount = this.balance.cloneWithTokens('0');
-                }
-
-                waves.utils.getRate(this.assetId, this.mirrorId).then(rate => {
-                    this.mirror = amount.convertTo(this.moneyHash[this.mirrorId].asset, rate);
-                    this.tx.amount = amount;
-                    $scope.$apply();
-                });
-            }
-
-            onBlurMirror() {
-                if (!this.mirror) {
-                    this._fillMirror();
-                }
-                this.focus = '';
             }
 
             createTx() {
@@ -244,24 +136,6 @@
                 });
 
                 return signable;
-            }
-
-            onSignTx(signable) {
-                analytics.send({ name: 'Transfer Continue Click', target: 'ui' });
-                this.onSign({ signable });
-            }
-
-            /**
-             * @private
-             */
-            _onChangeBaseAssets() {
-                if (this.assetId === this.mirrorId) {
-                    this.noMirror = true;
-                } else {
-                    waves.utils.getRate(this.assetId, this.mirrorId).then(rate => {
-                        this.noMirror = rate.eq(0);
-                    });
-                }
             }
 
             /**
@@ -290,104 +164,6 @@
             /**
              * @private
              */
-            _onChangeFee() {
-                this.feeList = [this.tx.fee];
-
-                const feeHash = utils.groupMoney(this.feeList);
-                const balanceHash = this.moneyHash;
-
-                this.hasFee = Object.keys(feeHash).every((feeAssetId) => {
-                    const fee = feeHash[feeAssetId];
-                    return balanceHash[fee.asset.id] && balanceHash[fee.asset.id].gte(fee);
-                });
-
-            }
-
-            /**
-             * @private
-             */
-            _onChangeAssetId() {
-                if (!this.assetId) {
-                    throw new Error('Has no asset id!');
-                }
-
-                this._onChangeBaseAssets();
-
-                if (!this.balance) {
-                    return null;
-                }
-
-                this.tx.amount = this.balance.cloneWithTokens('0');
-                this.mirror = this.moneyHash[this.mirrorId].cloneWithTokens('0');
-            }
-
-            /**
-             * @private
-             */
-            _onChangeMirrorId() {
-                if (!this.mirrorId) {
-                    throw new Error('Has no asset id!');
-                }
-
-                this._onChangeBaseAssets();
-
-                if (!this.moneyHash[this.mirrorId]) {
-                    return null;
-                }
-
-                this.mirror = this.moneyHash[this.mirrorId].cloneWithTokens('0');
-                this._onChangeAmount();
-            }
-
-            /**
-             * @private
-             */
-            _onChangeAmount() {
-                if (!this.noMirror && this.focus === 'amount') {
-                    this._fillMirror();
-                }
-            }
-
-            /**
-             * @private
-             */
-            _fillMirror() {
-                if (!this.tx.amount) {
-                    this.mirror = null;
-                    return;
-                }
-
-                waves.utils.getRate(this.assetId, this.mirrorId).then(rate => {
-                    this.mirror = this.tx.amount.convertTo(this.moneyHash[this.mirrorId].asset, rate);
-                });
-            }
-
-            /**
-             * @private
-             */
-            _fillAmount() {
-                if (!this.mirror) {
-                    this.tx.amount = null;
-                    return null;
-                }
-
-                waves.utils.getRate(this.mirrorId, this.assetId).then(rate => {
-                    this.tx.amount = this.mirror.convertTo(this.balance.asset, rate);
-                });
-            }
-
-            /**
-             * @private
-             */
-            _onChangeAmountMirror() {
-                if (this.focus === 'mirror') {
-                    this._fillAmount();
-                }
-            }
-
-            /**
-             * @private
-             */
             _updateWavesTxObject() {
                 const attachmentString = this.tx.attachment ? this.tx.attachment.toString() : '';
                 this.wavesTx = {
@@ -398,12 +174,26 @@
                 };
             }
 
+            /**
+             * @private
+             */
+            _onChangeAssetId() {
+                super._onChangeAssetId();
+                this._setMinAndMaxAmount();
+            }
+
         }
 
-        return new BankSend();
+        return new BankSend($scope);
     };
 
-    controller.$inject = ['Base', '$scope', 'configService', 'waves', 'utils'];
+    controller.$inject = [
+        'SingleSend',
+        '$scope',
+        'configService',
+        'waves',
+        'utils'
+    ];
 
     angular.module('app.ui').component('wBankSend', {
         bindings: {
