@@ -3,15 +3,33 @@
         <div class="modal-content">
             <div class="btn icon-close ng-scope" w-modal-close></div>
             <w-step-by-step active-step="$ctrl.step" ng-if="!$ctrl.errorOccured">
+
                 <w-step class="send-form">
 
                     <w-tabs class="header" ng-model="$ctrl.tab">
                         <w-tab title-name="::'modal.send.sendTitle'" id="::'singleSend'">
                             <w-permit name="CAN_TRANSFER_TRANSACTION" mode="on">
-                                <w-single-send state="$ctrl.state"
-                                               on-continue="$ctrl.nextStep(signable)">
+
+                                <w-waves-send ng-if="$ctrl.sendMode === 'waves'"
+                                              state="$ctrl.state"
+                                              on-sign="$ctrl.nextStep(signable)"
+                                              on-change-mode="$ctrl.onChangeMode(mode)">
                                     <ng-include src="::$ctrl.headerPath"></ng-include>
-                                </w-single-send>
+                                </w-waves-send>
+
+                                <w-gateway-send ng-if="$ctrl.sendMode === 'gateway'"
+                                                state="$ctrl.state"
+                                                on-sign="$ctrl.nextStep(signable)"
+                                                on-change-mode="$ctrl.onChangeMode(mode)">
+                                    <ng-include src="::$ctrl.headerPath"></ng-include>
+                                </w-gateway-send>
+
+                                <w-bank-send ng-if="$ctrl.sendMode === 'bank'"
+                                             state="$ctrl.state"
+                                             on-sign="$ctrl.nextStep(signable)"
+                                             on-change-mode="$ctrl.onChangeMode(mode)">
+                                    <ng-include src="::$ctrl.headerPath"></ng-include>
+                                </w-bank-send>
                             </w-permit>
                             <w-permit name="CAN_TRANSFER_TRANSACTION" mode="off">
                                 <div class="center">
@@ -64,8 +82,9 @@
 
                     </w-tabs>
                 </w-step>
+
                 <w-step>
-                    <w-confirm-transaction ng-if="!$ctrl.outerSendMode"
+                    <w-confirm-transaction ng-if="$ctrl.sendMode !== 'gateway'"
                                            on-click-back="$ctrl.back()"
                                            no-back-button="$ctrl.strict"
                                            on-tx-sent="$ctrl.onTxSent(id)"
@@ -74,13 +93,15 @@
                                            show-validation-errors="$ctrl.strict"
                                            signable="$ctrl.signable"></w-confirm-transaction>
 
-                    <w-confirm-gateway-transaction ng-if="$ctrl.outerSendMode"
+                    <w-confirm-gateway-transaction ng-if="$ctrl.sendMode === 'gateway'"
                                                    on-click-back="$ctrl.back()"
                                                    gateway-details="$ctrl.state.gatewayDetails"
                                                    target-recipient="$ctrl.state.singleSend.recipient"
                                                    signable="$ctrl.signable"></w-confirm-gateway-transaction>
                 </w-step>
+
             </w-step-by-step>
+
             <div class="error-content" ng-if="$ctrl.errorOccured">
                 <div class="error-title headline-2">
                     <span w-i18n="modal.send.errors.title"></span>
@@ -96,6 +117,7 @@
                     <span w-i18n="modal.send.errors.button"></span>
                 </w-button>
             </div>
+
         </div>
     </md-dialog-content>
 </md-dialog>

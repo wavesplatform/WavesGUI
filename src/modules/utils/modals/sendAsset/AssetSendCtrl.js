@@ -25,13 +25,6 @@
             }
 
             /**
-             * @return {boolean}
-             */
-            get outerSendMode() {
-                return this.state.outerSendMode;
-            }
-
-            /**
              * @return {IGatewayDetails}
              */
             get gatewayDetails() {
@@ -74,13 +67,17 @@
                 this.state = {
                     assetId: options.assetId || WavesApp.defaultAssets.WAVES,
                     mirrorId: user.getSetting('baseAssetId'),
-                    outerSendMode: false,
                     gatewayDetails: null,
                     moneyHash: null,
                     singleSend: utils.liteObject({ type: SIGN_TYPE.TRANSFER }),
-                    massSend: utils.liteObject({ type: SIGN_TYPE.MASS_TRANSFER }),
-                    toBankMode: false
+                    massSend: utils.liteObject({ type: SIGN_TYPE.MASS_TRANSFER })
                 };
+
+                /**
+                 * @type {ISendMode}
+                 */
+                this.sendMode = 'waves';
+
                 this.receive(balanceWatcher.change, this._updateBalanceList, this);
                 this._updateBalanceList();
                 /**
@@ -115,7 +112,7 @@
                     this.state.singleSend.recipient = options.recipient;
                     this.state.singleSend.attachment = options.attachment;
 
-                    const toGateway = this.outerSendMode && this.gatewayDetails;
+                    const toGateway = this.sendMode === 'gateway' && this.gatewayDetails;
                     const attachment = toGateway ? this.gatewayDetails.attachment : options.attachment;
                     const attachmentString = attachment ? attachment.toString() : '';
                     const bytesAttachment = utils.stringToBytes(attachmentString);
@@ -164,6 +161,10 @@
                     utils.redirect(`${this.referrer}?txId=${id}`);
                     $mdDialog.hide();
                 }
+            }
+
+            onChangeMode(mode) {
+                this.sendMode = mode;
             }
 
             /**
@@ -274,8 +275,6 @@
  * @typedef {object} ISendState
  * @property {string} assetId
  * @property {string} mirrorId
- * @property {boolean} outerSendMode
- * @property {boolean} toBankMode
  * @property {IGatewayDetails} gatewayDetails
  * @property {Object.<string, Money>} moneyHash
  * @property {ISingleSendTx} singleSend
@@ -296,4 +295,8 @@
  * @property {string} [recipient]
  * @property {boolean} [strict]
  * @property {string} [referrer]
+ */
+
+/**
+ * @typedef {'waves' | 'bank' | 'gataway'} ISendMode
  */

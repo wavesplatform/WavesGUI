@@ -281,7 +281,6 @@
                     this.gatewayError = false;
                 }
                 if (this.gatewayDetailsError) {
-                    this.outerSendMode = false;
                     this.gatewayDetailsError = false;
                 }
 
