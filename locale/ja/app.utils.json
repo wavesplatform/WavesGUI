@@ -264,6 +264,14 @@
             "pleaseNote": "ゲートウェイはこの作業のために如何なる手数料も徴収しません。",
             "scanQrCode": "QRコードをスキャン",
             "title": "デポジット {{assetName}}",
+            "wavesGatewayBNCR": {
+                "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of Bancor to a token in your Waves account.",
+                "helpDescrTitle": "Enter this address into your client or wallet",
+                "warningMinAmountText": "If you will send less than 1 Bancor, you will lose that money.",
+                "warningMinAmountTitle": "The minimum amount of deposit is 1 Bancor, the maximum amount of deposit is 100 000 Bancor",
+                "warningText": "Check if your wallet or exchange uses smart-contracts to withdraw Bancor. We do not accept such transactions and can’t refund them. You will lose that money.",
+                "warningTitle": "Please do not deposit BNT from smart contracts! Do not deposit other ERC20 tokens! Only Bancor is allowed."
+            },
             "wavesGatewayERGO": {
                 "helpDescrText": "トランザクションが承認されると、ゲートウェイはERGOの送信を進め、完了するとあなたのWavesアカウントにトークンが反映されます。",
                 "helpDescrTitle": "このアドレスをERGOクライアント、またはウォレットに入力してください",

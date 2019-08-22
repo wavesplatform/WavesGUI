@@ -368,7 +368,7 @@ timeout(time:20, unit:'MINUTES') {
 
                                         if (action.contains('STAGE')) {
                                             deploymentFile = "./kubernetes/waves-wallet-stagenet/deployment.yaml"
-                                            waves_wallet_deployment_map.domain_name = Constants.WALLET_TEST_DOMAIN_NAMES[serviceName].replaceAll("\\.","-")
+                                            waves_wallet_deployment_map.domain_name = Constants.WALLET_STAGENET_DOMAIN_NAMES[serviceName].replaceAll("\\.","-")
                                             waves_wallet_deployment_map.network = "stagenet"
                                         }
 
@@ -393,7 +393,7 @@ timeout(time:20, unit:'MINUTES') {
                                     
                                         ut.notifySlack("waves-deploy-alerts",
                                             currentBuild.result,
-                                            "Deployed image:\n${Constants.DOCKER_REGISTRY}/waves/${serviceName}:${source}.latest ${network} to ${destination}")
+                                            "Deployed image:\n${Constants.DOCKER_REGISTRY}/waves/${serviceName}:${waves_wallet_deployment_map.tag} ${network} to ${destination}")
 
                                     } else {
                                         org.jenkinsci.plugins.pipeline.modeldefinition.Utils.markStageSkippedForConditional("Deploying " + serviceName)
