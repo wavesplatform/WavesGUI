@@ -14,8 +14,9 @@ import { TAssetData, TBigNumberData } from './interface';
 import { get as getAssetPair } from './api/pairs/pairs';
 import { broadcast as broadcastF, createOrderSend, cancelOrderSend, cancelAllOrdersSend } from './broadcast/broadcast';
 import * as signatureAdapters from '@waves/signature-adapter';
-import { Adapter, SIGN_TYPE, isValidAddress as utilsIsValidAddress } from '@waves/signature-adapter';
+import { SIGN_TYPE, isValidAddress as utilsIsValidAddress } from '@waves/signature-adapter';
 import { TTimeType } from './utils/utils';
+import { IUserData } from './sign';
 
 export { getAdapterByType, getAvailableList } from '@waves/signature-adapter';
 export { Seed } from './classes/Seed';
@@ -84,12 +85,14 @@ export function orderPriceFromTokens(tokens: TBigNumberData, pair: AssetPair | T
 
 class App {
 
-    public address: string;
+    public get address(): string {
+        return sign.getUserAddress();
+    };
 
-    public login(address: string, api: Adapter) {
-        this.address = address;
-        sign.setSignatureApi(api);
-        this._initializeDataManager(address);
+    public login(userData: IUserData): void {
+        sign.dropSignatureApi();
+        sign.setUserData(userData);
+        this._initializeDataManager(userData.address);
     }
 
     public logOut() {

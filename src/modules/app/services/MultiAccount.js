@@ -3,7 +3,6 @@
     'use strict';
 
     const { libs } = require('@waves/waves-transactions');
-    const { getAdapterByType } = require('@waves/signature-adapter');
     const {
         encryptSeed,
         decryptSeed,
@@ -123,22 +122,6 @@
                 multiAccountHash,
                 userHash
             });
-        }
-
-        getAdapter(userHash) {
-            const _user = _users[userHash];
-
-            if (!_user) {
-                return Promise.reject();
-            }
-
-            const Adapter = getAdapterByType(_user.userType);
-
-            if (_user.userType === 'seed') {
-                return Promise.resolve(new Adapter(_user.seed, _user.networkByte));
-            } else {
-                return Promise.resolve(new Adapter(_user));
-            }
         }
 
         toList(multiAccountUsers) {

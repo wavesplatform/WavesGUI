@@ -391,34 +391,9 @@
             login(userData) {
                 this.networkError = false;
 
-                return multiAccount.getAdapter(userData.hash).then(adapter => {
-                    const adapterAvailablePromise = adapter.isAvailable(true);
-                    const modalManager = $injector.get('modalManager');
-                    let canLoginPromise;
-
-                    if (this._isSeedAdapter(adapter) || this._isPrivateKeyAdapter(adapter)) {
-                        canLoginPromise = adapterAvailablePromise.then(() => adapter.getAddress())
-                            .then(address => address === userData.address || Promise.reject('Wrong address!'));
-                    } else {
-                        canLoginPromise = modalManager.showLoginByDevice(adapterAvailablePromise, adapter.type);
-                    }
-
-                    return canLoginPromise.then(() => {
-                        return this._addUserData(userData, adapter).then(() => {
-                            this.initScriptInfoPolling();
-                            analytics.send({ name: 'Sign In Success' });
-                        });
-                    }, () => {
-                        if (!this._isSeedAdapter(adapter) || this._isPrivateKeyAdapter(adapter)) {
-                            const errorData = {
-                                error: 'load-user-error',
-                                userType: adapter.type,
-                                address: userData.address
-                            };
-                            return modalManager.showSignDeviceError(errorData)
-                                .catch(() => Promise.resolve());
-                        }
-                    });
+                return this._addUserData(userData).then(() => {
+                    this.initScriptInfoPolling();
+                    analytics.send({ name: 'Sign In Success' });
                 });
             }
 
@@ -688,11 +663,10 @@
              * @param {string} [userData.publicKey]
              * @param {string} [userData.matcherSign]
              * @param {object} [userData.settings]
-             * @param {Adapter} adapter
              * @return {Promise}
              * @private
              */
-            _addUserData(userData, adapter) {
+            _addUserData(userData) {
                 this.currentUser = {
                     hash: userData.hash,
                     name: userData.name,
@@ -728,13 +702,7 @@
 
                 ds.config.set('oracleWaves', this.getSetting('oracleWaves'));
 
-                ds.app.login(this.currentUser.address, adapter);
-
-                adapter.onDestroy(() => {
-                    if (this.isAuthorised) {
-                        this.logout('signIn');
-                    }
-                });
+                ds.app.login(userData);
 
                 return this.addMatcherSign()
                     .catch(() => Promise.resolve())
