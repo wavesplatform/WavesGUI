@@ -13,21 +13,22 @@
                                 <w-waves-send ng-if="$ctrl.sendMode === 'waves'"
                                               state="$ctrl.state"
                                               on-sign="$ctrl.nextStep(signable)"
-                                              on-change-mode="$ctrl.onChangeMode(mode)">
+                                              on-change-mode="$ctrl.setMode(mode)"
+                                              on-change-recipient="$ctrl.onChangeRecipient()">
                                     <ng-include src="::$ctrl.headerPath"></ng-include>
                                 </w-waves-send>
 
                                 <w-gateway-send ng-if="$ctrl.sendMode === 'gateway'"
                                                 state="$ctrl.state"
                                                 on-sign="$ctrl.nextStep(signable)"
-                                                on-change-mode="$ctrl.onChangeMode(mode)">
+                                                on-change-recipient="$ctrl.onChangeRecipient()">
                                     <ng-include src="::$ctrl.headerPath"></ng-include>
                                 </w-gateway-send>
 
                                 <w-bank-send ng-if="$ctrl.sendMode === 'bank'"
                                              state="$ctrl.state"
                                              on-sign="$ctrl.nextStep(signable)"
-                                             on-change-mode="$ctrl.onChangeMode(mode)">
+                                             on-change-mode="$ctrl.setMode(mode)">
                                     <ng-include src="::$ctrl.headerPath"></ng-include>
                                 </w-bank-send>
                             </w-permit>

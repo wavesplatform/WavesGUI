@@ -16,14 +16,12 @@
      * @param {app.utils} utils
      * @param {User} user
      * @param {Waves} waves
-     * @param {IOuterBlockchains} outerBlockchains
      */
     const controller = function (Base,
                                  $scope,
                                  utils,
                                  waves,
-                                 user,
-                                 outerBlockchains) {
+                                 user) {
 
         class WavesSend extends Base {
 
@@ -413,21 +411,8 @@
              * @private
              */
             _onUpdateRecipient() {
-                this._checkOuterBlockchains();
+                this.onChangeRecipient();
                 this._validateForm();
-            }
-
-            /**
-             * @private
-             */
-            _checkOuterBlockchains() {
-                const outerChain = outerBlockchains[this.assetId];
-                const isValidWavesAddress = user.isValidAddress(this.tx.recipient);
-                const gatewayAddress = !isValidWavesAddress &&
-                                        outerChain && outerChain.isValidAddress(this.tx.recipient);
-                if (gatewayAddress) {
-                    this.setSendMode('gateway');
-                }
             }
 
         }
@@ -440,15 +425,15 @@
         '$scope',
         'utils',
         'waves',
-        'user',
-        'outerBlockchains'
+        'user'
     ];
 
     angular.module('app.ui').component('wWavesSend', {
         bindings: {
             state: '<',
             onSign: '&',
-            onChangeMode: '&'
+            onChangeMode: '&',
+            onChangeRecipient: '&'
         },
         templateUrl: 'modules/utils/modals/sendAsset/components/singleSend/wavesSend/waves-send.html',
         transclude: true,

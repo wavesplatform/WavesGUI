@@ -2,6 +2,10 @@
     'use strict';
 
     const { SIGN_TYPE } = require('@waves/signature-adapter');
+    const FIAT_ASSETS = {
+        [WavesApp.defaultAssets.USD]: true,
+        [WavesApp.defaultAssets.EUR]: true
+    };
 
     /**
      * @param $scope
@@ -11,9 +15,10 @@
      * @param {User} user
      * @param {$mdDialog} $mdDialog
      * @param {BalanceWatcher} balanceWatcher
+     * @param {IOuterBlockchains} outerBlockchains
      * @return {AssetSendCtrl}
      */
-    const controller = function ($scope, waves, Base, utils, user, $mdDialog, balanceWatcher) {
+    const controller = function ($scope, waves, Base, utils, user, $mdDialog, balanceWatcher, outerBlockchains) {
 
         class AssetSendCtrl extends Base {
 
@@ -41,10 +46,6 @@
                  * @type {string}
                  */
                 this.headerPath = 'modules/utils/modals/sendAsset/send-header.html';
-                /**
-                 * @type {typeof WavesApp.defaultAssets}
-                 */
-                this.defaultAssets = WavesApp.defaultAssets;
                 /**
                  * @type {Array<Money>}
                  */
@@ -80,10 +81,13 @@
 
                 this.receive(balanceWatcher.change, this._updateBalanceList, this);
                 this._updateBalanceList();
-                /**
-                 * @type {*}
-                 */
-                this.txInfo = Object.create(null);
+
+                this.receive(utils.observe(this.state, 'assetId'), this.onChangeAssetId, this);
+                this.onChangeAssetId();
+
+                this.receive(utils.observe(this.state.singleSend, 'recipient'), this.onChangeRecipient, this);
+                this.onChangeRecipient();
+
                 /**
                  * @type {string}
                  */
@@ -163,7 +167,7 @@
                 }
             }
 
-            onChangeMode(mode) {
+            setMode(mode) {
                 this.sendMode = mode;
             }
 
@@ -215,6 +219,44 @@
                 });
             }
 
+            onChangeAssetId() {
+                if (this._isFiat()) {
+                    this.setMode('bank');
+                } else if (this._isOuterBlockchains()) {
+                    this.setMode('gateway');
+                } else {
+                    this.setMode('waves');
+                }
+            }
+
+            onChangeRecipient() {
+                if (this._isOuterBlockchains()) {
+                    this.setMode('gateway');
+                } else {
+                    this.setMode('waves');
+                }
+            }
+
+            /**
+             * @return {boolean}
+             * @private
+             */
+            _isFiat() {
+                return FIAT_ASSETS[this.state.assetId] || false;
+            }
+
+            /**
+             * @return {boolean}
+             * @private
+             */
+            _isOuterBlockchains() {
+                const outerChain = outerBlockchains[this.state.assetId];
+                const isValidWavesAddress = user.isValidAddress(this.state.singleSend.recipient);
+                const isGatewayAddress = !isValidWavesAddress &&
+                    outerChain && outerChain.isValidAddress(this.state.singleSend.recipient);
+                return isGatewayAddress;
+            }
+
             /**
              * @return {boolean}
              * @private
@@ -235,7 +277,8 @@
         'utils',
         'user',
         '$mdDialog',
-        'balanceWatcher'
+        'balanceWatcher',
+        'outerBlockchains'
     ];
 
     angular.module('app.utils')

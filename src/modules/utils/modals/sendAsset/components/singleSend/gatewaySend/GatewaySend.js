@@ -11,10 +11,9 @@
      * @param {app.utils} utils
      * @param {User} user
      * @param {Waves} waves
-     * @param {IOuterBlockchains} outerBlockchains
      * @param {GatewayService} gatewayService
      */
-    const controller = function (Base, $scope, utils, user, waves, outerBlockchains, gatewayService) {
+    const controller = function (Base, $scope, utils, user, waves, gatewayService) {
 
         class GatewaySend extends Base {
 
@@ -57,10 +56,6 @@
              * @type {Function}
              */
             onSign = null;
-            /**
-             * @type {Function}
-             */
-            onChangeMode = null;
             /**
              * @type {ISingleSendTx}
              */
@@ -156,10 +151,6 @@
                 });
 
                 this._updateGatewayDetails();
-            }
-
-            setSendMode(mode) {
-                this.onChangeMode({ mode });
             }
 
             /**
@@ -323,21 +314,8 @@
              * @private
              */
             _onUpdateRecipient() {
-                this._checkOuterBlockchains();
+                this.onChangeRecipient();
                 this._updateGatewayDetails();
-            }
-
-            /**
-             * @private
-             */
-            _checkOuterBlockchains() {
-                const outerChain = outerBlockchains[this.assetId];
-                const isValidWavesAddress = user.isValidAddress(this.tx.recipient);
-                const gatewayAddress = !isValidWavesAddress &&
-                    outerChain && outerChain.isValidAddress(this.tx.recipient);
-                if (!gatewayAddress) {
-                    this.setSendMode('waves');
-                }
             }
 
             /**
@@ -494,15 +472,13 @@
         'utils',
         'user',
         'waves',
-        'outerBlockchains',
         'gatewayService'
     ];
 
     angular.module('app.ui').component('wGatewaySend', {
         bindings: {
             state: '<',
-            onSign: '&',
-            onChangeMode: '&'
+            onSign: '&'
         },
         templateUrl: 'modules/utils/modals/sendAsset/components/singleSend/gatewaySend/gateway-send.html',
         transclude: true,
