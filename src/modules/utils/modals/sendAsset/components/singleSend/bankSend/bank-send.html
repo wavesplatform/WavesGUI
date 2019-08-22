@@ -82,7 +82,8 @@
 
         </div>
 
-        <div class="like-input-error multiline" ng-if="$ctrl.bankSend.amount.$touched && $ctrl.bankSend.amount.$invalid && $ctrl.focus !== 'amount'">
+        <div ng-if="$ctrl.isVerified && $ctrl.bankSend.amount.$touched && $ctrl.bankSend.amount.$invalid && $ctrl.focus !== 'amount'"
+             class="like-input-error multiline" >
             <div class="error">
                 <span ng-if="$ctrl.bankSend.amount.$error.required"
                       class="error-list-row"
@@ -152,14 +153,14 @@
                           terms-accepted="$ctrl.termsAccepted"></w-coinomat-terms>
     </div>
 
-<!--    <div class="margin-top-3">-->
-<!--        <w-sign-button-->
-<!--                ng-if="!$ctrl.termsLoadError && !$ctrl.termsIsPending && !($ctrl.toBankMode && $ctrl.isLira)"-->
-<!--                on-click="$ctrl.createTx()"-->
-<!--                on-success="$ctrl.onSignTx(signable)"-->
-<!--                disabled="$ctrl.bankSend.$invalid || (!$ctrl.bankSend.$invalid && !$ctrl.hasFee) || (!$ctrl.termsAccepted)">-->
-<!--            <span w-i18n="button.continue"></span>-->
-<!--        </w-sign-button>-->
-<!--    </div>-->
+    <div class="margin-top-3">
+        <w-sign-button
+                ng-if="!$ctrl.termsLoadError && !$ctrl.termsIsPending"
+                on-click="$ctrl.createTx()"
+                on-success="$ctrl.onSignTx(signable)"
+                disabled="$ctrl.bankSend.$invalid || !$ctrl.hasFee || !$ctrl.termsAccepted">
+            <span w-i18n="button.continue"></span>
+        </w-sign-button>
+    </div>
 
 </form>

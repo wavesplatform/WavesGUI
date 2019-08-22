@@ -134,6 +134,14 @@
                 recipient: WavesApp.bankRecipient,
                 assetId: ''
             };
+            /**
+             * @type {Function}
+             */
+            onSign = null;
+            /**
+             * @type {Function}
+             */
+            onChangeMode = null;
 
             $postLink() {
 
@@ -215,6 +223,28 @@
                     this._fillMirror();
                 }
                 this.focus = '';
+            }
+
+            createTx() {
+                const attachmentString = this.tx.attachment ? this.tx.attachment.toString() : '';
+                const tx = waves.node.transactions.createTransaction({
+                    ...this.tx,
+                    recipient: WavesApp.bankRecipient,
+                    attachment: utils.stringToBytes(attachmentString),
+                    amount: this.tx.amount
+                });
+
+                const signable = ds.signature.getSignatureApi().makeSignable({
+                    type: tx.type,
+                    data: tx
+                });
+
+                return signable;
+            }
+
+            onSignTx(signable) {
+                analytics.send({ name: 'Transfer Continue Click', target: 'ui' });
+                this.onSign({ signable });
             }
 
             /**
@@ -374,7 +404,7 @@
     angular.module('app.ui').component('wBankSend', {
         bindings: {
             state: '<',
-            onContinue: '&',
+            onSign: '&',
             onChangeMode: '&'
         },
         templateUrl: 'modules/utils/modals/sendAsset/components/singleSend/bankSend/bank-send.html',
