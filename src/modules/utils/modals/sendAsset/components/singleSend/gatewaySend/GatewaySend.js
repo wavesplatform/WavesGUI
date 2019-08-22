@@ -53,6 +53,17 @@
             }
 
             /**
+             * @return {IGatewayDetails|*|null}
+             */
+            get gatewayDetails() {
+                return this.state.gatewayDetails;
+            }
+
+            set gatewayDetails(value) {
+                this.state.gatewayDetails = value;
+            }
+
+            /**
              * @type {Function}
              */
             onSign = null;
@@ -67,10 +78,6 @@
                 recipient: '',
                 assetId: ''
             };
-            /**
-             * @type {IGatewayDetails}
-             */
-            gatewayDetails = null;
             /**
              * @type {boolean}
              */

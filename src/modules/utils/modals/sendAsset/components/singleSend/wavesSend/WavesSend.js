@@ -146,6 +146,10 @@
                     onHasMoneyHash();
                 }
 
+                if (this.state.gatewayDetails) {
+                    this.state.gatewayDetails = null;
+                }
+
                 this.receive(utils.observe(this.state, 'moneyHash'), () => {
                     this._onChangeFee();
                     this._setMinAndMaxAmount();
