@@ -25,9 +25,18 @@
         "avatarUnique": "Avatarlar kişiye özeldir. Sonradan değiştiremezsiniz.",
         "choose": "Adresiniz için bir avatar seçin",
         "create": "Yeni bir hesap oluştur",
+        "createAccount": "Create a new account",
         "createDescription": "Hızlı ve ücretsiz",
         "createNewAccount": "Avatarınızı seçin",
+        "description": {
+            "becomePart": "Become part of a fast-growing area of the crypto world. You are the only person who can access your crypto assets",
+            "enterName": "Enter account name or"
+        },
         "from": "Avatarlar kişiye özeldir. Sonradan değiştiremezsiniz.",
+        "header": {
+            "accountName": "Account name",
+            "withBlockchain": "Get Started with Blockchain"
+        },
         "import": "Hesapları içeri aktar",
         "importDescription": "Anahtar kelimelerle, Ledger veya Keeper ile",
         "protect": "Hesabınızı bir şifre ile koruyun veya",

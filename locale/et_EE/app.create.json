@@ -25,9 +25,18 @@
         "avatarUnique": "See turvapilt on ainulaadne. Te ei saa seda hiljem muuta.",
         "choose": "Vali oma aadressi turvapilt",
         "create": "Create a new account",
+        "createAccount": "Create a new account",
         "createDescription": "Fast and free",
         "createNewAccount": "Loo uus konto",
+        "description": {
+            "becomePart": "Become part of a fast-growing area of the crypto world. You are the only person who can access your crypto assets",
+            "enterName": "Enter account name or"
+        },
         "from": "salafraasiga",
+        "header": {
+            "accountName": "Account name",
+            "withBlockchain": "Get Started with Blockchain"
+        },
         "import": "Importige kontod",
         "importDescription": "via Seed phrase, Ledger or Keeper",
         "protect": "Kaitske oma kontot parooliga või",

@@ -267,23 +267,23 @@
             "wavesGatewayBNT": {
                 "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of Bancor to a token in your Waves account.",
                 "helpDescrTitle": "Enter this address into your client or wallet",
-                "warningMinAmountText": "If you will send less than 2 Bancor, you will lose that money.",
-                "warningMinAmountTitle": "The minimum amount of deposit is 2 Bancor, the maximum amount of deposit is 100 000 Bancor",
+                "warningMinAmountText": "If you will send less than {{minAmount, BigNumber}} {{assetTicker}}, you will lose that money.",
+                "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}, the maximum amount of deposit is {{maxAmount}} {{assetTicker}}",
                 "warningText": "Check if your wallet or exchange uses smart-contracts to withdraw Bancor. We do not accept such transactions and can’t refund them. You will lose that money.",
                 "warningTitle": "Please do not deposit BNT from smart contracts! Do not deposit other ERC20 tokens! Only Bancor is allowed."
             },
             "wavesGatewayERGO": {
                 "helpDescrText": "Po potwierdzeniu transakcji bramka przetworzy transfer ERGO na token na Twoim koncie Waves.",
                 "helpDescrTitle": "Wpisz ten adres do swojego klienta lub portfela ERGO",
-                "warningMinAmountText": "Jeśli wyślesz mniej niż 0,1 ERGO, stracisz te środki.",
-                "warningMinAmountTitle": "Minimalna kwota depozytu wynosi 0,1 ERGO, maksymalna kwota depozytu to 50 000 ERGO",
+                "warningMinAmountText": "Jeśli wyślesz mniej niż {{minAmount, BigNumber}} {{assetTicker}}, stracisz te środki.",
+                "warningMinAmountTitle": "Minimalna kwota depozytu wynosi {{minAmount, BigNumber}} {{assetTicker}}, maksymalna kwota depozytu to {{maxAmount}} {{assetTicker}}",
                 "warningText": "Wysłanie innej waluty na ten adres może spowodować utratę depozytu.",
                 "warningTitle": "Wysyłaj tylko ERGO na ten adres depozytu"
             },
             "wavesGatewayVST": {
                 "helpDescrText": "Jeżeli transakcja zostanie potwierdzona, system wymieni Vostok na tokeny w Twoim koncie Waves.",
                 "helpDescrTitle": "Wprowadź ten adres w swoim kliencie albo portfelu Vostok",
-                "warningMinAmountTitle": "Minimalna kwota depozytu to 0,1 VST, maksymalna kwota depozytu to 50 000 VST"
+                "warningMinAmountTitle": "Minimalna kwota depozytu to {{minAmount, BigNumber}} {{assetTicker}}, maksymalna kwota depozytu to {{maxAmount}} {{assetTicker}}"
             }
         },
         "dexScriptedPair": {
@@ -607,6 +607,7 @@
         },
         "settings": {
             "cancel": "Utwórz konto",
+            "changePass": "Change password",
             "general": {
                 "auto": "Auto",
                 "blockHeight": "Aktualny blok",
@@ -671,6 +672,8 @@
                     "ok": "Rozumiem"
                 }
             },
+            "passChanged": "Password was changed successfully",
+            "password": "Password",
             "security": {
                 "address": "Adres",
                 "backupPhrase": "Kopia zapasowa wyrażenia",

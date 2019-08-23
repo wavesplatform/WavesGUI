@@ -119,6 +119,7 @@
     },
     "userList": {
         "addNew": "添加一个帐号",
+        "back": "返回",
         "create": "创建新的帐号",
         "frombackup": "备份",
         "import": "导入帐户",
@@ -127,6 +128,9 @@
         "subTitleSession": "您的访问已经中断。"
     },
     "welcome": {
+        "accountList": {
+            "locked": "需要解锁"
+        },
         "address": "地址",
         "aliases": "别名",
         "android": "Google Play",
@@ -205,6 +209,7 @@
         "stackOverflow": "堆栈溢出",
         "suitableTradingBots": "适合交易机器人",
         "support": "支持",
+        "switchAccount": "切换帐户",
         "telegram": "Telegram",
         "termsOfUse": "使用条款",
         "tokenCreation": "快速令牌创建",

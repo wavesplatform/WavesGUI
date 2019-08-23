@@ -119,6 +119,7 @@
     },
     "userList": {
         "addNew": "Add an account",
+        "back": "Back",
         "create": "Create a new account",
         "frombackup": "from backup",
         "import": "Import accounts",
@@ -127,6 +128,9 @@
         "subTitleSession": "The session was automatically terminated."
     },
     "welcome": {
+        "accountList": {
+            "locked": "Require unlocking"
+        },
         "address": "Address",
         "aliases": "Aliases",
         "android": "Google Play",
@@ -205,6 +209,7 @@
         "stackOverflow": "Stack Overflow",
         "suitableTradingBots": "Suitable for trading bots",
         "support": "Support",
+        "switchAccount": "Switch account",
         "telegram": "Telegram",
         "termsOfUse": "Terms of use",
         "tokenCreation": "Fast token creation",

@@ -119,6 +119,7 @@
     },
     "userList": {
         "addNew": "Account toevoegen",
+        "back": "Ga Terug",
         "create": "Maak een nieuw account",
         "frombackup": "van backup",
         "import": "Importeren van accounts",
@@ -127,6 +128,9 @@
         "subTitleSession": "De sessie is automatisch beëindigd."
     },
     "welcome": {
+        "accountList": {
+            "locked": "Ontgrendeling vereist"
+        },
         "address": "Adres",
         "aliases": "Aliassen",
         "android": "Google Play",
@@ -205,6 +209,7 @@
         "stackOverflow": "Stack Overflow",
         "suitableTradingBots": "Geschikt voor tradingbots",
         "support": "Ondersteuning",
+        "switchAccount": "Kies ander account",
         "telegram": "Telegram",
         "termsOfUse": "Gebruiksvoorwaarden",
         "tokenCreation": "Snelle tokencreatie",

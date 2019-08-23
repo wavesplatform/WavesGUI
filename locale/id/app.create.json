@@ -25,9 +25,18 @@
         "avatarUnique": "Avatar ini unik. Anda tidak dapat mengubahnya nanti.",
         "choose": "Pilih avatar alamat Anda",
         "create": "Buat akun baru",
+        "createAccount": "Create a new account",
         "createDescription": "Cepat dan gratis",
         "createNewAccount": "Pilih Avatar Anda",
+        "description": {
+            "becomePart": "Become part of a fast-growing area of the crypto world. You are the only person who can access your crypto assets",
+            "enterName": "Enter account name or"
+        },
         "from": "Avatar ini adalah representasi visual, Anda tidak dapat mengubahnya nanti",
+        "header": {
+            "accountName": "Account name",
+            "withBlockchain": "Get Started with Blockchain"
+        },
         "import": "Impor akun",
         "importDescription": "melalui frase SEED, Ledger atau Keeper",
         "protect": "Lindungi akun Anda dengan kata sandi atau",

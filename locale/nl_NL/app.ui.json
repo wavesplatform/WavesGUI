@@ -141,9 +141,15 @@
         }
     },
     "password": {
+        "btn": {
+            "confirm": "Bevestig"
+        },
         "minLength": "moet minimaal {{minLength}} karakters lang zijn",
         "name": "Accountnaam",
-        "nameExists": "That name is taken",
+        "nameExists": "Die naam is in gebruik",
+        "newPass": "Nieuw wachtwoord",
+        "old": "Oude wachtwoord",
+        "oldWrong": "Oud wachtwoord is fout",
         "repeat": "Bevestig wachtwoord",
         "secure": "veilig wachtwoord",
         "title": "Beveilig uw account met een nieuw wachtwoord",
