@@ -2,10 +2,6 @@
     'use strict';
 
     const { SIGN_TYPE } = require('@waves/signature-adapter');
-    const FIAT_ASSETS = {
-        [WavesApp.defaultAssets.USD]: true,
-        [WavesApp.defaultAssets.EUR]: true
-    };
 
     /**
      * @param $scope
@@ -35,6 +31,11 @@
             get gatewayDetails() {
                 return this.state.gatewayDetails;
             }
+
+            /**
+             * @type {ISendMode}
+             */
+            sendMode;
 
             /**
              * @param {IAssetSendCtrl.IOptions} options
@@ -74,19 +75,12 @@
                     massSend: utils.liteObject({ type: SIGN_TYPE.MASS_TRANSFER })
                 };
 
-                /**
-                 * @type {ISendMode}
-                 */
-                this.sendMode = 'waves';
-
                 this.receive(balanceWatcher.change, this._updateBalanceList, this);
                 this._updateBalanceList();
 
-                this.receive(utils.observe(this.state, 'assetId'), this.onChangeAssetId, this);
-                this.onChangeAssetId();
-
-                this.receive(utils.observe(this.state.singleSend, 'recipient'), this.onChangeRecipient, this);
-                this.onChangeRecipient();
+                this.receive(utils.observe(this.state, 'assetId'), this.checkSendMode, this);
+                this.receive(utils.observe(this.state.singleSend, 'recipient'), this.checkSendMode, this);
+                this.checkSendMode();
 
                 /**
                  * @type {string}
@@ -219,30 +213,12 @@
                 });
             }
 
-            onChangeAssetId() {
-                if (this._isFiat()) {
-                    this.setMode('bank');
-                } else if (this._isOuterBlockchains()) {
-                    this.setMode('gateway');
-                } else {
-                    this.setMode('waves');
-                }
-            }
-
-            onChangeRecipient() {
+            checkSendMode() {
                 if (this._isOuterBlockchains()) {
                     this.setMode('gateway');
                 } else {
                     this.setMode('waves');
                 }
-            }
-
-            /**
-             * @return {boolean}
-             * @private
-             */
-            _isFiat() {
-                return FIAT_ASSETS[this.state.assetId] || false;
             }
 
             /**

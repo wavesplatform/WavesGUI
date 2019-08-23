@@ -59,7 +59,6 @@
 
             constructor(props) {
                 super(props);
-                this.test = 'test';
                 this.wavesTx.recipient = WavesApp.bankRecipient;
             }
 
@@ -91,6 +90,7 @@
                     this._onChangeBaseAssets();
                     this._onChangeFee();
                     this._updateWavesTxObject();
+                    this._setMinAndMaxAmount();
                 };
 
                 if (!this.state.moneyHash) {

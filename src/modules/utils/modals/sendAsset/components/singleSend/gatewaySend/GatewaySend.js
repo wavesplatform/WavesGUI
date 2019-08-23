@@ -17,7 +17,7 @@
         class GatewaySend extends SingleSend {
 
             /**
-             * @return {IGatewayDetails|*|null}
+             * @return {IGatewayDetails|null}
              */
             get gatewayDetails() {
                 return this.state.gatewayDetails;
@@ -25,6 +25,17 @@
 
             set gatewayDetails(value) {
                 this.state.gatewayDetails = value;
+            }
+
+            /**
+             * @return {string}
+             */
+            get paymentId() {
+                return this.state.paymentId;
+            }
+
+            set paymentId(value) {
+                this.state.paymentId = value;
             }
 
             /**
@@ -115,43 +126,38 @@
              * @private
              */
             _updateGatewayDetails() {
-                if (this.gatewayDetailsError) {
-                    this.gatewayDetailsError = false;
+                this.gatewayDetailsError = false;
+                this.gatewayAddressError = false;
+                this.gatewayWrongAddress = false;
+
+                if (gatewayService.hasSupportOf(this.balance.asset, 'deposit')) {
+                    return gatewayService
+                        .getWithdrawDetails(this.balance.asset, this.tx.recipient, this.state.paymentId)
+                        .then(details => {
+                            const max = BigNumber.min(
+                                details.maximumAmount.add(details.gatewayFee),
+                                this.balance.getTokens()
+                            );
+
+                            this.gatewayDetails = details;
+                            this.minAmount = this.balance.cloneWithTokens(details.minimumAmount);
+                            this.maxAmount = this.balance.cloneWithTokens(max);
+                            this.maxGatewayAmount = Money.fromTokens(details.maximumAmount, this.balance.asset);
+                            $scope.$apply();
+                        }, e => {
+                            this.gatewayDetails = null;
+                            if (e.message === gatewayService.getAddressErrorMessage(this.balance.asset,
+                                this.tx.recipient, 'errorAddressMessage')) {
+                                this.gatewayAddressError = true;
+                            } else if (e.message === gatewayService.getWrongAddressMessage(this.balance.asset,
+                                this.tx.recipient, 'wrongAddressMessage')) {
+                                this.gatewayWrongAddress = true;
+                            } else {
+                                this.gatewayDetailsError = true;
+                            }
+                            $scope.$apply();
+                        });
                 }
-
-                if (this.gatewayAddressError) {
-                    this.gatewayAddressError = false;
-                }
-
-                if (this.gatewayWrongAddress) {
-                    this.gatewayWrongAddress = false;
-                }
-
-                return gatewayService.getWithdrawDetails(this.balance.asset, this.tx.recipient, this.state.paymentId)
-                    .then(details => {
-                        const max = BigNumber.min(
-                            details.maximumAmount.add(details.gatewayFee),
-                            this.balance.getTokens()
-                        );
-
-                        this.gatewayDetails = details;
-                        this.minAmount = this.balance.cloneWithTokens(details.minimumAmount);
-                        this.maxAmount = this.balance.cloneWithTokens(max);
-                        this.maxGatewayAmount = Money.fromTokens(details.maximumAmount, this.balance.asset);
-                        $scope.$apply();
-                    }, e => {
-                        this.gatewayDetails = null;
-                        if (e.message === gatewayService.getAddressErrorMessage(this.balance.asset,
-                            this.tx.recipient, 'errorAddressMessage')) {
-                            this.gatewayAddressError = true;
-                        } else if (e.message === gatewayService.getWrongAddressMessage(this.balance.asset,
-                            this.tx.recipient, 'wrongAddressMessage')) {
-                            this.gatewayWrongAddress = true;
-                        } else {
-                            this.gatewayDetailsError = true;
-                        }
-                        $scope.$apply();
-                    });
             }
 
             /**
@@ -224,6 +230,11 @@
                 }
             }
 
+            _onChangeAssetId() {
+                super._onChangeAssetId();
+                this._updateGatewayDetails();
+            }
+
         }
 
         return new GatewaySend($scope);
@@ -241,7 +252,8 @@
     angular.module('app.ui').component('wGatewaySend', {
         bindings: {
             state: '<',
-            onSign: '&'
+            onSign: '&',
+            onChangeRecipient: '&'
         },
         templateUrl: 'modules/utils/modals/sendAsset/components/singleSend/gatewaySend/gateway-send.html',
         transclude: true,
