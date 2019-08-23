@@ -214,7 +214,7 @@
                 "helpDescrText": "Как только транзакция будет подтверждена, шлюз отправит BTC-токен на ваш аккаунт Waves.",
                 "helpDescrTitle": "Введите этот адрес в ваш Bitcoin клиент или кошелёк.",
                 "warningMinAmountText": "Если вы отправите меньше чем {{minAmount, BigNumber}} {{assetTicker}}, вы потеряете деньги.",
-                "warningMinAmountTitle": "Минимальная сумма депозита {{minAmount, BigNumber}} {{assetTicker}}.",
+                "warningMinAmountTitle": "Минимальная сумма депозита {{minAmount, BigNumber}} {{assetTicker}}, максимальная сумма депозита {{maxAmount}} {{assetTicker}}",
                 "warningText": "Отправка любой другой валюты на этот адрес может повлечь за собой потерю средств.",
                 "warningTitle": "Отправляйте только BTC на этот адрес"
             },
@@ -238,7 +238,7 @@
                 "helpDescrText": "Как только транзакция будет подтверждена, шлюз отправит LTC-токен на ваш аккаунт Waves.",
                 "helpDescrTitle": "Введите этот адрес в ваш Litecoin клиент или кошелёк.",
                 "warningMinAmountText": "Если вы отправите меньше чем {{minAmount, BigNumber}} {{assetTicker}}, вы потеряете деньги.",
-                "warningMinAmountTitle": "Минимальная сумма депозита {{minAmount, BigNumber}} {{assetTicker}}.",
+                "warningMinAmountTitle": "Минимальная сумма депозита {{minAmount, BigNumber}} {{assetTicker}}, максимальная сумма депозита {{maxAmount}} {{assetTicker}}",
                 "warningText": "Отправка любой другой валюты на этот адрес может повлечь за собой потерю средств.",
                 "warningTitle": "Отправляйте только LTC на этот адрес"
             },
