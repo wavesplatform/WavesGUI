@@ -264,11 +264,11 @@
             "pleaseNote": "Por favor, ten en cuenta que la pasarela no aplica ninguna Comisión por esta operación",
             "scanQrCode": "Escanear Código QR",
             "title": "Depósito {{assetName}}",
-            "wavesGatewayBNCR": {
+            "wavesGatewayBNT": {
                 "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of Bancor to a token in your Waves account.",
                 "helpDescrTitle": "Enter this address into your client or wallet",
-                "warningMinAmountText": "If you will send less than 1 Bancor, you will lose that money.",
-                "warningMinAmountTitle": "The minimum amount of deposit is 1 Bancor, the maximum amount of deposit is 100 000 Bancor",
+                "warningMinAmountText": "If you will send less than 2 Bancor, you will lose that money.",
+                "warningMinAmountTitle": "The minimum amount of deposit is 2 Bancor, the maximum amount of deposit is 100 000 Bancor",
                 "warningText": "Check if your wallet or exchange uses smart-contracts to withdraw Bancor. We do not accept such transactions and can’t refund them. You will lose that money.",
                 "warningTitle": "Please do not deposit BNT from smart contracts! Do not deposit other ERC20 tokens! Only Bancor is allowed."
             },
@@ -909,6 +909,7 @@
                 "1_2_8": "\"span.line\" [1. Los tokens y transaccionesconsideradas spam han sido ocultadas en el cliente.]\n\"span.line\" [2. Se han corregido la interfaz de usuario y algunos errores menores.]",
                 "1_3_0": "\"span.line\" [1. Se ha mejorado la navegación de la aplicación y la interfaz de la página de inicio.]",
                 "1_3_18": "{span.line}[1. Added login to wallet using a private key.]\n{span.line}[2. The 24 hours price change of a token is now bound to token/WAVES pair.]",
+                "1_3_19": "{span.line}[1. Bancor gateway has been launched.]\n{span.line}[2. User menu interface has been improved.]",
                 "1_3_2": "\"span.line\" [1. Se ha puesto en marcha la puerta de enlace Vostok.]\n\"span.line\" [2. Se ha corregido la interfaz de usuario y algunos errores menores.]",
                 "1_3_5": "\"span.line\" [1. Se ha añadido una pestaña con tokens de concurso [wsoc.io](https://wsoc.io).\n\"span.line\" [2. Se ha añadido compatibilidad con el idioma francés.]\n\"span.line\" [3. Se han corregido errores menores adicionales.]",
                 "1_3_7": "\"span.line\" [1. Integración con [tokenrating.wavesexplorer.com](https://tokenrating.wavesexplorer.com) Ahora puede calificar tokens directamente en la aplicación.]\n\"span.line\" [2. Se han corregido errores menores.]",
