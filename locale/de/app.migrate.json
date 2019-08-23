@@ -1,0 +1,21 @@
+{
+    "migrate": {
+        "btn": {
+            "unlock": "Unlock"
+        },
+        "description": {
+            "enterPass": "Enter your account password or",
+            "goBack": "return back",
+            "unlock": "Unlock your accounts. You can return to this step later"
+        },
+        "headers": {
+            "unlock": "Unlock your accounts",
+            "unlockAccount": "Unlock account"
+        },
+        "subtitle": {
+            "account": "Account",
+            "pending": "Pending unlock",
+            "unlocked": "Successfully unlocked"
+        }
+    }
+}
