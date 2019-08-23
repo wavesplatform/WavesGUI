@@ -66,7 +66,7 @@
                         WavesApp.defaultAssets.XMR,
                         WavesApp.defaultAssets.VST,
                         WavesApp.defaultAssets.ERGO,
-                        WavesApp.defaultAssets.BNCR
+                        WavesApp.defaultAssets.BNT
                     ],
                     wallet: {
                         activeState: 'assets',

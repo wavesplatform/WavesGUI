@@ -68,7 +68,7 @@
         [WavesApp.defaultAssets.XMR]: '/img/assets/xmr.svg',
         [WavesApp.defaultAssets.VST]: '/img/assets/vostok.svg',
         [WavesApp.defaultAssets.ERGO]: '/img/assets/ergo.svg',
-        [WavesApp.defaultAssets.BNCR]: '/img/assets/bncr.svg',
+        [WavesApp.defaultAssets.BNT]: '/img/assets/bnt.svg',
         [WavesApp.otherAssetsWithIcons.EFYT]: '/img/assets/efyt.svg',
         [WavesApp.otherAssetsWithIcons.WNET]: '/img/assets/wnet.svg'
     });
@@ -1107,14 +1107,17 @@
              * @name app.utils#getNiceNumberTemplate
              * @param {BigNumber|string|number} num
              * @param {number} precision
-             * @param {boolean} [shortMode]
+             * @param {boolean | number} [shortMode]
              * @return {string}
              */
             getNiceNumberTemplate(num, precision, shortMode) {
                 const bigNum = this.parseNiceNumber(num);
                 const formatted = this.getNiceNumber(bigNum, precision);
 
-                if (shortMode && bigNum.gte(10000)) {
+                const isShortMode = typeof shortMode === 'number' ? true : shortMode;
+                const minValue = typeof shortMode === 'number' ? shortMode : 10000;
+
+                if (isShortMode && bigNum.gte(minValue)) {
                     return this.getNiceBigNumberTemplate(bigNum);
                 } else {
                     const separatorDecimal = WavesApp.getLocaleData().separators.decimal;

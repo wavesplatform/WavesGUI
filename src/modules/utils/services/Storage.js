@@ -20,10 +20,8 @@
                 return newTerms(storage);
             },
             '1.3.19': function (storage) {
-                return addNewGateway(storage, WavesApp.defaultAssets.BNCR);
-            },
-            '1.3.18': function (storage) {
-                return saveUsersWithUniqueName(storage);
+                return saveUsersWithUniqueName(storage)
+                    .then(data => addNewGateway(data, WavesApp.defaultAssets.BNT));
             }
         };
 
@@ -86,7 +84,7 @@
 
                 }, usersInStorage);
 
-                return storage.save('userList', users);
+                return storage.save('userList', users).then(() => storage);
             });
         }
 
