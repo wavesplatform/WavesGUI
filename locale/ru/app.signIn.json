@@ -1,0 +1,20 @@
+{
+    "createAccount": "Создать аккаунт",
+    "notHaveAccounts": "У вас нет сохранённых аккаунтов",
+    "nothingHere": "Пока ничего нет…",
+    "password": {
+        "error": "Неправильный пароль!"
+    },
+    "userList": {
+        "address": "Адрес / Название аккаунта",
+        "buttons": {
+            "login": "Войти"
+        },
+        "notHaveAccount": "Чтобы продолжить, пожалуйста, войдите",
+        "password": "Пароль",
+        "placeholders": {
+            "password": "Пароль"
+        },
+        "title": "С возвращением"
+    }
+}

@@ -1,0 +1,22 @@
+{
+    "available": "可得到",
+    "chart": {
+        "available": "可得到",
+        "create": "开始租赁",
+        "leased": "租用的",
+        "title": "WAVES余额"
+    },
+    "description": {
+        "text1": "您只能转账或交易未租凭的WAVES。租赁中的数额不能由您或任何其他人转账或交易。",
+        "text2": "一旦租赁交易出现在区块链中，您可以随时取消租赁，租赁交易通常会在租凭后的一分钟或更短的时间内出现。",
+        "text3": "余额将在1000个区块后更新。",
+        "title": "注意"
+    },
+    "leased": "租用的",
+    "leasedIn": "租用于",
+    "nodeListLink": "节点列表",
+    "test": {
+        "test": "文本测试"
+    },
+    "title_leasing": "您已选择登录Waves桌面应用程序"
+}

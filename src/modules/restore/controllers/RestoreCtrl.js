@@ -64,6 +64,28 @@
                  * @type {string}
                  */
                 this.activeTab = TABS.seed;
+                /**
+                 * @type {boolean}
+                 */
+                this.isPriorityUserTypeExists = false;
+                /**
+                 * @type {object | null}
+                 */
+                this.userExisted = Object.create(null);
+                /**
+                 * @type {Array}
+                 * @private
+                 */
+                this._usersInStorage = [];
+                /**
+                 * @type {object}
+                 * @private
+                 */
+                this._priorityMap = utils.getImportPriorityMap();
+
+                user.getFilteredUserList().then(users => {
+                    this._usersInStorage = users;
+                });
 
                 this.observe('seed', this._onChangeSeed);
                 this.observeOnce('seedForm', () => {
@@ -73,6 +95,7 @@
                         }
                     });
                 });
+                this.observe('address', this._onChangeAddress);
                 this.observe('key', this._onChangeKey);
                 this.observeOnce('keyForm', () => {
                     this.receive(utils.observe(this.keyForm, '$valid'), () => {
@@ -89,6 +112,7 @@
             }
 
             restore() {
+
                 if (!this.saveUserData) {
                     this.password = Date.now().toString();
                 } else {
@@ -157,6 +181,16 @@
                 } else {
                     this.address = '';
                 }
+            }
+
+            /**
+             * @private
+             */
+            _onChangeAddress() {
+                this.userExisted = this._usersInStorage.find(user => user.address === this.address) || null;
+                this.isPriorityUserTypeExists =
+                    !!this.userExisted &&
+                    this._priorityMap[this.activeTab] <= this._priorityMap[this.userExisted.userType];
             }
 
             /**

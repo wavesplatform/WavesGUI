@@ -168,7 +168,7 @@
                     contentUrl: 'modules/utils/modals/assetInfo/assetInfo.html',
                     locals: asset,
                     controller: 'AssetInfoCtrl',
-                    mod: 'asset-info-modal'
+                    mod: 'm-dialog m-dialog_asset-info'
                 });
             }
 
@@ -264,6 +264,22 @@
                     locals: {
                         assets
                     }
+                });
+            }
+
+            showAccountChangeName() {
+                return this._getModal({
+                    id: 'changeName',
+                    templateUrl: 'modules/utils/modals/changeName/changeName.html',
+                    controller: 'ChangeNameCtrl'
+                });
+            }
+
+            showAccountAddress() {
+                return this._getModal({
+                    id: 'addressInfo',
+                    templateUrl: 'modules/utils/modals/addressInfo/addressInfo.html',
+                    controller: 'AddressInfoCtrl'
                 });
             }
 

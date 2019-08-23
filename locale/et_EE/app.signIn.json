@@ -1,0 +1,20 @@
+{
+    "createAccount": "Create account",
+    "notHaveAccounts": "You do not have saved accounts",
+    "nothingHere": "Siin pole midagi…",
+    "password": {
+        "error": "Vale parool!"
+    },
+    "userList": {
+        "address": "Aadress / konto nimi",
+        "buttons": {
+            "login": "Logi sisse"
+        },
+        "notHaveAccount": "Please sign in to continue",
+        "password": "Parool",
+        "placeholders": {
+            "password": "Parool"
+        },
+        "title": "Logi sisse"
+    }
+}

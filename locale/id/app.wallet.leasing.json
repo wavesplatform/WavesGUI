@@ -1,0 +1,22 @@
+{
+    "available": "Tersedia",
+    "chart": {
+        "available": "Tersedia",
+        "create": "Memulai Sewa",
+        "leased": "Disewakan",
+        "title": "Saldo WAVES"
+    },
+    "description": {
+        "text1": "Anda hanya dapat mentransfer atau memperdagangkan WAVES yang tidak disewakan. Jumlah yang disewakan tidak dapat ditransfer atau diperdagangkan oleh Anda atau orang lain.",
+        "text2": "Anda dapat membatalkan transaksi sewa segera setelah muncul di blockchain yang biasanya terjadi dalam satu menit atau kurang.",
+        "text3": "Saldo berjalan akan diperbarui setelah 1000 blok",
+        "title": "Catatan cepat"
+    },
+    "leased": "Disewakan",
+    "leasedIn": "Disewakan kepada",
+    "nodeListLink": "Daftar node",
+    "test": {
+        "test": "tes teks"
+    },
+    "title_leasing": "Anda telah memilih untuk masuk ke aplikasi desktop Waves"
+}

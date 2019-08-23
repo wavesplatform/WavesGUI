@@ -1,0 +1,65 @@
+{
+    "backupSeed": {
+        "back": "이전 페이지로 돌아가세요",
+        "copySeed": "이곳을 클릭하여 복사하세요",
+        "needConfirm": "확인을 위해 다음 단계에서 백업 구절을 직접 입력해야 합니다.",
+        "ok": "백업 구절을 저장했습니다",
+        "or": "하거나",
+        "saveSecret": "백업 구절 저장",
+        "warn": "본인이 직접 자산을 관리해야 하며 앱이 삭제될 경우를 대비해 아래의 백업 구절을 반드시 저장하거나",
+        "writeSeed": "아래 15개의 단어를 직접 메모"
+    },
+    "confirmBackup": {
+        "again": "다시 순서대로 클릭하세요",
+        "back": "이전 페이지로 돌아가세요",
+        "clear": "모두 지우고",
+        "confirm": "백업 구절 확인",
+        "description": "귀하의 Seed 구절을 인증하거나",
+        "enterCorrect": "백업 구절 단어들을 순서대로 클릭하여 배열하세요",
+        "error": "순서가 옳바르지 않습니다. 다시 시도하세요.",
+        "ok": "승인",
+        "tapAgain": "다시 클릭하세요"
+    },
+    "createAccount": {
+        "address": "계정 주소:",
+        "avatarUnique": "아바타는 고유하며 선택 후 변경이 불가합니다.",
+        "choose": "귀하의 아바타를 선택하세요",
+        "create": "신규 계정 생성",
+        "createDescription": "신속하며 무료입니다",
+        "createNewAccount": "귀하의 아바타를 선택하세요",
+        "from": "본 아바타는 시각적 표현이며 추후 변경이 불가합니다.",
+        "import": "계정 불러오기",
+        "importDescription": "SEED 구절, Ledger 또는 Keeper를 통해",
+        "protect": "비밀번호로 귀하의 계정을 보호하거나",
+        "protectYourAccount": "계정 비밀번호 설정",
+        "restore": "계정을 복원하세요.",
+        "saveUserData": "이 컴퓨터에서 로그인 상태 유지",
+        "signDescription": "저장된 계정으로",
+        "signIn": "로그인",
+        "signUp": "무료 회원가입 또는",
+        "tosaved": "저장된 계정 사용",
+        "toWalet": "또는"
+    },
+    "modal": {
+        "confirmBackupDescription": "귀하의 백업 구절을 인증하세요",
+        "next": "승인",
+        "prev": "이전 페이지로 돌아가세요",
+        "successContent": "백업 구절을 변경할 수 없습니다. 백업 구절을 실수로 타인에게 공유하거나 사기꾼에게 노출한 경우 즉시 신규 Waves 지갑을 만들어서 자금을 이체하시기 바랍니다.",
+        "successHeadline": "귀하의 백업 구절을 신중하게 취급하세요!",
+        "understand": "모두 이해했습니다"
+    },
+    "noBackupNoMoney": {
+        "backup": "지금 바로 백업하기",
+        "description": "귀하의 계정에 접속 권한을 가지기 위해 Seed 구절을 반드시 저장해야 합니다.",
+        "modal": {
+            "descriptionP1": "경고. 지난 몇 달 동안 사기 및 피싱 공격의 빈도가 증가하였습니다. 사기꾼들은 그들이 직접 만든 클라인트에 악성코드를 숨기고 보너스와 할인을 미끼로 사용자들을 유인합니다.",
+            "descriptionP2": "귀하의 백업 구절을 Waves 공식 클라이언트가 아닌 다른 곳에 절대 입력하지 마십시오. 귀하의 계정이 해킹되어 모든 자금을 잃을 수 있습니다.",
+            "descriptionP3": "공식 Waves 클라이언트만 사용해야 합니다.",
+            "ok": "모두 이해했습니다",
+            "title": "귀하의 백업 구절을 신중하게 취급하세요!"
+        },
+        "or": "또는",
+        "skip": "다음에 하기",
+        "title": "백업하지 않으면 자산을 모두 잃을 수 있습니다"
+    }
+}
