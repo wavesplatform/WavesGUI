@@ -165,6 +165,14 @@
                 this.sendMode = mode;
             }
 
+            checkSendMode() {
+                if (this._isOuterBlockchains()) {
+                    this.setMode('gateway');
+                } else {
+                    this.setMode('waves');
+                }
+            }
+
             /**
              * @private
              */
@@ -211,14 +219,6 @@
                     this.state.moneyHash = hash;
                     utils.safeApply($scope);
                 });
-            }
-
-            checkSendMode() {
-                if (this._isOuterBlockchains()) {
-                    this.setMode('gateway');
-                } else {
-                    this.setMode('waves');
-                }
             }
 
             /**

@@ -101,6 +101,11 @@
              * @private
              */
             __$scope = null;
+            /**
+             * @type {boolean}
+             * @private
+             */
+            _noCurrentRate = false;
 
             constructor($scope) {
                 super($scope);
@@ -180,8 +185,10 @@
                 }
 
                 waves.utils.getRate(this.assetId, this.mirrorId).then(rate => {
+                    this._noCurrentRate = true;
                     this.mirror = amount.convertTo(this.moneyHash[this.mirrorId].asset, rate);
                     this.tx.amount = amount;
+                    this._noCurrentRate = false;
                     this.__$scope.$apply();
                 });
             }
@@ -262,7 +269,7 @@
              * @private
              */
             _onChangeAmountMirror() {
-                if (this.focus === 'mirror') {
+                if (!this._noCurrentRate && this.focus === 'mirror') {
                     this._fillAmount();
                 }
             }
@@ -271,7 +278,7 @@
              * @private
              */
             _onChangeAmount() {
-                if (!this.noMirror && this.focus === 'amount') {
+                if (!this._noCurrentRate && !this.noMirror && this.focus === 'amount') {
                     this._fillMirror();
                 }
             }
@@ -287,6 +294,7 @@
 
                 waves.utils.getRate(this.assetId, this.mirrorId).then(rate => {
                     this.mirror = this.tx.amount.convertTo(this.moneyHash[this.mirrorId].asset, rate);
+                    this.__$scope.$digest();
                 });
             }
 
@@ -301,6 +309,7 @@
 
                 waves.utils.getRate(this.mirrorId, this.assetId).then(rate => {
                     this.tx.amount = this.mirror.convertTo(this.balance.asset, rate);
+                    this.__$scope.$digest();
                 });
             }
 
