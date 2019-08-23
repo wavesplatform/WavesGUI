@@ -377,6 +377,10 @@
                 });
             }
 
+            isCurrentUser(userInList) {
+                return userInList.hash === user.hash;
+            }
+
             /**
              * @private
              */
@@ -384,7 +388,7 @@
                 this._resetUserFields();
 
                 user.getMultiAccountUsers().then((users = []) => {
-                    this.userList = users.filter(x => x.hash !== user.hash);
+                    this.userList = users;
                 });
 
                 user.getFilteredUserList().then((users = []) => {

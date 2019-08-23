@@ -132,6 +132,10 @@
                     return {
                         ...user,
                         userType: _user.userType,
+                        networkByte: _user.networkByte,
+                        id: _user.id,
+                        seed: _user.seed,
+                        privateKey: _user.privateKey,
                         publicKey: _user.publicKey,
                         address: buildAddress({ publicKey: _user.publicKey }, String.fromCharCode(_user.networkByte)),
                         hash: userHash

@@ -252,7 +252,11 @@
                                 class="mobile-menu__account-avatar"
                             ></w-avatar>
                             <div class="mobile-menu__account-info">
-                                <div class="mobile-menu__account-name" ng-if="user.name">{{user.name}}</div>
+                                <div>
+                                    <div class="mobile-menu__account-name" ng-if="user.name">{{user.name}}</div>
+                                    <!-- TODO:1978 i18n -->
+                                    <span ng-if="$ctrl.isCurrentUser(user)" w-i18n="ACTIVE"></span>
+                                </div>
                                 <div class="mobile-menu__account-address">{{::user.address}}</div>
                             </div>
                         </div>
