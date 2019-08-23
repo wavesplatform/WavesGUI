@@ -68,7 +68,7 @@
         [WavesApp.defaultAssets.XMR]: '/img/assets/xmr.svg',
         [WavesApp.defaultAssets.VST]: '/img/assets/vostok.svg',
         [WavesApp.defaultAssets.ERGO]: '/img/assets/ergo.svg',
-        [WavesApp.defaultAssets.BNCR]: '/img/assets/bncr.svg',
+        [WavesApp.defaultAssets.BNT]: '/img/assets/bnt.svg',
         [WavesApp.otherAssetsWithIcons.EFYT]: '/img/assets/efyt.svg',
         [WavesApp.otherAssetsWithIcons.WNET]: '/img/assets/wnet.svg'
     });

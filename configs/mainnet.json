@@ -16,7 +16,7 @@
   "api": "https://api.wavesplatform.com",
   "explorer": "https://wavesexplorer.com",
   "coinomat": "https://coinomat.com",
-  "wavesGateway": "https://gw-stagenet.wavesplatform.com",
+  "wavesGateway": "https://gw.wavesplatform.com",
   "support": "https://support.wavesplatform.com",
   "termsAndConditions": "https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf",
   "privacyPolicy": "https://wavesplatform.com/files/docs/Privacy%20Policy_SW.pdf",
@@ -45,7 +45,7 @@
     "VST": "4LHHvYGNKJUg5hj65aGD5vgScvCBmLpdRFtjokvCjSL8",
     "ERGO": "5dJj4Hn9t2Ve3tRpNGirUHy4yBK6qdJRAJYV21yPPuGz",
     "WCT": "DHgwrRvVyqJsepd32YbBqUeDH4GJ1N984X8QoekjgH8J",
-    "BNCR": "F81SdfzBZr5ce8JArRWLPJEDg1V8yT257ohbcHk75yCp"
+    "BNT": "F81SdfzBZr5ce8JArRWLPJEDg1V8yT257ohbcHk75yCp"
   },
   "matcherPriorityList": [
     { "ticker": "USD", "id": "Ft8X1v1LTa1ABafufpaCWyVj8KkaxUWE6xBhW6sNFJck"},
