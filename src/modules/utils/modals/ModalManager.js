@@ -70,7 +70,7 @@
                     id: 'password-modal',
                     contentUrl: 'modules/utils/modals/password/password.html',
                     controller: 'PasswordModalCtrl',
-                    title: 'Change password' // TODO:1978 i18n
+                    title: 'modal.settings.changePass'
                 });
             }
 

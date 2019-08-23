@@ -1,25 +1,22 @@
 <w-main-header class="main-header"></w-main-header>
 
-<div class="main-container movable">
+<div class="main-container movable" w-i18n-ns="app.signIn">
     <div w-i18n-ns="app.signIn" class="main-container-wrapper">
         <div class="get-started-content">
             <div class="text-center">
                 <div class="headline-1 margin-1">
-                    <!-- TODO:1978 i18n -->
-                    <span w-i18n="Welcome Back"></span>
+                    <span w-i18n="signIn.welcomeBack"></span>
                 </div>
 
-                <div class="body-2 basic-500 margin-top-2 margin-4">
-                    <!-- TODO:1978 i18n -->
-                    <span w-i18n="Please enter your password to continue"></span>
+                <div class="body-2 basic-500 margin-3">
+                    <span w-i18n="signIn.enterPass"></span>
                 </div>
             </div>
 
             <form name="$ctrl.loginForm" ng-submit="$ctrl.loginForm.$valid && $ctrl.onSubmit()" novalidate>
-                <w-input-container class="margin-3">
+                <w-input-container class="margin-4">
                     <div class="left body-2 margin-05">
-                        <!-- TODO:1978 i18n -->
-                        <span w-i18n="Password"></span>
+                        <span w-i18n="userList.password"></span>
                     </div>
 
                     <w-show-hide-password>
@@ -39,15 +36,13 @@
                 </w-input-container>
 
                 <w-button disabled="$ctrl.migrateForm.$invalid" class="submit long big">
-                    <!-- TODO:1978 i18n -->
-                    <div class="full-width" w-i18n="Sign in"></div>
+                    <div class="full-width" w-i18n="signIn.signIn"></div>
                 </w-button>
 
                 <div class="margin-top-2">
-                    <!-- TODO:1978 i18n -->
                     <a class="body-2 basic-500"
                         ng-click="$ctrl.showForgotPasswordModal()"
-                        w-i18n="Forgot your password?"
+                        w-i18n="signIn.password.forgot"
                     ></a>
                 </div>
             </form>

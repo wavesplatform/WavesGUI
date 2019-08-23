@@ -3,6 +3,7 @@
     "burn": "Tokenite Hävitamine",
     "deposit": "Sissemakse",
     "dex": "Ava DEX-is",
+    "hasNftToken": "Account has non-fungible tokens [(NFT)](https://wavesexplorer.com/address/{{address}})",
     "info": "Vara info",
     "list": {
         "actions": "Toimingud",

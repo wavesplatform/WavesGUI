@@ -1,150 +1,125 @@
 <w-main-header class="main-header"></w-main-header>
 
-<div class="get-started-content movable">
-    <w-step-by-step active-step="$ctrl.activeStep">
-        <w-step>
-            <div class="text-center">
-                <div class="headline-1 margin-1">
-                    <!-- TODO:1978 i18n -->
-                    <span w-i18n="Migrate Accounts"></span>
-                </div>
+<div class="main-container-wrapper" w-i18n-ns="app.migrate">
 
-                <div class="body-2 basic-500 margin-top-2 margin-4">
-                    <!-- TODO:1978 i18n -->
-                    <span w-i18n="You need to enter a password to transfer your account to a new, more secure place"></span>
-                </div>
-            </div>
-
-            <div ng-if="$ctrl.userListLocked.length">
-                <div>
-                    <!-- TODO:1978 i18n -->
-                    <span w-i18n="Pending unlock"></span>
-                </div>
-
-                <!-- TODO:1978 style -->
-                <div ng-repeat="user in $ctrl.userListLocked track by $index" ng-click="$ctrl.startMigrate(user)">
-                    <div class="avatar-container margin-right-1">
-                        <w-avatar
-                            type="{{::user.userType}}"
-                            class="margin-right-1"
-                            address="user.address"
-                            size="30">
-                        </w-avatar>
+    <div class="get-started-content main-container movable">
+        <w-step-by-step active-step="$ctrl.activeStep" class="width-100">
+            <w-step>
+                <div class="migrate__header text-center">
+                    <div class="migrate__header-title headline-1 margin-1">
+                        <span w-i18n="migrate.headers.unlock"></span>
                     </div>
-
-                    <div ng-class="::{'has-name': !!user.name}" class="ellipsis">
-                        <div class="name body-2 margin-05 mobile-caption-2">{{::user.name}}</div>
-                        <div class="address footnote-1 mobile-caption-2 ellipsis">{{::user.address}}</div>
+    
+                    <div class="migrate__header-description body-2 basic-500 margin-3">
+                        <span
+                            w-i18n="migrate.description.unlock"></span>
                     </div>
-
-                    <div class="icon-lock"></div>
                 </div>
-            </div>
-
-            <div class="margin-3" ng-if="$ctrl.userListUnlocked.length">
-                <div>
-                    <!-- TODO:1978 i18n -->
-                    <span w-i18n="Successfully unlocked"></span>
-                </div>
-
-                <!-- TODO:1978 style -->
-                <div ng-repeat="user in $ctrl.userListUnlocked track by $index">
-                    <div class="avatar-container margin-right-1">
-                        <w-avatar
-                            type="{{::user.userType}}"
-                            class="margin-right-1"
-                            address="user.address"
-                            size="30">
-                        </w-avatar>
+    
+                <div class="migrate__list margin-3" ng-if="$ctrl.userListLocked.length">
+                    <div class="migrate__subtitle body-2">
+                        <span w-i18n="migrate.subtitle.pending"></span>
                     </div>
-
-                    <div ng-class="::{'has-name': !!user.name}" class="ellipsis">
-                        <div class="name body-2 margin-05 mobile-caption-2">{{::user.name}}</div>
-                        <div class="address footnote-1 mobile-caption-2 ellipsis">{{::user.address}}</div>
-                    </div>
-
-                    <!-- TODO:1978 icon -->
-                    <div class="icon-lock"></div>
-                </div>
-            </div>
-
-            <w-button disabled="!$ctrl.userListUnlocked.length" class="submit long big" on-click="$ctrl.finish()">
-                <!-- TODO:1978 i18n -->
-                <div class="full-width" w-i18n="Finish"></div>
-            </w-button>
-        </w-step>
-
-        <w-step>
-            <div class="text-center">
-                <div class="headline-1 margin-1">
-                    <!-- TODO:1978 i18n -->
-                    <span w-i18n="Unlock account"></span>
-                </div>
-
-                <div class="body-2 basic-500 margin-top-2 margin-4">
-                    <!-- TODO:1978 i18n -->
-                    <span w-i18n="Enter your account password or"></span>
-                    <!-- TODO:1978 i18n -->
-                    <a ng-click="$ctrl.prevStep()" w-i18n="go back"></a>
-                </div>
-            </div>
-
-            <form name="$ctrl.migrateForm" ng-submit="$ctrl.migrateForm.$valid && $ctrl.onSubmit()" novalidate>
-                <w-input-container>
-                    <div class="left body-2 margin-05">
-                        <!-- TODO:1978 i18n -->
-                        <span w-i18n="Account"></span>
-                    </div>
-
-                    <div>
-                        <!-- TODO:1978 style -->
-                        <div class="avatar-container margin-right-1">
-                            <w-avatar
-                                type="{{$ctrl.userToMigrate.userType}}"
-                                class="margin-right-1"
-                                address="$ctrl.userToMigrate.address"
-                                size="30">
+    
+                    <div class="migrate__account" ng-repeat="user in $ctrl.userListLocked track by $index"
+                        ng-click="$ctrl.startMigrate(user)">
+                        <div class="migrate__avatar-container margin-right-1">
+                            <w-avatar type="{{::user.userType}}" class="migrate__avatar" address="user.address" size="30">
                             </w-avatar>
                         </div>
-
-                        <div ng-class="{'has-name': !!$ctrl.userToMigrate.name}" class="ellipsis">
-                            <div class="name body-2 margin-05 mobile-caption-2">{{$ctrl.userToMigrate.name}}</div>
-                            <div class="address footnote-1 mobile-caption-2 ellipsis">{{$ctrl.userToMigrate.address}}</div>
+    
+                        <div ng-class="::{'has-name': !!user.name}" class="migrate__account-info ellipsis">
+                            <div class="migrate__account-name body-2">{{::user.name}}</div>
+                            <div class="migrate__account-address footnote-1 ellipsis">{{::user.address}}</div>
                         </div>
-
-                        <div class="icon-lock"></div>
+    
+                        <div class="migrate__icon-lock icon-lock"></div>
                     </div>
-                </w-input-container>
-
-                <w-input-container class="margin-3">
-                    <div class="left body-2 margin-05">
-                        <!-- TODO:1978 i18n -->
-                        <span w-i18n="Password"></span>
+                </div>
+    
+                <div class="migrate__list migrate__list_unlocked margin-4" ng-if="$ctrl.userListUnlocked.length">
+                    <div class="migrate__subtitle body-2">
+                        <span w-i18n="migrate.subtitle.unlocked"></span>
                     </div>
-
-                    <w-show-hide-password>
-                        <w-input
-                            name="password"
-                            type="password"
-                            class="big no-validate no-icon"
-                            ng-model="$ctrl.migratePassword"
-                            required
-                            w-autofocus>
-                        </w-input>
-                    </w-show-hide-password>
-
-                    <div class="like-input-error" ng-if="$ctrl.showPasswordError">
-                        <span class="error active" w-i18n="password.error"></span>
+    
+                    <div class="migrate__account" ng-repeat="user in $ctrl.userListUnlocked track by $index">
+                        <div class="migrate__avatar-container margin-right-1">
+                            <w-avatar type="{{::user.userType}}" class="migrate__avatar" address="user.address" size="30">
+                            </w-avatar>
+                        </div>
+    
+                        <div ng-class="::{'has-name': !!user.name}" class="migrate__account-info ellipsis">
+                            <div class="migrate__account-name body-2">{{::user.name}}</div>
+                            <div class="migrate__account-address footnote-1 ellipsis">{{::user.address}}</div>
+                        </div>
+    
+                        <div class="migrate__icon-unlock icon-lock"></div>
                     </div>
-                </w-input-container>
-
-                <w-button disabled="$ctrl.migrateForm.$invalid" class="submit long big">
-                    <!-- TODO:1978 i18n -->
-                    <div class="full-width" w-i18n="Unlock"></div>
+                </div>
+    
+                <w-button disabled="!$ctrl.userListUnlocked.length" class="submit long big" on-click="$ctrl.finish()">
+                    <div class="full-width" w-i18n="button.continue"></div>
                 </w-button>
-            </form>
-        </w-step>
-    </w-step-by-step>
+            </w-step>
+    
+            <w-step>
+                <div class="text-center">
+                    <div class="headline-1 margin-1">
+                        <span w-i18n="migrate.headers.unlockAccount"></span>
+                    </div>
+    
+                    <div class="body-2 basic-500 margin-2">
+                        <span w-i18n="migrate.description.enterPass"></span>
+                        <a ng-click="$ctrl.prevStep()" w-i18n="migrate.description.goBack"></a>
+                    </div>
+                </div>
+    
+                <form name="$ctrl.migrateForm" ng-submit="$ctrl.migrateForm.$valid && $ctrl.onSubmit()" novalidate>
+                    <w-input-container class="margin-2">
+                        <div class="migrate__subtitle body-2">
+                            <span w-i18n="migrate.subtitle.account"></span>
+                        </div>
+    
+                        <div class="migrate__account">
+                            <div class="migrate__avatar-container margin-right-1">
+                                <w-avatar type="{{$ctrl.userToMigrate.userType}}" class="migrate__avatar"
+                                    address="$ctrl.userToMigrate.address" size="30">
+                                </w-avatar>
+                            </div>
+    
+                            <div ng-class="{'has-name': !!$ctrl.userToMigrate.name}" class="migrate__account-info ellipsis">
+                                <div class="migrate__account-name body-2">{{$ctrl.userToMigrate.name}}</div>
+                                <div class="migrate__account-address footnote-1 ellipsis">{{$ctrl.userToMigrate.address}}
+                                </div>
+                            </div>
+    
+                            <div class="migrate__icon-lock icon-lock"></div>
+                        </div>
+                    </w-input-container>
+    
+                    <w-input-container class="margin-4">
+                        <div class="migrate__subtitle body-2" w-i18n-ns="app.signIn">
+                            <span w-i18n="userList.password"></span>
+                        </div>
+    
+                        <w-show-hide-password>
+                            <w-input name="password" type="password" class="big no-validate no-icon"
+                                ng-model="$ctrl.migratePassword" required w-autofocus>
+                            </w-input>
+                        </w-show-hide-password>
+    
+                        <div class="like-input-error" ng-if="$ctrl.showPasswordError" w-i18n-ns="app.saveSeed">
+                            <span class="error active" w-i18n="password.error"></span>
+                        </div>
+                    </w-input-container>
+    
+                    <w-button disabled="$ctrl.migrateForm.$invalid" class="submit long big">
+                        <div class="full-width" w-i18n="migrate.btn.unlock"></div>
+                    </w-button>
+                </form>
+            </w-step>
+        </w-step-by-step>
+    </div>
 </div>
 
 <w-footer></w-footer>

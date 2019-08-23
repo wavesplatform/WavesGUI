@@ -193,6 +193,12 @@
             "message": "Pour commencer à trader, veuillez vous connecter ou créer un compte.",
             "ok": "S'identifier"
         },
+        "deleteAccount": {
+            "cancel": "Cancel",
+            "delete": "Remove",
+            "description": "{div}[Removing an account will lead to its irretrievable loss if you didn't save a backup phrase (SEED).]\n{div}[Click on the REMOVE button to proceed with account removal, or CANCEL to return to the previous screen.]",
+            "header": "Remove account"
+        },
         "deposit": {
             "coinomatBCH": {
                 "helpDescrText": "Une fois la transaction confirmée, le portail procédera au transfert de BCH à un token dans votre compte Waves.",
@@ -606,8 +612,10 @@
             "warningHeader": "Certains actions peuvent entraîner la perte de l'actif."
         },
         "settings": {
+            "account": "Account",
             "cancel": "Créer un compte",
             "changePass": "Change password",
+            "deleteAccount": "Remove account",
             "general": {
                 "auto": "Auto",
                 "blockHeight": "Hauteur actuelle",
@@ -717,6 +725,8 @@
             "fee": "Frais",
             "matcher": "Signez les requêtes d'ordres",
             "openApp": "Ouvrir l'application Waves",
+            "orderType": "Order type",
+            "pair": "Pair",
             "price": "Prix",
             "refererTo": "Si l'erreur persiste, veuillez vous référer à",
             "referTo": "Si l'erreur persiste, veuillez vous référer à",
@@ -730,6 +740,7 @@
             "signErrorText": "Vous n'avez pas confirmé la requête sur votre appareil Ledger",
             "signErrorTextImportKeeper": "Connectez-vous à Waves Keeper avec l'adresse {{address}}, puis rafraîchissez la page pour continuer.",
             "signErrorTextKeeper": "Veuillez réessayer. Si l'erreur persiste, veuillez créer un ticket pour [le support](https://support.wavesplatform.com/)",
+            "timestamp": "Timestamp",
             "txId": "TXID"
         },
         "sponsorship_edit": {
@@ -813,6 +824,7 @@
             "step1": {
                 "button": "Ce que vous devez savoir concernant votre SEED",
                 "buttonMobile": "Suivant",
+                "buttonReadMore": "Read more",
                 "p1": "Veuillez prendre le temps de comprendre certaines choses importantes pour votre propre sécurité. 🙏",
                 "p2": "Nous ne pouvons pas récupérer vos fonds ou geler votre compte si vous visitez un site de hameçonage ou perdez votre phrase de sauvegarde (aussi appelée phrase SEED).",
                 "p3": "En continuant à utiliser notre plateforme, vous confirmez accepter tous les risques associés à la perte de votre SEED, y compris mais sans s'y limiter, l'incapacité d'obtenir vos fonds et d'en disposer. En cas de perte de votre SEED, vous acceptez et reconnaissez que la plateforme Waves ne sera pas responsable des conséquences négatives de cette perte.",
@@ -914,6 +926,7 @@
                 "1_3_18": "{span.line}[1. Ajout de la connexion au portefeuille à l'aide d'une clé privée.] \n{span.line}[2. Le changement de prix d'un jeton sur 24 heures est désormais lié à la paire jeton/WAVES.]",
                 "1_3_19": "{span.line}[1. Le portail Bancor a été lancé.] \n{span.line}[2. Interface utilisateur améliorée.]",
                 "1_3_2": "{span.line}[1. Le portail Vostok a été lancé.] \n{span.line}[2. Interface utilisateur améliorée et correction de bugs mineurs supplémentaires.]",
+                "1_3_20": "{span.line}[1. Improved system for storing and restoring accounts from local storage (Need to update the [desktop application](https://wavesplatform.com/technology/wallet)).]\n{span.line}[2. Fixed rounding of prices in the orderbook.]",
                 "1_3_5": "{span.line}[1. Un onglet avec les jetons du concours [wsoc.io] (https://wsoc.io) a été ajouté.] \n {span.line}[2. Prise en charge de la langue française ajoutée.] \n {span.line}[3. Des bugs mineurs supplémentaires ont été corrigés.]",
                 "1_3_7": "{span.line}[1. Intégration avec [tokenrating.wavesexplorer.com] (https://tokenrating.wavesexplorer.com) Vous pouvez maintenant noter les jetons directement dans l'application.] \n {span.line}[2. Des bugs mineurs supplémentaires ont été corrigés.]",
                 "1_3_9": "{span.line}[1. Interface utilisateur améliorée et fonctionnalités des sections Échange et Portefeuille.] \n{span.line}[2. Des bugs mineurs supplémentaires ont été corrigés.]"

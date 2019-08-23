@@ -170,9 +170,8 @@
             </li>
 
             <li w-toggle-class="show-accounts" class="mobile-menu__item">
-                <!-- TODO:1978 i18n & icon -->
-                <a class="mobile-menu__link mobile-menu__link_accounts has-child"
-                    w-i18n="Switch account"
+                <a class="mobile-menu__link mobile-menu__link_accounts mobile-menu__link_has-child"
+                    w-i18n="welcome.switchAccount"
                     href="#"></a>
             </li>
 
@@ -234,57 +233,57 @@
     </div>
 
     <div class="mobile-menu__wrapper mobile-menu__wrapper_inner accounts-menu" ng-if="$ctrl.isLogined">
-        <div>
+        <div class="mobile-menu__list-wrapper">
             <ul class="mobile-menu__list">
-                <li w-toggle-class="mobile-menu-inner-expanded">
+                <li class="mobile-menu__item" w-toggle-class="mobile-menu-inner-expanded">
                     <a class="mobile-menu__link mobile-menu__link_menu"
                         w-toggle-class="show-accounts" href="#"
-                        w-i18n="welcome.menu"></a>
+                        w-i18n="userList.back"></a>
                 </li>
-                <li w-toggle-class="expanded show-accounts" ng-click="$ctrl.removeBodyClass()">
+                <li class="mobile-menu__item" w-toggle-class="expanded show-accounts" ng-click="$ctrl.removeBodyClass()">
                     <div ng-repeat="user in $ctrl.userList track by $index"
-                        style="cursor: pointer; position: relative;"
+                        class="mobile-menu__account-wrapper"
                     >
-                        <div ng-click="$ctrl.switchUser(user)" style="display: flex;">
+                        <div ng-click="$ctrl.switchUser(user)" class="mobile-menu__account">
                             <w-avatar
                                 type="{{::user.userType}}"
                                 size="30"
                                 address="user.address"
+                                class="mobile-menu__account-avatar"
                             ></w-avatar>
-                            <div class="user-info-wrapper">
-                                <div class="basic-50" ng-if="user.name">{{user.name}}</div>
-                                <div class="basic-500">{{::user.address}}</div>
+                            <div class="mobile-menu__account-info">
+                                <div class="mobile-menu__account-name" ng-if="user.name">{{user.name}}</div>
+                                <div class="mobile-menu__account-address">{{::user.address}}</div>
                             </div>
                         </div>
-                        <div class="icon-remove-user icon-close" ng-click="$ctrl.deleteUser(user)"></div>
+                        <div class="mobile-menu__account-remove icon-remove-user icon-close" ng-click="$ctrl.deleteUser(user)"></div>
                     </div>
-                    <div ng-if="$ctrl.userListLocked.length">
-                        <!-- TODO:1978 i18n -->
-                        <span class="basic-50" w-i18n="Require unlock"></span>
+                    <div ng-if="$ctrl.userListLocked.length" class="mobile-menu__account-unlock">
+                        <span w-i18n="welcome.accountList.locked"></span>
                     </div>
                     <div ng-repeat="user in $ctrl.userListLocked track by $index"
                         style="cursor: pointer; position: relative;"
+                        class="mobile-menu__account-wrapper mobile-menu__account-wrapper_unlock"
                     >
-                        <div ng-click="$ctrl.unlockUser(user)" style="display: flex;">
+                        <div ng-click="$ctrl.unlockUser(user)" class="mobile-menu__account">
                             <w-avatar
                                 type="{{::user.userType}}"
                                 size="30"
                                 address="user.address"
+                                class="mobile-menu__account-avatar"
                             ></w-avatar>
-                            <div class="user-info-wrapper">
-                                <div class="basic-50" ng-if="user.name">{{user.name}}</div>
-                                <div class="basic-500">{{::user.address}}</div>
+                            <div class="mobile-menu__account-info">
+                                <div class="mobile-menu__account-name" ng-if="user.name">{{user.name}}</div>
+                                <div class="mobile-menu__account-address">{{::user.address}}</div>
                             </div>
                         </div>
-                        <div class="icon-remove-user icon-close" ng-click="$ctrl.deleteUser(user)"></div>
+                        <div class="mobile-menu__account-remove icon-remove-user icon-close" ng-click="$ctrl.deleteUser(user)"></div>
                     </div>
                 </li>
-                <li w-toggle-class="expanded show-accounts">
-                    <!-- TODO:1978 icon & i18n -->
-                    <a ui-sref="create" class="mobile-menu__link" w-i18n="Add account" ng-click="$ctrl.removeBodyClass()"></a>
+                <li class="mobile-menu__item mobile-menu__item_add" w-toggle-class="expanded show-accounts">
+                    <a ui-sref="create" class="mobile-menu__link mobile-menu__link_add" w-i18n="userList.addNew" ng-click="$ctrl.removeBodyClass()"></a>
                 </li>
-                <li class="separator"></li>
-                <li w-toggle-class="expanded show-accounts">
+                <li class="mobile-menu__item" w-toggle-class="expanded show-accounts">
                     <a class="mobile-menu__link mobile-menu__link_logout"
                         ng-click="$ctrl.removeBodyClass();$ctrl.logout()"
                         href="#"

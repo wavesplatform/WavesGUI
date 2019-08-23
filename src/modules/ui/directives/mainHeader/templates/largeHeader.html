@@ -149,7 +149,7 @@
         </div>
 
 
-        <div class="main-header__dropdown main-header__dropdown_user dropdown">
+        <div class="main-header__dropdown main-header__dropdown_user dropdown" ng-class="{'main-header__dropdown_open': $ctrl.isMenuOpen}">
             <div class="main-header__dropdown-menu-wrapper">
                 <div class="main-header__dropdown-menu" ng-class="{'main-header__dropdown-menu_open': $ctrl.isMenuOpen}">
                     <div>
@@ -175,8 +175,8 @@
                                                     autocomplete="off"
                                                     required></w-input>
 
-                                            <w-input-error class="tiny" ng-class='{hidden: $ctrl.isUniqueUserName}'>
-                                                <span w-i18n="welcome.inputErrorNameExists"></span>
+                                            <w-input-error class="tiny" w-i18n-ns="app.ui" ng-class='{hidden: $ctrl.isUniqueUserName}'>
+                                                <span w-i18n="password.nameExists"></span>
                                             </w-input-error>
                                         </w-input-container>
                                         <div class="user-account__btns">
@@ -212,8 +212,7 @@
                         </a>
                         <a class="dropdown__link dropdown__link_accounts" ng-click="$ctrl.toggleAccounts()">
                             <i class="dropdown__icon dropdown__icon_accounts icon-18"></i>
-                            <!-- TODO:1978 i18n & icon -->
-                            <span class="dropdown__text" w-i18n="Switch account"></span>
+                            <span class="dropdown__text" w-i18n="welcome.switchAccount"></span>
                             <i class="dropdown__icon dropdown__icon_arrow-right"></i>
                         </a>
                         <a class="dropdown__link dropdown__link_logout" ng-click="$ctrl.logout()">
@@ -223,17 +222,16 @@
                     </div>
 
                     <div class="switch-accounts">
-                        <!-- TODO:1978 i18n & icon -->
                         <a class="switch-accounts__back"
                             ng-click="$ctrl.toggleAccounts()"
-                            w-i18n="Menu"
+                            w-i18n="welcome.menu"
                         ></a>
 
                         <div class="switch-accounts__list">
                             <div ng-repeat="user in $ctrl.userList track by $index"
                                 class="switch-accounts__item-wrap"
                             >
-                                <div ng-click="$ctrl.switchUser(user)" style="display: flex;" class="switch-accounts__item">
+                                <div ng-click="$ctrl.switchUser(user)" class="switch-accounts__item">
                                     <w-avatar
                                         type="{{::user.userType}}"
                                         size="30"
@@ -248,8 +246,7 @@
                                 <div class="switch-accounts__remove icon-remove-user icon-close" ng-click="$ctrl.deleteUser(user)"></div>
                             </div>
                             <div ng-if="$ctrl.userListLocked.length" class="switch-accounts__unlock">
-                                <!-- TODO:1978 i18n -->
-                                <span w-i18n="Require unlock"></span>
+                                <span w-i18n="welcome.accountList.locked"></span>
                             </div>
                             <div ng-repeat="user in $ctrl.userListLocked track by $index"
                                 class="switch-accounts__item-wrap switch-accounts__item-wrap_unlock"
@@ -269,9 +266,8 @@
                                 <div class="switch-accounts__remove icon-remove-user icon-close" ng-click="$ctrl.deleteUser(user)"></div>
                             </div>
                         </div>
-                        <div>
-                            <!-- TODO:1978 icon & i18n -->
-                            <a ui-sref="create" w-i18n="Add account" class="switch-accounts__add"></a>
+                        <div class="switch-accounts__add-wrapper">
+                            <a ui-sref="create" w-i18n="userList.addNew" class="switch-accounts__add"></a>
                         </div>
                     </div>
                 </div>

@@ -20,6 +20,12 @@
         }
     },
     "storage": {
+        "backup": {
+            "error": {
+                "body": "Failed to get accounts. Please contact the support service to restore the backup phrase (SEED phrase).",
+                "title": "Something went wrong!"
+            }
+        },
         "read": {
             "error": {
                 "body": "Key 로드 중 오류가 발생했습니다. 백업 저장소에 귀하의 계정을 복원했습니다.",

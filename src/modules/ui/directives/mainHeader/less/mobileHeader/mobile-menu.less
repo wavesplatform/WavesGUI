@@ -28,12 +28,21 @@
     margin: 0;
     height: 100%;
     flex-direction: column;
+
+    &-wrapper {
+      height: 100%;
+
+      .mobile-menu__item:nth-child(2) {
+        overflow-y: auto;
+      }
+    }
   }
 
   &__item {
     display: block;
 
     &_logout,
+    &_add,
     &_get-started-link {
       margin-top: auto;
     }
@@ -70,7 +79,7 @@
   }
 
   &__link {
-    color: @mobile-menu-link;
+    color: @white-only;
     line-height: 50px;
     display: flex;
     width: 100%;
@@ -85,7 +94,6 @@
     }
 
     &_menu {
-      background: @mobile-menu-background-hover;
       color: @white-only;
       background-image: @menu-back-icon;
       background-position: 20px;
@@ -136,6 +144,19 @@
       background-image: @google-play-icon;
     }
 
+    &_add {
+      background-image: @add-user-icon;
+
+      &::before {
+        top: 0;
+      }
+    }
+
+    &_accounts {
+      background-image: @accounts-icon;
+      position: relative;
+    }
+
     &_logout {
       background-image: @logout-icon;
       border-bottom: 0 none;
@@ -182,6 +203,10 @@
           overflow: hidden;
           white-space: nowrap;
         }
+
+        &__name {
+          .headline-3();
+        }
       }
     }
 
@@ -207,6 +232,8 @@
   .mobile-menu__link_apple,
   .mobile-menu__link_android,
   .mobile-menu__link_name,
+  .mobile-menu__link_add,
+  .mobile-menu__link_accounts,
   .mobile-menu__link_address {
     @media screen and (max-width: 860px) {
       padding-left: 58px;
@@ -230,6 +257,49 @@
 
   &__avatar {
     margin: 14px 14px 14px 0;
+  }
+
+  &__account {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    
+    &-wrapper {
+      cursor: pointer;
+      position: relative;
+      margin: 5px 15px;
+
+      &_unlock {
+        opacity: .6;
+      }
+    }
+
+    &-avatar {
+      height: 30px;
+      width: 30px;
+    }
+
+    &-info {
+      margin-left: 10px;
+    }
+
+    &-name {
+      .footnote-1();
+      color: @white-only;
+    }
+
+    &-address {
+      .caption-4();
+      color: @color-basic-500;
+      width: 157px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    &-unlock {
+      margin: 5px 20px;
+      color: @white-only;
+    }
   }
 }
 

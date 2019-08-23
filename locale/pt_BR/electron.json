@@ -20,6 +20,12 @@
         }
     },
     "storage": {
+        "backup": {
+            "error": {
+                "body": "Failed to get accounts. Please contact the support service to restore the backup phrase (SEED phrase).",
+                "title": "Something went wrong!"
+            }
+        },
         "read": {
             "error": {
                 "body": "Ocorreu um erro ao tentar carregar suas chaves. Nós restauramos suas contas a partir do armazenamento de backup.",

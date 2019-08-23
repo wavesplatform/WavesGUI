@@ -53,7 +53,7 @@
 
                     notification.info({
                         ns: 'app.utils',
-                        title: { literal: 'Password was changed successfully' } // TODO:1978 i18n
+                        title: { literal: 'modal.settings.passChanged' }
                     });
                 }).catch(() => {
                     this._showPasswordError();

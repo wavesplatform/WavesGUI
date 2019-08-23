@@ -10,6 +10,7 @@
         },
         "password": {
             "notMatch": "Пароли не совпадают"
-        }
+        },
+        "termsAgreement": "Я прочел и согласен с [Terms and Conditions](https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf), [Privacy Policy](https://wavesplatform.com/files/docs/Waves_privacy_policy.pdf)."
     }
 }

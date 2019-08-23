@@ -4,11 +4,15 @@
 @import (reference) '../../../../../app/less/typography';
 
 .switch-accounts {
+  margin-left: 18px;
+  display: flex;
+  flex-direction: column;
+
   &__back {
     .headline-3();
-    margin: 0 10px;
+    margin: 0 25px 0 10px;
     padding-left: 33px;
-    padding-bottom: 20px;
+    padding-bottom: 14px;
     position: relative;
     display: block;
     color: @color-basic-900;
@@ -27,12 +31,16 @@
   }
 
   &__list {
+    flex: 1;
     max-height: 195px;
+    padding-right: 20px;
     overflow: auto;
     overflow-x: hidden;
   }
 
   &__item {
+    display: flex;
+    
     &-wrap {
       padding: 6px 10px;
       margin: 8px 0;
@@ -85,14 +93,15 @@
 
   &__remove {
     display: none;
+    transition: all .3s;
   }
 
   &__add {
     display: flex;
     align-items: center;
-    padding: 20px 0 0 38px;
-    margin: 0 10px 5px 10px;
-    border-top: 1px solid @color-basic-50;
+    height: 42px;
+    padding-left: 38px;
+    margin-top: 8px;
     color: @color-basic-900;
     position: relative;
 
@@ -102,8 +111,9 @@
       height: 30px;
       width: 30px;
       position: absolute;
-      bottom: -5px;
+      top: 50%;
       left: 0;
+      transform: translateY(-50%);
       border-radius: 50px;
       background-color: @color-basic-50;
       background-image: @add-account-icon;
@@ -112,11 +122,16 @@
       background-size: 14px 14px;
       transition: all .3s;
     }
+
+    &-wrapper {
+      border-top: 1px solid @color-basic-50;
+      margin: 0 25px 0 10px;
+    }
   }
 
   &__unlock {
     font-size: 13px;
     color: @color-basic-700;
-    margin: 0 10px;
+    margin: 8px 10px;
   }
 }

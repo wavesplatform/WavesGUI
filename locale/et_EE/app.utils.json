@@ -193,6 +193,12 @@
             "message": "Kauplemise alustamiseks logige sisse või looge konto",
             "ok": "Logi sisse"
         },
+        "deleteAccount": {
+            "cancel": "Cancel",
+            "delete": "Remove",
+            "description": "{div}[Removing an account will lead to its irretrievable loss if you didn't save a backup phrase (SEED).]\n{div}[Click on the REMOVE button to proceed with account removal, or CANCEL to return to the previous screen.]",
+            "header": "Remove account"
+        },
         "deposit": {
             "coinomatBCH": {
                 "helpDescrText": "Kui tehing on kinnitatud, töötleb gateway BCH tokeni ülekannet teie Waves kontole.",
@@ -606,8 +612,10 @@
             "warningHeader": "Meetmed võivad põhjustada vara kaotsimineku."
         },
         "settings": {
+            "account": "Account",
             "cancel": "Loo konto",
             "changePass": "Change password",
+            "deleteAccount": "Remove account",
             "general": {
                 "auto": "Automaatne",
                 "blockHeight": "Praegune kõrgus",
@@ -717,6 +725,8 @@
             "fee": "Tasu",
             "matcher": "Kinnitage orderite päringud",
             "openApp": "Avage Waves rakendus",
+            "orderType": "Order type",
+            "pair": "Pair",
             "price": "Hind",
             "refererTo": "Kui viga püsib, vaadake palun",
             "referTo": "Kui viga püsib, vaadake palun",
@@ -730,6 +740,7 @@
             "signErrorText": "Te ei kinnitanud päringut teie Ledger Nano S-s",
             "signErrorTextImportKeeper": "Logige sisse Waves Keeperisse aadressiga {{address}} ja seejärel värskendage leht jätkamiseks.",
             "signErrorTextKeeper": "Palun proovi uuesti. Kui viga püsib, looge pilet [kasutajatoele](https://support.wavesplatform.com/)",
+            "timestamp": "Timestamp",
             "txId": "TXID"
         },
         "sponsorship_edit": {
@@ -813,6 +824,7 @@
             "step1": {
                 "button": "Mida on vaja teada oma salafraasi kohta",
                 "buttonMobile": "Järgmine",
+                "buttonReadMore": "Read more",
                 "p1": "Palun võtke aega, et mõista teie jaoks olulisi asju. 🙏",
                 "p2": "Me ei saa teie raha tagasi saada ega teie kontot külmutada, kui külastate andmepüügisaite või kaotate varukoopia (salafraas).",
                 "p3": "Jätkates meie platvormi kasutamist, nõustute nõustuma kõigi riskidega, mis on seotud teie salafraasi kadumisega, sealhulgas, kuid mitte ainult, suutmatus teie raha saada ja neid käsutada. Kui te kaotate oma salafraasi, nõustute ja tunnistate, et Waves Platform ei vastuta selle negatiivsete tagajärgede eest.",
@@ -914,6 +926,7 @@
                 "1_3_18": "{span.line}[1. Added login to wallet using a private key.]\n{span.line}[2. The 24 hours price change of a token is now bound to token/WAVES pair.]",
                 "1_3_19": "{span.line}[1. Bancor gateway has been launched.]\n{span.line}[2. User menu interface has been improved.]",
                 "1_3_2": "{span.line}[1. Vostok gateway has been launched.]\n{span.line}[2. Improved UI and additional minor bugs have been fixed.]",
+                "1_3_20": "{span.line}[1. Improved system for storing and restoring accounts from local storage (Need to update the [desktop application](https://wavesplatform.com/technology/wallet)).]\n{span.line}[2. Fixed rounding of prices in the orderbook.]",
                 "1_3_5": "{span.line}[1. A tab with [wsoc.io](https://wsoc.io) contest tokens has been added.]\n{span.line}[2. French language support added.]\n{span.line}[3. Additional minor bugs have been fixed.]",
                 "1_3_7": "{span.line}[1. Integration with [tokenrating.wavesexplorer.com](https://tokenrating.wavesexplorer.com) Now you can rate tokens directly in the app.]\n{span.line}[2. Additional minor bugs have been fixed.]",
                 "1_3_9": "{span.line}[1. Improved UI and functionality of Exchange and Wallet sections.]\n{span.line}[2. Additional minor bugs have been fixed.]"

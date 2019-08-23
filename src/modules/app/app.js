@@ -75,7 +75,7 @@
                             try {
                                 return originalPostLink.apply(instance, args);
                             } catch (e) {
-                                return onError();
+                                return onError(e);
                             }
                         };
                     }

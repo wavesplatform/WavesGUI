@@ -1,6 +1,6 @@
 <w-main-header class="main-header"></w-main-header>
 
-<div class="main-container-wrapper">
+<div class="main-container-wrapper" w-i18n-ns="app.signUp">
     <div class="main-container get-started-content movable">
         <w-step-by-step active-step="$ctrl.activeStep">
             <w-step>
@@ -8,18 +8,15 @@
                     <!-- TODO:1978 lock image -->
 
                     <div class="headline-1 margin-1">
-                        <!-- TODO:1978 i18n -->
-                        <span w-i18n="New level of security"></span>
+                        <span w-i18n="signUp.headers.onePassword"></span>
                     </div>
 
                     <div class="body-2 basic-500 margin-top-2 margin-4">
-                        <!-- TODO:1978 i18n -->
-                        <span w-i18n="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley."></span>
+                        <span w-i18n="signUp.headers.onePassDesc"></span>
                     </div>
 
                     <w-button class="submit long big" on-click="$ctrl.nextStep()">
-                        <!-- TODO:1978 i18n -->
-                        <div class="full-width" w-i18n="Let's start"></div>
+                        <div class="full-width" w-i18n="signUp.headers.onePassBtn"></div>
                     </w-button>
                 </div>
             </w-step>
@@ -29,13 +26,11 @@
                     <!-- TODO:1978 lock image -->
 
                     <div class="headline-1 margin-1">
-                        <!-- TODO:1978 i18n -->
-                        <span w-i18n="Protect Your Account"></span>
+                        <span w-i18n="signUp.headers.protect"></span>
                     </div>
 
                     <div class="body-2 basic-500 margin-top-2 margin-4">
-                        <!-- TODO:1978 i18n -->
-                        <span w-i18n="Set a single password for all your accounts"></span>
+                        <span w-i18n="signUp.headers.protectDesc"></span>
                     </div>
                 </div>
 
@@ -87,8 +82,7 @@
                         </w-show-hide-password>
 
                         <div class="like-input-error" ng-if="$ctrl.form.confirm.$dirty && $ctrl.form.confirm.$error.compare">
-                            <!-- TODO:1978 i18n -->
-                            <span class="error active" w-i18n="Password does not match"></span>
+                            <span class="error active" w-i18n="signUp.password.notMatch"></span>
                         </div>
                     </w-input-container>
 

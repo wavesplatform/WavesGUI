@@ -193,6 +193,12 @@
             "message": "Takas işlemleri için giriş yap veya hesap oluştur",
             "ok": "Giriş yap"
         },
+        "deleteAccount": {
+            "cancel": "Cancel",
+            "delete": "Remove",
+            "description": "{div}[Removing an account will lead to its irretrievable loss if you didn't save a backup phrase (SEED).]\n{div}[Click on the REMOVE button to proceed with account removal, or CANCEL to return to the previous screen.]",
+            "header": "Remove account"
+        },
         "deposit": {
             "coinomatBCH": {
                 "helpDescrText": "İşlemler onaylandıktan sonra BCH geçidi tarafından Waves adresinize transfer gerçekleştirilecektir.",
@@ -606,8 +612,10 @@
             "warningHeader": "İşlemler kripto paraya erişimi engelleyebilir."
         },
         "settings": {
+            "account": "Account",
             "cancel": "Hesap oluştur",
             "changePass": "Change password",
+            "deleteAccount": "Remove account",
             "general": {
                 "auto": "Otomatik",
                 "blockHeight": "Şu anki blok",
@@ -717,6 +725,8 @@
             "fee": "Komisyon",
             "matcher": "Emri imzalayın",
             "openApp": "Waves uygulamasını aç",
+            "orderType": "Order type",
+            "pair": "Pair",
             "price": "Fiyat",
             "refererTo": "Eğer hatalar devam ederse:",
             "referTo": "Eğer hatalar devam ederse:",
@@ -730,6 +740,7 @@
             "signErrorText": "Talebi Ledger Nano S'i kullanarak doğrulamadın",
             "signErrorTextImportKeeper": "Waves Keeper'a  {{address}} adresinizle giriş yapın, ve devam etmek için sayfayı yenileyin.",
             "signErrorTextKeeper": "Lütfen tekrar deneyin. Eğer hatalar devam ederse [destek](https://support.wavesplatform.com/) ile iletişime geçin",
+            "timestamp": "Timestamp",
             "txId": "TXID"
         },
         "sponsorship_edit": {
@@ -813,6 +824,7 @@
             "step1": {
                 "button": "Anahtar kelimeleriniz hakkında bilmeniz gerekenler",
                 "buttonMobile": "Sonraki",
+                "buttonReadMore": "Read more",
                 "p1": "Lütfen kendi güvenliğiniz için önemli bilgileri içeren bu bilgilendirmeyi okuyunuz. 🙏",
                 "p2": "Eğer anahtar kelimelerinizi kaybederseniz veya çaldırırsanız hesabınızı donduramayız ve varlıklarınızı tekrar alamayız.",
                 "p3": "Waves Platform'u kullanmaya devam ederek, anahtar kelimelerinizi kaybettiğinizde veya çaldırdığınızda Waves Platform'un sorumlu olmadığını kabul etmiş olursunuz.",
@@ -914,6 +926,7 @@
                 "1_3_18": "{span.line}[1. Özel anahtar ile giriş eklendi]\n{span.line}[2. Bir token'in 24 saatlik değişimi token/WAVES olarak ayarlandı.]",
                 "1_3_19": "{span.line}[1. Bancor gateway has been launched.]\n{span.line}[2. User menu interface has been improved.]",
                 "1_3_2": "{span.line}[1. Vostok geçidi faaliyete alındı.]\n{span.line}[2. Görsel tasarım geliştirildi ve ufak hatalar giderildi.]",
+                "1_3_20": "{span.line}[1. Improved system for storing and restoring accounts from local storage (Need to update the [desktop application](https://wavesplatform.com/technology/wallet)).]\n{span.line}[2. Fixed rounding of prices in the orderbook.]",
                 "1_3_5": "{span.line}[1. [wsoc.io](https://wsoc.io) Yarışma kripto paraları eklendi.]\n{span.line}[2. Fransızca desteği eklendi.]\n{span.line}[3. Ufak hatalar giderildi.]",
                 "1_3_7": "{span.line}[1. [tokenrating.wavesexplorer.com] entegrasyonu (https://tokenrating.wavesexplorer.com) Artık uygulamadan kripto paralar için derecelendirme puanı verebilirsiniz.]\n{span.line}[2. Ufak hatalar giderildi.]",
                 "1_3_9": "{span.line}[1. Görsel tasarım iyileştirildi. Borsa ve cüzdan geliştirmeleri yapıldı.]\n{span.line}[2. Ufak hatalar giderildi.]"
