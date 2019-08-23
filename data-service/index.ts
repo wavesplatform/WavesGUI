@@ -97,6 +97,7 @@ class App {
 
     public logOut() {
         sign.dropSignatureApi();
+        sign.dropUserData();
         dataManager.dropAddress();
     }
 
