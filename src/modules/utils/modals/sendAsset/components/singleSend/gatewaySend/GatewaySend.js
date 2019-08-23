@@ -11,8 +11,9 @@
      * @param {User} user
      * @param {Waves} waves
      * @param {GatewayService} gatewayService
+     * @param {ConfigService} configService
      */
-    const controller = function (SingleSend, $scope, utils, user, waves, gatewayService) {
+    const controller = function (SingleSend, $scope, utils, user, waves, gatewayService, configService) {
 
         class GatewaySend extends SingleSend {
 
@@ -36,6 +37,14 @@
 
             set paymentId(value) {
                 this.state.paymentId = value;
+            }
+
+            /**
+             * @return {boolean}
+             */
+            get isGatewayAccepted() {
+                return !configService
+                    .get('PERMISSIONS.CANT_TRANSFER_GATEWAY').includes(this.balance.asset.id);
             }
 
             /**
@@ -246,7 +255,8 @@
         'utils',
         'user',
         'waves',
-        'gatewayService'
+        'gatewayService',
+        'configService'
     ];
 
     angular.module('app.ui').component('wGatewaySend', {
