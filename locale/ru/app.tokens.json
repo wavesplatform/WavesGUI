@@ -56,7 +56,7 @@
     "switchScriptOff": "Отключить скрипт",
     "switchScriptOn": "Установить скрипт",
     "tokens": {
-        "changeColorTooltip": "Change color",
+        "changeColorTooltip": "Сменить цвет",
         "inputHelper": {
             "description": "Если вы будете использовать имя, которое уже используется, то ваш токен может попасть в раздел «Подозрительных», и будет доступен к поиску только по ID.",
             "header": "Такое название уже используется"
