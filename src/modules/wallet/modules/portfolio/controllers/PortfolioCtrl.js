@@ -19,6 +19,7 @@
     };
 
     const ds = require('data-service');
+    const { BigNumber } = require('@waves/bignumber');
 
     /**
      * @param {Base} Base
@@ -117,15 +118,21 @@
                             },
                             {
                                 id: 'mirror',
-                                title: { literal: 'list.mirror', params: { currency: mirror.displayName } }
+                                title: { literal: 'list.mirror', params: { currency: mirror.displayName } },
+                                valuePath: 'item.amount',
+                                sort: true
                             },
                             {
                                 id: 'rate',
-                                title: { literal: 'list.rate', params: { currency: mirror.displayName } }
+                                title: { literal: 'list.rate', params: { currency: mirror.displayName } },
+                                valuePath: 'item.rate',
+                                sort: true
                             },
                             {
                                 id: 'change24',
-                                title: { literal: 'list.change' }
+                                title: { literal: 'list.change' },
+                                valuePath: 'item.change24',
+                                sort: true
                             },
                             {
                                 id: 'controls'
@@ -333,10 +340,27 @@
              */
             _updateBalances() {
                 const balanceList = balanceWatcher.getFullBalanceList();
+                const baseAssetId = user.getSetting('baseAssetId');
+                const assetList = balanceList.map(balance => balance.asset);
+                const lastDayDate = utils.moment().add().day(-1).format('YYYY-MM-DD');
 
-                this._addRating(balanceList).then(balanceListWithRating => {
+                Promise.all([
+                    this._addRating(balanceList),
+                    ...splitEvery(20, assetList).map(list => waves.utils.getRateList(list, baseAssetId)),
+                    ...splitEvery(20, assetList).map(list => waves.utils.getRateList(list, baseAssetId, lastDayDate))
+                    // ...waves.utils.getRateListPost(assetList, baseAssetId)
+                ]).then(([balanceListWithRating, ...rateData]) => {
+                    const currentRateData = rateData.filter((data, i) => i < rateData.length / 2);
+                    const lastRateData = rateData.filter((data, i) => i >= rateData.length / 2);
+
+                    const flattenCurrentRateData = flatten(currentRateData.map(item => item.data));
+                    const currentRates = flattenCurrentRateData.map(item => new BigNumber(item.data.current));
+
+                    const flattenLastRateData = flatten(lastRateData.map(item => item.data));
+                    const lastRates = flattenLastRateData.map(item => new BigNumber(item.data.current));
+
                     this.details = balanceListWithRating
-                        .map(item => {
+                        .map((item, idx) => {
                             const isPinned = this._isPinned(item.asset.id);
                             const isSpam = this._isSpam(item.asset.id);
                             const isOnScamList = user.scam[item.asset.id];
@@ -350,7 +374,10 @@
                                 rating: item.rating || null,
                                 minSponsoredAssetFee: item.asset.minSponsoredAssetFee,
                                 sponsorBalance: item.asset.sponsorBalance,
-                                leasedOut: item.leasedOut
+                                leasedOut: item.leasedOut,
+                                change24: this._getChange24(currentRates[idx], lastRates[idx]),
+                                rate: currentRates[idx],
+                                amount: (new BigNumber(currentRates[idx].roundTo(2))).mul(item.available.getTokens())
                             };
                         })
                         .reduce((acc, item) => {
@@ -400,6 +427,19 @@
              */
             _isSpam(assetId) {
                 return this.spam.includes(assetId);
+            }
+
+            /**
+             * @param {BigNumber} last
+             * @param {BigNumber} current
+             * @return {BigNumber}
+             * @private
+             */
+            _getChange24(currentRate, lastRate) {
+                if (lastRate.isZero()) {
+                    return new BigNumber(0);
+                }
+                return currentRate.sub(lastRate).div(lastRate).mul(100).roundTo(2);
             }
 
         }

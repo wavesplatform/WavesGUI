@@ -60,6 +60,38 @@
                 }
             }
 
+            @decorators.cachable(350)
+            /**
+             * @param {Asset[]} assetList
+             * @param {string} baseAssetId
+             * @return {Promise<IRateList>}
+             */
+            getRateList(assetList, baseAssetId, date) {
+                const requestParamsStr = this._getRateListRequestStr(assetList, baseAssetId);
+                const api = WavesApp.network.api;
+                const version = WavesApp.network.apiVersion;
+                const timestamp = date ? `timestamp=${date}&` : '';
+                return ds.fetch(
+                    // eslint-disable-next-line max-len
+                    `${api}/${version}/matcher/${matcher.currentMatcherAddress}/rates?${timestamp}pairs=${requestParamsStr}`
+                );
+            }
+
+            // @decorators.cachable(350)
+            // getRateListPost(assetList, baseAssetId) {
+            //     const requestParamsStr = this._getRateListRequestStr(assetList, baseAssetId);
+            //     const api = WavesApp.network.api;
+            //     const version = WavesApp.network.apiVersion;
+            //     // eslint-disable-next-line max-len
+            // eslint-disable-next-line max-len
+            //     return ds.fetch(`${api}/${version}/matcher/${matcher.currentMatcherAddress}/rates?pairs=${requestParamsStr}`, {
+            //         method: 'POST',
+            //         body: JSON.stringify({
+            //             pairs: requestParamsStr
+            //         })
+            //     });
+            // }
+
             /**
              * Get api for current balance from another balance
              * @param {string|Asset} assetFrom
@@ -321,6 +353,24 @@
             }
 
             /**
+             * @param {Asset[]} assetList
+             * @param {string} baseAssetId
+             * @return {string}
+             * @private
+             */
+            _getRateListRequestStr(assetList, baseAssetId) {
+                const params = assetList.reduce((acc, asset, i) => {
+                    const id = WavesUtils.toId(asset);
+                    if (i) {
+                        acc += ',';
+                    }
+                    acc += `${id}/${baseAssetId}`;
+                    return acc;
+                }, '');
+                return params;
+            }
+
+            /**
              * @param {string|Asset} asset
              * @return {string}
              */
@@ -341,4 +391,24 @@
 
 /**
  * @name WavesUtils.rateApi
+ */
+
+/**
+ * @typedef {object} IRateList
+ * @property {string} __type
+ * @property {IRateListData[]} data
+ */
+
+/**
+ * @typedef {object} IRateListData
+ * @property {string} __type
+ * @property {IRateData} data
+ */
+
+/**
+ * @typedef {object} IRateData
+ * @property {string} __type
+ * @property {string} amountAsset
+ * @property {string} priceAsset
+ * @property {number} current
  */
