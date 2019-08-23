@@ -141,9 +141,15 @@
         }
     },
     "password": {
+        "btn": {
+            "confirm": "Confirm"
+        },
         "minLength": "musi być conajmniej {{minLength}} znaków",
         "name": "Nazwa konta",
         "nameExists": "Ta nazwa jest zajęta",
+        "newPass": "New password",
+        "old": "Old password",
+        "oldWrong": "Old password is wrong",
         "repeat": "Potwierdź hasło",
         "secure": "bezpieczne hasło",
         "title": "Chroń swoje konto za pomocą nowego hasła",

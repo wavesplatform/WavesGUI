@@ -119,6 +119,7 @@
     },
     "userList": {
         "addNew": "Hesap ekle",
+        "back": "Back",
         "create": "Yeni bir hesap oluşturun",
         "frombackup": "yedekten",
         "import": "Hesapları içeri aktar",
@@ -127,6 +128,9 @@
         "subTitleSession": "Oturum otomatik olarak sonlandırıldı."
     },
     "welcome": {
+        "accountList": {
+            "locked": "Require unlocking"
+        },
         "address": "Adres",
         "aliases": "Takma adlar",
         "android": "Google Play",
@@ -205,6 +209,7 @@
         "stackOverflow": "Stack Overflow",
         "suitableTradingBots": "Takas botlarına uygun",
         "support": "Destek",
+        "switchAccount": "Switch account",
         "telegram": "Telegram",
         "termsOfUse": "Kullanım koşulları",
         "tokenCreation": "Hızlı kripto para oluşturma",

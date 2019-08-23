@@ -141,9 +141,15 @@
         }
     },
     "password": {
+        "btn": {
+            "confirm": "Confirm"
+        },
         "minLength": "En az {{minLength}} karaktere sahip olmalıdır",
         "name": "Hesap adı",
         "nameExists": "Bu isim alınmış",
+        "newPass": "New password",
+        "old": "Old password",
+        "oldWrong": "Old password is wrong",
         "repeat": "Parolayı doğrula",
         "secure": "Parola güçlü!",
         "title": "Hesabınızı bir parola ile koruyun",

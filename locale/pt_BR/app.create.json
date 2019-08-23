@@ -25,9 +25,18 @@
         "avatarUnique": "Este avatar é único. Você não poderá mudar depois.",
         "choose": "Escolha o avatar de seu endereço",
         "create": "Create a new account",
+        "createAccount": "Create a new account",
         "createDescription": "Fast and free",
         "createNewAccount": "Criar Nova Conta",
+        "description": {
+            "becomePart": "Become part of a fast-growing area of the crypto world. You are the only person who can access your crypto assets",
+            "enterName": "Enter account name or"
+        },
         "from": "de um backup",
+        "header": {
+            "accountName": "Account name",
+            "withBlockchain": "Get Started with Blockchain"
+        },
         "import": "Importar contas",
         "importDescription": "via Seed phrase, Ledger or Keeper",
         "protect": "Proteja sua conta com uma senha ou",
