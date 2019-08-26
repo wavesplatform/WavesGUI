@@ -340,8 +340,7 @@
             }
 
             switchUser(toUser) {
-                user.logout('.', true);
-                $state.go('switch');
+                user.logout('switch', true);
                 user.login(toUser);
             }
 
@@ -360,20 +359,20 @@
                             );
 
                             if (this.userList.length === 0) {
-                                user.logout('.', true);
-
                                 if (this.userListLocked.length === 0) {
-                                    $state.go('create');
+                                    user.logout('create', true);
                                 } else {
-                                    $state.go('migrate');
+                                    user.logout('migrate', true);
                                 }
-                            } else {
+
+
+                            } else if (userToDelete.hash === user.hash) {
                                 this.switchUser(this.userList[0]);
                             }
                         });
                     } else {
                         return user.removeUserByAddress(userToDelete.address).then(() => {
-                            this.userListLocked = this.userList.filter(
+                            this.userListLocked = this.userListLocked.filter(
                                 userInList => userInList.address !== userToDelete.address
                             );
                         });

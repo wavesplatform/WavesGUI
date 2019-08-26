@@ -521,7 +521,8 @@
                 // const sessions = sessionBridge.getSessionsData();
 
                 const states = WavesApp.stateTree.where({ noLogin: true })
-                    .map((item) => WavesApp.stateTree.getPath(item.id).join('.'));
+                    .map((item) => WavesApp.stateTree.getPath(item.id).join('.'))
+                    .concat(multiAccount.isSignedIn ? ['create', 'migrate'] : []);
 
                 if (canChangeState && states.indexOf(currentState.name) === -1) {
                     // if (sessions.length) {

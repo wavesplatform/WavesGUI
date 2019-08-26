@@ -471,8 +471,13 @@
                 }
 
                 if (stateName) {
-                    this.logoutSignal.dispatch({});
                     this._resetFields();
+
+                    if (isSwitch) {
+                        $state.go(stateName);
+                    }
+
+                    this.logoutSignal.dispatch({});
                     this.changeTheme(themes.getDefaultTheme());
 
                     if (!isSwitch) {
