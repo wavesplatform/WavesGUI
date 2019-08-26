@@ -286,6 +286,14 @@
     &-name {
       .footnote-1();
       color: @white-only;
+      max-width: 120px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      &-wrap {
+        display: flex;
+        align-items: center;
+      }
     }
 
     &-address {
@@ -300,6 +308,18 @@
       margin: 5px 20px;
       color: @white-only;
     }
+  }
+
+  &__active {
+    color: @color-submit-400;
+    padding: 3px 4px;
+    border-radius: @border-radius / 2;
+    background: rgba(31, 90, 246, 0.1);
+    font-size: 9px;
+    line-height: 9px;
+    height: 15px;
+    display: flex;
+    align-items: center;
   }
 }
 

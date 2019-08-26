@@ -14,8 +14,8 @@
                     $mdDialog.hide();
 
                     notification.info({
-                        ns: 'app.utils',
-                        title: { literal: '???' } // TODO:1978 i18n
+                        ns: 'app.signIn',
+                        title: { literal: 'signIn.modal.forgotPass' }
                     });
                 });
             }

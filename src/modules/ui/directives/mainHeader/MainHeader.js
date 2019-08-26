@@ -154,11 +154,9 @@
                 if (!this.userName) {
                     this.onCancel();
                 } else if (this.showInput) {
-                    userNameService.save()
-                        .then(() => {
-                            this.setNameView(false);
-                            this.showTooltip();
-                        });
+                    userNameService.save().then(() => {
+                        this._onUserNameSave();
+                    });
                 }
 
             }
@@ -183,11 +181,9 @@
              * @public
              */
             onSave() {
-                userNameService.save()
-                    .then(() => {
-                        this.showTooltip();
-                        this.setNameView();
-                    });
+                userNameService.save().then(() => {
+                    this._onUserNameSave();
+                });
             }
 
             /**
@@ -379,6 +375,15 @@
 
             isCurrentUser(userInList) {
                 return userInList.hash === user.hash;
+            }
+
+            _onUserNameSave() {
+                this.showTooltip();
+                this.setNameView();
+
+                const currentUser = this.userList.find(cur => cur.hash === user.hash);
+
+                currentUser.name = user.name;
             }
 
             /**
