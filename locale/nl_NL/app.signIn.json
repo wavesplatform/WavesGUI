@@ -11,6 +11,9 @@
             "restore": "Alles terugzetten"
         },
         "enterPass": "Voer uw wachtwoord in om door te gaan",
+        "modal": {
+            "forgotPass": "Password successfully reset"
+        },
         "passForgot": {
             "attention": "Let op!",
             "description": "Als u uw wachtwoord bent vergeten kunt u al uw accounts terugzetten door middel van de SEEDs en een nieuw wachtwoord instellen."

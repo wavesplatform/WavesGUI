@@ -30,11 +30,15 @@
         "createNewAccount": "Kies een afbeelding",
         "description": {
             "becomePart": "Word onderdeel van het snelst groeiende gebied binnen de cryptowereld. U bent de enige persoon die toegang heeft tot uw crypto assets.",
-            "enterName": "Voer accountnaam of in"
+            "enterName": "Voer accountnaam of in",
+            "tokenLauncher": "Issue your own tokens. These can be integrated into your business not only as an internal currency but also as a rating system, or loyalty program.",
+            "wallet": "Store, manage and receive interest on your digital assets balance, easily and securely."
         },
         "from": "Deze avatar is uniek, u kunt deze later niet wijzigen.",
         "header": {
             "accountName": "Accountnaam",
+            "tokenLauncher": "TokenLauncher",
+            "wallet": "Wallet",
             "withBlockchain": "Begin met Blockchain"
         },
         "import": "Importeer accounts",

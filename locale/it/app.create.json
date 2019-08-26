@@ -30,11 +30,15 @@
         "createNewAccount": "Scegli il tuo Avatar",
         "description": {
             "becomePart": "Become part of a fast-growing area of the crypto world. You are the only person who can access your crypto assets",
-            "enterName": "Enter account name or"
+            "enterName": "Enter account name or",
+            "tokenLauncher": "Issue your own tokens. These can be integrated into your business not only as an internal currency but also as a rating system, or loyalty program.",
+            "wallet": "Store, manage and receive interest on your digital assets balance, easily and securely."
         },
         "from": "Questo avatar è una rappresentazione visiva, non potrai cambiarlo successivamente",
         "header": {
             "accountName": "Account name",
+            "tokenLauncher": "TokenLauncher",
+            "wallet": "Wallet",
             "withBlockchain": "Get Started with Blockchain"
         },
         "import": "Importa account",

@@ -768,7 +768,7 @@
                 "analytics": "開発者に匿名の使用統計を送信することで、Wavesプラットフォームの改善に協力します。",
                 "backup": "私は、アプリを他のデバイスに移動するまたは削除した場合、私のWavesはバックアップフレーズのみから復元できることを理解しています。",
                 "ok": "承認して始める",
-                "privacyPolicy": "[プライバシーポリシー](https://wavesplatform.com/files/docs/Privacy Policy_SW.pdf)の内容を確認し、同意します。",
+                "privacyPolicy": "[プライバシーポリシー](https://wavesplatform.com/files/docs/Waves_privacy_policy.pdf)の内容を確認し、同意します。",
                 "read": "私は規約を読み、十分に理解し、同意します。",
                 "readTermsAndConditions": "私は[利用規則](https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf)を読み、十分に理解し、その内容に同意します。",
                 "security": "私の資金は企業ではなく、デバイス上に安全に保管されていることを理解しています。",
