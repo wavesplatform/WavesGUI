@@ -234,7 +234,7 @@
              * @private
              */
             _validateForm() {
-                if (this.tx.amount.getTokens().gt(0)) {
+                if (this.tx.amount && this.tx.amount.getTokens().gt(0)) {
                     this.gatewaySend.amount.$setTouched(true);
                 }
             }

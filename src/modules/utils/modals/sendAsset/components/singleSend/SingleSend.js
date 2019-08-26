@@ -109,7 +109,6 @@
 
             constructor($scope) {
                 super($scope);
-                this.test = 'test';
                 this.__$scope = $scope;
             }
 

@@ -115,12 +115,8 @@
              * @private
              */
             _validateForm() {
-                if (this.tx.amount.getTokens().gt(0) || this.tx.recipient) {
-                    this.wavesSend.$setDirty(true);
-                    this.wavesSend.$setSubmitted(true);
-                    if (this.wavesSend.amount) {
-                        this.wavesSend.amount.$setTouched(true);
-                    }
+                if ((this.wavesSend.amount && this.tx.amount.getTokens().gt(0)) || this.tx.recipient) {
+                    this.wavesSend.amount.$setTouched(true);
                 }
             }
 

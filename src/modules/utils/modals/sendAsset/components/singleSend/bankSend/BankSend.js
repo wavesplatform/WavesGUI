@@ -91,6 +91,7 @@
                     this._onChangeFee();
                     this._updateWavesTxObject();
                     this._setMinAndMaxAmount();
+                    this._validateForm();
                 };
 
                 if (!this.state.moneyHash) {
@@ -107,6 +108,7 @@
                     this._onChangeBaseAssets();
                     this._onChangeFee();
                     this._setMinAndMaxAmount();
+                    this._validateForm();
                 });
             }
 
@@ -148,8 +150,6 @@
                 this.maxAmount = Money.min(maxCoinomatAmount, this.balance);
                 this.minAmount = minCoinomatAmount;
                 this.maxCoinomatAmount = maxCoinomatAmount;
-
-                this._validateForm();
             }
 
             /**
@@ -180,6 +180,7 @@
             _onChangeAssetId() {
                 super._onChangeAssetId();
                 this._setMinAndMaxAmount();
+                this._validateForm();
             }
 
         }
