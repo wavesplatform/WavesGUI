@@ -4,7 +4,6 @@
     'use strict';
 
     const locationHref = location.href;
-    const tsUtils = require('ts-utils');
     const i18next = require('i18next');
     const ds = require('data-service');
     const { propEq, where, gte, lte, equals, __ } = require('ramda');
@@ -456,10 +455,9 @@
              */
             @decorators.scope({ closeByModal: false })
             _initializeBackupWarning(scope) {
-                if (!user.getSetting('hasBackup')) {
+                const id = '_hasBackupId';
 
-                    const id = tsUtils.uniqueId('n');
-
+                if (!user.getSetting('hasBackup') && !notification.has(id)) {
                     const changeModalsHandler = (modal) => {
 
                         scope.closeByModal = true;
