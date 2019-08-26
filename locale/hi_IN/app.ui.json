@@ -141,9 +141,15 @@
         }
     },
     "password": {
+        "btn": {
+            "confirm": "Confirm"
+        },
         "minLength": "कम से कम {{minLength}} वर्णों का होना चाहिए",
         "name": "खाते का नाम",
         "nameExists": "That name is taken",
+        "newPass": "New password",
+        "old": "Old password",
+        "oldWrong": "Old password is wrong",
         "repeat": "पासवर्ड पुष्टि करें\"",
         "secure": "सुरक्षित पासवर्ड",
         "title": "अपने खाते को नए पासवर्ड से सुरक्षित करें",

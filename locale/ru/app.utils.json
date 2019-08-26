@@ -198,7 +198,7 @@
                 "helpDescrText": "Как только транзакция будет подтверждена, шлюз отправит BCH-токен на ваш аккаунт Waves.",
                 "helpDescrTitle": "Введите этот адрес в ваш Bitcoin Cash клиент или кошелёк.",
                 "warningMinAmountText": "Если вы отправите меньше чем {{minAmount, BigNumber}} {{assetTicker}}, вы потеряете деньги.",
-                "warningMinAmountTitle": "Минимальная сумма депозита {{minAmount, BigNumber}} {{assetTicker}}.",
+                "warningMinAmountTitle": "Минимальная сумма депозита {{minAmount, BigNumber}} {{assetTicker}}, максимальная сумма депозита {{maxAmount}} {{assetTicker}}",
                 "warningText": "Отправка любой другой валюты на этот адрес может повлечь за собой потерю средств.",
                 "warningTitle": "Отправляйте только BCH на этот адрес"
             },
@@ -206,7 +206,7 @@
                 "helpDescrText": "Как только транзакция будет подтверждена, шлюз отправит BSV-токен на ваш аккаунт Waves.",
                 "helpDescrTitle": "Введите этот адрес в ваш Bitcoin Cash клиент или кошелёк.",
                 "warningMinAmountText": "Если вы отправите меньше чем {{minAmount, BigNumber}} {{assetTicker}}, вы потеряете деньги.",
-                "warningMinAmountTitle": "Минимальная сумма депозита {{minAmount, BigNumber}} {{assetTicker}}.",
+                "warningMinAmountTitle": "Минимальная сумма депозита {{minAmount, BigNumber}} {{assetTicker}}, максимальная сумма депозита {{maxAmount}} {{assetTicker}}",
                 "warningText": "Отправка любой другой валюты на этот адрес может повлечь за собой потерю средств.",
                 "warningTitle": "Отправляйте только BSV на этот адрес"
             },
@@ -214,7 +214,7 @@
                 "helpDescrText": "Как только транзакция будет подтверждена, шлюз отправит BTC-токен на ваш аккаунт Waves.",
                 "helpDescrTitle": "Введите этот адрес в ваш Bitcoin клиент или кошелёк.",
                 "warningMinAmountText": "Если вы отправите меньше чем {{minAmount, BigNumber}} {{assetTicker}}, вы потеряете деньги.",
-                "warningMinAmountTitle": "Минимальная сумма депозита {{minAmount, BigNumber}} {{assetTicker}}.",
+                "warningMinAmountTitle": "Минимальная сумма депозита {{minAmount, BigNumber}} {{assetTicker}}, максимальная сумма депозита {{maxAmount}} {{assetTicker}}",
                 "warningText": "Отправка любой другой валюты на этот адрес может повлечь за собой потерю средств.",
                 "warningTitle": "Отправляйте только BTC на этот адрес"
             },
@@ -222,7 +222,7 @@
                 "helpDescrText": "Как только транзакция будет подтверждена, шлюз отправит DASH-токен на ваш аккаунт Waves.",
                 "helpDescrTitle": "Введите этот адрес в ваш DASH клиент или кошелёк.",
                 "warningMinAmountText": "Если вы отправите меньше чем {{minAmount, BigNumber}} {{assetTicker}}, вы потеряете деньги.",
-                "warningMinAmountTitle": "Минимальная сумма депозита {{minAmount, BigNumber}} {{assetTicker}}.",
+                "warningMinAmountTitle": "Минимальная сумма депозита {{minAmount, BigNumber}} {{assetTicker}}, максимальная сумма депозита {{maxAmount}} {{assetTicker}}",
                 "warningText": "Отправка любой другой валюты на этот адрес может повлечь за собой потерю средств.",
                 "warningTitle": "Отправляйте только DASH на этот адрес"
             },
@@ -230,7 +230,7 @@
                 "helpDescrText": "Как только транзакция будет подтверждена, шлюз отправит ETH-токен на ваш аккаунт Waves.",
                 "helpDescrTitle": "Введите этот адрес в ваш Ethereum клиент или кошелёк.",
                 "warningMinAmountText": "Если вы отправите меньше чем {{minAmount, BigNumber}} {{assetTicker}}, вы потеряете деньги.",
-                "warningMinAmountTitle": "Минимальная сумма депозита {{minAmount, BigNumber}} {{assetTicker}}.",
+                "warningMinAmountTitle": "Минимальная сумма депозита {{minAmount, BigNumber}} {{assetTicker}}, максимальная сумма депозита {{maxAmount}} {{assetTicker}}",
                 "warningText": "Проверьте, не использует ли ваш кошелёк или биржа смарт-контракты для отправки ETH. Мы не принимаем такие переводы и не можем возместить их. Вы потеряете эти деньги.",
                 "warningTitle": "Не отправляйте ETH со смарт-контрактов! Не отправляйте ERC20-токены! Только Ethereum."
             },
@@ -238,7 +238,7 @@
                 "helpDescrText": "Как только транзакция будет подтверждена, шлюз отправит LTC-токен на ваш аккаунт Waves.",
                 "helpDescrTitle": "Введите этот адрес в ваш Litecoin клиент или кошелёк.",
                 "warningMinAmountText": "Если вы отправите меньше чем {{minAmount, BigNumber}} {{assetTicker}}, вы потеряете деньги.",
-                "warningMinAmountTitle": "Минимальная сумма депозита {{minAmount, BigNumber}} {{assetTicker}}.",
+                "warningMinAmountTitle": "Минимальная сумма депозита {{minAmount, BigNumber}} {{assetTicker}}, максимальная сумма депозита {{maxAmount}} {{assetTicker}}",
                 "warningText": "Отправка любой другой валюты на этот адрес может повлечь за собой потерю средств.",
                 "warningTitle": "Отправляйте только LTC на этот адрес"
             },
@@ -246,7 +246,7 @@
                 "helpDescrText": "Как только транзакция будет подтверждена, шлюз отправит XMR-токен на ваш аккаунт Waves.",
                 "helpDescrTitle": "Введите этот адрес в ваш Monero клиент или кошелёк.",
                 "warningMinAmountText": "Если вы отправите меньше чем {{minAmount, BigNumber}} {{assetTicker}}, вы потеряете деньги.",
-                "warningMinAmountTitle": "Минимальная сумма депозита {{minAmount, BigNumber}} {{assetTicker}}",
+                "warningMinAmountTitle": "Минимальная сумма депозита {{minAmount, BigNumber}} {{assetTicker}}, максимальная сумма депозита {{maxAmount}} {{assetTicker}}",
                 "warningText": "{div}[Payment ID не требуется.]Отправка любой другой валюты на этот адрес может повлечь за собой потерю средств.",
                 "warningTitle": "Отправляйте только XMR на этот адрес"
             },
@@ -254,7 +254,7 @@
                 "helpDescrText": "Как только транзакция будет подтверждена, шлюз отправит ZEC-токен на ваш аккаунт Waves.",
                 "helpDescrTitle": "Введите этот адрес в ваш Zcash клиент или кошелёк.",
                 "warningMinAmountText": "Если вы отправите меньше чем {{minAmount, BigNumber}} {{assetTicker}}, вы потеряете деньги.",
-                "warningMinAmountTitle": "Минимальная сумма депозита {{minAmount, BigNumber}} {{assetTicker}}.",
+                "warningMinAmountTitle": "Минимальная сумма депозита {{minAmount, BigNumber}} {{assetTicker}}, максимальная сумма депозита {{maxAmount}} {{assetTicker}}",
                 "warningText": "Отправка любой другой валюты на этот адрес может повлечь за собой потерю средств.",
                 "warningTitle": "Отправляйте только Zcash на этот адрес"
             },
@@ -267,23 +267,23 @@
             "wavesGatewayBNT": {
                 "helpDescrText": "Как только транзакция будет подтверждена, шлюз отправит Bancor-токен на ваш аккаунт Waves.",
                 "helpDescrTitle": "Введите этот адрес в вашем клиенте или кошельке.",
-                "warningMinAmountText": "Если вы отправите меньше чем 2 Bancor, вы потеряете деньги.",
-                "warningMinAmountTitle": "Минимальная сумма депозита 2 Bancor, максимальная сумма депозита 100 000 Bancor",
+                "warningMinAmountText": "Если вы отправите меньше чем {{minAmount, BigNumber}} {{assetTicker}}, вы потеряете деньги.",
+                "warningMinAmountTitle": "Минимальная сумма депозита {{minAmount, BigNumber}} {{assetTicker}}, максимальная сумма депозита {{maxAmount}} {{assetTicker}}",
                 "warningText": "Проверьте, не использует ли ваш кошелёк или биржа смарт-контракты для отправки Bancor. Мы не принимаем такие переводы и не можем возместить их. Вы потеряете эти деньги.",
                 "warningTitle": "Не отправляйте BNT со смарт-контрактов! Не отправляйте другие ERC20-токены! Только Bancor."
             },
             "wavesGatewayERGO": {
                 "helpDescrText": "Как только транзакция будет подтверждена, шлюз отправит ERGO-токен на ваш аккаунт Waves.",
                 "helpDescrTitle": "Введите этот адрес в ваш ERGO клиент или кошелёк.",
-                "warningMinAmountText": "Если вы отправите меньше чем 0.1 ERGO, вы потеряете деньги.",
-                "warningMinAmountTitle": "Минимальная сумма депозита 0.1 ERGO, максимальная сумма депозита 50 000 ERGO",
+                "warningMinAmountText": "Если вы отправите меньше чем {{minAmount, BigNumber}} {{assetTicker}}, вы потеряете деньги.",
+                "warningMinAmountTitle": "Минимальная сумма депозита {{minAmount, BigNumber}} {{assetTicker}}, максимальная сумма депозита {{maxAmount}} {{assetTicker}}",
                 "warningText": "Отправка любой другой валюты на этот адрес может повлечь за собой потерю средств.",
                 "warningTitle": "Отправляйте только ERGO на этот адрес"
             },
             "wavesGatewayVST": {
                 "helpDescrText": "Как только транзакция будет подтверждена, шлюз отправит Vostok-токен на ваш аккаунт Waves.",
                 "helpDescrTitle": "Введите этот адрес в ваш Vostok клиент или кошелёк.",
-                "warningMinAmountTitle": "Минимальная сумма депозита 0.1 VST, максимальная сумма депозита 50 000 VST"
+                "warningMinAmountTitle": "Минимальная сумма депозита {{minAmount, BigNumber}} {{assetTicker}}, максимальная сумма депозита {{maxAmount}} {{assetTicker}}"
             }
         },
         "dexScriptedPair": {
@@ -607,6 +607,7 @@
         },
         "settings": {
             "cancel": "Create an account",
+            "changePass": "Изменить пароль",
             "general": {
                 "auto": "Авто",
                 "blockHeight": "Текущая высота",
@@ -671,6 +672,8 @@
                     "ok": "Я понял"
                 }
             },
+            "passChanged": "Пароль был успешно изменен",
+            "password": "Пароль",
             "security": {
                 "address": "Адрес",
                 "backupPhrase": "Секретная фраза",
@@ -765,7 +768,7 @@
                 "analytics": "Я хочу помочь развивать Waves, отправляя анонимную статистику разработчикам",
                 "backup": "Я понимаю, что если это приложение установлено на другом устройстве или удалено, то я получу доступ к своим средствам только с помощью секретной фразы",
                 "ok": "Подтвердить и начать",
-                "privacyPolicy": "Я прочел и согласен с [Privacy Policy](https://wavesplatform.com/files/docs/Privacy Policy_SW.pdf).",
+                "privacyPolicy": "Я прочел и согласен с [Privacy Policy](https://wavesplatform.com/files/docs/Waves_privacy_policy.pdf).",
                 "read": "Я прочитал, понял и согласен с",
                 "readTermsAndConditions": "Я прочел и согласен с [Terms and Conditions](https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf).",
                 "security": "Я понимаю, что мои средства хранятся на этом устройстве, а не у компании",

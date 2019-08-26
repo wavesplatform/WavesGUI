@@ -267,23 +267,23 @@
             "wavesGatewayBNT": {
                 "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of Bancor to a token in your Waves account.",
                 "helpDescrTitle": "Enter this address into your client or wallet",
-                "warningMinAmountText": "If you will send less than 2 Bancor, you will lose that money.",
-                "warningMinAmountTitle": "The minimum amount of deposit is 2 Bancor, the maximum amount of deposit is 100 000 Bancor",
+                "warningMinAmountText": "If you will send less than {{minAmount, BigNumber}} {{assetTicker}}, you will lose that money.",
+                "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}, the maximum amount of deposit is {{maxAmount}} {{assetTicker}}",
                 "warningText": "Check if your wallet or exchange uses smart-contracts to withdraw Bancor. We do not accept such transactions and can’t refund them. You will lose that money.",
                 "warningTitle": "Please do not deposit BNT from smart contracts! Do not deposit other ERC20 tokens! Only Bancor is allowed."
             },
             "wavesGatewayERGO": {
                 "helpDescrText": "トランザクションが承認されると、ゲートウェイはERGOの送信を進め、完了するとあなたのWavesアカウントにトークンが反映されます。",
                 "helpDescrTitle": "このアドレスをERGOクライアント、またはウォレットに入力してください",
-                "warningMinAmountText": "0.1以下のERGOを送金した場合、資産を紛失します。",
-                "warningMinAmountTitle": "最小デポジット額は0.1 ERGO、最大デポジット額は50,000 ERGOです",
+                "warningMinAmountText": "{{minAmount, BigNumber}}以下の{{assetTicker}}を送金した場合、資産を紛失します。",
+                "warningMinAmountTitle": "最小デポジット額は{{minAmount, BigNumber}} {{assetTicker}}、最大デポジット額は{{maxAmount}} {{assetTicker}}です",
                 "warningText": "このアドレスに他の通貨を送信した場合、資産の消失につながる可能性があります。",
                 "warningTitle": "このデポジットアドレスにはERGOのみ送信してください"
             },
             "wavesGatewayVST": {
                 "helpDescrText": "トランザクションが承認されると、ゲートウェイはVostokの送信を進め、あなたのWavesアカウントにトークンが反映されます。",
                 "helpDescrTitle": "このアドレスをVostokクライアント、またはウォレットに入力してください",
-                "warningMinAmountTitle": "最小デポジット額は0.1 VST、最大デポジット額は50,000 VSTです"
+                "warningMinAmountTitle": "最小デポジット額は{{minAmount, BigNumber}} {{assetTicker}}、最大デポジット額は{{maxAmount}} {{assetTicker}}です"
             }
         },
         "dexScriptedPair": {
@@ -607,6 +607,7 @@
         },
         "settings": {
             "cancel": "アカウントを作成",
+            "changePass": "Change password",
             "general": {
                 "auto": "自動",
                 "blockHeight": "現在のブロック",
@@ -671,6 +672,8 @@
                     "ok": "理解しました"
                 }
             },
+            "passChanged": "Password was changed successfully",
+            "password": "Password",
             "security": {
                 "address": "アドレス",
                 "backupPhrase": "バックアップフレーズ",
@@ -765,7 +768,7 @@
                 "analytics": "開発者に匿名の使用統計を送信することで、Wavesプラットフォームの改善に協力します。",
                 "backup": "私は、アプリを他のデバイスに移動するまたは削除した場合、私のWavesはバックアップフレーズのみから復元できることを理解しています。",
                 "ok": "承認して始める",
-                "privacyPolicy": "[プライバシーポリシー](https://wavesplatform.com/files/docs/Privacy Policy_SW.pdf)の内容を確認し、同意します。",
+                "privacyPolicy": "[プライバシーポリシー](https://wavesplatform.com/files/docs/Waves_privacy_policy.pdf)の内容を確認し、同意します。",
                 "read": "私は規約を読み、十分に理解し、同意します。",
                 "readTermsAndConditions": "私は[利用規則](https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf)を読み、十分に理解し、その内容に同意します。",
                 "security": "私の資金は企業ではなく、デバイス上に安全に保管されていることを理解しています。",

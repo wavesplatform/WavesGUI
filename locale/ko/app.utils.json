@@ -267,23 +267,23 @@
             "wavesGatewayBNT": {
                 "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of Bancor to a token in your Waves account.",
                 "helpDescrTitle": "Enter this address into your client or wallet",
-                "warningMinAmountText": "If you will send less than 2 Bancor, you will lose that money.",
-                "warningMinAmountTitle": "The minimum amount of deposit is 2 Bancor, the maximum amount of deposit is 100 000 Bancor",
+                "warningMinAmountText": "If you will send less than {{minAmount, BigNumber}} {{assetTicker}}, you will lose that money.",
+                "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}, the maximum amount of deposit is {{maxAmount}} {{assetTicker}}",
                 "warningText": "Check if your wallet or exchange uses smart-contracts to withdraw Bancor. We do not accept such transactions and can’t refund them. You will lose that money.",
                 "warningTitle": "Please do not deposit BNT from smart contracts! Do not deposit other ERC20 tokens! Only Bancor is allowed."
             },
             "wavesGatewayERGO": {
                 "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of ERGO to a token in your Waves account.",
                 "helpDescrTitle": "Enter this address into your ERGO client or wallet",
-                "warningMinAmountText": "If you will send less than 0.1 ERGO, you will lose that money.",
-                "warningMinAmountTitle": "The minimum amount of deposit is 0.1 ERGO, the maximum amount of deposit is 50 000 ERGO",
+                "warningMinAmountText": "If you will send less than {{minAmount, BigNumber}} {{assetTicker}}, you will lose that money.",
+                "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}, the maximum amount of deposit is {{maxAmount}} {{assetTicker}}",
                 "warningText": "Sending any other currency to this address may result in the loss of your deposit.",
                 "warningTitle": "Send only ERGO to this deposit address"
             },
             "wavesGatewayVST": {
                 "helpDescrText": "트랜잭션이 승인되면 게이트웨이가 귀하의 Waves 계정에서 Vostok를 토큰으로 전송하는 작업을 처리할 것입니다.",
                 "helpDescrTitle": "이 주소를 Vostok 클라이언트 또는 지갑에 입력하세요",
-                "warningMinAmountTitle": "최소 입금액은 0.1 VST 이며 최대 입금액은 50,000 VST 입니다."
+                "warningMinAmountTitle": "최소 입금액은 {{minAmount, BigNumber}} {{assetTicker}} 이며 최대 입금액은 {{maxAmount}} {{assetTicker}} 입니다."
             }
         },
         "dexScriptedPair": {
@@ -607,6 +607,7 @@
         },
         "settings": {
             "cancel": "신규 계정 생성",
+            "changePass": "Change password",
             "general": {
                 "auto": "자동",
                 "blockHeight": "현재 블록 Height",
@@ -671,6 +672,8 @@
                     "ok": "이해했습니다"
                 }
             },
+            "passChanged": "Password was changed successfully",
+            "password": "Password",
             "security": {
                 "address": "주소",
                 "backupPhrase": "백업 구절",
@@ -765,7 +768,7 @@
                 "analytics": "Waves 플랫폼을 개선하기 위해 개발자들에게 익명으로 사용 통계를 보냅니다.",
                 "backup": "본 앱을 다른 장치로 이동하거나 삭제하면 나의 Waves 계정은 백업 구절로만 복구될 수 있음을 이해합니다.",
                 "ok": "동의하고 시작",
-                "privacyPolicy": "본 [개인정보 보호정책]을 읽었으며 동의합니다\n(https://wavesplatform.com/files/docs/Privacy Policy_SW.pdf).",
+                "privacyPolicy": "본 [개인정보 보호정책]을 읽었으며 동의합니다\n(https://wavesplatform.com/files/docs/Waves_privacy_policy.pdf).",
                 "read": "다음 약관을 읽었으며 이해하고 동의합니다.",
                 "readTermsAndConditions": "본 [이용 약관]을 읽었으며 동의합니다\n(https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf).",
                 "security": "나의 자산이 회사가 아닌 현재 사용 중인 장치에서 안전하게 보관된다는 것을 이해합니다.",

@@ -267,23 +267,23 @@
             "wavesGatewayBNT": {
                 "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of Bancor to a token in your Waves account.",
                 "helpDescrTitle": "Enter this address into your client or wallet",
-                "warningMinAmountText": "If you will send less than 2 Bancor, you will lose that money.",
-                "warningMinAmountTitle": "The minimum amount of deposit is 2 Bancor, the maximum amount of deposit is 100 000 Bancor",
+                "warningMinAmountText": "If you will send less than {{minAmount, BigNumber}} {{assetTicker}}, you will lose that money.",
+                "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}, the maximum amount of deposit is {{maxAmount}} {{assetTicker}}",
                 "warningText": "Check if your wallet or exchange uses smart-contracts to withdraw Bancor. We do not accept such transactions and can’t refund them. You will lose that money.",
                 "warningTitle": "Please do not deposit BNT from smart contracts! Do not deposit other ERC20 tokens! Only Bancor is allowed."
             },
             "wavesGatewayERGO": {
                 "helpDescrText": "Setelah transaksi dikonfirmasi, gateway akan memproses transfer ERGO ke token di akun Waves Anda.",
                 "helpDescrTitle": "Masukkan alamat ini ke klien atau dompet ERGO Anda",
-                "warningMinAmountText": "Jika Anda akan mengirim kurang dari 0,1 ERGO, Anda akan kehilangan uang itu.",
-                "warningMinAmountTitle": "Jumlah minimum setoran adalah 0,1 ERGO, jumlah setoran maksimum adalah 50 000 ERGO",
+                "warningMinAmountText": "Jika Anda akan mengirim kurang dari {{minAmount, BigNumber}} {{assetTicker}}, Anda akan kehilangan uang itu.",
+                "warningMinAmountTitle": "Jumlah minimum setoran adalah {{minAmount, BigNumber}} {{assetTicker}}, jumlah setoran maksimum adalah {{maxAmount}} {{assetTicker}}",
                 "warningText": "Mengirimkan mata uang lain ke alamat ini dapat menyebabkan hilangnya deposit Anda.",
                 "warningTitle": "Kirim hanya ERGO ke alamat penyetoran ini"
             },
             "wavesGatewayVST": {
                 "helpDescrText": "Setelah transaksi dikonfirmasi, gateway akan memproses transfer Vostok ke token di akun Waves Anda.",
                 "helpDescrTitle": "Masukkan alamat ini ke klien atau dompet Vostok Anda",
-                "warningMinAmountTitle": "Jumlah minimum deposit adalah 0,1 VST, jumlah deposit maksimum adalah 50.000 VST"
+                "warningMinAmountTitle": "Jumlah minimum deposit adalah {{minAmount, BigNumber}} {{assetTicker}}, jumlah deposit maksimum adalah {{maxAmount}} {{assetTicker}}"
             }
         },
         "dexScriptedPair": {
@@ -607,6 +607,7 @@
         },
         "settings": {
             "cancel": "Buat sebuah akun",
+            "changePass": "Change password",
             "general": {
                 "auto": "Auto",
                 "blockHeight": "Tinggi saat ini",
@@ -671,6 +672,8 @@
                     "ok": "saya mengerti"
                 }
             },
+            "passChanged": "Password was changed successfully",
+            "password": "Password",
             "security": {
                 "address": "Alamat",
                 "backupPhrase": "Frasa cadangan",
@@ -765,7 +768,7 @@
                 "analytics": "Saya ingin membantu meningkatkan platform Waves dengan mengirimkan statistik penggunaan anonim ke para pengembang.",
                 "backup": "Saya memahami bahwa jika aplikasi ini dipindahkan ke perangkat lain atau dihapus, Waves saya hanya dapat dipulihkan dengan frasa cadangan.",
                 "ok": "Konfirmasi dan Mulai",
-                "privacyPolicy": "Saya telah membaca dan menyetujui [Kebijakan Privasi] (https://wavesplatform.com/files/docs/Privacy Policy_SW.pdf).",
+                "privacyPolicy": "Saya telah membaca dan menyetujui [Kebijakan Privasi] (https://wavesplatform.com/files/docs/Waves_privacy_policy.pdf).",
                 "read": "Saya telah membaca, memahami dan menyetujui",
                 "readTermsAndConditions": "Saya telah membaca dan menyetujui [Syarat dan Ketentuan] (https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf)",
                 "security": "Saya memahami bahwa dana saya disimpan dengan aman di perangkat ini, bukan oleh perusahaan",

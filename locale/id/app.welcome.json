@@ -119,6 +119,7 @@
     },
     "userList": {
         "addNew": "Tambahkan akun",
+        "back": "Back",
         "create": "Membuat Akun",
         "frombackup": "dari cadangan",
         "import": "Impor akun",
@@ -127,6 +128,9 @@
         "subTitleSession": "Sesi diakhiri secara otomatis."
     },
     "welcome": {
+        "accountList": {
+            "locked": "Require unlocking"
+        },
         "address": "Alamat",
         "aliases": "Alias",
         "android": "Google Play",
@@ -205,6 +209,7 @@
         "stackOverflow": "Stack Overflow",
         "suitableTradingBots": "Cocok untuk bot perdagangan",
         "support": "Dukungan",
+        "switchAccount": "Switch account",
         "telegram": "Telegram",
         "termsOfUse": "Syarat Penggunaan",
         "tokenCreation": "Pembuatan token cepat",

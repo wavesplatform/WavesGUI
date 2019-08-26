@@ -267,23 +267,23 @@
             "wavesGatewayBNT": {
                 "helpDescrText": "Une fois la transaction confirmée, le portail procédera au transfert de Bancor à un jeton dans votre compte Waves.",
                 "helpDescrTitle": "Entrez cette adresse dans votre client ou portefeuille",
-                "warningMinAmountText": "Si vous envoyez moins de 2 Bancor, vous perdrez cet argent.",
-                "warningMinAmountTitle": "Le montant minimum du dépôt est de 2 Bancor, le montant maximum du dépôt est de 100 000 Bancor",
+                "warningMinAmountText": "Si vous envoyez moins de {{minAmount, BigNumber}} {{assetTicker}}, vous perdrez cet argent.",
+                "warningMinAmountTitle": "Le montant minimum du dépôt est de {{minAmount, BigNumber}} {{assetTicker}}, le montant maximum du dépôt est de {{maxAmount}} {{assetTicker}}",
                 "warningText": "Vérifiez si votre portefeuille ou votre plateforme d'échange utilise des smart-contracts pour retirer Bancor. Nous n'acceptons pas de telles transactions et ne pouvons pas les rembourser. Vous perdrez cet argent.",
                 "warningTitle": "Veuillez ne pas déposer BNT depuis un smart-contract! Ne déposez pas d'autres jetons ERC20! Seul Bancor est autorisé."
             },
             "wavesGatewayERGO": {
                 "helpDescrText": "Une fois la transaction confirmée, le portail traitera le transfert d’ERGO vers un jeton dans votre compte Waves.",
                 "helpDescrTitle": "Entrez cette adresse dans votre client ou portefeuille ERGO",
-                "warningMinAmountText": "Si vous envoyez moins de 0.1 ERGO, vous perdrez cet argent.",
-                "warningMinAmountTitle": "Le montant minimum du dépôt est de 0,1 ERGO, le montant maximum du dépôt est de 50 000 ERGO",
+                "warningMinAmountText": "Si vous envoyez moins de {{minAmount, BigNumber}} {{assetTicker}}, vous perdrez cet argent.",
+                "warningMinAmountTitle": "Le montant minimum du dépôt est de {{minAmount, BigNumber}} {{assetTicker}}, le montant maximum du dépôt est de {{maxAmount}} {{assetTicker}}",
                 "warningText": "L'envoi de toute autre devise à cette adresse peut entraîner la perte de votre dépôt.",
                 "warningTitle": "Envoyez uniquement de l'ERGO à cette adresse de dépôt"
             },
             "wavesGatewayVST": {
                 "helpDescrText": "Une fois la transaction confirmée, le portail traitera le transfert de Vostok vers un jeton dans votre compte Waves.",
                 "helpDescrTitle": "Entrez cette adresse dans votre client ou portefeuille Vostok",
-                "warningMinAmountTitle": "Le montant minimum du dépôt est de 0,1 VST, le montant maximum du dépôt est de 50 000 VST"
+                "warningMinAmountTitle": "Le montant minimum du dépôt est de {{minAmount, BigNumber}} {{assetTicker}}, le montant maximum du dépôt est de {{maxAmount}} {{assetTicker}}"
             }
         },
         "dexScriptedPair": {
@@ -607,6 +607,7 @@
         },
         "settings": {
             "cancel": "Créer un compte",
+            "changePass": "Change password",
             "general": {
                 "auto": "Auto",
                 "blockHeight": "Hauteur actuelle",
@@ -671,6 +672,8 @@
                     "ok": "Je comprends"
                 }
             },
+            "passChanged": "Password was changed successfully",
+            "password": "Password",
             "security": {
                 "address": "Adresse",
                 "backupPhrase": "Phrase de sauvegarde",
@@ -765,7 +768,7 @@
                 "analytics": "J'aimerais aider à améliorer la plateforme Waves en envoyant des statistiques d'utilisation anonymes aux développeurs.",
                 "backup": "Je comprends que si cette application est déplacée vers un autre appareil ou supprimée, mes Waves ne peuvent être restaurées qu'avec la phrase de sauvegarde.",
                 "ok": "Confirmer et Commencer",
-                "privacyPolicy": "J'ai lu et j'accepte la [Politique de confidentialité](https://wavesplatform.com/files/docs/Privacy Policy_SW.pdf).",
+                "privacyPolicy": "J'ai lu et j'accepte la [Politique de confidentialité](https://wavesplatform.com/files/docs/Waves_privacy_policy.pdf).",
                 "read": "J'ai lu, compris et j'accepte les",
                 "readTermsAndConditions": "J'ai lu et j'accepte les [Conditions générales](https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf).",
                 "security": "Je comprends que mes fonds sont conservés en toute sécurité sur cet appareil, et non par une entreprise",

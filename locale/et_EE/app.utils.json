@@ -267,23 +267,23 @@
             "wavesGatewayBNT": {
                 "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of Bancor to a token in your Waves account.",
                 "helpDescrTitle": "Enter this address into your client or wallet",
-                "warningMinAmountText": "If you will send less than 2 Bancor, you will lose that money.",
-                "warningMinAmountTitle": "The minimum amount of deposit is 2 Bancor, the maximum amount of deposit is 100 000 Bancor",
+                "warningMinAmountText": "If you will send less than {{minAmount, BigNumber}} {{assetTicker}}, you will lose that money.",
+                "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}, the maximum amount of deposit is {{maxAmount}} {{assetTicker}}",
                 "warningText": "Check if your wallet or exchange uses smart-contracts to withdraw Bancor. We do not accept such transactions and can’t refund them. You will lose that money.",
                 "warningTitle": "Please do not deposit BNT from smart contracts! Do not deposit other ERC20 tokens! Only Bancor is allowed."
             },
             "wavesGatewayERGO": {
                 "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of ERGO to a token in your Waves account.",
                 "helpDescrTitle": "Enter this address into your ERGO client or wallet",
-                "warningMinAmountText": "If you will send less than 0.1 ERGO, you will lose that money.",
-                "warningMinAmountTitle": "The minimum amount of deposit is 0.1 ERGO, the maximum amount of deposit is 50 000 ERGO",
+                "warningMinAmountText": "If you will send less than {{minAmount, BigNumber}} {{assetTicker}}, you will lose that money.",
+                "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}, the maximum amount of deposit is {{maxAmount}} {{assetTicker}}",
                 "warningText": "Sending any other currency to this address may result in the loss of your deposit.",
                 "warningTitle": "Send only ERGO to this deposit address"
             },
             "wavesGatewayVST": {
                 "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of Vostok to a token in your Waves account.",
                 "helpDescrTitle": "Enter this address into your Vostok client or wallet",
-                "warningMinAmountTitle": "The minimum amount of deposit is 0.1 VST, the maximum amount of deposit is 50 000 VST"
+                "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}, the maximum amount of deposit is {{maxAmount}} {{assetTicker}}"
             }
         },
         "dexScriptedPair": {
@@ -607,6 +607,7 @@
         },
         "settings": {
             "cancel": "Loo konto",
+            "changePass": "Change password",
             "general": {
                 "auto": "Automaatne",
                 "blockHeight": "Praegune kõrgus",
@@ -671,6 +672,8 @@
                     "ok": "Ma saan aru"
                 }
             },
+            "passChanged": "Password was changed successfully",
+            "password": "Password",
             "security": {
                 "address": "Aadress",
                 "backupPhrase": "Salafraas",
@@ -765,7 +768,7 @@
                 "analytics": "Sooviksin parandada Waves platvormi, saates arendajatele anonüümset kasutusstatistikat.",
                 "backup": "Ma saan aru, et kui see rakendus teisaldatakse teise seadmesse või kustutatakse, saab minu Waves rahakottid taastada ainult salafraasiga.",
                 "ok": "Kinnita ja Alusta",
-                "privacyPolicy": "I have read and agree with the [Privacy Policy](https://wavesplatform.com/files/docs/Privacy Policy_SW.pdf).",
+                "privacyPolicy": "I have read and agree with the [Privacy Policy](https://wavesplatform.com/files/docs/Waves_privacy_policy.pdf).",
                 "read": "Olen lugenud, mõistnud ja nõustunud",
                 "readTermsAndConditions": "I have read and agree with the [Terms and Conditions](https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf).",
                 "security": "Ma saan aru, et minu raha hoitakse turvaliselt selles seadmes, mitte ettevõtte poolt",

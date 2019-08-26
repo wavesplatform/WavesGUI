@@ -119,6 +119,7 @@
     },
     "userList": {
         "addNew": "Lisa konto",
+        "back": "Back",
         "create": "Looge uus konto",
         "frombackup": "salafraasist",
         "import": "Importige kontosid",
@@ -127,6 +128,9 @@
         "subTitleSession": "Sessioon lõpetati automaatselt."
     },
     "welcome": {
+        "accountList": {
+            "locked": "Require unlocking"
+        },
         "address": "Address",
         "aliases": "Aliases",
         "android": "Google Play",
@@ -205,6 +209,7 @@
         "stackOverflow": "Stack Overflow",
         "suitableTradingBots": "Suitable for trading bots",
         "support": "Support",
+        "switchAccount": "Switch account",
         "telegram": "Telegram",
         "termsOfUse": "Terms of use",
         "tokenCreation": "Fast token creation",
