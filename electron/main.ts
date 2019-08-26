@@ -193,6 +193,7 @@ class Main implements IMain {
         this.registerProtocol()
             .then(() => this.createWindow())
             .then(() => this.addContextMenu())
+            .then(() => this.setAppUserModelId())
     }
 
     private addContextMenu(): Promise<void> {
@@ -303,6 +304,12 @@ class Main implements IMain {
         // dock icon is clicked and there are no other windows open.
         if (!this.mainWindow) {
             this.createWindow();
+        }
+    }
+
+    private setAppUserModelId() {
+        if (process.platform === 'win32') {
+            app.setAppUserModelId('com.wavesplatform.client.lite');
         }
     }
 
