@@ -198,7 +198,7 @@
                 "helpDescrText": "交易确认后，网关将处理BCH转账到Waves账户中的代币。",
                 "helpDescrTitle": "将此地址输入在您的Bitcoin Cash客户端或钱包",
                 "warningMinAmountText": "如果您发送少于{{minAmount, BigNumber}} {{assetTicker}}，您将失去这笔钱。",
-                "warningMinAmountTitle": "最低存款金额为{{minAmount, BigNumber}} {{assetTicker}}",
+                "warningMinAmountTitle": "最低存款金额为{{minAmount，BigNumber}} {{assetTicker}} ，最高存款金额为{{maxAmount}} {{assetTicker}}",
                 "warningText": "如通过该地址发送任何其他代币，您的代币将失去。",
                 "warningTitle": "只能将BCH发送到这个存款地址"
             },
@@ -206,7 +206,7 @@
                 "helpDescrText": "确认交易后，网关将处理将BSV转移到Waves帐户中的代币。",
                 "helpDescrTitle": "在您的比特币Satoshi Vision客户端或钱包中输入此地址",
                 "warningMinAmountText": "如果您发送的{{assetTicker}}低于{{minAmount, BigNumber}}，您将失去这笔钱。",
-                "warningMinAmountTitle": "最低存款金额为{{minAmount, BigNumber}} {{assetTicker}}",
+                "warningMinAmountTitle": "最低存款金额为{{minAmount，BigNumber}} {{assetTicker}} ，最高存款金额为{{maxAmount}} {{assetTicker}}",
                 "warningText": "将任何其他货币发送到此地址可能会导致您的存款损失。",
                 "warningTitle": "仅将 BSV 发送到此存款地址"
             },
@@ -214,7 +214,7 @@
                 "helpDescrText": "交易确认之后，网关将处理BTC转账至您Waves帐户的代币。",
                 "helpDescrTitle": "将此地址输入您的比特币客户端或在线钱包",
                 "warningMinAmountText": "如果您发送的费用低于{{minAmount, BigNumber}} {{assetTicker}}，您将失去这笔钱。",
-                "warningMinAmountTitle": "最低存款金额为{{minAmount, BigNumber}} {{assetTicker}}",
+                "warningMinAmountTitle": "最低存款金额为{{minAmount，BigNumber}} {{assetTicker}} ，最高存款金额为{{maxAmount}} {{assetTicker}}",
                 "warningText": "如通过该地址发送任何其他代币，您的代币将失去。",
                 "warningTitle": "通过该存款地址只能发送BTC"
             },
@@ -222,7 +222,7 @@
                 "helpDescrText": "确认交易后，网关将处理将DASH转移到Waves帐户中的代币。",
                 "helpDescrTitle": "将此地址输入您的DASH客户端或钱包",
                 "warningMinAmountText": "如果您发送小于{{minAmount, BigNumber}}的{{assetTicker}}，你会失去这笔钱。",
-                "warningMinAmountTitle": "最低存款金额为{{minAmount, BigNumber}} {{assetTicker}}",
+                "warningMinAmountTitle": "最低存款金额为{{minAmount，BigNumber}} {{assetTicker}} ，最高存款金额为{{maxAmount}} {{assetTicker}}",
                 "warningText": "如通过该地址发送任何其他代币，您的代币将失去。",
                 "warningTitle": "只能将DASH发送到这个存款地址"
             },
@@ -230,7 +230,7 @@
                 "helpDescrText": "交易确认之后，网关将处理ETH转账至您Waves帐户的代币。",
                 "helpDescrTitle": "将此地址输入您的 以太坊客户端或在线钱包",
                 "warningMinAmountText": "如果您发送的费用低于{{minAmount, BigNumber}} {{assetTicker}}，您将失去这笔钱。",
-                "warningMinAmountTitle": "最低存款金额为{{minAmount, BigNumber}} {{assetTicker}}",
+                "warningMinAmountTitle": "最低存款金额为{{minAmount，BigNumber}} {{assetTicker}} ，最高存款金额为{{maxAmount}} {{assetTicker}}",
                 "warningText": "检查您的钱包或交易所是否为收回ETH使用智能合约。我们不接受这种交易，也不能退款。您将会失去这笔钱。",
                 "warningTitle": "请不要从智能合约中交存ETH！别交存ERC20代币！您只能交存以太坊Ethereum。"
             },
@@ -238,7 +238,7 @@
                 "helpDescrText": "交易确认之后，网关将处理LTC转账至您Waves帐户的代币。",
                 "helpDescrTitle": "将此地址输入您的莱特币客户端或在线钱包",
                 "warningMinAmountText": "如果您发送的费用低于{{minAmount, BigNumber}} {{assetTicker}}，您将失去这笔钱。",
-                "warningMinAmountTitle": "最低存款金额为{{minAmount, BigNumber}} {{assetTicker}}",
+                "warningMinAmountTitle": "最低存款金额为{{minAmount，BigNumber}} {{assetTicker}} ，最高存款金额为{{maxAmount}} {{assetTicker}}",
                 "warningText": "如通过该地址发送任何其他代币，您的代币将失去。",
                 "warningTitle": "通过该存款地址只能发送LTC"
             },
@@ -246,7 +246,7 @@
                 "helpDescrText": "交易确认之后，网关将处理XMR转账至您Waves帐户的代币。",
                 "helpDescrTitle": "将此地址输入在您的Monero客户端或钱包",
                 "warningMinAmountText": "如果您发送的费用低于{{minAmount, BigNumber}} {{assetTicker}}，您将失去这笔钱。",
-                "warningMinAmountTitle": "最低存款金额为{{minAmount, BigNumber}} {{assetTicker}}",
+                "warningMinAmountTitle": "最低存款金额为{{minAmount，BigNumber}} {{assetTicker}} ，最高存款金额为{{maxAmount}} {{assetTicker}}",
                 "warningText": "{div}[付款ID不是必需的.] 如通过该地址发送任何其他代币，您的代币将失去。",
                 "warningTitle": "通过该存款地址只能发送 XMR"
             },
@@ -254,7 +254,7 @@
                 "helpDescrText": "交易确认之后，网关将处理ZEC转账至您Waves帐户的代币。",
                 "helpDescrTitle": "将此地址输入您的Zcash客户端或在线钱包",
                 "warningMinAmountText": "如果您发送的费用低于{{minAmount, BigNumber}} {{assetTicker}}，您将失去这笔钱。",
-                "warningMinAmountTitle": "最低存款金额为{{minAmount, BigNumber}} {{assetTicker}}",
+                "warningMinAmountTitle": "最低存款金额为{{minAmount，BigNumber}} {{assetTicker}} ，最高存款金额为{{maxAmount}} {{assetTicker}}",
                 "warningText": "如通过该地址发送任何其他代币，您的代币将失去。",
                 "warningTitle": "通过该存款地址只能发送 Zcash"
             },
@@ -268,7 +268,7 @@
                 "helpDescrText": "确认交易后，网关将处理将Bancor转移到Waves帐户中的代币。",
                 "helpDescrTitle": "在您的客户或钱包中输入此地址",
                 "warningMinAmountText": "如果你发送少于{{minAmount, BigNumber}} {{assetTicker}}，你将失去这笔钱。",
-                "warningMinAmountTitle": "最低存款金额为{{minAmount, BigNumber}} {{assetTicker}}，最高存款金额为{{maxAmount}} {{assetTicker}}",
+                "warningMinAmountTitle": "最低存款金额为{{minAmount，BigNumber}} {{assetTicker}} ，最高存款金额为{{maxAmount}} {{assetTicker}}",
                 "warningText": "检查您的钱包或交易所是否使用智能合约撤回Bancor。我们不接受此类交易，也不能退款。你会失去那笔钱。",
                 "warningTitle": "请不要从智能合约中存入BNT！不要存入其他ERC20代币！只允许Bancor。"
             },

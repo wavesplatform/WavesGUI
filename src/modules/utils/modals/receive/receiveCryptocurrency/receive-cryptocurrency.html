@@ -40,10 +40,12 @@
         <div class="footnote-1 basic-500" w-i18n="modal.deposit.{{$ctrl.assetKeyName}}.warningText"></div>
     </div>
 
-    <div class="plate-warning" ng-if="!$ctrl.gatewayServerError">
+    <div class="plate-warning" ng-if="!$ctrl.gatewayServerError && !$ctrl.gatewayServerPending">
         <div class="body-2 warning-500 margin-05"
              w-i18n="modal.deposit.{{$ctrl.assetKeyName}}.warningMinAmountTitle"
-             params="{minAmount: $ctrl.minAmount.getTokens(), assetTicker: $ctrl.asset.displayName}"
+             params="{  minAmount: $ctrl.minAmount.getTokens(),
+                        assetTicker: $ctrl.asset.displayName,
+                        maxAmount: $ctrl.maxAmount.getTokens().toFormat()  }"
         ></div>
         <div class="footnote-1 basic-500"
              ng-if="!$ctrl.isVostok" w-i18n="modal.deposit.{{$ctrl.assetKeyName}}.warningMinAmountText"
