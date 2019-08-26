@@ -132,7 +132,9 @@ timeout(time:20, unit:'MINUTES') {
                                 ut.checkoutRelative('master', Constants.KUBERNETES_REPO, 'kubernetes', Constants.KUBERNETES_REPO_CREDS)
                             }
                             sh "mkdir ${artifactsDir}"
-                            source += '.latest'
+                            if (action.contains('Build')) {
+                                source += '.latest'
+                            }
                         }
 
                     ['wallet', 'wallet-electron'].each{ serviceName ->
