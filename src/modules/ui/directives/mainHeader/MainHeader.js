@@ -360,7 +360,15 @@
                             );
 
                             if (this.userList.length === 0) {
-                                $state.go('create');
+                                user.logout('.', true);
+
+                                if (this.userListLocked.length === 0) {
+                                    $state.go('create');
+                                } else {
+                                    $state.go('migrate');
+                                }
+                            } else {
+                                this.switchUser(this.userList[0]);
                             }
                         });
                     } else {
