@@ -7,6 +7,9 @@
             "protect": "Protégez vos comptes",
             "protectDesc": "Définissez un mot de passe unique pour tous vos comptes",
             "protectPass": "Créer un mot de passe"
+        },
+        "password": {
+            "notMatch": "Password does not match"
         }
     }
 }

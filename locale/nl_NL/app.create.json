@@ -25,9 +25,18 @@
         "avatarUnique": "Deze afbeelding is uniek en kunt u later niet wijzigen.",
         "choose": "Kies een afbeelding voor dit adres",
         "create": "Maak een nieuw account",
+        "createAccount": "Maak een nieuw account",
         "createDescription": "Snel en gratis",
         "createNewAccount": "Kies een afbeelding",
+        "description": {
+            "becomePart": "Word onderdeel van het snelst groeiende gebied binnen de cryptowereld. U bent de enige persoon die toegang heeft tot uw crypto assets.",
+            "enterName": "Voer accountnaam of in"
+        },
         "from": "Deze avatar is uniek, u kunt deze later niet wijzigen.",
+        "header": {
+            "accountName": "Accountnaam",
+            "withBlockchain": "Begin met Blockchain"
+        },
         "import": "Importeer accounts",
         "importDescription": "via back-up regel, Ledger of Waves Keeper",
         "protect": "Beveilig uw account met een wachtwoord of",

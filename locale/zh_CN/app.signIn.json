@@ -5,6 +5,22 @@
     "password": {
         "error": "密码不正确"
     },
+    "signIn": {
+        "btn": {
+            "cancel": "取消",
+            "restore": "恢复所有"
+        },
+        "enterPass": "请输入您的密码以继续",
+        "passForgot": {
+            "attention": "注意！",
+            "description": "如果您忘记了密码，则必须从其SEED中恢复所有帐户并设置新密码。"
+        },
+        "password": {
+            "forgot": "忘记密码了？"
+        },
+        "signIn": "登录",
+        "welcomeBack": "欢迎回来"
+    },
     "userList": {
         "address": "地址 / 用户名",
         "buttons": {

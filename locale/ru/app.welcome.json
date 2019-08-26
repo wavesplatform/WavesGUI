@@ -119,6 +119,7 @@
     },
     "userList": {
         "addNew": "Добавить аккаунт",
+        "back": "Назад",
         "create": "Создайте новый кошелёк",
         "frombackup": "из бэкапа",
         "import": "Импорт аккаунта",
@@ -127,6 +128,9 @@
         "subTitleSession": "The session was automatically terminated."
     },
     "welcome": {
+        "accountList": {
+            "locked": "Требует разблокировки"
+        },
         "address": "Адрес",
         "aliases": "Псевдонимы",
         "android": "Google Play",
@@ -205,6 +209,7 @@
         "stackOverflow": "Stack Overflow",
         "suitableTradingBots": "Подходит для торговли ботами",
         "support": "Support",
+        "switchAccount": "Сменить аккаунт",
         "telegram": "Telegram",
         "termsOfUse": "Договор на обслуживание",
         "tokenCreation": "Быстрый запуск токена",

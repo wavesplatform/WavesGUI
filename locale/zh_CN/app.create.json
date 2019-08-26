@@ -25,9 +25,18 @@
         "avatarUnique": "这个头像是独特的。 未来不能改头像。",
         "choose": "选择您的地址头像",
         "create": "创建一个新账户",
+        "createAccount": "创建一个新账户",
         "createDescription": "快速而自由",
         "createNewAccount": "选择你的头像",
+        "description": {
+            "becomePart": "成为加密世界快速发展的一部分。您是唯一可以访问加密资产的人",
+            "enterName": "输入帐户名称或"
+        },
         "from": "这个头像是视觉表达，你以后不能改变它",
+        "header": {
+            "accountName": "用户名",
+            "withBlockchain": "开始使用区块链"
+        },
         "import": "导入帐户",
         "importDescription": "通过种子短语，分类帐或Keeper",
         "protect": "使用密码来保护您的帐户或",

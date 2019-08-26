@@ -119,6 +119,7 @@
     },
     "userList": {
         "addNew": "계정 추가",
+        "back": "Back",
         "create": "신규 계정 생성",
         "frombackup": "백업으로부터",
         "import": "계정 불러오기",
@@ -127,6 +128,9 @@
         "subTitleSession": "세션이 자동으로 만료되었습니다."
     },
     "welcome": {
+        "accountList": {
+            "locked": "Require unlocking"
+        },
         "address": "Address",
         "aliases": "별칭",
         "android": "구글 플레이",
@@ -205,6 +209,7 @@
         "stackOverflow": "스택 오버플로우",
         "suitableTradingBots": "트레이딩 봇에 적합",
         "support": "지원센터",
+        "switchAccount": "Switch account",
         "telegram": "텔레그램",
         "termsOfUse": "이용 약관",
         "tokenCreation": "빠른 토큰 생성",

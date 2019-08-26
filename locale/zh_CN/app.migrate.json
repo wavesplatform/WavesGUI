@@ -1,21 +1,21 @@
 {
     "migrate": {
         "btn": {
-            "unlock": "Unlock"
+            "unlock": "解锁"
         },
         "description": {
-            "enterPass": "Enter your account password or",
-            "goBack": "return back",
-            "unlock": "Unlock your accounts. You can return to this step later"
+            "enterPass": "输入您的帐户密码或",
+            "goBack": "回来",
+            "unlock": "解锁您的帐户。您可以稍后返回此步骤"
         },
         "headers": {
-            "unlock": "Unlock your accounts",
-            "unlockAccount": "Unlock account"
+            "unlock": "解锁您的帐户",
+            "unlockAccount": "解锁帐户"
         },
         "subtitle": {
-            "account": "Account",
-            "pending": "Pending unlock",
-            "unlocked": "Successfully unlocked"
+            "account": "帐户",
+            "pending": "待解锁",
+            "unlocked": "成功解锁"
         }
     }
 }

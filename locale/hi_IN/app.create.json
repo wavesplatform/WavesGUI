@@ -25,9 +25,18 @@
         "avatarUnique": "यह अवतार विशिष्ट है। आप बाद में इसे बदल नहीं सकते हैं।",
         "choose": "किसी सहेजे खाते पर",
         "create": "Create a new account",
+        "createAccount": "Create a new account",
         "createDescription": "Fast and free",
         "createNewAccount": "नया खाता बनाएं",
+        "description": {
+            "becomePart": "Become part of a fast-growing area of the crypto world. You are the only person who can access your crypto assets",
+            "enterName": "Enter account name or"
+        },
         "from": "डेस्कटॉप से",
+        "header": {
+            "accountName": "Account name",
+            "withBlockchain": "Get Started with Blockchain"
+        },
         "import": "इम्पोर्ट खाते",
         "importDescription": "via Seed phrase, Ledger or Keeper",
         "protect": "अपने खाते को किसी पासवर्ड से सुरक्षित करें या",
