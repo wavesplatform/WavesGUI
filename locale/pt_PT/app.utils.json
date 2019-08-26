@@ -198,7 +198,7 @@
                 "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of BCH to a token in your Waves account.",
                 "helpDescrTitle": "Enter this address into your Bitcoin Cash client or wallet",
                 "warningMinAmountText": "If you will send less than {{minAmount, BigNumber}} {{assetTicker}}, you will lose that money.",
-                "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}",
+                "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}, the maximum amount of deposit is {{maxAmount}} {{assetTicker}}",
                 "warningText": "Sending any other currency to this address may result in the loss of your deposit.",
                 "warningTitle": "Send only BCH to this deposit address"
             },
@@ -206,7 +206,7 @@
                 "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of BSV to a token in your Waves account.",
                 "helpDescrTitle": "Enter this address into your Bitcoin Satoshi Vision client or wallet",
                 "warningMinAmountText": "If you will send less than {{minAmount, BigNumber}} {{assetTicker}}, you will lose that money.",
-                "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}",
+                "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}, the maximum amount of deposit is {{maxAmount}} {{assetTicker}}",
                 "warningText": "Sending any other currency to this address may result in the loss of your deposit.",
                 "warningTitle": "Send only BSV to this deposit address"
             },
@@ -214,7 +214,7 @@
                 "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of BTC to a token in your Waves account.",
                 "helpDescrTitle": "Enter this address into your Bitcoin client or wallet",
                 "warningMinAmountText": "If you will send less than {{minAmount, BigNumber}} {{assetTicker}}, you will lose that money.",
-                "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}",
+                "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}, the maximum amount of deposit is {{maxAmount}} {{assetTicker}}",
                 "warningText": "Sending any other currency to this address may result in the loss of your deposit.",
                 "warningTitle": "Send only BTC to this deposit address"
             },
@@ -222,7 +222,7 @@
                 "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of DASH to a token in your Waves account.",
                 "helpDescrTitle": "Enter this address into your DASH client or wallet",
                 "warningMinAmountText": "If you will send less than {{minAmount, BigNumber}} {{assetTicker}}, you will lose that money.",
-                "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}",
+                "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}, the maximum amount of deposit is {{maxAmount}} {{assetTicker}}",
                 "warningText": "Sending any other currency to this address may result in the loss of your deposit.",
                 "warningTitle": "Send only DASH to this deposit address"
             },
@@ -230,7 +230,7 @@
                 "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of ETH to a token in your Waves account.",
                 "helpDescrTitle": "Enter this address into your Ethereum client or wallet",
                 "warningMinAmountText": "If you will send less than {{minAmount, BigNumber}} {{assetTicker}}, you will lose that money.",
-                "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}",
+                "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}, the maximum amount of deposit is {{maxAmount}} {{assetTicker}}",
                 "warningText": "Check if your wallet or exchange uses smart-contracts to withdraw ETH. We do not accept such transactions and can’t refund them. You will lose that money.",
                 "warningTitle": "Please do not deposit ETH from smart contracts! Do not deposit ERC20 tokens! Only Ethereum is allowed."
             },
@@ -238,7 +238,7 @@
                 "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of LTC to a token in your Waves account.",
                 "helpDescrTitle": "Enter this address into your Litecoin client or wallet",
                 "warningMinAmountText": "If you will send less than {{minAmount, BigNumber}} {{assetTicker}}, you will lose that money.",
-                "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}",
+                "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}, the maximum amount of deposit is {{maxAmount}} {{assetTicker}}",
                 "warningText": "Sending any other currency to this address may result in the loss of your deposit.",
                 "warningTitle": "Send only LTC to this deposit address"
             },
@@ -246,7 +246,7 @@
                 "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of XMR to a token in your Waves account.",
                 "helpDescrTitle": "Enter this address into your Monero client or wallet",
                 "warningMinAmountText": "If you will send less than {{minAmount, BigNumber}} {{assetTicker}}, you will lose that money.",
-                "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}",
+                "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}, the maximum amount of deposit is {{maxAmount}} {{assetTicker}}",
                 "warningText": "{div}[Payment ID is not required.]Sending any other currency to this address may result in the loss of your deposit.",
                 "warningTitle": "Send only XMR to this deposit address"
             },
@@ -254,7 +254,7 @@
                 "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of ZEC to a token in your Waves account.",
                 "helpDescrTitle": "Enter this address into your Zcash client or wallet",
                 "warningMinAmountText": "If you will send less than {{minAmount, BigNumber}} {{assetTicker}}, you will lose that money.",
-                "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}",
+                "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}, the maximum amount of deposit is {{maxAmount}} {{assetTicker}}",
                 "warningText": "Sending any other currency to this address may result in the loss of your deposit.",
                 "warningTitle": "Send only Zcash to this deposit address"
             },
@@ -267,23 +267,23 @@
             "wavesGatewayBNT": {
                 "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of Bancor to a token in your Waves account.",
                 "helpDescrTitle": "Enter this address into your client or wallet",
-                "warningMinAmountText": "If you will send less than 2 Bancor, you will lose that money.",
-                "warningMinAmountTitle": "The minimum amount of deposit is 2 Bancor, the maximum amount of deposit is 100 000 Bancor",
+                "warningMinAmountText": "If you will send less than {{minAmount, BigNumber}} {{assetTicker}}, you will lose that money.",
+                "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}, the maximum amount of deposit is {{maxAmount}} {{assetTicker}}",
                 "warningText": "Check if your wallet or exchange uses smart-contracts to withdraw Bancor. We do not accept such transactions and can’t refund them. You will lose that money.",
                 "warningTitle": "Please do not deposit BNT from smart contracts! Do not deposit other ERC20 tokens! Only Bancor is allowed."
             },
             "wavesGatewayERGO": {
                 "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of ERGO to a token in your Waves account.",
                 "helpDescrTitle": "Enter this address into your ERGO client or wallet",
-                "warningMinAmountText": "If you will send less than 0.1 ERGO, you will lose that money.",
-                "warningMinAmountTitle": "The minimum amount of deposit is 0.1 ERGO, the maximum amount of deposit is 50 000 ERGO",
+                "warningMinAmountText": "If you will send less than {{minAmount, BigNumber}} {{assetTicker}}, you will lose that money.",
+                "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}, the maximum amount of deposit is {{maxAmount}} {{assetTicker}}",
                 "warningText": "Sending any other currency to this address may result in the loss of your deposit.",
                 "warningTitle": "Send only ERGO to this deposit address"
             },
             "wavesGatewayVST": {
                 "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of Vostok to a token in your Waves account.",
                 "helpDescrTitle": "Enter this address into your Vostok client or wallet",
-                "warningMinAmountTitle": "The minimum amount of deposit is 0.1 VST, the maximum amount of deposit is 50 000 VST"
+                "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}, the maximum amount of deposit is {{maxAmount}} {{assetTicker}}"
             }
         },
         "dexScriptedPair": {
@@ -607,6 +607,7 @@
         },
         "settings": {
             "cancel": "Create an account",
+            "changePass": "Change password",
             "general": {
                 "auto": "Auto",
                 "blockHeight": "Current height",
@@ -671,6 +672,8 @@
                     "ok": "I understand"
                 }
             },
+            "passChanged": "Password was changed successfully",
+            "password": "Password",
             "security": {
                 "address": "Address",
                 "backupPhrase": "Backup phrase",
@@ -765,7 +768,7 @@
                 "analytics": "I would like to help improve the Waves platform by sending anonymous usage statistics to the developers.",
                 "backup": "I understand that if this app is moved to another device or deleted, my Waves can only be recovered with the backup phrase.",
                 "ok": "Confirm and Begin",
-                "privacyPolicy": "I have read and agree with the [Privacy Policy](https://wavesplatform.com/files/docs/Privacy Policy_SW.pdf).",
+                "privacyPolicy": "I have read and agree with the [Privacy Policy](https://wavesplatform.com/files/docs/Waves_privacy_policy.pdf).",
                 "read": "I have read, understood and agree to the",
                 "readTermsAndConditions": "Eu li, compreendi e concordo com os [Termos e Condições](https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf)",
                 "security": "I understand that my funds are held securely on this device, not by a company",

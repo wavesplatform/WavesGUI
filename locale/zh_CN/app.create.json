@@ -25,9 +25,22 @@
         "avatarUnique": "这个头像是独特的。 未来不能改头像。",
         "choose": "选择您的地址头像",
         "create": "创建一个新账户",
+        "createAccount": "创建一个新账户",
         "createDescription": "快速而自由",
         "createNewAccount": "选择你的头像",
+        "description": {
+            "becomePart": "成为加密世界快速发展的一部分。您是唯一可以访问加密资产的人",
+            "enterName": "输入帐户名称或",
+            "tokenLauncher": "发行自己的代币。这些不仅可以作为内部货币，还可以作为评级系统或忠诚度计划集成到您的业务中。",
+            "wallet": "轻松安全地存储，管理和接收您的数字资产余额的利息。"
+        },
         "from": "这个头像是视觉表达，你以后不能改变它",
+        "header": {
+            "accountName": "用户名",
+            "tokenLauncher": "代币启动器",
+            "wallet": "智能数字钱包",
+            "withBlockchain": "开始使用区块链"
+        },
         "import": "导入帐户",
         "importDescription": "通过种子短语，分类帐或Keeper",
         "protect": "使用密码来保护您的帐户或",

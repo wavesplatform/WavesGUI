@@ -267,23 +267,23 @@
             "wavesGatewayBNT": {
                 "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of Bancor to a token in your Waves account.",
                 "helpDescrTitle": "Enter this address into your client or wallet",
-                "warningMinAmountText": "If you will send less than 2 Bancor, you will lose that money.",
-                "warningMinAmountTitle": "The minimum amount of deposit is 2 Bancor, the maximum amount of deposit is 100 000 Bancor",
+                "warningMinAmountText": "If you will send less than {{minAmount, BigNumber}} {{assetTicker}}, you will lose that money.",
+                "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}, the maximum amount of deposit is {{maxAmount}} {{assetTicker}}",
                 "warningText": "Check if your wallet or exchange uses smart-contracts to withdraw Bancor. We do not accept such transactions and can’t refund them. You will lose that money.",
                 "warningTitle": "Please do not deposit BNT from smart contracts! Do not deposit other ERC20 tokens! Only Bancor is allowed."
             },
             "wavesGatewayERGO": {
                 "helpDescrText": "İşlemler onaylandıktan sonra ERGO geçidi tarafından Waves adresinize transfer gerçekleştirilecektir.",
                 "helpDescrTitle": "Bu adresi ERGO cüzdanınıza girin",
-                "warningMinAmountText": "0.1 ERGO'nun altında gönderim yaparsanız paranızı kaybedersiniz.",
-                "warningMinAmountTitle": "Minimum yatırma tutarı 0.1 ERGO'dur. Maksimum yatırma tutarı ise 50 000 ERGO'dur.",
+                "warningMinAmountText": "{{minAmount, BigNumber}} {{assetTicker}}'nun altında gönderim yaparsanız paranızı kaybedersiniz.",
+                "warningMinAmountTitle": "Minimum yatırma tutarı {{minAmount, BigNumber}} {{assetTicker}}'dur. Maksimum yatırma tutarı ise {{maxAmount}} {{assetTicker}}'dur.",
                 "warningText": "Bu adrese başka bir kripto para gönderimi kayıpla sonuçlanabilir.",
                 "warningTitle": "Bu adrese ERGO dışında bir kripto para göndermeyin"
             },
             "wavesGatewayVST": {
                 "helpDescrText": "İşlem onaylandıktan sonra Vostoklar Waves adresinize geçit tarafından gönderilir.",
                 "helpDescrTitle": "Bu adresi Vostok cüzdanına ya da uygulamasına giriniz.",
-                "warningMinAmountTitle": "Minimum yatırma tutarı 0.1 VST'dir. Maksimum yatırma tutarı ise 50 000 VST'dir."
+                "warningMinAmountTitle": "Minimum yatırma tutarı {{minAmount, BigNumber}} {{assetTicker}}'dir. Maksimum yatırma tutarı ise {{maxAmount}} {{assetTicker}}'dir."
             }
         },
         "dexScriptedPair": {
@@ -607,6 +607,7 @@
         },
         "settings": {
             "cancel": "Hesap oluştur",
+            "changePass": "Change password",
             "general": {
                 "auto": "Otomatik",
                 "blockHeight": "Şu anki blok",
@@ -671,6 +672,8 @@
                     "ok": "Anladım"
                 }
             },
+            "passChanged": "Password was changed successfully",
+            "password": "Password",
             "security": {
                 "address": "Adres",
                 "backupPhrase": "Anahtar (Yedek) kelimeler",
@@ -765,7 +768,7 @@
                 "analytics": "Waves Platform'un gelişimine katkı sağlamak adına kullanım istatistiklerimin anonim olarak geliştiriciler ile paylaşılmasına onay veriyorum",
                 "backup": "Eğer uygulamayı başka bir cihaza taşımam gerekirse veya uygulama silinirse cüzdanıma erişmemin tek yolunun Anahtar (yedek) kelimeler olduğunu ve başka hiç bir şekilde erişemeyeceğimi biliyorum.",
                 "ok": "Onayla ve Başla",
-                "privacyPolicy": "[Gizlilik politikası](https://wavesplatform.com/files/docs/Privacy Policy_SW.pdf)'nı okudum ve anladım.",
+                "privacyPolicy": "[Gizlilik politikası](https://wavesplatform.com/files/docs/Waves_privacy_policy.pdf)'nı okudum ve anladım.",
                 "read": "Okudum, anladım ve onaylıyorum",
                 "readTermsAndConditions": "[Koşullar ve Şartlar](https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf)'ı okudum ve anladım.",
                 "security": "Kripto varlıklarımın herhangi bir şirket tarafından saklanmadığını ve bu cihazda güvenle benim tarafımdan saklandığını anladım.",

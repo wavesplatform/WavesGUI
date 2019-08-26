@@ -141,9 +141,15 @@
         }
     },
     "password": {
+        "btn": {
+            "confirm": "Confirm"
+        },
         "minLength": "最低 {{minLength}} 文字",
         "name": "アカウント名",
         "nameExists": "この名前はすでに使用されています",
+        "newPass": "New password",
+        "old": "Old password",
+        "oldWrong": "Old password is wrong",
         "repeat": "パスワードを再入力して確認",
         "secure": "パスワードを強化",
         "title": "アカウントを新しいパスワードで保護",

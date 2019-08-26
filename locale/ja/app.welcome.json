@@ -119,6 +119,7 @@
     },
     "userList": {
         "addNew": "アカウントを追加",
+        "back": "Back",
         "create": "新しいアカウントを作成",
         "frombackup": "(バックアップから)",
         "import": "アカウントをインポート",
@@ -127,6 +128,9 @@
         "subTitleSession": "このセッションは自動的に終了しました。"
     },
     "welcome": {
+        "accountList": {
+            "locked": "Require unlocking"
+        },
         "address": "アドレス",
         "aliases": "エイリアス",
         "android": "Google Play",
@@ -205,6 +209,7 @@
         "stackOverflow": "Stack Overflow",
         "suitableTradingBots": "ボット取引に最適",
         "support": "サポート",
+        "switchAccount": "Switch account",
         "telegram": "Telegram",
         "termsOfUse": "利用規約",
         "tokenCreation": "高速なトークン生成",

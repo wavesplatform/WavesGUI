@@ -119,6 +119,7 @@
     },
     "userList": {
         "addNew": "एक खाता जोड़ें",
+        "back": "Back",
         "create": "एक नया खाता बनाएं",
         "frombackup": "बैकअप से",
         "import": "इम्पोर्ट खाते",
@@ -127,6 +128,9 @@
         "subTitleSession": "यह सेशन अपने आप समाप्त हो गया था।"
     },
     "welcome": {
+        "accountList": {
+            "locked": "Require unlocking"
+        },
         "address": "Address",
         "aliases": "Aliases",
         "android": "Google Play",
@@ -205,6 +209,7 @@
         "stackOverflow": "Stack Overflow",
         "suitableTradingBots": "Suitable for trading bots",
         "support": "Support",
+        "switchAccount": "Switch account",
         "telegram": "Telegram",
         "termsOfUse": "Terms of use",
         "tokenCreation": "Fast token creation",

@@ -119,6 +119,7 @@
     },
     "userList": {
         "addNew": "Aggiungi un account",
+        "back": "Back",
         "create": "Crea un nuovo account",
         "frombackup": "da un backup",
         "import": "Importa account",
@@ -127,6 +128,9 @@
         "subTitleSession": "La sessione è terminata automaticamente."
     },
     "welcome": {
+        "accountList": {
+            "locked": "Require unlocking"
+        },
         "address": "Indirizzo",
         "aliases": "Alias",
         "android": "Google Play",
@@ -205,6 +209,7 @@
         "stackOverflow": "Stack Overflow",
         "suitableTradingBots": "Adatto ai boti di trading",
         "support": "Supporto",
+        "switchAccount": "Switch account",
         "telegram": "Telegram",
         "termsOfUse": "Termini di utilizzo",
         "tokenCreation": "Creazione rapida di token",
