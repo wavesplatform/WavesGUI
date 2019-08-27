@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    const controller = function (Base, $scope, $mdDialog, user, notification) {
+    const controller = function (Base, $scope, $mdDialog, $state, user) {
 
         class ForgotPasswordModalCtrl extends Base {
 
@@ -12,11 +12,7 @@
             onReset() {
                 user.resetAll().then(() => {
                     $mdDialog.hide();
-
-                    notification.info({
-                        ns: 'app.signIn',
-                        title: { literal: 'signIn.modal.forgotPass' }
-                    });
+                    $state.go('welcome');
                 });
             }
 
@@ -25,7 +21,7 @@
         return new ForgotPasswordModalCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', '$mdDialog', 'user', 'notification'];
+    controller.$inject = ['Base', '$scope', '$mdDialog', '$state', 'user'];
 
     angular.module('app.utils').controller('ForgotPasswordModalCtrl', controller);
 })();

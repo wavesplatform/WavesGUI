@@ -159,6 +159,15 @@
                     </div>
                 </div>
 
+                <div class="row flex-row row-style solid-border text-right">
+                    <div class="footnote basic-500" w-i18n="modal.settings.account"></div>
+                    <div>
+                        <a class="label link error-400" ng-click="$ctrl.showDeleteAccountModal()" w-modal-close>
+                            <span w-i18n="modal.settings.deleteAccount"></span>
+                        </a>
+                    </div>
+                </div>
+
                 <div ng-if="$ctrl.advancedMode" class="row flex-row row-style solid-border text-right">
                     <div class="footnote basic-500" w-i18n="modal.settings.security.script"></div>
                     <div>

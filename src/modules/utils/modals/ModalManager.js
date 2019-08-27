@@ -82,6 +82,14 @@
                 });
             }
 
+            showDeleteAccountModal() {
+                return this._getModal({
+                    id: 'delete-account-modal',
+                    contentUrl: 'modules/utils/modals/delete-account/delete-account.html',
+                    controller: 'DeleteAccountModalCtrl'
+                });
+            }
+
             showTryDesktopModal() {
                 analytics.send({ name: 'Onboarding Platform Popup Show', target: 'ui' });
                 return this._getModal({

@@ -1,0 +1,18 @@
+<div class="text-center">
+    <div class="margin-3 margin-top-4 center">
+        <div class="icon-attention icon-attention_red"></div>
+    </div>
+    <h3 class="margin-1 basic-700" w-i18n="modal.deleteAccount.header"></h3>
+    <div class="margin-3">
+        <span class="body-2 basic-500" w-i18n="modal.deleteAccount.description"></span>
+    </div>
+
+    <div class="buttons-wrapper">
+        <w-button class="big" w-modal-close>
+            <div w-i18n="modal.deleteAccount.cancel"></div>
+        </w-button>
+        <w-button class="submit big" on-click="$ctrl.onDelete()">
+            <div w-i18n="modal.deleteAccount.delete"></div>
+        </w-button>
+    </div>
+</div>
