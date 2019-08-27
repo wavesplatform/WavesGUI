@@ -69,7 +69,11 @@
                 });
 
                 $scope.$watch('$ctrl.wavesSend.amount', () => this._validateForm());
-
+                $scope.$watch('$ctrl.wavesSend.recipient', () => {
+                    if (this.tx.recipient) {
+                        this.wavesSend.recipient.$$element.focus();
+                    }
+                });
             }
 
             setSendMode(mode) {

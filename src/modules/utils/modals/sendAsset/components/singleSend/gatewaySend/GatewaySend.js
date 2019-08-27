@@ -93,6 +93,12 @@
                 this.receive(utils.observe(this.state, 'moneyHash'), () => {
                     this._onChangeFee();
                 });
+
+                $scope.$watch('$ctrl.gatewaySend.recipient', () => {
+                    if (this.tx.recipient) {
+                        this.gatewaySend.recipient.$$element.focus();
+                    }
+                });
             }
 
             /**
