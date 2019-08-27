@@ -4,11 +4,12 @@
     /**
      * @param {typeof Base} Base
      * @param {ng.IScope} $scope
+     * @param {*} $state
      * @param {User} user
      * @param {app.utils} utils
      * @return {KeeperCtrl}
      */
-    const controller = function (Base, $scope, user, utils) {
+    const controller = function (Base, $scope, $state, user, utils) {
 
         const signatureAdapter = require('@waves/signature-adapter');
 
@@ -180,22 +181,15 @@
              * @return {void}
              */
             login() {
-                const userSettings = user.getDefaultUserSettings({ termsAccepted: false });
-
                 const newUser = {
                     ...this.selectedUser,
                     userType: this.adapter.type,
-                    settings: userSettings,
-                    saveToStorage: this.saveUserData
+                    networkByte: WavesApp.network.code.charCodeAt(0)
                 };
 
-                const api = ds.signature.getDefaultSignatureApi(newUser);
-
-                return user.create({
-                    ...newUser,
-                    settings: userSettings.getSettings(),
-                    api
-                }, true, true).catch(() => {
+                return user.create(newUser, true, true).then(() => {
+                    $state.go(user.getActiveState('wallet'));
+                }).catch(() => {
                     this.error = true;
                     $scope.$digest();
                 });
@@ -241,7 +235,7 @@
         return new KeeperCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'user', 'utils'];
+    controller.$inject = ['Base', '$scope', '$state', 'user', 'utils'];
 
     angular.module('app.keeper').controller('KeeperCtrl', controller);
 })();

@@ -9,12 +9,11 @@
      * @param {typeof Base} Base
      * @param {ng.IScope} $scope
      * @param {*} $state
-     * @param {ng.IWindowService} $window
      * @param {MultiAccount} multiAccount
      * @param {User} user
      * @return {SignUpCtrl}
      */
-    const controller = function (Base, $scope, $state, $window, multiAccount, user) {
+    const controller = function (Base, $scope, $state, multiAccount, user) {
 
         class MigrateCtrl extends Base {
 
@@ -61,8 +60,17 @@
             }
 
             prevStep() {
-                if ($state.params.id) {
-                    $window.history.back();
+                const { id } = $state.params;
+
+                if (id) {
+                    user.getMultiAccountUsers().then((mUsers = []) => {
+                        const userToLogin = mUsers.find(mUser => (
+                            multiAccount.hash(mUser.address) === id
+                        ));
+
+                        user.login(userToLogin);
+                        $state.go(user.getActiveState('wallet'));
+                    });
                 } else {
                     this.activeStep -= 1;
                 }
@@ -82,7 +90,6 @@
                     .then(() => user.getMultiAccountUsers())
                     .then(multiAccountUsers => {
                         this.userListLocked = this.userListLocked.filter(lockedUser => (
-                            lockedUser.userType === this.userToMigrate.userType &&
                             lockedUser.address !== this.userToMigrate.address
                         ));
 
@@ -165,7 +172,7 @@
         return new MigrateCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', '$state', '$window', 'multiAccount', 'user'];
+    controller.$inject = ['Base', '$scope', '$state', 'multiAccount', 'user'];
 
     angular.module('app.migrate').controller('MigrateCtrl', controller);
 })();

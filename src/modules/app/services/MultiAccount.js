@@ -87,7 +87,7 @@
         }
 
         addUser({ userType, networkByte, seed, id, privateKey, publicKey }) {
-            const _publicKey = publicKey || buildPublicKey(seed || privateKey);
+            const _publicKey = publicKey || buildPublicKey(seed || { privateKey });
             const userHash = this.hash(networkByte + _publicKey);
 
             _users[userHash] = {
