@@ -11,6 +11,9 @@
             "restore": "Restore all"
         },
         "enterPass": "Please enter your password to continue",
+        "modal": {
+            "forgotPass": "Password successfully reset"
+        },
         "passForgot": {
             "attention": "Attention!",
             "description": "If you forget your password, you must restore all your accounts from their SEEDs and set a new password."

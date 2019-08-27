@@ -30,11 +30,15 @@
         "createNewAccount": "Выберите свой аватар",
         "description": {
             "becomePart": "Станьте частью быстрорастущего крипто-мира. Только вы можете получить доступ к своим средствам",
-            "enterName": "Введите название аккаунта или"
+            "enterName": "Введите название аккаунта или",
+            "tokenLauncher": "Issue your own tokens. These can be integrated into your business not only as an internal currency but also as a rating system, or loyalty program.",
+            "wallet": "Store, manage and receive interest on your digital assets balance, easily and securely."
         },
         "from": "Ваш аватар уникален. Вы не сможете изменить его позже.",
         "header": {
             "accountName": "Название аккаунта",
+            "tokenLauncher": "TokenLauncher",
+            "wallet": "Кошелёк",
             "withBlockchain": "Начните работать с блокчейном"
         },
         "import": "Импорт аккаунтов",
