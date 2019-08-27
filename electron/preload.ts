@@ -2,6 +2,7 @@ import { Storage } from './Storage';
 import { shell, remote } from 'electron';
 
 process.once('loaded', () => {
+    debugger;
     const g: any = global;
     g.WebStorage = new Storage();
     g.openInBrowser = function (url) {
