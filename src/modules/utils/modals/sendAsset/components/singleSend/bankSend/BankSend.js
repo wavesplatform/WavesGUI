@@ -100,10 +100,6 @@
                     onHasMoneyHash();
                 }
 
-                if (this.state.gatewayDetails) {
-                    this.state.gatewayDetails = null;
-                }
-
                 this.receive(utils.observe(this.state, 'moneyHash'), () => {
                     this._onChangeBaseAssets();
                     this._onChangeFee();

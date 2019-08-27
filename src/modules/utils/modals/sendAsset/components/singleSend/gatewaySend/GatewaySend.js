@@ -21,11 +21,7 @@
              * @return {IGatewayDetails|null}
              */
             get gatewayDetails() {
-                return this.state.gatewayDetails;
-            }
-
-            set gatewayDetails(value) {
-                this.state.gatewayDetails = value;
+                return this.state.gatewayData.details;
             }
 
             /**
@@ -33,10 +29,6 @@
              */
             get paymentId() {
                 return this.state.paymentId;
-            }
-
-            set paymentId(value) {
-                this.state.paymentId = value;
             }
 
             /**
@@ -80,7 +72,8 @@
 
                     this.receive(utils.observe(this.state, 'assetId'), this._onChangeAssetId, this);
                     this.receive(utils.observe(this.state, 'mirrorId'), this._onChangeMirrorId, this);
-                    this.receive(utils.observe(this.state, 'paymentId'), this._updateGatewayDetails, this);
+                    this.receive(utils.observe(this.state, 'paymentId'), this.updateGatewayData, this);
+                    this.receive(utils.observe(this.state, 'gatewayData'), this._onUpdateGatewayData, this);
 
                     this.observe('mirror', this._onChangeAmountMirror);
                     this.observe('gatewayDetails', this._onChangeGatewayDetails);
@@ -101,8 +94,6 @@
                 this.receive(utils.observe(this.state, 'moneyHash'), () => {
                     this._onChangeFee();
                 });
-
-                this._updateGatewayDetails();
             }
 
             /**
@@ -134,39 +125,37 @@
             /**
              * @private
              */
-            _updateGatewayDetails() {
-                this.gatewayDetailsError = false;
-                this.gatewayAddressError = false;
-                this.gatewayWrongAddress = false;
+            _onUpdateGatewayData() {
+                const { details, error } = this.state.gatewayData;
 
-                if (gatewayService.hasSupportOf(this.balance.asset, 'deposit')) {
-                    return gatewayService
-                        .getWithdrawDetails(this.balance.asset, this.tx.recipient, this.state.paymentId)
-                        .then(details => {
-                            const max = BigNumber.min(
-                                details.maximumAmount.add(details.gatewayFee),
-                                this.balance.getTokens()
-                            );
+                if (details) {
+                    this.gatewayDetailsError = false;
+                    this.gatewayAddressError = false;
+                    this.gatewayWrongAddress = false;
 
-                            this.gatewayDetails = details;
-                            this.minAmount = this.balance.cloneWithTokens(details.minimumAmount);
-                            this.maxAmount = this.balance.cloneWithTokens(max);
-                            this.maxGatewayAmount = Money.fromTokens(details.maximumAmount, this.balance.asset);
-                            $scope.$apply();
-                        }, e => {
-                            this.gatewayDetails = null;
-                            if (e.message === gatewayService.getAddressErrorMessage(this.balance.asset,
-                                this.tx.recipient, 'errorAddressMessage')) {
-                                this.gatewayAddressError = true;
-                            } else if (e.message === gatewayService.getWrongAddressMessage(this.balance.asset,
-                                this.tx.recipient, 'wrongAddressMessage')) {
-                                this.gatewayWrongAddress = true;
-                            } else {
-                                this.gatewayDetailsError = true;
-                            }
-                            $scope.$apply();
-                        });
+                    const max = BigNumber.min(
+                        details.maximumAmount.add(details.gatewayFee),
+                        this.balance.getTokens()
+                    );
+
+                    this.minAmount = this.balance.cloneWithTokens(details.minimumAmount);
+                    this.maxAmount = this.balance.cloneWithTokens(max);
+                    this.maxGatewayAmount = Money.fromTokens(details.maximumAmount, this.balance.asset);
+                } else if (error) {
+                    if (error.message === gatewayService.getAddressErrorMessage(this.balance.asset,
+                        this.tx.recipient, 'errorAddressMessage')) {
+                        this.gatewayAddressError = true;
+                    } else if (error.message === gatewayService.getWrongAddressMessage(this.balance.asset,
+                        this.tx.recipient, 'wrongAddressMessage')) {
+                        this.gatewayWrongAddress = true;
+                    } else {
+                        this.gatewayDetailsError = true;
+                    }
+                } else {
+                    this.gatewayDetailsError = true;
                 }
+
+                $scope.$apply();
             }
 
             /**
@@ -174,7 +163,7 @@
              */
             _onUpdateRecipient() {
                 this.onChangeRecipient();
-                this._updateGatewayDetails();
+                this.updateGatewayData();
             }
 
             /**
@@ -241,7 +230,7 @@
 
             _onChangeAssetId() {
                 super._onChangeAssetId();
-                this._updateGatewayDetails();
+                this.updateGatewayData();
             }
 
         }
@@ -263,7 +252,8 @@
         bindings: {
             state: '<',
             onSign: '&',
-            onChangeRecipient: '&'
+            onChangeRecipient: '&',
+            updateGatewayData: '&'
         },
         templateUrl: 'modules/utils/modals/sendAsset/components/singleSend/gatewaySend/gateway-send.html',
         transclude: true,

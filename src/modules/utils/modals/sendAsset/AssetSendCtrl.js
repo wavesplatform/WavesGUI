@@ -12,9 +12,11 @@
      * @param {$mdDialog} $mdDialog
      * @param {BalanceWatcher} balanceWatcher
      * @param {IOuterBlockchains} outerBlockchains
+     * @param {GatewayService} gatewayService
      * @return {AssetSendCtrl}
      */
-    const controller = function ($scope, waves, Base, utils, user, $mdDialog, balanceWatcher, outerBlockchains) {
+    const controller = function ($scope, waves, Base, utils, user, $mdDialog, balanceWatcher, outerBlockchains,
+                                 gatewayService) {
 
         class AssetSendCtrl extends Base {
 
@@ -29,7 +31,7 @@
              * @return {IGatewayDetails}
              */
             get gatewayDetails() {
-                return this.state.gatewayDetails;
+                return this.state.gatewayData.details;
             }
 
             /**
@@ -69,7 +71,11 @@
                 this.state = {
                     assetId: options.assetId || WavesApp.defaultAssets.WAVES,
                     mirrorId: user.getSetting('baseAssetId'),
-                    gatewayDetails: null,
+                    gatewayData: {
+                        details: null,
+                        error: null
+                    },
+                    paymentId: '',
                     moneyHash: null,
                     singleSend: utils.liteObject({ type: SIGN_TYPE.TRANSFER }),
                     massSend: utils.liteObject({ type: SIGN_TYPE.MASS_TRANSFER })
@@ -77,6 +83,8 @@
 
                 this.receive(balanceWatcher.change, this._updateBalanceList, this);
                 this._updateBalanceList();
+
+                this.observe('sendMode', this._onChangeSendMode);
 
                 this.receive(utils.observe(this.state, 'assetId'), this.checkSendMode, this);
                 this.receive(utils.observe(this.state.singleSend, 'recipient'), this.checkSendMode, this);
@@ -173,6 +181,26 @@
                 }
             }
 
+            updateGatewayData() {
+                if (gatewayService.hasSupportOf(this.balance.asset, 'deposit')) {
+                    return gatewayService
+                        .getWithdrawDetails(this.balance.asset, this.state.singleSend.recipient, this.state.paymentId)
+                        .then(details => {
+                            this.state.gatewayData = {
+                                error: null,
+                                details
+                            };
+                            $scope.$apply();
+                        }, error => {
+                            this.state.gatewayData = {
+                                details: null,
+                                error
+                            };
+                            $scope.$apply();
+                        });
+                }
+            }
+
             /**
              * @private
              */
@@ -234,6 +262,20 @@
             }
 
             /**
+             * @private
+             */
+            _onChangeSendMode() {
+                if (this.sendMode === 'gateway') {
+                    this.updateGatewayData();
+                } else {
+                    this.gatewayData = {
+                        details: null,
+                        error: null
+                    };
+                }
+            }
+
+            /**
              * @return {boolean}
              * @private
              */
@@ -254,7 +296,8 @@
         'user',
         '$mdDialog',
         'balanceWatcher',
-        'outerBlockchains'
+        'outerBlockchains',
+        'gatewayService'
     ];
 
     angular.module('app.utils')

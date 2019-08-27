@@ -178,7 +178,7 @@
         <w-sign-button ng-if="$ctrl.isGatewayAccepted && !ctrl.gatewayError"
                        on-click="$ctrl.createTx()"
                        on-success="$ctrl.onSignTx(signable)"
-                       disabled="$ctrl.gatewaySend.$invalid || !$ctrl.hasFee">
+                       disabled="$ctrl.gatewaySend.$invalid || !$ctrl.hasFee || $ctrl.gatewayError">
             <span w-i18n="button.continue"></span>
         </w-sign-button>
     </div>

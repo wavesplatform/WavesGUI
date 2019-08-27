@@ -62,10 +62,6 @@
                     onHasMoneyHash();
                 }
 
-                if (this.state.gatewayDetails) {
-                    this.state.gatewayDetails = null;
-                }
-
                 this.receive(utils.observe(this.state, 'moneyHash'), () => {
                     this._onChangeFee();
                     this._setMinAndMaxAmount();
@@ -115,7 +111,7 @@
              * @private
              */
             _validateForm() {
-                if ((this.wavesSend.amount && this.tx.amount.getTokens().gt(0)) || this.tx.recipient) {
+                if (this.wavesSend.amount && (this.tx.amount.getTokens().gt(0) || this.tx.recipient)) {
                     this.wavesSend.amount.$setTouched(true);
                 }
             }
