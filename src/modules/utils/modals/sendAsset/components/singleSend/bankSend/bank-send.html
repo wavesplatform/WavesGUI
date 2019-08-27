@@ -52,7 +52,7 @@
         </div>
     </div>
 
-    <w-input-container ng-if="$ctrl.canShowAmount" class="margin-top-2">
+    <w-input-container ng-if="!$ctrl.termsLoadError && !$ctrl.termsIsPending" class="margin-top-2">
         <div class="body-2 margin-05" w-i18n="modal.send.amount"></div>
         <div class="amount-wrap" ng-class="{'no-mirror': $ctrl.noMirror}">
 

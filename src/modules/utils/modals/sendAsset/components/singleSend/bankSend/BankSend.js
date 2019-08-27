@@ -49,10 +49,6 @@
              */
             maxCoinomatAmount = null;
             /**
-             * @type {boolean}
-             */
-            canShowAmount = false;
-            /**
              * @type {Function}
              */
             onChangeMode = null;
@@ -71,18 +67,6 @@
                     this.receive(utils.observe(this.state, 'mirrorId'), this._onChangeMirrorId, this);
 
                     this.observe('mirror', this._onChangeAmountMirror);
-
-                    if (this.isBankAccepted) {
-                        this.observe(['termsLoadError', 'termsIsPending'], () => {
-                            this.canShowAmount = !this.termsLoadError && !this.termsIsPending;
-                            if (this.canShowAmount) {
-                                setTimeout(() => {
-                                    this._validateForm();
-                                    this._fillMirror();
-                                }, 0);
-                            }
-                        });
-                    }
 
                     this.receive(utils.observe(this.tx, 'amount'), this._updateWavesTxObject, this);
                     this.receive(utils.observe(this.tx, 'attachment'), this._updateWavesTxObject, this);
@@ -106,14 +90,9 @@
                     this._setMinAndMaxAmount();
                     this._validateForm();
                 });
-            }
 
-            // $doCheck() {
-            //     if (this.bankSend && this.bankSend.amount && !this.bankSend.amount.$touched) {
-            //         this._validateForm();
-            //         this._fillMirror();
-            //     }
-            // }
+                $scope.$watch('$ctrl.bankSend.amount', () => this._validateForm());
+            }
 
             setSendMode(mode) {
                 this.onChangeMode({ mode });

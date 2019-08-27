@@ -76,7 +76,6 @@
                     this.receive(utils.observe(this.state, 'gatewayData'), this._onUpdateGatewayData, this);
 
                     this.observe('mirror', this._onChangeAmountMirror);
-                    this.observe('gatewayDetails', this._onChangeGatewayDetails);
 
                     this.receive(utils.observe(this.tx, 'amount'), this._updateWavesTxObject, this);
                     this.receive(utils.observe(this.tx, 'recipient'), this._updateWavesTxObject, this);
@@ -141,6 +140,8 @@
                     this.minAmount = this.balance.cloneWithTokens(details.minimumAmount);
                     this.maxAmount = this.balance.cloneWithTokens(max);
                     this.maxGatewayAmount = Money.fromTokens(details.maximumAmount, this.balance.asset);
+
+                    this._onChangeGatewayDetails();
                 } else if (error) {
                     if (error.message === gatewayService.getAddressErrorMessage(this.balance.asset,
                         this.tx.recipient, 'errorAddressMessage')) {

@@ -32,7 +32,7 @@
             onChangeMode = null;
 
             $postLink() {
-                this.receive(utils.observe(this.tx, 'recipient'), this._onUpdateRecipient, this);
+                this.receive(utils.observe(this.tx, 'recipient'), this.onChangeRecipient, this);
 
                 const onHasMoneyHash = () => {
                     this.tx.amount = this.tx.amount || this.balance.cloneWithTokens('0');
@@ -48,7 +48,7 @@
                     this.receive(utils.observe(this.tx, 'recipient'), this._updateWavesTxObject, this);
                     this.receive(utils.observe(this.tx, 'attachment'), this._updateWavesTxObject, this);
 
-                    this._onUpdateRecipient();
+                    this.onChangeRecipient();
                     this._onChangeFee();
                     this._setMinAndMaxAmount();
                     this._onChangeBaseAssets();
@@ -67,6 +67,8 @@
                     this._setMinAndMaxAmount();
                     this._onChangeBaseAssets();
                 });
+
+                $scope.$watch('$ctrl.wavesSend.amount', () => this._validateForm());
 
             }
 
@@ -111,7 +113,8 @@
              * @private
              */
             _validateForm() {
-                if (this.wavesSend.amount && (this.tx.amount.getTokens().gt(0) || this.tx.recipient)) {
+                const amountGtZero = this.tx.amount && this.tx.amount.getTokens().gt(0);
+                if (this.wavesSend.amount && (amountGtZero || this.tx.recipient)) {
                     this.wavesSend.amount.$setTouched(true);
                 }
             }
@@ -122,14 +125,6 @@
             _setMinAndMaxAmount() {
                 this.minAmount = this.balance.cloneWithTokens('0');
                 this.maxAmount = this.balance;
-            }
-
-            /**
-             * @private
-             */
-            _onUpdateRecipient() {
-                this.onChangeRecipient();
-                this._validateForm();
             }
 
             /**
