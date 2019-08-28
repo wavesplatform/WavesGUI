@@ -46,13 +46,11 @@
                                      required></w-input>
                         </form>
                         <div class="address-block-info">
-                            <w-avatar ng-if="$ctrl.address" class="address-block-avatar"
-                                      address="$ctrl.address"></w-avatar>
+                            <w-avatar ng-if="$ctrl.address" class="avatar" address="$ctrl.address" size="36"></w-avatar>
                             <div ng-if="!$ctrl.address" class="avatar-fake margin-right-1"></div>
                             <div class="address-block">
                                 <div class="footnote-1 basic-700" w-i18n="seedForm.address"></div>
-                                <div ng-class="{empty: !$ctrl.address}"
-                                     class="address body-1 basic-500 mobile-caption-2">
+                                <div ng-class="{empty: !$ctrl.address}" class="address body-1 basic-500 mobile-caption-2">
                                     {{$ctrl.address}}
                                 </div>
                             </div>

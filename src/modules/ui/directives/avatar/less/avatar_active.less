@@ -1,0 +1,29 @@
+@import (reference) 'icons';
+@import (reference) 'config';
+
+.avatar_active {
+  .avatar {
+    &__img {
+      transform: scale(1.25);
+      box-shadow: 0 0 0 4px #fff, 0 4px 18px 0 rgba(30, 41, 73, 0.15);
+    }
+
+    &__wrap { // .avatar__wrap
+      cursor: default;
+      opacity: 1;
+    }
+    &[type='ledger'] .avatar__wrap:not(.scripted)::after {
+      bottom: 3px;
+      left: calc(100% ~'- 18px');
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .avatar_active {
+    .avatar[type='ledger'] .avatar__wrap:not(.scripted)::after {
+      bottom: 8px;
+      left: calc(100% ~'- 23px');
+    }
+  }
+}

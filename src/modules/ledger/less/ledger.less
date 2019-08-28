@@ -4,13 +4,6 @@
 
 body.ledger {
   .import-wrapper {
-    .step {
-      &-left,
-      &-right {
-        position: relative;
-      }
-    }
-
     .icon {
       &-left,
       &-right {
@@ -19,6 +12,8 @@ body.ledger {
         cursor: pointer;
         position: absolute;
         top: 44px;
+        top: 50%;
+        transform: translateY(-50%);
       }
 
       &-left {
@@ -49,32 +44,14 @@ body.ledger {
     align-items: center;
   }
 
-  w-avatar[type='ledger'] .avatar-wrap:not(.scripted)::after {
-    bottom: 8px;
-    left: calc(100% ~'- 23px');
-    transition: left 0.3s, bottom 0.3s;
-  }
-
-  .avatar-wrapper {
-    &.active {
-      w-avatar[type='ledger'] .avatar-wrap:not(.scripted)::after {
-        bottom: 3px;
-        left: calc(100% ~'- 18px');
-      }
-    }
-  }
-
   .loader-wrapper {
     position: relative;
     top: 50%;
     width: 100px;
     margin: 0 auto;
-    height: 107px;
+    height: 90px;
     transform: translate(0);
     left: 0;
-    w-loader {
-      margin-top:2px;
-    }
   }
 }
 
@@ -82,11 +59,6 @@ body.ledger {
   body.ledger {
     .import-wrapper {
       .icon {
-        &-left,
-        &-right {
-          top: 34px;
-        }
-
         &-left {
           left: -15px;
         }
@@ -95,24 +67,6 @@ body.ledger {
           right: -15px;
         }
       }
-
-      w-avatar[type='ledger'] .avatar-wrap:not(.scripted)::after {
-        bottom: 13px;
-        left: calc(100% ~'- 28px');
-      }
-
-      .avatar-wrapper {
-        &.active {
-          w-avatar[type='ledger'] .avatar-wrap:not(.scripted)::after {
-            bottom: 8px;
-            left: calc(100% ~'- 23px');
-          }
-        }
-      }
-    }
-
-    .loader-wrapper {
-      height: 87px;
     }
   }
 }
