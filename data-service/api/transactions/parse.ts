@@ -1,5 +1,7 @@
-import { Asset, AssetPair, BigNumber, Money } from '@waves/data-entities';
-import { libs, TRANSACTION_TYPE_NUMBER, WAVES_ID } from '@waves/signature-generator';
+import { Asset, AssetPair, Money } from '@waves/data-entities';
+import { BigNumber } from '@waves/bignumber';
+import { TRANSACTION_TYPE_NUMBER, WAVES_ID } from '@waves/signature-adapter';
+import { libs } from '@waves/waves-transactions';
 import { get } from '../assets/assets';
 import {
     IBurn,
@@ -37,7 +39,7 @@ const SCRIPT_INVOCATION_NUMBER = 16;
 
 const parseAttachment: (data: string | number) => Uint8Array = pipe(
     String,
-    libs.base58.decode
+    libs.crypto.base58Decode
 );
 
 const getFactory = (isTokens: boolean): IFactory => {
@@ -222,7 +224,7 @@ export function getExchangeTxMoneys(factory: IFactory, tx: txApi.IExchange, asse
     const pair = new AssetPair(assetsHash[assetIdPair.amountAsset], assetsHash[assetIdPair.priceAsset]);
     const price = factory.price(tx.price, pair);
     const amount = factory.money(tx.amount, pair.amountAsset);
-    const total = Money.fromTokens(amount.getTokens().times(price.getTokens()), price.asset);
+    const total = Money.fromTokens(amount.getTokens().mul(price.getTokens()), price.asset);
 
     return { price, amount, total };
 }
@@ -265,7 +267,7 @@ export function parseExchangeOrder(factory: IFactory, order: txApi.IExchangeOrde
     const pair = new AssetPair(assetsHash[assetPair.amountAsset], assetsHash[assetPair.priceAsset]);
     const price = factory.price(order.price, pair);
     const amount = factory.money(order.amount, assetsHash[assetPair.amountAsset]);
-    const total = Money.fromTokens(amount.getTokens().times(price.getTokens()), price.asset);
+    const total = Money.fromTokens(amount.getTokens().mul(price.getTokens()), price.asset);
     const matcherFee = factory.money(order.matcherFee, assetsHash[normalizeAssetId(order.matcherFeeAssetId)]);
     return { ...order, price, amount, matcherFee, assetPair, total };
 }

@@ -1,0 +1,163 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+@import (reference) "../../../../../app/less/app-icons";
+@import (reference) '../../../../../app/less/typography';
+
+.user-account {
+  position: relative;
+  margin: 5px 0;
+  padding-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid @color-info-50;
+  max-width: 249px;
+
+  &__name {
+    display: inline-flex;
+    position: relative;
+  }
+
+  &__address,
+  &__text {
+    &:hover {
+      background: @color-basic-50;
+    }
+  }
+
+  &__address {
+    padding: 5px;
+    border-radius: @border-radius;
+    position: relative;
+  }
+
+  &__block {
+    position: relative;
+    max-width: 100%;
+  }
+
+  &__text {
+    cursor: text;
+    position: relative;
+    .headline-3;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    border-radius: @border-radius;
+    padding: 5px 24px 5px 6px;
+    height: 30px;
+
+    &:after {
+      display: none;
+      position: absolute;
+      right: 5px;
+      top: 50%;
+      content: '';
+      width: 14px;
+      height: 14px;
+      margin: -7px 0 0 5px;
+      background: @color-info-50 @dex-edit-icon;
+    }
+
+    &:hover {
+      &:after {
+        display: block;
+      }
+    }
+  }
+
+  .user-account__input {
+    width: 100%;
+
+    .w-input-wrap {
+      &.invalid {
+        input {
+          border-color: @color-error-200;
+        }
+      }
+    }
+
+    .w-input-wrap input[type="text"] {
+      &:focus {
+        border-bottom-right-radius: 0;
+      }
+
+      &:not(.no-validate).ng-touched.ng-valid {
+        &:not(:focus):not(.focus):not(.ng-empty) {
+          border-color: transparent;
+        }
+      }
+    }
+
+    .ng-invalid {
+      .user-account__btns, .user-account__btn {
+        background: @color-error-200;
+        border-bottom-right-radius: @border-radius;
+  
+      }
+  
+      .user-account__btns {
+        padding: 2px;
+        width: 26px;
+      }
+      
+      .user-account__btn {
+        &:hover {
+          background: rgba(250, 250, 250, .2);
+        }
+
+        &_ok {
+          display: none;
+        }
+      }
+    }
+  }
+
+  &__btns {
+    height: 22px;
+    width: 52px;
+    margin-left: auto;
+    display: flex;
+    background: @color-submit-400;
+    padding: 2px 4px;
+    border-bottom-left-radius: @border-radius;
+    border-bottom-right-radius: @border-radius;
+    position: absolute;
+    z-index: 1;
+    right: 0;
+    transform: translateY(-1px);
+  }
+
+  &__btn {
+    height: 18px;
+    width: 18px;
+    background: @color-submit-400;
+    border: 0;
+    cursor: pointer;
+    padding: 2px;
+    margin: 0 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    border-radius: @border-radius / 2;
+
+    &::after {
+      content: '';
+      display: block;
+      height: 100%;
+      width: 100%;
+      position: absolute;
+    }
+
+    &_cancel::after {
+      background: url('../../../../../../img/icons/close-white.svg') center no-repeat;
+      }
+
+    &_ok::after {
+      background: url('../../../../../../img/icons/check-user-account.svg') center no-repeat;
+    }
+
+    &:hover {
+      background: rgba(250, 250, 250, .2);
+    }
+  }
+}

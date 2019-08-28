@@ -1,7 +1,7 @@
 import { createSecureServer } from 'http2';
 import { createServer } from 'https';
-import { route, parseArguments, stat, loadLocales } from './ts-scripts/utils';
-import { readFileSync, existsSync, mkdirSync, readdirSync } from 'fs';
+import { route, parseArguments, stat } from './ts-scripts/utils';
+import { readFileSync, readdirSync } from 'fs';
 import { serialize, parse as parserCookie } from 'cookie';
 import { compile } from 'handlebars';
 import { parse } from 'url';
@@ -62,21 +62,16 @@ const handler = function (req, res) {
     }
 };
 
-function createMyServer(port) {
-
+function createMyServer(port: number) {
     const server = createSecureServer({ key: privateKey, cert: certificate });
     const url = `https://localhost:${port}`;
 
     server.addListener('request', request);
     server.listen(port);
+
     console.log(`Listen port ${port}...`);
     console.log('Available urls:');
     console.log(url);
-    const cachePath = join(process.cwd(), '.cache-download');
-    if (!existsSync(cachePath)) {
-        mkdirSync(cachePath);
-    }
-    loadLocales(cachePath);
 
     if (args.openUrl) {
         opn(url);

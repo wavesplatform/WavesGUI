@@ -1,0 +1,73 @@
+{
+    "all": "Semua",
+    "confirmTransaction": {
+        "retrySign": "Ulangi tanda tangan"
+    },
+    "csv": {
+        "alias": "Nama Alias",
+        "amount": {
+            "id": "Jumlah  ID aset",
+            "name": "Jumlah nama aset",
+            "ticker": "Jumlah simbol aset",
+            "value": "Jumlah nilai aset"
+        },
+        "attachment": "Lampiran transaksi",
+        "date": "Tanggal",
+        "description": "Deskripsi Token",
+        "fee": {
+            "id": "ID Biaya",
+            "name": "Nama Biaya",
+            "ticker": "Simbol Biaya",
+            "value": "Nilai Biaya"
+        },
+        "height": "Tinggi transaksi",
+        "id": "ID transaksi",
+        "name": "Nama Token",
+        "precision": "Presisi",
+        "price": {
+            "id": "ID Aset Harga",
+            "name": "Nama Aset Harga",
+            "ticker": "Simbol Aset Harga",
+            "value": "Nilai Aset Harga"
+        },
+        "recipient": "Penerima transaksi",
+        "reissuable": {
+            "false": "Tidak dapat ditambah",
+            "name": "Jumlah Token dapat ditambah",
+            "true": "Dapat ditambah"
+        },
+        "sender": "Pengirim transaksi",
+        "transactionType": "Jenis transaksi Blockchain",
+        "type": "Tipe transaksi"
+    },
+    "errors": {
+        "complete": {
+            "body": "Daftar transaksi tidak sepenuhnya diunduh. Coba lagi nanti.",
+            "title": "Pengunduhan tidak lengkap."
+        },
+        "download": {
+            "body": "Daftar transaksi tidak diunduh. Coba lagi nanti.",
+            "title": "Unduh gagal."
+        },
+        "empty": {
+            "body": "Tidak ada transaksi dalam riwayat Anda",
+            "title": "Ekspor gagal"
+        }
+    },
+    "exchanged": "Exchange",
+    "export": "Ekspor",
+    "filter": {
+        "value1": "baru",
+        "value2": "500 transaksi per detik",
+        "value3": "1000 transaksi per detik"
+    },
+    "issued": "Diedarkan",
+    "leased": "Disewakan",
+    "received": "Diterima",
+    "sent": "Terkirim",
+    "transactions": {
+        "script": {
+            "txJson_wallet": "Skrip Base64"
+        }
+    }
+}

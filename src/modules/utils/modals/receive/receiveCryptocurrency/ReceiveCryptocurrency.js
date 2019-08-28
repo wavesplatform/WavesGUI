@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    const { Money } = require('@waves/data-entities');
+
     /**
      * @param {typeof Base} Base
      * @param {ng.IScope} $scope
@@ -43,7 +45,12 @@
             /**
              * @type {boolean}
              */
-            gatewayServerError = false
+            gatewayServerError = false;
+
+            /**
+             * @type {boolean}
+             */
+            gatewayServerPending = false;
 
             /**
              * @type {boolean}
@@ -60,6 +67,16 @@
              */
             onAssetChange;
 
+            /**
+             * @type {Money | null}
+             */
+            minAmount = null;
+
+            /**
+             * @type {Money | null}
+             */
+            maxAmount = null;
+
             constructor() {
                 super();
 
@@ -73,16 +90,22 @@
              */
             updateGatewayAddress() {
                 this.gatewayServerError = false;
+                this.gatewayServerPending = true;
 
                 const depositDetails = gatewayService.getDepositDetails(this.asset, user.address);
 
                 if (depositDetails) {
                     depositDetails.then((details) => {
                         this.gatewayAddress = details.address;
+                        this.minAmount = Money.fromTokens(details.minimumAmount, this.asset);
+                        this.maxAmount = Money.fromTokens(details.maximumAmount, this.asset);
+                        this.gatewayServerPending = false;
                         $scope.$apply();
                     }, () => {
+                        this.minAmount = Money.fromTokens(0.001, this.asset);
                         this.gatewayAddress = null;
                         this.gatewayServerError = true;
+                        this.gatewayServerPending = false;
                         $scope.$apply();
                     });
 

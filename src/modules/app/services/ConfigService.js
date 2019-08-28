@@ -4,7 +4,7 @@
 
     const { fetch } = require('data-service');
     const { Signal, getPaths, get, clone } = require('ts-utils');
-    const { BigNumber } = require('@waves/data-entities');
+    const { BigNumber } = require('@waves/bignumber');
 
 
     const factory = function (Base, createPoll) {

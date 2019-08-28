@@ -62,7 +62,7 @@
                 this._rows.forEach((row, index) => {
                     const item = data[index];
                     row.render(item, crop, priceHash, pair);
-                    widthList[index] = item && item.amount.div(maxAmount).times(100).toFixed(2);
+                    widthList[index] = item && item.amount.div(maxAmount).mul(100).toFixed(2);
                 });
 
                 this._drawCanvas(widthList);

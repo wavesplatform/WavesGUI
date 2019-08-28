@@ -1,9 +1,5 @@
-<div ng-click="$ctrl.toggleActions()" class="click-area">
-    <div class="dots">
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-    </div>
+<div ng-click="$ctrl.toggleActions()" class="actions__click">
+    <w-dots class="dots"></w-dots>
 </div>
 <div ng-if="$ctrl.expanded"
      class="{{::$ctrl.DROP_DOWN_CLASS}}"

@@ -13,6 +13,23 @@ w-responsive-menu {
   w-button.nav-toggler {
     display: none;
     cursor: pointer;
+
+    & > button.nav-toggler {
+      position: absolute;
+      cursor: pointer;
+      border: 0 none;
+      padding: 0 7px;
+      z-index: 10;
+      background: none transparent;
+      right: 26px;
+      top: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 30px;
+      height: 30px;
+      box-shadow: none;
+    }
   }
 }
 
@@ -34,24 +51,6 @@ w-responsive-menu {
 
     w-button.nav-toggler {
       display: block;
-
-      & > button.nav-toggler {
-        position: absolute;
-        cursor: pointer;
-        display: block;
-        border: 0 none;
-        padding: 0;
-        z-index: 10;
-        background: none transparent;
-
-        .dots {
-          display: flex;
-          flex-direction: row;
-          justify-content: space-between;
-          cursor: pointer;
-          margin: 0 auto;
-        }
-      }
     }
   }
 }
@@ -74,23 +73,6 @@ w-responsive-menu {
 
       w-button.nav-toggler {
         display: block;
-
-        & > button.nav-toggler {
-          position: absolute;
-          cursor: pointer;
-          display: block;
-          border: 0 none;
-          padding: 0;
-          z-index: 10;
-          background: none transparent;
-
-          .dots {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            cursor: pointer;
-          }
-        }
       }
     }
   }

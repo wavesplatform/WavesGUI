@@ -1,0 +1,22 @@
+{
+    "available": "Disponível",
+    "chart": {
+        "available": "Disponível",
+        "create": "Iniciar Aluguel",
+        "leased": "Alugado",
+        "title": "Saldo em WAVES"
+    },
+    "description": {
+        "text1": "Você só pode transferir ou negociar WAVES que não estão alugadas. O montante alugado não pode ser transferido ou negociado por você ou qualquer outra pessoa.",
+        "text2": "Você pode cancelar seu aluguel assim que aparecer no blockchain, geralmente demora menos de um minuto.",
+        "text3": "O aluguel será ativado após 1000 blocos.",
+        "title": "Nota rápida"
+    },
+    "leased": "Alugado",
+    "leasedIn": "Alugado em",
+    "nodeListLink": "Lista de nós",
+    "test": {
+        "test": "text test"
+    },
+    "title_leasing": "Você escolheu fazer o login através do aplicativo Waves desktop"
+}

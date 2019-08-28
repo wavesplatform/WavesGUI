@@ -24,7 +24,7 @@
              * @type {HTMLElement}
              * @private
              */
-            _root = document.createElement('w-row');
+            _root = OrderListItem._createElement('w-row', 'table__row');
             /**
              * @type {HTMLElement}
              * @private
@@ -112,20 +112,21 @@
                     this._amountNode.innerHTML =
                         utils.getNiceNumberTemplate(this._data.amount, pair.amountAsset.precision, true);
                     this._priceNode.innerHTML =
-                        utils.getNiceNumberTemplate(this._data.price, pair.priceAsset.precision, true);
+                        utils.getNiceNumberTemplate(this._data.price, pair.priceAsset.precision, 100000);
                     this._totalNode.innerHTML =
                         utils.getNiceNumberTemplate(this._data.total, pair.priceAsset.precision, true);
 
                     const hasOrder = !!priceHash[this._data.price.toFixed(pair.priceAsset.precision)];
                     const inRange = this._data.price.gte(crop.min) && this._data.price.lte(crop.max);
 
+                    this._tooltip.classList.toggle('active', true);
                     this._root.classList.toggle('active', hasOrder);
                     this._root.classList.toggle('no-market-price', !inRange);
                 } else {
                     this._amountNode.innerText = '—';
                     this._priceNode.innerText = '—';
                     this._totalNode.innerText = '—';
-
+                    this._tooltip.classList.toggle('active', false);
                     this._root.classList.toggle('active', false);
                     this._root.classList.toggle('no-market-price', false);
                 }
@@ -148,6 +149,9 @@
              * @private
              */
             _onHoverIn() {
+                if (!this._pair || !this._data) {
+                    return null;
+                }
                 const sellTooltip = i18n.translate('orderbook.ask.tooltipText', 'app.dex', {
                     amountAsset: this._pair.amountAsset.displayName,
                     priceAsset: this._pair.priceAsset.displayName,
@@ -169,19 +173,19 @@
              */
             _createDom() {
                 this._root.appendChild(
-                    OrderListItem._createElement('div', 'table-row', [
-                        OrderListItem._createElement('div', 'tooltip-dex', [
+                    OrderListItem._createElement('div', 'table__row-wrap', [
+                        this._tooltip = OrderListItem._createElement('div', 'tooltip-dex', [
                             this._tooltipSell = OrderListItem._createElement('span', 'tooltip-ask'),
                             this._tooltipBuy = OrderListItem._createElement('span', 'tooltip-bid')
                         ]),
-                        OrderListItem._createElement('w-cell', 'cell-0', [
-                            this._amountNode = OrderListItem._createElement('div', 'table-cell')
+                        OrderListItem._createElement('w-cell', 'table__cell cell-0', [
+                            this._amountNode = OrderListItem._createElement('div', 'table__cell-wrap')
                         ]),
-                        OrderListItem._createElement('w-cell', 'cell-1', [
-                            this._priceNode = OrderListItem._createElement('div', 'table-cell')
+                        OrderListItem._createElement('w-cell', 'table__cell cell-1', [
+                            this._priceNode = OrderListItem._createElement('div', 'table__cell-wrap')
                         ]),
-                        OrderListItem._createElement('w-cell', 'cell-2', [
-                            this._totalNode = OrderListItem._createElement('div', 'table-cell')
+                        OrderListItem._createElement('w-cell', 'table__cell cell-2', [
+                            this._totalNode = OrderListItem._createElement('div', 'table__cell-wrap')
                         ])
                     ])
                 );
@@ -207,7 +211,9 @@
              */
             static _createElement(tagName, className, children) {
                 const element = document.createElement(tagName);
-                element.classList.add(className);
+                className.split(' ').forEach(name => {
+                    element.classList.add(name);
+                });
 
                 if (children && children.length) {
                     children.forEach(child => {
