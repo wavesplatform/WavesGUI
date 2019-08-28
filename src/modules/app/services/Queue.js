@@ -73,6 +73,21 @@
                 }
             }
 
+            removeAll() {
+                Object.keys(this._queueHash).forEach(key => this.remove(key));
+            }
+
+            destroy(id) {
+                if (this._queueHash[id]) {
+                    this.remove(id);
+                    delete this._queueHash[id];
+                }
+            }
+
+            destroyAll() {
+                Object.keys(this._queueHash).forEach(key => this.destroy(key));
+            }
+
             /**
              * @param {string} id
              * @return {boolean}

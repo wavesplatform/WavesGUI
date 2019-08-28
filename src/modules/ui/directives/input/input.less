@@ -13,6 +13,8 @@ input[type="checkbox"] {
   height: @height-control-big;
   padding: @padding-control-big;
   .body-2();
+  border: 1px solid @color-basic-200;
+  border-radius: @border-radius;
   color: @color-disabled-900;
   background: @color-white;
   text-align: left;
@@ -35,13 +37,8 @@ input[type="checkbox"] {
     color: @color-basic-500;
   }
 
-  &:not(.embed) {
-    border: 1px solid @color-basic-200;
-    border-radius: @border-radius;
-
-    &.disabled {
-      background: @color-basic-50;
-    }
+  &.disabled {
+    background: @color-basic-50;
   }
 
   &.warning {
@@ -105,17 +102,14 @@ input[type="checkbox"] {
     }
     w-input .w-input-wrap input[type="text"] {
       display: block;
-      //width: 50%;
+      border-radius: @border-radius 0 0 @border-radius;
 
-      &:not(.embed):not(.big) {
+      &:not(.big) {
         height: 40px;
       }
 
-      &:not(.embed) {
-        border-radius: @border-radius 0 0 @border-radius;
-        &:not(:focus) {
-          border: 0 none;
-        }
+      &:not(:focus) {
+        border: 0 none;
       }
     }
   }
@@ -149,49 +143,6 @@ w-input {
   display: block;
   width: 100%;
   transform: translate3d(0, 0, 0);
-
-  .w-input-wrap {
-    position: relative;
-    width: 100%;
-
-    input[type="text"],
-    input[type="password"],
-    input[type="number"],
-    textarea {
-      resize: vertical;
-      .input-like();
-
-      &:not(.embed):not(.no-validate) {
-        &:focus, &.focus {
-          background-color: @color-white;
-          color: @color-basic-900;
-          border-color: @input-focused-border;
-        }
-
-        &.disabled {
-          background: @color-basic-50;
-        }
-
-        &.ng-touched {
-          &.ng-valid:not(:focus):not(.focus):not(.ng-empty):not(.warning) {
-            border-color: @color-success-300;
-          }
-          &.ng-invalid:not(:focus):not(.focus):not(.warning) {
-            border-color: @color-error-200;
-          }
-        }
-      }
-
-      &.no-validate:focus,
-      &.embed:focus {
-        border: 1px solid @color-submit-400;
-      }
-
-      &[disabled="disabled"] {
-        background-color: @color-basic-50;
-      }
-    }
-  }
 
   &[textarea="true"] {
     resize: vertical;
@@ -255,11 +206,64 @@ w-input {
     display: block;
     color: @color-error-500;
   }
+
+  &-container {
+    ng-transclude {
+      display: block;
+      width: 100%;
+    }
+  }
+}
+
+.w-input-wrap {
+  position: relative;
+  width: 100%;
+
+  input[type="text"],
+  input[type="password"],
+  input[type="number"],
+  textarea {
+    resize: vertical;
+    .input-like();
+
+    &:not(.no-validate) {
+      &:focus, &.focus {
+        background-color: @color-white;
+        color: @color-basic-900;
+        border-color: @input-focused-border;
+      }
+
+      &.disabled {
+        background: @color-basic-50;
+      }
+
+      &.ng-touched {
+        &.ng-valid:not(:focus):not(.focus):not(.ng-empty) {
+          border-color: @color-success-300;
+        }
+        &.ng-invalid:not(:focus):not(.focus) {
+          border-color: @color-error-200;
+        }
+      }
+    }
+
+    &.no-validate:focus {
+      border: 1px solid @color-submit-400;
+    }
+
+    &[disabled="disabled"] {
+      background-color: @color-basic-50;
+    }
+  }
+
+  input[type="text"].ng-invalid-user-name-unique:not(.no-validate):focus {
+    border-color: @color-error-200;
+  }
 }
 
 form.ng-submitted {
   input[type="text"], input[type="password"], input[type="number"], textarea {
-    &.ng-touched.ng-invalid:not(.embed):not(:focus):not(.focus):not(.no-validate) {
+    &.ng-touched.ng-invalid:not(:focus):not(.focus):not(.no-validate) {
       border-color: @color-error-200;
     }
   }

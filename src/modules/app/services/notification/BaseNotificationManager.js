@@ -52,6 +52,14 @@
                 }
             }
 
+            removeAll() {
+                this._queue.removeAll();
+            }
+
+            destroyAll() {
+                this._queue.destroyAll();
+            }
+
             /**
              * @param {string} id
              * @return {boolean}

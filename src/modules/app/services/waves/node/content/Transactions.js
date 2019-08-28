@@ -65,27 +65,25 @@
 
             /**
              * Get transactions list by user
-             * @param {number} [limit]
-             * @param {string} [after]
+             * @param {number} limit
+             * @param {string} after
              * @return {Promise<ITransaction[]>}
              */
-            @decorators.cachable(1)
             list(limit = 1000, after) {
-                return ds.api.transactions.list(user.address, limit, after)
-                    .then(list => list.map(this._pipeTransaction()));
+                return this._list(limit, after, user.address);
             }
 
             /**
              * @return {Promise<ITransaction[]>}
              */
-            @decorators.cachable(120)
             getActiveLeasingTx() {
-                return ds.fetch(`${this.node}/leasing/active/${user.address}`)
-                    .then(R.uniqBy(R.prop('id')))
-                    .then(R.map(item => ({ ...item, status: 'active' })))
-                    .then(list => ds.api.transactions.parseTx(list, false))
-                    .then(list => list.map(this._pipeTransaction()));
+                return this._getActiveLeasingTx(user.address);
             }
+
+            /**
+             * @param {string} address
+             * @return {Promise<ITransaction[]>}
+             */
 
             /**
              * Get transactions list by user from utx
@@ -135,6 +133,29 @@
                 }
 
                 return this._pipeTransaction(false)(tx);
+            }
+
+            @decorators.cachable(120)
+            _getActiveLeasingTx(address) {
+                return ds.fetch(`${this.node}/leasing/active/${address}`)
+                    .then(R.uniqBy(R.prop('id')))
+                    .then(R.map(item => ({ ...item, status: 'active' })))
+                    .then(list => ds.api.transactions.parseTx(list, false))
+                    .then(list => list.map(this._pipeTransaction()));
+            }
+
+            /**
+             * @private
+             * Get transactions list by user
+             * @param {number} [limit]
+             * @param {string} [after]
+             * @param {string} [address]
+             * @return {Promise<ITransaction[]>}
+             */
+            @decorators.cachable(1)
+            _list(limit, after, address) {
+                return ds.api.transactions.list(address, limit, after)
+                    .then(list => list.map(this._pipeTransaction()));
             }
 
             /**

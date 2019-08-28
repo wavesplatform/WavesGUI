@@ -1,0 +1,15 @@
+{
+    "signUp": {
+        "headers": {
+            "onePassBtn": "Commençons !",
+            "onePassDesc": "Le stockage de données local, les phrases de sauvegarde et le cryptage rendent l'échange décentralisé de WAVES fiable. Cependant, nous allons plus loin. Il est temps d'activer un nouveau niveau de sécurité. Connectez-vous à vos comptes et basculez entre ceux-ci en quelques clics.",
+            "onePassword": "Un mot de passe pour tous vos comptes",
+            "protect": "Protégez vos comptes",
+            "protectDesc": "Définissez un mot de passe unique pour tous vos comptes",
+            "protectPass": "Créer un mot de passe"
+        },
+        "password": {
+            "notMatch": "Password does not match"
+        }
+    }
+}

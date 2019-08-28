@@ -68,6 +68,7 @@
         [WavesApp.defaultAssets.XMR]: '/img/assets/xmr.svg',
         [WavesApp.defaultAssets.VST]: '/img/assets/vostok.svg',
         [WavesApp.defaultAssets.ERGO]: '/img/assets/ergo.svg',
+        [WavesApp.defaultAssets.BNT]: '/img/assets/bnt.svg',
         [WavesApp.otherAssetsWithIcons.EFYT]: '/img/assets/efyt.svg',
         [WavesApp.otherAssetsWithIcons.WNET]: '/img/assets/wnet.svg'
     });
@@ -175,6 +176,12 @@
             converter: el => el
         }
     };
+    const IMPORT_PRIORITY_MAP = {
+        seed: 0,
+        key: 0,
+        wavesKeeper: 1,
+        ledger: 2
+    };
 
     class BigNumberPart extends tsApiValidator.BasePart {
 
@@ -230,6 +237,12 @@
                     .map(char => char.charCodeAt(0))
                     .reduce((acc, code) => acc + code, 0);
                 return GOOD_COLORS_LIST[sum % GOOD_COLORS_LIST.length];
+            },
+            /**
+             * @return {{ledger: number, seed: number, wavesKeeper: number}}
+             */
+            getImportPriorityMap() {
+                return IMPORT_PRIORITY_MAP;
             },
             /**
              * @name app.utils#base58ToBytes
@@ -1094,14 +1107,17 @@
              * @name app.utils#getNiceNumberTemplate
              * @param {BigNumber|string|number} num
              * @param {number} precision
-             * @param {boolean} [shortMode]
+             * @param {boolean | number} [shortMode]
              * @return {string}
              */
             getNiceNumberTemplate(num, precision, shortMode) {
                 const bigNum = this.parseNiceNumber(num);
                 const formatted = this.getNiceNumber(bigNum, precision);
 
-                if (shortMode && bigNum.gte(10000)) {
+                const isShortMode = typeof shortMode === 'number' ? true : shortMode;
+                const minValue = typeof shortMode === 'number' ? shortMode : 10000;
+
+                if (isShortMode && bigNum.gte(minValue)) {
                     return this.getNiceBigNumberTemplate(bigNum);
                 } else {
                     const separatorDecimal = WavesApp.getLocaleData().separators.decimal;
@@ -1450,7 +1466,15 @@
                         clientY: event.changedTouches[0].clientY
                     };
                 } else {
-                    newEvent = event;
+                    newEvent = {
+                        ...event,
+                        pageX: event.pageX,
+                        pageY: event.pageY,
+                        screenX: event.screenX,
+                        screenY: event.screenY,
+                        clientX: event.clientX,
+                        clientY: event.clientY
+                    };
                 }
                 return newEvent;
             },
@@ -1703,6 +1727,16 @@
             isNotEqualValue: isNotEqualValue,
 
             /**
+             * @name app.utils#checkIsScriptError
+             * @param {number} error
+             * @return {boolean}
+             */
+            checkIsScriptError(error) {
+                // eslint-disable-next-line no-bitwise
+                return (error >> 8 & 0xFFF) === 7;
+            },
+
+            /**
              * @name app.utils#createOrder
              * @param {app.utils.IOrderData} data
              * @return {Promise}
@@ -1733,25 +1767,37 @@
                  */
                 const version = (hasCustomFee && 3) || 2;
 
-                const scriptedErrorMessage = `Order rejected by script for ${user.address}`;
-
                 const signableData = {
                     type: SIGN_TYPE.CREATE_ORDER,
                     data: { ...data, version, timestamp }
                 };
 
-                const onError = error => {
-                    notification.error({
-                        ns: 'app.dex',
-                        title: {
-                            literal: 'directives.createOrder.notifications.error.title'
-                        },
-                        body: {
-                            literal: error && error.message || error
-                        }
-                    }, -1);
+                const onError = data => {
+                    if (data && data.error && data.isScriptError) {
+                        notification.error({
+                            ns: 'app.dex',
+                            title: {
+                                literal: 'directives.createOrder.notifications.error.title'
+                            },
+                            body: {
+                                literal: `directives.createOrder.notifications.error.${data.error}`,
+                                params: data.params ? data.params : {}
+                            }
+                        }, -1);
+                    } else {
+                        notification.error({
+                            ns: 'app.dex',
+                            title: {
+                                literal: 'directives.createOrder.notifications.error.title'
+                            },
+                            body: {
+                                literal: data && data.message || data
+                            }
+                        }, -1);
+                    }
 
-                    return Promise.reject(error);
+
+                    return Promise.reject(data);
                 };
 
                 return utils.createSignable(signableData)
@@ -1759,9 +1805,11 @@
                         return utils.signMatcher(signable)
                             .then(signable => signable.getDataForApi())
                             .then(ds.createOrder)
-                            .catch(error => {
-                                if (!isAdvancedMode || error.message !== scriptedErrorMessage) {
-                                    return Promise.reject(error);
+                            .catch(data => {
+                                const isScriptError = this.checkIsScriptError(data.error);
+
+                                if (!isAdvancedMode || !isScriptError) {
+                                    return Promise.reject({ ...data, isScriptError });
                                 }
 
                                 return modalManager.showConfirmTx(signable, false)
@@ -1864,7 +1912,7 @@
                  */
                 const modalManager = $injector.get('modalManager');
 
-                if (user.userType === 'seed') {
+                if (user.userType === 'seed' || user.userType === 'privateKey') {
                     return signable.addMyProof()
                         .then(() => signable);
                 }

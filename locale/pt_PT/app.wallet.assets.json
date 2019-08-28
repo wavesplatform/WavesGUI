@@ -1,0 +1,39 @@
+{
+    "addAsset": "Add Asset",
+    "chart": {
+        "intervals": {
+            "all": "All",
+            "day": "1D",
+            "hour": "1H",
+            "month": "1M",
+            "week": "1W",
+            "year": "1Y"
+        }
+    },
+    "directives": {
+        "asset": {
+            "anyTx": "JSON",
+            "deposit": "Deposit",
+            "ofTotalBalance": "of total balance {{totalBalance}}",
+            "receive": "Receive",
+            "script": "Script",
+            "send": "Send"
+        },
+        "balance": {
+            "actions": {
+                "assetInfo": "Asset info",
+                "copyAssetId": "Copy Asset ID"
+            }
+        }
+    },
+    "price": "PRICE {{currency}}",
+    "qr": "Your Address",
+    "send": "Send",
+    "since": {
+        "day": "SINCE LAST DAY",
+        "month": "SINCE LAST MONTH",
+        "week": "SINCE LAST WEEK"
+    },
+    "suspicious": "Suspicious - ({span}[{{count}}])",
+    "Unpin": "Unpin"
+}

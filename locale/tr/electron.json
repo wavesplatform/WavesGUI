@@ -1,0 +1,30 @@
+{
+    "menu": {
+        "copy": "Kopyala",
+        "cut": "Kes",
+        "dev_tools": "Geliştiricilere özel",
+        "paste": "Yapıştır",
+        "quit": "Çık",
+        "title": {
+            "application": "Uygulama",
+            "edit": "Düzenle",
+            "god_mode": "Tanrı Modu"
+        }
+    },
+    "modal": {
+        "set_protocol_error": {
+            "close": "Kapat",
+            "message": "Tarayıcı linkleri geçici olarak desteklenmiyor!! Waves uygulaması için varsayılan olarak ayarlanamaz.",
+            "report": "Raporla",
+            "title": "Açık protokol hatası"
+        }
+    },
+    "storage": {
+        "read": {
+            "error": {
+                "body": "Anahtarlarınızı yüklerken bir hata oluştu. Hesabınızı yedeklerden tekrar yükledik.",
+                "title": "Hesaplar yedekten başarı ile yüklendi"
+            }
+        }
+    }
+}
