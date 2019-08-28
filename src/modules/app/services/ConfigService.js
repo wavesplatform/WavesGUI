@@ -58,11 +58,10 @@
             _getConfig() {
                 return fetch(WavesApp.network.featuresConfigUrl)
                     .then(data => {
-                        try {
+                        if (typeof data === 'string') {
                             return JSON.parse(data);
-                        } catch (e) {
-                            return data;
                         }
+                        return data;
                     });
             }
 
