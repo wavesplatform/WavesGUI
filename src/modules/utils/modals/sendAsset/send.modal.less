@@ -371,6 +371,18 @@ md-dialog.modal-send {
       }
     }
 
+    fieldset {
+      border: 0;
+      margin: 0;
+      padding: 0;
+
+      &.disabled {
+        w-select, span.link, w-qr-code-read {
+          pointer-events: none;
+        }
+      }
+    }
+
   }
 
 }

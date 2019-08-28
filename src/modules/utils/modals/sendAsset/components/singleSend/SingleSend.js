@@ -97,6 +97,10 @@
                 assetId: ''
             };
             /**
+             * @type {args}
+             */
+            signPending = false;
+            /**
              * @type {$rootScope.Scope}
              * @private
              */
@@ -110,6 +114,10 @@
             constructor($scope) {
                 super($scope);
                 this.__$scope = $scope;
+
+                this.__$scope.$on('signPendingChange', (event, data) => {
+                    this.signPending = data;
+                });
             }
 
             onSignTx(signable) {
