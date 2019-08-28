@@ -26,8 +26,8 @@
         };
 
         function newTerms(storage) {
-            return storage.load('userList').then((users = []) => {
-                const needShowNewTerms = users.some((user) => {
+            return storage.load('userList').then(users => {
+                const needShowNewTerms = (users || []).some((user) => {
                     const settings = user.settings || Object.create(null);
                     return typeof settings.termsAccepted === 'undefined';
                 });
@@ -38,8 +38,8 @@
         }
 
         function addNewGateway(storage, gateway) {
-            return storage.load('userList').then((users = []) => {
-                users.forEach((user) => {
+            return storage.load('userList').then(users => {
+                (users || []).forEach(user => {
                     const settings = user.settings || Object.create(null);
                     const idList = settings.pinnedAssetIdList;
                     if (idList && !idList.includes(gateway)) {
@@ -52,7 +52,7 @@
         }
 
         function saveUsersWithUniqueName(storage) {
-            return storage.load('userList').then((usersInStorage = []) => {
+            return storage.load('userList').then(usersInStorage => {
 
                 const getUniqueName = (arr, userName) => {
                     let counter = 1;
@@ -67,7 +67,7 @@
                     return num > 1 ? `${userName} ${num}` : userName;
                 };
 
-                const users = usersInStorage.reduce((acc, user) => {
+                const users = (usersInStorage || []).reduce((acc, user) => {
                     const otherUsers = acc.filter(item => item !== user);
 
                     if (!user.name) {
@@ -82,7 +82,7 @@
                         }
                     ]);
 
-                }, usersInStorage);
+                }, (usersInStorage || []));
 
                 return storage.save('userList', users).then(() => storage);
             });
