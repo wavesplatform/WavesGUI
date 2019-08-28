@@ -64,8 +64,10 @@ export class Storage {
                     }
                     const path = join(remote.app.getPath('userData'), names[index]);
                     return readJSON(path)
-                        .catch(() => Storage.markAsBroken(path))
-                        .then(() => loop(index + 1));
+                        .catch(
+                            () => Storage.markAsBroken(path)
+                                .then(() => loop(index + 1))
+                        );
                 };
 
                 return loop(0);
