@@ -241,7 +241,11 @@
                                     <div class="switch-accounts__info-wrap">
                                         <div class="switch-accounts__name-wrap">
                                             <div class="switch-accounts__name body-2" ng-if="user.name">{{user.name}}</div>
-                                            <span ng-if="$ctrl.isCurrentUser(user)" w-i18n="active" class="switch-accounts__active"></span>
+                                            <span ng-if="$ctrl.isCurrentUser(user)"
+                                                class="switch-accounts__active"
+                                                w-i18n-ns="app.ui"
+                                                w-i18n="active"
+                                            ></span>
                                         </div>
                                         <div class="switch-accounts__address body-3">{{::user.address}}</div>
                                     </div>

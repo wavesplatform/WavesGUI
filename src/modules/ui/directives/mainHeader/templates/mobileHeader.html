@@ -254,7 +254,11 @@
                             <div class="mobile-menu__account-info">
                                 <div class="mobile-menu__account-name-wrap">
                                     <div class="mobile-menu__account-name" ng-if="user.name">{{user.name}}</div>
-                                    <span ng-if="$ctrl.isCurrentUser(user)" class="mobile-menu__active" w-i18n="active"></span>
+                                    <span ng-if="$ctrl.isCurrentUser(user)"
+                                        class="mobile-menu__active"
+                                        w-i18n-ns="app.ui"
+                                        w-i18n="active"
+                                    ></span>
                                 </div>
                                 <div class="mobile-menu__account-address">{{::user.address}}</div>
                             </div>
