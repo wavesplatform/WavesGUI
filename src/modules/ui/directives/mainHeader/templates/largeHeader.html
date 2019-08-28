@@ -165,15 +165,17 @@
                                 <div class="user-account__input" ng-show="$ctrl.showInput">
                                     <form ng-submit="$ctrl.onSave()" name="$ctrl.setUserName">
                                         <w-input-container>
-                                            <w-input type="text"
-                                                    class="tiny long"
-                                                    ng-focus="$ctrl.onFocus()"
-                                                    ng-blur="$ctrl.onBlur()"
-                                                    ng-model="$ctrl.userName"
-                                                    maxlength="{{::MAX_USER_NAME_LENGTH}}"
-                                                    name="userName"
-                                                    autocomplete="off"
-                                                    required></w-input>
+                                            <w-input
+                                                type="text"
+                                                class="tiny long"
+                                                ng-focus="$ctrl.onFocus()"
+                                                ng-blur="$ctrl.onBlur()"
+                                                ng-model="$ctrl.userName"
+                                                maxlength="{{::MAX_USER_NAME_LENGTH}}"
+                                                name="userName"
+                                                autocomplete="off"
+                                                required
+                                            ></w-input>
 
                                             <w-input-error class="tiny" w-i18n-ns="app.ui" ng-class='{hidden: $ctrl.isUniqueUserName}'>
                                                 <span w-i18n="password.nameExists"></span>

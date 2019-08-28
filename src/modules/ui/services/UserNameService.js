@@ -4,8 +4,8 @@
     /**
      * @param Base
      * @param {User} user
-     * @return {UserNameService}
      * @param {app.utils} utils
+     * @return {UserNameService}
      */
 
     const factory = function (Base, user, utils) {
@@ -17,12 +17,6 @@
              * @type {string}
              */
             name;
-            /**
-             * @public
-             * @type {string}
-             */
-            address;
-
 
             constructor(base) {
                 super(base);
@@ -31,15 +25,13 @@
 
                 user.loginSignal.on(() => {
                     this.name = user.name;
-                    this.address = user.address;
                 });
 
                 user.logoutSignal.on(() => {
                     this.name = '';
-                    this.address = '';
                 });
 
-                this.receive(utils.observe(user, 'name'), function () {
+                this.receive(utils.observe(user, 'name'), () => {
                     this.name = user.name;
                 }, this);
 
@@ -74,8 +66,8 @@
             isUniqueName() {
                 return this._getUserList().then(list => {
                     const isUnique = list
-                        .filter(user => user.address !== this.address)
-                        .every(user => user.name !== this.name);
+                        .filter(item => item.address !== user.address)
+                        .every(item => item.name !== this.name);
                     return !this.name || isUnique;
                 });
             }

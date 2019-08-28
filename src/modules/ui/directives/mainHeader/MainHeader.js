@@ -112,13 +112,12 @@
 
                 this.observe('userName', () => {
                     userNameService.setName(this.userName);
-                    userNameService.isUniqueName()
-                        .then(data => {
-                            this.isUniqueUserName = data;
-                        });
+                    userNameService.isUniqueName().then(data => {
+                        this.isUniqueUserName = data;
+                    });
                 });
 
-                this.receive(utils.observe(userNameService, 'name'), function () {
+                this.receive(utils.observe(userNameService, 'name'), () => {
                     this.userName = userNameService.name;
                 }, this);
 
@@ -302,7 +301,14 @@
              * public
              */
             toggleDropdown() {
-                $element.find(`.${SELECTORS.MAIN_HEADER_USER}`).toggleClass('open');
+                const mainHeaderUser = $element.find(`.${SELECTORS.MAIN_HEADER_USER}`);
+
+                if (mainHeaderUser.hasClass('open')) {
+                    this.isShowAccounts = false;
+                    this.isMenuOpen = false;
+                }
+
+                mainHeaderUser.toggleClass('open');
                 $element.find(`.${SELECTORS.MAIN_HEADER_FADER}`).toggleClass('show-fader');
             }
 
@@ -316,10 +322,9 @@
                     mainHeaderUser.removeClass('open');
                     $element.find(`.${SELECTORS.MAIN_HEADER_FADER}`).removeClass('show-fader');
                     this.onBlur();
+                    this.isShowAccounts = false;
+                    this.isMenuOpen = false;
                 }
-
-                this.isShowAccounts = false;
-                this.isMenuOpen = false;
             }
 
             /**
@@ -391,6 +396,7 @@
                 const currentUser = this.userList.find(cur => cur.hash === user.hash);
 
                 currentUser.name = user.name;
+                $scope.$digest();
             }
 
             /**
