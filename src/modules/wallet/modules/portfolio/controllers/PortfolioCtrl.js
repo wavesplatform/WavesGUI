@@ -175,8 +175,7 @@
                         notification.info({
                             id,
                             ns: 'app.wallet.portfolio',
-                            title: { literal: 'hasNftToken' },
-                            body: { literal: 'Text body info' }
+                            title: { literal: 'hasNftToken' }
                         }, -1);
                         this.signals.destroy.once(() => {
                             notification.remove(id);
