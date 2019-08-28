@@ -42,7 +42,7 @@ export const wavesAsset = new Asset({
 
 export function getNftList(address: string, limit: number): Promise<Array<any>> {
     return request({
-        url: `${configGet('node')}/assets/nft/${address}/limit/${li}`
+        url: `${configGet('node')}/assets/nft/${address}/limit/${limit}`
     })
 }
 
