@@ -1,0 +1,39 @@
+{
+    "createAccount": "アカウントを作成",
+    "notHaveAccounts": "保存したアカウントがありません",
+    "nothingHere": "表示するデータがありません",
+    "password": {
+        "error": "パスワードが間違っています！"
+    },
+    "signIn": {
+        "btn": {
+            "cancel": "Cancel",
+            "restore": "Restore all"
+        },
+        "enterPass": "Please enter your password to continue",
+        "modal": {
+            "forgotPass": "Password successfully reset"
+        },
+        "passForgot": {
+            "attention": "Attention!",
+            "description": "If you forget your password, you must restore all your accounts from their SEEDs and set a new password."
+        },
+        "password": {
+            "forgot": "Forgot your password?"
+        },
+        "signIn": "Sign in",
+        "welcomeBack": "Welcome Back!"
+    },
+    "userList": {
+        "address": "アドレス / アカウント名",
+        "buttons": {
+            "login": "ログイン"
+        },
+        "notHaveAccount": "サインインして続行",
+        "password": "パスワード",
+        "placeholders": {
+            "password": "パスワード"
+        },
+        "title": "おかえりなさい"
+    }
+}

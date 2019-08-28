@@ -12,7 +12,7 @@ import { IAssetInfo } from '@waves/data-entities/dist/entities/Asset';
 import { get } from './config';
 import { TAssetData, TBigNumberData } from './interface';
 import { get as getAssetPair } from './api/pairs/pairs';
-import { broadcast as broadcastF, createOrderSend, cancelOrderSend } from './broadcast/broadcast';
+import { broadcast as broadcastF, createOrderSend, cancelOrderSend, cancelAllOrdersSend } from './broadcast/broadcast';
 import * as signatureAdapters from '@waves/signature-adapter';
 import { Adapter, SIGN_TYPE, isValidAddress as utilsIsValidAddress } from '@waves/signature-adapter';
 import { TTimeType } from './utils/utils';
@@ -41,6 +41,7 @@ export const isValidAddress = utilsIsValidAddress;
 export const broadcast = broadcastF;
 export const createOrder = createOrderSend;
 export const cancelOrder = cancelOrderSend;
+export const cancelAllOrders = cancelAllOrdersSend;
 
 wavesDataEntitiesModule.config.set('remapAsset', (data: IAssetInfo) => {
     const name = get('remappedAssetNames')[data.id] || data.name;

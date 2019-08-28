@@ -1,0 +1,22 @@
+{
+    "available": "Dostępne",
+    "chart": {
+        "available": "Dostępne",
+        "create": "Rozpocznij leasingowanie",
+        "leased": "Leasingowane",
+        "title": "stan WAVES"
+    },
+    "description": {
+        "text1": "Możesz przenosić lub sprzedawać WAVES, które nie są leasingowane. Leasingowana ilość nie może zostać przeniesiona ani handlowana przez ciebie lub kogokolwiek innego..",
+        "text2": "Możesz anulować transakcję leasingową, gdy tylko pojawi się w blockchain, co zwykle następuje w minutę lub mniej..",
+        "text3": "Saldo zostanie zaktualizowane po 1000 blokach",
+        "title": "Krótka notatka"
+    },
+    "leased": "Leasingowany",
+    "leasedIn": "Leasingowane w",
+    "nodeListLink": "Lista nodów",
+    "test": {
+        "test": "test tekstowy"
+    },
+    "title_leasing": "Wybrałeś logowanie do aplikacji komputerowej Waves"
+}

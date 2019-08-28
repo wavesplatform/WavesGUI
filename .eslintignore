@@ -1,3 +1,4 @@
 dist/
+vendors/
 node_modules/
 karma.conf.js

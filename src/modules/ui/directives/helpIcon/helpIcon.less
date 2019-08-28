@@ -3,8 +3,6 @@
 @import (reference) '../../../app/less/typography';
 
 .help-icon {
-  display: inline-block;
-
   &__icon {
     margin-left: 7px;
     border-radius: 50%;
@@ -80,6 +78,8 @@
 
 w-help-icon {
   display: inline-flex;
+  z-index: 10;
+  flex-shrink: 0;
 
   &.info {
     .help-icon {

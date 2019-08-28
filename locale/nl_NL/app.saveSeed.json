@@ -1,0 +1,27 @@
+{
+    "continue": "Ga door",
+    "copy": "Kopieer",
+    "copySeed": "Kopieer backup regel",
+    "createAccount": "Maak een account aan",
+    "goBack": "ga terug",
+    "notHaveAccounts": "U hebt geen opgeslagen accounts",
+    "nothingHere": "Niets hier...",
+    "password": {
+        "error": "Onjuist wachtwoord!"
+    },
+    "userList": {
+        "address": "Adres / Accountnaam",
+        "buttons": {
+            "login": "Inloggen"
+        },
+        "exportUser": "Exporteer account",
+        "notHaveAccount": "Log alstublieft in om verder te gaan",
+        "password": "Wachtwoord",
+        "placeholders": {
+            "password": "Wachtwoord"
+        },
+        "title": "Welkom terug"
+    },
+    "warn": "Omdat alleen u uw geld beheert, moet u uw back-up regel bewaren voor het geval deze app wordt verwijderd of",
+    "yourSeed": "Uw backup regel"
+}

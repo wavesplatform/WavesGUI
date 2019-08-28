@@ -33,6 +33,19 @@
         </w-button>
     </div>
 
+    <div class="connect-mode" ng-if="$ctrl.mode === 'load-user-error' && $ctrl.isPrivateKey">
+        <div class="sign-error-icon ledger-icons"></div>
+        <h3 class="text-center basic-700" w-i18n="modal.sign.connectionErrorPrivateKey"></h3>
+        <div class="title-wrapper margin-4 body-2 basic-500">
+            <div class="text-center basic-500">
+                <span w-i18n="modal.sign.signErrorTextPrivateKey"></span>
+            </div>
+        </div>
+        <w-button class="submit big" w-modal-close>
+            <span w-i18n="modal.sign.close"></span>
+        </w-button>
+    </div>
+
     <div class="connect-mode" ng-if="$ctrl.mode === 'sign-error' && $ctrl.isKeeper">
         <div class="sign-error-icon ledger-icons"></div>
         <h3 class="text-center basic-700" w-i18n="modal.sign.signErrorKeeper"></h3>

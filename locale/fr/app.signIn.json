@@ -1,0 +1,39 @@
+{
+    "createAccount": "Créer un compte",
+    "notHaveAccounts": "Vous n'avez pas de comptes enregistrés",
+    "nothingHere": "Il n'y a rien ici...",
+    "password": {
+        "error": "Mot de passe erroné !"
+    },
+    "signIn": {
+        "btn": {
+            "cancel": "Cancel",
+            "restore": "Restore all"
+        },
+        "enterPass": "Please enter your password to continue",
+        "modal": {
+            "forgotPass": "Password successfully reset"
+        },
+        "passForgot": {
+            "attention": "Attention!",
+            "description": "If you forget your password, you must restore all your accounts from their SEEDs and set a new password."
+        },
+        "password": {
+            "forgot": "Forgot your password?"
+        },
+        "signIn": "Sign in",
+        "welcomeBack": "Welcome Back!"
+    },
+    "userList": {
+        "address": "Adresse / Nom du compte",
+        "buttons": {
+            "login": "Connexion"
+        },
+        "notHaveAccount": "Veuillez vous connecter pour continuer",
+        "password": "Mot de passe",
+        "placeholders": {
+            "password": "Mot de passe"
+        },
+        "title": "Bon retour parmi nous"
+    }
+}

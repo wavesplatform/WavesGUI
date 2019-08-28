@@ -142,8 +142,8 @@
             }
 
             get isGatewayAccepted() {
-                return configService
-                    .get('PERMISSIONS.CANT_TRANSFER_GATEWAY').indexOf(this.balance.asset.id) === -1;
+                return !configService
+                    .get('PERMISSIONS.CANT_TRANSFER_GATEWAY').includes(this.balance.asset.id);
             }
 
             get isBankAccepted() {
@@ -240,6 +240,10 @@
             /**
              * @type {boolean}
              */
+            gatewayWrongAddress = false;
+            /**
+             * @type {boolean}
+             */
             gatewayError = false;
             /**
              * @type {boolean}
@@ -261,7 +265,8 @@
                 amount: null,
                 attachment: '',
                 fee: null,
-                recipient: ''
+                recipient: '',
+                assetId: ''
             };
             /**
              * @type {boolean}
@@ -302,7 +307,8 @@
                     this.receive(utils.observe(this.tx, 'attachment'), this._updateWavesTxObject, this);
 
                     this.observe('mirror', this._onChangeAmountMirror);
-                    this.observe(['gatewayAddressError', 'gatewayDetailsError'], this._updateGatewayError);
+                    this.observe(['gatewayAddressError', 'gatewayDetailsError', 'gatewayWrongAddress'],
+                        this._updateGatewayError);
 
                     this._currentHasCommission();
                     this._onChangeBaseAssets();
@@ -461,12 +467,12 @@
                 const fee = toGateway ? this.tx.amount.cloneWithTokens(toGateway.gatewayFee) : null;
                 const attachmentString = this.tx.attachment ? this.tx.attachment.toString() : '';
                 const isWavesAddress = user.isValidAddress(this.tx.recipient);
-
                 this.wavesTx = {
                     ...this.wavesTx,
                     recipient: toGateway ? this.gatewayDetails.address : isWavesAddress && this.tx.recipient || '',
                     attachment: utils.stringToBytes(toGateway ? this.gatewayDetails.attachment : attachmentString),
-                    amount: toGateway ? this.tx.amount.add(fee) : this.tx.amount
+                    amount: toGateway ? this.tx.amount.add(fee) : this.tx.amount,
+                    assetId: this.assetId
                 };
             }
 
@@ -669,6 +675,10 @@
                     this.gatewayAddressError = false;
                 }
 
+                if (this.gatewayWrongAddress) {
+                    this.gatewayWrongAddress = false;
+                }
+
                 this.outerSendMode = !isValidWavesAddress && outerChain && outerChain.isValidAddress(this.tx.recipient);
 
                 if (this.outerSendMode) {
@@ -690,6 +700,9 @@
                             if (e.message === gatewayService.getAddressErrorMessage(this.balance.asset,
                                 this.tx.recipient, 'errorAddressMessage')) {
                                 this.gatewayAddressError = true;
+                            } else if (e.message === gatewayService.getWrongAddressMessage(this.balance.asset,
+                                this.tx.recipient, 'wrongAddressMessage')) {
+                                this.gatewayWrongAddress = true;
                             } else {
                                 this.gatewayDetailsError = true;
                             }
@@ -715,7 +728,7 @@
              * @private
              */
             _updateGatewayError() {
-                this.gatewayError = this.gatewayAddressError || this.gatewayDetailsError;
+                this.gatewayError = this.gatewayAddressError || this.gatewayDetailsError || this.gatewayWrongAddress;
             }
 
         }
