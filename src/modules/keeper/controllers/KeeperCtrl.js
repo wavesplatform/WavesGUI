@@ -93,8 +93,11 @@
                 this.observe('selectedUser', this._onSelectUser);
                 this.adapter.onUpdate(this._onUpdateAdapter);
 
-                user.getFilteredUserList().then(users => {
-                    this._usersInStorage = users;
+                Promise.all([
+                    user.getFilteredUserList(),
+                    user.getMultiAccountUsers()
+                ]).then(([legacyUsers = [], users = []]) => {
+                    this._usersInStorage = [...legacyUsers, ...users];
                 });
 
                 this.getUsers();

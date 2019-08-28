@@ -28,15 +28,19 @@
             }
 
             _onChangeName() {
-                user.getFilteredUserList()
-                    .then(usersInStorage => {
-                        return usersInStorage.some(user => {
-                            return user.name === this.name && user.address !== this.address;
-                        });
-                    })
-                    .then(isUnique => {
-                        this.create.userName.$setValidity('isUnique', !isUnique);
-                    });
+                Promise.all([
+                    user.getFilteredUserList(),
+                    user.getMultiAccountUsers()
+                ]).then(([legacyUsers = [], users = []]) => {
+                    return [...legacyUsers, ...users];
+                }).then(users => {
+                    return users.some(userToCheck => (
+                        userToCheck.name === this.name &&
+                        userToCheck.address !== this.address
+                    ));
+                }).then(isUnique => {
+                    this.create.userName.$setValidity('isUnique', !isUnique);
+                });
             }
 
         }

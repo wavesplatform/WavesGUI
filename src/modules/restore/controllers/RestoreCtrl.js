@@ -80,8 +80,11 @@
                  */
                 this._priorityMap = utils.getImportPriorityMap();
 
-                user.getFilteredUserList().then(users => {
-                    this._usersInStorage = users;
+                Promise.all([
+                    user.getFilteredUserList(),
+                    user.getMultiAccountUsers()
+                ]).then(([legacyUsers = [], users = []]) => {
+                    this._usersInStorage = [...legacyUsers, ...users];
                 });
 
                 this.observe('seed', this._onChangeSeed);

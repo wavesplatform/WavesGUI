@@ -93,7 +93,12 @@
              * @private
              */
             _getUserList() {
-                return user.getFilteredUserList();
+                return Promise.all([
+                    user.getFilteredUserList(),
+                    user.getMultiAccountUsers()
+                ]).then(([legacyUsers = [], users = []]) => {
+                    return [...legacyUsers, ...users];
+                });
             }
 
         }
