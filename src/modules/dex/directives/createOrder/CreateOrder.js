@@ -45,7 +45,7 @@
             }
 
             get loaded() {
-                return this.amountBalance && this.priceBalance;
+                return this.amountBalance && this.priceBalance && this.fee;
             }
 
             /**
@@ -244,6 +244,9 @@
                     if (lastTraderPoll) {
                         lastTraderPoll.restart();
                     }
+
+                    this.isLockedPair = utils.isLockedInDex(this._assetIdPair.amount, this._assetIdPair.price);
+
                     this.analyticsPair = `${this._assetIdPair.amount} / ${this._assetIdPair.price}`;
                     this.observeOnce(['bid', 'ask'], utils.debounce(() => {
                         if (this.type) {
@@ -707,30 +710,32 @@
              * @private
              */
             _updateField(newState) {
-                this._setSilence(() => {
-                    this._applyState(newState);
+                if (this.loaded) {
+                    this._setSilence(() => {
+                        this._applyState(newState);
 
-                    const inputKeys = ['price', 'total', 'amount'];
-                    const changingValues = without(keys(newState), inputKeys);
+                        const inputKeys = ['price', 'total', 'amount'];
+                        const changingValues = without(keys(newState), inputKeys);
 
-                    let changingValue;
-                    if (changingValues.length === 1) {
-                        changingValue = changingValues[0];
-                    } else {
-                        if (this.changedInputName.length === 0) {
-                            this.changedInputName.push('price');
-                        }
-
-                        if (changingValues.some(el => el === last(this.changedInputName))) {
-                            changingValue = changingValues.find(el => el !== last(this.changedInputName));
+                        let changingValue;
+                        if (changingValues.length === 1) {
+                            changingValue = changingValues[0];
                         } else {
-                            changingValue = without(this.changedInputName, changingValues)[0];
-                        }
-                    }
+                            if (this.changedInputName.length === 0) {
+                                this.changedInputName.push('price');
+                            }
 
-                    this._calculateField(changingValue);
-                    this._setIfCanBuyOrder();
-                });
+                            if (changingValues.some(el => el === last(this.changedInputName))) {
+                                changingValue = changingValues.find(el => el !== last(this.changedInputName));
+                            } else {
+                                changingValue = without(this.changedInputName, changingValues)[0];
+                            }
+                        }
+
+                        this._calculateField(changingValue);
+                        this._setIfCanBuyOrder();
+                    });
+                }
             }
 
             /**
@@ -921,24 +926,15 @@
             _updateFeeList() {
                 return this._getFeeRates()
                     .then(list => {
-                        const { baseFee, otherFee } = Object.keys(list).reduce((acc, id) => {
-                            if (id === WavesApp.defaultAssets.WAVES) {
-                                acc.baseFee.push(id);
-                            } else {
-                                acc.otherFee.push(id);
-                            }
-                            return acc;
-                        }, { baseFee: [], otherFee: [] });
-                        const assetsId = [...baseFee, ...otherFee];
-
+                        const assetsId = this._getOrderedCustomFeeAssetsList(list);
                         Promise.all(
                             assetsId.map(id => balanceWatcher.getBalanceByAssetId(id))
                         ).then(balances => {
-                            const basedCustomFee = this.matcherSettings.basedCustomFee;
+                            const { basedCustomFee } = this.matcherSettings;
 
                             const feeList = balances
                                 .map(balance => {
-                                    const id = balance.asset.id;
+                                    const { id } = balance.asset;
                                     const rate = new BigNumber(list[id]);
                                     return balance.cloneWithCoins(
                                         rate.mul(basedCustomFee[id])
@@ -987,6 +983,24 @@
                             this.matcherSettings = data;
                         });
                 });
+            }
+
+            /**
+             * @param {object} list
+             * @return {string[]}
+             * @private
+             */
+            _getOrderedCustomFeeAssetsList(list) {
+                const currentFeeAsset = (this.fee && this.fee.asset.id) || WavesApp.defaultAssets.WAVES;
+                const { currentFee, otherFee } = Object.keys(list).reduce((acc, id) => {
+                    if (id === currentFeeAsset) {
+                        acc.currentFee.push(id);
+                    } else {
+                        acc.otherFee.push(id);
+                    }
+                    return acc;
+                }, { currentFee: [], otherFee: [] });
+                return [...currentFee, ...otherFee];
             }
 
             static _animateNotification($element) {

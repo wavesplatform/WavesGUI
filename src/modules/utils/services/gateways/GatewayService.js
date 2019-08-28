@@ -6,9 +6,11 @@
      * @param {CoinomatCardService} coinomatCardService
      * @param {CoinomatSepaService} coinomatSepaService
      * @param {WavesGatewayService} wavesGatewayService
+     * @param {ConfigService} configService
      * @return {GatewayService}
      */
-    const factory = function (coinomatService, coinomatCardService, coinomatSepaService, wavesGatewayService) {
+    const factory = function (coinomatService, coinomatCardService,
+                              coinomatSepaService, wavesGatewayService, configService) {
 
         class GatewayService {
 
@@ -59,7 +61,18 @@
              */
             getWithdrawDetails(asset, targetAddress, paymentId) {
                 const gateway = this._findGatewayFor(asset, 'withdraw');
+
+                if (!this.canUseGateway(asset)) {
+                    return Promise.reject({ code: 1001, message: 'Gateway is blocked' });
+                }
+
                 return gateway.getWithdrawDetails(asset, targetAddress, paymentId);
+            }
+
+            canUseGateway(asset) {
+                return !configService
+                    .get('PERMISSIONS.CANT_TRANSFER_GATEWAY')
+                    .includes(asset.id);
             }
 
             /**
@@ -218,7 +231,13 @@
         return new GatewayService();
     };
 
-    factory.$inject = ['coinomatService', 'coinomatCardService', 'coinomatSepaService', 'wavesGatewayService'];
+    factory.$inject = [
+        'coinomatService',
+        'coinomatCardService',
+        'coinomatSepaService',
+        'wavesGatewayService',
+        'configService'
+    ];
 
     angular.module('app.utils').factory('gatewayService', factory);
 })();

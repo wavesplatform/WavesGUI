@@ -1,6 +1,6 @@
 @import (reference) 'config';
 
-html body md-dialog.change-token {
+md-dialog.change-token {
 
   //TODO refactor input-like
   .input-like {
@@ -83,3 +83,10 @@ html body md-dialog.change-token {
   }
 }
 
+@media screen and (max-width: 540px) {
+  md-dialog.change-token {
+    md-dialog-content {
+      padding: 0 20px;
+    }
+  }
+}

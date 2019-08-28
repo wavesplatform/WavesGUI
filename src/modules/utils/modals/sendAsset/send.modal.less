@@ -146,7 +146,6 @@ md-dialog.modal-send {
     }
 
     .asset__name {
-      margin-left: 10px;
       max-width: 122px;
     }
 
@@ -193,7 +192,6 @@ md-dialog.modal-send {
 
       .asset {
         &__name {
-          font-size: 15px;
           @media screen and (max-width: 540px) {
             font-size: 13px;
           }
@@ -260,6 +258,10 @@ md-dialog.modal-send {
 
       &.asset__amount {
         max-width: 100px;
+
+        .decimal {
+          font-family: @font-roboto-regular;
+        }
       }
     }
 

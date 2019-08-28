@@ -1,0 +1,27 @@
+{
+    "continue": "Kontynuuj",
+    "copy": "Kopiuj",
+    "copySeed": "Skopiuj wyrażenie Seed",
+    "createAccount": "Utwórz konto",
+    "goBack": "wróć",
+    "notHaveAccounts": "Nie masz zapisanych kont",
+    "nothingHere": "Nic tutaj…",
+    "password": {
+        "error": "Złe hasło!"
+    },
+    "userList": {
+        "address": "Adres / Nazwa konta",
+        "buttons": {
+            "login": "Zaloguj się"
+        },
+        "exportUser": "Eksportuj swoje konto",
+        "notHaveAccount": "Zaloguj się, aby kontynuować",
+        "password": "Hasło",
+        "placeholders": {
+            "password": "Hasło"
+        },
+        "title": "Witaj z powrotem"
+    },
+    "warn": "Tylko ty kontrolujesz swoje pieniądze, stąd musisz zapisać swoją kopię zapasową frazy Seed, na wypadek gdyby aplikacja została usunięta lub",
+    "yourSeed": "Twoja fraza Seed"
+}

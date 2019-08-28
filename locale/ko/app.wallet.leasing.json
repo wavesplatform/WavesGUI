@@ -1,0 +1,22 @@
+{
+    "available": "사용 가능 수량",
+    "chart": {
+        "available": "사용 가능 수량",
+        "create": "Lease 시작하기",
+        "leased": "Lease된 수량",
+        "title": "WAVES 잔액"
+    },
+    "description": {
+        "text1": "Lease되지 않은 Waves만 거래하거나 전송할 수 있습니다. 본인 또는 타인이 Lease된 WAVES를 전송하거나 거래할 수 없습니다.",
+        "text2": "블록체인에 기록된 Leasing 트랜잭션을 취소할 수 있습니다. 이는 일반적으로 1분 이내에 발생합니다.",
+        "text3": "Generating Balance는 1,000 블록 후에 업데이트됩니다.",
+        "title": "퀵 노트"
+    },
+    "leased": "Lease된 수량",
+    "leasedIn": "Leased in",
+    "nodeListLink": "Node 목록",
+    "test": {
+        "test": "텍스트 테스트"
+    },
+    "title_leasing": "Waves 데스크톱 앱으로 로그인하기를 선택했습니다"
+}

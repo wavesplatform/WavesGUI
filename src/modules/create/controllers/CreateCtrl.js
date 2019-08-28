@@ -48,6 +48,8 @@
                 this.saveUserData = true;
 
                 this.resetAddress();
+
+                this.showTutorialModals();
             }
 
             showTutorialModals() {
@@ -192,6 +194,11 @@
                 });
             }
 
+            /**
+             * @param hasBackup
+             * @return {Promise}
+             * @private
+             */
             _create(hasBackup) {
                 if (!this.saveUserData) {
                     this.password = Date.now().toString();

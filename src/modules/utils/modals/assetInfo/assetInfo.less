@@ -81,11 +81,10 @@
   }
 }
 
-html body md-dialog.asset-info-modal {
-
+.m-dialog_asset-info {
   md-dialog-content {
     overflow-y: hidden;
-    padding: 0;
+    padding: 0 !important;
 
     &::after {
       display: none;
@@ -136,6 +135,12 @@ html body md-dialog.asset-info-modal {
     &.chart-container {
       .legend-item {
         white-space: nowrap;
+      }
+
+      .circle-chart-legend {
+        .legend-item {
+          height: 38px;
+        }
       }
 
       & > div:first-child {
@@ -246,7 +251,7 @@ html body md-dialog.asset-info-modal {
     display: none;
   }
 
-  w-actions {
+  .actions {
     display: none;
   }
 
@@ -260,8 +265,8 @@ html body md-dialog.asset-info-modal {
 
 @media screen and (max-width: 768px) {
 
-  html body md-dialog.asset-info-modal {
-    w-transaction-list {
+  .m-dialog_asset-info {
+    .tab-container w-transaction-list {
       .w-visible {
         height: 91px;
       }
@@ -285,12 +290,46 @@ html body md-dialog.asset-info-modal {
 }
 
 @media screen and (max-width: 540px) {
-  html body md-dialog.asset-info-modal {
+  .m-dialog_asset-info {
     padding-bottom: 0;
 
     md-dialog-content {
       overflow-y: auto;
       height: auto;
+    }
+
+    w-tabs.inner {
+      .titles-wrap {
+        padding: 0;
+      }
+      .tab-body-wrap {
+        height: auto;
+      }
+    }
+
+    w-tabs {
+      margin: 0;
+      width: 100%;
+    }
+
+    .padding-content .tab-tem {
+      padding: 40px 20px;
+    }
+
+    .tab-tem {
+      overflow-y: visible;
+      max-height: 100%;
+      padding: 0;
+
+      .line {
+        w-circle-chart {
+          margin: 0 auto;
+        }
+      }
+
+      .footnote-1.fs-mobile {
+        font-size: @mobile-low-fsize;
+      }
     }
 
     .tabs__wrap {
@@ -307,16 +346,18 @@ html body md-dialog.asset-info-modal {
 }
 
 @media screen and (max-width: 420px) {
-  html body md-dialog.asset-info-modal {
-    .line.chart-container {
-      flex-direction: column;
+  .m-dialog_asset-info {
+    .padding-content .tab-tem {
+      .line.chart-container {
+        flex-direction: column;
 
-      & > div:first-child {
-        width: 100%;
-      }
-      & > div:last-child {
-        margin: 0;
-        width: 100%;
+        & > div:first-child {
+          width: 100%;
+        }
+        & > div:last-child {
+          margin: 0;
+          width: 100%;
+        }
       }
     }
   }
