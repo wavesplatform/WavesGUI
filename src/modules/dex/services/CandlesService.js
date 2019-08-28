@@ -54,7 +54,7 @@
                     ...option
                 }));
 
-                const convertBigNumber = num => num.isNaN() ? null : num.toNumber();
+                const convertBigNumber = num => (num.isNaN() ? null : Number(num.toFixed()));
 
                 const candles = Promise.all(promises)
                     .then(pipe(map(prop('data')), flatten))

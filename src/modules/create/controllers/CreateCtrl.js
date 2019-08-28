@@ -48,6 +48,8 @@
                 this.saveUserData = true;
 
                 this.resetAddress();
+
+                this.showTutorialModals();
             }
 
             showTutorialModals() {
@@ -175,7 +177,8 @@
             resetAddress() {
                 const list = [];
                 for (let i = 0; i < 5; i++) {
-                    const seedData = ds.Seed.create();
+                    const phrase = ds.Seed.create().phrase;
+                    const seedData = new ds.Seed(phrase, window.WavesApp.network.code);
                     list.push({ seed: seedData.phrase, address: seedData.address });
                 }
 
@@ -191,12 +194,17 @@
                 });
             }
 
+            /**
+             * @param hasBackup
+             * @return {Promise}
+             * @private
+             */
             _create(hasBackup) {
                 if (!this.saveUserData) {
                     this.password = Date.now().toString();
                 }
 
-                const encryptedSeed = new ds.Seed(this.seed).encrypt(this.password);
+                const encryptedSeed = new ds.Seed(this.seed, window.WavesApp.network.code).encrypt(this.password);
                 const userSettings = user.getDefaultUserSettings({ termsAccepted: false });
 
                 const newUser = {

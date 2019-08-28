@@ -4,7 +4,7 @@ import { listUTX } from '../api/transactions/transactions';
 import { T_TX } from '../api/transactions/interface';
 import { IPollAPI, Poll } from '../utils/Poll';
 import { MoneyHash } from '../utils/MoneyHash';
-import { TRANSACTION_TYPE_NUMBER } from '@waves/signature-generator';
+import { TRANSACTION_TYPE_NUMBER } from '@waves/signature-adapter';
 
 
 export class UTXManager {
@@ -65,7 +65,7 @@ export class UTXManager {
 
     private _updateTxMoneyHash() {
 
-        const moneyList = this._txList.reduce((moneyList, tx) => {
+        const moneyList = this._txList.reduce((moneyList, tx: any) => {
             moneyList.push(tx.fee);
 
             switch (tx.type) {

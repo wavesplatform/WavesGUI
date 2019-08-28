@@ -1,0 +1,40 @@
+{
+    "allactive": "액티브한 토큰 ({span}[{{count}}])",
+    "burn": "토큰 소각",
+    "deposit": "입금",
+    "dex": "DEX에서 열기",
+    "info": "자산 정보",
+    "list": {
+        "actions": "Actions",
+        "ask": "매도호가",
+        "balance": "잔액",
+        "bid": "매수호가",
+        "change": "24h 변동률",
+        "inOrders": "대기 주문",
+        "mirror": "보유 자산 가치 {span.currency}[{{currency}}]",
+        "name": "자산 명칭",
+        "rate": "자산 가격 {span.currency}[{{currency}}]"
+    },
+    "myassets": "나의 자산 ({span}[{{count}}])",
+    "pin": "즐겨찾기 등록",
+    "portfolio": {
+        "filter": "검색"
+    },
+    "qr": "귀하의 주소",
+    "qualified": "검증 완료",
+    "qualifieds": "검증 완료 ({span}[{{count}}])",
+    "receive": "수신",
+    "reissue": "토큰 재발행",
+    "send": "발신",
+    "setAssetScript": "자산 스크립트 업데이트",
+    "spam": "스팸",
+    "spamAsset": "스팸",
+    "spamselect": "의심되는 토큰 ({span}[{{count}}])",
+    "sponsorship": "스폰서십 활성화",
+    "sponsorshipChange": "스폰서십 변경",
+    "sponsorshipStop": "스폰서십 비활성화",
+    "tokenomica": "tokenomica",
+    "tospam": "숨기기",
+    "unpin": "즐겨찾기 해제",
+    "unspam": "보기"
+}

@@ -1,0 +1,266 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+@import (reference) "../../../../../app/less/app-icons";
+@import (reference) '../../../../../app/less/typography';
+
+.main-header {
+  .shadow() {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 4px;
+    top: 100%;
+    margin: 0 -40px;
+    transition: 1s;
+    transform: translate3d(0, 0, 0);
+    background: -moz-linear-gradient(top, rgba(218, 225, 233, 0.65) 0%, rgba(255, 255, 255, 0) 100%);
+    background: -webkit-linear-gradient(top, rgba(218, 225, 233, 0.65) 0%, rgba(255, 255, 255, 0) 100%);
+    background: linear-gradient(to bottom, rgba(218, 225, 233, 0.65) 0%, rgba(255, 255, 255, 0) 100%);
+  }
+
+  display: block;
+
+  &__header {
+    height: 60px;
+    display: flex;
+    width: 100%;
+    position: relative;
+    left: 0;
+    top: 0;
+    align-items: center;
+    z-index: 11;
+    background: @color-white;
+    padding: 0 20px;
+  }
+
+  &__wrapper {
+    margin: 0 auto;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    background: @color-white;
+    z-index: 111;
+  }
+
+  &__user {
+    display: flex;
+    height: 100%;
+
+    &.open {
+      .main-header__dropdown {
+        display: block;
+      }
+
+      .dropdown-toggler::before {
+        transform: translateY(-50%) rotate(180deg);
+        background: @drop-down-hover-icon center no-repeat;
+      }
+    }
+
+    .dropdown__link {
+      margin: 10px 0;
+      padding: 5px 10px;
+
+      &::after {
+        display: none;
+      }
+    }
+  }
+
+  &__fader {
+    display: none;
+    animation-name: dropdown-fader-animation;
+    animation-duration: .3s;
+    animation-direction: normal;
+    opacity: 0;
+    transition: 13s;
+    background: none transparent;
+
+    &.show-fader {
+      display: block;
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: @fader-background;
+      opacity: @fader-opacity;
+      z-index: 10;
+      top: 0;
+      left: 0;
+    }
+  }
+
+  &__dropdown {
+    display: none;
+    padding: 20px;
+    box-shadow: 0 2px 44px 0 rgba(31, 39, 61, 0.15);
+    background: @color-white;
+    border-radius: 8px;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, 26px);
+    z-index: 10;
+    min-width: 214px;
+
+    &_user {
+      right: 0;
+      left: auto;
+      transform: translate(-5px, 5px);
+      min-width: 289px;
+      cursor: default;
+    }
+  }
+
+  &_new-user {
+    position: fixed;
+    z-index: 10;
+    width: 100%;
+    top: 0;
+    left: 0;
+
+    .main-header__header::after {
+      opacity: 0;
+      .shadow;
+    }
+
+    &.fixed .main-header__header {
+      position: fixed;
+
+      &::after {
+        opacity: 1;
+      }
+    }
+  }
+
+  @media screen and (max-width: 1340px) {
+    .main-header__wrapper {
+      padding: 0;
+    }
+  }
+
+  @keyframes dropdown-fader-animation {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 0.3;
+    }
+  }
+
+  .icon {
+    display: block;
+
+    &-18 {
+      width: 18px;
+      height: 18px;
+    }
+
+    &-24 {
+      width: 24px;
+      height: 24px;
+    }
+  }
+}
+
+.dex-demo {
+  .menu-link-exchange {
+    display: none;
+  }
+  .menu-link-main {
+    display: block;
+  }
+}
+
+.wallet {
+  &.assets {
+    .dropdown__link_assets {
+      color: @color-submit-300;
+    }
+
+    .dropdown__icon_dashboard {
+      background: @wallet-icon-active;
+    }
+  }
+
+  &.portfolio {
+    .dropdown__link_portfolio {
+      color: @color-submit-300;
+    }
+
+    .dropdown__icon_portfolio {
+      background: @portfolio-icon-active;
+    }
+  }
+
+  &.transactions {
+    .dropdown__link_transactions {
+      color: @color-submit-300;
+    }
+
+    .dropdown__icon_transactions {
+      background: @transactions-icon-active;
+    }
+  }
+
+  &.leasing {
+    .dropdown__link_leasing {
+      color: @color-submit-300;
+    }
+
+    .dropdown__icon_leasing {
+      background: @leasing-icon-active;
+    }
+  }
+
+  .dropdown__link_wallet {
+    color: @color-submit-300;
+  }
+
+  .dropdown-toggler__btn {
+    color: @color-submit-300;    
+  }
+}
+
+.dex,
+.dex-demo {
+  .top-menu__link-dex {
+    color: @color-submit-300;
+  }
+}
+
+.tokens {
+  .top-menu__link-tokens {
+    color: @color-submit-300;
+  }
+}
+
+@media screen and (max-width: 1440px) {
+  .main-header_new-user {
+    .shadow {
+      margin: 0 -20px;
+    }
+  }
+}
+
+@media screen and (max-width: 860px) {
+  .main-header__header {
+    .top-menu,
+    .header-logout,
+    .buttons-wrapper {
+      display: none;
+    }
+  }
+
+  .main-header__wrapper_large {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 861px) {
+  .main-header__wrapper_mobile {
+    display: none;
+  }
+}

@@ -10,6 +10,8 @@
      */
     const controller = function (Base, $scope, gatewayService, user) {
 
+        const { BigNumber } = require('@waves/bignumber');
+
         class ReceiveCard extends Base {
 
             /**
@@ -156,9 +158,9 @@
                     user.address,
                     this._tokenizeCardPayment()
                 ).then(approximateAmount => {
-                    const coins = new BigNumber(approximateAmount).times(Math.pow(10, this.asset.precision));
+                    const coins = new BigNumber(approximateAmount).mul(Math.pow(10, this.asset.precision));
 
-                    this.approximateAmount = new ds.wavesDataEntities.Money(coins.dp(0), this.asset);
+                    this.approximateAmount = new ds.wavesDataEntities.Money(coins.toFixed(0), this.asset);
                     $scope.$apply();
                 });
             }

@@ -1,0 +1,39 @@
+{
+    "createAccount": "Maak een account aan",
+    "notHaveAccounts": "U hebt geen opgeslagen accounts",
+    "nothingHere": "Niets hier...",
+    "password": {
+        "error": "Onjuist wachtwoord!"
+    },
+    "signIn": {
+        "btn": {
+            "cancel": "Annuleer",
+            "restore": "Alles terugzetten"
+        },
+        "enterPass": "Voer uw wachtwoord in om door te gaan",
+        "modal": {
+            "forgotPass": "Password successfully reset"
+        },
+        "passForgot": {
+            "attention": "Let op!",
+            "description": "Als u uw wachtwoord bent vergeten kunt u al uw accounts terugzetten door middel van de SEEDs en een nieuw wachtwoord instellen."
+        },
+        "password": {
+            "forgot": "Uw wachtwoord vergeten?"
+        },
+        "signIn": "Aanmelden",
+        "welcomeBack": "Welkom terug!"
+    },
+    "userList": {
+        "address": "Adres / Accountnaam",
+        "buttons": {
+            "login": "Inloggen"
+        },
+        "notHaveAccount": "Log alstublieft in om verder te gaan",
+        "password": "Wachtwoord",
+        "placeholders": {
+            "password": "Wachtwoord"
+        },
+        "title": "Welkom terug"
+    }
+}

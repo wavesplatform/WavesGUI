@@ -121,6 +121,10 @@
                 const now = Date.now();
                 for (let i = this._listeners.list.length - 1; i >= 0; i--) {
                     const item = this._listeners.list[i];
+                    if (!item) {
+                        continue;
+                    }
+
                     if (now - item.start >= item.timeout) {
                         try {
                             if (item.handler) {
