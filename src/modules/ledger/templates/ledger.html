@@ -90,13 +90,6 @@
                     </form>
                 </div>
 
-                <div class="flex get-started-checkbox-save">
-                    <w-checkbox-submit ng-model="$ctrl.saveUserData" id="save-user-data"></w-checkbox-submit>
-                    <label for="save-user-data" class="footnote-1 basic-500">
-                        <span w-i18n="ledgerForm.saveUserData"></span>
-                    </label>
-                </div>
-
                 <div class="margin-1 margin-top-1 error-500" ng-if="$ctrl.isPriorityUserTypeExists" w-i18n="ledgerForm.addressSaved"></div>
 
                 <w-button disabled="$ctrl.disabledLogin || $ctrl.isPriorityUserTypeExists || $ctrl.importForm.$invalid"

@@ -57,26 +57,18 @@
                         </div>
                     </div>
 
-                    <!-- hidden by #1978
-                    <div class="flex get-started-checkbox-save">
-                        <w-checkbox-submit ng-model="$ctrl.saveUserData" id="save-user-data"></w-checkbox-submit>
-                        <label for="save-user-data"
-                               w-i18n="seedForm.saveUserData"
-                               class="footnote-1 basic-500"></label>
-                    </div>
-                     -->
                     <div ng-if="$ctrl.activeTab === TABS.seed && $ctrl.address && $ctrl.seed.length <= 59"
                          class="plate-warning warning-500 body-2 margin-3">
                         <div class="body-2 margin-05" w-i18n="warningSeed.title"></div>
                         <div class="footnote-1 basic-500" w-i18n="warningSeed.message"></div>
                     </div>
+
                     <w-button disabled="!$ctrl.address" class=" submit big long" on-click="$ctrl.nextStep()">
                         <span w-i18n="seedForm.continue"></span>
                     </w-button>
-
                 </w-step>
-                <w-step>
 
+                <w-step>
                     <div class="headline-1 margin-1 text-center" w-i18n="passwordForm.title"></div>
                     <div class="body-2 text-center margin-5">
                         <span class="basic-500" w-i18n="passwordForm.description"></span>
