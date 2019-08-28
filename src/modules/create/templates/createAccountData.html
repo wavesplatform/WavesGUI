@@ -10,13 +10,9 @@
         </div>
     </div>
 
-    <w-password
-        name="$ctrl.name"
-        password="$ctrl.password"
-        on-submit="$ctrl.next()"
-    >
+    <w-account-name account-name="$ctrl.name" on-submit="$ctrl.next()">
         <span w-i18n="button.continue"></span>
-    </w-password>
+    </w-account-name>
 
     <w-get-started-link has-sign-in="::false" has-import="::true"></w-get-started-link>
 </div>

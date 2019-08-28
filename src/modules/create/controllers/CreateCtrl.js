@@ -38,7 +38,6 @@
 
                 this.invitationStep = 0;
                 this.stepIndex = 0;
-                this.password = '';
                 this.name = '';
                 this.seed = '';
                 this.address = '';

@@ -75,16 +75,15 @@
                         <a w-i18n="passwordForm.back" w-step-prev ng-click="$ctrl.resetNameAndPassword()"></a>
                     </div>
 
-                    <w-password
-                        name="$ctrl.name"
-                        password="$ctrl.password"
-                        address="$ctrl.address"
+                    <w-account-name
+                        account-name="$ctrl.name"
+                        account-address="$ctrl.address"
                         on-submit="$ctrl.restore()"
                     >
                         <span w-i18n-ns="app.restore">
                             <span w-i18n="passwordForm.login"></span>
                         </span>
-                    </w-password>
+                    </w-account-name>
 
                 </w-step>
             </w-step-by-step>
