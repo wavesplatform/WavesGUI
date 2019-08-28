@@ -1,0 +1,206 @@
+<span class="logo logo-header" ng-if="$ctrl.isLogined"></span>
+<a class="logo logo-header" ng-if="!$ctrl.isLogined" href="/"></a>
+
+<div class="main-header__mobile-toggler" ng-click="$ctrl.onMobileTogglerClick()">
+    <span></span>
+</div>
+
+<div class="main-header__mobile-fader" w-toggle-class="expanded" ng-click="$ctrl.onMobileFaderClick()"></div>
+<nav class="mobile-menu">
+    <div class="mobile-menu__wrapper">
+        <ul class="mobile-menu__list" ng-if="!$ctrl.isLogined">
+            <li class="mobile-menu__item">
+                <a ui-sref="welcome" ng-click="$ctrl.removeBodyClass()"
+                   class="mobile-menu__link mobile-menu__link_main" w-i18n="welcome.mainPage"></a>
+            </li>
+            <li class="mobile-menu__item">
+                <a ui-sref="main.dex-demo" ng-click="$ctrl.removeBodyClass()"
+                   class="mobile-menu__link menu-link-exchange" w-i18n="welcome.exchange"></a>
+            </li>
+            <li class="mobile-menu__item">
+                <a href="https://docs.wavesplatform.com/en/waves-api-and-sdk/dex-api.html"
+                   w-analytics event-target="'ui'"
+                   event="'Menu API Click'"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   w-i18n="welcome.api"
+                   class="mobile-menu__link"></a></li>
+            <li class="mobile-menu__item">
+                <a href="https://docs.wavesplatform.com/en/waves-client/install-waves-client.html"
+                   w-analytics event-target="'ui'"
+                   event="'Menu Help Click'"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   w-i18n="welcome.help"
+                   class="mobile-menu__link"></a></li>
+            <li class="mobile-menu__item">
+                <a href="https://twitter.com/Waves_DEX"
+                   w-analytics event-target="'ui'"
+                   event="'Menu Twitter Click'"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   w-i18n="welcome.news"
+                   class="mobile-menu__link"></a></li>
+            <li class="mobile-menu__item" ng-if="!$ctrl.isDesktop">
+                <a class="mobile-menu__link mobile-menu__link_has-child"
+                   w-toggle-class="show-downloads"
+                   w-i18n="welcome.download"
+                   href="#"></a></li>
+            <li class="mobile-menu__item">
+                <a class="mobile-menu__link mobile-menu__link_sign-in-link signIn-hidden"
+                   ng-if="$ctrl.hasUsers"
+                   ng-click="$ctrl.removeBodyClass()"
+                   ui-sref="signIn" w-i18n="welcome.signIn"></a></li>
+            <li class="mobile-menu__item mobile-menu__item_get-started-link">
+                <a class="mobile-menu__link mobile-menu__link_get-started-link create-hidden"
+                   ng-click="$ctrl.removeBodyClass()"
+                   ui-sref="create" w-i18n="welcome.getStarted"></a></li>
+        </ul>
+
+        <ul class="mobile-menu__list" ng-if="$ctrl.isLogined">
+            <li w-toggle-class="show-aliases" class="mobile-menu__item">
+                <a class="mobile-menu__link mobile-menu__link_has-child mobile-menu__link_has-user-address"
+                   w-toggle-class="mobile-menu-inner-expanded"
+                   href="#">
+
+                    <div class="mobile-menu__user">
+                        <div class="mobile-menu__avatar has-helper"> <!-- MOBILE -->
+                            <w-avatar size="40" address="$ctrl.address"></w-avatar>
+                        </div>
+
+                        <div class="mobile-menu__info mobile-user">
+                            <div class="mobile-user__info">
+                                <div class="mobile-user__name body-2 margin-05">{{user.name}}</div>
+                                <div class="mobile-user__address caption-2 basic-600">{{::$ctrl.address}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li w-toggle-class="expanded" class="mobile-menu__item">
+                <a ui-sref="main.dex"
+                   ng-click="$ctrl.removeBodyClass()"
+                   w-i18n="welcome.exchange"
+                   class="mobile-menu__link"></a></li>
+            <li w-toggle-class="show-wallet" class="mobile-menu__item">
+                <a href="#" class="mobile-menu__link mobile-menu__link_has-child" w-i18n="welcome.wallet"
+                   w-toggle-class="mobile-menu-inner-expanded"></a>
+            </li>
+            <li w-toggle-class="expanded" class="mobile-menu__item">
+                <a ng-click="$ctrl.removeBodyClass()"
+                   ui-sref="main.tokens" w-i18n="welcome.createToken"
+                   class="mobile-menu__link"></a></li>
+            <li w-toggle-class="expanded" ng-click="$ctrl.logout()" class="mobile-menu__item mobile-menu__item_logout">
+                <a ng-click="$ctrl.removeBodyClass()"
+                   class="mobile-menu__link mobile-menu__link_logout"
+                   w-i18n="welcome.logout"
+                   href="#"></a></li>
+        </ul>
+    </div>
+
+    <div class="mobile-menu__wrapper mobile-menu__wrapper_inner download-menu" ng-if="!$ctrl.isLogined">
+        <ul class="mobile-menu__list">
+            <li w-toggle-class="mobile-menu-inner-expanded" class="mobile-menu__item">
+                <a class="mobile-menu__link mobile-menu__link_menu"
+                   w-toggle-class="show-downloads"
+                   href="#"
+                   w-i18n="welcome.menu"></a></li>
+            <li w-toggle-class="expanded mobile-menu-inner-expanded" class="mobile-menu__item">
+                <a class="mobile-menu__link mobile-menu__link_apple"
+                   w-analytics
+                   event-target="'ui'"
+                   event="'Menu Download Android Click'"
+                   href="https://itunes.apple.com/us/app/waves-wallet/id1233158971?mt=8"
+                   ng-click="$ctrl.removeBodyClass()"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   w-i18n="welcome.apple"></a></li>
+            <li w-toggle-class="expanded mobile-menu-inner-expanded" class="mobile-menu__item">
+                <a class="mobile-menu__link mobile-menu__link_android"
+                   w-analytics
+                   event-target="'ui'"
+                   event="'Menu Download Apple mobile Click'"
+                   href="https://play.google.com/store/apps/details?id=com.wavesplatform.wallet"
+                   target="_blank"
+                   ng-click="$ctrl.removeBodyClass()"
+                   rel="noopener noreferrer"
+                   w-i18n="welcome.android"></a></li>
+        </ul>
+    </div>
+
+    <div class="mobile-menu__wrapper mobile-menu__wrapper_inner aliases-menu" ng-if="$ctrl.isLogined">
+        <ul class="mobile-menu__list">
+            <li w-toggle-class="mobile-menu-inner-expanded" class="mobile-menu__item">
+                <a class="mobile-menu__link mobile-menu__link_menu"
+                   w-toggle-class="show-aliases" href="#"
+                   w-i18n="welcome.menu"></a></li>
+
+            <li w-toggle-class="show-name expanded" class="mobile-menu__item">
+                <a class="mobile-menu__link mobile-menu__link_name"
+                   ng-click="$ctrl.changeName()"
+                   w-i18n="welcome.name"
+                   href="#"></a></li>
+
+            <li w-toggle-class="show-address expanded" class="mobile-menu__item">
+                <a class="mobile-menu__link mobile-menu__link_address"
+                   ng-click="$ctrl.showAddress()"
+                   w-i18n="welcome.address"
+                   href="#"></a></li>
+
+            <li w-toggle-class="show-aliases expanded" class="mobile-menu__item">
+                <a class="mobile-menu__link mobile-menu__link_aliases"
+                   ng-click="$ctrl.showAliases()"
+                   w-i18n="welcome.aliases"
+                   href="#"></a></li>
+
+            <li w-toggle-class="show-aliases expanded" class="mobile-menu__item">
+                <a class="mobile-menu__link mobile-menu__link_settings"
+                   ng-click="$ctrl.showSettings()"
+                   w-i18n="welcome.settings"
+                   href="#"></a></li>
+
+            <li w-toggle-class="show-aliases expanded" class="mobile-menu__item mobile-menu__item_logout">
+                <a class="mobile-menu__link mobile-menu__link_logout"
+                   ng-click="$ctrl.logout()"
+                   w-i18n="welcome.logout"
+                   href="#"></a></li>
+        </ul>
+    </div>
+
+    <div class="mobile-menu__wrapper mobile-menu__wrapper_inner wallet-menu" ng-if="$ctrl.isLogined">
+        <ul class="mobile-menu__list">
+            <li w-toggle-class="show-wallet" class="mobile-menu__item">
+                <a class="mobile-menu__link mobile-menu__link_menu"
+                   href="#"
+                   w-i18n="welcome.menu"></a></li>
+            <li w-toggle-class="expanded show-wallet" class="mobile-menu__item">
+                <a class="mobile-menu__link mobile-menu__link_dashboard"
+                   ng-click="$ctrl.removeBodyClass()"
+                   ui-sref="main.wallet.assets"
+                   w-i18n="welcome.dashboard"></a>
+            </li>
+            <li w-toggle-class="expanded show-wallet" class="mobile-menu__item">
+                <a class="mobile-menu__link mobile-menu__link_portfolio"
+                   ng-click="$ctrl.removeBodyClass()"
+                   ui-sref="main.wallet.portfolio"
+                   w-i18n="welcome.portfolio"></a></li>
+            <li w-toggle-class="expanded show-wallet" class="mobile-menu__item">
+                <a class="mobile-menu__link mobile-menu__link_transactions"
+                   ng-click="$ctrl.removeBodyClass()"
+                   ui-sref="main.wallet.transactions"
+                   w-i18n="welcome.transactions"></a></li>
+            <li w-toggle-class="expanded show-wallet" class="mobile-menu__item">
+                <a class="mobile-menu__link mobile-menu__link_leasing"
+                   ng-click="$ctrl.removeBodyClass()"
+                   ui-sref="main.wallet.leasing"
+                   w-i18n="welcome.leasing"></a></li>
+            <li w-toggle-class="expanded show-wallet" class="mobile-menu__item mobile-menu__item_logout">
+                <a class="mobile-menu__link mobile-menu__link_logout"
+                   ng-click="$ctrl.removeBodyClass()"
+                   ng-click="$ctrl.logout()"
+                   href="#"
+                   w-i18n="welcome.logout"></a></li>
+        </ul>
+    </div>
+
+</nav>

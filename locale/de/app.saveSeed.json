@@ -1,0 +1,27 @@
+{
+    "continue": "Fortsetzen",
+    "copy": "Kopieren",
+    "copySeed": "Seed kopieren",
+    "createAccount": "Account erstellen",
+    "goBack": "Zurück",
+    "notHaveAccounts": "Sie haben keine Konten gespeichert",
+    "nothingHere": "Nichts hier…",
+    "password": {
+        "error": "Falsches Passwort!"
+    },
+    "userList": {
+        "address": "Account Name",
+        "buttons": {
+            "login": "Einloggen"
+        },
+        "exportUser": "Account exportieren",
+        "notHaveAccount": "Bitte melden Sie sich an, um fortzufahren.",
+        "password": "Passwort",
+        "placeholders": {
+            "password": "Passwort"
+        },
+        "title": "Willkommen zurück"
+    },
+    "warn": "Da nur Sie Ihr Geld kontrollieren, müssen Sie Ihre Backup-Phrase speichern, falls diese App gelöscht wird",
+    "yourSeed": "Ihr Seed"
+}

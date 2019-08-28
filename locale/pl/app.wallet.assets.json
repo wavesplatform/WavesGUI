@@ -1,0 +1,39 @@
+{
+    "addAsset": "Dodaj Aktywo",
+    "chart": {
+        "intervals": {
+            "all": "Wszystko",
+            "day": "1D",
+            "hour": "1G",
+            "month": "1M",
+            "week": "1T",
+            "year": "1R"
+        }
+    },
+    "directives": {
+        "asset": {
+            "anyTx": "JSON",
+            "deposit": "Deponuj",
+            "ofTotalBalance": "Wycena portfela {{totalBalance}}",
+            "receive": "Otrzymaj",
+            "script": "Skrypt",
+            "send": "Wyślij"
+        },
+        "balance": {
+            "actions": {
+                "assetInfo": "Informacja na temat instrumentu",
+                "copyAssetId": "Kopiuj ID instrumentu"
+            }
+        }
+    },
+    "price": "CENA {{currency}}",
+    "qr": "Twój Adres",
+    "send": "Wyślij",
+    "since": {
+        "day": "OD OSTATNIEGO DNIA",
+        "month": "OD OSTATNIEGO MIESIĄCA",
+        "week": "OD OSTATNIEGO TYGODNIA"
+    },
+    "suspicious": "Podejrzany - ({span}[{{count}}])",
+    "Unpin": "Odpiąć"
+}

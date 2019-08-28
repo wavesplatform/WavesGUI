@@ -1,0 +1,30 @@
+<md-dialog w-i18n-ns="app.welcome" class="change-address" aria-label="modal">
+    <md-dialog-content class="change-address__wrapper">
+        <div class="change-address__icon-close btn icon-close" w-modal-close></div>
+
+        <div class="change-address__avatar text-center has-helper">
+            <w-avatar type="{{$ctrl.userType}}"
+                      size="40"
+                      address="$ctrl.address"></w-avatar>
+
+            <div class="change-address__title text-center">
+                {{$ctrl.userName}}
+            </div>
+        </div>
+
+        <w-copy-wrap info="::$ctrl.address" class="change-address__copy">
+            <div class="body-1 mobile-caption-5">{{::$ctrl.address}}</div>
+        </w-copy-wrap>
+
+        <div class="change-address__code-wrapper text-center">
+            <span class="change-address__label" w-i18n="welcome.scanQrCode"></span>
+            <div class="change-address__qr-code center qr-wrapper" w-toggle-class-container>
+                <w-qr-code size="200"
+                           style="box-shadow: 0 0 10px 0 #000 inset"
+                           w-toggle-class="zoomed-in"
+                           url="$ctrl.address"></w-qr-code>
+            </div>
+        </div>
+
+    </md-dialog-content>
+</md-dialog>

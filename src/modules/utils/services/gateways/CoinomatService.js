@@ -44,7 +44,14 @@
                 const from = GATEWAYS[asset.id].gateway;
                 const to = GATEWAYS[asset.id].waves;
                 return this._loadPaymentDetails(from, to, wavesAddress).then((details) => {
-                    return { address: details.tunnel.wallet_from };
+                    return {
+                        address: details.tunnel.wallet_from,
+                        attachment: details.tunnel.attachment,
+                        minimumAmount: new BigNumber(details.tunnel.in_min),
+                        maximumAmount: new BigNumber(details.tunnel.in_max),
+                        exchangeRate: new BigNumber(details.tunnel.xrate),
+                        gatewayFee: new BigNumber(details.tunnel.fee_out)
+                    };
                 });
             }
 
