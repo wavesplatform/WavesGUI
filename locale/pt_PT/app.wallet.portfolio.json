@@ -1,0 +1,40 @@
+{
+    "allactive": "All active ({span}[{{count}}])",
+    "burn": "Token Burn",
+    "deposit": "Deposit",
+    "dex": "Open in DEX",
+    "info": "Asset Info",
+    "list": {
+        "actions": "Actions",
+        "ask": "Ask",
+        "balance": "Balance",
+        "bid": "Bid",
+        "change": "24h Change",
+        "inOrders": "Reserved",
+        "mirror": "Value, {span.currency}[{{currency}}]",
+        "name": "Asset Name",
+        "rate": "Price, {span.currency}[{{currency}}]"
+    },
+    "myassets": "My assets ({span}[{{count}}])",
+    "pin": "Pin",
+    "portfolio": {
+        "filter": "Search"
+    },
+    "qr": "Your Address",
+    "qualified": "qualified",
+    "qualifieds": "Qualified ({span}[{{count}}])",
+    "receive": "Receive",
+    "reissue": "Token Reissue",
+    "send": "Send",
+    "setAssetScript": "Update Asset Script",
+    "spam": "Spam",
+    "spamAsset": "SPAM",
+    "spamselect": "Suspicious ({span}[{{count}}])",
+    "sponsorship": "Enable Sponsorship",
+    "sponsorshipChange": "Change Sponsorship",
+    "sponsorshipStop": "Disable Sponsorship",
+    "tokenomica": "tokenomica",
+    "tospam": "Hide",
+    "unpin": "Unpin",
+    "unspam": "Show"
+}

@@ -1,4 +1,4 @@
-<div w-i18n-ns="app.wallet.assets" class="toolbar margin-1">
+<div w-i18n-ns="app.wallet.assets" class="toolbar">
     <w-button class="submit medium btn-send" on-click="$ctrl.showSend()">
         <span w-i18n="send"></span>
     </w-button>
@@ -83,7 +83,18 @@
         </div>
 
         <div class="chart-wrapper">
-            <linechart ng-if="$ctrl.chartMode && $ctrl.data" options="$ctrl.options" data="$ctrl.data"></linechart>
+            <w-chart data="$ctrl.data" options="$ctrl.chartOptions" mouse-move="$ctrl.onMouse(chartData)">
+                <w-chart-plate>
+                    <div class="legend-content">
+                        <div class="chart-plate__price">$ {{$ctrl.chartEvent.price}}</div>
+                        <div class="chart-plate__timestamp headline-4">
+                            <span class="chart-plate__date">{{$ctrl.chartEvent.date}}</span>
+                            <span class="chart-plate__time">{{$ctrl.chartEvent.time}}</span>
+                        </div>
+                    </div>
+                </w-chart-plate>
+            </w-chart>
+
         </div>
     </div>
 

@@ -5,6 +5,7 @@ export CSC_LINK=/path/to/certificate.p12
 export CSC_KEY_PASSWORD=******
 export WIN_CSC_LINK=/path/to/certificate.pfx
 export WIN_CSC_KEY_PASSWORD=******
+export USE_SYSTEM_WINE=true
 
 # building the browser version of the app
 ./node_modules/.bin/tsc -p ./

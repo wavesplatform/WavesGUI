@@ -22,9 +22,14 @@
              * @type {boolean}
              */
             ratingError = false;
+            /**
+             * @type {string}
+             */
+            tokenratingLink;
 
             $postLink() {
                 this._getAssetInfo();
+                this._setLink();
                 this.observe('assetId', this._getAssetInfo);
                 createPoll(this, this._getTokenRating, this._setTokenRating, 60 * 1000);
             }
@@ -41,19 +46,26 @@
                     this.isGatewayOrWaves = this.assetId === WavesApp.defaultAssets.WAVES ||
                         isGateway &&
                         this.assetId !== WavesApp.defaultAssets.VST &&
-                        this.assetId !== WavesApp.defaultAssets.ERGO;
+                        this.assetId !== WavesApp.defaultAssets.ERGO &&
+                        this.assetId !== WavesApp.defaultAssets.BNT;
                     $scope.$apply();
                 });
 
                 this.state = { assetId: this.assetId };
             }
 
+            /**
+             * @private
+             */
             _getTokenRating() {
                 return ds.api.rating.getAssetsRating(this.assetId)
                     .then(assetList => assetList)
                     .catch(() => null);
             }
 
+            /**
+             * @private
+             */
             _setTokenRating(assetList) {
                 if (!assetList) {
                     this.ratingError = true;
@@ -65,6 +77,13 @@
 
                 this.rating = assetList[0].rating;
                 $scope.$apply();
+            }
+
+            /**
+             * @private
+             */
+            _setLink() {
+                this.tokenratingLink = WavesApp.network.tokenrating;
             }
 
         }

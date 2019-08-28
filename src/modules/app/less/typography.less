@@ -47,7 +47,6 @@ h4 {
   font-family: @font-roboto-regular;
   font-size: 34px;
   line-height: 40px;
-  //margin: 10px 0;
 }
 
 .headline-2 {
@@ -117,20 +116,26 @@ h4 {
   font-family: @font-roboto-regular;
   font-size: @font-size-caption-1;
   line-height: 16px;
-  color: @color-disabled-600;
+  color: @color-basic-500;
 }
 
 .caption-2 {
   font-family: @font-roboto-regular;
   font-size: @font-size-caption-2;
   line-height: 13px;
-  color: @color-disabled-600;
+  color: @color-basic-500;
 }
 
 .caption-3 {
   font-family: @font-roboto-regular;
   font-size: 9px;
-  color: @color-disabled-600;
+  color: @color-basic-500;
+  line-height: 12px;
+}
+
+.caption-4 {
+  font-family: @font-roboto-regular;
+  font-size: 11px;
   line-height: 12px;
 }
 
@@ -153,7 +158,6 @@ h4 {
 .tag-3 {
   font-family: @font-roboto-regular;
   font-size: 9px;
-  line-height: 9px;
   text-transform: uppercase;
 }
 
@@ -169,6 +173,9 @@ h4 {
 }
 
 /* mobile font-sizes */
+@font-size-caption-7: 17px;
+@font-size-caption-6: 15px;
+@font-size-caption-5: 13px;
 @font-size-caption-1: 12px;
 @font-size-caption-2: 11px;
 @font-size-caption-3: 10px;
@@ -178,7 +185,6 @@ h4 {
 @mobile-mid-fsize: 14px;
 
 @media screen and (max-width: 480px) {
-
   body {
     .mobile-caption-1 {
       font-size: @font-size-caption-1;
@@ -194,6 +200,18 @@ h4 {
 
     .mobile-caption-4 {
       font-size: @font-size-caption-4;
+    }
+
+    .mobile-caption-5 {
+      font-size: @font-size-caption-5;
+    }
+
+    .mobile-caption-6 {
+      font-size: @font-size-caption-6;
+    }
+
+    .mobile-caption-7 {
+      font-size: @font-size-caption-7;
     }
 
     .mobile-low-fsize {

@@ -65,7 +65,8 @@
                         WavesApp.defaultAssets.DASH,
                         WavesApp.defaultAssets.XMR,
                         WavesApp.defaultAssets.VST,
-                        WavesApp.defaultAssets.ERGO
+                        WavesApp.defaultAssets.ERGO,
+                        WavesApp.defaultAssets.BNT
                     ],
                     wallet: {
                         activeState: 'assets',
