@@ -1,0 +1,39 @@
+{
+    "createAccount": "Create account",
+    "notHaveAccounts": "You do not have saved accounts",
+    "nothingHere": "Não há nada aqui…",
+    "password": {
+        "error": "Senha incorreta!"
+    },
+    "signIn": {
+        "btn": {
+            "cancel": "Cancel",
+            "restore": "Restore all"
+        },
+        "enterPass": "Please enter your password to continue",
+        "modal": {
+            "forgotPass": "Password successfully reset"
+        },
+        "passForgot": {
+            "attention": "Attention!",
+            "description": "If you forget your password, you must restore all your accounts from their SEEDs and set a new password."
+        },
+        "password": {
+            "forgot": "Forgot your password?"
+        },
+        "signIn": "Sign in",
+        "welcomeBack": "Welcome Back!"
+    },
+    "userList": {
+        "address": "Endereço / Nome da conta",
+        "buttons": {
+            "login": "Entrar"
+        },
+        "notHaveAccount": "Please sign in to continue",
+        "password": "Senha",
+        "placeholders": {
+            "password": "Senha"
+        },
+        "title": "Bem-vindo de volta"
+    }
+}

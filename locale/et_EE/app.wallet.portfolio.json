@@ -1,0 +1,40 @@
+{
+    "allactive": "Kõik aktiivsed ({span}[{{count}}])",
+    "burn": "Tokenite Hävitamine",
+    "deposit": "Sissemakse",
+    "dex": "Ava DEX-is",
+    "info": "Vara info",
+    "list": {
+        "actions": "Toimingud",
+        "ask": "Ask",
+        "balance": "Saldo",
+        "bid": "Bid",
+        "change": "24t Muudatus",
+        "inOrders": "Reserveeritud",
+        "mirror": "Väärtus, {span.currency} [{{currency}}]",
+        "name": "Vara nimi",
+        "rate": "Hind, {span.currency} [{{currency}}]"
+    },
+    "myassets": "Minu varad ({span} [{{count}}])",
+    "pin": "Kinnita vaatesse",
+    "portfolio": {
+        "filter": "Otsing"
+    },
+    "qr": "Teie aadress",
+    "qualified": "kvalifitseeritud",
+    "qualifieds": "Kvalifitseeritud ({span}[{{count}}])",
+    "receive": "Võta vastu",
+    "reissue": "Tokeni taasemiteerimine",
+    "send": "Saada",
+    "setAssetScript": "Värskenda vara skripti",
+    "spam": "Spämm",
+    "spamAsset": "SPÄMM",
+    "spamselect": "Kahtlane ({span} [{{count}}])",
+    "sponsorship": "Aktiveerige sponsorlus",
+    "sponsorshipChange": "Muutke sponsorlust",
+    "sponsorshipStop": "Tühistage sponsorlus",
+    "tokenomica": "tokenomica",
+    "tospam": "Peida",
+    "unpin": "Eemalda vaatest",
+    "unspam": "Kuva"
+}

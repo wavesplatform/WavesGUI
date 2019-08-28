@@ -3,7 +3,6 @@ import { copy, readdir, readJSONSync, writeFile } from 'fs-extra';
 import { TaskFunction } from 'gulp';
 import { extname, join } from 'path';
 import { IMetaJSON, IPackageJSON } from '../ts-scripts/interface';
-import { loadLocales } from '../ts-scripts/utils';
 
 export function createElectronDebugTask(): TaskFunction {
     return function electronDebugTask() {
@@ -29,27 +28,13 @@ export function createElectronDebugTask(): TaskFunction {
         const excludeTypeScrip = list => list.filter(name => extname(name) !== '.ts');
         const copyNodeModules = () => Promise.all(meta.copyNodeModules.map(name => copy(name, join(root, name))));
         const copyI18next = () => copy(join(__dirname, '..', 'node_modules', 'i18next', 'dist'), join(root, 'i18next'));
-
-        const renameLocaleDirectory = () => {
-            const localesPath = join(root, 'locales');
-            const localePath = join(root, 'locale');
-
-            if (!existsSync(localesPath)) {
-                rename(localePath, localesPath, error => {
-                    if (error) {
-                        console.error('renaming of locale error', error);
-                        return;
-                    }
-                });
-            }
-        };
+        const copyLocales = () => copy(join(__dirname, '..', 'locale'), join(root, 'locales'));
 
         return readdir(srcDir)
             .then(excludeTypeScrip)
             .then(list => Promise.all(list.map(copyItem)))
             .then(makePackageJSON)
-            .then(() => loadLocales(root))
-            .then(() => renameLocaleDirectory())
+            .then(copyLocales)
             .then(copyNodeModules)
             .then(copyI18next);
     }

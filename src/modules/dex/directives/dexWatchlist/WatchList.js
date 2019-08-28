@@ -138,6 +138,12 @@
              */
             _poll;
 
+            /**
+             * @type {array}
+             * @private
+             */
+            _lockedPairs = [];
+
 
             constructor() {
                 super($scope);
@@ -247,6 +253,10 @@
                     this._assetIdPair.price === pairData.priceAsset.id;
             }
 
+            isLockedPair(amountAssetId, priceAssetId) {
+                return utils.isLockedInDex(amountAssetId, priceAssetId);
+            }
+
             /**
              * @param {WatchList.IPairDataItem} pairData
              */
@@ -255,6 +265,9 @@
                     amount: pairData.amountAsset.id,
                     price: pairData.priceAsset.id
                 };
+                if (this.isLockedPair(pair.amount, pair.price)) {
+                    return null;
+                }
                 this._isSelfSetPair = true;
                 this._assetIdPair = pair;
                 this._isSelfSetPair = false;
@@ -376,7 +389,9 @@
                         this.loadingError = false;
                         return pairs.map(WatchList._addRateForPair(rate));
                     })
-                    .catch(() => (this.loadingError = true));
+                    .catch(() => {
+                        this.loadingError = true;
+                    });
             }
 
             /**
@@ -675,14 +690,14 @@
                         return null;
                     }
 
-                    const $body = $element.find('.smart-table__w-tbody');
+                    const $body = $element.find('.smart-table__tbody');
                     const scroll = $body.scrollTop();
                     const chosenOffset = $chosen.offset().top;
                     const bodyOffset = $body.offset().top;
 
                     const top = chosenOffset - bodyOffset + scroll - $body.height() / 2 + $chosen.height() / 2;
 
-                    $element.find('.smart-table__w-tbody').animate({
+                    $element.find('.smart-table__tbody').animate({
                         scrollTop: top
                     }, 300);
                 }, 300);

@@ -1,0 +1,15 @@
+{
+    "signUp": {
+        "headers": {
+            "onePassBtn": "Let’s start!",
+            "onePassDesc": "Local data storage, seed phrases and encryption make WAVES DEX reliable. However, we are going further. It’s time to switch on a new security level. Log into your accounts and switch between them by a couple of taps.",
+            "onePassword": "One password for all your accounts",
+            "protect": "Protect Your Accounts",
+            "protectDesc": "Set a single password for all your accounts",
+            "protectPass": "Create a password"
+        },
+        "password": {
+            "notMatch": "Password does not match"
+        }
+    }
+}

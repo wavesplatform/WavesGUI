@@ -92,6 +92,10 @@
             /**
              * @type {string}
              */
+            encryptedPrivateKey;
+            /**
+             * @type {string}
+             */
             userType;
             /**
              * @type {object}
@@ -330,6 +334,16 @@
                 }
             }
 
+            initScriptInfoPolling() {
+                clearTimeout(this._scriptInfoPollTimeoutId);
+                this._scriptInfoPollTimeoutId = setTimeout(() => {
+                    if (this._scriptInfoPoll) {
+                        this._scriptInfoPoll.destroy();
+                    }
+                    this._scriptInfoPoll = new Poll(() => this.updateScriptAccountData(), () => null, 10000);
+                }, 30000);
+            }
+
             /**
              * @param {object} data
              * @param {string} data.address
@@ -341,10 +355,7 @@
                 this.networkError = false;
 
                 return this._addUserData(data).then(() => {
-                    this._scriptInfoPollTimeoutId = setTimeout(() => {
-                        this._scriptInfoPoll = new Poll(() => this.updateScriptAccountData(), () => null, 10000);
-                    }, 30000);
-
+                    this.initScriptInfoPolling();
                     analytics.send({ name: 'Sign In Success' });
                 });
             }
@@ -355,6 +366,7 @@
              * @param {string} data.name
              * @param {string} data.id
              * @param {string} data.encryptedSeed
+             * @param {string} data.encryptedPrivateKey
              * @param {string} data.publicKey
              * @param {string} data.password
              * @param {string} data.userType
@@ -377,6 +389,7 @@
                     name: data.name,
                     userType: data.userType,
                     encryptedSeed: data.encryptedSeed,
+                    encryptedPrivateKey: data.encryptedPrivateKey,
                     publicKey: data.publicKey,
                     settings: {
                         termsAccepted: false,
@@ -387,6 +400,7 @@
                         dontShowSpam: true
                     }
                 }).then(() => {
+                    this.initScriptInfoPolling();
                     if (restore) {
                         analytics.send({
                             name: 'Import Backup Success',
@@ -408,6 +422,10 @@
              * @param {string} [stateName]
              */
             logout(stateName) {
+                if (!this.isAuthorised) {
+                    return null;
+                }
+
                 ds.app.logOut();
                 clearTimeout(this._scriptInfoPollTimeoutId);
 
@@ -418,6 +436,7 @@
                 if (stateName) {
                     this.logoutSignal.dispatch({});
                     this._resetFields();
+                    this.changeTheme(themes.getDefaultTheme());
                     $state.go(stateName, undefined, { custom: { logout: true } });
                 } else if (WavesApp.isDesktop()) {
                     transfer('reload');
@@ -584,6 +603,7 @@
                 this.name = null;
                 this.publicKey = null;
                 this.encryptedSeed = null;
+                this.encryptedPrivateKey = null;
                 this.userType = null;
                 this.settings = Object.create(null);
                 this.lastLogin = Date.now();
@@ -660,7 +680,9 @@
                         ds.app.login(data.address, data.api);
 
                         data.api.onDestroy(() => {
-                            this.logout('welcome');
+                            if (this.isAuthorised) {
+                                this.logout('welcome');
+                            }
                         });
 
                         return this.addMatcherSign()

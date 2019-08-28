@@ -71,4 +71,5 @@ export interface IConfigParams {
     remappedAssetNames: IHash<string>;
     oracleWaves: string;
     oracleTokenomica: string;
+    tokenrating: string;
 }
