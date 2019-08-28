@@ -25,6 +25,7 @@ ut = new utils()
 scripts = new scripts()
 def buildTasks = [:]
 def deployTasks = [:]
+def remote_destination = [:]
 def artifactsDir = 'out'
 def container_info = [:]
 buildTasks.failFast = true
@@ -190,13 +191,14 @@ timeout(time:20, unit:'MINUTES') {
                     parallel buildTasks
 
                     ['wallet', 'wallet-electron'].each{ serviceName ->
+                        remote_destination[serviceName] = destination
                         deployTasks["Deploying " + serviceName] = {
                             stage("Deploying " + serviceName) {
                                 pipeline_status["deployed-${serviceName}"] = false
                                 if (action.contains('Deploy')) {
                                     if (image == serviceName || image =="both" ) {
                                         def waves_wallet_deployment_map = [
-                                            domain_name: destination.replaceAll("\\.","-"),
+                                            domain_name: remote_destination[serviceName].replaceAll("\\.","-"),
                                             network: network,
                                             tag: source,
                                             image: serviceName,
@@ -204,7 +206,7 @@ timeout(time:20, unit:'MINUTES') {
                                         ]
 
                                         if (action.contains('PROD')) {
-                                            destination = Constants.WAVES_WALLET_PROD_DOMAIN_NAMES[network + '-' + serviceName]
+                                            remote_destination[serviceName] = Constants.WAVES_WALLET_PROD_DOMAIN_NAMES[network + '-' + serviceName]
                                             deploymentFile = "./kubernetes/waves-wallet-${network}/deployment.yaml"
                                             waves_wallet_deployment_map.domain_name = Constants.WAVES_WALLET_PROD_DOMAIN_NAMES[network + '-' + serviceName].replaceAll("\\.","-")
                                         }
@@ -230,7 +232,7 @@ timeout(time:20, unit:'MINUTES') {
                                         pipeline_status["deployed-${serviceName}"] = true
                                         ut.notifySlack("waves-deploy-alerts",
                                             currentBuild.result,
-                                            "Deployed image:\n${Constants.DOCKER_REGISTRY}/waves/${serviceName}:${source} ${network} to ${destination}")
+                                            "Deployed image:\n${Constants.DOCKER_REGISTRY}/waves/${serviceName}:${source} ${network} to ${remote_destination[serviceName]}")
 
                                     } else {
                                         org.jenkinsci.plugins.pipeline.modeldefinition.Utils.markStageSkippedForConditional("Deploying " + serviceName)
