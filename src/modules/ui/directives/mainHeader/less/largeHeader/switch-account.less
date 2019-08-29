@@ -16,7 +16,7 @@
     position: relative;
     display: block;
     color: @color-basic-900;
-    border-bottom: 1px solid @color-info-50;
+    border-bottom: 1px solid @mobile-menu-inner-border;
 
     &::before {
       content: "";
@@ -33,21 +33,21 @@
   &__list {
     flex: 1;
     max-height: 195px;
-    padding-right: 20px;
+    padding: 4px 20px 4px 0;
     overflow: auto;
     overflow-x: hidden;
   }
 
   &__item {
     display: flex;
+    align-items: center;
     width: 230px;
 
     &-wrap {
       padding: 6px 10px;
-      margin: 8px 0;
+      margin-bottom: 4px;
       cursor: pointer;
       position: relative;
-      height: 42px;
       border-radius: @border-radius;
       transition: all .3s;
 
@@ -56,6 +56,7 @@
 
         & .switch-accounts__remove {
           display: block;
+          background-size: 12px;
         }
 
         & .switch-accounts__address {
@@ -112,6 +113,7 @@
 
   &__address {
     font-size: 11px;
+    line-height: normal;
     text-overflow: ellipsis;
     width: 100%;
     overflow: hidden;

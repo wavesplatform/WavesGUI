@@ -242,7 +242,7 @@
                                     ></w-avatar>
                                     <div class="switch-accounts__info-wrap">
                                         <div class="switch-accounts__name-wrap">
-                                            <div class="switch-accounts__name body-2" ng-if="user.name">{{user.name}}</div>
+                                            <div class="switch-accounts__name footnote-1" ng-if="user.name">{{user.name}}</div>
                                             <span ng-if="$ctrl.isCurrentUser(user)"
                                                 class="switch-accounts__active"
                                                 w-i18n-ns="app.ui"
@@ -260,7 +260,7 @@
                             <div ng-repeat="user in $ctrl.userListLocked track by $index"
                                 class="switch-accounts__item-wrap switch-accounts__item-wrap_unlock"
                             >
-                                <div ng-click="$ctrl.unlockUser(user)" style="display: flex;" class="switch-accounts__item">
+                                <div ng-click="$ctrl.unlockUser(user)" class="switch-accounts__item">
                                     <w-avatar
                                         type="{{::user.userType}}"
                                         size="30"
@@ -268,7 +268,7 @@
                                         class="switch-accounts__avatar"
                                     ></w-avatar>
                                     <div class="switch-accounts__info-wrap">
-                                        <div class="switch-accounts__name" ng-if="user.name">{{user.name}}</div>
+                                        <div class="switch-accounts__name footnote-1" ng-if="user.name">{{user.name}}</div>
                                         <div class="switch-accounts__address">{{::user.address}}</div>
                                     </div>
                                 </div>

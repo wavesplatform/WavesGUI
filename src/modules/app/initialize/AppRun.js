@@ -160,7 +160,7 @@
             }
 
             _initTryDesktop() {
-                if (!isDesktop || WavesApp.isDesktop()) {
+                if (user.isSignedIn || !isDesktop || WavesApp.isDesktop()) {
                     return Promise.resolve(true);
                 }
 
@@ -357,7 +357,7 @@
                         }
 
                         if (!multiAccount.isSignedIn) {
-                            transition.abort();
+                            return $state.target(START_STATES[0]);
                         }
                     }
 
@@ -494,6 +494,9 @@
                         },
                         onClose: () => {
                             analytics.send({ name: 'Create Save Phrase No Click', target: 'ui' });
+
+                            notification.remove(id);
+
                             if (scope.closeByModal || user.getSetting('hasBackup')) {
                                 return null;
                             }

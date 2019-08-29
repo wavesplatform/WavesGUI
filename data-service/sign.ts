@@ -6,6 +6,7 @@ export interface IUserData {
     networkByte: number;
     seed?: string;
     id?: string;
+    privateKey?: string;
     publicKey?: string;
 }
 
@@ -40,7 +41,7 @@ export function getSignatureApi(): Adapter {
             setSignatureApi(
                 _userData.userType === 'seed' ?
                     new ConcreteAdapter(_userData.seed, _userData.networkByte) :
-                    new ConcreteAdapter(_userData)
+                    new ConcreteAdapter(_userData.privateKey, _userData.networkByte)
             );
         } catch (e) {
             return API;

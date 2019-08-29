@@ -1,4 +1,5 @@
 @import (reference) url('config');
+@import (reference) 'icons';
 
 w-copy-wrap-default {
   position: relative;
@@ -8,7 +9,7 @@ w-copy-wrap-default {
   cursor: pointer;
 
   .copy-icon {
-    background: url(/img/icons/copy-14-basic500.svg) center no-repeat;
+    background: @copy-icon center no-repeat;
     display: block;
     width: 14px;
     height: 14px;

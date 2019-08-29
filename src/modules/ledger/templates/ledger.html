@@ -1,4 +1,5 @@
 <w-main-header class="main-header"></w-main-header>
+
 <div w-i18n-ns="app.ledger" class="main-container movable">
     <div class="main-container-wrapper">
         <div class="import-content get-started-content">
@@ -43,16 +44,20 @@
                         <div class="step-left" ng-click="$ctrl.stepLeft()" ng-class="{disabled: $ctrl.disabledLeft}"><div class="icon-left"></div></div>
                         <div class="step-right" ng-click="$ctrl.stepRight()" ng-class="{disabled: $ctrl.disabledRight}"><div class="icon-right"></div></div>
                     </div>
-                <div class="avatars-list">
-                    <div class="avatar-wrapper"
-                         ng-if="!$ctrl.loading"
-                         ng-class="{active: $ctrl.selectedUser === user, disabled: $ctrl.isUserDisable($index)}"
-                         ng-repeat="user in $ctrl.visibleUsers track by user.id"
-                         ng-click="$ctrl.selectUser(user)">
-                         <w-avatar address="user.address"
-                                  type="ledger"></w-avatar>
+
+                    <div class="avatars-list">
+                        <div class="avatar-wrapper"
+                            ng-if="!$ctrl.loading"
+                            ng-class="{active: $ctrl.selectedUser === user, disabled: $ctrl.isUserDisable($index)}"
+                            ng-repeat="user in $ctrl.visibleUsers track by user.id"
+                            ng-click="$ctrl.selectUser(user)"
+                        >
+                            <w-avatar
+                                address="user.address"
+                                type="ledger"
+                            ></w-avatar>
+                        </div>
                     </div>
-                </div>
 
                     <div class="loader-wrapper" ng-if="$ctrl.loading">
                         <w-loader></w-loader>
@@ -71,17 +76,19 @@
                         <span w-i18n="ledgerForm.selectDefault"></span>
                     </label>
                 </div>
-                <div class="margin-2">
+
+                <div class="margin-3">
                     <div class="body-2 basic-900 margin-05" w-i18n="ledgerForm.name"></div>
                     <form name="$ctrl.importForm">
                         <w-input-container>
-                            <w-input w-autofocus
-                                     name="userName"
-                                     class="big no-icon"
-                                     type="text"
-                                     maxlength="24"
-                                     ng-model="$ctrl.name"
-                                     required>
+                            <w-input
+                                w-autofocus
+                                name="userName"
+                                class="big no-icon"
+                                type="text"
+                                maxlength="24"
+                                ng-model="$ctrl.name"
+                                required>
                             </w-input>
                             <w-input-error ng-class="{hidden: !$ctrl.importForm.userName.$error.isUnique}">
                                 <span w-i18n="ledgerForm.nameExists"></span>
@@ -92,13 +99,18 @@
 
                 <div class="margin-1 margin-top-1 error-500" ng-if="$ctrl.isPriorityUserTypeExists" w-i18n="ledgerForm.addressSaved"></div>
 
-                <w-button disabled="$ctrl.disabledLogin || $ctrl.isPriorityUserTypeExists || $ctrl.importForm.$invalid"
-                          class="submit big long" on-click="$ctrl.login()">
+                <w-button
+                    disabled="$ctrl.disabledLogin || $ctrl.isPriorityUserTypeExists || $ctrl.importForm.$invalid"
+                    class="submit big long"
+                    on-click="$ctrl.login()"
+                >
                     <span w-i18n="ledgerForm.login"></span>
                 </w-button>
-                <w-get-started-link has-sign-in="::true" has-create="::true"></w-get-started-link>
+
+                <w-get-started-link has-create="::true"></w-get-started-link>
             </div>
         </div>
     </div>
 </div>
+
 <w-footer></w-footer>

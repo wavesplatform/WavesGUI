@@ -319,12 +319,13 @@
                 const mainHeaderUser = $element.find(`.${SELECTORS.MAIN_HEADER_USER}`);
 
                 if (mainHeaderUser.hasClass('open')) {
-                    mainHeaderUser.removeClass('open');
-                    $element.find(`.${SELECTORS.MAIN_HEADER_FADER}`).removeClass('show-fader');
                     this.onBlur();
                     this.isShowAccounts = false;
                     this.isMenuOpen = false;
                 }
+
+                mainHeaderUser.removeClass('open');
+                $element.find(`.${SELECTORS.MAIN_HEADER_FADER}`).removeClass('show-fader');
             }
 
             /**
@@ -345,6 +346,10 @@
             }
 
             switchUser(toUser) {
+                if (toUser.hash === user.hash) {
+                    return;
+                }
+
                 user.logout('switch', true);
                 user.login(toUser);
             }

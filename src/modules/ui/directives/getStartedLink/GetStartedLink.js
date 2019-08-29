@@ -6,7 +6,6 @@
         class GetStartedLinkCtrl extends Base {
 
             hasMultiAccount;
-            hasSignIn;
             hasCreate;
             hasImport;
 
@@ -38,7 +37,6 @@
     angular.module('app.ui').component('wGetStartedLink', {
         templateUrl: 'modules/ui/directives/getStartedLink/getStartedLink.html',
         bindings: {
-            hasSignIn: '<',
             hasCreate: '<',
             hasImport: '<'
         },
