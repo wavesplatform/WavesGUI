@@ -45,7 +45,7 @@
             }
 
             get loaded() {
-                return this.amountBalance && this.priceBalance;
+                return this.amountBalance && this.priceBalance && this.fee;
             }
 
             /**
@@ -710,30 +710,32 @@
              * @private
              */
             _updateField(newState) {
-                this._setSilence(() => {
-                    this._applyState(newState);
+                if (this.loaded) {
+                    this._setSilence(() => {
+                        this._applyState(newState);
 
-                    const inputKeys = ['price', 'total', 'amount'];
-                    const changingValues = without(keys(newState), inputKeys);
+                        const inputKeys = ['price', 'total', 'amount'];
+                        const changingValues = without(keys(newState), inputKeys);
 
-                    let changingValue;
-                    if (changingValues.length === 1) {
-                        changingValue = changingValues[0];
-                    } else {
-                        if (this.changedInputName.length === 0) {
-                            this.changedInputName.push('price');
-                        }
-
-                        if (changingValues.some(el => el === last(this.changedInputName))) {
-                            changingValue = changingValues.find(el => el !== last(this.changedInputName));
+                        let changingValue;
+                        if (changingValues.length === 1) {
+                            changingValue = changingValues[0];
                         } else {
-                            changingValue = without(this.changedInputName, changingValues)[0];
-                        }
-                    }
+                            if (this.changedInputName.length === 0) {
+                                this.changedInputName.push('price');
+                            }
 
-                    this._calculateField(changingValue);
-                    this._setIfCanBuyOrder();
-                });
+                            if (changingValues.some(el => el === last(this.changedInputName))) {
+                                changingValue = changingValues.find(el => el !== last(this.changedInputName));
+                            } else {
+                                changingValue = without(this.changedInputName, changingValues)[0];
+                            }
+                        }
+
+                        this._calculateField(changingValue);
+                        this._setIfCanBuyOrder();
+                    });
+                }
             }
 
             /**

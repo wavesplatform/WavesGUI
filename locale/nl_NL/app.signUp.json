@@ -1,0 +1,15 @@
+{
+    "signUp": {
+        "headers": {
+            "onePassBtn": "Laten we beginnen!",
+            "onePassDesc": "Lokale gegevensopslag, SEEDs en encryptie maken WAVES DEX betrouwbaar. We gaan echter verder. Het is tijd om een nieuw beveiligingsniveau in te schakelen. Meld u aan bij uw accounts en schakel gemakkelijk tussen accounts.",
+            "onePassword": "Eén wachtwoord voor al uw accounts",
+            "protect": "Bescherm uw accounts",
+            "protectDesc": "Stel een enkel wachtwoord in voor al uw accounts",
+            "protectPass": "Maak een wachtwoord"
+        },
+        "password": {
+            "notMatch": "Wachtwoorden komen niet overeen"
+        }
+    }
+}

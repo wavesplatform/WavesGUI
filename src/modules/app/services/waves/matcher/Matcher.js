@@ -97,15 +97,11 @@
             }
 
             /**
+             * @param options
              * @return {Promise<Array<IOrder>>}
              */
-            @decorators.cachable(1)
             getOrders(options) {
-                if (user.address) {
-                    return ds.api.matcher.getOrders(options).then(ds.processOrdersWithStore);
-                } else {
-                    return Promise.resolve([]);
-                }
+                return this._getOrders(options, user.address);
             }
 
             /**
@@ -283,6 +279,21 @@
                             });
                         });
                     });
+            }
+
+            /**
+             * @param {any} [options]
+             * @param {string} [address]
+             * @return {Promise<Array<IOrder>>}
+             * @private
+             */
+            @decorators.cachable(1)
+            _getOrders(options, address) {
+                if (address) {
+                    return ds.api.matcher.getOrders(options).then(ds.processOrdersWithStore);
+                } else {
+                    return Promise.resolve([]);
+                }
             }
 
             /**

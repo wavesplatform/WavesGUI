@@ -1,0 +1,27 @@
+{
+    "continue": "Продолжить",
+    "copy": "Copy",
+    "copySeed": "Copy Seed phrase",
+    "createAccount": "Создать аккаунт",
+    "goBack": "go back",
+    "notHaveAccounts": "У вас нет сохранённых аккаунтов",
+    "nothingHere": "Пока ничего нет…",
+    "password": {
+        "error": "Неправильный пароль!"
+    },
+    "userList": {
+        "address": "Адрес / Название аккаунта",
+        "buttons": {
+            "login": "Войти"
+        },
+        "exportUser": "Экспортируйте ваш аккаунт",
+        "notHaveAccount": "Чтобы продолжить, пожалуйста, войдите",
+        "password": "Пароль",
+        "placeholders": {
+            "password": "Пароль"
+        },
+        "title": "С возвращением"
+    },
+    "warn": "Since only you control your money, you’ll need to save your Seed phrase in case this app is deleted or",
+    "yourSeed": "Your Seed phrase"
+}

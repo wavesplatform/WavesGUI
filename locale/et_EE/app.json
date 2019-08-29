@@ -1,0 +1,94 @@
+{
+    "back": "Mine tagasi",
+    "button": {
+        "cancel": "Tühista",
+        "continue": "Jätka"
+    },
+    "confirmTransaction": {
+        "notPermitted": {
+            "issue": "Tokenite emiteerimine pole ajutiselt saadaval.",
+            "issue-title": "Tokeni loomine",
+            "massSendTitle": "Massülekanne",
+            "reissue": "Tokeni taasemiteerimine pole ajutiselt saadaval.",
+            "sendTitle": "Saada",
+            "set-script-title": "Skripti tehing"
+        },
+        "send": {
+            "errors": {
+                "fee": "Teil ei ole piisavalt vahendeid nõutavate tasude maksmiseks. Peate maksma  {{fee, money-currency}} tehingu tasu;"
+            }
+        }
+    },
+    "date": {
+        "month": [
+            "jaan",
+            "veebr",
+            "märts",
+            "apr",
+            "mai",
+            "juuni",
+            "juuli",
+            "aug",
+            "sept",
+            "okt",
+            "nov",
+            "dets"
+        ]
+    },
+    "EXK2jJo1PbL9CUNr5FSedw6cueZH5MUCDXNhR1WQEZa4": {
+        "description": "Aloha funky coin, for any good&evil purposes ;)"
+    },
+    "fee": "{{money, money-fee}}",
+    "header": {
+        "assets": "Varad",
+        "dex": "DEX",
+        "leasing": "Liising",
+        "portfolio": "Portfell",
+        "tokens": "Tokenid",
+        "transactions": "Tehingud",
+        "wallet": "Rahakott"
+    },
+    "inputs": {
+        "errors": {
+            "required": "Selle välja täitmine on kohustuslik!"
+        }
+    },
+    "leftmenu": {
+        "login": "Logi sisse",
+        "logout": "Logi välja",
+        "settings": "Seaded"
+    },
+    "matcher": {
+        "orders": {
+            "statuses": {
+                "canceled": "Tühistatud",
+                "filled": "Täidetud ({{percent}}%)",
+                "opened": "Avatud"
+            }
+        }
+    },
+    "modal": {
+        "enterPassword": {
+            "ok": "Okei",
+            "title": "Sisestage parool"
+        },
+        "pairing": {
+            "showQr": "Näita"
+        },
+        "tryDesktop": {
+            "cancel": "Jätka veebis",
+            "label": "Jäta mu valik meelde ja ära enam meelde tuleta",
+            "message": "Soovitame kasutada rakendust Waves desktop. Kui Teil seda ei ole, saate selle alla laadida ametlikust saidist.",
+            "title": "Kasutage rakendust Waves desktop",
+            "try": "Avage Waves desktop rakendus"
+        }
+    },
+    "money-currency": "{{money, money-currency}}",
+    "number": {
+        "short": {
+            "million": "M",
+            "thousand": "k"
+        }
+    },
+    "Suspicious": "Kahtlane"
+}

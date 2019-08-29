@@ -10,9 +10,11 @@
      * @param {$injector} $injector
      * @param {State} state
      * @param {Storage} storage
+     * @param {User} user
      * @return {ModalManager}
      */
-    const factory = function ($mdDialog, utils, decorators, $templateRequest, $rootScope, $injector, state, storage) {
+    const factory = function ($mdDialog, utils, decorators, $templateRequest, $rootScope, $injector, state, storage,
+                              user) {
 
         const tsUtils = require('ts-utils');
         const ds = require('data-service');
@@ -50,13 +52,8 @@
                  */
                 this._counter = 0;
 
-                state.signals.changeRouterStateStart.on(() => {
-                    const counter = this._counter;
-
-                    for (let i = 0; i < counter; i++) {
-                        $mdDialog.cancel();
-                    }
-                });
+                state.signals.changeRouterStateStart.on(this.closeModals, this);
+                user.logoutSignal.on(this.closeModals, this);
             }
 
             showScriptModal() {
@@ -171,7 +168,7 @@
                     contentUrl: 'modules/utils/modals/assetInfo/assetInfo.html',
                     locals: asset,
                     controller: 'AssetInfoCtrl',
-                    mod: 'asset-info-modal'
+                    mod: 'm-dialog m-dialog_asset-info'
                 });
             }
 
@@ -267,6 +264,22 @@
                     locals: {
                         assets
                     }
+                });
+            }
+
+            showAccountChangeName() {
+                return this._getModal({
+                    id: 'changeName',
+                    templateUrl: 'modules/utils/modals/changeName/changeName.html',
+                    controller: 'ChangeNameCtrl'
+                });
+            }
+
+            showAccountAddress() {
+                return this._getModal({
+                    id: 'addressInfo',
+                    templateUrl: 'modules/utils/modals/addressInfo/addressInfo.html',
+                    controller: 'AddressInfoCtrl'
                 });
             }
 
@@ -544,6 +557,14 @@
                 return this._getModal(tsUtils.merge({}, DEFAULT_OPTIONS, options));
             }
 
+            closeModals() {
+                const counter = this._counter;
+
+                for (let i = 0; i < counter; i++) {
+                    $mdDialog.cancel();
+                }
+            }
+
             /**
              * @return {User}
              * @private
@@ -782,7 +803,8 @@
         '$rootScope',
         '$injector',
         'state',
-        'storage'];
+        'storage',
+        'user'];
 
     angular.module('app.utils')
         .factory('modalManager', factory);
