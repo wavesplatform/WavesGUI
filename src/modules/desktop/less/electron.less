@@ -3,6 +3,12 @@
 @import (reference) '../../app/less/typography';
 
 body.desktop {
+  w-web-only {
+    &:empty {
+      display: none;
+    }
+  }
+
   .import-modal__blocks-wrapper {
     flex-direction: column;
     max-width: @getStartedContentWidth;
@@ -51,26 +57,30 @@ body.desktop {
     display: none;
   }
 
-  w-footer {
-    margin-top: auto;
-  }
-
   .footer {
-    > section {
-      overflow: visible;
-    }
+    background: @color-info-50;
 
-    .section-wrapper {
+    &__wrap {
       display: flex;
       align-items: center;
       padding: 20px;
+      color: @color-basic-500;
+      font-size: 13px;
     }
 
-    &-left {
+    &__left {
       margin-left: auto;
       flex-direction: row-reverse;
       display: flex;
       align-items: center;
+
+      &-item {
+        white-space: nowrap;
+        .footnote-1();
+        color: @color-basic-500;
+        margin-left: 15px;
+        margin-bottom: 0;
+      }
     }
 
     &-actions {
@@ -92,14 +102,6 @@ body.desktop {
           background: @color-basic-300;
         }
       }
-    }
-
-    &-copyright {
-      white-space: nowrap;
-      .footnote-1();
-      color: @color-basic-500;
-      margin-left: 15px;
-      margin-bottom: 0;
     }
 
     w-select .select .title {
@@ -142,17 +144,13 @@ body.desktop {
   }
 
   &:not(.main) {
-    w-site-header .header-wrapper {
+    .main-header__wrapper {
       width: auto;
     }
   }
 
-  w-site-header .header-wrapper {
+  .main-header__wrapper {
     justify-content: center;
-
-    &:after {
-      content: none;
-    }
   }
 
   @media screen and (max-width: 1440px) {
