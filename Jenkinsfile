@@ -46,16 +46,16 @@ properties([
             // source depends on choice parameter above and dynamically
             // loads either Git repo branches for building or Docker Registry tags for deploy
             ut.cascadeChoiceParameterObject('source', scripts.getBranchesOrTags('waves/wallet', 'Waves', repo_url), 'action', 'PARAMETER_TYPE_SINGLE_SELECT', true),
-            
+
             // image to deploy from - depends on choice parameter above and used if deploying is specified.
             ut.cascadeChoiceParameterObject('image', scripts.getImages(), 'action'),
 
             // network is either mainnet, testnet or stagenet - depends on choice parameter above and used if deploying is specified.
             ut.cascadeChoiceParameterObject('network', scripts.getNetworks(), 'action'),
-            
+
             // destination is a remote server to deploy to - depends on choice parameter above and used if deploying is specified.
             ut.cascadeChoiceParameterObject('destination', scripts.getDestinations(Constants.WAVES_WALLET_PROD_DOMAIN_NAMES, Constants.WAVES_WALLET_STAGE_SERVERS, true), 'action,image'),
-            
+
             // confirm is an extra check before we deploy to prod
             ut.cascadeChoiceParameterObject('confirm', scripts.getConfirms(), 'action', 'PARAMETER_TYPE_CHECK_BOX'),
         ]),
@@ -145,7 +145,7 @@ timeout(time:20, unit:'MINUTES') {
                                     pipeline_status["built-${serviceName}"] = false
                                     if (action.contains('Build')) {
                                         def platform = (serviceName == 'wallet') ? 'web' : 'desktop'
-                                        
+
                                         // configure nginx template
                                         def waves_wallet_nginx_map = Constants.WAVES_WALLET_NGINX_MAP.clone()
                                         waves_wallet_nginx_map.nginx_platform = "${platform}"
@@ -157,7 +157,7 @@ timeout(time:20, unit:'MINUTES') {
                                         String dockerfileConfFileContent = ut.replaceTemplateVars('./Dockerfile_template', waves_wallet_dockerfile_map)
                                         writeFile file: './Dockerfile', text: dockerfileConfFileContent
 
-                                        // configure a page with container_info which 
+                                        // configure a page with container_info which
                                         // contains all info about Jenkins build and git parameters
                                         container_info["${serviceName}"] = ""           +
                                             "<p>Job name:       ${env.JOB_NAME}</p>"    +
@@ -268,7 +268,7 @@ timeout(time:20, unit:'MINUTES') {
                         if (image == serviceName || image =="both" ) {
                             ut.notifySlack("waves-deploy-alerts",
                                     currentBuild.result,
-                                    "Failed to deploy image:\n${Constants.DOCKER_REGISTRY}/waves/${serviceName}:${source} ${network} to ${destination}")
+                                    "Failed to deploy image:\n${Constants.DOCKER_REGISTRY}/waves/${serviceName}:${source} ${network} to ${remote_destination[serviceName]}")
                         }
                     }
                     sh "tar -czvf artifacts.tar.gz -C ./${artifactsDir} ."
