@@ -3,6 +3,7 @@
     "burn": "Distruggi Token",
     "deposit": "Deposita",
     "dex": "Apri in DEX",
+    "hasNftToken": "Do you have [NFT](https://wavesexplorer.com/address/{{address}})",
     "info": "Info Asset",
     "list": {
         "actions": "Azioni",

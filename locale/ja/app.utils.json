@@ -193,6 +193,12 @@
             "message": "トレードを開始するには、サインインまたはアカウントを作成してください",
             "ok": "サインイン"
         },
+        "deleteAccount": {
+            "cancel": "Cancel",
+            "delete": "Remove",
+            "description": "{div}[Removing an account will lead to its irretrievable loss if you didn't save a backup phrase (SEED).]\n{div}[Click on the REMOVE button to proceed with account removal, or CANCEL to return to the previous screen.]",
+            "header": "Remove account"
+        },
         "deposit": {
             "coinomatBCH": {
                 "helpDescrText": "トランザクションが承認されると、ゲートウェイはBCHの送信を進め、完了するとあなたのWavesアカウントにトークンが反映されます。",
@@ -606,8 +612,10 @@
             "warningHeader": "アクションが資産の消失に繋がる可能性があります。"
         },
         "settings": {
+            "account": "Account",
             "cancel": "アカウントを作成",
             "changePass": "Change password",
+            "deleteAccount": "Remove account",
             "general": {
                 "auto": "自動",
                 "blockHeight": "現在のブロック",
@@ -914,6 +922,7 @@
                 "1_3_18": "{span.line}[1. 秘密鍵によるログインが可能になりました。]{span.line}[2. 24時間以内のトークン価格の変化がトークン/WAVESペアに対応しました。]",
                 "1_3_19": "{span.line}[1. Bancor gateway has been launched.]\n{span.line}[2. User menu interface has been improved.]",
                 "1_3_2": "{span.line} [1. Vostokのゲートウェイが追加されました。 \n{span.line} [2. UIの改善と、いくつかのマイナーなバグを修正しました。]",
+                "1_3_20": "{span.line}[1. Improved system for storing and restoring accounts from local storage (Need to update the [desktop application](https://wavesplatform.com/technology/wallet)).]\n{span.line}[2. Fixed rounding of prices in the orderbook.]",
                 "1_3_5": "{span.line}[1. [wsoc.io](https://wsoc.io) コンテスト用のトークンタブが追加されました。]{span.line}[2. フランス語に対応しました。]{span.line}[3. 一部のマイナーバグを修正しました。]",
                 "1_3_7": "{span.line}[1.[tokenrating.wavesexplorer.com](https://tokenrating.wavesexplorer.com) に対応。アプリから直接トークンのレーティングが可能に。]{span.line}[2. 追加のマイナーバグを修正しました。]",
                 "1_3_9": "{span.line}[1. 交換とウォレットセクションにおけるUIと機能の改善。]\n {span.line}[2. マイナーバグを修正。]"

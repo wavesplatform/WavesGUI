@@ -119,7 +119,7 @@
     },
     "userList": {
         "addNew": "Tambahkan akun",
-        "back": "Back",
+        "back": "Kembali",
         "create": "Membuat Akun",
         "frombackup": "dari cadangan",
         "import": "Impor akun",
@@ -129,7 +129,7 @@
     },
     "welcome": {
         "accountList": {
-            "locked": "Require unlocking"
+            "locked": "Harus dibuka kunci"
         },
         "address": "Alamat",
         "aliases": "Alias",
@@ -147,6 +147,7 @@
         "controlAssets": "Kontrol aset adalah milik Anda sendiri - dana tidak meninggalkan dompet Anda dan tidak dapat dibekukan",
         "copyAddress": "Salin alamat",
         "copyright": "© 2019 Waves Platform",
+        "copyrightVordex": "© 2019 VORDEX",
         "createToken": "Buat token",
         "currentAccountName": "Nama akun saat ini",
         "dashboard": "Dasbor",
@@ -181,6 +182,7 @@
         "macOs": "MacOS",
         "macOsDescription": "Unduh aplikasi MacOS",
         "mailto": "support.wavesplatform.com",
+        "mailtoVordex": "support@vordex.com",
         "mainPage": "Halaman Utama",
         "majorFiatCryptocurrencies": "Fiat dan cryptocurrency utama didukung: BTC, LTC, ETH, USD, dan lainnya",
         "markets": "Pasar",
@@ -209,7 +211,7 @@
         "stackOverflow": "Stack Overflow",
         "suitableTradingBots": "Cocok untuk bot perdagangan",
         "support": "Dukungan",
-        "switchAccount": "Switch account",
+        "switchAccount": "Ganti akun",
         "telegram": "Telegram",
         "termsOfUse": "Syarat Penggunaan",
         "tokenCreation": "Pembuatan token cepat",

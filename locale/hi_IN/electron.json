@@ -20,6 +20,12 @@
         }
     },
     "storage": {
+        "backup": {
+            "error": {
+                "body": "Failed to get accounts. Please contact the support service to restore the backup phrase (SEED phrase).",
+                "title": "Something went wrong!"
+            }
+        },
         "read": {
             "error": {
                 "body": "आपकी कीस लोड करने का प्रयास करते समय एक एरर हुई। हमने आपके खातों को बैकअप संग्रहण से पुनर्स्थापित किया है।",

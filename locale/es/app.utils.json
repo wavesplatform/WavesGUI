@@ -193,6 +193,12 @@
             "message": "Para empezar el comercio, por favor regístrete o crea una cuenta",
             "ok": "Registrarse"
         },
+        "deleteAccount": {
+            "cancel": "Cancel",
+            "delete": "Remove",
+            "description": "{div}[Removing an account will lead to its irretrievable loss if you didn't save a backup phrase (SEED).]\n{div}[Click on the REMOVE button to proceed with account removal, or CANCEL to return to the previous screen.]",
+            "header": "Remove account"
+        },
         "deposit": {
             "coinomatBCH": {
                 "helpDescrText": "Cuando la transacción se confirme, la pasarela procesará la transferencia de BCH a un token en tu cuenta Waves",
@@ -606,8 +612,10 @@
             "warningHeader": "Las acciones pueden provocar una pérdida del activo."
         },
         "settings": {
+            "account": "Account",
             "cancel": "Crear una cuenta",
             "changePass": "Change password",
+            "deleteAccount": "Remove account",
             "general": {
                 "auto": "Auto",
                 "blockHeight": "Altura de bloque",
@@ -914,6 +922,7 @@
                 "1_3_18": "{span.line}[1. Added login to wallet using a private key.]\n{span.line}[2. The 24 hours price change of a token is now bound to token/WAVES pair.]",
                 "1_3_19": "{span.line}[1. Bancor gateway has been launched.]\n{span.line}[2. User menu interface has been improved.]",
                 "1_3_2": "\"span.line\" [1. Se ha puesto en marcha la puerta de enlace Vostok.]\n\"span.line\" [2. Se ha corregido la interfaz de usuario y algunos errores menores.]",
+                "1_3_20": "{span.line}[1. Improved system for storing and restoring accounts from local storage (Need to update the [desktop application](https://wavesplatform.com/technology/wallet)).]\n{span.line}[2. Fixed rounding of prices in the orderbook.]",
                 "1_3_5": "\"span.line\" [1. Se ha añadido una pestaña con tokens de concurso [wsoc.io](https://wsoc.io).\n\"span.line\" [2. Se ha añadido compatibilidad con el idioma francés.]\n\"span.line\" [3. Se han corregido errores menores adicionales.]",
                 "1_3_7": "\"span.line\" [1. Integración con [tokenrating.wavesexplorer.com](https://tokenrating.wavesexplorer.com) Ahora puede calificar tokens directamente en la aplicación.]\n\"span.line\" [2. Se han corregido errores menores.]",
                 "1_3_9": "\"span.line\" [1. Mejora de la interfaz de usuario y la funcionalidad de las secciones de Intercambio y billetera.]\n\"span.line\" [2. Se han corregido errores menores adicionales.]"

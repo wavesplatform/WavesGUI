@@ -1,15 +1,15 @@
 {
     "signUp": {
         "headers": {
-            "onePassBtn": "Let’s start!",
-            "onePassDesc": "Local data storage, seed phrases and encryption make WAVES DEX reliable. However, we are going further. It’s time to switch on a new security level. Log into your accounts and switch between them by a couple of taps.",
-            "onePassword": "One password for all your accounts",
-            "protect": "Protect Your Accounts",
-            "protectDesc": "Set a single password for all your accounts",
-            "protectPass": "Create a password"
+            "onePassBtn": "Iniziamo!",
+            "onePassDesc": "L'archiviazione dei dati locali, delle frasi SEED e la crittografia rendono il WAVES DEX affidabile. Tuttavia, ci stiamo spingendo ancora più avanti. È ora di passare a un nuovo livello di sicurezza. Accedi ai tuoi account e passa da uno all'altro con un paio di tocchi.",
+            "onePassword": "Una password per tutti i tuoi account",
+            "protect": "Proteggi i tuoi account",
+            "protectDesc": "Imposta una sola password per tutti i tuoi account",
+            "protectPass": "Crea password"
         },
         "password": {
-            "notMatch": "Password does not match"
+            "notMatch": "La password non corrisponde"
         }
     }
 }

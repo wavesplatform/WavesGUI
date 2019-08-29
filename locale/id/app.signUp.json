@@ -1,15 +1,15 @@
 {
     "signUp": {
         "headers": {
-            "onePassBtn": "Let’s start!",
-            "onePassDesc": "Local data storage, seed phrases and encryption make WAVES DEX reliable. However, we are going further. It’s time to switch on a new security level. Log into your accounts and switch between them by a couple of taps.",
-            "onePassword": "One password for all your accounts",
-            "protect": "Protect Your Accounts",
-            "protectDesc": "Set a single password for all your accounts",
-            "protectPass": "Create a password"
+            "onePassBtn": "Ayo mulai!",
+            "onePassDesc": "Penyimpanan data lokal, frasa SEED, dan enkripsi membuat WAVES DEX terpercaya. Namun, kami melangkah lebih jauh. Saatnya untuk beralih ke tingkat keamanan baru. Masuk ke akun Anda dan beralih di antara mereka dengan beberapa ketukan.",
+            "onePassword": "Satu kata sandi untuk semua akun Anda",
+            "protect": "Lindungi Akun Anda",
+            "protectDesc": "Tetapkan satu kata sandi untuk semua akun Anda",
+            "protectPass": "buat kata sandi"
         },
         "password": {
-            "notMatch": "Password does not match"
+            "notMatch": "Kata sandi tidak cocok"
         }
     }
 }
