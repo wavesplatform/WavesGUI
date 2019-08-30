@@ -433,17 +433,11 @@
              * @private
              */
             _initializeTermsAccepted() {
-                return Promise.all([
-                    storage.load('needReadNewTerms'),
-                    storage.load('termsAccepted')
-                ]).then(([needReadNewTerms, termsAccepted]) => {
-
+                return storage.load('needReadNewTerms').then(needReadNewTerms => {
                     if (needReadNewTerms) {
                         return modalManager.showAcceptNewTerms(user);
-
-                    } else if (!termsAccepted) {
-                        return modalManager.showTermsAccept(user);
                     }
+
                     return Promise.resolve();
                 });
             }

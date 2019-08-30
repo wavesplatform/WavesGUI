@@ -208,30 +208,6 @@
                 });
             }
 
-            showTermsAccept() {
-                /**
-                 * @type {User}
-                 */
-                const user = $injector.get('user');
-
-                analytics.send({
-                    name: 'Create Done Show', params: { hasBackup: user.getSetting('hasBackup') }
-                });
-
-                return this._getModal({
-                    id: 'terms-accept',
-                    templateUrl: 'modules/utils/modals/termsAccept/terms-accept.html',
-                    controller: 'TermsAcceptCtrl',
-                    clickOutsideToClose: false,
-                    escapeToClose: false
-                })
-                    .then(() => {
-                        analytics.send({ name: 'Create Done Confirm and Begin Click' });
-                        storage.save('needReadNewTerms', false);
-                        storage.save('termsAccepted', true);
-                    });
-            }
-
             showAcceptNewTerms() {
                 return this._getModal({
                     id: 'accept-new-terms',
@@ -239,11 +215,9 @@
                     controller: 'AcceptNewTermsCtrl',
                     clickOutsideToClose: false,
                     escapeToClose: false
-                })
-                    .then(() => {
-                        storage.save('needReadNewTerms', false);
-                        storage.save('termsAccepted', true);
-                    });
+                }).then(() => {
+                    storage.save('needReadNewTerms', false);
+                });
             }
 
             showTutorialModals() {

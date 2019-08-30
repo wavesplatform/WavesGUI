@@ -86,7 +86,21 @@
                         </div>
                     </w-input-container>
 
-                    <w-button disabled="$ctrl.form.$invalid" class="submit long big">
+                    <div class="flex margin-3" ng-if="!$ctrl.termsAccepted">
+                        <w-checkbox-submit
+                            id="termsAgreement"
+                            name="termsAgreement"
+                            ng-model="$ctrl.termsAgreement"
+                        ></w-checkbox-submit>
+                        <label
+                            for="termsAgreement"
+                            class="footnote-1 basic-500"
+                            w-i18n="signUp.termsAgreement"
+                            w-i18n-ns="app.signUp"
+                        ></label>
+                    </div>
+
+                    <w-button disabled="$ctrl.invalid" class="submit long big">
                         <div class="full-width" w-i18n="button.continue"></div>
                     </w-button>
                 </form>
