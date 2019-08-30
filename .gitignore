@@ -10,6 +10,7 @@
 /electron/**/*.js.map
 /coverage
 /tmp
+/out
 *.pdx
 *.cer
 *.p12
