@@ -152,20 +152,20 @@ timeout(time:20, unit:'MINUTES') {
                         }
                         node('mobile'){
                             stage("Building Electron") {
-                                withCredentials(file(credentialsId: 'electron-signing-cert', variable: 'signing-cert')) {
-                                    sh "cp \$signing-cert ~/.electron-signing-cert" 
+                                withCredentials([file(credentialsId: 'electron-signing-cert', variable: 'signingCert')]) {
+                                    sh "cp ${signingCert} ~/.electronSigningCert" 
                                 }
-                                withCredentials([string(credentialsId: 'electron-signing-cert-passphrase', variable: 'signing-cert-passphrase')]) {
+                                withCredentials([string(credentialsId: 'electron-signing-cert-passphrase', variable: 'signingCertPassphrase')]) {
                                     sh """
                                     mkdir -p ${artifactsDir}/electron-clients
                                     npm ci --unsafe-perm
                                     ./node_modules/.bin/tsc -p ./
                                     ./node_modules/.bin/gulp all
 
-                                    WIN_CSC_LINK=~/.electron-signing-cert \
-                                    WIN_CSC_KEY_PASSWORD=${signing-cert-passphrase} \
-                                    CSC_LINK=~/.electron-signing-cert \
-                                    CSC_KEY_PASSWORD=${signing-cert-passphrase} \
+                                    WIN_CSC_LINK=~/.electronSigningCert \
+                                    WIN_CSC_KEY_PASSWORD=${signingCertPassphrase} \
+                                    CSC_LINK=~/.electronSigningCert \
+                                    CSC_KEY_PASSWORD=${signingCertPassphrase} \
                                     WAVES_CONFIGURATION=mainnet \
                                         ./node_modules/.bin/build --x64 -lmw \
                                             --config.directories.output=out/mainnet/ \
