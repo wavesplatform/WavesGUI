@@ -153,7 +153,7 @@ timeout(time:20, unit:'MINUTES') {
                         
                         withCredentials([file(credentialsId: 'electron-signing-cert', variable: 'signingCert')]) {
                             sh "cp  ${signingCert} .signingCert"
-                            stash includes: '.signingCert' name: 'electron-signing-cert'
+                            stash includes: '.signingCert', name: 'electron-signing-cert'
                         }
                         node('mobile'){
                             stage("Building Electron") {
