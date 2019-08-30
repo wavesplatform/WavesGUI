@@ -109,187 +109,186 @@ if (currentBuild.result == Constants.PIPELINE_ABORTED){
 }
 
 timeout(time:20, unit:'MINUTES') {
-    node('buildagent'){
+    node{
         currentBuild.result = Constants.PIPELINE_SUCCESS
         timestamps {
             wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
                 try {
                     currentBuild.displayName = "#${env.BUILD_NUMBER} - ${source} - ${action}"
 
-                    stage('Checkout') {
-                        sh 'env'
-                        step([$class: 'WsCleanup'])
-                        if (action.contains('Build')) {
-                            if (! action.contains('Electron')){
-                                ut.checkoutRelative(source, repo_url, 'WavesGUI', '')
-
-                                sh """
-                                cp -R ./WavesGUI/build-wallet/ ./WavesGUI/build-wallet-desktop/
-                                cp -R ./WavesGUI/ ./WavesGUI_tmp/
-                                cp -R ./WavesGUI_tmp/ ./WavesGUI/build-wallet/WavesGUI/
-                                mv ./WavesGUI_tmp/ ./WavesGUI/build-wallet-desktop/WavesGUI/
-                                """
-                                } 
-                            else {
-                                withCredentials([file(credentialsId: 'electron-signing-cert', variable: 'signingCert')]) {
-                                    sh "ls -la '${signingCert}' && cp '${signingCert}' '.signingCert'"
-                                    stash includes: '.signingCert', name: 'electron-signing-cert'
-                                }
-                                node('mobile'){
+                    withCredentials([file(credentialsId: 'electron-signing-cert', variable: 'signingCert')]) {
+                        sh "ls -la '${signingCert}' && cp '${signingCert}' '.signingCert'"
+                        stash includes: '.signingCert', name: 'electron-signing-cert'
+                    }
+                    if (action.contains('Build')) {
+                        if (action.contains('Electron')){
+                            node('mobile'){
+                                
+                                stage('Checkout') {
                                     step([$class: 'WsCleanup'])
                                     ut.checkout(source, repo_url)
                                     unstash name: "electron-signing-cert"
                                 }
-                            }
-                            
-                        }
-                        if (action.contains('Deploy')) {
-                            ut.checkoutRelative('master', Constants.KUBERNETES_REPO, 'kubernetes', Constants.KUBERNETES_REPO_CREDS)
-                        }
-                        sh "mkdir ${artifactsDir}"
-                        if (action.contains('Build')) {
-                            source += '.latest'
-                        }
-                    }
 
-                    if (action.contains('Electron')){
-                        ['wallet', 'wallet-electron'].each{ serviceName ->
-                            org.jenkinsci.plugins.pipeline.modeldefinition.Utils.markStageSkippedForConditional("Building " + serviceName)
-                        }
-                        node('mobile'){
-                            stage("Building Electron") {
-                                
-                                withCredentials([string(credentialsId: 'electron-signing-cert-passphrase', variable: 'signingCertPassphrase')]) {
-                                    sh """
-                                    mkdir -p ${artifactsDir}/electron-clients
-                                    npm ci --unsafe-perm
-                                    ./node_modules/.bin/tsc -p ./
-                                    ./node_modules/.bin/gulp all
+                                stage("Building Electron") {
+                                    withCredentials([string(credentialsId: 'electron-signing-cert-passphrase', variable: 'signingCertPassphrase')]) {
+                                        sh """
+                                        mkdir -p ${artifactsDir}/electron-clients
+                                        npm ci --unsafe-perm
+                                        ./node_modules/.bin/tsc -p ./
+                                        ./node_modules/.bin/gulp all
 
-                                    WIN_CSC_LINK=/Users/jenkins/.signingCert \
-                                    WIN_CSC_KEY_PASSWORD=${signingCertPassphrase} \
-                                    CSC_LINK=/Users/jenkins/.signingCert \
-                                    CSC_KEY_PASSWORD=${signingCertPassphrase} \
-                                    WAVES_CONFIGURATION=mainnet \
-                                        ./node_modules/.bin/build --x64 -lmw \
-                                            --config.directories.output=out/mainnet/ \
-                                            --config.directories.app=dist/desktop/mainnet
-                                    cp ./out/mainnet*.{deb,exe,dmg} ${artifactsDir}/electron-clients/
-                                    tar -czvf artifacts.tar.gz -C ./${artifactsDir}/electron-clients/ .
-                                    """
+                                        WIN_CSC_LINK=/Users/jenkins/.signingCert \
+                                        WIN_CSC_KEY_PASSWORD=${signingCertPassphrase} \
+                                        CSC_LINK=/Users/jenkins/.signingCert \
+                                        CSC_KEY_PASSWORD=${signingCertPassphrase} \
+                                        WAVES_CONFIGURATION=mainnet \
+                                            ./node_modules/.bin/build --x64 -lmw \
+                                                --config.directories.output=out/mainnet/ \
+                                                --config.directories.app=dist/desktop/mainnet
+                                        cp ./out/mainnet*.{deb,exe,dmg} ${artifactsDir}/electron-clients/
+                                        tar -czvf artifacts.tar.gz -C ./${artifactsDir}/electron-clients/ .
+                                        """
+                                    }
                                 }
                             }
-                        }
-                    } else {
-                        org.jenkinsci.plugins.pipeline.modeldefinition.Utils.markStageSkippedForConditional("Building Electron")
-                        ['wallet', 'wallet-electron'].each{ serviceName ->
-                            buildTasks["Building " + serviceName] = {
-                                dir(Constants.DOCKERFILE_LOCATION_MAP[serviceName]) {
-                                    stage("Building " + serviceName) {
-                                        pipeline_status["built-${serviceName}"] = false
-                                        if (action.contains('Build')) {
-                                            def platform = (serviceName == 'wallet') ? 'web' : 'desktop'
+                            if (action.contains('Electron')){
+                                ['wallet', 'wallet-electron'].each{ serviceName ->
+                                    org.jenkinsci.plugins.pipeline.modeldefinition.Utils.markStageSkippedForConditional("Building " + serviceName)
+                                }
+                            }
+                        } else {
+                            node('buildagent'){
+                                stage('Checkout') {
+                                    sh 'env'
+                                    step([$class: 'WsCleanup'])
+                                    ut.checkoutRelative(source, repo_url, 'WavesGUI', '')
 
-                                            // configure nginx template
-                                            def waves_wallet_nginx_map = Constants.WAVES_WALLET_NGINX_MAP.clone()
-                                            waves_wallet_nginx_map.nginx_platform = "${platform}"
-                                            String nginxConfFileContent = ut.replaceTemplateVars('./nginx/default_template.conf', waves_wallet_nginx_map)
-                                            writeFile file: './nginx/default.conf', text: nginxConfFileContent
+                                    sh """
+                                    mkdir ${artifactsDir}
+                                    cp -R ./WavesGUI/build-wallet/ ./WavesGUI/build-wallet-desktop/
+                                    cp -R ./WavesGUI/ ./WavesGUI_tmp/
+                                    cp -R ./WavesGUI_tmp/ ./WavesGUI/build-wallet/WavesGUI/
+                                    mv ./WavesGUI_tmp/ ./WavesGUI/build-wallet-desktop/WavesGUI/
+                                    """
+                                    if (action.contains('Deploy')) {
+                                        ut.checkoutRelative('master', Constants.KUBERNETES_REPO, 'kubernetes', Constants.KUBERNETES_REPO_CREDS)
+                                    }
+                                    source += '.latest'
+                                }
+                                org.jenkinsci.plugins.pipeline.modeldefinition.Utils.markStageSkippedForConditional("Building Electron")
+                                
+                                ['wallet', 'wallet-electron'].each{ serviceName ->
+                                    buildTasks["Building " + serviceName] = {
+                                        dir(Constants.DOCKERFILE_LOCATION_MAP[serviceName]) {
+                                            stage("Building " + serviceName) {
+                                                pipeline_status["built-${serviceName}"] = false
+                                                
+                                                def platform = (serviceName == 'wallet') ? 'web' : 'desktop'
 
-                                            // configure Dockerfile template
-                                            def waves_wallet_dockerfile_map = [jenkins_platform: platform, trading_view_token: '$trading_view_token']
-                                            String dockerfileConfFileContent = ut.replaceTemplateVars('./Dockerfile_template', waves_wallet_dockerfile_map)
-                                            writeFile file: './Dockerfile', text: dockerfileConfFileContent
+                                                // configure nginx template
+                                                def waves_wallet_nginx_map = Constants.WAVES_WALLET_NGINX_MAP.clone()
+                                                waves_wallet_nginx_map.nginx_platform = "${platform}"
+                                                String nginxConfFileContent = ut.replaceTemplateVars('./nginx/default_template.conf', waves_wallet_nginx_map)
+                                                writeFile file: './nginx/default.conf', text: nginxConfFileContent
 
-                                            // configure a page with container_info which
-                                            // contains all info about Jenkins build and git parameters
-                                            container_info["${serviceName}"] = ""           +
-                                                "<p>Job name:       ${env.JOB_NAME}</p>"    +
-                                                "<p>Job build tag:  ${env.BUILD_TAG}</p>"   +
-                                                "<p>Docker image:   ${Constants.DOCKER_REGISTRY}/waves/${serviceName}:${source}</p>" +
-                                                "<p>Web environment: \${WEB_ENVIRONMENT}</p>"
+                                                // configure Dockerfile template
+                                                def waves_wallet_dockerfile_map = [jenkins_platform: platform, trading_view_token: '$trading_view_token']
+                                                String dockerfileConfFileContent = ut.replaceTemplateVars('./Dockerfile_template', waves_wallet_dockerfile_map)
+                                                writeFile file: './Dockerfile', text: dockerfileConfFileContent
 
-                                            writeFile file: './info.html', text: container_info["${serviceName}"]
+                                                // configure a page with container_info which
+                                                // contains all info about Jenkins build and git parameters
+                                                container_info["${serviceName}"] = ""           +
+                                                    "<p>Job name:       ${env.JOB_NAME}</p>"    +
+                                                    "<p>Job build tag:  ${env.BUILD_TAG}</p>"   +
+                                                    "<p>Docker image:   ${Constants.DOCKER_REGISTRY}/waves/${serviceName}:${source}</p>" +
+                                                    "<p>Web environment: \${WEB_ENVIRONMENT}</p>"
 
-                                            // copy all the generated text files
-                                             sh """
-                                                cp ./nginx/default.conf "${env.WORKSPACE}/${artifactsDir}/default.conf-${serviceName}"
-                                                cp ./Dockerfile "${env.WORKSPACE}/${artifactsDir}/Dockerfile-${serviceName}"
-                                                cp ./info.html "${env.WORKSPACE}/${artifactsDir}/info.html-${serviceName}"
-                                                """
+                                                writeFile file: './info.html', text: container_info["${serviceName}"]
 
-                                            // run build
-                                            ut.buildDockerImage('waves/' + serviceName, source.split("\\.")[0], "--build-arg trading_view_token=${Constants.WAVES_WALLET_TRADING_VIEW_TOKEN} --build-arg platform=${platform}")
-                                            pipeline_status["built-${serviceName}"] = true
-                                            ut.notifySlack("docker_builds",
-                                                currentBuild.result,
-                                                "Built image: ${Constants.DOCKER_REGISTRY}/waves/${serviceName}:${source}")
-                                        }
-                                        else{
-                                            org.jenkinsci.plugins.pipeline.modeldefinition.Utils.markStageSkippedForConditional("Building " + serviceName)
+                                                // copy all the generated text files
+                                                 sh """
+                                                    cp ./nginx/default.conf "${env.WORKSPACE}/${artifactsDir}/default.conf-${serviceName}"
+                                                    cp ./Dockerfile "${env.WORKSPACE}/${artifactsDir}/Dockerfile-${serviceName}"
+                                                    cp ./info.html "${env.WORKSPACE}/${artifactsDir}/info.html-${serviceName}"
+                                                    """
+
+                                                // run build
+                                                ut.buildDockerImage('waves/' + serviceName, source.split("\\.")[0], "--build-arg trading_view_token=${Constants.WAVES_WALLET_TRADING_VIEW_TOKEN} --build-arg platform=${platform}")
+                                                pipeline_status["built-${serviceName}"] = true
+                                                ut.notifySlack("docker_builds",
+                                                    currentBuild.result,
+                                                    "Built image: ${Constants.DOCKER_REGISTRY}/waves/${serviceName}:${source}")
+                                            }
+                                            else{
+                                                org.jenkinsci.plugins.pipeline.modeldefinition.Utils.markStageSkippedForConditional("Building " + serviceName)
+                                            }
                                         }
                                     }
                                 }
                             }
+                            parallel buildTasks
                         }
-                        parallel buildTasks
                     }
-                    ['wallet', 'wallet-electron'].each{ serviceName ->
-                        remote_destination[serviceName] = destination
-                        deployTasks["Deploying " + serviceName] = {
-                            stage("Deploying " + serviceName) {
-                                pipeline_status["deployed-${serviceName}"] = false
-                                if (action.contains('Deploy')) {
-                                    if (image == serviceName || image =="both" ) {
-                                        def waves_wallet_deployment_map = [
-                                            domain_name: remote_destination[serviceName].replaceAll("\\.","-"),
-                                            network: network,
-                                            tag: source,
-                                            image: serviceName,
-                                            current_date: "'${ut.shWithOutput('date +%s')}'"
-                                        ]
+                    node('buildagent'){
+                        ['wallet', 'wallet-electron'].each{ serviceName ->
+                            remote_destination[serviceName] = destination
+                            deployTasks["Deploying " + serviceName] = {
+                                stage("Deploying " + serviceName) {
+                                    pipeline_status["deployed-${serviceName}"] = false
+                                    if (action.contains('Deploy')) {
+                                        if (image == serviceName || image =="both" ) {
+                                            def waves_wallet_deployment_map = [
+                                                domain_name: remote_destination[serviceName].replaceAll("\\.","-"),
+                                                network: network,
+                                                tag: source,
+                                                image: serviceName,
+                                                current_date: "'${ut.shWithOutput('date +%s')}'"
+                                            ]
 
-                                        if (action.contains('PROD')) {
-                                            remote_destination[serviceName] = Constants.WAVES_WALLET_PROD_DOMAIN_NAMES[network + '-' + serviceName]
-                                            deploymentFile = "./kubernetes/waves-wallet-${network}/deployment.yaml"
-                                            waves_wallet_deployment_map.domain_name = Constants.WAVES_WALLET_PROD_DOMAIN_NAMES[network + '-' + serviceName].replaceAll("\\.","-")
+                                            if (action.contains('PROD')) {
+                                                remote_destination[serviceName] = Constants.WAVES_WALLET_PROD_DOMAIN_NAMES[network + '-' + serviceName]
+                                                deploymentFile = "./kubernetes/waves-wallet-${network}/deployment.yaml"
+                                                waves_wallet_deployment_map.domain_name = Constants.WAVES_WALLET_PROD_DOMAIN_NAMES[network + '-' + serviceName].replaceAll("\\.","-")
+                                            }
+
+                                            // configure deployment template
+                                            String deploymentConfFileContent = ut.replaceTemplateVars(deploymentFile, waves_wallet_deployment_map)
+                                            def deployment_config = "./${artifactsDir}/${serviceName}-deployment.yaml"
+                                            writeFile file: "./${artifactsDir}/${serviceName}/${serviceName}-deployment.yaml", text: deploymentConfFileContent
+
+                                            // deploy container to kuber
+                                            withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: Constants.AWS_KUBERNETES_KEY, secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+                                                sh """
+                                                    docker run -i --rm \
+                                                        -v "${env.WORKSPACE}/${artifactsDir}/${serviceName}":/root/app \
+                                                        -e AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}" \
+                                                        -e AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}" \
+                                                        -e KUBE_CLUSTER_NAME="${Constants.AWS_KUBERNETES_KUBE_CLUSTER_NAME}" \
+                                                        -e AWS_REGION="${Constants.AWS_KUBERNETES_AWS_REGION}" \
+                                                        -e CONFIG_PATH="${serviceName}-deployment.yaml" \
+                                                        "${Constants.DOCKER_KUBERNETES_EXECUTOR_IMAGE}"
+                                                    """
+                                            }
+                                            pipeline_status["deployed-${serviceName}"] = true
+                                            ut.notifySlack("waves-deploy-alerts",
+                                                currentBuild.result,
+                                                "Deployed image:\n${Constants.DOCKER_REGISTRY}/waves/${serviceName}:${source} ${network} to ${remote_destination[serviceName]}")
+
+                                        } else {
+                                            org.jenkinsci.plugins.pipeline.modeldefinition.Utils.markStageSkippedForConditional("Deploying " + serviceName)
                                         }
 
-                                        // configure deployment template
-                                        String deploymentConfFileContent = ut.replaceTemplateVars(deploymentFile, waves_wallet_deployment_map)
-                                        def deployment_config = "./${artifactsDir}/${serviceName}-deployment.yaml"
-                                        writeFile file: "./${artifactsDir}/${serviceName}/${serviceName}-deployment.yaml", text: deploymentConfFileContent
-
-                                        // deploy container to kuber
-                                        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: Constants.AWS_KUBERNETES_KEY, secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-                                            sh """
-                                                docker run -i --rm \
-                                                    -v "${env.WORKSPACE}/${artifactsDir}/${serviceName}":/root/app \
-                                                    -e AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}" \
-                                                    -e AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}" \
-                                                    -e KUBE_CLUSTER_NAME="${Constants.AWS_KUBERNETES_KUBE_CLUSTER_NAME}" \
-                                                    -e AWS_REGION="${Constants.AWS_KUBERNETES_AWS_REGION}" \
-                                                    -e CONFIG_PATH="${serviceName}-deployment.yaml" \
-                                                    "${Constants.DOCKER_KUBERNETES_EXECUTOR_IMAGE}"
-                                                """
-                                        }
-                                        pipeline_status["deployed-${serviceName}"] = true
-                                        ut.notifySlack("waves-deploy-alerts",
-                                            currentBuild.result,
-                                            "Deployed image:\n${Constants.DOCKER_REGISTRY}/waves/${serviceName}:${source} ${network} to ${remote_destination[serviceName]}")
-
-                                    } else {
+                                    }
+                                    else {
                                         org.jenkinsci.plugins.pipeline.modeldefinition.Utils.markStageSkippedForConditional("Deploying " + serviceName)
                                     }
-
-                                }
-                                else {
-                                    org.jenkinsci.plugins.pipeline.modeldefinition.Utils.markStageSkippedForConditional("Deploying " + serviceName)
                                 }
                             }
                         }
+                        parallel deployTasks
                     }
-                    parallel deployTasks
                 }
                 catch (err) {
                     currentBuild.result = Constants.PIPELINE_FAILURE
