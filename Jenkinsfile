@@ -150,21 +150,25 @@ timeout(time:20, unit:'MINUTES') {
                         ['wallet', 'wallet-electron'].each{ serviceName ->
                             org.jenkinsci.plugins.pipeline.modeldefinition.Utils.markStageSkippedForConditional("Building " + serviceName)
                         }
+                        
+                        withCredentials([file(credentialsId: 'electron-signing-cert', variable: 'signingCert')]) {
+                            sh "cp  ${signingCert} .signingCert"
+                            stash includes:".signingCert" name: "electron-signing-cert"
+                        }
                         node('mobile'){
                             stage("Building Electron") {
-                                withCredentials([file(credentialsId: 'electron-signing-cert', variable: 'signingCert')]) {
-                                    sh "cp ${signingCert} /Users/jenkins/.electronSigningCert" 
-                                }
+                                
                                 withCredentials([string(credentialsId: 'electron-signing-cert-passphrase', variable: 'signingCertPassphrase')]) {
+                                    unstash name: "electron-signing-cert"
                                     sh """
                                     mkdir -p ${artifactsDir}/electron-clients
                                     npm ci --unsafe-perm
                                     ./node_modules/.bin/tsc -p ./
                                     ./node_modules/.bin/gulp all
 
-                                    WIN_CSC_LINK=/Users/jenkins/.electronSigningCert \
+                                    WIN_CSC_LINK=/Users/jenkins/.signingCert \
                                     WIN_CSC_KEY_PASSWORD=${signingCertPassphrase} \
-                                    CSC_LINK=/Users/jenkins/.electronSigningCert \
+                                    CSC_LINK=/Users/jenkins/.signingCert \
                                     CSC_KEY_PASSWORD=${signingCertPassphrase} \
                                     WAVES_CONFIGURATION=mainnet \
                                         ./node_modules/.bin/build --x64 -lmw \
