@@ -199,6 +199,7 @@ timeout(time:20, unit:'MINUTES') {
                             unstash name: "repo"
                             withCredentials([string(credentialsId: 'electron-signing-cert-passphrase', variable: 'signingCertPassphrase')]) {
                                 sh """
+                                cd WavesGUI
                                 mkdir -p ${artifactsDir}/electron-clients
                                 npm ci --unsafe-perm
                                 ./node_modules/.bin/tsc -p ./
