@@ -196,7 +196,7 @@ timeout(time:20, unit:'MINUTES') {
                     node('mobile'){
                         stage("Building Electron") {
                             step([$class: 'WsCleanup'])
-                            unstash name: "electron-signing-cert"
+                            unstash name: "repo"
                             withCredentials([string(credentialsId: 'electron-signing-cert-passphrase', variable: 'signingCertPassphrase')]) {
                                 sh """
                                 mkdir -p ${artifactsDir}/electron-clients
