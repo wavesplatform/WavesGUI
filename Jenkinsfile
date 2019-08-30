@@ -136,6 +136,7 @@ timeout(time:20, unit:'MINUTES') {
                                     stash includes: '.signingCert', name: 'electron-signing-cert'
                                 }
                                 node('mobile'){
+                                    step([$class: 'WsCleanup'])
                                     ut.checkout(source, repo_url)
                                     unstash name: "electron-signing-cert"
                                 }
