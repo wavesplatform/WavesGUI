@@ -155,11 +155,6 @@ timeout(time:20, unit:'MINUTES') {
                         ['wallet', 'wallet-electron'].each{ serviceName ->
                             org.jenkinsci.plugins.pipeline.modeldefinition.Utils.markStageSkippedForConditional("Building " + serviceName)
                         }
-                        
-                        withCredentials([file(credentialsId: 'electron-signing-cert', variable: 'signingCert')]) {
-                            sh "cp  ${signingCert} .signingCert"
-                            stash includes: '.signingCert', name: 'electron-signing-cert'
-                        }
                         node('mobile'){
                             stage("Building Electron") {
                                 
