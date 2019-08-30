@@ -38,11 +38,16 @@ export function getSignatureApi(): Adapter {
         try {
             const ConcreteAdapter = getAdapterByType(_userData.userType);
 
-            setSignatureApi(
-                _userData.userType === 'seed' ?
-                    new ConcreteAdapter(_userData.seed, _userData.networkByte) :
-                    new ConcreteAdapter(_userData.privateKey, _userData.networkByte)
-            );
+            switch (_userData.userType) {
+                case AdapterType.Seed:
+                    setSignatureApi(new ConcreteAdapter(_userData.seed, _userData.networkByte));
+                    break;
+                case AdapterType.PrivateKey:
+                    setSignatureApi(new ConcreteAdapter(_userData.privateKey, _userData.networkByte));
+                    break;
+                default:
+                    setSignatureApi(new ConcreteAdapter(_userData, _userData.networkByte));
+            }
         } catch (e) {
             return API;
         }
