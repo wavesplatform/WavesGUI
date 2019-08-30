@@ -247,10 +247,15 @@
             }
 
             showTutorialModals() {
-                return this._getModal({
-                    id: 'tutorial-modals',
-                    templateUrl: 'modules/utils/modals/tutorialModals/tutorialModals.html',
-                    controller: 'TutorialModalsCtrl'
+                return user.getMultiAccountUsers().then(users => {
+                    return this._getModal({
+                        id: 'tutorial-modals',
+                        templateUrl: 'modules/utils/modals/tutorialModals/tutorialModals.html',
+                        controller: 'TutorialModalsCtrl',
+                        locals: {
+                            hasAccounts: users.length > 0
+                        }
+                    });
                 });
             }
 
