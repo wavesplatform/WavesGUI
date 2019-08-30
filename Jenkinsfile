@@ -132,7 +132,7 @@ timeout(time:20, unit:'MINUTES') {
                                 } 
                             else {
                                 withCredentials([file(credentialsId: 'electron-signing-cert', variable: 'signingCert')]) {
-                                    sh "ls -la '${signingCert}' && cp  '${signingCert}' '.signingCert'"
+                                    sh "ls -la '${signingCert}' && cp '${signingCert}' '.signingCert'"
                                     stash includes: '.signingCert', name: 'electron-signing-cert'
                                 }
                                 node('mobile'){
