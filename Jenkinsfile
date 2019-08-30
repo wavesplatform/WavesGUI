@@ -131,8 +131,13 @@ timeout(time:20, unit:'MINUTES') {
                                 """
                                 } 
                             else {
+                                withCredentials([file(credentialsId: 'electron-signing-cert', variable: 'signingCert')]) {
+                                    sh "ls -la '${signingCert}' && cp  '${signingCert}' '.signingCert'"
+                                    stash includes: '.signingCert', name: 'electron-signing-cert'
+                                }
                                 node('mobile'){
                                     ut.checkout(source, repo_url)
+                                    unstash name: "electron-signing-cert"
                                 }
                             }
                             
@@ -159,7 +164,6 @@ timeout(time:20, unit:'MINUTES') {
                             stage("Building Electron") {
                                 
                                 withCredentials([string(credentialsId: 'electron-signing-cert-passphrase', variable: 'signingCertPassphrase')]) {
-                                    unstash name: "electron-signing-cert"
                                     sh """
                                     mkdir -p ${artifactsDir}/electron-clients
                                     npm ci --unsafe-perm
