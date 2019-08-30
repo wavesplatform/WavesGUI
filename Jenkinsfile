@@ -201,6 +201,8 @@ timeout(time:20, unit:'MINUTES') {
                                 sh """
                                 cd WavesGUI
                                 mkdir -p ${artifactsDir}/electron-clients
+                                npm cache clean -f
+                                npm install -g n
                                 npm ci --unsafe-perm
                                 ./node_modules/.bin/tsc -p ./
                                 ./node_modules/.bin/gulp all
