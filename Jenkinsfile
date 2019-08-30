@@ -153,7 +153,7 @@ timeout(time:20, unit:'MINUTES') {
                         node('mobile'){
                             stage("Building Electron") {
                                 withCredentials([file(credentialsId: 'electron-signing-cert', variable: 'signingCert')]) {
-                                    sh "cp ${signingCert} ~/.electronSigningCert" 
+                                    sh "cp ${signingCert} /Users/jenkins/.electronSigningCert" 
                                 }
                                 withCredentials([string(credentialsId: 'electron-signing-cert-passphrase', variable: 'signingCertPassphrase')]) {
                                     sh """
@@ -162,9 +162,9 @@ timeout(time:20, unit:'MINUTES') {
                                     ./node_modules/.bin/tsc -p ./
                                     ./node_modules/.bin/gulp all
 
-                                    WIN_CSC_LINK=~/.electronSigningCert \
+                                    WIN_CSC_LINK=/Users/jenkins/.electronSigningCert \
                                     WIN_CSC_KEY_PASSWORD=${signingCertPassphrase} \
-                                    CSC_LINK=~/.electronSigningCert \
+                                    CSC_LINK=/Users/jenkins/.electronSigningCert \
                                     CSC_KEY_PASSWORD=${signingCertPassphrase} \
                                     WAVES_CONFIGURATION=mainnet \
                                         ./node_modules/.bin/build --x64 -lmw \
