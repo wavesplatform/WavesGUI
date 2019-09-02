@@ -217,11 +217,11 @@
                     };
 
                     const onDragEnd = utils.debounceRequestAnimationFrame(event => {
+                        $document.off('mousemove touchmove', onDrag);
+                        $document.off('mouseup touchend', onDragEnd);
                         if (!this.disabled) {
                             const utilEvent = utils.getEventInfo(event);
                             this._container.removeClass('range-slider_drag');
-                            $document.off('mousemove touchmove', onDrag);
-                            $document.off('mouseup touchend', onDragEnd);
                             afterDrag(utilEvent.pageX - startPos - (this._handle.width() / 2));
                             $scope.$apply();
                         }
