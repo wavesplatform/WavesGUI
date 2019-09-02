@@ -5,6 +5,19 @@
   .main-content .content {
     overflow: auto;
     max-width: 100%;
+
+    fieldset {
+      border: 0;
+      margin: 0;
+      padding: 0;
+
+      &.disabled {
+        w-select {
+          pointer-events: none;
+        }
+      }
+    }
+
   }
 }
 
