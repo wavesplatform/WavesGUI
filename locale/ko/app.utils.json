@@ -476,7 +476,8 @@
             "heading": "계정 삭제",
             "remove": "삭제",
             "text": "{div}[백업 구절(SEED)를 저장하지 않고 계정을 삭제하면 해당 계정에 보유된 자산을 절대 찾을 수 없습니다.]\n{div}[삭제 버튼을 클릭하여 계정 삭제 절차를 진행하거나 취소 버튼을 클릭하여 이전 화면으로 돌아가세요.]",
-            "warning": "귀하는 백업 구절을 저장하지 않았습니다"
+            "warning": "귀하는 백업 구절을 저장하지 않았습니다",
+            "warningPlural": "You did not save your Seed phrases"
         },
         "removeKeeperAccount": {
             "heading": "Waves Keeper 계정 삭제",

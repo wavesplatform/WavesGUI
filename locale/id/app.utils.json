@@ -476,7 +476,8 @@
             "heading": "Menghapus akun",
             "remove": "Hapus",
             "text": "{div}[Penghapusan akun akan menyebabkan kerugian yang tidak bisa kembalikan jika Anda tidak menyimpan frasa cadangan (SEED).] {div}[Klik tombol HAPUS untuk melanjutkan penghapusan akun, atau BATAL untuk kembali ke layar sebelumnya .]",
-            "warning": "Anda tidak menyimpan SEED Anda"
+            "warning": "Anda tidak menyimpan SEED Anda",
+            "warningPlural": "You did not save your Seed phrases"
         },
         "removeKeeperAccount": {
             "heading": "Hapus akun Waves Keeper",

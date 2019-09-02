@@ -476,7 +476,8 @@
             "heading": "Hesabı kaldır",
             "remove": "Kaldır",
             "text": "{div}[Eğer anahtar kelimelerinizi kaydetmediyseniz, hesabınızın kaldırılması ile birlikte bir daha bu hesaba ulaşamazsınız.]\n{div}[Kaldır butonuna basarak hesabı kaldırabilir veya iptal butonuna basarak işlemi iptal edebilirsiniz.]",
-            "warning": "Anahtar kelimelerinizi kaydetmediniz!"
+            "warning": "Anahtar kelimelerinizi kaydetmediniz!",
+            "warningPlural": "You did not save your Seed phrases"
         },
         "removeKeeperAccount": {
             "heading": "Waves Keeper Hesabımı kaldır",

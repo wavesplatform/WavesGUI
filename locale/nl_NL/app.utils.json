@@ -476,7 +476,8 @@
             "heading": "Account verwijderen",
             "remove": "Verwijderen",
             "text": "{div}[Het verwijderen van een account zal tot het onherstelbare verlies daarvan leiden indien u geen back-upfrase (SEED) heeft opgeslagen.]\n{div}[Klik on de knop VERWIJDEREN om verder te gaan met het verwijderen van het account, of druk op ANNULEREN om terug te keren naar het vorige scherm.]",
-            "warning": "U heeft uw SEED niet opgeslagen"
+            "warning": "U heeft uw SEED niet opgeslagen",
+            "warningPlural": "You did not save your Seed phrases"
         },
         "removeKeeperAccount": {
             "heading": "Verwijder Waves Keeper account",

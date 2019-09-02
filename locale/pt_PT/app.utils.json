@@ -476,7 +476,8 @@
             "heading": "Remove account",
             "remove": "Remove",
             "text": "{div}[Deleting an account will lead to its irretrievable loss if you didn't save a backup phrase (SEED).]\n{div}[Click on the REMOVE button to proceed with account removal, or CANCEL to return to the previous screen.]",
-            "warning": "You did not save your SEED"
+            "warning": "You did not save your SEED",
+            "warningPlural": "You did not save your Seed phrases"
         },
         "removeKeeperAccount": {
             "heading": "Remove Waves Keeper account",

@@ -476,7 +476,8 @@
             "heading": "Remover conta",
             "remove": "Remover",
             "text": "{div}[Caso exclua a conta, não será possível recuperá-la se você não salvou sua frase de backup (SEED).]\n{div}[Clique no botão REMOVER para prosseguir com a remoção da conta ou CANCELAR para retornar à tela anterior.]",
-            "warning": "Você não salvou seu SEED"
+            "warning": "Você não salvou seu SEED",
+            "warningPlural": "You did not save your Seed phrases"
         },
         "removeKeeperAccount": {
             "heading": "Remover conta da Waves Keeper",

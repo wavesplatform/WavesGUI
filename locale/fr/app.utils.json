@@ -476,7 +476,8 @@
             "heading": "Supprimer le compte",
             "remove": "Supprimer",
             "text": "{div}[La suppression d'un compte entraînera sa perte irrémédiable si vous n'avez pas enregistré une phrase de sauvegarde (SEED)].\n{div}[Cliquez sur le bouton SUPPRIMER pour procéder à la suppression du compte, ou ANNULER pour revenir à l'écran précédent.]",
-            "warning": "Vous n'avez pas enregistré votre SEED"
+            "warning": "Vous n'avez pas enregistré votre SEED",
+            "warningPlural": "You did not save your Seed phrases"
         },
         "removeKeeperAccount": {
             "heading": "Supprimer le compte Waves Keeper",

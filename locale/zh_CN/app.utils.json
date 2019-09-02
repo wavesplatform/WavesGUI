@@ -476,7 +476,8 @@
             "heading": "删除帐号",
             "remove": "删除",
             "text": "{div}[如果您没有保存备份短语（SEED），删除帐号将导致帐户无法挽回的损失.]\n{div}[点击删除按钮来删除帐号，或点击取消来返回到上一个页面.]",
-            "warning": "您没有保存您的SEED助记词"
+            "warning": "您没有保存您的SEED助记词",
+            "warningPlural": "You did not save your Seed phrases"
         },
         "removeKeeperAccount": {
             "heading": "删除Waves Keeper帐户",

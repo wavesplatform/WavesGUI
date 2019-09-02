@@ -476,7 +476,8 @@
             "heading": "アカウントを除去",
             "remove": "除去",
             "text": "{div}[あなたがバックアップフレーズ（SEED）を保存していない場合、アカウントの削除が復元不可能な損失につながります。]\r\n {div}[除去ボタンを押してアカウントの除去に進んでください。または、キャンセルを押して前の画面に戻ってください。]",
-            "warning": "あなたはまだシードを保存していません"
+            "warning": "あなたはまだシードを保存していません",
+            "warningPlural": "You did not save your Seed phrases"
         },
         "removeKeeperAccount": {
             "heading": "Waves Keeperアカウントを除去",

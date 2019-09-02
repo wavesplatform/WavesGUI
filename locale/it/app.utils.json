@@ -476,7 +476,8 @@
             "heading": "Elimina account",
             "remove": "Elimina",
             "text": "{div}[Cancellare l'account renderà impossibile un nuovo accesso in caso di indisponibilità della frase di recupero (SEED).]{div}[Clicca sul tasto ELIMINA per procedere con la rimozione, oppure su ANNULLA per tornare alla schermata precedente.]",
-            "warning": "Non hai salvato il tuo SEED"
+            "warning": "Non hai salvato il tuo SEED",
+            "warningPlural": "You did not save your Seed phrases"
         },
         "removeKeeperAccount": {
             "heading": "Rimuovi l'account Waves Keeper",

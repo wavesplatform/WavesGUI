@@ -5,8 +5,23 @@
 
         class DeleteAccountModalCtrl extends Base {
 
+            /**
+             * @type
+             * @public
+             */
+            accountsWithoutBackup = [];
+
             constructor() {
                 super($scope);
+
+                user.getMultiAccountUsers().then(users => {
+                    this.accountsWithoutBackup = users.filter(accountUser => (
+                        !accountUser.settings ||
+                        !accountUser.settings.hasBackup
+                    ));
+
+                    $scope.$digest();
+                });
             }
 
             onDelete() {

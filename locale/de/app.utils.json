@@ -476,7 +476,8 @@
             "heading": "Account entfernen",
             "remove": "Löschen",
             "text": "{div}[Das Löschen eines Accounts führt zu einem unwiederbringlichen Verlust, wenn sie keine Sicherungsphrase (SEED) gespeichert haben.]\n{div}[Klicken Sie auf die Schaltfläche ENTFERNEN, um mit dem Entfernen des Accounts fortzufahren, oder auf ABBRECHEN, um zum vorherigen Bildschirm zurückzukehren.]",
-            "warning": "Sie habe ihren SEED nicht gespeichert"
+            "warning": "Sie habe ihren SEED nicht gespeichert",
+            "warningPlural": "You did not save your Seed phrases"
         },
         "removeKeeperAccount": {
             "heading": "Waves Keeper-Account entfernen",

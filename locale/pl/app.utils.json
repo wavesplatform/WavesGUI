@@ -476,7 +476,8 @@
             "heading": "Usuń konto",
             "remove": "Usuń",
             "text": "{div}[Usunięcie konta będzie prowadzic do nieodwracalnych strat jeśli nie zapisałeś tajnego wyrażenia 15 fraz (SEED).]\n{div}[Kliknij przycisk USUŃ, aby kontynuować usuwanie konta, lub ANULUJ, aby powrócić do poprzedniego ekranu.]",
-            "warning": "Nie zapisano tajnego wyrażenia 15 fraz (SEED)"
+            "warning": "Nie zapisano tajnego wyrażenia 15 fraz (SEED)",
+            "warningPlural": "You did not save your Seed phrases"
         },
         "removeKeeperAccount": {
             "heading": "Usuń Waves Keeper",

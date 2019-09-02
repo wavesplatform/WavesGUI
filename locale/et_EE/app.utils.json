@@ -476,7 +476,8 @@
             "heading": "Eemalda konto",
             "remove": "Eemalda",
             "text": "{div} [Konto kustutamine toob kaasa pöördumatu kahju, kui te pole salvestanud salafraasi.]\n{div}[Vajutage nupule EEMALDA, et jätkata konto eemaldamist, või TÜHISTA, et naasta eelmisele ekraanile .]",
-            "warning": "Te pole salvestanud oma salafraasi"
+            "warning": "Te pole salvestanud oma salafraasi",
+            "warningPlural": "You did not save your Seed phrases"
         },
         "removeKeeperAccount": {
             "heading": "Eemalda Waves Keeper konto",

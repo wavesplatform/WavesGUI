@@ -476,7 +476,8 @@
             "heading": "Eliminar cuenta",
             "remove": "Eliminar",
             "text": "{div}[Si borra una cuenta la perderá de forma permanente si no ha guardado una frase de copia de seguridad (SEMILLA).]\n{div}[Haga clic en el botón ELIMINAR para eliminar la cuenta, o en CANCELAR para volver a la pantalla anterior.]",
-            "warning": "No ha guardado su frase de seguridad (SEED)"
+            "warning": "No ha guardado su frase de seguridad (SEED)",
+            "warningPlural": "You did not save your Seed phrases"
         },
         "removeKeeperAccount": {
             "heading": "Eliminar cuenta de Waves Keeper",

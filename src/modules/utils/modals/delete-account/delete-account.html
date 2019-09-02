@@ -3,6 +3,11 @@
         <div class="icon-attention icon-attention_red"></div>
     </div>
     <h3 class="margin-1 basic-700" w-i18n="modal.deleteAccount.header"></h3>
+    <div class="warning-500 body-2 margin-1" ng-if="$ctrl.accountsWithoutBackup.length">
+        <i class="icon-warning footnote-1"></i>
+        <span ng-if="$ctrl.accountsWithoutBackup.length === 1" w-i18n="modal.removeAccount.warning"></span>
+        <span ng-if="$ctrl.accountsWithoutBackup.length > 1" w-i18n="modal.removeAccount.warningPlural"></span>
+    </div>
     <div class="margin-3">
         <span class="body-2 basic-500" w-i18n="modal.deleteAccount.description"></span>
     </div>
