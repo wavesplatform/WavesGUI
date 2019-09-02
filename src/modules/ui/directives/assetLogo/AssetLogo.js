@@ -87,6 +87,12 @@
              */
             _addLogo() {
                 if (!this.isNew && this.assetId) {
+
+                    if (this.assetId === WavesApp.defaultAssets.VST) {
+                        $element.find('.asset-logo__logo')
+                            .addClass('asset-logo__logo_vostok');
+                    }
+
                     const { logo } = utils.getDataFromOracles(this.assetId);
 
                     if (logo) {
@@ -109,12 +115,6 @@
                                     .catch(() => this._addLetter(asset.name));
                             } else {
                                 this._addLetter(asset.name);
-                            }
-
-                            const vostok = 'AMFteLfPzPhTsFc3NfvHG7fSRUnsp3tJXPH88G1PCisT';
-                            if (this.assetId === vostok) {
-                                $element.find('.asset-logo__logo')
-                                    .addClass('asset-logo__logo_vostok');
                             }
                         });
                 } else {
