@@ -82,28 +82,28 @@
 
         const chartOptions = {
             red: {
-                charts: [
-                    {
-                        axisX: 'timestamp',
-                        axisY: 'rate',
+                axisX: 'timestamp',
+                axisY: 'rate',
+                view: {
+                    rate: {
                         lineColor: '#ef4829',
                         fillColor: '#FFF',
                         gradientColor: ['#FEEFEC', '#FFF'],
                         lineWidth: 4
                     }
-                ]
+                }
             },
             blue: {
-                charts: [
-                    {
-                        axisX: 'timestamp',
-                        axisY: 'rate',
+                axisX: 'timestamp',
+                axisY: 'rate',
+                view: {
+                    rate: {
                         lineColor: '#1f5af6',
                         fillColor: '#FFF',
                         gradientColor: ['#EAF0FE', '#FFF'],
                         lineWidth: 4
                     }
-                ]
+                }
             }
         };
 
@@ -157,7 +157,7 @@
              */
             _addScrollHandler() {
                 const scrolledView = $element.find('.scrolled-view');
-                const header = $element.find('w-site-header');
+                const header = $element.find('w-main-header');
 
                 scrolledView.on('scroll', () => {
                     header.toggleClass('fixed', scrolledView.scrollTop() > whenHeaderGetFix);
@@ -241,10 +241,13 @@
                 const marketRows = $element.find('.js-table-markets .js-row-content');
                 PAIRS_IN_SLIDER.forEach((pair, i) => {
                     const options = this.pairsInfoList[i].change24.gt(0) ? chartOptions.blue : chartOptions.red;
+                    const chartData = {
+                        rate: this.pairsInfoList[i].rateHistory
+                    };
                     new ChartFactory(
                         marketRows.eq(i).find('.graph'),
                         options,
-                        this.pairsInfoList[i].rateHistory
+                        chartData
                     );
                 });
             }

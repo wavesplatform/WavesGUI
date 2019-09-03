@@ -1,0 +1,39 @@
+{
+    "addAsset": "자산 추가",
+    "chart": {
+        "intervals": {
+            "all": "모두",
+            "day": "1일",
+            "hour": "1시간",
+            "month": "1달",
+            "week": "1주",
+            "year": "1년"
+        }
+    },
+    "directives": {
+        "asset": {
+            "anyTx": "JSON",
+            "deposit": "입금",
+            "ofTotalBalance": "총 잔액 {{totalBalance}}",
+            "receive": "수신",
+            "script": "Script",
+            "send": "발신"
+        },
+        "balance": {
+            "actions": {
+                "assetInfo": "자산 정보",
+                "copyAssetId": "자산 ID 복사"
+            }
+        }
+    },
+    "price": "가격 {{currency}}",
+    "qr": "귀하의 주소",
+    "send": "발신",
+    "since": {
+        "day": "전일 대비",
+        "month": "전월 대비",
+        "week": "전주 대비"
+    },
+    "suspicious": "의심되는 토큰 - ({span}[{{count}}])",
+    "Unpin": "즐겨찾기 해제"
+}

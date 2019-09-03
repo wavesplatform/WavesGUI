@@ -1,0 +1,73 @@
+{
+    "all": "सभी",
+    "confirmTransaction": {
+        "retrySign": "फिर से साइन करें"
+    },
+    "csv": {
+        "alias": "उपनाम",
+        "amount": {
+            "id": "एसेट ID राशि",
+            "name": "एसेट नाम राशि",
+            "ticker": "एसेट टिकर राशि",
+            "value": "एसेट मूल्य राशि"
+        },
+        "attachment": "लेनदेन संलग्नक",
+        "date": "तारीख",
+        "description": "टोकन विवरण",
+        "fee": {
+            "id": "फीस ID",
+            "name": "फीस नाम",
+            "ticker": "फीस टिकर",
+            "value": "फीस मूल्य"
+        },
+        "height": "लेनदेन ऊंचाई",
+        "id": "लेनदेन ID",
+        "name": "टोकन नाम",
+        "precision": "सुनिश्चितता",
+        "price": {
+            "id": "एसेट ID दाम",
+            "name": "एसेट नाम दाम",
+            "ticker": "एसेट टिकर दाम",
+            "value": "एसेट मूल्य दाम"
+        },
+        "recipient": "लेनदेन प्राप्तकर्ता",
+        "reissuable": {
+            "false": "फिर जारी ना करने योग्य",
+            "name": "फिर से टोकन डारी कर सकता है",
+            "true": "फिर जारी करने योग्य"
+        },
+        "sender": "लेनदेन रेषक",
+        "transactionType": "लॉकचेन लेनदेन का प्रकार",
+        "type": "लेनदेन का प्रकार"
+    },
+    "errors": {
+        "complete": {
+            "body": "The list of transactions is not completely downloaded. Please retry later.",
+            "title": "Download is not complete."
+        },
+        "download": {
+            "body": "The list of transactions is not downloaded. Please retry later.",
+            "title": "Download error."
+        },
+        "empty": {
+            "body": "There are no transactions in your history",
+            "title": "Export error"
+        }
+    },
+    "exchanged": "ऐक्सचेंज किए गए",
+    "export": "एक्सपोर्ट",
+    "filter": {
+        "value1": "हाल का",
+        "value2": "500 txs",
+        "value3": "1000 txs"
+    },
+    "issued": "जारी किए गए",
+    "leased": "लीज़ किया",
+    "received": "प्राप्त",
+    "sent": "भेजे गये",
+    "transactions": {
+        "script": {
+            "txJson_wallet": "Base64 स्क्रिप्ट"
+        }
+    }
+}

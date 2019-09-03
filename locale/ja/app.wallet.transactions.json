@@ -1,0 +1,73 @@
+{
+    "all": "すべて",
+    "confirmTransaction": {
+        "retrySign": "もう一度署名"
+    },
+    "csv": {
+        "alias": "Alias name",
+        "amount": {
+            "id": "Amount asset ID",
+            "name": "Amount asset name",
+            "ticker": "Amount asset ticker",
+            "value": "Amount asset value"
+        },
+        "attachment": "Transaction attachment",
+        "date": "Date",
+        "description": "Token description",
+        "fee": {
+            "id": "Fee ID",
+            "name": "Fee name",
+            "ticker": "Fee ticker",
+            "value": "Fee value"
+        },
+        "height": "Transaction height",
+        "id": "Transaction ID",
+        "name": "Token name",
+        "precision": "Precision",
+        "price": {
+            "id": "Price asset ID",
+            "name": "Price asset name",
+            "ticker": "Price asset ticker",
+            "value": "Price asset value"
+        },
+        "recipient": "Transaction recipient",
+        "reissuable": {
+            "false": "No reissuable",
+            "name": "Can reissue token",
+            "true": "Reissuable"
+        },
+        "sender": "Transaction sender",
+        "transactionType": "Blockchain transaction type",
+        "type": "Transaction type"
+    },
+    "errors": {
+        "complete": {
+            "body": "トランザクションのリストが完全にダウンロードされていません。後で再試行してください。",
+            "title": "ダウンロードは完了していません。"
+        },
+        "download": {
+            "body": "トランザクションのリストが完全にダウンロードされていません。後で再試行してください。",
+            "title": "ダウンロードエラー"
+        },
+        "empty": {
+            "body": "トランザクション履歴がありません",
+            "title": "エクスポートエラー"
+        }
+    },
+    "exchanged": "取引済",
+    "export": "エクスポート",
+    "filter": {
+        "value1": "最新",
+        "value2": "500 txs",
+        "value3": "1000 txs"
+    },
+    "issued": "発行済",
+    "leased": "リース済",
+    "received": "受信済",
+    "sent": "送信済",
+    "transactions": {
+        "script": {
+            "txJson_wallet": "Base64 スクリプト"
+        }
+    }
+}

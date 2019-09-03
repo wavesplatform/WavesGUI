@@ -1,0 +1,27 @@
+{
+    "continue": "계속하기",
+    "copy": "복사",
+    "copySeed": "SEED 구절 복사",
+    "createAccount": "계정 생성",
+    "goBack": "뒤로가기",
+    "notHaveAccounts": "저장된 계정이 없습니다",
+    "nothingHere": "아무것도 없습니다…",
+    "password": {
+        "error": "비밀번호를 다시 입력하세요!"
+    },
+    "userList": {
+        "address": "주소 / 계정 아이디",
+        "buttons": {
+            "login": "로그인"
+        },
+        "exportUser": "계정 추출",
+        "notHaveAccount": "계속하려면 로그인하세요",
+        "password": "비밀번호",
+        "placeholders": {
+            "password": "비밀번호"
+        },
+        "title": "환영합니다"
+    },
+    "warn": "귀하의 자산은 본인만 통제할 수 있습니다. 앱이 삭제될 경우를 대비해 반드시 백업 구절을 저장해야 합니다.",
+    "yourSeed": "귀하의 SEED 구절"
+}

@@ -18,12 +18,16 @@
             },
             '1.2.1': function (storage) {
                 return newTerms(storage);
+            },
+            '1.3.19': function (storage) {
+                return saveUsersWithUniqueName(storage)
+                    .then(data => addNewGateway(data, WavesApp.defaultAssets.BNT));
             }
         };
 
         function newTerms(storage) {
-            return storage.load('userList').then((users = []) => {
-                const needShowNewTerms = users.some((user) => {
+            return storage.load('userList').then(users => {
+                const needShowNewTerms = (users || []).some((user) => {
                     const settings = user.settings || Object.create(null);
                     return typeof settings.termsAccepted === 'undefined';
                 });
@@ -34,8 +38,8 @@
         }
 
         function addNewGateway(storage, gateway) {
-            return storage.load('userList').then((users = []) => {
-                users.forEach((user) => {
+            return storage.load('userList').then(users => {
+                (users || []).forEach(user => {
                     const settings = user.settings || Object.create(null);
                     const idList = settings.pinnedAssetIdList;
                     if (idList && !idList.includes(gateway)) {
@@ -44,6 +48,43 @@
                 });
 
                 return storage.save('userList', users);
+            });
+        }
+
+        function saveUsersWithUniqueName(storage) {
+            return storage.load('userList').then(usersInStorage => {
+
+                const getUniqueName = (arr, userName) => {
+                    let counter = 1;
+                    const getNum = (name) => {
+                        if (arr.some(user => user.name === name)) {
+                            return getNum(`${userName} ${++counter}`);
+                        } else {
+                            return counter;
+                        }
+                    };
+                    const num = getNum(userName);
+                    return num > 1 ? `${userName} ${num}` : userName;
+                };
+
+                const users = (usersInStorage || []).reduce((acc, user) => {
+                    const otherUsers = acc.filter(item => item !== user);
+
+                    if (!user.name) {
+                        user.name = 'Account';
+                    }
+
+                    return ([
+                        ...otherUsers,
+                        {
+                            ...user,
+                            name: getUniqueName(otherUsers, user.name)
+                        }
+                    ]);
+
+                }, (usersInStorage || []));
+
+                return storage.save('userList', users).then(() => storage);
             });
         }
 

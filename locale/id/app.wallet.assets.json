@@ -1,0 +1,39 @@
+{
+    "addAsset": "Tambah Aset",
+    "chart": {
+        "intervals": {
+            "all": "Semua",
+            "day": "1 Hari",
+            "hour": "1 Jam",
+            "month": "1 Bulan",
+            "week": "1 Minggu",
+            "year": "1 Tahun"
+        }
+    },
+    "directives": {
+        "asset": {
+            "anyTx": "JSON",
+            "deposit": "Deposito",
+            "ofTotalBalance": "dari jumlah saldo {{totalBalance}}",
+            "receive": "Menerima",
+            "script": "Skrip",
+            "send": "Kirim"
+        },
+        "balance": {
+            "actions": {
+                "assetInfo": "Info aset",
+                "copyAssetId": "Salin ID Aset"
+            }
+        }
+    },
+    "price": "HARGA {{currency}}",
+    "qr": "Alamatmu",
+    "send": "Kirim",
+    "since": {
+        "day": "SEJAK HARI TERAKHIR",
+        "month": "SEJAK BULAN TERAKHIR",
+        "week": "SEJAK MINGGU TERAKHIR"
+    },
+    "suspicious": "Mencurigakan - ({span}[{{count}}])",
+    "Unpin": "Lepas semat"
+}

@@ -124,7 +124,7 @@
             /**
              * @param {string|Asset} assetFrom
              * @param {string|Asset} assetTo
-             * @return {Promise<BigNumber>}
+             * @return {Promise<BigNumber | Number>}
              */
             @decorators.cachable(60)
             getChange(assetFrom, assetTo) {
