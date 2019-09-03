@@ -218,7 +218,7 @@
                     ds.signature.getSignatureApi().getPublicKey()
                 ]).then(([seed, privateKey, publicKey]) => {
                     this.phrase = seed;
-                    this.encodedSeed = base58Encode(stringToBytes(seed));
+                    this.encodedSeed = typeof seed === 'string' ? base58Encode(stringToBytes(seed)) : null;
                     this.privateKey = privateKey;
                     this.publicKey = publicKey;
                     $scope.$digest();
