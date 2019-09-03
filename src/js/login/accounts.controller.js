@@ -27,6 +27,10 @@
                     switchToCreateSeedMode();
                     break;
 
+                case modes.BACKUP_SEED:
+                    switchToBackupSeed(param);
+                    break;
+
                 case modes.LIST:
                     switchToListMode();
                     break;
@@ -48,6 +52,10 @@
 
         function switchToCreateSeedMode() {
             accounts.caption = 'SET UP YOUR SEED';
+        }
+
+        function switchToBackupSeed(appState) {
+            accounts.visibleSeed = appState.seed;
         }
 
         function switchToRegisterMode(seed) {

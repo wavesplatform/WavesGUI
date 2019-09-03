@@ -7,3 +7,4 @@
 /build
 /distr
 *.pem
+.DS_Store

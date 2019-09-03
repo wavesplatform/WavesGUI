@@ -6,6 +6,7 @@
         .constant('ui.login.modes', {
             REGISTER: 'register',
             CREATE_SEED: 'create-seed',
+            BACKUP_SEED: 'backup-seed',
             LIST: 'list',
             LOGIN: 'login'
         });

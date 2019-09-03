@@ -11,6 +11,10 @@
                 $scope.$emit(moduleEvents.CHANGE_MODE, modes.CREATE_SEED);
             },
 
+            showBackupSeedScreen: function ($scope) {
+                $scope.$emit(moduleEvents.CHANGE_MODE, modes.BACKUP_SEED);
+            },
+
             showLoginScreen: function ($scope, account) {
                 $scope.$emit(moduleEvents.CHANGE_MODE, modes.LOGIN, account);
             },
@@ -30,7 +34,7 @@
                     keyPair: keys
                 };
 
-                $scope.$emit(applicationEvents.LOGIN_SUCCESSFUL, applicationState);
+                $scope.$emit(moduleEvents.CHANGE_MODE, modes.BACKUP_SEED, applicationState);
             }
         };
     }
