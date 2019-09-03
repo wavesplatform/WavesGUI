@@ -18,6 +18,7 @@
 <!DOCTYPE html>
 <html ng-app="app" ng-csp>
 <head>
+<!--  Qd%6g85VbcREsd-->
   <meta charset="utf-8">
   <title>Waves Lite Client</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -45,8 +46,7 @@
 <div id="lockscreen" class="userBG" ng-controller="accountsController as accounts" ng-switch-when="accounts-screen" ng-cloak>
   <div class="banner">
     <div class="banner-content">
-      <img src="img/warning_icon.svg"/> Google is shutting down its Chrome Web Store.
-      Save your secret phrase (SEED) and start using our new desktop application.
+      <img src="img/warning_icon.svg"/>Save your Seed phrase (SEED) and start using our new desktop application.
       Download it from the official Waves site <a href="https://wavesplatform.com" target="_blank">wavesplatform.com</a>,
       or use the web client <a href="https://client.wavesplatform.com" target="_blank">client.wavesplatform.com</a>
     </div>
@@ -56,7 +56,7 @@
     <thead>
     <div id="logoNversion">
       <img src="img/topleftlogo.svg" />
-      <p ng-class='{testnet: isTestnet()}'>{{::home.title}} <span class="wlcversion">{{::home.version}}</span></p>
+<!--      <p ng-class='{testnet: isTestnet()}'>{{::home.title}} <span class="wlcversion">{{::home.version}}</span></p>-->
     </div>
     </thead>
 
@@ -65,22 +65,24 @@
       <td>
         <!-- Accounts -->
         <div id="accounts">
+          <h1>Backup accounts</h1>
+          <div class="accountsDescription">Please log in to view your Seed phrase</div>
           <h2 id="AccHeader">{{accounts.caption}}</h2>
           <div class="wavesAccounts" ng-controller="accountListController as list" ng-show="accounts.mode === 'list'">
             <p class="loginAccountDiv" ng-repeat="account in list.accounts track by $index">
-                                    <span class="loginAccount fade" tooltipster tooltip-theme="tooltipster-theme1" title="Log into this account." ng-click="list.signIn(account)"> <br/>
+                                    <span class="loginAccount fade" tooltipster tooltip-theme="tooltipster-theme1" title="Log into this account." ng-click="list.signIn(account)">
                                         <b>{{::account.name}}</b> <span class="divider-1"></span> <small>{{::account.address}}</small>
                                     </span>
               <span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" ngclipboard title="Copy this address to the clipboard." data-clipboard-text="{{::account.address}}" ngclipboard-success="clipboardOk()"></span>
               <span class="divider-1"></span>
-              <button class="removeAccount wButtonAlt fade" tooltipster tooltip-theme="tooltipster-theme1" title="Remove this account from the list." ng-click="list.showRemoveWarning($index)">
-                <span class="wButton-icon"><img src="img/wIcon_x.svg"></span>REMOVE
-              </button>
+<!--              <button class="removeAccount wButtonAlt fade" tooltipster tooltip-theme="tooltipster-theme1" title="Remove this account from the list." ng-click="list.showRemoveWarning($index)">-->
+<!--                <span class="wButton-icon"><img src="img/wIcon_x.svg"></span>REMOVE-->
+<!--              </button>-->
             </p>
 
-            <button id="import_account" class="wButton fade" tooltipster tooltip-theme="tooltipster-theme1" title="Click here to import an existing account." ng-click="list.importAccount()">IMPORT ACCOUNT</button>
-            <span class="divider-1"></span>
-            <button id="create_account" class="wButton fade" tooltipster tooltip-theme="tooltipster-theme1" title="Click here to create a brand new account." ng-click="list.createAccount()">NEW ACCOUNT</button>
+<!--            <button id="import_account" class="wButton fade" tooltipster tooltip-theme="tooltipster-theme1" title="Click here to import an existing account." ng-click="list.importAccount()">IMPORT ACCOUNT</button>-->
+<!--            <span class="divider-1"></span>-->
+<!--            <button id="create_account" class="wButton fade" tooltipster tooltip-theme="tooltipster-theme1" title="Click here to create a brand new account." ng-click="list.createAccount()">NEW ACCOUNT</button>-->
             <br/>
 
             <!-- Remove Account popup -->
@@ -199,8 +201,8 @@
           <!-- log in to selected account -->
           <div id="account-login" ng-controller="accountLoginController as vm" ng-show="accounts.mode === 'login'">
             <form id="login-form">
-              <div>ACCOUNT
-                <br/>
+              <div>
+                <span class="login-form-title">ACCOUNT</span>
                 <span>{{accounts.displayAddress}}</span>
               </div>
               <br/>
@@ -339,7 +341,7 @@
     </div>
     <waves-support-link class="in-header light"></waves-support-link>
   </header>
-  <!-- / HEADER -->
+<!--   / HEADER-->
 
   <div id="navigationContainer" ng-controller="navigationController as nav">
     <!-- APPLICATION TAB SELECTORS -->
