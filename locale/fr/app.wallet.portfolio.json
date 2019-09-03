@@ -3,6 +3,7 @@
     "burn": "Brûlage de Token",
     "deposit": "Dépôt",
     "dex": "Ouvert sur la plateforme d'échange décentralisée",
+    "hasNftToken": "Account has non-fungible tokens [(NFT)](https://wavesexplorer.com/address/{{address}})",
     "info": "Infos de l'actif",
     "list": {
         "actions": "Actions",
