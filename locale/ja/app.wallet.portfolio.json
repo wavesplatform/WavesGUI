@@ -3,6 +3,7 @@
     "burn": "トークンをバーン",
     "deposit": "デポジット",
     "dex": "DEXで開く",
+    "hasNftToken": "Account has non-fungible tokens [(NFT)](https://wavesexplorer.com/address/{{address}})",
     "info": "アセット情報",
     "list": {
         "actions": "アクション",

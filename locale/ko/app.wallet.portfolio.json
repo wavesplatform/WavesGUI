@@ -3,6 +3,7 @@
     "burn": "토큰 소각",
     "deposit": "입금",
     "dex": "DEX에서 열기",
+    "hasNftToken": "Account has non-fungible tokens [(NFT)](https://wavesexplorer.com/address/{{address}})",
     "info": "자산 정보",
     "list": {
         "actions": "Actions",

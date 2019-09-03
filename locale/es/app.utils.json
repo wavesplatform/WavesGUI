@@ -62,7 +62,7 @@
     },
     "keeperForm": {
         "address": "Dirección de la cuenta",
-        "addressSaved": "Address saved",
+        "addressSaved": "Dirección guardada",
         "back": "Volver atrás",
         "error": {
             "hasLockedKeeperDescription": "Para continuar trabajando con Waves Keeper, debe especificar una contraseña creada previamente, o crear una nueva",
@@ -80,7 +80,7 @@
         "loading": "Importar cuenta desde Waves Keeper",
         "login": "Continuar",
         "name": "Nombre de la cuenta",
-        "nameExists": "That name is taken",
+        "nameExists": "Este nombre ya ha sido utilizado",
         "or": "O",
         "retry": "Intente de nuevo",
         "saveUserData": "Mantener la sesión iniciada en este equipo"
@@ -193,6 +193,12 @@
             "message": "Para empezar el comercio, por favor regístrete o crea una cuenta",
             "ok": "Registrarse"
         },
+        "deleteAccount": {
+            "cancel": "Cancelar",
+            "delete": "Eliminar",
+            "description": "{div}[Si borra una cuenta la perderá de forma permanente si no ha guardado una frase de copia de seguridad (SEMILLA).]\n{div}[Haga clic en el botón ELIMINAR para eliminar la cuenta, o en CANCELAR para volver a la pantalla anterior.]",
+            "header": "Eliminar cuenta"
+        },
         "deposit": {
             "coinomatBCH": {
                 "helpDescrText": "Cuando la transacción se confirme, la pasarela procesará la transferencia de BCH a un token en tu cuenta Waves",
@@ -265,20 +271,20 @@
             "scanQrCode": "Escanear Código QR",
             "title": "Depósito {{assetName}}",
             "wavesGatewayBNT": {
-                "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of Bancor to a token in your Waves account.",
-                "helpDescrTitle": "Enter this address into your client or wallet",
-                "warningMinAmountText": "If you will send less than {{minAmount, BigNumber}} {{assetTicker}}, you will lose that money.",
-                "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}, the maximum amount of deposit is {{maxAmount}} {{assetTicker}}",
-                "warningText": "Check if your wallet or exchange uses smart-contracts to withdraw Bancor. We do not accept such transactions and can’t refund them. You will lose that money.",
-                "warningTitle": "Please do not deposit BNT from smart contracts! Do not deposit other ERC20 tokens! Only Bancor is allowed."
+                "helpDescrText": "Una vez confirmada la transacción, la puerta de enlace procesará la transferencia de Bancor en forma de token en su cuenta Waves.",
+                "helpDescrTitle": "Ingrese esta dirección en su cliente o billetera",
+                "warningMinAmountText": "Si mandas menos de {{minAmount, BigNumber}} {{assetTicker}} perderás tu dinero.",
+                "warningMinAmountTitle": "La cantidad mínima de depósito es {{minAmount, BigNumber}} {{assetTicker}}, la cantidad máxima de depósito es {{maxAmount}} {{assetTicker}}",
+                "warningText": "Verifique si su billetera o intercambio utiliza contratos inteligentes para retirar Bancor. No aceptamos tales transacciones y no podemos reembolsarlas. Perderá ese dinero.",
+                "warningTitle": "Por favor, no deposite BNT desde contratos inteligentes! No deposite otros tokens ERC20! Sólo se permite Bancor."
             },
             "wavesGatewayERGO": {
-                "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of ERGO to a token in your Waves account.",
-                "helpDescrTitle": "Enter this address into your ERGO client or wallet",
-                "warningMinAmountText": "If you will send less than {{minAmount, BigNumber}} {{assetTicker}}, you will lose that money.",
-                "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}, the maximum amount of deposit is {{maxAmount}} {{assetTicker}}",
-                "warningText": "Sending any other currency to this address may result in the loss of your deposit.",
-                "warningTitle": "Send only ERGO to this deposit address"
+                "helpDescrText": "Una vez se confirme la transacción, la puerta de enlace procesará la transferencia de ERGO en forma de token a su cuenta de Waves.",
+                "helpDescrTitle": "Introduzca esta dirección en su cliente ERGO o billetera",
+                "warningMinAmountText": "Si mandas menos de {{minAmount, BigNumber}} {{assetTicker}} perderás tu dinero.",
+                "warningMinAmountTitle": "La cantidad mínima de depósito es {{minAmount, BigNumber}} {{assetTicker}}, la cantidad máxima de depósito es {{maxAmount}} {{assetTicker}}",
+                "warningText": "El envío de cualquier otra moneda a esta dirección puede resultar en la pérdida de su depósito.",
+                "warningTitle": "Enviar solo ERGO a esta dirección de depósito"
             },
             "wavesGatewayVST": {
                 "helpDescrText": "Una vez que se confirma la transacción, la puerta de enlace procesará la transferencia de Vostok en forma de token a su cuenta Waves.",
@@ -470,7 +476,8 @@
             "heading": "Eliminar cuenta",
             "remove": "Eliminar",
             "text": "{div}[Si borra una cuenta la perderá de forma permanente si no ha guardado una frase de copia de seguridad (SEMILLA).]\n{div}[Haga clic en el botón ELIMINAR para eliminar la cuenta, o en CANCELAR para volver a la pantalla anterior.]",
-            "warning": "No ha guardado su frase de seguridad (SEED)"
+            "warning": "No ha guardado su frase de seguridad (SEED)",
+            "warningPlural": "No ha guardado su frase de seguridad (SEED)"
         },
         "removeKeeperAccount": {
             "heading": "Eliminar cuenta de Waves Keeper",
@@ -481,7 +488,7 @@
             "text": "Esto no eliminará la cuenta de su Ledger. Solo eliminará la ruta guardada a esta cuenta en su Ledger."
         },
         "removePrivateKeyAccount": {
-            "text": "{div}[Deleting an account will lead to its irretrievable loss if you didn't save a Private key.]\n{div}[Click on the REMOVE button to proceed with account removal, or CANCEL to return to the previous screen.]"
+            "text": "{div}[Eliminar una cuenta provocará su pérdida irreversible si no ha guardado la respectiva clave privada.]\n{div}[Haga clic en el botón ELIMINAR para continuar con la eliminación de la cuenta, o CANCELAR para volver a la pantalla anterior.]"
         },
         "script": {
             "anyTx": "JSON",
@@ -606,8 +613,10 @@
             "warningHeader": "Las acciones pueden provocar una pérdida del activo."
         },
         "settings": {
+            "account": "Cuenta",
             "cancel": "Crear una cuenta",
-            "changePass": "Change password",
+            "changePass": "Cambiar contraseña",
+            "deleteAccount": "Eliminar cuenta",
             "general": {
                 "auto": "Auto",
                 "blockHeight": "Altura de bloque",
@@ -672,11 +681,12 @@
                     "ok": "Entiendo"
                 }
             },
-            "passChanged": "Password was changed successfully",
-            "password": "Password",
+            "passChanged": "La contraseña fue cambiada exitosamente",
+            "password": "Contraseña",
             "security": {
                 "address": "Dirección",
                 "backupPhrase": "Frase de Recuperación",
+                "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "Semilla codificada",
                 "privateKey": "Clave privada",
                 "publicKey": "Clave pública",
@@ -717,6 +727,8 @@
             "fee": "Cuota",
             "matcher": "Solicitud de pedidos de órdenes",
             "openApp": "Abra la aplicación Waves",
+            "orderType": "Tipo de orden",
+            "pair": "Par",
             "price": "Precio",
             "refererTo": "Si el error persiste, consulte a",
             "referTo": "Si el error persiste, consulte a",
@@ -730,6 +742,7 @@
             "signErrorText": "No ha confirmado la solicitud en su dispositivo Ledger.",
             "signErrorTextImportKeeper": "Iniciar sesión en Waves Keeper con la dirección{{address}}, y luego actualice la página para continuar.",
             "signErrorTextKeeper": "Inténtelo de nuevo. Si el error persiste, cree un tíquet en [Soporte]https://support.wavesplatform.com/)",
+            "timestamp": "Timestamp",
             "txId": "TXID"
         },
         "sponsorship_edit": {
@@ -813,6 +826,7 @@
             "step1": {
                 "button": "Lo que tienes que saber sobre tu SEED",
                 "buttonMobile": "Siguiente",
+                "buttonReadMore": "Leer más",
                 "p1": "Por favor, dedica un momento para entender algunas cosas importantes sobre tu propia seguridad.",
                 "p2": "Nosotros no podemos recuperar tus fondos ni congelar tu cuenta si tu visitas un sitio de suplantación de identidad o pierdes tu frase de recuperación (conocido como SEED).",
                 "p3": "Continuar usando nuestra plataforma, muestras tu conformidad en aceptar todos los riesgos asociados a la pérdida de tu SEED, incluyendo pero no limitado a la incapacidad de obtener sus fondos y disponer de ellos. En caso de que pierda su SEED, acepta y reconoce que Waves Platform no se responsabilizará de las consecuencias negativas por ello.",
@@ -911,9 +925,10 @@
                 "1_2_6": "\"span.line\" [1. Se ha agregado compatibilidad con transacciones de script de invocación. [Leer más] (https://blog.wavesplatform.com/ride-for-dapps-hits-waves-testnet-e3f2906dd2aa)]\n\"span.line\" [2. Se ha corregido la interfaz de usuario y algunos errores menores.]",
                 "1_2_8": "\"span.line\" [1. Los tokens y transaccionesconsideradas spam han sido ocultadas en el cliente.]\n\"span.line\" [2. Se han corregido la interfaz de usuario y algunos errores menores.]",
                 "1_3_0": "\"span.line\" [1. Se ha mejorado la navegación de la aplicación y la interfaz de la página de inicio.]",
-                "1_3_18": "{span.line}[1. Added login to wallet using a private key.]\n{span.line}[2. The 24 hours price change of a token is now bound to token/WAVES pair.]",
-                "1_3_19": "{span.line}[1. Bancor gateway has been launched.]\n{span.line}[2. User menu interface has been improved.]",
+                "1_3_18": "{span.line} [1. Inicio de sesión agregado a la billetera con clave privada.] \n {span.line} [2. El cambio de precio de 24 horas de un token ahora está vinculado al par de tokens / WAVES.]",
+                "1_3_19": "{span.line}[1. Se ha puesto en marcha la puerta de enlace Bancor.]\n{span.line}[2. Se ha corregido la interfaz de usuario y algunos errores menores.]",
                 "1_3_2": "\"span.line\" [1. Se ha puesto en marcha la puerta de enlace Vostok.]\n\"span.line\" [2. Se ha corregido la interfaz de usuario y algunos errores menores.]",
+                "1_3_20": "{span.line} [1. Sistema mejorado para almacenar y restaurar cuentas desde el almacenamiento local (es necesario actualizar la [aplicación de escritorio] (https://wavesplatform.com/technology/wallet)).] \n {span.line} [2. Se corrigió el redondeo de precios en el libro de pedidos.]",
                 "1_3_5": "\"span.line\" [1. Se ha añadido una pestaña con tokens de concurso [wsoc.io](https://wsoc.io).\n\"span.line\" [2. Se ha añadido compatibilidad con el idioma francés.]\n\"span.line\" [3. Se han corregido errores menores adicionales.]",
                 "1_3_7": "\"span.line\" [1. Integración con [tokenrating.wavesexplorer.com](https://tokenrating.wavesexplorer.com) Ahora puede calificar tokens directamente en la aplicación.]\n\"span.line\" [2. Se han corregido errores menores.]",
                 "1_3_9": "\"span.line\" [1. Mejora de la interfaz de usuario y la funcionalidad de las secciones de Intercambio y billetera.]\n\"span.line\" [2. Se han corregido errores menores adicionales.]"

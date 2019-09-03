@@ -29,16 +29,16 @@
         "createDescription": "Snel en gratis",
         "createNewAccount": "Kies een afbeelding",
         "description": {
-            "becomePart": "Word onderdeel van het snelst groeiende gebied binnen de cryptowereld. U bent de enige persoon die toegang heeft tot uw crypto assets.",
+            "becomePart": "Word onderdeel van het snelst groeiende gebied binnen de cryptowereld. U bent de enige persoon die toegang heeft tot uw crypto assets",
+            "dex": "Handel snel en veilig. U behoudt volledige controle over uw middelen terwijl u ermee handelt op onze decentrale exchange",
             "enterName": "Voer accountnaam of in",
-            "tokenLauncher": "Issue your own tokens. These can be integrated into your business not only as an internal currency but also as a rating system, or loyalty program.",
-            "wallet": "Store, manage and receive interest on your digital assets balance, easily and securely."
+            "wallet": "Het opslaan, beheren en het verkrijgen van rendement op uw digitale assets, gemakkelijk en veilig"
         },
         "from": "Deze avatar is uniek, u kunt deze later niet wijzigen.",
         "header": {
             "accountName": "Accountnaam",
-            "tokenLauncher": "TokenLauncher",
-            "wallet": "Wallet",
+            "dex": "Gedecentraliseerde Exchange",
+            "wallet": "Portemonnee",
             "withBlockchain": "Begin met Blockchain"
         },
         "import": "Importeer accounts",

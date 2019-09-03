@@ -119,7 +119,7 @@
     },
     "userList": {
         "addNew": "Aggiungi un account",
-        "back": "Back",
+        "back": "Indietro",
         "create": "Crea un nuovo account",
         "frombackup": "da un backup",
         "import": "Importa account",
@@ -129,7 +129,7 @@
     },
     "welcome": {
         "accountList": {
-            "locked": "Require unlocking"
+            "locked": "Richiede lo sblocco"
         },
         "address": "Indirizzo",
         "aliases": "Alias",
@@ -147,6 +147,7 @@
         "controlAssets": "Il controllo dei beni è solo tuo - i fondi non lasciano il portafoglio e non possono essere congelati.",
         "copyAddress": "Copia indirizzo",
         "copyright": "© 2019 Waves Platform",
+        "copyrightVordex": "© 2019 VORDEX",
         "createToken": "Crea token",
         "currentAccountName": "Nome account corrente",
         "dashboard": "Cruscotto",
@@ -181,6 +182,7 @@
         "macOs": "MacOS",
         "macOsDescription": "Scarica l'applicazione MacOS",
         "mailto": "support.wavesplatform.com",
+        "mailtoVordex": "support@vordex.com",
         "mainPage": "Pagina principale",
         "majorFiatCryptocurrencies": "Supporto per le principali valute fiat e criptovalute: BTC, LTC, ETH, USD e altri.",
         "markets": "Mercati",
@@ -209,7 +211,7 @@
         "stackOverflow": "Stack Overflow",
         "suitableTradingBots": "Adatto ai boti di trading",
         "support": "Supporto",
-        "switchAccount": "Switch account",
+        "switchAccount": "Cambia account",
         "telegram": "Telegram",
         "termsOfUse": "Termini di utilizzo",
         "tokenCreation": "Creazione rapida di token",
