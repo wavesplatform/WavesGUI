@@ -1,5 +1,12 @@
 import { PROTOCOL } from './constansts';
-import { readFile, writeFile as fsWriteFile, existsSync, readdir as fsReadDir } from 'fs';
+import {
+    readFile,
+    writeFile as fsWriteFile,
+    existsSync,
+    readdir as fsReadDir,
+    unlink as fsUnlink,
+    rename as fsRename
+} from 'fs';
 import { join } from 'path';
 
 const i18next = require(join(__dirname, 'i18next', 'commonjs', 'index.js'));
@@ -56,6 +63,18 @@ export function readdir(path: string): Promise<string[]> {
     });
 }
 
+export function unlink(path: string): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+        fsUnlink(path, (error) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve();
+            }
+        });
+    });
+}
+
 export function parseElectronUrl(url: string) {
     const [pathAndSearch, hash] = url.split('#');
     const [path, search] = pathAndSearch.split('?');
@@ -67,13 +86,24 @@ export function parseElectronUrl(url: string) {
     };
 }
 
-export function exist(path: string): Promise<void> {
-    const exists = existsSync(path);
-    if (exists) {
-        return Promise.resolve();
-    } else {
-        return Promise.reject(new Error(`File with path ${path} does not exist!`));
+export function exist(path: string): Promise<boolean> {
+    try {
+        return Promise.resolve(existsSync(path));
+    } catch (e) {
+        return Promise.reject(e);
     }
+}
+
+export function rename(oldPath: string, newPath: string): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+        fsRename(oldPath, newPath, error => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve();
+            }
+        });
+    });
 }
 
 export function read(path: string): Promise<string> {

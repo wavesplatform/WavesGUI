@@ -1,0 +1,73 @@
+{
+    "all": "Tamamı",
+    "confirmTransaction": {
+        "retrySign": "Tekrar dene"
+    },
+    "csv": {
+        "alias": "Takma isim",
+        "amount": {
+            "id": "Amount asset ID",
+            "name": "Amount asset name",
+            "ticker": "Amount asset ticker",
+            "value": "Amount asset value"
+        },
+        "attachment": "İşlem eki",
+        "date": "Gün",
+        "description": "Kripto para açıklaması",
+        "fee": {
+            "id": "Komisyon Kimliği",
+            "name": "Komisyon adı",
+            "ticker": "Komisyon ticker'ı",
+            "value": "Komisyon değeri"
+        },
+        "height": "işlemin bloğu",
+        "id": "İşlemin tanımı",
+        "name": "Kripto para adı",
+        "precision": "Hassas",
+        "price": {
+            "id": "Price asset ID",
+            "name": "Price asset name",
+            "ticker": "Price asset ticker",
+            "value": "Price asset value"
+        },
+        "recipient": "İşlemin alıcısı",
+        "reissuable": {
+            "false": "Tekrar üretilemez",
+            "name": "Tekrar üretilebilir",
+            "true": "Tekrar üretilebilir"
+        },
+        "sender": "İşlemin göndericisi",
+        "transactionType": "Blok zinciri işlem tipi",
+        "type": "İşlem tipi"
+    },
+    "errors": {
+        "complete": {
+            "body": "İşlemlerin listesi tamamen indirilemedi. Lütfen daha sonra tekrar deneyiniz.",
+            "title": "İndirme tamamlanmadı."
+        },
+        "download": {
+            "body": "İşlemlerin listesi indirilemedi. Lütfen daha sonra tekrar deneyiniz.",
+            "title": "İndirme hatası."
+        },
+        "empty": {
+            "body": "Geçmişinde hiçbir hareket yok",
+            "title": "Dışa aktarma hatası"
+        }
+    },
+    "exchanged": "Takas Edilen",
+    "export": "Dışa aktar",
+    "filter": {
+        "value1": "Güncel",
+        "value2": "500 İşlem",
+        "value3": "1000 İşlem"
+    },
+    "issued": "Oluşturulan",
+    "leased": "Kiralanmış",
+    "received": "Alınan",
+    "sent": "Gönderilen",
+    "transactions": {
+        "script": {
+            "txJson_wallet": "Base64 script"
+        }
+    }
+}

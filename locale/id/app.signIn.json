@@ -1,0 +1,36 @@
+{
+    "createAccount": "Buat akun",
+    "notHaveAccounts": "Anda tidak memiliki akun yang disimpan",
+    "nothingHere": "Tidak ada apapun disini…",
+    "password": {
+        "error": "Kata sandi salah!"
+    },
+    "signIn": {
+        "btn": {
+            "cancel": "Batalkan",
+            "restore": "Pulihkan semua"
+        },
+        "enterPass": "Silakan masukkan kata sandi Anda untuk melanjutkan",
+        "passForgot": {
+            "attention": "Perhatian!",
+            "description": "Jika Anda lupa kata sandi, Anda harus mengembalikan semua akun Anda dari SEED mereka dan menetapkan kata sandi baru."
+        },
+        "password": {
+            "forgot": "lupa kata sandi Anda?"
+        },
+        "signIn": "Masuk",
+        "welcomeBack": "Selamat datang kembali!"
+    },
+    "userList": {
+        "address": "Alamat / Nama akun",
+        "buttons": {
+            "login": "Masuk"
+        },
+        "notHaveAccount": "Silakan masuk untuk melanjutkan",
+        "password": "Kata sandi",
+        "placeholders": {
+            "password": "Kata sandi"
+        },
+        "title": "Selamat datang kembali"
+    }
+}

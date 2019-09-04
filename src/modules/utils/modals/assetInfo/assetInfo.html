@@ -1,6 +1,6 @@
-<div ng-cloak class="asset-modal">
+<div ng-cloak class="m-dialog__wrapper">
 
-    <w-asset-info-head ng-cloak asset-id="$ctrl.asset.id"></w-asset-info-head>
+    <w-asset-info-head class="asset-info-head" ng-cloak asset-id="$ctrl.asset.id"></w-asset-info-head>
 
     <w-tabs class="inner" ng-model="$ctrl.tab">
         <w-tab id="::'info'"
@@ -77,7 +77,7 @@
                 <div>
                     <w-circle-chart options="$ctrl.chartOptions" data="$ctrl.circleChartData"></w-circle-chart>
                 </div>
-                <div class="chart-legend">
+                <div class="circle-chart-legend">
                     <div ng-repeat="legend in $ctrl.circleChartData track by legend.id"
                          ng-if="!legend.value.getTokens().eq(0)"
                          class="legend-item">

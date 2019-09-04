@@ -13,6 +13,7 @@
     const controller = function (Base, $scope, user, createPoll, utils, waves) {
 
         const ds = require('data-service');
+        const { BigNumber } = require('@waves/bignumber');
 
         class AssetInfoCtrl extends Base {
 
@@ -29,7 +30,6 @@
                 const assetList = user.getSetting('pinnedAssetIdList');
                 this.assetList = assetList;
                 this.pinned = assetList.indexOf(asset.id) !== -1;
-                this.chartData = null;
                 this.circleChartData = null;
                 this.totalBalance = null;
                 this.transactions = [];
@@ -75,7 +75,6 @@
                     startFrom: Math.PI / 2
                 };
 
-                createPoll(this, this._getGraphData, 'chartData', 15000);
                 if (!this.isDemo) {
                     const isBalance = true;
                     createPoll(this, this._getCircleGraphData, this._setCircleGraphData, 15000);
@@ -128,17 +127,6 @@
                             return false;
                     }
                 });
-            }
-
-            /**
-             * @return {Promise<{values: {rate: number, timestamp: Date}[]}>}
-             * @private
-             */
-            _getGraphData() {
-                const startDate = utils.moment().add().day(-100);
-                return waves.utils.getRateHistory(this.asset.id, user.getSetting('baseAssetId'), startDate)
-                    .then((values) => ({ values }))
-                    .catch(() => ({ values: null }));
             }
 
             /**

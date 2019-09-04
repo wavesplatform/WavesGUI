@@ -1,0 +1,22 @@
+{
+    "available": "Disponible",
+    "chart": {
+        "available": "Disponible",
+        "create": "Commencer la location",
+        "leased": "En leasing",
+        "title": "Solde WAVES"
+    },
+    "description": {
+        "text1": "Vous pouvez transférer ou échanger uniquement les WAVES qui ne sont pas loués. Le montant loué ne peut être transféré ou échangé ni par vous ni par qui que ce soit d'autre.",
+        "text2": "Vous pouvez résilier une transaction de location dès que celle-ci apparaît sur la blockchain, ce qui a habituellement lieu en une minute ou moins.",
+        "text3": "Le solde générateur sera mis à jour après 1000 blocks.",
+        "title": "Bref message"
+    },
+    "leased": "Loué",
+    "leasedIn": "Leasing rentrant",
+    "nodeListLink": "Liste des nodes",
+    "test": {
+        "test": "test de texte"
+    },
+    "title_leasing": "Vous avez choisi de vous connecter à l'application de bureau Waves"
+}

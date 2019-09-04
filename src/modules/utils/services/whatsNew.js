@@ -45,7 +45,9 @@
             '1.3.2',
             '1.3.5',
             '1.3.7',
-            '1.3.9'
+            '1.3.9',
+            '1.3.18',
+            '1.3.19'
         ];
 
         /**
@@ -76,7 +78,7 @@
             return Object.keys(hash);
         }
 
-        user.onLogin().then(() => {
+        function handleLogin() {
             const notShownUpdates = user.getSetting('whatsNewList')
                 .filter(version => {
                     if (migration.gt(version, WavesApp.version)) {
@@ -106,6 +108,11 @@
             addVersions(newVersionList);
 
             user.setSetting('lastOpenVersion', WavesApp.version);
+        }
+
+        user.onLogin().then(() => {
+            handleLogin();
+            user.loginSignal.on(handleLogin);
         });
 
         return Object.create(null);

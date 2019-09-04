@@ -1,0 +1,36 @@
+{
+    "createAccount": "계정 생성",
+    "notHaveAccounts": "저장된 계정이 없습니다",
+    "nothingHere": "아무것도 없습니다…",
+    "password": {
+        "error": "비밀번호를 다시 입력하세요!"
+    },
+    "signIn": {
+        "btn": {
+            "cancel": "Cancel",
+            "restore": "Restore all"
+        },
+        "enterPass": "Please enter your password to continue",
+        "passForgot": {
+            "attention": "Attention!",
+            "description": "If you forget your password, you must restore all your accounts from their SEEDs and set a new password."
+        },
+        "password": {
+            "forgot": "Forgot your password?"
+        },
+        "signIn": "Sign in",
+        "welcomeBack": "Welcome Back!"
+    },
+    "userList": {
+        "address": "주소 / 계정 아이디",
+        "buttons": {
+            "login": "로그인"
+        },
+        "notHaveAccount": "계속하려면 로그인하세요",
+        "password": "비밀번호",
+        "placeholders": {
+            "password": "비밀번호"
+        },
+        "title": "환영합니다"
+    }
+}

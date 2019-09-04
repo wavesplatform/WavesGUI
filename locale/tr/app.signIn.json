@@ -1,0 +1,36 @@
+{
+    "createAccount": "Hesap oluştur",
+    "notHaveAccounts": "Kayıtlı hesabınız yok",
+    "nothingHere": "Burada hiçbir şey yok!",
+    "password": {
+        "error": "Hatalı Parola!"
+    },
+    "signIn": {
+        "btn": {
+            "cancel": "Cancel",
+            "restore": "Restore all"
+        },
+        "enterPass": "Please enter your password to continue",
+        "passForgot": {
+            "attention": "Attention!",
+            "description": "If you forget your password, you must restore all your accounts from their SEEDs and set a new password."
+        },
+        "password": {
+            "forgot": "Forgot your password?"
+        },
+        "signIn": "Sign in",
+        "welcomeBack": "Welcome Back!"
+    },
+    "userList": {
+        "address": "Adres / hesap adı",
+        "buttons": {
+            "login": "Giriş Yap"
+        },
+        "notHaveAccount": "Devam etmek için giriş yapın",
+        "password": "Parola",
+        "placeholders": {
+            "password": "Parola"
+        },
+        "title": "Hoşgeldiniz"
+    }
+}

@@ -2,30 +2,16 @@
 @import (reference) '../../../app/less/typography';
 @import (reference) 'icons';
 
-.dex-layout {
-  &__createorder {
-    .mask {
-      background: @mask-default;
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      opacity: .5;
-      height: 100%;
-      z-index: 5;
-      display: none;
-    }
-  }
-}
-
 w-button.inactive-order-button {
   width: 100%;
+
   & > *:not(.transparent) {
     width: 100%;
     background-color: @color-basic-50;
     border: 0 none;
     cursor: default;
     color: @color-basic-500;
+
     &:hover {
       color: @color-basic-500;
     }
@@ -90,85 +76,6 @@ w-create-order {
         bottom: 0;
         width: 100%;
         height: 1px;
-      }
-    }
-  }
-
-  .expiration {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 7px 0;
-    min-height: 25px;
-
-    & > div {
-      margin-left: 7px;
-      font-size: @font-size-caption-2;
-      color: @color-basic-500;
-
-      &:first-child {
-        flex-grow: 1;
-        margin-left: 0;
-      }
-    }
-
-    w-select {
-      flex-grow: 0;
-
-      .select {
-        min-width: 82px;
-
-        .title {
-          padding: 2px 25px 2px 10px;
-          border: 1px solid transparent;
-          font-size: @font-size-caption-2;
-
-          &::after {
-            right: 9px;
-            top: 10px;
-            background-size: 80%;
-            background-repeat: no-repeat;
-            background-position: center left;
-          }
-        }
-
-        .select-list {
-          flex-direction: column-reverse;
-
-          w-option {
-            &.active::after {
-              content: '';
-              display: block;
-              position: absolute;
-              right: 9px;
-              top: 50%;
-              width: 10px;
-              height: 5px;
-              transform: translateY(-50%);
-              background-image: @arrow-select-icon;
-              background-size: 80%;
-              background-repeat: no-repeat;
-              background-position: center left;
-            }
-
-            .option {
-              padding: 0 25px 0 10px;
-              line-height: 20px;
-              font-size: @font-size-caption-2;
-              text-align: left;
-            }
-          }
-        }
-
-        &.expanded {
-          .title {
-            border: 1px solid @color-basic-100;
-          }
-
-          .select-list {
-            margin-top: 22px;
-          }
-        }
       }
     }
   }
@@ -323,7 +230,7 @@ w-create-order {
           }
 
           w-input-container.invalid {
-            .input-like:not(.embed) {
+            .input-like {
               border: 1px solid @color-error-200;
             }
           }
@@ -446,210 +353,6 @@ w-create-order {
   }
 }
 
-@media screen and (max-width: 1024px) {
-  w-layout {
-    .dex-layout {
-      .dex-layout {
-        &__createorder {
-          margin-left: -5px;
-          margin-right: -5px;
-          width: calc(100% ~'+ 10px');
-          height: 80px;
-          max-height: none;
-          min-height: auto;
-          position: absolute;
-          bottom: 0;
-          z-index: 7;
-          box-shadow: @shadow-dex-open;
-
-          .dex-layout {
-            &__block {
-              width: 100%;
-              position: absolute;
-              z-index: 8;
-              bottom: 0;
-              height: 80px;
-            }
-          }
-
-          &.expanded {
-            z-index: 7;
-            height: calc(100% ~'+ 10px');
-            top: -5px;
-
-            .dex-layout {
-              &__block {
-                height: 386px;
-              }
-            }
-
-            .mask {
-              display: block;
-            }
-
-            .head {
-              .icon-close {
-                display: block;
-              }
-            }
-
-            .body {
-              .making-order {
-
-                .areas {
-                  display: none;
-                }
-
-                .choice {
-                  display: flex;
-                  border-bottom: 1px solid @color-disabled-100;
-
-                  .buy {
-                    background: @color-white;
-                    flex-basis: 50%;
-                    text-align: left;
-                    padding-left: 25px;
-                  }
-
-                  .sell {
-                    background: @color-white;
-                    flex-basis: 50%;
-                    text-align: right;
-                    padding-right: 25px;
-                  }
-
-                  .middle {
-                    position: absolute;
-                    left: 50%;
-                    top: 0;
-                    color: @color-submit-400;
-                    height: 49px;
-                    width: 80px;
-                    transform: translate(-50%, 0);
-                  }
-
-                }
-
-                &.buy {
-                  .buy {
-                    background: rgba(31, 90, 245, 0.1);
-                    .price {
-                      span {
-                        color: @color-submit-400;
-                      }
-                    }
-
-                    .name {
-                      color: @color-submit-400;
-                    }
-                  }
-
-                  .sell {
-                    .price {
-                      span {
-                        color: @color-basic-900;
-                      }
-                    }
-                    .name {
-                      color: @color-basic-500;
-                    }
-                  }
-                }
-
-                &.sell {
-                  .buy {
-                    .price {
-                      span {
-                        color: @color-basic-900;
-                      }
-                    }
-                    .name {
-                      color: @color-basic-500;
-                    }
-                  }
-
-                  .sell {
-                    background: rgba(239, 72, 41, 0.1);
-                    .price {
-                      span {
-                        color: @color-error-500;
-                      }
-                    }
-
-                    .name {
-                      color: @color-error-500;
-                    }
-                  }
-
-                  .middle {
-                    color: @color-error-500;
-                  }
-                }
-
-              }
-            }
-          }
-
-          w-create-order {
-            .create-order {
-
-              .body {
-                .making-order {
-                  .create-order-notification {
-                    z-index: 1;
-                  }
-                  .choice {
-                    display: flex;
-
-                    .price {
-                      span {
-                        color: @white-only;
-                      }
-                    }
-                  }
-
-                  .areas {
-                    display: none;
-                  }
-                }
-              }
-
-              .expandable {
-                display: block;
-              }
-
-              .head {
-                display: flex;
-              }
-
-            }
-          }
-        }
-      }
-    }
-  }
-
-}
-
-@media screen and (max-width: 659px) {
-  w-layout {
-    .dex-layout {
-      .dex-layout {
-        &__createorder {
-          position: fixed;
-          box-shadow: @shadow-create-order;
-
-          &.expanded {
-            bottom: 0;
-            top: auto;
-          }
-        }
-      }
-    }
-  }
-}
-
-
 .amount {
   .field-buttons {
     display: flex;
@@ -662,6 +365,43 @@ w-create-order {
       > * {
         box-shadow: none;
       }
+    }
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  w-create-order {
+    .create-order {
+      .body {
+        .making-order {
+          .create-order-notification {
+            z-index: 1;
+          }
+
+          .choice {
+            display: flex;
+
+            .price {
+              span {
+                color: @white-only;
+              }
+            }
+          }
+
+          .areas {
+            display: none;
+          }
+        }
+      }
+
+      .expandable {
+        display: block;
+      }
+
+      .head {
+        display: flex;
+      }
+
     }
   }
 }

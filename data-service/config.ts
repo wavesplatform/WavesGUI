@@ -51,7 +51,7 @@ export function setConfig(props: Partial<IConfigParams>): void {
     });
 }
 
-export function getDataService(): DataServiceClient {
+export function getDataService(): DataServiceClient<any> {
     return dataService;
 }
 
@@ -71,4 +71,5 @@ export interface IConfigParams {
     remappedAssetNames: IHash<string>;
     oracleWaves: string;
     oracleTokenomica: string;
+    tokenrating: string;
 }

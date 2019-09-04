@@ -1,0 +1,36 @@
+{
+    "createAccount": "Account erstellen",
+    "notHaveAccounts": "Sie haben keine Konten gespeichert",
+    "nothingHere": "Nichts hier…",
+    "password": {
+        "error": "Falsches Passwort!"
+    },
+    "signIn": {
+        "btn": {
+            "cancel": "Cancel",
+            "restore": "Restore all"
+        },
+        "enterPass": "Please enter your password to continue",
+        "passForgot": {
+            "attention": "Attention!",
+            "description": "If you forget your password, you must restore all your accounts from their SEEDs and set a new password."
+        },
+        "password": {
+            "forgot": "Forgot your password?"
+        },
+        "signIn": "Sign in",
+        "welcomeBack": "Welcome Back!"
+    },
+    "userList": {
+        "address": "Account Name",
+        "buttons": {
+            "login": "Einloggen"
+        },
+        "notHaveAccount": "Bitte melden Sie sich an, um fortzufahren.",
+        "password": "Passwort",
+        "placeholders": {
+            "password": "Passwort"
+        },
+        "title": "Willkommen zurück"
+    }
+}

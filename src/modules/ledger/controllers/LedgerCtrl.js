@@ -81,9 +81,38 @@
                  * @private
                  */
                 this._runLedgerCommand = '';
+                /**
+                 * @type {Array}
+                 * @private
+                 */
+                this._usersInStorage = [];
+                /**
+                 * @type {boolean}
+                 */
+                this.isPriorityUserTypeExists = false;
+                /**
+                 * @type {string}
+                 * @private
+                 */
+                this._type = 'ledger';
+                /**
+                 * @type {object | null}
+                 */
+                this.userExisted = Object.create(null);
+                /**
+                 * @type {object}
+                 * @private
+                 */
+                this._priorityMap = utils.getImportPriorityMap();
+
+                user.getFilteredUserList().then(users => {
+                    this._usersInStorage = users;
+                });
 
                 this.observe('selectDefault', this._onChangeSelectDefault);
                 this.getUsers(PRELOAD_USERS_COUNT);
+                this.observe('selectedUser', this._onSelectUser);
+                this.observe('name', this._onChangeName);
             }
 
             /**
@@ -201,6 +230,7 @@
             login() {
                 this._runLedgerCommand = 'login';
                 const userSettings = user.getDefaultUserSettings({ termsAccepted: false });
+
                 const newUser = {
                     ...this.selectedUser,
                     userType: this.adapter.type,
@@ -244,6 +274,28 @@
                 }
                 this._calculateDisabled();
                 this.showVisibleUsers();
+            }
+
+            /**
+             * @private
+             */
+            _onSelectUser() {
+                this.userExisted =
+                    this._usersInStorage.find(user => user.address === this.selectedUser.address) ||
+                    null;
+                this.isPriorityUserTypeExists =
+                    !!this.userExisted &&
+                    this._priorityMap[this._type] <= this._priorityMap[this.userExisted.userType];
+            }
+
+            /**
+             * @private
+             */
+            _onChangeName() {
+                const isUnique = this._usersInStorage.some(user => {
+                    return user.name === this.name && user.address !== this.selectedUser.address;
+                });
+                this.importForm.userName.$setValidity('isUnique', !isUnique);
             }
 
         }

@@ -1,7 +1,7 @@
 <w-loader class="loader" ng-if="$ctrl.pending && !$ctrl.isDemo"></w-loader>
 
 <w-smart-table ng-if="!$ctrl.pending || $ctrl.isDemo"
-               class="smart-table"
+               class="smart-table smart-table_dex-trade-history"
                ng-class="{'my-trade-history': $ctrl.isMy}"
                data="$ctrl.history"
                header-info="$ctrl.headers">
@@ -19,8 +19,8 @@
     <w-table-row ng-repeat="tx in $data track by tx.id"
                  class="footnote-1 basic-900 {{::tx.exchangeType}}">
         <w-table-cell ng-if="::$ctrl.isMy">
-            <span ng-click="$ctrl.setPair(tx)" ng-class="{underline: !$ctrl.isSelected(tx)}">
-                <a href="#">{{::tx.pair}}</a>
+            <span ng-click="$ctrl.setPair(tx)" ng-class="{underline: !$ctrl.isSelected(tx) && ! $ctrl.isLockedPair(tx)}">
+                <a class="to-dex-link" href="#">{{::tx.pair}}</a>
             </span>
         </w-table-cell>
         <w-table-cell>

@@ -1,10 +1,10 @@
-<div class="wrapper">
+<div class="dex-watchlist__wrapper">
 
     <div class="titles-wrap">
         <div ng-repeat="tab in $ctrl.tabs track by tab.value"
-           class="title"
-           ng-class="{'active': $ctrl.activeTab === tab.value}"
-           ng-click="$ctrl.chooseTab(tab.value)">
+             class="title"
+             ng-class="{'active': $ctrl.activeTab === tab.value}"
+             ng-click="$ctrl.chooseTab(tab.value)">
             <span w-i18n="{{::tab.name}}"></span>
         </div>
 
@@ -58,14 +58,14 @@
                    options="$ctrl.tableOptions"
                    data="$ctrl.pairDataList"
                    header-info="$ctrl.headers"
-                   class="smart-table">
+                   class="smart-table smart-table_watchlist">
         <div class="not-found basic-500" ng-if="$data && !$data.length && !$ctrl.loadingError">
             <span w-i18n="directives.watchlist.placeholders.noMarkets"></span>
         </div>
         <w-table-row ng-repeat="pair in $data track by pair.id"
                      ng-cloak
                      ng-click="$ctrl.choosePair(pair)"
-                     ng-class="{'selected': $ctrl.isChosen(pair)}">
+                     ng-class="{'selected': $ctrl.isChosen(pair), 'disabled': $ctrl.isLockedPair(pair.amountAsset.id, pair.priceAsset.id)}">
             <w-table-cell>
                 <i class="icon-fav"
                    ng-class="{'active': $ctrl.isFavourite(pair)}"
@@ -78,7 +78,6 @@
             </w-table-cell>
             <w-table-cell>
                 <span>{{pair.lastPrice.toFormat() || '—'}}</span>
-                <!--div class="tooltip-dex center">{{pair.price.toFormat() || '—'}}</div-->
             </w-table-cell>
             <w-table-cell ng-class="{'plus': pair.change24.gt(0),'minus': pair.change24.lt(0)}">
                 <span>{{ pair.change24.toFormat() }}</span>{{ pair.change24 ? '%' : '—' }}
@@ -88,21 +87,28 @@
                       w-nice-number="pair.currentVolume"
                       short-mode="::true"></span>
                 <span ng-if="!pair.volume">—</span>
-                <div ng-if="pair.volume" class="tooltip-dex right">
+                <div ng-if="pair.volume && !$ctrl.isLockedPair(pair.amountAsset.id, pair.priceAsset.id)" class="tooltip-dex right">
                     <span ng-if="pair.volume" w-nice-number="pair.currentVolume"></span>
                     {{$ctrl.volumeAsset.displayName}}
                 </div>
             </w-table-cell>
             <w-table-cell ng-if="$ctrl.isChosen(pair)" class="chosen">
-                <div>
+                <div class="chosen__info">
                     <a href="#"
                        ng-click="$ctrl.showAssetInfo($event, pair.amountAsset)"
-                       class="basic-700">{{::pair.amountAsset.id}}</a> <span>/</span>
+                       class="chosen__link basic-700">{{::pair.amountAsset.id}}</a> <span>/</span>
                 </div>
                 <a href="#"
                    ng-click="$ctrl.showAssetInfo($event, pair.priceAsset)"
-                   class="basic-700">{{::pair.priceAsset.id}}</a>
+                   class="chosen__link basic-700">{{::pair.priceAsset.id}}</a>
             </w-table-cell>
+            <div class="tooltip-dex tooltip-row center"
+                 ng-if="$ctrl.isLockedPair(pair.amountAsset.id, pair.priceAsset.id)"
+                 w-i18n="directives.watchlist.placeholders.lockedPair"
+                 params="{
+                     amountAssetTicker: pair.amountAsset.ticker || pair.amountAsset.displayName,
+                     priceAssetTicker:  pair.priceAsset.ticker || pair.priceAsset.displayName
+                 }"></div>
         </w-table-row>
     </w-smart-table>
 </div>
