@@ -3,53 +3,68 @@
 @import (reference) 'config';
 @import (reference) 'icons';
 
-.status-label-min,
 .asset-status {
   display: inline-flex;
+}
 
-  &__status, &_medium {
-  width: auto;
+.status-label,
+.status-label-min,
+.asset-status__status {
+  font-size: 13px;
+  line-height: 18px;
+  display: inline-flex;
   padding: 4px 11px;
   border-radius: @border-radius;
   text-transform: uppercase;
-  color: @color-submit-400;
-  background-color: @color-bluebar-200;
+  color: @color-basic-500;
   margin: 0 0 0 6px;
   white-space: nowrap;
+}
 
-    &.success,
-    &.confirmed {
-      background: @color-success-50;
-      color: @color-success-400;
-    }
+.asset-status_min,
+.status-label-min {
+  font-size: 9px;
+  line-height: 12px;
+  padding: 2px 6px;
+  border-radius: @border-radius / 2;
+}
 
-    &.warning,
-    &.unconfirmed {
-      background: rgba(255, 175, 0, 0.1);
-      color: @color-warning-500;
-    }
-
-    &.error,
-    &.cancelled {
-      background: rgba(239, 72, 41, 0.1);
-      color: @color-error-500;
-    }
-
-    &_active {
-      color: @color-submit-400;
-      background-color: @color-bluebar-200;
-    }
-
-    &_inactive {
-      background-color: @asset-label-suspicious;
-      color: @color-black;
-    }
-
-    .caption-3();
+.status-label,
+.status-label-min,
+.asset-status__status {
+  &.success,
+  &_success,
+  &.confirmed,
+  &_confirmed {
+    background: @color-success-50;
+    color: @color-success-400;
   }
 
+  &.warning,
+  &_warning,
+  &.unconfirmed,
+  &_unconfirmed {
+    background: rgba(255, 175, 0, 0.1);
+    color: @color-warning-500;
+  }
 
-  &_small {
-    padding: 2px 6px;
+  &.error,
+  &_error,
+  &.cancelled,
+  &_cancelled {
+    background: rgba(239, 72, 41, 0.1);
+    color: @color-error-500;
+  }
+
+  &.active,
+  &_active {
+    color: @color-submit-400;
+    background-color: @color-bluebar-200;
+  }
+
+  &.inactive,
+  &_inactive {
+    background-color: @asset-label-suspicious;
+    color: @color-black;
   }
 }
