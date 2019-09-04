@@ -22,7 +22,25 @@ export function get(assets: string | Array<string>): Promise<any> {
             } else {
                 return list;
             }
-        });
+        }).then(
+            (list: Array<Asset>) => {
+                const rewriteAssets = configGet('rewriteAssets') || {};
+                if (!rewriteAssets || !list || !list.map) {
+                    return list;
+                }
+
+                return list.map(asset => {
+                    if (!rewriteAssets[asset.id]) {
+                        return asset;
+                    }
+
+                    Object.entries(rewriteAssets[asset.id])
+                        .forEach(([key, value]) => asset[key] = value);
+
+                    return asset;
+                });
+            }
+        );
 }
 
 export const wavesAsset = new Asset({
