@@ -686,6 +686,7 @@
             "security": {
                 "address": "Alamat",
                 "backupPhrase": "Frasa cadangan",
+                "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "SEED terenkode",
                 "privateKey": "Kunci pribadi",
                 "publicKey": "Kunci Publik",

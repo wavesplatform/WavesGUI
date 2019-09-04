@@ -686,6 +686,7 @@
             "security": {
                 "address": "पता",
                 "backupPhrase": "बैकअप वाक्य",
+                "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "इनकोडेड सीड",
                 "privateKey": "निजी कुंजी",
                 "publicKey": "सार्वजनिक कुंजी",

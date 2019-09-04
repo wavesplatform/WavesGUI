@@ -818,6 +818,7 @@ export function loadLocales(path: string, options?: object): Promise<void> {
                         get(url, (res) => {
                             res.pipe(file);
                             res.on('end', () => {
+                                console.log(zipPath)
                                 extract(zipPath, { dir: `${path}/` }, error => {
                                     if (error) {
                                         reject(error);
@@ -841,6 +842,7 @@ export function loadLocales(path: string, options?: object): Promise<void> {
             });
         })
         .then(() => {
+            console.log('zip unlink')
             unlink(zipPath, error => {
                 if (error) {
                     console.log('ERROR', error);

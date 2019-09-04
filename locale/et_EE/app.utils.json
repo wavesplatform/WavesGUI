@@ -686,6 +686,7 @@
             "security": {
                 "address": "Aadress",
                 "backupPhrase": "Salafraas",
+                "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "Kodeeritud salafraas",
                 "privateKey": "Privaatne võti",
                 "publicKey": "Avalik võti",

@@ -686,6 +686,7 @@
             "security": {
                 "address": "Address",
                 "backupPhrase": "Backup phrase",
+                "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "Encoded seed",
                 "privateKey": "Private key",
                 "publicKey": "Public Key",

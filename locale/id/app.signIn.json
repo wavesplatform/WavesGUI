@@ -13,7 +13,8 @@
         "enterPass": "Silakan masukkan kata sandi Anda untuk melanjutkan",
         "passForgot": {
             "attention": "Perhatian!",
-            "description": "Jika Anda lupa kata sandi, Anda harus mengembalikan semua akun Anda dari SEED mereka dan menetapkan kata sandi baru."
+            "description": "Jika Anda lupa kata sandi, Anda harus mengembalikan semua akun Anda dari SEED mereka dan menetapkan kata sandi baru.",
+            "importantDesc": "If you have not saved the Seed phrase or Private key, then you will not be able to recover access to your account."
         },
         "password": {
             "forgot": "lupa kata sandi Anda?"

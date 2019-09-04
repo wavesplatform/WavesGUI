@@ -13,7 +13,8 @@
         "enterPass": "Voer uw wachtwoord in om door te gaan",
         "passForgot": {
             "attention": "Let op!",
-            "description": "Als u uw wachtwoord bent vergeten kunt u al uw accounts terugzetten door middel van de SEEDs en een nieuw wachtwoord instellen."
+            "description": "Als u uw wachtwoord bent vergeten kunt u al uw accounts terugzetten door middel van de SEEDs en een nieuw wachtwoord instellen.",
+            "importantDesc": "If you have not saved the Seed phrase or Private key, then you will not be able to recover access to your account."
         },
         "password": {
             "forgot": "Uw wachtwoord vergeten?"

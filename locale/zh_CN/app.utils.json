@@ -686,6 +686,7 @@
             "security": {
                 "address": "地址",
                 "backupPhrase": "备份短语",
+                "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "编码的SEED",
                 "privateKey": "私钥",
                 "publicKey": "公钥",

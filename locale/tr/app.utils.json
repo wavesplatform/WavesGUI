@@ -686,6 +686,7 @@
             "security": {
                 "address": "Adres",
                 "backupPhrase": "Anahtar (Yedek) kelimeler",
+                "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "Encoded Anahtar kelimeler",
                 "privateKey": "Özel Anahtar",
                 "publicKey": "Açık Anahtar",

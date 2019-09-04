@@ -119,7 +119,7 @@
     },
     "userList": {
         "addNew": "Añadir una cuenta",
-        "back": "Back",
+        "back": "Volver",
         "create": "crear una nueva cuenta",
         "frombackup": "desde un backup",
         "import": "Importar cuentas",
@@ -129,7 +129,7 @@
     },
     "welcome": {
         "accountList": {
-            "locked": "Require unlocking"
+            "locked": "Requiere desbloqueo"
         },
         "address": "Dirección",
         "aliases": "Alias",
@@ -165,7 +165,7 @@
         "gitHub": "GitHub",
         "help": "Ayuda",
         "high": "24 HIGH",
-        "inputErrorNameExists": "That name is taken. Try another",
+        "inputErrorNameExists": "Este nombre ya ha sido utilizado. Pruebe nuevamente.",
         "instantAccessWalletDex": "Acceso instantáneo a tu billetera y DEX.",
         "keeperAccount": "La cuenta de Keeper",
         "lastPrice": "ÚLTIMO PRECIO",
@@ -191,7 +191,7 @@
         "marketsTableDescriptionLink": "Ver intercambio",
         "menu": "Menú",
         "name": "Nombre",
-        "nameSaved": "Account name changed",
+        "nameSaved": "Nombre de cuenta modificado",
         "newAccountName": "Nuevo nombre de cuenta",
         "news": "Noticias",
         "pair": "PAR",
@@ -211,7 +211,7 @@
         "stackOverflow": "Stack Overflow",
         "suitableTradingBots": "Adecuado para bots de intercambio",
         "support": "Soporte",
-        "switchAccount": "Switch account",
+        "switchAccount": "Cambiar cuenta",
         "telegram": "Telegram",
         "termsOfUse": "Términos de uso",
         "tokenCreation": "Creación rápida de tokens",

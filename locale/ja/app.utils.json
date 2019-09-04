@@ -686,6 +686,7 @@
             "security": {
                 "address": "アドレス",
                 "backupPhrase": "バックアップフレーズ",
+                "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "エンコードされたシード",
                 "privateKey": "秘密鍵",
                 "publicKey": "公開鍵",
