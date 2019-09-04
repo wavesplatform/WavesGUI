@@ -90,17 +90,15 @@
   &__dex-screenshot {
     left: calc(50% ~'- 50px');
     max-width: calc(50% ~'+ 50px');
-    @dex-screenshot-width: 2732px;
-    @dex-screenshot-height: 1536px;
-    width: calc(@dex-screenshot-width / 2.7);
-    height: calc(@dex-screenshot-height / 2.7);
+    width: 100%;
     display: block;
     position: absolute;
-    top: 90px;
+    top: 85px;
+    bottom: 85px;
     box-shadow: 0 0 30px @color-basic-200;
     z-index: 1;
     transition: .5s;
-    background: url(/img/landing/dex-screenshot.png) left center no-repeat @color-white;
+    background: @dex-screenshot left center no-repeat @color-white;
     background-size: cover;
   }
 }
@@ -117,7 +115,6 @@
     }
 
     &__dex-screenshot {
-      right: auto;
       left: calc(50% ~'- 100px');
       max-width: calc(50% ~'+ 100px');
     }

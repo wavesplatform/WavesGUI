@@ -7,7 +7,7 @@
   margin: 0 auto;
   padding-left: @welcomeSectionWrapperPaddingLarge;
   padding-right: @welcomeSectionWrapperPaddingLarge;
-  max-width: 1440px;
+  max-width: @desktop-full-size;
   width: 100%;
 
   @media screen and (max-width: 1440px) {
@@ -22,11 +22,10 @@
 }
 
 .cell {
-  width: ~"calc((100% - 190px) / 5)";
-  max-width: ~"calc((100% - 190px) / 5)";
   overflow: hidden;
   vertical-align: middle;
   white-space: nowrap;
+  flex: 1;
 
   @media screen and (max-width: 860px) {
     flex-basis: 50%;
