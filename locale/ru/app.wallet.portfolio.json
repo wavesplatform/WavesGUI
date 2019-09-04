@@ -3,6 +3,7 @@
     "burn": "Сжечь токен",
     "deposit": "Пополнить",
     "dex": "Открыть в DEX",
+    "hasNftToken": "У вас есть токены [NFT](https://wavesexplorer.com/address/{{address}})",
     "info": "О токене",
     "list": {
         "actions": "Действия",

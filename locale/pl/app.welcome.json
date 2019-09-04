@@ -119,7 +119,7 @@
     },
     "userList": {
         "addNew": "Dodaj konto",
-        "back": "Back",
+        "back": "Wróć",
         "create": "Utwórz nowe konto",
         "frombackup": "z kopii zapasowej",
         "import": "Import konta",
@@ -129,7 +129,7 @@
     },
     "welcome": {
         "accountList": {
-            "locked": "Require unlocking"
+            "locked": "Wymagaj odblokowania"
         },
         "address": "Adres",
         "aliases": "Aliasy",
@@ -147,6 +147,7 @@
         "controlAssets": "Kontrola aktywów należy wyłącznie do Ciebie - fundusze nie opuszczają Twojego portfela i nie mogą zostać zamrożone",
         "copyAddress": "Kopiuj adres",
         "copyright": "© 2019 Waves Platform",
+        "copyrightVordex": "© 2019 VORDEX",
         "createToken": "Utwórz token",
         "currentAccountName": "Obecna nazwa konta",
         "dashboard": "Dashboard",
@@ -181,6 +182,7 @@
         "macOs": "MacOS",
         "macOsDescription": "Pobierz aplikację MacOS",
         "mailto": "support.wavesplatform.com",
+        "mailtoVordex": "support@vordex.com",
         "mainPage": "Strona główna",
         "majorFiatCryptocurrencies": "Główne obsługiwane waluty fiat i kryptowaluty: BTC, LTC, ETH, USD i inne",
         "markets": "Rynki",
@@ -209,7 +211,7 @@
         "stackOverflow": "Przepełnienie stosu",
         "suitableTradingBots": "Odpowiedni do handlu botami",
         "support": "Wsparcie",
-        "switchAccount": "Switch account",
+        "switchAccount": "Przełącz konto",
         "telegram": "Telegram",
         "termsOfUse": "Warunki użytkowania",
         "tokenCreation": "Szybkie tworzenie tokenów",

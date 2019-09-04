@@ -3,6 +3,7 @@
     "burn": "Membakar Token",
     "deposit": "o",
     "dex": "Buka di DEX",
+    "hasNftToken": "Apakah Anda memiliki [NFT](https://wavesexplorer.com/address/{{address}})",
     "info": "Informasi Aset",
     "list": {
         "actions": "Aksi",

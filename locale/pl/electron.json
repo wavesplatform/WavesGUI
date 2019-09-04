@@ -20,6 +20,12 @@
         }
     },
     "storage": {
+        "backup": {
+            "error": {
+                "body": "Nie udało się uzyskać kont. Skontaktuj się z działem pomocy technicznej, aby przywrócić kopię zapasową (frazę SEED).",
+                "title": "Coś poszło nie tak!"
+            }
+        },
         "read": {
             "error": {
                 "body": "Wystąpił błąd podczas próby załadowania kluczy. Przywróciliśmy Twoje konta z magazynu kopii zapasowych.",
