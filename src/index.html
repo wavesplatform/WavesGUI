@@ -18,7 +18,6 @@
 <!DOCTYPE html>
 <html ng-app="app" ng-csp>
 <head>
-    <!--  Qd%6g85VbcREsd-->
     <meta charset="utf-8">
     <title>Waves Lite Client</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -58,7 +57,6 @@
         <thead>
         <div id="logoNversion">
             <img src="img/topleftlogo.svg"/>
-            <!--      <p ng-class='{testnet: isTestnet()}'>{{::home.title}} <span class="wlcversion">{{::home.version}}</span></p>-->
         </div>
         </thead>
 
@@ -75,23 +73,15 @@
                     <div class="wavesAccounts" ng-controller="accountListController as list"
                          ng-show="accounts.mode === 'list'">
                         <p class="loginAccountDiv" ng-repeat="account in list.accounts track by $index">
-                                    <span class="loginAccount fade" tooltipster tooltip-theme="tooltipster-theme1"
-                                          title="Log into this account." ng-click="list.signIn(account)">
-                                        <b>{{::account.name}}</b> <span class="divider-1"></span> <small>{{::account.address}}</small>
-                                    </span>
+                            <span class="loginAccount fade" tooltipster tooltip-theme="tooltipster-theme1"
+                                  title="Log into this account." ng-click="list.signIn(account)">
+                                <b>{{::account.name}}</b> <span class="divider-1"></span> <small>{{::account.address}}</small>
+                            </span>
                             <span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" ngclipboard
                                   title="Copy this address to the clipboard."
                                   data-clipboard-text="{{::account.address}}"
                                   ngclipboard-success="clipboardOk()"></span>
-                            <span class="divider-1"></span>
-                            <!--              <button class="removeAccount wButtonAlt fade" tooltipster tooltip-theme="tooltipster-theme1" title="Remove this account from the list." ng-click="list.showRemoveWarning($index)">-->
-                            <!--                <span class="wButton-icon"><img src="img/wIcon_x.svg"></span>REMOVE-->
-                            <!--              </button>-->
                         </p>
-
-                        <!--            <button id="import_account" class="wButton fade" tooltipster tooltip-theme="tooltipster-theme1" title="Click here to import an existing account." ng-click="list.importAccount()">IMPORT ACCOUNT</button>-->
-                        <!--            <span class="divider-1"></span>-->
-                        <!--            <button id="create_account" class="wButton fade" tooltipster tooltip-theme="tooltipster-theme1" title="Click here to create a brand new account." ng-click="list.createAccount()">NEW ACCOUNT</button>-->
                         <br/>
 
                         <!-- Remove Account popup -->
@@ -261,24 +251,24 @@
                         </form>
                     </div>
                 </div>
+                <!-- BACKUP SEED PAGE -->
+                <div ng-show="accounts.mode === 'backup-seed'" ng-controller="accountLoginController as vm">
+                    <h1>Save your Seed phrase</h1>
+                    <div class="accountsDescription">This app has been discontinued. Since only you control your funds, you will need to import your Seed to the new desktop application.</div>
+                    <span class="login-form-title">ACCOUNT</span>
+                    <div>{{accounts.visibleAddress}}</div><br>
+                    <span class="login-form-title">SEED PHRASE</span>
+                    <div class="wInput accountsSeed">{{accounts.visibleSeed}}</div><br>
+                    <button class="wButton fade" type="submit" ng-click="vm.cancel()">GO BACK</button>
+                    <span class="divider-2"></span>
+                    <button class="wButton fade" type="submit" ngclipboard data-clipboard-text="{{accounts.visibleSeed}}"
+                            ngclipboard-success="clipboardOk('the seed was copied the clipboard')">COPY SEED
+                    </button>
+                </div>
             </td>
         </tr>
         </tbody>
-
     </table>
-    <!-- BACKUP SEED PAGE -->
-    <div ng-show="accounts.mode === 'backup-seed'" ng-controller="accountLoginController as vm">
-        <div>{{accounts.visibleSeed}}</div>
-        <div>{{accounts.visibleAddress}}</div>
-
-        <button class="wButton fade" type="submit" ng-click="vm.cancel()">GO BACK
-        </button>
-
-        <button class="wButton fade" type="submit" ngclipboard data-clipboard-text="{{accounts.visibleSeed}}"
-                ngclipboard-success="clipboardOk('the seed was copied the clipboard')">COPY SEED
-        </button>
-
-    </div>
 </div>
 
 
