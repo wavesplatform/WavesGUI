@@ -3,6 +3,7 @@
     "burn": "Spal token",
     "deposit": "Zdeponuj",
     "dex": "Otwórz na platformie",
+    "hasNftToken": "Konto zawiera niewymienne tokeny [(NFT)] (https://wavesexplorer.com/address/ {{address}} )",
     "info": "Informacja o instrumencie",
     "list": {
         "actions": "Działania",

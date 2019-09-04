@@ -25,21 +25,21 @@
         "avatarUnique": "Avatar ini unik. Anda tidak dapat mengubahnya nanti.",
         "choose": "Pilih avatar alamat Anda",
         "create": "Buat akun baru",
-        "createAccount": "Create a new account",
+        "createAccount": "Buat akun baru",
         "createDescription": "Cepat dan gratis",
         "createNewAccount": "Pilih Avatar Anda",
         "description": {
-            "becomePart": "Become part of a fast-growing area of the crypto world. You are the only person who can access your crypto assets",
-            "enterName": "Enter account name or",
-            "tokenLauncher": "Issue your own tokens. These can be integrated into your business not only as an internal currency but also as a rating system, or loyalty program.",
-            "wallet": "Store, manage and receive interest on your digital assets balance, easily and securely."
+            "becomePart": "Menjadi bagian dari wilayah crypto yang tumbuh cepat. Anda adalah satu-satunya orang yang dapat mengakses aset crypto Anda",
+            "dex": "Berdaganglah dengan cepat dan aman. Anda memegang kendali penuh atas dana Anda saat memperdagangkannya di bursa terdesentralisasi kami",
+            "enterName": "Masukkan nama akun atau",
+            "wallet": "Simpan, kelola, dan terima bunga pada saldo aset digital Anda, dengan mudah dan aman"
         },
         "from": "Avatar ini adalah representasi visual, Anda tidak dapat mengubahnya nanti",
         "header": {
-            "accountName": "Account name",
-            "tokenLauncher": "TokenLauncher",
-            "wallet": "Wallet",
-            "withBlockchain": "Get Started with Blockchain"
+            "accountName": "Nama akun",
+            "dex": "Exchange Terdesentralisasi",
+            "wallet": "Dompet",
+            "withBlockchain": "Mulai dengan Blockchain"
         },
         "import": "Impor akun",
         "importDescription": "melalui frase SEED, Ledger atau Keeper",
