@@ -3,6 +3,7 @@
     "burn": "Kripto para yak",
     "deposit": "Yatır",
     "dex": "DEX'te aç",
+    "hasNftToken": "Account has non-fungible tokens [(NFT)](https://wavesexplorer.com/address/{{address}})",
     "info": "Bilgi",
     "list": {
         "actions": "İşlemler",

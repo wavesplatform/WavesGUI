@@ -1,21 +1,21 @@
 {
     "migrate": {
         "btn": {
-            "unlock": "Unlock"
+            "unlock": "Membuka kunci"
         },
         "description": {
-            "enterPass": "Enter your account password or",
-            "goBack": "return back",
-            "unlock": "Unlock your accounts. You can return to this step later"
+            "enterPass": "Masukkan kata sandi akun Anda atau",
+            "goBack": "kembali",
+            "unlock": "Buka kunci akun Anda. Anda dapat kembali ke langkah ini nanti"
         },
         "headers": {
-            "unlock": "Unlock your accounts",
-            "unlockAccount": "Unlock account"
+            "unlock": "Buka kunci akun Anda",
+            "unlockAccount": "Membuka akun"
         },
         "subtitle": {
-            "account": "Account",
-            "pending": "Pending unlock",
-            "unlocked": "Successfully unlocked"
+            "account": "Akun",
+            "pending": "Buka kunci tertunda",
+            "unlocked": "Berhasil dibuka"
         }
     }
 }

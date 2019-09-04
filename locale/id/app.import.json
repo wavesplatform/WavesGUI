@@ -6,7 +6,7 @@
     "importAccount": "Impor Akun",
     "importAccountInfo": "Pilih tempat untuk mengimpor akun",
     "KeeperClient": "Keeper Client",
-    "keeperDescription": "Impor akun dari Waves Keeper",
+    "keeperDescription": "Mengimpor akun dari WAVES Keeper",
     "keeperForm": "Pasang",
     "LedgerClient": "Perangkat Ledger",
     "ledgerDescription": "Impor akun dari Perangkat Ledger Anda",
