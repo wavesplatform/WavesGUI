@@ -68,13 +68,18 @@
                     user.getSetting('encryptionRounds'),
                     this.multiAccountHash
                 ).then(
-                    () => user.getMultiAccountUsers(),
+                    () => Promise.all([
+                        user.getMultiAccountUsers(),
+                        user.getMultiAccountSettings()
+                    ]),
                     () => {
                         this._showPasswordError();
                         return Promise.reject();
                     }
-                ).then(multiAccountUsers => {
+                ).then(([multiAccountUsers, commonSettings]) => {
                     const [firstUser] = multiAccountUsers;
+
+                    user.setMultiAccountSettings(commonSettings);
 
                     if (firstUser) {
                         this._login(firstUser);

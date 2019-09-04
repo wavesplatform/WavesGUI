@@ -68,7 +68,10 @@
                             multiAccount.hash(mUser.address) === id
                         ));
 
-                        user.login(userToLogin);
+                        if (userToLogin) {
+                            user.login(userToLogin);
+                        }
+
                         $state.go(user.getActiveState('wallet'));
                     });
                 } else {

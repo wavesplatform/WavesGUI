@@ -160,7 +160,7 @@
             }
 
             _initTryDesktop() {
-                if (user.isSignedIn || !isDesktop || WavesApp.isDesktop()) {
+                if (multiAccount.isSignedIn || !isDesktop || WavesApp.isDesktop()) {
                     return Promise.resolve(true);
                 }
 

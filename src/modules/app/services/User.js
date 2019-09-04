@@ -169,6 +169,7 @@
 
             constructor() {
                 this._resetFields();
+                this._settings = defaultSettings.create();
                 this._settings.change.on(() => this._onChangeSettings());
 
                 Mousetrap.bind(['ctrl+shift+k'], () => this.switchNextTheme());
@@ -262,7 +263,9 @@
             }
 
             getDefaultUserSettings(settings) {
-                return defaultSettings.create({ ...settings });
+                const { common } = this._settings.getSettings();
+
+                return defaultSettings.create({ ...settings }, { ...common });
             }
 
             /**
@@ -358,6 +361,27 @@
              */
             saveMultiAccountUsers(users) {
                 return storage.save('multiAccountUsers', users);
+            }
+
+            /**
+             * @param {*} commonSettings
+             */
+            setMultiAccountSettings(commonSettings) {
+                this._settings.setCommonSettings(commonSettings);
+            }
+
+            /**
+             * @returns {Promise}
+             */
+            getMultiAccountSettings() {
+                return storage.load('multiAccountSettings');
+            }
+
+            /**
+             * @returns {Promise}
+             */
+            saveMultiAccountSettings(settings) {
+                return storage.save('multiAccountSettings', settings);
             }
 
             /**
@@ -478,9 +502,9 @@
                     }
 
                     this.logoutSignal.dispatch({});
-                    this.changeTheme(themes.getDefaultTheme());
 
                     if (!isSwitch) {
+                        this.changeTheme(themes.getDefaultTheme());
                         multiAccount.signOut();
                         $state.go(stateName, undefined, { custom: { logout: true } });
                     }
@@ -648,7 +672,6 @@
                 this.changeScript = new tsUtils.Signal();
                 this.setScamSignal = new tsUtils.Signal();
                 this.scam = Object.create(null);
-                this._settings = defaultSettings.create(Object.create(null));
                 this.__props = Object.create(null);
                 this._changeTimer = null;
                 this._stateList = null;
@@ -688,11 +711,15 @@
 
                 analytics.addDefaultParams({ userType: this.userType });
 
+                let commonSettings;
+
                 if (this._settings) {
+                    commonSettings = this._settings.getSettings().common;
+
                     this._settings.change.off();
                 }
 
-                this._settings = defaultSettings.create(this.currentUser.settings);
+                this._settings = defaultSettings.create(this.currentUser.settings, commonSettings);
                 this._settings.change.on(() => this._onChangeSettings());
 
                 const states = WavesApp.stateTree.find('main').getChildren();
@@ -712,7 +739,7 @@
                 return this.addMatcherSign()
                     .catch(() => Promise.resolve())
                     .then(() => {
-                        this.changeTheme();
+                        this.changeTheme(this._settings.get('theme'));
                         this.changeCandle();
 
                         return this.saveMultiAccountUser(this.currentUser, this.currentUser.hash);
@@ -741,9 +768,13 @@
              * @private
              */
             _onChangeSettings() {
+                const { common, settings } = this._settings.getSettings();
+
                 if (this.currentUser) {
-                    this.currentUser.settings = { ...this._settings.getSettings() };
+                    this.currentUser.settings = { ...settings };
                 }
+
+                this.saveMultiAccountSettings(common);
             }
 
             /**
