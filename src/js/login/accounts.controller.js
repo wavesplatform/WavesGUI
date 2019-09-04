@@ -56,6 +56,7 @@
 
         function switchToBackupSeed(appState) {
             accounts.visibleSeed = appState.seed;
+            accounts.visibleAddress = appState.address;
         }
 
         function switchToRegisterMode(seed) {

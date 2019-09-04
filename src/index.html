@@ -268,7 +268,8 @@
     </table>
     <!-- BACKUP SEED PAGE -->
     <div ng-show="accounts.mode === 'backup-seed'" ng-controller="accountLoginController as vm">
-        {{accounts.visibleSeed}}
+        <div>{{accounts.visibleSeed}}</div>
+        <div>{{accounts.visibleAddress}}</div>
 
         <button class="wButton fade" type="submit" ng-click="vm.cancel()">GO BACK
         </button>
