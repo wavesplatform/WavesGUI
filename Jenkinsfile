@@ -134,7 +134,7 @@ timeout(time:20, unit:'MINUTES') {
                                 withCredentials([file(credentialsId: 'electron-signing-cert', variable: 'signingCert'),
                                     file(credentialsId: 'electron-mac-signing-cert', variable: 'signingCertMac')]) {
                                     sh "cp '${signingCert}' 'WavesGUI/WavesPlatformLTD.pfx'"
-                                    sh "cp '${signingCertMac}' 'WavesGUI/mac_app.cer'"
+                                    sh "cp '${signingCertMac}' 'WavesGUI/mac_app.p12'"
                                     stash includes: '**', name: 'repo', useDefaultExcludes: false
                                 }
                             }
@@ -210,8 +210,8 @@ timeout(time:20, unit:'MINUTES') {
 
                                         WIN_CSC_LINK=WavesPlatformLTD.pfx \
                                         WIN_CSC_KEY_PASSWORD=${signingCertPassphrase} \
-                                        CSC_LINK=WavesPlatformLTD.pfx \
-                                        CSC_KEY_PASSWORD=${signingCertPassphrase} \
+                                        CSC_LINK=mac_app.p12 \
+                                        CSC_KEY_PASSWORD=${electron-mac-signing-cert-passphrase} \
                                         WAVES_CONFIGURATION=mainnet \
                                         ./node_modules/.bin/build -mwl --x64 --publish=never \
                                             --config.directories.output=out/mainnet/ \
