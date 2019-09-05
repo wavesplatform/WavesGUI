@@ -1,8 +1,6 @@
 @import (reference) 'config';
 @import (reference) 'icons';
 
-@toolbar-radio-line-height: 57.5px;
-
 .main.wallet.assets {
   .content {
     overflow-x: hidden;
@@ -41,7 +39,6 @@
     }
 
     .chart-rate {
-      //height: 394px;
       box-sizing: border-box;
       background-color: @color-white;
       position: relative;
@@ -59,7 +56,7 @@
         justify-content: space-between;
         margin: 0;
         padding: 0 20px;
-        height: 58px;
+        height: @assets-toolbar-height;
 
         &::after {
           content: '';
