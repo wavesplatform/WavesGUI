@@ -263,7 +263,9 @@
                                 <div class="mobile-menu__account-address">{{::user.address}}</div>
                             </div>
                         </div>
-                        <div class="mobile-menu__account-remove icon-remove-user icon-close" ng-click="$ctrl.deleteUser(user)"></div>
+                        <w-analytics event="'Remove Switch Account Successfully Unlocked'">
+                            <div class="mobile-menu__account-remove icon-remove-user icon-close" ng-click="$ctrl.deleteUser(user)"></div>
+                        </w-analytics>
                     </div>
                     <div ng-if="$ctrl.userListLocked.length" class="mobile-menu__account-unlock">
                         <span w-i18n="welcome.accountList.locked"></span>
@@ -284,11 +286,19 @@
                                 <div class="mobile-menu__account-address">{{::user.address}}</div>
                             </div>
                         </div>
-                        <div class="mobile-menu__account-remove icon-remove-user icon-close" ng-click="$ctrl.deleteUser(user)"></div>
+                        <w-analytics event="'Remove Switch Account Pending Unlock'">
+                            <div class="mobile-menu__account-remove icon-remove-user icon-close" ng-click="$ctrl.deleteUser(user)"></div>
+                        </w-analytics>
                     </div>
                 </li>
                 <li class="mobile-menu__item mobile-menu__item_add" w-toggle-class="expanded show-accounts">
-                    <a ui-sref="create" class="mobile-menu__link mobile-menu__link_add" w-i18n="userList.addNew" ng-click="$ctrl.removeBodyClass()"></a>
+                    <w-analytics event="'Add Account'">
+                        <a ui-sref="create"
+                            class="mobile-menu__link mobile-menu__link_add"
+                            w-i18n="userList.addNew"
+                            ng-click="$ctrl.removeBodyClass()"
+                        ></a>
+                    </w-analytics>
                 </li>
                 <li class="mobile-menu__item" w-toggle-class="expanded show-accounts">
                     <a class="mobile-menu__link mobile-menu__link_logout"

@@ -8,7 +8,7 @@
     "signIn": {
         "btn": {
             "cancel": "Cancel",
-            "restore": "Restore all"
+            "restore": "Reset all"
         },
         "enterPass": "Please enter your password to continue",
         "passForgot": {

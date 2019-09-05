@@ -8,7 +8,7 @@
     "signIn": {
         "btn": {
             "cancel": "Batalkan",
-            "restore": "Pulihkan semua"
+            "restore": "Reset all"
         },
         "enterPass": "Silakan masukkan kata sandi Anda untuk melanjutkan",
         "passForgot": {

@@ -252,7 +252,9 @@
                                         <div class="switch-accounts__address body-3">{{::user.address}}</div>
                                     </div>
                                 </div>
-                                <div class="switch-accounts__remove icon-remove-user icon-close" ng-click="$ctrl.deleteUser(user)"></div>
+                                <w-analytics event="'Remove Switch Account Successfully Unlocked'">
+                                    <div class="switch-accounts__remove icon-remove-user icon-close" ng-click="$ctrl.deleteUser(user)"></div>
+                                </w-analytics>
                             </div>
                             <div ng-if="$ctrl.userListLocked.length" class="switch-accounts__unlock">
                                 <span w-i18n="welcome.accountList.locked"></span>
@@ -272,11 +274,17 @@
                                         <div class="switch-accounts__address">{{::user.address}}</div>
                                     </div>
                                 </div>
-                                <div class="switch-accounts__remove icon-remove-user icon-close" ng-click="$ctrl.deleteUser(user)"></div>
+                                <w-analytics event="'Remove Switch Account Pending Unlock'">
+                                    <div class="switch-accounts__remove icon-remove-user icon-close"
+                                        ng-click="$ctrl.deleteUser(user)"
+                                    ></div>
+                                </w-analytics>
                             </div>
                         </div>
                         <div class="switch-accounts__add-wrapper">
-                            <a ui-sref="create" w-i18n="userList.addNew" class="switch-accounts__add"></a>
+                            <w-analytics event="'Add Account'">
+                                <a ui-sref="create" w-i18n="userList.addNew" class="switch-accounts__add"></a>
+                            </w-analytics>
                         </div>
                     </div>
                 </div>

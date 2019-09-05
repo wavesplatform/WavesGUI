@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    const analytics = require('@waves/event-sender');
+
     const controller = function (Base, $scope, $mdDialog, $state, user) {
 
         class ForgotPasswordModalCtrl extends Base {
@@ -14,6 +16,8 @@
                     $mdDialog.hide();
                     $state.go('welcome');
                 });
+
+                analytics.send({ name: 'Reset All' });
             }
 
         }

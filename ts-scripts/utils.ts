@@ -827,7 +827,6 @@ export function loadLocales(path: string, options?: object): Promise<void> {
                                 });
                             });
                             res.on('error', (err) => {
-                                console.log('err', err)
                                 reject(err);
                             });
                         });
@@ -842,7 +841,6 @@ export function loadLocales(path: string, options?: object): Promise<void> {
             });
         })
         .then(() => {
-            console.log('zip unlink')
             unlink(zipPath, error => {
                 if (error) {
                     console.log('ERROR', error);

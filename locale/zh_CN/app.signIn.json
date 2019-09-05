@@ -8,7 +8,7 @@
     "signIn": {
         "btn": {
             "cancel": "取消",
-            "restore": "恢复所有"
+            "restore": "Reset all"
         },
         "enterPass": "请输入您的密码以继续",
         "passForgot": {

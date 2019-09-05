@@ -40,10 +40,12 @@
                 </w-button>
 
                 <div class="margin-top-2">
-                    <a class="body-2 basic-500"
-                        ng-click="$ctrl.showForgotPasswordModal()"
-                        w-i18n="signIn.password.forgot"
-                    ></a>
+                    <w-analytics event="'Forgot Password'">
+                        <a class="body-2 basic-500"
+                            ng-click="$ctrl.showForgotPasswordModal()"
+                            w-i18n="signIn.password.forgot"
+                        ></a>
+                    </w-analytics>
                 </div>
             </form>
         </div>

@@ -8,7 +8,7 @@
     "signIn": {
         "btn": {
             "cancel": "Annulla",
-            "restore": "Ripristina tutto"
+            "restore": "Reset all"
         },
         "enterPass": "Inserisci la tua password per continuare",
         "passForgot": {

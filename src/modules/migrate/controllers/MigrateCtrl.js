@@ -1,6 +1,7 @@
 (() => {
     'use strict';
 
+    const analytics = require('@waves/event-sender');
     const ds = require('data-service');
     const { libs } = require('@waves/waves-transactions');
     const { base58Decode } = libs.crypto;
@@ -147,9 +148,11 @@
                     }).then(() => {
                         this.migratePassword = '';
                         this.prevStep();
+                        analytics.send({ name: 'Successfully Unlocked' });
                     });
                 } catch (e) {
                     this._showPasswordError();
+                    analytics.send({ name: 'Failed Unlock' });
                 }
             }
 

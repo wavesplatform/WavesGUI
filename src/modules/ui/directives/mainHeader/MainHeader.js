@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    const analytics = require('@waves/event-sender');
+
     const SELECTORS = {
         MAIN_HEADER_USER: 'js-main-header-user',
         MAIN_HEADER_FADER: 'js-main-header-fader',
@@ -352,6 +354,7 @@
 
                 user.logout('switch', true);
                 user.login(toUser);
+                analytics.send({ name: 'Switch Account' });
             }
 
             unlockUser(userToUnlock) {
