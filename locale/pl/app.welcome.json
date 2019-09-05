@@ -119,7 +119,7 @@
     },
     "userList": {
         "addNew": "Dodaj konto",
-        "back": "Back",
+        "back": "Wróć",
         "create": "Utwórz nowe konto",
         "frombackup": "z kopii zapasowej",
         "import": "Import konta",
@@ -129,7 +129,7 @@
     },
     "welcome": {
         "accountList": {
-            "locked": "Require unlocking"
+            "locked": "Wymagaj odblokowania"
         },
         "address": "Adres",
         "aliases": "Aliasy",
@@ -211,7 +211,7 @@
         "stackOverflow": "Przepełnienie stosu",
         "suitableTradingBots": "Odpowiedni do handlu botami",
         "support": "Wsparcie",
-        "switchAccount": "Switch account",
+        "switchAccount": "Przełącz konto",
         "telegram": "Telegram",
         "termsOfUse": "Warunki użytkowania",
         "tokenCreation": "Szybkie tworzenie tokenów",

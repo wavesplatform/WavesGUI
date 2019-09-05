@@ -476,7 +476,8 @@
             "heading": "Hesabı kaldır",
             "remove": "Kaldır",
             "text": "{div}[Eğer anahtar kelimelerinizi kaydetmediyseniz, hesabınızın kaldırılması ile birlikte bir daha bu hesaba ulaşamazsınız.]\n{div}[Kaldır butonuna basarak hesabı kaldırabilir veya iptal butonuna basarak işlemi iptal edebilirsiniz.]",
-            "warning": "Anahtar kelimelerinizi kaydetmediniz!"
+            "warning": "Anahtar kelimelerinizi kaydetmediniz!",
+            "warningPlural": "You did not save your Seed phrases"
         },
         "removeKeeperAccount": {
             "heading": "Waves Keeper Hesabımı kaldır",
@@ -685,6 +686,7 @@
             "security": {
                 "address": "Adres",
                 "backupPhrase": "Anahtar (Yedek) kelimeler",
+                "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "Encoded Anahtar kelimeler",
                 "privateKey": "Özel Anahtar",
                 "publicKey": "Açık Anahtar",
@@ -699,6 +701,7 @@
         },
         "sign": {
             "article": "makale",
+            "buy": "Buy",
             "cancel": "İptal",
             "cancelOrder": "Emri iptal et",
             "close": "Kapat",
@@ -725,12 +728,15 @@
             "fee": "Komisyon",
             "matcher": "Emri imzalayın",
             "openApp": "Waves uygulamasını aç",
+            "orderType": "Order type",
+            "pair": "Pair",
             "price": "Fiyat",
             "refererTo": "Eğer hatalar devam ederse:",
             "referTo": "Eğer hatalar devam ederse:",
             "request": "talep",
             "requestId": "Talep Hash'ı",
             "retry": "Tekrar dene",
+            "sell": "Sell",
             "signByKeeper": "Waves Keeper'dan doğrulama bekleniyor",
             "signByLedger": "Ledger onay bekleniyor...",
             "signError": "Talep doğrulanmadı",
@@ -738,6 +744,7 @@
             "signErrorText": "Talebi Ledger Nano S'i kullanarak doğrulamadın",
             "signErrorTextImportKeeper": "Waves Keeper'a  {{address}} adresinizle giriş yapın, ve devam etmek için sayfayı yenileyin.",
             "signErrorTextKeeper": "Lütfen tekrar deneyin. Eğer hatalar devam ederse [destek](https://support.wavesplatform.com/) ile iletişime geçin",
+            "timestamp": "Timestamp",
             "txId": "TXID"
         },
         "sponsorship_edit": {
@@ -821,6 +828,7 @@
             "step1": {
                 "button": "Anahtar kelimeleriniz hakkında bilmeniz gerekenler",
                 "buttonMobile": "Sonraki",
+                "buttonReadMore": "Read more",
                 "p1": "Lütfen kendi güvenliğiniz için önemli bilgileri içeren bu bilgilendirmeyi okuyunuz. 🙏",
                 "p2": "Eğer anahtar kelimelerinizi kaybederseniz veya çaldırırsanız hesabınızı donduramayız ve varlıklarınızı tekrar alamayız.",
                 "p3": "Waves Platform'u kullanmaya devam ederek, anahtar kelimelerinizi kaybettiğinizde veya çaldırdığınızda Waves Platform'un sorumlu olmadığını kabul etmiş olursunuz.",
@@ -925,7 +933,8 @@
                 "1_3_20": "{span.line}[1. Improved system for storing and restoring accounts from local storage (Need to update the [desktop application](https://wavesplatform.com/technology/wallet)).]\n{span.line}[2. Fixed rounding of prices in the orderbook.]",
                 "1_3_5": "{span.line}[1. [wsoc.io](https://wsoc.io) Yarışma kripto paraları eklendi.]\n{span.line}[2. Fransızca desteği eklendi.]\n{span.line}[3. Ufak hatalar giderildi.]",
                 "1_3_7": "{span.line}[1. [tokenrating.wavesexplorer.com] entegrasyonu (https://tokenrating.wavesexplorer.com) Artık uygulamadan kripto paralar için derecelendirme puanı verebilirsiniz.]\n{span.line}[2. Ufak hatalar giderildi.]",
-                "1_3_9": "{span.line}[1. Görsel tasarım iyileştirildi. Borsa ve cüzdan geliştirmeleri yapıldı.]\n{span.line}[2. Ufak hatalar giderildi.]"
+                "1_3_9": "{span.line}[1. Görsel tasarım iyileştirildi. Borsa ve cüzdan geliştirmeleri yapıldı.]\n{span.line}[2. Ufak hatalar giderildi.]",
+                "1_4_0": "{span.line}[Added ability for easy switching between  accounts within one wallet.]"
             },
             "title": "Güncelleme ile birlikte gelen yenilikler {{version}}"
         }

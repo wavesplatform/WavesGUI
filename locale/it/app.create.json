@@ -29,10 +29,10 @@
         "createDescription": "Veloce e gratuito",
         "createNewAccount": "Scegli il tuo Avatar",
         "description": {
-            "becomePart": "Entra nel mondo in forte ascesa delle Crittovalute. Sei l'unica persona che può accedere ai tuoi critto asset.",
-            "dex": "Fai trading in modo rapido e sicuro. Operando sul nostro exchange decentralizzato, manterrai sempre il controllo completo sui tuoi fondi.",
+            "becomePart": "Entra nel mondo in forte ascesa delle Crittovalute. Sei l'unica persona che può accedere ai tuoi critto asset",
+            "dex": "Fai trading in modo rapido e sicuro. Operando sul nostro exchange decentralizzato, manterrai sempre il controllo completo sui tuoi fondi",
             "enterName": "Inserisci il nome dell'account o",
-            "wallet": "Conserva, gestisci e ricava interessi sul tuo bilancio di asset digitali, in massima sicurezza e semplicità."
+            "wallet": "Conserva, gestisci e ricava interessi sul tuo bilancio di asset digitali, in massima sicurezza e semplicità"
         },
         "from": "Questo avatar è una rappresentazione visiva, non potrai cambiarlo successivamente",
         "header": {

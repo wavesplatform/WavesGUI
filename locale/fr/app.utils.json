@@ -476,7 +476,8 @@
             "heading": "Supprimer le compte",
             "remove": "Supprimer",
             "text": "{div}[La suppression d'un compte entraînera sa perte irrémédiable si vous n'avez pas enregistré une phrase de sauvegarde (SEED)].\n{div}[Cliquez sur le bouton SUPPRIMER pour procéder à la suppression du compte, ou ANNULER pour revenir à l'écran précédent.]",
-            "warning": "Vous n'avez pas enregistré votre SEED"
+            "warning": "Vous n'avez pas enregistré votre SEED",
+            "warningPlural": "You did not save your Seed phrases"
         },
         "removeKeeperAccount": {
             "heading": "Supprimer le compte Waves Keeper",
@@ -685,6 +686,7 @@
             "security": {
                 "address": "Adresse",
                 "backupPhrase": "Phrase de sauvegarde",
+                "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "SEED encodée",
                 "privateKey": "Clé privée",
                 "publicKey": "Clé publique",
@@ -699,6 +701,7 @@
         },
         "sign": {
             "article": "Article",
+            "buy": "Buy",
             "cancel": "Annuler",
             "cancelOrder": "Annuler l'ordre",
             "close": "Fermer",
@@ -725,12 +728,15 @@
             "fee": "Frais",
             "matcher": "Signez les requêtes d'ordres",
             "openApp": "Ouvrir l'application Waves",
+            "orderType": "Order type",
+            "pair": "Pair",
             "price": "Prix",
             "refererTo": "Si l'erreur persiste, veuillez vous référer à",
             "referTo": "Si l'erreur persiste, veuillez vous référer à",
             "request": "Requête",
             "requestId": "Requête de hachage",
             "retry": "Réessayer",
+            "sell": "Sell",
             "signByKeeper": "En attente de la confirmation de Waves Keeper...",
             "signByLedger": "En attente de la confirmation sur l'appareil Ledger",
             "signError": "La requête n'a pas été confirmée.",
@@ -738,6 +744,7 @@
             "signErrorText": "Vous n'avez pas confirmé la requête sur votre appareil Ledger",
             "signErrorTextImportKeeper": "Connectez-vous à Waves Keeper avec l'adresse {{address}}, puis rafraîchissez la page pour continuer.",
             "signErrorTextKeeper": "Veuillez réessayer. Si l'erreur persiste, veuillez créer un ticket pour [le support](https://support.wavesplatform.com/)",
+            "timestamp": "Timestamp",
             "txId": "TXID"
         },
         "sponsorship_edit": {
@@ -821,6 +828,7 @@
             "step1": {
                 "button": "Ce que vous devez savoir concernant votre SEED",
                 "buttonMobile": "Suivant",
+                "buttonReadMore": "Read more",
                 "p1": "Veuillez prendre le temps de comprendre certaines choses importantes pour votre propre sécurité. 🙏",
                 "p2": "Nous ne pouvons pas récupérer vos fonds ou geler votre compte si vous visitez un site de hameçonage ou perdez votre phrase de sauvegarde (aussi appelée phrase SEED).",
                 "p3": "En continuant à utiliser notre plateforme, vous confirmez accepter tous les risques associés à la perte de votre SEED, y compris mais sans s'y limiter, l'incapacité d'obtenir vos fonds et d'en disposer. En cas de perte de votre SEED, vous acceptez et reconnaissez que la plateforme Waves ne sera pas responsable des conséquences négatives de cette perte.",
@@ -925,7 +933,8 @@
                 "1_3_20": "{span.line}[1. Improved system for storing and restoring accounts from local storage (Need to update the [desktop application](https://wavesplatform.com/technology/wallet)).]\n{span.line}[2. Fixed rounding of prices in the orderbook.]",
                 "1_3_5": "{span.line}[1. Un onglet avec les jetons du concours [wsoc.io] (https://wsoc.io) a été ajouté.] \n {span.line}[2. Prise en charge de la langue française ajoutée.] \n {span.line}[3. Des bugs mineurs supplémentaires ont été corrigés.]",
                 "1_3_7": "{span.line}[1. Intégration avec [tokenrating.wavesexplorer.com] (https://tokenrating.wavesexplorer.com) Vous pouvez maintenant noter les jetons directement dans l'application.] \n {span.line}[2. Des bugs mineurs supplémentaires ont été corrigés.]",
-                "1_3_9": "{span.line}[1. Interface utilisateur améliorée et fonctionnalités des sections Échange et Portefeuille.] \n{span.line}[2. Des bugs mineurs supplémentaires ont été corrigés.]"
+                "1_3_9": "{span.line}[1. Interface utilisateur améliorée et fonctionnalités des sections Échange et Portefeuille.] \n{span.line}[2. Des bugs mineurs supplémentaires ont été corrigés.]",
+                "1_4_0": "{span.line}[Added ability for easy switching between  accounts within one wallet.]"
             },
             "title": "Quoi de neuf dans cette {{version}}"
         }

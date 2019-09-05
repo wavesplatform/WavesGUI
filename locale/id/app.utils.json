@@ -476,7 +476,8 @@
             "heading": "Menghapus akun",
             "remove": "Hapus",
             "text": "{div}[Penghapusan akun akan menyebabkan kerugian yang tidak bisa kembalikan jika Anda tidak menyimpan frasa cadangan (SEED).] {div}[Klik tombol HAPUS untuk melanjutkan penghapusan akun, atau BATAL untuk kembali ke layar sebelumnya .]",
-            "warning": "Anda tidak menyimpan SEED Anda"
+            "warning": "Anda tidak menyimpan SEED Anda",
+            "warningPlural": "You did not save your Seed phrases"
         },
         "removeKeeperAccount": {
             "heading": "Hapus akun Waves Keeper",
@@ -685,6 +686,7 @@
             "security": {
                 "address": "Alamat",
                 "backupPhrase": "Frasa cadangan",
+                "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "SEED terenkode",
                 "privateKey": "Kunci pribadi",
                 "publicKey": "Kunci Publik",
@@ -699,6 +701,7 @@
         },
         "sign": {
             "article": "artikel",
+            "buy": "Buy",
             "cancel": "Batalkan",
             "cancelOrder": "Batalkan pesanan",
             "close": "Tutup",
@@ -725,12 +728,15 @@
             "fee": "Biaya",
             "matcher": "Tandatangani permintaan pesanan",
             "openApp": "Buka Aplikasi Waves",
+            "orderType": "Order type",
+            "pair": "Pair",
             "price": "Harga",
             "refererTo": "Jika kesalahan berlanjut, silakan merujuk",
             "referTo": "Jika kesalahan berlanjut, silakan merujuk",
             "request": "permintaan",
             "requestId": "Minta hash",
             "retry": "Mencoba kembali",
+            "sell": "Sell",
             "signByKeeper": "Menunggu konfirmasi tentang Waves Keeper...",
             "signByLedger": "Menunggu konfirmasi tentang Ledger...",
             "signError": "Permintaan belum dikonfirmasi.",
@@ -738,6 +744,7 @@
             "signErrorText": "Anda tidak mengonfirmasi permintaan pada Perangkat Ledger Anda",
             "signErrorTextImportKeeper": "Masuk ke Waves Keeper dengan alamat {{address}}, lalu segarkan laman untuk melanjutkan.",
             "signErrorTextKeeper": "Silakan coba lagi. Jika kesalahan berlanjut, silakan buat tiket ke [Dukungan](https://support.wavesplatform.com/)",
+            "timestamp": "Timestamp",
             "txId": "TXID"
         },
         "sponsorship_edit": {
@@ -821,6 +828,7 @@
             "step1": {
                 "button": "Apa yang perlu Anda ketahui tentang SEED Anda",
                 "buttonMobile": "Berikutnya",
+                "buttonReadMore": "Read more",
                 "p1": "Harap luangkan waktu untuk memahami beberapa hal penting untuk keselamatan Anda sendiri. 🙏",
                 "p2": "Kami tidak dapat memulihkan dana Anda atau membekukan akun Anda jika Anda mengunjungi situs phising atau kehilangan frasa cadangan (frasa SEED).",
                 "p3": "Dengan terus menggunakan platform kami, Anda setuju untuk menerima semua risiko yang terkait dengan hilangnya SEED Anda, termasuk tetapi tidak terbatas pada ketidakmampuan untuk mendapatkan dana Anda dan membuangnya. Jika Anda kehilangan SEED Anda, Anda setuju dan mengakui bahwa Waves Platform tidak akan bertanggung jawab atas konsekuensi negatif dari ini.",
@@ -925,7 +933,8 @@
                 "1_3_20": "{span.line}[1. Improved system for storing and restoring accounts from local storage (Need to update the [desktop application](https://wavesplatform.com/technology/wallet)).]\n{span.line}[2. Fixed rounding of prices in the orderbook.]",
                 "1_3_5": "{span.line} [1. Tab dengan token kontes [wsoc.io] (https://wsoc.io) telah ditambahkan.] \n {span.line} [2. Dukungan bahasa Perancis ditambahkan.] \n {span.line} [3. Bug minor tambahan telah diperbaiki.]",
                 "1_3_7": "{span.line}[1. Integrasi dengan [tokenrating.wavesexplorer.com] (https://tokenrating.wavesexplorer.com) Sekarang Anda dapat menilai token langsung di app.] \n {span.line}[2. Bug minor tambahan telah diperbaiki.]",
-                "1_3_9": "{span.line}[1. UI dan fungsionalitas yang lebih baik dari bagian Exchange dan Dompet.] \n {span.line}[2. Bug minor tambahan telah diperbaiki.]"
+                "1_3_9": "{span.line}[1. UI dan fungsionalitas yang lebih baik dari bagian Exchange dan Dompet.] \n {span.line}[2. Bug minor tambahan telah diperbaiki.]",
+                "1_4_0": "{span.line}[Added ability for easy switching between  accounts within one wallet.]"
             },
             "title": "Apa yang baru di pembaruan ini {{version}}"
         }
