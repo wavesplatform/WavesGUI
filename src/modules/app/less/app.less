@@ -173,6 +173,18 @@ body.dex {
   background-repeat: no-repeat;
 }
 
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+
+  &.disabled {
+    w-select, span.link, w-qr-code-read, w-import-file, a.link-clear {
+      pointer-events: none;
+    }
+  }
+}
+
 .scroll-box {
   display: flex;
   flex-direction: column;
