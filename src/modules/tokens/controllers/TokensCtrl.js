@@ -122,6 +122,15 @@
              * @type {boolean}
              */
             isNFT = false;
+            /**
+             * @type {args}
+             */
+            signPending = false;
+            /**
+             * @type {Array}
+             * @private
+             */
+            _listeners = [];
 
 
             constructor() {
@@ -154,6 +163,17 @@
                 this.observeOnce('createForm', () => {
                     this.receive(utils.observe(this.createForm, '$valid'), this.createSignable, this);
                 });
+
+                const signPendingListener = $scope.$on('signPendingChange', (event, data) => {
+                    this.signPending = data;
+                });
+
+                this._listeners.push(signPendingListener);
+            }
+
+            $onDestroy() {
+                super.$onDestroy();
+                this._listeners.forEach(listener => listener());
             }
 
             /**
