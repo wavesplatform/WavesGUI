@@ -931,7 +931,8 @@
                 "1_3_20": "{span.line}[1. Improved system for storing and restoring accounts from local storage (Need to update the [desktop application](https://wavesplatform.com/technology/wallet)).]\n{span.line}[2. Fixed rounding of prices in the orderbook.]",
                 "1_3_5": "{span.line}[1. [wsoc.io](https://wsoc.io) Yarışma kripto paraları eklendi.]\n{span.line}[2. Fransızca desteği eklendi.]\n{span.line}[3. Ufak hatalar giderildi.]",
                 "1_3_7": "{span.line}[1. [tokenrating.wavesexplorer.com] entegrasyonu (https://tokenrating.wavesexplorer.com) Artık uygulamadan kripto paralar için derecelendirme puanı verebilirsiniz.]\n{span.line}[2. Ufak hatalar giderildi.]",
-                "1_3_9": "{span.line}[1. Görsel tasarım iyileştirildi. Borsa ve cüzdan geliştirmeleri yapıldı.]\n{span.line}[2. Ufak hatalar giderildi.]"
+                "1_3_9": "{span.line}[1. Görsel tasarım iyileştirildi. Borsa ve cüzdan geliştirmeleri yapıldı.]\n{span.line}[2. Ufak hatalar giderildi.]",
+                "1_4_0": "{span.line}[Added ability for easy switching between accounts within one wallet app.]"
             },
             "title": "Güncelleme ile birlikte gelen yenilikler {{version}}"
         }
