@@ -7,19 +7,20 @@
     },
     "signIn": {
         "btn": {
-            "cancel": "Cancel",
-            "restore": "Restore all"
+            "cancel": "Anuluj",
+            "restore": "Reset all"
         },
-        "enterPass": "Please enter your password to continue",
+        "enterPass": "Wprowadź swoje hasło, aby kontynuować.",
         "passForgot": {
-            "attention": "Attention!",
-            "description": "If you forget your password, you must restore all your accounts from their SEEDs and set a new password."
+            "attention": "Uwaga!",
+            "description": "Jeśli zapomnisz hasła, musisz przywrócić wszystkie konta z ich SEED i ustawić nowe hasło.",
+            "importantDesc": "If you have not saved the Seed phrase or Private key, then you will not be able to recover access to your account."
         },
         "password": {
-            "forgot": "Forgot your password?"
+            "forgot": "Zapomniałeś swoje hasło?"
         },
-        "signIn": "Sign in",
-        "welcomeBack": "Welcome Back!"
+        "signIn": "Zaloguj się",
+        "welcomeBack": "Witamy z powrotem!"
     },
     "userList": {
         "address": "Adres / Nazwa konta",

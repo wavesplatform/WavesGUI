@@ -476,7 +476,8 @@
             "heading": "Elimina account",
             "remove": "Elimina",
             "text": "{div}[Cancellare l'account renderà impossibile un nuovo accesso in caso di indisponibilità della frase di recupero (SEED).]{div}[Clicca sul tasto ELIMINA per procedere con la rimozione, oppure su ANNULLA per tornare alla schermata precedente.]",
-            "warning": "Non hai salvato il tuo SEED"
+            "warning": "Non hai salvato il tuo SEED",
+            "warningPlural": "You did not save your Seed phrases"
         },
         "removeKeeperAccount": {
             "heading": "Rimuovi l'account Waves Keeper",
@@ -685,6 +686,7 @@
             "security": {
                 "address": "Indirizzo",
                 "backupPhrase": "Frase di Backup",
+                "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "Seed codificato",
                 "privateKey": "Chiave Privata",
                 "publicKey": "Chiave Pubblica",
@@ -699,6 +701,7 @@
         },
         "sign": {
             "article": "articolo",
+            "buy": "Buy",
             "cancel": "Cancella",
             "cancelOrder": "Cancella l'ordine",
             "close": "Chiudi",
@@ -725,12 +728,15 @@
             "fee": "Spese",
             "matcher": "Firma richieste di ordini",
             "openApp": "Apri l'app Waves",
+            "orderType": "Order type",
+            "pair": "Pair",
             "price": "Prezzo",
             "refererTo": "Se l'errore persiste, per favore fai riferimento a",
             "referTo": "Se l'errore persiste, per favore fai riferimento a",
             "request": "richiesta",
             "requestId": "hash della richiesta",
             "retry": "Riprova",
+            "sell": "Sell",
             "signByKeeper": "In attesa di conferma sul Waves Keeper...",
             "signByLedger": "In attesa di conferma sul Ledger...",
             "signError": "La richiesta non è stata confermata.",
@@ -738,6 +744,7 @@
             "signErrorText": "Non hai confermato la richiesta sul tuo dispositivo Ledger",
             "signErrorTextImportKeeper": "Accedi al Waves Keeper con l'indirizzo {{address}}, dopodichè ricarica questa pagina per continuare.",
             "signErrorTextKeeper": "Riprovare. Se l'errore dovesse persistere, aprire un ticket sul [Supporto](https://support.wavesplatform.com/)",
+            "timestamp": "Timestamp",
             "txId": "TXID"
         },
         "sponsorship_edit": {
@@ -821,6 +828,7 @@
             "step1": {
                 "button": "Cosa devi sapere a proposito del tuo SEED",
                 "buttonMobile": "Continua",
+                "buttonReadMore": "Read more",
                 "p1": "Per favore, prenditi qualche minuto per comprendere alcune cose importanti riguardo la tua stessa sicurezza. 🙏",
                 "p2": "In caso dovessi cadere vittima di una truffa phishing o perdere la tua frase di backup (nota anche come SEED), non potremo in alcun modo recuperare i tuoi fondi o congelare il tuo account.",
                 "p3": "Continuando ad utilizzare la nostra piattaforma, concordi e accetti tutti i rischi connessi all'eventuale smarrimento del tuo SEED, inclusi ma non limitati a quelli relativi all'impossibilità di accedere o gestire i tuoi stessi fondi. In caso di smarrimento del tuo SEED, concordi e confermi di aver compreso che la piattaforma Waves non potrà essere ritenuta responsabile di eventuali conseguenze.",
@@ -925,7 +933,8 @@
                 "1_3_20": "{span.line}[1. Improved system for storing and restoring accounts from local storage (Need to update the [desktop application](https://wavesplatform.com/technology/wallet)).]\n{span.line}[2. Fixed rounding of prices in the orderbook.]",
                 "1_3_5": "{span.line}[1. Aggiunto il tab al concorso [wsoc.io](https://wsoc.io) tokens.]\n{span.line}[2. Aggiunto il supporto alla lingua Francese.]\n{span.line}[3. Risoluzione di bug minori.]",
                 "1_3_7": "{span.line} [1. Integrazione con [tokenrating.wavesexplorer.com] (https://tokenrating.wavesexplorer.com) Ora puoi valutare i token direttamente nell'app.] \n {span.line} [2. Sono stati corretti altri bug minori.]",
-                "1_3_9": "{span.line} [1. Miglioramento Interfaccia utente e funzionalità delle sezioni di Exchange e Wallet.] \n {span.line} [2. Correzione di altri bug minori.]"
+                "1_3_9": "{span.line} [1. Miglioramento Interfaccia utente e funzionalità delle sezioni di Exchange e Wallet.] \n {span.line} [2. Correzione di altri bug minori.]",
+                "1_4_0": "{span.line}[Added ability for easy switching between  accounts within one wallet.]"
             },
             "title": "Le novità della versione {{version}}"
         }

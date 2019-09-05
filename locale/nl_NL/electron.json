@@ -22,8 +22,8 @@
     "storage": {
         "backup": {
             "error": {
-                "body": "Failed to get accounts. Please contact the support service to restore the backup phrase (SEED phrase).",
-                "title": "Something went wrong!"
+                "body": "Ophalen van accounts mislukt. Neem contact op met de support om de back-upzin (SEED-zin) te herstellen.",
+                "title": "Er is iets misgegaan"
             }
         },
         "read": {
