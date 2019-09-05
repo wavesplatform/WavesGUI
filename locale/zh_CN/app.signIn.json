@@ -11,9 +11,6 @@
             "restore": "恢复所有"
         },
         "enterPass": "请输入您的密码以继续",
-        "modal": {
-            "forgotPass": "密码成功重置"
-        },
         "passForgot": {
             "attention": "注意！",
             "description": "如果您忘记了密码，则必须从其SEED中恢复所有帐户并设置新密码。"

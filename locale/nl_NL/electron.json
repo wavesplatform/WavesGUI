@@ -20,6 +20,12 @@
         }
     },
     "storage": {
+        "backup": {
+            "error": {
+                "body": "Ophalen van accounts mislukt. Neem contact op met de support om de back-upzin (SEED-zin) te herstellen.",
+                "title": "Er is iets misgegaan"
+            }
+        },
         "read": {
             "error": {
                 "body": "Er ging iets fout tijdens het laden van uw keys. We hebben uw account vanuit de backup terug gezet.",

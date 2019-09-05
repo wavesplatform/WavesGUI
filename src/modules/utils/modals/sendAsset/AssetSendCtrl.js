@@ -11,9 +11,12 @@
      * @param {User} user
      * @param {$mdDialog} $mdDialog
      * @param {BalanceWatcher} balanceWatcher
+     * @param {IOuterBlockchains} outerBlockchains
+     * @param {GatewayService} gatewayService
      * @return {AssetSendCtrl}
      */
-    const controller = function ($scope, waves, Base, utils, user, $mdDialog, balanceWatcher) {
+    const controller = function ($scope, waves, Base, utils, user, $mdDialog, balanceWatcher, outerBlockchains,
+                                 gatewayService) {
 
         class AssetSendCtrl extends Base {
 
@@ -25,18 +28,16 @@
             }
 
             /**
-             * @return {boolean}
-             */
-            get outerSendMode() {
-                return this.state.outerSendMode;
-            }
-
-            /**
              * @return {IGatewayDetails}
              */
             get gatewayDetails() {
-                return this.state.gatewayDetails;
+                return this.state.gatewayData.details;
             }
+
+            /**
+             * @type {ISendMode}
+             */
+            sendMode;
 
             /**
              * @param {IAssetSendCtrl.IOptions} options
@@ -48,10 +49,6 @@
                  * @type {string}
                  */
                 this.headerPath = 'modules/utils/modals/sendAsset/send-header.html';
-                /**
-                 * @type {typeof WavesApp.defaultAssets}
-                 */
-                this.defaultAssets = WavesApp.defaultAssets;
                 /**
                  * @type {Array<Money>}
                  */
@@ -74,19 +71,25 @@
                 this.state = {
                     assetId: options.assetId || WavesApp.defaultAssets.WAVES,
                     mirrorId: user.getSetting('baseAssetId'),
-                    outerSendMode: false,
-                    gatewayDetails: null,
+                    gatewayData: {
+                        details: null,
+                        error: null
+                    },
+                    paymentId: '',
                     moneyHash: null,
                     singleSend: utils.liteObject({ type: SIGN_TYPE.TRANSFER }),
-                    massSend: utils.liteObject({ type: SIGN_TYPE.MASS_TRANSFER }),
-                    toBankMode: false
+                    massSend: utils.liteObject({ type: SIGN_TYPE.MASS_TRANSFER })
                 };
+
                 this.receive(balanceWatcher.change, this._updateBalanceList, this);
                 this._updateBalanceList();
-                /**
-                 * @type {*}
-                 */
-                this.txInfo = Object.create(null);
+
+                this.observe('sendMode', this._onChangeSendMode);
+
+                this.receive(utils.observe(this.state, 'assetId'), this.checkSendMode, this);
+                this.receive(utils.observe(this.state.singleSend, 'recipient'), this.checkSendMode, this);
+                this.checkSendMode();
+
                 /**
                  * @type {string}
                  */
@@ -115,7 +118,7 @@
                     this.state.singleSend.recipient = options.recipient;
                     this.state.singleSend.attachment = options.attachment;
 
-                    const toGateway = this.outerSendMode && this.gatewayDetails;
+                    const toGateway = this.sendMode === 'gateway' && this.gatewayDetails;
                     const attachment = toGateway ? this.gatewayDetails.attachment : options.attachment;
                     const attachmentString = attachment ? attachment.toString() : '';
                     const bytesAttachment = utils.stringToBytes(attachmentString);
@@ -163,6 +166,38 @@
                 if (this.referrer) {
                     utils.redirect(`${this.referrer}?txId=${id}`);
                     $mdDialog.hide();
+                }
+            }
+
+            setMode(mode) {
+                this.sendMode = mode;
+            }
+
+            checkSendMode() {
+                if (this._isOuterBlockchains()) {
+                    this.setMode('gateway');
+                } else {
+                    this.setMode('waves');
+                }
+            }
+
+            updateGatewayData() {
+                if (gatewayService.hasSupportOf(this.balance.asset, 'deposit')) {
+                    return gatewayService
+                        .getWithdrawDetails(this.balance.asset, this.state.singleSend.recipient, this.state.paymentId)
+                        .then(details => {
+                            this.state.gatewayData = {
+                                error: null,
+                                details
+                            };
+                            $scope.$apply();
+                        }, error => {
+                            this.state.gatewayData = {
+                                details: null,
+                                error
+                            };
+                            $scope.$apply();
+                        });
                 }
             }
 
@@ -218,6 +253,32 @@
              * @return {boolean}
              * @private
              */
+            _isOuterBlockchains() {
+                const outerChain = outerBlockchains[this.state.assetId];
+                const isValidWavesAddress = user.isValidAddress(this.state.singleSend.recipient);
+                const isGatewayAddress = !isValidWavesAddress &&
+                    outerChain && outerChain.isValidAddress(this.state.singleSend.recipient);
+                return isGatewayAddress;
+            }
+
+            /**
+             * @private
+             */
+            _onChangeSendMode() {
+                if (this.sendMode === 'gateway') {
+                    this.updateGatewayData();
+                } else {
+                    this.gatewayData = {
+                        details: null,
+                        error: null
+                    };
+                }
+            }
+
+            /**
+             * @return {boolean}
+             * @private
+             */
             static _isNotScam(item) {
                 return !user.scam[item.asset.id];
             }
@@ -234,7 +295,9 @@
         'utils',
         'user',
         '$mdDialog',
-        'balanceWatcher'
+        'balanceWatcher',
+        'outerBlockchains',
+        'gatewayService'
     ];
 
     angular.module('app.utils')
@@ -274,8 +337,6 @@
  * @typedef {object} ISendState
  * @property {string} assetId
  * @property {string} mirrorId
- * @property {boolean} outerSendMode
- * @property {boolean} toBankMode
  * @property {IGatewayDetails} gatewayDetails
  * @property {Object.<string, Money>} moneyHash
  * @property {ISingleSendTx} singleSend
@@ -296,4 +357,8 @@
  * @property {string} [recipient]
  * @property {boolean} [strict]
  * @property {string} [referrer]
+ */
+
+/**
+ * @typedef {'waves' | 'bank' | 'gataway'} ISendMode
  */

@@ -1,4 +1,5 @@
 {
+    "active": "Active",
     "all": "Tutto",
     "amount": "Quantitativo",
     "balanceInput": {
@@ -142,14 +143,14 @@
     },
     "password": {
         "btn": {
-            "confirm": "Confirm"
+            "confirm": "Conferma"
         },
         "minLength": "deve essere di almeno {{minLength}} caratteri",
         "name": "Nome Account",
-        "nameExists": "That name is taken",
-        "newPass": "New password",
-        "old": "Old password",
-        "oldWrong": "Old password is wrong",
+        "nameExists": "Questo nome è già in uso",
+        "newPass": "Nuova password",
+        "old": "Vecchia password",
+        "oldWrong": "La vecchia password è sbagliata",
         "repeat": "Conferma password",
         "secure": "sicurezza password",
         "title": "Proteggi il tuo account con una nuova Password",

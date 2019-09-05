@@ -193,12 +193,18 @@
             "message": "Per iniziare a fare trading per favore accedi o crea un account",
             "ok": "Accedi"
         },
+        "deleteAccount": {
+            "cancel": "Cancel",
+            "delete": "Remove",
+            "description": "{div}[Removing an account will lead to its irretrievable loss if you didn't save a backup phrase (SEED).]\n{div}[Click on the REMOVE button to proceed with account removal, or CANCEL to return to the previous screen.]",
+            "header": "Remove account"
+        },
         "deposit": {
             "coinomatBCH": {
                 "helpDescrText": "Una volta che la transazione sarà confermata, il gateway processerà il trasferimento di BCH come token nel tuo account Waves.",
                 "helpDescrTitle": "Inserisci questo indirizzo nel tuo client Bitcoin Cash o nel tuo wallet",
                 "warningMinAmountText": "Inviando meno di {{minAmount, BigNumber}} {{assetTicker}}, l'importo trasferito andrà perduto.",
-                "warningMinAmountTitle": "Il deposito minimo è di {{minAmount, BigNumber}} {{assetTicker}}",
+                "warningMinAmountTitle": "Il deposito minimo è di {{minAmount, BigNumber}} {{assetTicker}}, il deposito massimo è di {{maxAmount}} {{assetTicker}}",
                 "warningText": "Inviare qualunque altra valuta a questo indirizzo potrebbe risultare in una perdita di quanto inviato.",
                 "warningTitle": "Invia esclusivamente BCH a questo indirizzo"
             },
@@ -206,7 +212,7 @@
                 "helpDescrText": "Una volta che la transazione sarà confermata, il gateway processerà il trasferimento di BSV in favore di un token nel tuo account Waves.",
                 "helpDescrTitle": "Inserisci questo indirizzo nel tuo client BSV o nel tuo wallet",
                 "warningMinAmountText": "Inviando meno di {{minAmount, BigNumber}} {{assetTicker}}, i fondi andranno perduti",
-                "warningMinAmountTitle": "Il deposito minimo è di {{minAmount, BigNumber}} {{assetTicker}}",
+                "warningMinAmountTitle": "Il deposito minimo è di {{minAmount, BigNumber}} {{assetTicker}}, il deposito massimo è di {{maxAmount}} {{assetTicker}}",
                 "warningText": "L'invio di qualsiasi altra valuta a questo indirizzo potrebbe comportare la perdita della somma depositata.",
                 "warningTitle": "Inviare esclusivamente BSV a questo indirizzo"
             },
@@ -214,7 +220,7 @@
                 "helpDescrText": "Una volta che la transazione sarà confermata, il gateway processerà il trasferimento di BTC come token nel tuo account Waves.",
                 "helpDescrTitle": "Inserisci questo indirizzo nel tuo client Bitcoin o nel tuo wallet",
                 "warningMinAmountText": "Inviando meno di {{minAmount, BigNumber}} {{assetTicker}}, l'importo trasferito andrà perduto.",
-                "warningMinAmountTitle": "Il deposito minimo è di {{minAmount, BigNumber}} {{assetTicker}}",
+                "warningMinAmountTitle": "Il deposito minimo è di {{minAmount, BigNumber}} {{assetTicker}}, il deposito massimo è di {{maxAmount}} {{assetTicker}}",
                 "warningText": "Inviare qualunque altra valuta a questo indirizzo potrebbe risultare in una perdita di quanto inviato.",
                 "warningTitle": "Invia esclusivamente BTC a questo indirizzo"
             },
@@ -222,7 +228,7 @@
                 "helpDescrText": "Una volta che la transazione sarà confermata, il gateway processerà il trasferimento di DASH come token nel tuo account Waves.",
                 "helpDescrTitle": "Inserisci questo indirizzo nel tuo client DASH o nel tuo wallet",
                 "warningMinAmountText": "Inviando meno di {{minAmount, BigNumber}} {{assetTicker}}, l'importo trasferito andrà perduto.",
-                "warningMinAmountTitle": "Il deposito minimo è di {{minAmount, BigNumber}} {{assetTicker}}",
+                "warningMinAmountTitle": "Il deposito minimo è di {{minAmount, BigNumber}} {{assetTicker}}, il deposito massimo è di {{maxAmount}} {{assetTicker}}",
                 "warningText": "Inviare qualunque altra valuta a questo indirizzo potrebbe risultare in una perdita di quanto inviato.",
                 "warningTitle": "Invia esclusivamente DASH a questo indirizzo"
             },
@@ -230,7 +236,7 @@
                 "helpDescrText": "Una volta che la transazione sarà confermata, il gateway processerà il trasferimento di ETH come token nel tuo account Waves.",
                 "helpDescrTitle": "Inserisci questo indirizzo nel tuo client ETH o nel tuo wallet",
                 "warningMinAmountText": "Inviando meno di {{minAmount, BigNumber}} {{assetTicker}}, l'importo trasferito andrà perduto.",
-                "warningMinAmountTitle": "Il deposito mimino è di {{minAmount, BigNumber}} {{assetTicker}}",
+                "warningMinAmountTitle": "Il deposito mimino è di {{minAmount, BigNumber}} {{assetTicker}}, il deposito massimo è di {{maxAmount}} {{assetTicker}}",
                 "warningText": "Controlla se il tuo wallet o exchange utilizza smart contract per trasferire ETH. Non accettiamo questo tipo di transazioni e non ci sarà possibile rimborsarle. L'importo trasferito andrà perduto.",
                 "warningTitle": "Per favore, non inviare ETH da smart contracts! Non inviare token ERC20! Accettiamo esclusivamente Ethereum."
             },
@@ -238,7 +244,7 @@
                 "helpDescrText": "Una volta che la transazione sarà confermata, il gateway processerà il trasferimento di LTC come token nel tuo account Waves.",
                 "helpDescrTitle": "Inserisci questo indirizzo nel tuo client Litecoin o nel tuo wallet",
                 "warningMinAmountText": "Inviando meno di {{minAmount, BigNumber}} {{assetTicker}}, l'importo trasferito andrà perduto.",
-                "warningMinAmountTitle": "Il deposito mimino è di {{minAmount, BigNumber}} {{assetTicker}}",
+                "warningMinAmountTitle": "Il deposito mimino è di {{minAmount, BigNumber}} {{assetTicker}}, il deposito massimo è di {{maxAmount}} {{assetTicker}}",
                 "warningText": "Inviare qualunque altra valuta a questo indirizzo potrebbe risultare in una perdita di quanto inviato.",
                 "warningTitle": "Invia esclusivamente LTC a questo indirizzo"
             },
@@ -246,7 +252,7 @@
                 "helpDescrText": "Una volta che la transazione sarà confermata, il gateway processerà il trasferimento di XMR come token nel tuo account Waves.",
                 "helpDescrTitle": "Inserisci questo indirizzo nel tuo client Monero o nel tuo wallet",
                 "warningMinAmountText": "Inviando meno di {{minAmount, BigNumber}} {{assetTicker}}, l'importo trasferito andrà perduto.",
-                "warningMinAmountTitle": "Il deposito mimino è di {{minAmount, BigNumber}} {{assetTicker}}",
+                "warningMinAmountTitle": "Il deposito mimino è di {{minAmount, BigNumber}} {{assetTicker}}, il deposito massimo è di {{maxAmount}} {{assetTicker}}",
                 "warningText": "{div}[ID del Pagamento non indispensabile.]Inviare qualunque altra valuta a questo indirizzo potrebbe risultare in una perdita di quanto inviato.",
                 "warningTitle": "Invia esclusivamente XMR a questo indirizzo"
             },
@@ -254,7 +260,7 @@
                 "helpDescrText": "Una volta che la transazione sarà confermata, il gateway processerà il trasferimento di ZEC come token nel tuo account Waves.",
                 "helpDescrTitle": "Inserisci questo indirizzo nel tuo client Zcash o nel tuo wallet",
                 "warningMinAmountText": "Inviando meno di {{minAmount, BigNumber}} {{assetTicker}}, l'importo trasferito andrà perduto.",
-                "warningMinAmountTitle": "Il deposito mimino è di {{minAmount, BigNumber}} {{assetTicker}}",
+                "warningMinAmountTitle": "Il deposito mimino è di {{minAmount, BigNumber}} {{assetTicker}}, il deposito massimo è di {{maxAmount}} {{assetTicker}}",
                 "warningText": "Inviare qualunque altra valuta a questo indirizzo potrebbe risultare in una perdita di quanto inviato.",
                 "warningTitle": "Invia esclusivamente ZEC a questo indirizzo"
             },
@@ -265,12 +271,12 @@
             "scanQrCode": "Scansione Codice QR",
             "title": "Deposita {{assetName}}",
             "wavesGatewayBNT": {
-                "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of Bancor to a token in your Waves account.",
-                "helpDescrTitle": "Enter this address into your client or wallet",
-                "warningMinAmountText": "If you will send less than {{minAmount, BigNumber}} {{assetTicker}}, you will lose that money.",
-                "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}, the maximum amount of deposit is {{maxAmount}} {{assetTicker}}",
-                "warningText": "Check if your wallet or exchange uses smart-contracts to withdraw Bancor. We do not accept such transactions and can’t refund them. You will lose that money.",
-                "warningTitle": "Please do not deposit BNT from smart contracts! Do not deposit other ERC20 tokens! Only Bancor is allowed."
+                "helpDescrText": "Una volta che la transazione sarà confermata, il gateway processerà il trasferimento di Bancor in favore di un token nel tuo account Waves.",
+                "helpDescrTitle": "Inserisci questo indirizzo nel tuo client o nel tuo wallet",
+                "warningMinAmountText": "Inviando meno di {{minAmount, BigNumber}} {{assetTicker}}, l'importo trasferito andrà perduto.",
+                "warningMinAmountTitle": "L'importo minimo di deposito è di {{minAmount, BigNumber}} {{assetTicker}}, l'importo massimo di deposito è di {{maxAmount}} {{assetTicker}}",
+                "warningText": "Controlla se il tuo wallet o exchange utilizza smart contract per trasferire Bancor. Non accettiamo questo tipo di transazioni e non ci sarà possibile rimborsarle. L'importo trasferito andrà perduto.",
+                "warningTitle": "Per favore, non inviare BNT da smart contracts! Non inviare token ERC20! Accettiamo esclusivamente Bancor."
             },
             "wavesGatewayERGO": {
                 "helpDescrText": "Una volta che la transazione sarà confermata, il gateway processerà il trasferimento di ERGO come token nel tuo account Waves.",
@@ -470,7 +476,8 @@
             "heading": "Elimina account",
             "remove": "Elimina",
             "text": "{div}[Cancellare l'account renderà impossibile un nuovo accesso in caso di indisponibilità della frase di recupero (SEED).]{div}[Clicca sul tasto ELIMINA per procedere con la rimozione, oppure su ANNULLA per tornare alla schermata precedente.]",
-            "warning": "Non hai salvato il tuo SEED"
+            "warning": "Non hai salvato il tuo SEED",
+            "warningPlural": "You did not save your Seed phrases"
         },
         "removeKeeperAccount": {
             "heading": "Rimuovi l'account Waves Keeper",
@@ -606,8 +613,10 @@
             "warningHeader": "Azioni che possono comportare perdita di fondi."
         },
         "settings": {
+            "account": "Account",
             "cancel": "Crea un account",
-            "changePass": "Change password",
+            "changePass": "Cambia password",
+            "deleteAccount": "Remove account",
             "general": {
                 "auto": "Auto",
                 "blockHeight": "Posizione Corrente",
@@ -672,11 +681,12 @@
                     "ok": "Ho capito"
                 }
             },
-            "passChanged": "Password was changed successfully",
+            "passChanged": "La password è stata cambiata correttamente",
             "password": "Password",
             "security": {
                 "address": "Indirizzo",
                 "backupPhrase": "Frase di Backup",
+                "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "Seed codificato",
                 "privateKey": "Chiave Privata",
                 "publicKey": "Chiave Pubblica",
@@ -717,6 +727,8 @@
             "fee": "Spese",
             "matcher": "Firma richieste di ordini",
             "openApp": "Apri l'app Waves",
+            "orderType": "Order type",
+            "pair": "Pair",
             "price": "Prezzo",
             "refererTo": "Se l'errore persiste, per favore fai riferimento a",
             "referTo": "Se l'errore persiste, per favore fai riferimento a",
@@ -730,6 +742,7 @@
             "signErrorText": "Non hai confermato la richiesta sul tuo dispositivo Ledger",
             "signErrorTextImportKeeper": "Accedi al Waves Keeper con l'indirizzo {{address}}, dopodichè ricarica questa pagina per continuare.",
             "signErrorTextKeeper": "Riprovare. Se l'errore dovesse persistere, aprire un ticket sul [Supporto](https://support.wavesplatform.com/)",
+            "timestamp": "Timestamp",
             "txId": "TXID"
         },
         "sponsorship_edit": {
@@ -813,6 +826,7 @@
             "step1": {
                 "button": "Cosa devi sapere a proposito del tuo SEED",
                 "buttonMobile": "Continua",
+                "buttonReadMore": "Read more",
                 "p1": "Per favore, prenditi qualche minuto per comprendere alcune cose importanti riguardo la tua stessa sicurezza. 🙏",
                 "p2": "In caso dovessi cadere vittima di una truffa phishing o perdere la tua frase di backup (nota anche come SEED), non potremo in alcun modo recuperare i tuoi fondi o congelare il tuo account.",
                 "p3": "Continuando ad utilizzare la nostra piattaforma, concordi e accetti tutti i rischi connessi all'eventuale smarrimento del tuo SEED, inclusi ma non limitati a quelli relativi all'impossibilità di accedere o gestire i tuoi stessi fondi. In caso di smarrimento del tuo SEED, concordi e confermi di aver compreso che la piattaforma Waves non potrà essere ritenuta responsabile di eventuali conseguenze.",
@@ -911,9 +925,10 @@
                 "1_2_6": "{span.line}[1. Aggiunto il supporto alla transazione degli script di invocazione. [Leggi di più](https://blog.wavesplatform.com/ride-for-dapps-hits-waves-testnet-e3f2906dd2aa)] \n {span.line}[2. Miglioramento dell'interfaccia utente e altri bug minori sono stati risolti.]",
                 "1_2_8": "{span.line}[1. I token Spam sono stati nascosti nel client.]\n{span.line}[2. Miglioramento dell'interfaccia utente e risoluzione di bug minori.]",
                 "1_3_0": "{span.line}[1. Miglioramento dell'interfaccia do navigazione della pagina iniziale.]",
-                "1_3_18": "{span.line}[1. Added login to wallet using a private key.]\n{span.line}[2. The 24 hours price change of a token is now bound to token/WAVES pair.]",
-                "1_3_19": "{span.line}[1. Bancor gateway has been launched.]\n{span.line}[2. User menu interface has been improved.]",
+                "1_3_18": "{span.line} [1. Aggiunto login al wallet utilizzando una chiave privata.]\n{span.line} [2. La modifica del prezzo di 24 ore di un token è ora associata alla coppia token/WAVES.]",
+                "1_3_19": "{span.line} [1. Lancio del gateway Bancor.] \n{span.line} [2.Miglioramento dell'interfaccia del menu utente.]",
                 "1_3_2": "{span.line} [1. Lancio del gateway Vostok.] \n{span.line} [2. Miglioramento dell'interfaccia utente e risoluzione di altri bug minori.]",
+                "1_3_20": "{span.line}[1. Improved system for storing and restoring accounts from local storage (Need to update the [desktop application](https://wavesplatform.com/technology/wallet)).]\n{span.line}[2. Fixed rounding of prices in the orderbook.]",
                 "1_3_5": "{span.line}[1. Aggiunto il tab al concorso [wsoc.io](https://wsoc.io) tokens.]\n{span.line}[2. Aggiunto il supporto alla lingua Francese.]\n{span.line}[3. Risoluzione di bug minori.]",
                 "1_3_7": "{span.line} [1. Integrazione con [tokenrating.wavesexplorer.com] (https://tokenrating.wavesexplorer.com) Ora puoi valutare i token direttamente nell'app.] \n {span.line} [2. Sono stati corretti altri bug minori.]",
                 "1_3_9": "{span.line} [1. Miglioramento Interfaccia utente e funzionalità delle sezioni di Exchange e Wallet.] \n {span.line} [2. Correzione di altri bug minori.]"

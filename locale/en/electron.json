@@ -22,7 +22,7 @@
     "storage": {
         "backup": {
             "error": {
-                "body": "Failed to get accounts. Please contact to support service to restore the backup phrase (SEED phrase).",
+                "body": "Failed to get accounts. Please contact the support service to restore the backup phrase (SEED phrase).",
                 "title": "Something went wrong!"
             }
         },
