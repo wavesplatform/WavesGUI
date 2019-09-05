@@ -686,7 +686,7 @@
             "security": {
                 "address": "Dirección",
                 "backupPhrase": "Frase de Recuperación",
-                "base58Seed": "Encoded backup phrase",
+                "base58Seed": "Frase de seguridad (SEED) codificada",
                 "encodedSeed": "Semilla codificada",
                 "privateKey": "Clave privada",
                 "publicKey": "Clave pública",
@@ -701,6 +701,7 @@
         },
         "sign": {
             "article": "artículo",
+            "buy": "Comprar",
             "cancel": "Cancelar",
             "cancelOrder": "Cancelar la orden",
             "close": "Cerrar",
@@ -735,6 +736,7 @@
             "request": "petición",
             "requestId": "Solicitar hash",
             "retry": "Intente de nuevo",
+            "sell": "Vender",
             "signByKeeper": "Esperando confirmación del Waves Keeper",
             "signByLedger": "Esperando confirmación del Ledger...",
             "signError": "La petición no ha sido confirmada.",
@@ -931,7 +933,8 @@
                 "1_3_20": "{span.line} [1. Sistema mejorado para almacenar y restaurar cuentas desde el almacenamiento local (es necesario actualizar la [aplicación de escritorio] (https://wavesplatform.com/technology/wallet)).] \n {span.line} [2. Se corrigió el redondeo de precios en el libro de pedidos.]",
                 "1_3_5": "\"span.line\" [1. Se ha añadido una pestaña con tokens de concurso [wsoc.io](https://wsoc.io).\n\"span.line\" [2. Se ha añadido compatibilidad con el idioma francés.]\n\"span.line\" [3. Se han corregido errores menores adicionales.]",
                 "1_3_7": "\"span.line\" [1. Integración con [tokenrating.wavesexplorer.com](https://tokenrating.wavesexplorer.com) Ahora puede calificar tokens directamente en la aplicación.]\n\"span.line\" [2. Se han corregido errores menores.]",
-                "1_3_9": "\"span.line\" [1. Mejora de la interfaz de usuario y la funcionalidad de las secciones de Intercambio y billetera.]\n\"span.line\" [2. Se han corregido errores menores adicionales.]"
+                "1_3_9": "\"span.line\" [1. Mejora de la interfaz de usuario y la funcionalidad de las secciones de Intercambio y billetera.]\n\"span.line\" [2. Se han corregido errores menores adicionales.]",
+                "1_4_0": "{span.line}[Añadida la capacidad para cambiar fácilmente entre diferentes cuentas dentro de una billetera.]"
             },
             "title": "Qué novedades trae la versión {{version}}"
         }

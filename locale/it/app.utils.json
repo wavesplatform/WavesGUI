@@ -701,6 +701,7 @@
         },
         "sign": {
             "article": "articolo",
+            "buy": "Buy",
             "cancel": "Cancella",
             "cancelOrder": "Cancella l'ordine",
             "close": "Chiudi",
@@ -735,6 +736,7 @@
             "request": "richiesta",
             "requestId": "hash della richiesta",
             "retry": "Riprova",
+            "sell": "Sell",
             "signByKeeper": "In attesa di conferma sul Waves Keeper...",
             "signByLedger": "In attesa di conferma sul Ledger...",
             "signError": "La richiesta non è stata confermata.",
@@ -931,7 +933,8 @@
                 "1_3_20": "{span.line}[1. Improved system for storing and restoring accounts from local storage (Need to update the [desktop application](https://wavesplatform.com/technology/wallet)).]\n{span.line}[2. Fixed rounding of prices in the orderbook.]",
                 "1_3_5": "{span.line}[1. Aggiunto il tab al concorso [wsoc.io](https://wsoc.io) tokens.]\n{span.line}[2. Aggiunto il supporto alla lingua Francese.]\n{span.line}[3. Risoluzione di bug minori.]",
                 "1_3_7": "{span.line} [1. Integrazione con [tokenrating.wavesexplorer.com] (https://tokenrating.wavesexplorer.com) Ora puoi valutare i token direttamente nell'app.] \n {span.line} [2. Sono stati corretti altri bug minori.]",
-                "1_3_9": "{span.line} [1. Miglioramento Interfaccia utente e funzionalità delle sezioni di Exchange e Wallet.] \n {span.line} [2. Correzione di altri bug minori.]"
+                "1_3_9": "{span.line} [1. Miglioramento Interfaccia utente e funzionalità delle sezioni di Exchange e Wallet.] \n {span.line} [2. Correzione di altri bug minori.]",
+                "1_4_0": "{span.line}[Added ability for easy switching between  accounts within one wallet.]"
             },
             "title": "Le novità della versione {{version}}"
         }
