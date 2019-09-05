@@ -257,6 +257,14 @@
                 modalManager.showScriptModal();
             }
 
+            showPasswordModal() {
+                modalManager.showPasswordModal();
+            }
+
+            showDeleteAccountModal() {
+                modalManager.showDeleteAccountModal();
+            }
+
         }
 
         return new SettingsCtrl();

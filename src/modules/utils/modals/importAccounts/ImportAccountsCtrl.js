@@ -33,14 +33,12 @@
                 this.checkedHash = Object.create(null);
                 this._myUserList = [];
 
-                const userListPromise = user.getFilteredUserList().catch(() => []);
-
-                userListPromise.then(
-                    (userList) => {
+                user.getFilteredUserList()
+                    .catch(() => [])
+                    .then((userList) => {
                         this._myUserList = userList;
                         return this.importFromOld();
-                    }
-                );
+                    });
             }
 
             /**

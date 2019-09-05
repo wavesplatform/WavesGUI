@@ -8,12 +8,13 @@
     "signIn": {
         "btn": {
             "cancel": "Cancelar",
-            "restore": "Restaurar todo"
+            "restore": "Reset all"
         },
         "enterPass": "Por favor ingrese su contraseña para continuar",
         "passForgot": {
             "attention": "¡Atención!",
-            "description": "Si olvida la contraseña, debe restaurar todas sus cuentas desde sus frases de seguridad (SEED) y establecer una nueva contraseña"
+            "description": "Si olvida la contraseña, debe restaurar todas sus cuentas desde sus frases de seguridad (SEED) y establecer una nueva contraseña",
+            "importantDesc": "If you have not saved the Seed phrase or Private key, then you will not be able to recover access to your account."
         },
         "password": {
             "forgot": "¿Olvidó su contraseña?"

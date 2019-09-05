@@ -110,7 +110,7 @@
     "@waves/ledger": "^3.4.0",
     "@waves/marshall": "^0.8.0",
     "@waves/oracle-data": "^0.0.6",
-    "@waves/signature-adapter": "^5.2.0",
+    "@waves/signature-adapter": "5.3.0",
     "@waves/ts-types": "0.0.2",
     "@waves/waves-browser-bus": "^0.1.5",
     "@waves/waves-transactions": "^3.16.3",
