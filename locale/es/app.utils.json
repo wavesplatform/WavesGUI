@@ -701,6 +701,7 @@
         },
         "sign": {
             "article": "artículo",
+            "buy": "Buy",
             "cancel": "Cancelar",
             "cancelOrder": "Cancelar la orden",
             "close": "Cerrar",
@@ -735,6 +736,7 @@
             "request": "petición",
             "requestId": "Solicitar hash",
             "retry": "Intente de nuevo",
+            "sell": "Sell",
             "signByKeeper": "Esperando confirmación del Waves Keeper",
             "signByLedger": "Esperando confirmación del Ledger...",
             "signError": "La petición no ha sido confirmada.",
@@ -932,7 +934,7 @@
                 "1_3_5": "\"span.line\" [1. Se ha añadido una pestaña con tokens de concurso [wsoc.io](https://wsoc.io).\n\"span.line\" [2. Se ha añadido compatibilidad con el idioma francés.]\n\"span.line\" [3. Se han corregido errores menores adicionales.]",
                 "1_3_7": "\"span.line\" [1. Integración con [tokenrating.wavesexplorer.com](https://tokenrating.wavesexplorer.com) Ahora puede calificar tokens directamente en la aplicación.]\n\"span.line\" [2. Se han corregido errores menores.]",
                 "1_3_9": "\"span.line\" [1. Mejora de la interfaz de usuario y la funcionalidad de las secciones de Intercambio y billetera.]\n\"span.line\" [2. Se han corregido errores menores adicionales.]",
-                "1_4_0": "{span.line}[Added ability for easy switching between accounts within one wallet app.]"
+                "1_4_0": "{span.line}[Added ability for easy switching between  accounts within one wallet.]"
             },
             "title": "Qué novedades trae la versión {{version}}"
         }

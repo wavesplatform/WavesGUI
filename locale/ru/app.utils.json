@@ -701,6 +701,7 @@
         },
         "sign": {
             "article": "статье",
+            "buy": "Buy",
             "cancel": "Отмена",
             "cancelOrder": "Отмена",
             "close": "Закрыть",
@@ -735,6 +736,7 @@
             "request": "запрос",
             "requestId": "Хэш запроса",
             "retry": "Повторить попытку",
+            "sell": "Sell",
             "signByKeeper": "Ожидаем подтверждения через Waves Keeper...",
             "signByLedger": "Ожидается подтверждение на устройстве Ledger...",
             "signError": "Запрос не подтвержден.",
