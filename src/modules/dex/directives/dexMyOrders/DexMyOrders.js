@@ -267,7 +267,7 @@
                     data
                 });
 
-                return utils.signMatcher(signable)
+                return utils.signMatcher(signable, order)
                     .then(signable => signable.getDataForApi());
             }
 

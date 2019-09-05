@@ -1900,9 +1900,10 @@
             /**
              * @name app.utils#sign
              * @param {Signable} signable
+             * @param {any} anyData
              * @return {Promise<Signable>}
              */
-            signMatcher(signable) {
+            signMatcher(signable, anyData = null) {
                 /**
                  * @type {User}
                  */
@@ -1919,7 +1920,7 @@
 
                 const errorParams = { error: 'sign-error', userType: user.userType };
 
-                const signByDeviceLoop = () => modalManager.showSignByDevice(signable)
+                const signByDeviceLoop = () => modalManager.showSignByDevice(signable, anyData)
                     .catch(() => modalManager.showSignDeviceError(errorParams)
                         .then(signByDeviceLoop))
                     .catch(() => Promise.reject({ message: 'Your sign is not confirmed!' }));
