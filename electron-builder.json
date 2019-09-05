@@ -25,10 +25,10 @@
   "mac": {
     "hardenedRuntime" : true,
     "gatekeeperAssess": false,
-    "entitlements": "build/entitlements.mac.plist",
-    "entitlementsInherit": "build/entitlements.mac.plist",
+    "entitlements": "entitlements.mac.plist",
+    "entitlementsInherit": "entitlements.mac.plist",
     "category": "public.app-category.finance",
-    "afterSign": "scripts/notarize.js",
+
     "target": [
       "dmg"
     ],
@@ -52,7 +52,6 @@
     "uninstallerIcon": "electron/icons/icon.ico"
   },
   "dmg": {
-    "sign": false,
     "icon": null,
     "background": "electron/icons/macos-installer-bg.tiff"
   }
