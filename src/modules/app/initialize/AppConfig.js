@@ -9,6 +9,11 @@
         const i18next = require('i18next');
 
         ds.config.setConfig(WavesApp.network);
+        ds.config.set('rewriteAssets', (WavesApp.rewriteAssets || [])
+            .reduce((acc, item) => {
+                acc[item.id] = item;
+                return acc;
+            }, {}));
         ds.config.set('remappedAssetNames', WavesApp.remappedAssetNames);
         ds.config.set('oracleTokenomica', WavesApp.oracles.tokenomica);
 
@@ -20,6 +25,65 @@
                 this._initAdapters();
                 this._initStates();
                 this._initCompiler();
+            }
+
+            static getCtrlName(name) {
+                return `${name.charAt(0)
+                    .toUpperCase() + name.substr(1)}Ctrl as $ctrl`;
+            }
+
+            static getTemplateUrl(path) {
+                return path.filter((id) => !WavesApp.stateTree.find(id).get('abstract'))
+                    .reduce((result, item, index, array) => {
+                        item = tsUtils.camelCase(item);
+                        if (index === array.length - 1) {
+                            result += `/modules/${item}/templates/${item}.html`;
+                        } else {
+                            result += `/modules/${item}`;
+                        }
+                        return result;
+                    }, '')
+                    .replace(/\/\//g, '/')
+                    .substr(1);
+            }
+
+            static getUserLang() {
+                const available = Object.keys(WavesApp.localize);
+                const langFromStorage = localStorage.getItem('lng');
+                if (available.indexOf(langFromStorage) !== -1) {
+                    return langFromStorage;
+                }
+                const cookieLng = Cookies.get('locale');
+                const userLang = navigator.language || navigator.userLanguage;
+
+                if (available.indexOf(cookieLng) !== -1) {
+                    return cookieLng;
+                }
+
+                if (!userLang) {
+                    return 'en';
+                } else if (available.indexOf(userLang) !== -1) {
+                    return userLang;
+                } else {
+                    let lng = null;
+                    userLang.split(/\W/).some((part) => {
+                        if (available.indexOf(part) !== -1) {
+                            lng = part;
+                        } else if (available.indexOf(part.toLowerCase()) !== -1) {
+                            lng = part.toLowerCase();
+                        }
+                        return !!lng;
+                    });
+
+                    return lng || 'en';
+                }
+            }
+
+            /**
+             * @param {BaseTree} state
+             */
+            static getUrlFromState(state) {
+                return state.get('abstract') ? undefined : state.get('url') || `/${state.id}`;
             }
 
             _initAdapters() {
@@ -197,65 +261,6 @@
                 $compileProvider.commentDirectivesEnabled(false);
                 $compileProvider.cssClassDirectivesEnabled(false);
                 $compileProvider.debugInfoEnabled(!WavesApp.isProduction());
-            }
-
-            static getCtrlName(name) {
-                return `${name.charAt(0)
-                    .toUpperCase() + name.substr(1)}Ctrl as $ctrl`;
-            }
-
-            static getTemplateUrl(path) {
-                return path.filter((id) => !WavesApp.stateTree.find(id).get('abstract'))
-                    .reduce((result, item, index, array) => {
-                        item = tsUtils.camelCase(item);
-                        if (index === array.length - 1) {
-                            result += `/modules/${item}/templates/${item}.html`;
-                        } else {
-                            result += `/modules/${item}`;
-                        }
-                        return result;
-                    }, '')
-                    .replace(/\/\//g, '/')
-                    .substr(1);
-            }
-
-            static getUserLang() {
-                const available = Object.keys(WavesApp.localize);
-                const langFromStorage = localStorage.getItem('lng');
-                if (available.indexOf(langFromStorage) !== -1) {
-                    return langFromStorage;
-                }
-                const cookieLng = Cookies.get('locale');
-                const userLang = navigator.language || navigator.userLanguage;
-
-                if (available.indexOf(cookieLng) !== -1) {
-                    return cookieLng;
-                }
-
-                if (!userLang) {
-                    return 'en';
-                } else if (available.indexOf(userLang) !== -1) {
-                    return userLang;
-                } else {
-                    let lng = null;
-                    userLang.split(/\W/).some((part) => {
-                        if (available.indexOf(part) !== -1) {
-                            lng = part;
-                        } else if (available.indexOf(part.toLowerCase()) !== -1) {
-                            lng = part.toLowerCase();
-                        }
-                        return !!lng;
-                    });
-
-                    return lng || 'en';
-                }
-            }
-
-            /**
-             * @param {BaseTree} state
-             */
-            static getUrlFromState(state) {
-                return state.get('abstract') ? undefined : state.get('url') || `/${state.id}`;
             }
 
         }

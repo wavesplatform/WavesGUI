@@ -189,14 +189,17 @@
                         isTokenomica, logo, isGatewaySoon
                     } = utils.getDataFromOracles(this.balance.asset.id);
 
+                    this.isVostok = this.balance.asset.id === WavesApp.defaultAssets.VST;
+
                     this.isVerifiedOrGateway = isVerified || isGateway;
 
                     const html = template({
                         canSetAssetScript: this._isMyAsset && this.isSmart,
                         isSmart: this.isSmart,
-                        isVerified: isVerified,
+                        isVerified: this.isVerified,
                         isGateway: isGateway,
                         isTokenomica: isTokenomica,
+                        isVostok: this.isVostok,
                         isGatewaySoon: isGatewaySoon,
                         assetIconPath: logo ||
                             this.utils.getAssetLogo(this.balance.asset.id),
