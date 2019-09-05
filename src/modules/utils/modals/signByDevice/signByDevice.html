@@ -108,12 +108,8 @@
                      w-i18n="modal.sign.orderType">
                 </div>
                 <div class="txinfo__value nowrap">
-                    <span ng-if="$ctrl.order.type === 'sell'">
-                        TODO Sell
-                    </span>
-                    <span ng-if="$ctrl.order.type === 'buy'">
-                        TODO Buy
-                    </span>
+                    <span ng-if="$ctrl.order.type === 'sell'" w-i18n="modal.sign.sell"></span>
+                    <span ng-if="$ctrl.order.type === 'buy'" w-i18n="modal.sign.buy"></span>
                 </div>
             </div>
             <div class="txinfo__row">
