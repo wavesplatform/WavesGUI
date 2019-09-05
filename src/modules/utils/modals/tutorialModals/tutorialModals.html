@@ -6,7 +6,8 @@
 
                 <div class="content-wrapper basic-500 margin-05 body-2">
                     <h1>
-                        <span w-i18n="modal.tutorialModals.step1.title"></span>
+                        <span ng-if="!$ctrl.hasAccounts" w-i18n="modal.tutorialModals.step1.title"></span>
+                        <span ng-if="$ctrl.hasAccounts" w-i18n="modal.tutorialModals.step2.title"></span>
                     </h1>
 
                     <div class="flex">
@@ -28,7 +29,8 @@
                 </div>
                 <w-analytics event="'Onboarding SEED Click'" target="'ui'"></w-analytics>
                     <w-button class="big long submit margin-auto desktop-only" w-step-next>
-                        <span w-i18n="modal.tutorialModals.step1.button"></span>
+                        <span ng-if="!$ctrl.hasAccounts" w-i18n="modal.tutorialModals.step1.button"></span>
+                        <span ng-if="$ctrl.hasAccounts" w-i18n="modal.tutorialModals.step1.buttonReadMore"></span>
                     </w-button>
                     <w-button class="big long submit mobile-only" w-step-next>
                         <span w-i18n="modal.tutorialModals.step1.buttonMobile"></span>

@@ -70,6 +70,7 @@ select:-webkit-autofill:focus {
 
 body.keeper,
 body.welcome,
+body.signUp,
 body.signIn,
 body.saveSeed,
 body.create,
@@ -171,6 +172,18 @@ body.dex {
   height: 21px;
   background-image: @waves-logo-icon;
   background-repeat: no-repeat;
+}
+
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+
+  &.disabled {
+    w-select, span.link, w-qr-code-read, w-import-file, a.link-clear {
+      pointer-events: none;
+    }
+  }
 }
 
 .scroll-box {
@@ -287,7 +300,7 @@ body.dex {
   flex-direction: column;
 
   &-wrapper {
-    height: 100%;
+    min-height: 100%;
     display: flex;
     width: 100%;
     flex-grow: 1;
@@ -320,7 +333,7 @@ body.dex {
 }
 
 .get-started-checkbox-save {
-  margin: 15px 0 20px;
+  margin: 20px 0;
 }
 
 @media screen and (min-width: 480px) {
@@ -330,9 +343,5 @@ body.dex {
 
   .get-started-footer {
     max-width: @getStartedFooterWidth;
-  }
-
-  .get-started-checkbox-save {
-    margin: 20px 0 30px;
   }
 }

@@ -5,7 +5,8 @@
 
 .user-account {
   position: relative;
-  margin: 5px 0;
+  margin: 5px;
+  margin-top: 0;
   padding-bottom: 10px;
   display: flex;
   flex-direction: column;
@@ -14,6 +15,7 @@
 
   &__name {
     display: inline-flex;
+    margin-left: -5px;
     position: relative;
   }
 
@@ -26,6 +28,7 @@
 
   &__address {
     padding: 5px;
+    margin-left: -5px;
     border-radius: @border-radius;
     position: relative;
   }
@@ -54,7 +57,7 @@
       width: 14px;
       height: 14px;
       margin: -7px 0 0 5px;
-      background: @color-info-50 @dex-edit-icon;
+      background: @dex-edit-icon;
     }
 
     &:hover {

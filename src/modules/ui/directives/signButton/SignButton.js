@@ -40,6 +40,10 @@
 
                 this.observe('ns', this._updateNs);
                 this._updateNs();
+
+                this.observe('signPending', () => {
+                    $scope.$emit('signPendingChange', this.signPending);
+                });
             }
 
             onSignSuccess() {
