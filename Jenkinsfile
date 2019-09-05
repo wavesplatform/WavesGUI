@@ -211,7 +211,7 @@ timeout(time:20, unit:'MINUTES') {
                                         WIN_CSC_LINK=WavesPlatformLTD.pfx \
                                         WIN_CSC_KEY_PASSWORD=${signingCertPassphrase} \
                                         CSC_LINK=mac_app.p12 \
-                                        CSC_KEY_PASSWORD=${electron-mac-signing-cert-passphrase} \
+                                        CSC_KEY_PASSWORD=${signingMacCertPassphrase} \
                                         WAVES_CONFIGURATION=mainnet \
                                         ./node_modules/.bin/build -mwl --x64 --publish=never \
                                             --config.directories.output=out/mainnet/ \
