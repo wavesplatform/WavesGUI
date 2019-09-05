@@ -2,13 +2,13 @@
     <div class="cell {{SELECTORS.SPONSORED}}">
         {{#if assetIconPath}}
             <div class="asset-logo asset-logo_custom footnote-3">
-                <div class="asset-logo__logo" style="width: 30px; height: 30px; background-image: url({{assetIconPath}});">
+                <div class="asset-logo__logo {{#if isVostok}} asset-logo__logo_vostok{{/if}}" style="width: 30px; height: 30px; background-image: url({{assetIconPath}});">
                     <div class="asset-logo__marker{{#if isSmart}} asset-logo__marker-smart{{/if}}"></div>
                 </div>
             </div>
         {{else}}
             <div class="asset-logo footnote-3">
-                <div class="asset-logo__logo" style="width: 30px; height: 30px; background-color: {{charColor}}; font-size: 13px;">
+                <div class="asset-logo__logo {{#if isVostok}} asset-logo__logo_vostok{{/if}}" style="width: 30px; height: 30px; background-color: {{charColor}}; font-size: 13px;">
                     <div class="asset-logo__letter">{{firstAssetChar}}</div>
                     <div class="asset-logo__marker{{#if isSmart}} asset-logo__marker_smart{{/if}}" style="background-color: {{charColor}}"></div>
                 </div>
