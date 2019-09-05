@@ -7,8 +7,10 @@
      * @param {Migration} migration
      * @param {State} state
      * @param {storageSelect} storageSelect
+     * @param {DefaultSettings} defaultSettings
+     * @param {StorageDataConverter} storageDataConverter
      */
-    const factory = function ($q, utils, migration, state, storageSelect) {
+    const factory = function ($q, utils, migration, state, storageSelect, defaultSettings, storageDataConverter) {
 
         const usedStorage = storageSelect();
 
@@ -22,12 +24,13 @@
             '1.3.19': function (storage) {
                 return saveUsersWithUniqueName(storage)
                     .then(data => addNewGateway(data, WavesApp.defaultAssets.BNT));
-            }
+            },
+            '1.4.0': storage => migrateCommonSettings(storage)
         };
 
         function newTerms(storage) {
-            return storage.load('userList').then((users = []) => {
-                const needShowNewTerms = users.some((user) => {
+            return storage.load('userList').then(users => {
+                const needShowNewTerms = (users || []).some((user) => {
                     const settings = user.settings || Object.create(null);
                     return typeof settings.termsAccepted === 'undefined';
                 });
@@ -38,8 +41,8 @@
         }
 
         function addNewGateway(storage, gateway) {
-            return storage.load('userList').then((users = []) => {
-                users.forEach((user) => {
+            return storage.load('userList').then(users => {
+                (users || []).forEach(user => {
                     const settings = user.settings || Object.create(null);
                     const idList = settings.pinnedAssetIdList;
                     if (idList && !idList.includes(gateway)) {
@@ -52,7 +55,7 @@
         }
 
         function saveUsersWithUniqueName(storage) {
-            return storage.load('userList').then((usersInStorage = []) => {
+            return storage.load('userList').then(usersInStorage => {
 
                 const getUniqueName = (arr, userName) => {
                     let counter = 1;
@@ -67,7 +70,7 @@
                     return num > 1 ? `${userName} ${num}` : userName;
                 };
 
-                const users = usersInStorage.reduce((acc, user) => {
+                const users = (usersInStorage || []).reduce((acc, user) => {
                     const otherUsers = acc.filter(item => item !== user);
 
                     if (!user.name) {
@@ -82,9 +85,38 @@
                         }
                     ]);
 
-                }, usersInStorage);
+                }, (usersInStorage || []));
 
                 return storage.save('userList', users).then(() => storage);
+            });
+        }
+
+        function migrateCommonSettings(storage) {
+            return storage.load('userList').then(userList => {
+                const commonSettings = defaultSettings.create();
+
+                (userList || []).sort((a, b) => a.lastLogin - b.lastLogin).forEach(curUser => {
+                    if (curUser.settings) {
+                        try {
+                            const userSettings = defaultSettings.create();
+                            const flatSettings = JSON.parse(storageDataConverter.stringify(curUser.settings));
+
+                            Object.entries(flatSettings).forEach(([path, value]) => {
+                                commonSettings.set(path, value);
+                                userSettings.set(path, value);
+                            });
+
+                            curUser.settings = userSettings.getSettings().settings;
+                        } catch (e) {
+                            delete curUser.settings;
+                        }
+                    }
+                });
+
+                return Promise.all([
+                    storage.save('multiAccountSettings', commonSettings.getSettings().common),
+                    storage.save('userList', userList)
+                ]);
             });
         }
 
@@ -133,7 +165,7 @@
         return new Storage();
     };
 
-    factory.$inject = ['$q', 'utils', 'migration', 'state', 'storageSelect'];
+    factory.$inject = ['$q', 'utils', 'migration', 'state', 'storageSelect', 'defaultSettings', 'storageDataConverter'];
 
     angular.module('app.utils')
         .factory('storage', factory);

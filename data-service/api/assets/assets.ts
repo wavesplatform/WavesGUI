@@ -22,7 +22,25 @@ export function get(assets: string | Array<string>): Promise<any> {
             } else {
                 return list;
             }
-        });
+        }).then(
+            (list: Array<Asset>) => {
+                const rewriteAssets = configGet('rewriteAssets') || {};
+                if (!rewriteAssets || !list || !list.map) {
+                    return list;
+                }
+
+                return list.map(asset => {
+                    if (!rewriteAssets[asset.id]) {
+                        return asset;
+                    }
+
+                    Object.entries(rewriteAssets[asset.id])
+                        .forEach(([key, value]) => asset[key] = value);
+
+                    return asset;
+                });
+            }
+        );
 }
 
 export const wavesAsset = new Asset({
@@ -39,6 +57,12 @@ export const wavesAsset = new Asset({
     quantity: 10000000000000000,
     reissuable: false
 });
+
+export function getNftList(address: string, limit: number): Promise<Array<any>> {
+    return request({
+        url: `${configGet('node')}/assets/nft/${address}/limit/${limit}`
+    })
+}
 
 export function getAssetFromNode(assetId: string): Promise<Asset> {
     if (assetId === WAVES_ID) {

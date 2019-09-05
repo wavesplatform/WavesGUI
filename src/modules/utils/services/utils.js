@@ -668,7 +668,8 @@
              * @param {$rootScope.Scope} $scope
              */
             safeApply($scope) {
-                const phase = $scope.$root.$$phase;
+                const phase = $scope.$root && $scope.$root.$$phase;
+
                 if (phase !== '$apply' && phase !== '$digest') {
                     $scope.$apply();
                 }

@@ -8,15 +8,13 @@
     "signIn": {
         "btn": {
             "cancel": "Cancel",
-            "restore": "Restore all"
+            "restore": "Reset all"
         },
         "enterPass": "Please enter your password to continue",
-        "modal": {
-            "forgotPass": "Password successfully reset"
-        },
         "passForgot": {
             "attention": "Attention!",
-            "description": "If you forget your password, you must restore all your accounts from their SEEDs and set a new password."
+            "description": "To recover the password, you need to reset all accounts, set a new password, import each account from the Seed phrase or via Private key.",
+            "importantDesc": "If you have not saved the Seed phrase or Private key, then you will not be able to recover access to your account."
         },
         "password": {
             "forgot": "Forgot your password?"

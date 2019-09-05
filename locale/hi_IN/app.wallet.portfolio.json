@@ -3,6 +3,7 @@
     "burn": "टोकन जलाना",
     "deposit": "जमा करें",
     "dex": "में खुलेगा DEX",
+    "hasNftToken": "Account has non-fungible tokens [(NFT)](https://wavesexplorer.com/address/{{address}})",
     "info": "एसेट जानकारी",
     "list": {
         "actions": "कार्रवाइयां",

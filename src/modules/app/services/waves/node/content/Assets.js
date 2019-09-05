@@ -66,6 +66,10 @@
                 });
             }
 
+            getNft(limit) {
+                return ds.api.assets.getNftList(user.address, limit);
+            }
+
             /**
              * Get Asset info
              * @param {string} assetId

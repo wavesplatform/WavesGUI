@@ -8,15 +8,13 @@
     "signIn": {
         "btn": {
             "cancel": "取消",
-            "restore": "恢复所有"
+            "restore": "Reset all"
         },
         "enterPass": "请输入您的密码以继续",
-        "modal": {
-            "forgotPass": "密码成功重置"
-        },
         "passForgot": {
             "attention": "注意！",
-            "description": "如果您忘记了密码，则必须从其SEED中恢复所有帐户并设置新密码。"
+            "description": "如果您忘记了密码，则必须从其SEED中恢复所有帐户并设置新密码。",
+            "importantDesc": "If you have not saved the Seed phrase or Private key, then you will not be able to recover access to your account."
         },
         "password": {
             "forgot": "忘记密码了？"
