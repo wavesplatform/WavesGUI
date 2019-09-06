@@ -89,8 +89,13 @@
       top: 0;
       left: 0;
 
-      & + .main-header__header {
-        position: fixed;
+      & + .main-header
+        &__header {
+          position: fixed;
+        }
+
+      &__user {
+        padding-right: 4px;
       }
     }
   }
