@@ -83,11 +83,11 @@
       display: none;
     }
 
-    w-select {
+    .select {
       position: relative;
       z-index: 6;
 
-      .select-list {
+      .select__list {
         max-height: 155px;
         overflow: auto;
         border-color: @color-basic-100;
@@ -113,8 +113,8 @@
         }
       }
 
-      .select &.expanded {
-        .title {
+      .select__wrap &.expanded {
+        .select__title {
           border: 1px solid #000;
         }
       }
@@ -165,7 +165,7 @@
           left: 0;
         }
 
-        .select-list {
+        .select__list {
           border-radius: 0;
         }
       }
@@ -285,7 +285,7 @@
     }
 
     .wrapper {
-      .titles-wrap .select a.title {
+      .titles-wrap .select__wrap a.select__title {
         font-size: 13px;
       }
     }

@@ -21,7 +21,7 @@
     </ul>
 
     <div class="sessions-holder">
-        <w-select class="big" ng-if="$ctrl.session.address.length > 3" ng-model="$ctrl.activeSession">
+        <w-select class="select big" ng-if="$ctrl.session.address.length > 3" ng-model="$ctrl.activeSession">
             <w-option ng-repeat="session in $ctrl.sessions track by session.address"
                       value="{{::session.address}}">
                 <w-avatar class="margin-right-1" address="session.address" size="30"></w-avatar>

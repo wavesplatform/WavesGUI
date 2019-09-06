@@ -1,7 +1,9 @@
+@import (reference) "../../../app/less/app-icons";
+@import (reference) '../../../app/less/typography';
 @import (reference) 'config';
 @import (reference) 'icons';
 
-w-select {
+.select {
   display: block;
 
   &.tiny {
@@ -26,7 +28,7 @@ w-select {
     }
   }
 
-  &.one-item .select .title {
+  &.one-item .select__wrap .select__title {
     cursor: default;
     &::after {
       background-image: none;
@@ -36,48 +38,86 @@ w-select {
     }
   }
 
-  &.hide-active .select .select-list w-option.active {
+  &.hide-active .select__wrap .select__list w-option.active {
     display: none;
   }
 
-  .select {
-    height: 100%;
+  &__title {
     position: relative;
+    border: 1px solid @color-basic-200;
+    height: 100%;
+    background: @color-white;
+    font-size: @font-size-control-small;
+    padding: 0 35px 0 15px;
+    border-radius: @border-radius;
+    cursor: pointer;
+    color: @color-disabled-900;
 
-    .title {
-      position: relative;
-      border: 1px solid @color-basic-200;
+    @media screen and (max-width: 768px) {
+      padding-left: @padding-control-big-responsive-horizontal;
+    }
+
+    &-content {
       height: 100%;
-      background: @color-white;
-      font-size: @font-size-control-small;
-      padding: 0 35px 0 15px;
-      border-radius: @border-radius;
-      cursor: pointer;
-      color: @color-disabled-900;
+      display: flex;
+      align-items: center;
+      width: 100%;
+      overflow: hidden;
+    }
 
-      .title-content {
-        height: 100%;
-        display: flex;
-        align-items: center;
-        width: 100%;
-        overflow: hidden;
-      }
+    &::after {
+      content: '';
+      display: block;
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      width: 12px;
+      height: 12px;
+      transform: translateY(-50%);
+      background-size: 100%;
+      background-image: @dex-arrow-down-icon;
+    }
+  }
 
-      &::after {
-        content: '';
-        display: block;
-        position: absolute;
-        right: 16px;
-        top: 50%;
-        width: 12px;
-        height: 12px;
-        transform: translateY(-50%);
-        background-size: 100%;
-        background-image: @dex-arrow-down-icon;
+  &__list {
+    display: none;
+    position: absolute;
+    border: 1px solid @color-basic-200;
+    border-top: none;
+    border-radius: 0 0 @border-radius @border-radius;
+    width: 100%;
+    background-color: @color-white;
+    z-index: 10;
+    overflow: hidden;
+    flex-direction: column;
+    box-shadow: @shadow-main-default;
+
+    w-option {
+      position: relative;
+
+      &.active {
+        background-color: @color-basic-50;
       }
     }
 
-    &.expanded .title {
+    .option {
+      cursor: pointer;
+      padding: 8px 35px 8px 15px;
+      white-space: nowrap;
+      color: @color-disabled-900;
+      display: flex;
+      align-items: center;
+      &:hover {
+        background-color: @color-basic-50;
+      }
+    }
+  }
+
+  &__wrap {
+    height: 100%;
+    position: relative;
+
+    &.expanded .select__title {
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
 
@@ -86,49 +126,15 @@ w-select {
       }
     }
 
-    .select-list {
-      display: none;
-      position: absolute;
-      border: 1px solid @color-basic-200;
-      border-top: none;
-      border-radius: 0 0 @border-radius @border-radius;
-      width: 100%;
-      background-color: @color-white;
-      z-index: 10;
-      overflow: hidden;
-      flex-direction: column;
-      box-shadow: @shadow-main-default;
-
-      w-option {
-        position: relative;
-
-        &.active {
-          background-color: @color-basic-50;
-        }
-      }
-
-      .option {
-        cursor: pointer;
-        padding: 8px 35px 8px 15px;
-        white-space: nowrap;
-        color: @color-disabled-900;
-        display: flex;
-        align-items: center;
-        &:hover {
-          background-color: @color-basic-50;
-        }
-      }
-    }
-
     &.to-up {
-      .select-list {
+      .select__list {
         border: 1px solid @color-basic-100;
         border-bottom: none;
       }
     }
 
-    &[disabled] .title,
-    &.disabled .title {
+    &[disabled] .select__title,
+    &.disabled .select__title {
       background: @color-basic-50;
       cursor: default;
     }
@@ -137,7 +143,7 @@ w-select {
   &.interface {
     height: 42px;
 
-    .title {
+    .select__title {
       background: @color-white;
       border-color: @color-white;
       color: @color-basic-700;
@@ -150,19 +156,19 @@ w-select {
       border-radius: @border-radius @border-radius 0 0;
       color: @color-basic-700;
 
-      .title {
+      .select__title {
         box-shadow: @shadow-buttons-hover;
         transition: all 0.3s;
         color: @color-basic-700;
       }
 
-      .select:not(.expanded) {
+      .select__wrap:not(.expanded) {
         border-radius: 0 0 @border-radius @border-radius;
       }
     }
 
-    .select.expanded {
-      .title {
+    .select__wrap.expanded {
+      .select__title {
         border-top: 1px solid @color-basic-200;
         border-left: 1px solid @color-basic-200;
         border-right: 1px solid @color-basic-200;
@@ -174,10 +180,238 @@ w-select {
     &[disabled],
     &.disabled {
       &:hover {
-        .select .title {
+        .select__wrap .select__title {
           box-shadow: @shadow-buttons-default; //@color-basic-50;
           color: @color-basic-500;
         }
+      }
+    }
+  }
+
+  &_portfolio {
+    width: 100%;
+    height: 42px;
+    max-width: 250px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 3;
+
+    &:hover {
+      border-radius: @border-radius @border-radius 0 0;
+      color: @color-basic-700;
+
+      .select {
+        &__title {
+          box-shadow: @shadow-buttons-hover;
+          transition: all 0.3s;
+          color: @color-basic-700;
+        }
+  
+        &__wrap:not(.expanded) {
+          border-radius: 0 0 @border-radius @border-radius;
+        }
+      }
+    }
+
+    .select {
+      &__wrap.expanded {
+        .select__title {
+          border-top: 1px solid @color-basic-200;
+          border-left: 1px solid @color-basic-200;
+          border-right: 1px solid @color-basic-200;
+          border-bottom: 1px solid @color-white;
+          border-radius: @border-radius @border-radius 0 0;
+        }
+      }
+
+      &__title {
+        display: flex;
+        padding-left: 40px;
+        .icon-filter();
+        background-position: 15px center;
+        border-color: @color-white;
+        color: @color-basic-700;
+        box-shadow: @shadow-buttons-default;
+        width: 100%;
+        font-size: 15px;
+      }
+    }
+
+    &[disabled],
+    &.disabled {
+      &:hover {
+        .select__wrap .select__title {
+          box-shadow: @shadow-buttons-default; //@color-basic-50;
+          color: @color-basic-500;
+        }
+      }
+    }
+
+    @media screen and (max-width: 769px) {
+      width: 50px;
+      height: 42px;
+
+      .select {
+        &__title {
+          // padding-left: 12px;
+          padding: 0;
+          position: relative;
+          font-size: 0;
+          .icon-filter();
+          box-shadow: @shadow-buttons-default;
+          border: none;
+  
+          &::after {
+            display: none;
+          }
+  
+          span {
+            font-size: 9px;
+            display: inline-block;
+            padding: 1px 2px;
+            background: @color-submit-400;
+            color: @white-only;
+            border-radius: @border-radius / 2;
+            line-height: 1em;
+          }
+
+          &-content {
+             > span {
+              font-size: 0;
+              right: 5px;
+              top: 5px;
+              position: absolute;
+            }
+          }
+        }
+
+        &__list {
+          left: auto;
+          right: 0;
+          min-width: 156px;
+          margin-top: -1px;
+          border-top: 1px solid @color-accent-50;
+          border-radius: @border-radius 0 @border-radius @border-radius;
+        }
+      }
+    }
+  }
+
+  &_transaction, &_transaction_mobile {
+    height: 42px;
+    margin-right: 10px;
+    flex-grow: 0;
+    white-space: nowrap;
+
+    .select__title {
+      border-color: #fff;
+      color: #4e5c6e;
+      box-shadow: 0 2px 4px 0 rgba(218, 225, 233, 0.5);
+      width: 100%;
+      font-size: 15px;
+    }
+
+    &:hover {
+      border-radius: @border-radius @border-radius 0 0;
+      color: @color-basic-700;
+
+      .select__title {
+        box-shadow: @shadow-buttons-hover;
+        transition: all 0.3s;
+        color: @color-basic-700;
+      }
+
+      .select__wrap:not(.expanded) {
+        border-radius: 0 0 @border-radius @border-radius;
+      }
+    }
+
+    .select__wrap.expanded {
+      .select__title {
+        border-top: 1px solid @color-basic-200;
+        border-left: 1px solid @color-basic-200;
+        border-right: 1px solid @color-basic-200;
+        border-bottom: 1px solid @color-white;
+        border-radius: @border-radius @border-radius 0 0;
+      }
+    }
+
+    &[disabled],
+    &.disabled {
+      &:hover {
+        .select__wrap .select__title {
+          box-shadow: @shadow-buttons-default; //@color-basic-50;
+          color: @color-basic-500;
+        }
+      }
+    }
+
+    &_mobile {
+      display: none;
+
+      @media screen and (max-width: 1024px) {
+        display: block;
+        width: 100%;
+        margin-right: 10px;
+      }
+    }
+  }
+
+  &_send-modal, &_fee {
+    height: 54px;
+
+    @media screen and (max-width: 768px) {
+      height: 42px;
+    }
+
+    .select {
+      &__list {
+        max-height: 325px;
+        overflow: auto;
+      }
+
+      &__title {
+        overflow: hidden;
+      }
+
+    }
+    
+    .expanded {
+      .select__list {
+        margin-bottom: 40px;
+      }
+    }
+  }
+
+  &_receive-invoice, &_receive-crypt, &_receive-card, &_receive-bank {
+    height: 54px;
+
+    @media screen and (max-width: 768px) {
+      height: 42px;
+    }
+  }
+
+  &_receive-card {
+    flex-basis: 48%;
+  }
+
+  &_setting-session, &_setting-theme {
+    height: 36px;
+
+    .select {
+      &__wrap:not(.expanded) .select__title {
+        border: 1px solid transparent;
+      }
+
+      &__wrap.expanded .select__title {
+        border: 1px solid @color-basic-200;
+        border-bottom: 1px solid transparent;
+      }
+
+      &__list {
+        overflow-y: auto;
+        max-height: 140px;
       }
     }
   }

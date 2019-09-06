@@ -1,16 +1,16 @@
 @import (reference) 'config';
 
 w-change-language {
-  w-select {
+  .select {
     width: 142px;
     height: 36px;
 
-    .select {
-      .title {
+    .select__wrap {
+      .select__title {
         border: 1px solid transparent;
       }
 
-      .select-list {
+      .select__list {
         max-height: 171px;
         overflow: auto;
       }
@@ -108,16 +108,16 @@ w-change-language {
 
 .footer {
   w-change-language {
-    w-select {
-      .select {
-        .select-list {
+    .select {
+      .select__wrap {
+        .select__list {
           border-top: 1px solid @color-basic-200;
           transform: translateY(-100%);
           margin-top: -39px;
         }
 
         &.expanded {
-          .title::after {
+          .select__title::after {
             transition: .5s;
             transform: translateY(-50%) rotate(180deg);
           }
@@ -128,7 +128,7 @@ w-change-language {
 }
 
 .web-footer-language {
-  w-select {
+  .select {
     width: 200px;
     position: relative;
     -moz-appearance: none;
@@ -138,19 +138,19 @@ w-change-language {
     right: 0;
     top: 0;
 
-    .select {
+    .select__wrap {
       background: @footer-background;
       line-height: 40px;
       height: 40px;
       color: @color-white;
 
-      &.expanded .title {
+      &.expanded .select__title {
         border: 1px solid @changeLang-border-footer;
         border-top: 0 none;
         border-radius: 0;
       }
 
-      .select-list {
+      .select__list {
         background: @footer-background;
         border-radius: 4px 4px 0 0;
         flex-direction: column-reverse;
@@ -173,7 +173,7 @@ w-change-language {
         }
       }
 
-      .title {
+      .select__title {
         border: 1px solid @changeLang-border-footer;
         border-radius: 2px;
         background: none transparent;

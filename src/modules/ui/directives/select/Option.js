@@ -96,7 +96,7 @@
                      * @private
                      */
                     static _getContentHTML() {
-                        return '<div class="title-content"></div>';
+                        return '<div class="select__title-content"></div>';
                     }
 
                     /**

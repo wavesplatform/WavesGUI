@@ -82,17 +82,17 @@ input[type="checkbox"] {
     display: flex;
     align-items: center;
 
-    w-select {
+    .select {
       position: absolute;
       right: 6px;
       width: calc(50% ~'- 12px');
 
-      .title-content {
+      .select__title-content {
         display: flex;
         align-items: center;
       }
 
-      .title {
+      .select__title {
         background-color: @color-white;
       }
     }
@@ -292,7 +292,7 @@ md-dialog {
 
 .modal-send {
   fieldset.disabled {
-    .select .title {
+    .select__wrap .select__title {
       background: @color-basic-50;
     }
   }
@@ -300,7 +300,7 @@ md-dialog {
 
 .change-token {
   fieldset.disabled {
-    .input-like .select-wrap .select .title {
+    .input-like .select-wrapper .select__wrap .select__title {
       background: @color-basic-50;
     }
   }
@@ -308,7 +308,7 @@ md-dialog {
 
 .tokens-page {
   fieldset.disabled {
-    .input-like .select .title {
+    .input-like .select__wrap .select__title {
       background: @color-basic-50;
     }
   }
