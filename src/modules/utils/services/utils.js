@@ -1919,13 +1919,12 @@
                 }
 
                 const getError = (user, error) => {
-                    if (user.userType !== 'wavesKeeper') {
-                        return { error: 'sign-error', userType: user.userType };
-                    }
-
-                    if (error && error.code === 5 && error.msg.includes('another active account')) {
+                    if (user.userType === 'wavesKeeper' && error &&
+                        error.code === 5 && error.msg.includes('another active account')) {
                         return { error: 'sign-user-error', userType: user.userType };
                     }
+
+                    return { error: 'sign-error', userType: user.userType };
                 };
 
                 const signByDeviceLoop = () => modalManager.showSignByDevice(signable)
