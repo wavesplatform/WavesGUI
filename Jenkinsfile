@@ -208,7 +208,7 @@ timeout(time:20, unit:'MINUTES') {
                                         export DEBUG=electron-builder
                                         npm ci --unsafe-perm
                                         node_modules/.bin/gulp build --platform desktop --config ./configs/mainnet.json
-                                        cd ./dist/desktop/${i} && npm i --unsafe-perm && cd ../../../
+                                        cd ./dist/desktop/mainnet && npm i --unsafe-perm && cd ../../../
                                         WIN_CSC_LINK=WavesPlatformLTD.pfx \
                                         WIN_CSC_KEY_PASSWORD=${signingCertPassphrase} \
                                         CSC_LINK=mac_app.p12 \
