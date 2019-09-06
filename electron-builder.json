@@ -15,7 +15,7 @@
     "category": "Utility",
     "target": [{
       "target": "deb",
-      "arch": [ "x64", "ia32" ]
+      "arch": [ "x64" ]
     }, {
       "target": "zip",
       "arch": [ "x64" ]
