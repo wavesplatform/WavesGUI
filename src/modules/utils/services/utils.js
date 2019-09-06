@@ -1918,10 +1918,18 @@
                         .then(() => signable);
                 }
 
-                const errorParams = { error: 'sign-error', userType: user.userType };
+                const getError = (user, error) => {
+                    if (user.userType !== 'wavesKeeper') {
+                        return { error: 'sign-error', userType: user.userType };
+                    }
+
+                    if (error && error.code === 5 && error.msg.includes('another active account')) {
+                        return { error: 'sign-user-error', userType: user.userType };
+                    }
+                };
 
                 const signByDeviceLoop = () => modalManager.showSignByDevice(signable)
-                    .catch(() => modalManager.showSignDeviceError(errorParams)
+                    .catch((e) => modalManager.showSignDeviceError(getError(user, e))
                         .then(signByDeviceLoop))
                     .catch(() => Promise.reject({ message: 'Your sign is not confirmed!' }));
 
