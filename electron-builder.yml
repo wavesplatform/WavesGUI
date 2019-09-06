@@ -1,0 +1,60 @@
+productName: Waves DEX
+appId: com.wavesplatform.client.lite
+copyright: Waves Platform
+
+compression: normal
+npmRebuild: true
+artifactName: ${productName}[${env.WAVES_CONFIGURATION}]-${version}-${os}-${arch}.${ext}
+asar: true
+
+directories:
+  buildResources: electron/
+  output: release/${env.WAVES_CONFIGURATION}
+
+win:
+  icon: electron/icons/icon.ico
+  legalTrademarks: Waves Platform
+  target:
+  - target: nsis
+    arch: x64
+  - target: zip
+    arch: x64
+
+mac:
+  hardenedRuntime: true
+  gatekeeperAssess: false
+  entitlements: electron/entitlements.mac.plist
+  entitlementsInherit: electron/entitlements.mac.plist
+  category: public.app-category.finance
+  target: dmg
+  icon: electron/icons/icon.icns
+
+linux:
+  executableName: waves-client
+  category: Office
+  target:
+  - target: deb
+    arch: x64
+
+deb:
+  depends:
+    # --- Default START
+    - gconf2
+    - gconf-service
+    - libnotify4
+    - libappindicator1
+    - libxtst6
+    - libnss3
+    # --- Default END
+
+nsis:
+  artifactName: waves-client[${env.WAVES_CONFIGURATION}]-setup-${version}.${ext}
+  include: electron/installer.nsh
+  installerIcon: electron/icons/icon.ico
+  uninstallerIcon: electron/icons/icon.ico
+  oneClick: true
+  perMachine: true
+
+dmg:
+  icon: electron/icons/icon.icns
+  background: electron/icons/macos-installer-bg.tiff

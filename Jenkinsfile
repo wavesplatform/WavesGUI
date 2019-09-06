@@ -208,14 +208,13 @@ timeout(time:20, unit:'MINUTES') {
                                         export DEBUG=electron-builder
                                         npm ci --unsafe-perm
                                         node_modules/.bin/gulp build --platform desktop --config ./configs/mainnet.json
-
+                                        cd ./dist/desktop/${i} && npm i --unsafe-perm && cd ../../../
                                         WIN_CSC_LINK=WavesPlatformLTD.pfx \
                                         WIN_CSC_KEY_PASSWORD=${signingCertPassphrase} \
                                         CSC_LINK=mac_app.p12 \
                                         CSC_KEY_PASSWORD=${signingMacCertPassphrase} \
                                         WAVES_CONFIGURATION=mainnet \
-                                        ./node_modules/.bin/build -mwl --x64 --publish=never \
-                                            --config.directories.output=out/mainnet/ \
+                                        ./node_modules/.bin/build -mwl \
                                             --config.directories.app=dist/desktop/mainnet
                                         """
                                         stash includes: '**/mainnet/*.deb, **/mainnet/*.dmg, **/mainnet/*.exe', name: 'electron-clients'

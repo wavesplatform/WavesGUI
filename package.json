@@ -83,7 +83,6 @@
     "yargs": "13.2.4"
   },
   "scripts": {
-    "afterSign": "scripts/notarize.js",
     "start": "ts-node server.ts startSimple openUrl",
     "preinstall": "sh scripts/preinstall.sh",
     "postinstall": "sh scripts/postinstall.sh",
