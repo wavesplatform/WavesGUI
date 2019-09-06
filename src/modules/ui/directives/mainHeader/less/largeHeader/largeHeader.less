@@ -20,10 +20,6 @@
     background: linear-gradient(to bottom, rgba(218, 225, 233, 0.65) 0%, rgba(255, 255, 255, 0) 100%);
   }
 
-  display: block;
-  height: 60px;
-
-
   &__header {
     height: 60px;
     display: flex;
@@ -94,8 +90,7 @@
       left: 0;
 
       & + .main-header__header {
-        position: absolute;
-        width: calc(100% ~"- 4px");
+        position: fixed;
       }
     }
   }
@@ -266,7 +261,7 @@
   }
 
   .dropdown-toggler__btn {
-    color: @color-submit-300;    
+    color: @color-submit-300;
   }
 }
 
