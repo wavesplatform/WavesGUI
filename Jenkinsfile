@@ -206,6 +206,7 @@ timeout(time:20, unit:'MINUTES') {
                                         pipeline_status["built-electron"] = false
                                         sh """
                                         export DEBUG=electron-builder
+                                        npm cache --force clean
                                         npm ci --unsafe-perm
                                         node_modules/.bin/gulp build --platform desktop --config ./configs/mainnet.json
                                         cd ./dist/desktop/mainnet && npm i --unsafe-perm && cd ../../../
