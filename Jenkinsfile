@@ -214,7 +214,7 @@ timeout(time:20, unit:'MINUTES') {
                                         CSC_LINK=mac_app.p12 \
                                         CSC_KEY_PASSWORD=${signingMacCertPassphrase} \
                                         WAVES_CONFIGURATION=mainnet \
-                                        ./node_modules/.bin/build -mwl \
+                                        ./node_modules/.bin/build -mwl -p never \
                                             --config.directories.app=dist/desktop/mainnet
                                         """
                                         stash includes: '**/mainnet/*.deb, **/mainnet/*.dmg, **/mainnet/*.exe', name: 'electron-clients'
