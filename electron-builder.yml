@@ -23,8 +23,6 @@ win:
 mac:
   hardenedRuntime: true
   gatekeeperAssess: false
-  entitlements: electron/entitlements.mac.plist
-  entitlementsInherit: electron/entitlements.mac.plist
   category: public.app-category.finance
   target: dmg
   icon: electron/icons/icon.icns
