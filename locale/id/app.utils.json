@@ -701,6 +701,7 @@
         },
         "sign": {
             "article": "artikel",
+            "buy": "Buy",
             "cancel": "Batalkan",
             "cancelOrder": "Batalkan pesanan",
             "close": "Tutup",
@@ -735,6 +736,7 @@
             "request": "permintaan",
             "requestId": "Minta hash",
             "retry": "Mencoba kembali",
+            "sell": "Sell",
             "signByKeeper": "Menunggu konfirmasi tentang Waves Keeper...",
             "signByLedger": "Menunggu konfirmasi tentang Ledger...",
             "signError": "Permintaan belum dikonfirmasi.",
@@ -742,6 +744,7 @@
             "signErrorText": "Anda tidak mengonfirmasi permintaan pada Perangkat Ledger Anda",
             "signErrorTextImportKeeper": "Masuk ke Waves Keeper dengan alamat {{address}}, lalu segarkan laman untuk melanjutkan.",
             "signErrorTextKeeper": "Silakan coba lagi. Jika kesalahan berlanjut, silakan buat tiket ke [Dukungan](https://support.wavesplatform.com/)",
+            "signErrorTextKeeperWrongUser": "This account does not match the selected account in your Waves Keeper. Please activate another account in Waves Keeper and try again.",
             "timestamp": "Timestamp",
             "txId": "TXID"
         },
@@ -932,7 +935,7 @@
                 "1_3_5": "{span.line} [1. Tab dengan token kontes [wsoc.io] (https://wsoc.io) telah ditambahkan.] \n {span.line} [2. Dukungan bahasa Perancis ditambahkan.] \n {span.line} [3. Bug minor tambahan telah diperbaiki.]",
                 "1_3_7": "{span.line}[1. Integrasi dengan [tokenrating.wavesexplorer.com] (https://tokenrating.wavesexplorer.com) Sekarang Anda dapat menilai token langsung di app.] \n {span.line}[2. Bug minor tambahan telah diperbaiki.]",
                 "1_3_9": "{span.line}[1. UI dan fungsionalitas yang lebih baik dari bagian Exchange dan Dompet.] \n {span.line}[2. Bug minor tambahan telah diperbaiki.]",
-                "1_4_0": "{span.line}[Added ability for easy switching between accounts within one wallet app.]"
+                "1_4_0": "{span.line}[Added ability for easy switching between  accounts within one wallet.]"
             },
             "title": "Apa yang baru di pembaruan ini {{version}}"
         }

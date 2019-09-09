@@ -701,6 +701,7 @@
         },
         "sign": {
             "article": "article",
+            "buy": "Buy",
             "cancel": "Anuluj",
             "cancelOrder": "Anuluj zlecenie",
             "close": "Zamknij",
@@ -735,6 +736,7 @@
             "request": "żądanie",
             "requestId": "Wymagana trudność",
             "retry": "Spróbuj ponownie",
+            "sell": "Sell",
             "signByKeeper": "Oczekiwanie na potwierdzenie z Waves Keeper…",
             "signByLedger": "Oczekiwanie na potwierdzenie z Ledger…",
             "signError": "Żądanie nie zostało potwierdzone.",
@@ -742,6 +744,7 @@
             "signErrorText": "Nie potwierdziłeś żądania na swoim urządzeniu Ledger",
             "signErrorTextImportKeeper": "Zaloguj się do Waves Kepper pod adresem {{address}}, a następnie odśwież stronę, aby kontynuować.",
             "signErrorTextKeeper": "Proszę spróbuj ponownie. Jeśli błąd będzie się powtarzał, utwórz zgłoszenie do [Wsparcie](https://support.wavesplatform.com/)",
+            "signErrorTextKeeperWrongUser": "This account does not match the selected account in your Waves Keeper. Please activate another account in Waves Keeper and try again.",
             "timestamp": "Pieczęć czasowa",
             "txId": "TXID"
         },
@@ -932,7 +935,7 @@
                 "1_3_5": "{span.line} [1. Dodano zakładkę z tokenami konkursowymi [wsoc.io] (https://wsoc.io).] \n {span.line} [2. Dodano obsługę języka francuskiego.] \n {span.line} [3. Dodatkowe drobne błędy zostały naprawione.]",
                 "1_3_7": "{span.line} [1. Integracja z [tokenrating.wavesexplorer.com] (https://tokenrating.wavesexplorer.com) Teraz możesz oceniać tokeny bezpośrednio w aplikacji.] \n {span.line} [2. Dodatkowe drobne błędy zostały naprawione.]",
                 "1_3_9": "{span.line} [1. Ulepszony interfejs użytkownika i funkcjonalność sekcji Giełda i Portfel.] \n {span.line} [2. Dodatkowe drobne błędy zostały naprawione.]",
-                "1_4_0": "{span.line}[Added ability for easy switching between accounts within one wallet app.]"
+                "1_4_0": "{span.line}[Added ability for easy switching between  accounts within one wallet.]"
             },
             "title": "Co nowego w aktualizacji {{version}}"
         }
