@@ -65,6 +65,31 @@
                 });
             }
 
+            showPasswordModal() {
+                return this._getModal({
+                    id: 'password-modal',
+                    contentUrl: 'modules/utils/modals/password/password.html',
+                    controller: 'PasswordModalCtrl',
+                    title: 'modal.settings.changePass'
+                });
+            }
+
+            showForgotPasswordModal() {
+                return this._getModal({
+                    id: 'forgot-password-modal',
+                    contentUrl: 'modules/utils/modals/forgot-password/forgot-password.html',
+                    controller: 'ForgotPasswordModalCtrl'
+                });
+            }
+
+            showDeleteAccountModal() {
+                return this._getModal({
+                    id: 'delete-account-modal',
+                    contentUrl: 'modules/utils/modals/delete-account/delete-account.html',
+                    controller: 'DeleteAccountModalCtrl'
+                });
+            }
+
             showTryDesktopModal() {
                 analytics.send({ name: 'Onboarding Platform Popup Show', target: 'ui' });
                 return this._getModal({
@@ -183,30 +208,6 @@
                 });
             }
 
-            showTermsAccept() {
-                /**
-                 * @type {User}
-                 */
-                const user = $injector.get('user');
-
-                analytics.send({
-                    name: 'Create Done Show', params: { hasBackup: user.getSetting('hasBackup') }
-                });
-
-                return this._getModal({
-                    id: 'terms-accept',
-                    templateUrl: 'modules/utils/modals/termsAccept/terms-accept.html',
-                    controller: 'TermsAcceptCtrl',
-                    clickOutsideToClose: false,
-                    escapeToClose: false
-                })
-                    .then(() => {
-                        analytics.send({ name: 'Create Done Confirm and Begin Click' });
-                        storage.save('needReadNewTerms', false);
-                        storage.save('termsAccepted', true);
-                    });
-            }
-
             showAcceptNewTerms() {
                 return this._getModal({
                     id: 'accept-new-terms',
@@ -214,18 +215,21 @@
                     controller: 'AcceptNewTermsCtrl',
                     clickOutsideToClose: false,
                     escapeToClose: false
-                })
-                    .then(() => {
-                        storage.save('needReadNewTerms', false);
-                        storage.save('termsAccepted', true);
-                    });
+                }).then(() => {
+                    storage.save('needReadNewTerms', false);
+                });
             }
 
             showTutorialModals() {
-                return this._getModal({
-                    id: 'tutorial-modals',
-                    templateUrl: 'modules/utils/modals/tutorialModals/tutorialModals.html',
-                    controller: 'TutorialModalsCtrl'
+                return user.getMultiAccountUsers().then(users => {
+                    return this._getModal({
+                        id: 'tutorial-modals',
+                        templateUrl: 'modules/utils/modals/tutorialModals/tutorialModals.html',
+                        controller: 'TutorialModalsCtrl',
+                        locals: {
+                            hasAccounts: users.length > 0
+                        }
+                    });
                 });
             }
 

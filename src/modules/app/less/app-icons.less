@@ -21,14 +21,14 @@
   background: @logo-header;
 
   &-footer {
-    background: @logo-footer;
+    background: url(/img/icons/wavesdex-invert-32.svg);
   }
 }
 
 .icon-close {
   width: 40px;
   height: 40px;
-  background: url(/img/icons/close.svg) center no-repeat;
+  background: @close-icon center no-repeat;
   background-size: 16px;
   display: inline-block;
   cursor: pointer;
@@ -347,6 +347,52 @@
   height: 16px;
   background: url(/img/icons/icon-lock.svg) left center no-repeat;
   display: block;
+}
+
+.icon-attention {
+  width: 80px;
+  height: 80px;
+  display: block;
+
+  &_orange {
+    background-image: @attention-icon-orange;
+  }
+
+  &_red {
+    background-image: @attention-icon-red;
+  }
+}
+
+.icon-started-blockchain {
+  display: block;
+  width: 286px;
+  height: 220px;
+  background-image: @sign-up-icon;
+  background-size: 100% 100%;
+}
+
+.icon-started-wallet {
+  display: block;
+  width: 286px;
+  height: 220px;
+  background-image: @sign-wallet-icon;
+  background-size: 100% 100%;
+}
+
+.icon-started-token {
+  display: block;
+  width: 286px;
+  height: 220px;
+  background-image: @sign-token-icon;
+  background-size: 100% 100%;
+}
+
+.icon-started-signup {
+  display: block;
+  width: 286px;
+  height: 220px;
+  background-image: @sign-up-icon;
+  background-size: 100% 100%;
 }
 
 .icon-browser {

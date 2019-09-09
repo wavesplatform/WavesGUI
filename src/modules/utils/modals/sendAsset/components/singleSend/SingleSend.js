@@ -97,6 +97,10 @@
                 assetId: ''
             };
             /**
+             * @type {args}
+             */
+            signPending = false;
+            /**
              * @type {$rootScope.Scope}
              * @private
              */
@@ -106,10 +110,26 @@
              * @private
              */
             _noCurrentRate = false;
+            /**
+             * @type {Array}
+             * @private
+             */
+            _listeners = [];
 
             constructor($scope) {
                 super($scope);
                 this.__$scope = $scope;
+
+                const signPendingListener = this.__$scope.$on('signPendingChange', (event, data) => {
+                    this.signPending = data;
+                });
+
+                this._listeners.push(signPendingListener);
+            }
+
+            $onDestroy() {
+                super.$onDestroy();
+                this._listeners.forEach(listener => listener());
             }
 
             onSignTx(signable) {

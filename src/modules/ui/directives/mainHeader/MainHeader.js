@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    const analytics = require('@waves/event-sender');
+
     const SELECTORS = {
         MAIN_HEADER_USER: 'js-main-header-user',
         MAIN_HEADER_FADER: 'js-main-header-fader',
@@ -13,24 +15,28 @@
      * @param {stateManager} stateManager
      * @param {ModalManager} modalManager
      * @param {app.utils} utils
-     * @param $scope
+     * @param {ng.IScope} $scope
      * @param {User} user
-     * @param {$state} $state
+     * @param {*} $state
      * @param {JQuery} $document
      * @param {JQuery} $element
      * @param {UserNameService} userNameService
+     * @param {MultiAccount} multiAccount
      * @return {MainHeaderCtrl}
      */
-    const controller = function (Base,
-                                 stateManager,
-                                 modalManager,
-                                 user,
-                                 $state,
-                                 $element,
-                                 $document,
-                                 utils,
-                                 $scope,
-                                 userNameService) {
+    const controller = function (
+        Base,
+        stateManager,
+        modalManager,
+        user,
+        $state,
+        $element,
+        $document,
+        utils,
+        $scope,
+        userNameService,
+        multiAccount
+    ) {
 
         const PATH = 'modules/ui/directives/mainHeader/templates';
         class MainHeaderCtrl extends Base {
@@ -47,6 +53,16 @@
             userList = [];
             /**
              * @public
+             * @type {Array}
+             */
+            userListLocked = [];
+            /**
+             * @public
+             * @type {boolean}
+             */
+            hasMultiAccount = false;
+            /**
+             * @public
              * @type {boolean}
              */
             isUniqueUserName = true;
@@ -54,6 +70,18 @@
              * @type {boolean}
              */
             showInput = false;
+            /**
+             * @type {number}
+             */
+            isMenuOpen = 0;
+            /**
+             * @type {boolean}
+             */
+            isShowAccounts = false;
+
+            get isSignedIn() {
+                return multiAccount.isSignedIn;
+            }
 
             constructor() {
                 super($scope);
@@ -76,10 +104,6 @@
 
                 this.hasTypeHelp = this.isScript && (this.isLedger || this.isKeeper);
 
-                user.getFilteredUserList().then(list => {
-                    this.userList = list;
-                });
-
                 this.largeTemplate = `${PATH}/largeHeader.html`;
                 this.mobileTemplate = `${PATH}/mobileHeader.html`;
 
@@ -90,13 +114,12 @@
 
                 this.observe('userName', () => {
                     userNameService.setName(this.userName);
-                    userNameService.isUniqueName()
-                        .then(data => {
-                            this.isUniqueUserName = data;
-                        });
+                    userNameService.isUniqueName().then(data => {
+                        this.isUniqueUserName = data;
+                    });
                 });
 
-                this.receive(utils.observe(userNameService, 'name'), function () {
+                this.receive(utils.observe(userNameService, 'name'), () => {
                     this.userName = userNameService.name;
                 }, this);
 
@@ -106,6 +129,9 @@
                     }
                 });
 
+                user.getMultiAccountData().then(data => {
+                    this.hasMultiAccount = !!data;
+                });
             }
 
             /**
@@ -128,12 +154,10 @@
             onBlur() {
                 if (!this.userName) {
                     this.onCancel();
-                } else {
-                    userNameService.save()
-                        .then(() => {
-                            this.setNameView(false);
-                            this.showTooltip();
-                        });
+                } else if (this.showInput) {
+                    userNameService.save().then(() => {
+                        this._onUserNameSave();
+                    });
                 }
 
             }
@@ -158,18 +182,16 @@
              * @public
              */
             onSave() {
-                userNameService.save()
-                    .then(() => {
-                        this.showTooltip();
-                        this.setNameView();
-                    });
+                userNameService.save().then(() => {
+                    this._onUserNameSave();
+                });
             }
 
             /**
              * @public
              */
             logout() {
-                user.logout('welcome');
+                user.logout('signIn');
             }
 
             /**
@@ -236,6 +258,11 @@
                 }
             }
 
+            toggleAccounts() {
+                this.isMenuOpen = !this.isMenuOpen;
+                this.isShowAccounts = !this.isShowAccounts;
+            }
+
             /**
              * public
              */
@@ -276,7 +303,14 @@
              * public
              */
             toggleDropdown() {
-                $element.find(`.${SELECTORS.MAIN_HEADER_USER}`).toggleClass('open');
+                const mainHeaderUser = $element.find(`.${SELECTORS.MAIN_HEADER_USER}`);
+
+                if (mainHeaderUser.hasClass('open')) {
+                    this.isShowAccounts = false;
+                    this.isMenuOpen = false;
+                }
+
+                mainHeaderUser.toggleClass('open');
                 $element.find(`.${SELECTORS.MAIN_HEADER_FADER}`).toggleClass('show-fader');
             }
 
@@ -285,11 +319,15 @@
              */
             closeDropdown() {
                 const mainHeaderUser = $element.find(`.${SELECTORS.MAIN_HEADER_USER}`);
+
                 if (mainHeaderUser.hasClass('open')) {
-                    mainHeaderUser.removeClass('open');
-                    $element.find(`.${SELECTORS.MAIN_HEADER_FADER}`).removeClass('show-fader');
                     this.onBlur();
+                    this.isShowAccounts = false;
+                    this.isMenuOpen = false;
                 }
+
+                mainHeaderUser.removeClass('open');
+                $element.find(`.${SELECTORS.MAIN_HEADER_FADER}`).removeClass('show-fader');
             }
 
             /**
@@ -309,14 +347,78 @@
                 this.removeBodyClass();
             }
 
+            switchUser(toUser) {
+                if (toUser.hash === user.hash) {
+                    return;
+                }
+
+                user.logout('switch', true);
+                user.login(toUser);
+                analytics.send({ name: 'Switch Account' });
+            }
+
+            unlockUser(userToUnlock) {
+                $state.go('migrate', {
+                    id: multiAccount.hash(userToUnlock.address)
+                });
+            }
+
+            deleteUser(userToDelete) {
+                modalManager.showConfirmDeleteUser(userToDelete).then(() => {
+                    if (userToDelete.hash) {
+                        return user.deleteMultiAccountUser(userToDelete.hash).then(() => {
+                            this.userList = this.userList.filter(
+                                userInList => userInList.hash !== userToDelete.hash
+                            );
+
+                            if (this.userList.length === 0) {
+                                if (this.userListLocked.length === 0) {
+                                    user.logout('create', true);
+                                } else {
+                                    user.logout('migrate', true);
+                                }
+
+
+                            } else if (userToDelete.hash === user.hash) {
+                                this.switchUser(this.userList[0]);
+                            }
+                        });
+                    } else {
+                        return user.removeUserByAddress(userToDelete.address).then(() => {
+                            this.userListLocked = this.userListLocked.filter(
+                                userInList => userInList.address !== userToDelete.address
+                            );
+                        });
+                    }
+                });
+            }
+
+            isCurrentUser(userInList) {
+                return userInList.hash === user.hash;
+            }
+
+            _onUserNameSave() {
+                this.showTooltip();
+                this.setNameView();
+
+                const currentUser = this.userList.find(cur => cur.hash === user.hash);
+
+                currentUser.name = user.name;
+                $scope.$digest();
+            }
+
             /**
              * @private
              */
             _handleLogin() {
                 this._resetUserFields();
 
-                user.getFilteredUserList().then(list => {
-                    this.userList = list;
+                user.getMultiAccountUsers().then((users = []) => {
+                    this.userList = users;
+                });
+
+                user.getFilteredUserList().then((users = []) => {
+                    this.userListLocked = users;
                 });
 
                 user.logoutSignal.once(this._handleLogout, this);
@@ -344,6 +446,10 @@
                 this.isLedger = user.userType === 'ledger';
                 this.hasTypeHelp = this.isScript && (this.isLedger || this.isKeeper);
                 this.userList = [];
+
+                user.getMultiAccountData().then(data => {
+                    this.hasMultiAccount = !!data;
+                });
             }
 
             /**
@@ -396,13 +502,11 @@
         '$document',
         'utils',
         '$scope',
-        'userNameService'
+        'userNameService',
+        'multiAccount'
     ];
 
     angular.module('app.ui').component('wMainHeader', {
-        bindings: {
-            userList: '<'
-        },
         templateUrl: 'modules/ui/directives/mainHeader/templates/mainHeader.html',
         transclude: false,
         controller

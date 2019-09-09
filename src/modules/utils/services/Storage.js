@@ -7,8 +7,10 @@
      * @param {Migration} migration
      * @param {State} state
      * @param {storageSelect} storageSelect
+     * @param {DefaultSettings} defaultSettings
+     * @param {StorageDataConverter} storageDataConverter
      */
-    const factory = function ($q, utils, migration, state, storageSelect) {
+    const factory = function ($q, utils, migration, state, storageSelect, defaultSettings, storageDataConverter) {
 
         const usedStorage = storageSelect();
 
@@ -22,7 +24,8 @@
             '1.3.19': function (storage) {
                 return saveUsersWithUniqueName(storage)
                     .then(data => addNewGateway(data, WavesApp.defaultAssets.BNT));
-            }
+            },
+            '1.4.0': storage => migrateCommonSettings(storage)
         };
 
         function newTerms(storage) {
@@ -88,6 +91,35 @@
             });
         }
 
+        function migrateCommonSettings(storage) {
+            return storage.load('userList').then(userList => {
+                const commonSettings = defaultSettings.create();
+
+                (userList || []).sort((a, b) => a.lastLogin - b.lastLogin).forEach(curUser => {
+                    if (curUser.settings) {
+                        try {
+                            const userSettings = defaultSettings.create();
+                            const flatSettings = JSON.parse(storageDataConverter.stringify(curUser.settings));
+
+                            Object.entries(flatSettings).forEach(([path, value]) => {
+                                commonSettings.set(path, value);
+                                userSettings.set(path, value);
+                            });
+
+                            curUser.settings = userSettings.getSettings().settings;
+                        } catch (e) {
+                            delete curUser.settings;
+                        }
+                    }
+                });
+
+                return Promise.all([
+                    storage.save('multiAccountSettings', commonSettings.getSettings().common),
+                    storage.save('userList', userList)
+                ]);
+            });
+        }
+
         class Storage {
 
             constructor() {
@@ -133,7 +165,7 @@
         return new Storage();
     };
 
-    factory.$inject = ['$q', 'utils', 'migration', 'state', 'storageSelect'];
+    factory.$inject = ['$q', 'utils', 'migration', 'state', 'storageSelect', 'defaultSettings', 'storageDataConverter'];
 
     angular.module('app.utils')
         .factory('storage', factory);

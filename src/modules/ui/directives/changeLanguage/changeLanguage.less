@@ -139,22 +139,22 @@ w-change-language {
     top: 0;
 
     .select {
-      background: @color-basic-900;
+      background: @footer-background;
       line-height: 40px;
       height: 40px;
       color: @color-white;
 
       &.expanded .title {
-        border: 1px solid @color-basic-700;
+        border: 1px solid @changeLang-border-footer;
         border-top: 0 none;
         border-radius: 0;
       }
 
       .select-list {
-        background: @color-basic-900;
+        background: @footer-background;
         border-radius: 4px 4px 0 0;
         flex-direction: column-reverse;
-        border: 1px solid @color-basic-700;
+        border: 1px solid @changeLang-border-footer;
         border-bottom: 0 none;
         box-shadow: none;
 
@@ -165,20 +165,20 @@ w-change-language {
         .option {
           transition: .3s;
           padding: 0 15px;
-          color: @color-white;
+          color: @white-only;
 
           &:hover {
-            background: @color-basic-700;
+            background: @footer-select-bg-hover;
           }
         }
       }
 
       .title {
-        border: 1px solid @color-basic-700;
+        border: 1px solid @changeLang-border-footer;
         border-radius: 2px;
         background: none transparent;
         padding: 0 15px;
-        color: @color-white;
+        color: @white-only;
       }
     }
 

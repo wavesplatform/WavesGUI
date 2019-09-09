@@ -13,7 +13,8 @@
         "enterPass": "Por favor ingrese su contraseña para continuar",
         "passForgot": {
             "attention": "¡Atención!",
-            "description": "Si olvida la contraseña, debe restaurar todas sus cuentas desde sus frases de seguridad (SEED) y establecer una nueva contraseña"
+            "description": "Si olvida la contraseña, debe restaurar todas sus cuentas desde sus frases de seguridad (SEED) y establecer una nueva contraseña",
+            "importantDesc": "Si no ha guardado la frase SEED o la clave privada, no podrá recuperar el acceso a su cuenta."
         },
         "password": {
             "forgot": "¿Olvidó su contraseña?"
