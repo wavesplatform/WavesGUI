@@ -1,0 +1,41 @@
+@import (reference) "../../../../app/less/app-icons";
+@import (reference) '../../../../app/less/typography';
+@import (reference) 'config';
+@import (reference) 'icons';
+
+.select_create-order {
+	.select {
+		&__wrap {
+			position: static;
+
+			&.expanded {
+				.select__title {
+					&:after {
+						background-image: @select-arrow-active-icon;
+					}
+				}
+			}
+		}
+
+		&__title {
+			padding: 2px 15px 2px 5px;
+			border: 1px solid transparent;
+			font-size: 11px;
+
+			&::after {
+				right: 0;
+				background-image: @select-arrow-icon;
+				background-repeat: no-repeat;
+				background-size: 90%;
+			}
+		}
+
+		&__list {
+			box-shadow: 0 2px 14px 0 rgba(31, 39, 61, 0.15);
+			border: 0;
+			border-radius: 4px;
+			padding: 5px 0;
+			width: auto;
+		}
+	}
+}

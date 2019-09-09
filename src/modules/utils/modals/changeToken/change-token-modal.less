@@ -32,21 +32,9 @@ md-dialog.change-token {
       border-top-right-radius: @border-radius;
       border-bottom-right-radius: @border-radius;
 
-      .issue-select {
-        width: 216px;
-        height: 30px;
-        position: absolute;
-        right: 6px;
+      .select {
+        width: calc(100% ~"- 12px");
         top: 6px;
-
-        .select__title-content {
-          display: flex;
-          align-items: center;
-        }
-
-        .select__title {
-          background-color: @color-white;
-        }
       }
     }
   }
