@@ -477,7 +477,7 @@
             "remove": "Verwijderen",
             "text": "{div}[Het verwijderen van een account zal tot het onherstelbare verlies daarvan leiden indien u geen back-upfrase (SEED) heeft opgeslagen.]\n{div}[Klik on de knop VERWIJDEREN om verder te gaan met het verwijderen van het account, of druk op ANNULEREN om terug te keren naar het vorige scherm.]",
             "warning": "U heeft uw SEED niet opgeslagen",
-            "warningPlural": "You did not save your Seed phrases"
+            "warningPlural": "U heeft uw SEED niet opgeslagen"
         },
         "removeKeeperAccount": {
             "heading": "Verwijder Waves Keeper account",
@@ -686,7 +686,7 @@
             "security": {
                 "address": "Adres",
                 "backupPhrase": "Backup regel",
-                "base58Seed": "Encoded backup phrase",
+                "base58Seed": "Gecodeerde back-upzin",
                 "encodedSeed": "Gecodeerde seed",
                 "privateKey": "Privésleutel",
                 "publicKey": "Publieke sleutel",
@@ -701,7 +701,7 @@
         },
         "sign": {
             "article": "Artikel",
-            "buy": "Buy",
+            "buy": "Koop",
             "cancel": "Annuleren",
             "cancelOrder": "Annuleer de bestelling",
             "close": "Sluit",
@@ -736,7 +736,7 @@
             "request": "Verzoek",
             "requestId": "Verzoek hash",
             "retry": "Opnieuw proberen",
-            "sell": "Sell",
+            "sell": "Verkoop",
             "signByKeeper": "Wacht op bevestiging op Waves Keeper...",
             "signByLedger": "Wacht op bevestiging op Ledger…",
             "signError": "Het verzoek is niet bevestigd.",
@@ -744,6 +744,7 @@
             "signErrorText": "U hebt het verzoek op uw Ledger niet bevestigd",
             "signErrorTextImportKeeper": "Login met Waves Keeper met {{address}} adres, en ververs dan de pagina om door te gaan.",
             "signErrorTextKeeper": "Probeer alstublieft opnieuw. Als deze error aanhoudt maak dan een ticket op [Support](https://support.wavesplatform.com/)",
+            "signErrorTextKeeperWrongUser": "Dit account komt niet overeen met het geselecteerde account in uw Waves Keeper. Activeer een ander account in Waves Keeper en probeer het opnieuw.",
             "timestamp": "Tijdstempel",
             "txId": "TXID"
         },

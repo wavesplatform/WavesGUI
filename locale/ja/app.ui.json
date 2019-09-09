@@ -100,6 +100,7 @@
             "confirmRequestKeeper": {
                 "cancel": "キャンセル",
                 "errorDescription": "再度お試し下さい。問題が継続する場合、 [サポート](https://support.wavesplatform.com)で、サポートチケットを発行して下さい。",
+                "errorDescriptionSwitchUser": "This account does not match the selected account in your Waves Keeper. Please activate another account in Waves Keeper and try again.",
                 "errorHeader": "あなたはWaves Keeper上でリクエストを承認しませんでした",
                 "sign": "次へ",
                 "waiting": "Waves Keeperからの承認を待っています..."

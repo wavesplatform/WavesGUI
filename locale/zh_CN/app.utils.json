@@ -194,10 +194,10 @@
             "ok": "登录"
         },
         "deleteAccount": {
-            "cancel": "Cancel",
-            "delete": "Remove",
-            "description": "{div}[Removing an account will lead to its irretrievable loss if you didn't save a backup phrase (SEED).]\n{div}[Click on the REMOVE button to proceed with account removal, or CANCEL to return to the previous screen.]",
-            "header": "Remove account"
+            "cancel": "取消",
+            "delete": "删除",
+            "description": "{div} [如果您没有保存备用短语（SEED），删除帐户将导致无法挽回的损失。] \n {div} [单击REMOVE按钮继续删除帐户，或单击CANCEL返回上一屏幕。]",
+            "header": "删除帐号"
         },
         "deposit": {
             "coinomatBCH": {
@@ -477,7 +477,7 @@
             "remove": "删除",
             "text": "{div}[如果您没有保存备份短语（SEED），删除帐号将导致帐户无法挽回的损失.]\n{div}[点击删除按钮来删除帐号，或点击取消来返回到上一个页面.]",
             "warning": "您没有保存您的SEED助记词",
-            "warningPlural": "You did not save your Seed phrases"
+            "warningPlural": "您没有保存种子短语"
         },
         "removeKeeperAccount": {
             "heading": "删除Waves Keeper帐户",
@@ -613,10 +613,10 @@
             "warningHeader": "行动可能导致资产损失。"
         },
         "settings": {
-            "account": "Account",
+            "account": "帐户",
             "cancel": "创建帐户",
             "changePass": "更改密码",
-            "deleteAccount": "Remove account",
+            "deleteAccount": "删除帐号",
             "general": {
                 "auto": "Auto",
                 "blockHeight": "当前高度",
@@ -686,7 +686,7 @@
             "security": {
                 "address": "地址",
                 "backupPhrase": "备份短语",
-                "base58Seed": "Encoded backup phrase",
+                "base58Seed": "编码备份短语",
                 "encodedSeed": "编码的SEED",
                 "privateKey": "私钥",
                 "publicKey": "公钥",
@@ -701,7 +701,7 @@
         },
         "sign": {
             "article": "文章",
-            "buy": "Buy",
+            "buy": "购买",
             "cancel": "取消",
             "cancelOrder": "取消订单",
             "close": "关闭",
@@ -728,15 +728,15 @@
             "fee": "费用",
             "matcher": "Sign orders requests",
             "openApp": "打开Waves应用程序",
-            "orderType": "Order type",
-            "pair": "Pair",
+            "orderType": "订单类型",
+            "pair": "对",
             "price": "价格",
             "refererTo": "如果错误仍然存​​在，请参阅",
             "referTo": "如果错误仍然存​​在，请参阅",
             "request": "请求",
             "requestId": "请求Hash",
             "retry": "重试",
-            "sell": "Sell",
+            "sell": "卖出",
             "signByKeeper": "上等待确认",
             "signByLedger": "Ledger上等待确认",
             "signError": "请求尚未确认。",
@@ -744,7 +744,8 @@
             "signErrorText": "您未在Ledger设备上确认该请求",
             "signErrorTextImportKeeper": "使用地址{{address}}登录Waves Keeper，然后刷新页面以继续。",
             "signErrorTextKeeper": "请再试一次。如果错误仍然存在，请创建[帮助]的票证（https://support.wavesplatform.com/）",
-            "timestamp": "Timestamp",
+            "signErrorTextKeeperWrongUser": "此帐户与Waves Keeper中的所选帐户不匹配。请在Waves Keeper中激活另一个帐户，然后重试。",
+            "timestamp": "时间戳",
             "txId": "TXID"
         },
         "sponsorship_edit": {
@@ -828,7 +829,7 @@
             "step1": {
                 "button": "您需要知道的关于您的SEED信息",
                 "buttonMobile": "下一步",
-                "buttonReadMore": "Read more",
+                "buttonReadMore": "阅读更多",
                 "p1": "为了您的安全，请您抽时间来了解一些重要信息. 🙏",
                 "p2": "如果您访问了钓鱼网站或丢失备份短语（SEED短语），我们无法恢复您的资金或冻结您的帐户。",
                 "p3": "如您愿意继续使用我们的平台，您同意接受与您SEED损失相关的所有风险。如果您丢失了SEED，您同意并承认Waves平台不会对此造成的负面后果承担责任。",
@@ -930,11 +931,11 @@
                 "1_3_18": "{span.line} [1。使用私钥添加了对钱包的登录。] \n {span.line} [2。令牌的24小时价格变化现在绑定到代币/ WAVES对。]",
                 "1_3_19": "{span.line} [1。 Bancor网关已经推出。] \n {span.line} [2。用户菜单界面已得到改进。]",
                 "1_3_2": "{span.line} [1。 Vostok网关已经推出。] \n {span.line} [2。改进的用户界面和其他小错误已得到修复。]",
-                "1_3_20": "{span.line}[1. Improved system for storing and restoring accounts from local storage (Need to update the [desktop application](https://wavesplatform.com/technology/wallet)).]\n{span.line}[2. Fixed rounding of prices in the orderbook.]",
+                "1_3_20": "{span.line} [1。改进了从本地存储中存储和恢复帐户的系统（需要更新[桌面应用程序]（https://wavesplatform.com/technology/wallet））。 \n {span.line} [2。修正了订单中价格的四舍五入。]",
                 "1_3_5": "{span.line} [1。已添加包含[wsoc.io]（https://wsoc.io）竞赛代币的标签。 \n {span.line} [2。增加了法语支持。] \n {span.line} [3。其他小错误已得到修复。]",
                 "1_3_7": "{span.line} [1。与[tokenrating.wavesexplorer.com]集成（https://tokenrating.wavesexplorer.com）现在您可以直接在应用程序中对令牌进行评分。 \n {span.line} [2。其他小错误已得到修复。]",
                 "1_3_9": "{span.line} [1。改进了Exchange和电子钱包部分的UI和功能。] \n {span.line} [2。其他小错误已得到修复。]",
-                "1_4_0": "{span.line}[Added ability for easy switching between  accounts within one wallet.]"
+                "1_4_0": "{span.line} [添加了在一个钱包内轻松切换帐户的功能。]"
             },
             "title": "此更新 {{version}}中的新功能"
         }

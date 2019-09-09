@@ -100,6 +100,7 @@
             "confirmRequestKeeper": {
                 "cancel": "Tühista",
                 "errorDescription": "Palun proovige uuesti. Kui viga püsib, saatke palun pilet [kasutajatoele](https://support.wavesplatform.com)",
+                "errorDescriptionSwitchUser": "This account does not match the selected account in your Waves Keeper. Please activate another account in Waves Keeper and try again.",
                 "errorHeader": "Te pole kinnitanud päringut Waves Keeperiga",
                 "sign": "Jätka",
                 "waiting": "Waves Keeperilt kinnituse ootel ..."
