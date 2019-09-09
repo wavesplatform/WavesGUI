@@ -5,22 +5,6 @@
 
 .select {
   display: block;
-  
-  &.one-item .select__wrap .select__title {
-    cursor: default;
-
-    &::after {
-      background-image: none;
-    }
-
-    w-avatar .avatar-wrap {
-      cursor: default;
-    }
-  }
-  
-  &.hide-active .select__wrap .select__list w-option.active {
-    display: none;
-  }
 
   &__no-user-select {
     user-select: none;
@@ -126,6 +110,22 @@
       background: @color-basic-50;
       cursor: default;
     }
+  }
+
+  &.one-item .select__wrap .select__title {
+    cursor: default;
+
+    &::after {
+      background-image: none;
+    }
+
+    w-avatar .avatar-wrap {
+      cursor: default;
+    }
+  }
+  
+  &.hide-active .select__wrap .select__list w-option.active {
+    display: none;
   }
 
   &.interface {
