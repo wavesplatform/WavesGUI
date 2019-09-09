@@ -205,6 +205,7 @@ timeout(time:20, unit:'MINUTES') {
                                     dir('WavesGUI'){
                                         pipeline_status["built-electron"] = false
                                         sh """
+                                        env
                                         export DEBUG=electron-builder
                                         npm ci --unsafe-perm
                                         node_modules/.bin/gulp build --platform desktop --config ./configs/mainnet.json
