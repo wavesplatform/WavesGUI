@@ -744,6 +744,7 @@
             "signErrorText": "あなたはLedgerデバイスでリクエストを承認しませんでした",
             "signErrorTextImportKeeper": "Waves Keeperに、アドレス : {{address}}でサインインし、\r\nページを再読込みして続ける。",
             "signErrorTextKeeper": "再度お試し下さい。問題が継続する場合、 [サポート](https://support.wavesplatform.com)で、サポートチケットを発行して下さい。",
+            "signErrorTextKeeperWrongUser": "This account does not match the selected account in your Waves Keeper. Please activate another account in Waves Keeper and try again.",
             "timestamp": "Timestamp",
             "txId": "TXID"
         },
