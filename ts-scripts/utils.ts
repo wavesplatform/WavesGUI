@@ -368,7 +368,7 @@ export async function getInitScript(connectionType: TConnection, type: TPlatform
                     var analytics = require('@waves/event-sender');
 
                     analytics.addApi({
-                        apiToken: '7a280fdf83a5efc5b8dfd52fc89de3d7',
+                        apiToken: config._isProduction() ? '7a280fdf83a5efc5b8dfd52fc89de3d7' : '56bc30688ef3d7127feaa8f0dc2e5fc0',
                         libraryUrl: location.origin + '/amplitude.js',
                         initializeMethod: 'amplitudeInit',
                         sendMethod: 'amplitudePushEvent',
@@ -376,7 +376,7 @@ export async function getInitScript(connectionType: TConnection, type: TPlatform
                     });
 
                     analytics.addApi({
-                        apiToken: 'UA-75283398-20',
+                        apiToken: config._isProduction() ? 'UA-75283398-20' : 'UA-75283398-21',
                         libraryUrl: location.origin + '/googleAnalytics.js',
                         initializeMethod: 'gaInit',
                         sendMethod: 'gaPushEvent',
