@@ -34,7 +34,7 @@ export function getUserAddress() {
 }
 
 export function getSignatureApi(): Adapter {
-    if (API === null || API.isDestroyed()) {
+    if (!API || API.isDestroyed()) {
         try {
             const ConcreteAdapter = getAdapterByType(_userData.userType);
 
