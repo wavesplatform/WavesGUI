@@ -23,7 +23,7 @@
 
             <w-step>
                 <div class="text-center">
-                    <div class="icon-started-signup margin-auto"></div>
+                    <div class="icon-started-signup margin-auto" ng-if="!$ctrl.hasLegacyUsers"></div>
 
                     <div class="headline-1 margin-1">
                         <span w-i18n="signUp.headers.protect"></span>
