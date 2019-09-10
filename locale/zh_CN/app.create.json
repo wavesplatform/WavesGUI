@@ -37,7 +37,7 @@
         "from": "这个头像是视觉表达，你以后不能改变它",
         "header": {
             "accountName": "用户名",
-            "dex": "代币启动器",
+            "dex": "内建去中心化交易所",
             "wallet": "智能数字钱包",
             "withBlockchain": "开始使用区块链"
         },

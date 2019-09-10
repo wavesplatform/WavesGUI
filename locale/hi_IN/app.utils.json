@@ -744,6 +744,7 @@
             "signErrorText": "आपने अपने लेजर नैनो एस पर अनुरोध की पुष्टि नहीं की",
             "signErrorTextImportKeeper": "{{address}}, पते के साथ वेव्स कीपर के लिए साइन इन करें, और फिर जारी रखने के लिए पृष्ठ ताज़ा करें।",
             "signErrorTextKeeper": "कृपया पुन: प्रयास करें। यदि एरर बनी रहती है, तो कृपया [सहायता](https://support.wavesplatform.com/) का टिकट बनाएं",
+            "signErrorTextKeeperWrongUser": "This account does not match the selected account in your Waves Keeper. Please activate another account in Waves Keeper and try again.",
             "timestamp": "Timestamp",
             "txId": "TXID"
         },
