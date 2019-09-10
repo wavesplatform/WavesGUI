@@ -37,7 +37,7 @@
     @media screen and (max-width: 860px) {
       transform: scale(.85);
     }
-    
+
     &-container {
       height: 30px;
       width: 30px;
@@ -46,11 +46,16 @@
   }
 
   &__icon {
-    &-lock {
+    width: 16px;
+    height: 16px;
+    display: block;
+    background-repeat: no-repeat;
+
+    &_lock {
       background-image: @migrate-lock-icon;
     }
 
-    &-unlock {
+    &_unlock {
       background-image: @migrate-success-icon;
     }
   }
@@ -73,7 +78,7 @@
 
       @media screen and (max-width: 860px) {
         margin-top: 0;
-      }      
+      }
     }
   }
 }
