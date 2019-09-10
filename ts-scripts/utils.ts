@@ -340,7 +340,7 @@ export async function getInitScript(connectionType: TConnection, type: TPlatform
                     var wrapper = require('worker-wrapper');
 
                     var worker = wrapper.create({
-                        libs: ['/node_modules/parse-json-bignumber/dist/parse-json-bignumber.min.js?v' + WavesApp.version]
+                        libs: ['/node_modules/@waves/parse-json-bignumber/dist/parse-json-bignumber.min.js?v' + WavesApp.version]
                     });
 
                     worker.process(function () {
