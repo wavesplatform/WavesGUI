@@ -286,6 +286,12 @@
                 "warningText": "Sending any other currency to this address may result in the loss of your deposit.",
                 "warningTitle": "Send only ERGO to this deposit address"
             },
+            "wavesGatewayETH": {
+                "warningMinAmountText": "If you will send less than {{minAmount, BigNumber}} {{assetTicker}}, you will lose that money.",
+                "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}, the maximum amount of deposit is {{maxAmount}} {{assetTicker}}",
+                "warningText": "Verifique se a sua carteira ou exchange usa smart contracts para transferir ETH. Nós não aceitamos essas transações e você perderá esse dinheiro, pois não podemos reembolsar.",
+                "warningTitle": "Por favor, não deposite ETH através de smart contracts! Não deposite tokens ERC20! Apenas Ethereum é permitido."
+            },
             "wavesGatewayVST": {
                 "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of Vostok to a token in your Waves account.",
                 "helpDescrTitle": "Enter this address into your Vostok client or wallet",
@@ -744,6 +750,7 @@
             "signErrorText": "Você não confirmou a autorização em sua Ledger Nano S",
             "signErrorTextImportKeeper": "Entre na Waves Keeper com o endereço {{address}}, e atualize a página para continuar.",
             "signErrorTextKeeper": "Por favor, tente novamente. Se o erro persistir, crie um ticket para o [Suporte](https://support.wavesplatform.com/)",
+            "signErrorTextKeeperWrongUser": "This account does not match the selected account in your Waves Keeper. Please activate another account in Waves Keeper and try again.",
             "timestamp": "Timestamp",
             "txId": "TXID"
         },

@@ -286,6 +286,12 @@
                 "warningText": "L'envoi de toute autre devise à cette adresse peut entraîner la perte de votre dépôt.",
                 "warningTitle": "Envoyez uniquement de l'ERGO à cette adresse de dépôt"
             },
+            "wavesGatewayETH": {
+                "warningMinAmountText": "Si vous envoyez moins de {{minAmount, BigNumber}} {{assetTicker}}, vous perdrez cet argent.",
+                "warningMinAmountTitle": "Le montant minimum du dépôt est de {{minAmount, BigNumber}} {{assetTicker}}, le montant maximum du dépôt est de {{maxAmount}} {{assetTicker}}",
+                "warningText": "Vérifiez si votre portefeuille ou votre plateforme d'échange utilise des smart-contracts pour retirer ETH. Nous n'acceptons pas de telles transactions et ne pouvons pas les rembourser. Vous perdrez cet argent.",
+                "warningTitle": "Ne déposez pas d'ETH à partir de smart-contracts ! Ne déposez pas de tokens ERC20 ! Seul Ethereum est autorisé."
+            },
             "wavesGatewayVST": {
                 "helpDescrText": "Une fois la transaction confirmée, le portail traitera le transfert de Vostok vers un jeton dans votre compte Waves.",
                 "helpDescrTitle": "Entrez cette adresse dans votre client ou portefeuille Vostok",
@@ -744,6 +750,7 @@
             "signErrorText": "Vous n'avez pas confirmé la requête sur votre appareil Ledger",
             "signErrorTextImportKeeper": "Connectez-vous à Waves Keeper avec l'adresse {{address}}, puis rafraîchissez la page pour continuer.",
             "signErrorTextKeeper": "Veuillez réessayer. Si l'erreur persiste, veuillez créer un ticket pour [le support](https://support.wavesplatform.com/)",
+            "signErrorTextKeeperWrongUser": "This account does not match the selected account in your Waves Keeper. Please activate another account in Waves Keeper and try again.",
             "timestamp": "Timestamp",
             "txId": "TXID"
         },

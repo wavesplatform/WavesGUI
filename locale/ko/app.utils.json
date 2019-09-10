@@ -286,6 +286,12 @@
                 "warningText": "Sending any other currency to this address may result in the loss of your deposit.",
                 "warningTitle": "Send only ERGO to this deposit address"
             },
+            "wavesGatewayETH": {
+                "warningMinAmountText": "If you will send less than {{minAmount, BigNumber}} {{assetTicker}}, you will lose that money.",
+                "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}, the maximum amount of deposit is {{maxAmount}} {{assetTicker}}",
+                "warningText": "ETH를 출금하려고 하는 지갑 또는 거래소가 Smart-Contracts를 사용하는지 확인하세요. 당사는 해당 트랜잭션을 수신하지 않으며 환불 또한 불가능합니다. 귀하의 자산을 잃게 됩니다.",
+                "warningTitle": "Smart Contracts에서 ETH를 입금하지 마세요! ERC20 토큰을 입금하지 마세요! Ethereum 입금만 가능합니다."
+            },
             "wavesGatewayVST": {
                 "helpDescrText": "트랜잭션이 승인되면 게이트웨이가 귀하의 Waves 계정에서 Vostok를 토큰으로 전송하는 작업을 처리할 것입니다.",
                 "helpDescrTitle": "이 주소를 Vostok 클라이언트 또는 지갑에 입력하세요",
@@ -744,6 +750,7 @@
             "signErrorText": "귀하의 Ledger 디바이스에서 요청을 승인하지 않았습니다.",
             "signErrorTextImportKeeper": "주소 {{address}}로 Waves Keeper에 로그인 하고 계속하기 위해 페이지를 새로고침 하세요.",
             "signErrorTextKeeper": "다시 시도하세요. 오류가 지속된다면 [서포트](https://support.wavesplatform.com/)에 문의하세요.",
+            "signErrorTextKeeperWrongUser": "This account does not match the selected account in your Waves Keeper. Please activate another account in Waves Keeper and try again.",
             "timestamp": "Timestamp",
             "txId": "TXID"
         },

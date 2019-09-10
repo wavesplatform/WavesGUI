@@ -286,6 +286,12 @@
                 "warningText": "Bu adrese başka bir kripto para gönderimi kayıpla sonuçlanabilir.",
                 "warningTitle": "Bu adrese ERGO dışında bir kripto para göndermeyin"
             },
+            "wavesGatewayETH": {
+                "warningMinAmountText": "If you will send less than {{minAmount, BigNumber}} {{assetTicker}}, you will lose that money.",
+                "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}, the maximum amount of deposit is {{maxAmount}} {{assetTicker}}",
+                "warningText": "Cüzdanınızın veya Kripto para borsasının ETH çekimlerinde akıllı kontrat kullanıp kullanmadığını kontrol edin. Akıllı kontratlar tarafından gelen transferleri kabul edemiyoruz. Paranızı kaybedersiniz.",
+                "warningTitle": "ETH akıllı kontratlarından yatırma işlemi yapmayınız. ERC20 tokenleri yatırmayınız! Sadece Ethereum transferleri kabul edilir."
+            },
             "wavesGatewayVST": {
                 "helpDescrText": "İşlem onaylandıktan sonra Vostoklar Waves adresinize geçit tarafından gönderilir.",
                 "helpDescrTitle": "Bu adresi Vostok cüzdanına ya da uygulamasına giriniz.",
@@ -744,6 +750,7 @@
             "signErrorText": "Talebi Ledger Nano S'i kullanarak doğrulamadın",
             "signErrorTextImportKeeper": "Waves Keeper'a  {{address}} adresinizle giriş yapın, ve devam etmek için sayfayı yenileyin.",
             "signErrorTextKeeper": "Lütfen tekrar deneyin. Eğer hatalar devam ederse [destek](https://support.wavesplatform.com/) ile iletişime geçin",
+            "signErrorTextKeeperWrongUser": "This account does not match the selected account in your Waves Keeper. Please activate another account in Waves Keeper and try again.",
             "timestamp": "Timestamp",
             "txId": "TXID"
         },

@@ -286,6 +286,12 @@
                 "warningText": "Wysłanie innej waluty na ten adres może spowodować utratę depozytu.",
                 "warningTitle": "Wysyłaj tylko ERGO na ten adres depozytu"
             },
+            "wavesGatewayETH": {
+                "warningMinAmountText": "Jeśli wyślesz mniej niż {{minAmount, BigNumber}} {{assetTicker}} , stracisz te środki.",
+                "warningMinAmountTitle": "Minimalna kwota depozytu to {{minAmount, BigNumber}} {{assetTicker}} , maksymalna kwota depozytu to {{maxAmount}} {{assetTicker}}",
+                "warningText": "Sprawdź czy portfel lub giełda używają inteligentnych kontraktów (smart contracts) do wycofania ETH. Nie akceptujemy takich transakcji i nie możemy ich zwrócić. Stracisz te pieniądze.",
+                "warningTitle": "Proszę nie deponować ETH z inteligentnych kontraktów (smart contracts)! Proszę nie deponować tokenów ERC20! Tylko Ethereum dozwolone."
+            },
             "wavesGatewayVST": {
                 "helpDescrText": "Jeżeli transakcja zostanie potwierdzona, system wymieni Vostok na tokeny w Twoim koncie Waves.",
                 "helpDescrTitle": "Wprowadź ten adres w swoim kliencie albo portfelu Vostok",
@@ -744,6 +750,7 @@
             "signErrorText": "Nie potwierdziłeś żądania na swoim urządzeniu Ledger",
             "signErrorTextImportKeeper": "Zaloguj się do Waves Kepper pod adresem {{address}}, a następnie odśwież stronę, aby kontynuować.",
             "signErrorTextKeeper": "Proszę spróbuj ponownie. Jeśli błąd będzie się powtarzał, utwórz zgłoszenie do [Wsparcie](https://support.wavesplatform.com/)",
+            "signErrorTextKeeperWrongUser": "This account does not match the selected account in your Waves Keeper. Please activate another account in Waves Keeper and try again.",
             "timestamp": "Pieczęć czasowa",
             "txId": "TXID"
         },

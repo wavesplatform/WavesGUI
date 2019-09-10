@@ -286,6 +286,12 @@
                 "warningText": "Отправка любой другой валюты на этот адрес может повлечь за собой потерю средств.",
                 "warningTitle": "Отправляйте только ERGO на этот адрес"
             },
+            "wavesGatewayETH": {
+                "warningMinAmountText": "Если вы отправите меньше чем {{minAmount, BigNumber}} {{assetTicker}}, вы потеряете деньги.",
+                "warningMinAmountTitle": "Минимальная сумма депозита {{minAmount, BigNumber}} {{assetTicker}}, максимальная сумма депозита {{maxAmount}} {{assetTicker}}",
+                "warningText": "Проверьте, не использует ли ваш кошелёк или биржа смарт-контракты для отправки ETH. Мы не принимаем такие переводы и не можем возместить их. Вы потеряете эти деньги.",
+                "warningTitle": "Не отправляйте ETH со смарт-контрактов! Не отправляйте ERC20-токены! Только Ethereum."
+            },
             "wavesGatewayVST": {
                 "helpDescrText": "Как только транзакция будет подтверждена, шлюз отправит Vostok-токен на ваш аккаунт Waves.",
                 "helpDescrTitle": "Введите этот адрес в ваш Vostok клиент или кошелёк.",
@@ -744,6 +750,7 @@
             "signErrorText": "Вы не подтвердили запрос на устройстве Ledger",
             "signErrorTextImportKeeper": "Войдите в Waves Keeper с адресом {{address}}, а затем обновите страницу, чтобы продолжить.",
             "signErrorTextKeeper": "Пожалуйста, попробуйте еще раз. Если ошибка повториться, напишите в [Поддержку](https://support.wavesplatform.com/)",
+            "signErrorTextKeeperWrongUser": "Этот аккаунт не совпадает с выбранным аккаунтом в Waves Keeper. Пожалуйста, активируйте подходящий аккаунт в Waves Keeper и попробуйте снова.",
             "timestamp": "Timestamp",
             "txId": "TXID"
         },

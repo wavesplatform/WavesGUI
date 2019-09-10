@@ -100,6 +100,7 @@
             "confirmRequestKeeper": {
                 "cancel": "Annuleer",
                 "errorDescription": "Probeer het opnieuw. Als het probleem aanhoudt maak alstublieft een ticket aan bij [support](https://support.wavesplatform.com)",
+                "errorDescriptionSwitchUser": "Dit account komt niet overeen met het geselecteerde account in uw Waves Keeper. Activeer een ander account in Waves Keeper en probeer het opnieuw.",
                 "errorHeader": "U heeft het verzoek niet bevestigd met Waves Keeper",
                 "sign": "Probeer opnieuw",
                 "waiting": "Wachten op bevestiging van Waves Keeper..."
