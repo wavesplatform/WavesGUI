@@ -158,10 +158,12 @@
                 }
 
                 if (tsUtils.isEmpty(tsUtils.get(this.defaults, path))) {
-                    if (utils.isEqual(tsUtils.get(this.commonDefaults, path), value)) {
-                        tsUtils.unset(this.commonSettings, path);
-                    } else {
-                        tsUtils.set(this.commonSettings, path, value);
+                    if (!tsUtils.isEmpty(tsUtils.get(this.commonDefaults, path))) {
+                        if (utils.isEqual(tsUtils.get(this.commonDefaults, path), value)) {
+                            tsUtils.unset(this.commonSettings, path);
+                        } else {
+                            tsUtils.set(this.commonSettings, path, value);
+                        }
                     }
                 } else if (utils.isEqual(tsUtils.get(this.defaults, path), value)) {
                     tsUtils.unset(this.settings, path);

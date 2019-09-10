@@ -106,6 +106,27 @@
                                 userSettings.set(path, value);
                             });
 
+                            const { pinnedAssetIdList, wallet, dex } = curUser.settings;
+                            const chartAssetIdList = wallet && wallet.assets && wallet.assets.chartAssetIdList || null;
+                            const spam = wallet && wallet.portfolio && wallet.portfolio.spam || null;
+                            const favourite = dex && dex.watchlist && dex.watchlist.favourite || null;
+
+                            if (pinnedAssetIdList) {
+                                userSettings.set('pinnedAssetIdList', pinnedAssetIdList);
+                            }
+
+                            if (chartAssetIdList) {
+                                userSettings.set('wallet.assets.chartAssetIdList', chartAssetIdList);
+                            }
+
+                            if (spam) {
+                                userSettings.set('wallet.portfolio.spam', spam);
+                            }
+
+                            if (favourite) {
+                                userSettings.set('dex.watchlist.favourite', favourite);
+                            }
+
                             curUser.settings = userSettings.getSettings().settings;
                         } catch (e) {
                             delete curUser.settings;
