@@ -108,6 +108,7 @@
 
                             const { pinnedAssetIdList, wallet, dex } = curUser.settings;
                             const chartAssetIdList = wallet && wallet.assets && wallet.assets.chartAssetIdList || null;
+                            const spam = wallet && wallet.portfolio && wallet.portfolio.spam || null;
                             const favourite = dex && dex.watchlist && dex.watchlist.favourite || null;
 
                             if (pinnedAssetIdList) {
@@ -116,6 +117,10 @@
 
                             if (chartAssetIdList) {
                                 userSettings.set('wallet.assets.chartAssetIdList', chartAssetIdList);
+                            }
+
+                            if (spam) {
+                                userSettings.set('wallet.portfolio.spam', spam);
                             }
 
                             if (favourite) {
