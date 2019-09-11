@@ -59,6 +59,7 @@
             tab = 'general';
             address = user.address;
             publicKey = user.publicKey;
+            id = user.id;
             shownSeed = false;
             shownKey = false;
             node = '';

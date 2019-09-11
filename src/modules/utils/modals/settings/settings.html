@@ -159,9 +159,19 @@
                     <div class="mobile-low-fsize">{{::$ctrl.publicKey}}</div>
                 </div>
 
-                <div class="row flex-row row-style row-mobile" ng-class="{'solid-border': !$ctrl.advancedMode}">
+                <div class="row flex-row row-style row-mobile"
+                    ng-class="{'solid-border': !$ctrl.advancedMode && !$ctrl.id}"
+                >
                     <div class="footnote basic-500" w-i18n="modal.settings.security.address"></div>
                     <div class="mobile-low-fsize">{{::$ctrl.address}}</div>
+                </div>
+
+                <div class="row flex-row row-style row-mobile"
+                    ng-class="{'solid-border': !$ctrl.advancedMode}"
+                    ng-if="::$ctrl.id"
+                >
+                    <div class="footnote basic-500" w-i18n="modal.settings.security.id"></div>
+                    <div class="mobile-low-fsize">{{::$ctrl.id}}</div>
                 </div>
 
                 <div class="row flex-row row-style solid-border">

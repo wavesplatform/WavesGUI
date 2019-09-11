@@ -146,6 +146,10 @@
                 return this.currentUser ? this.currentUser.address : null;
             }
 
+            get id() {
+                return this.currentUser ? this.currentUser.id : null;
+            }
+
             get name() {
                 return this.currentUser ? this.currentUser.name : null;
             }

@@ -5,6 +5,7 @@
 
     const USERS_COUNT = 5;
     const PRELOAD_USERS_COUNT = 5;
+    const MAX_USER_COUNT = 2147483647;
 
     /**
      * @param {typeof Base} Base
@@ -38,10 +39,6 @@
                 /**
                  * @type {Array}
                  */
-                this.users = [];
-                /**
-                 * @type {Array}
-                 */
                 this.visibleUsers = [];
                 /**
                  * @type {null}
@@ -50,7 +47,7 @@
                 /**
                  * @type {number}
                  */
-                this.currentStep = 0;
+                this.offset = 0;
                 /**
                  * @type {boolean}
                  */
@@ -78,12 +75,21 @@
                 /**
                  * @type {string}
                  */
+                this.id = '';
+                /**
+                 * @type {string}
+                 */
                 this.name = '';
                 /**
                  * @type {string}
                  * @private
                  */
                 this._runLedgerCommand = '';
+                /**
+                 * @type {Object}
+                 * @private
+                 */
+                this._users = {};
                 /**
                  * @type {Array}
                  * @private
@@ -123,27 +129,31 @@
             }
 
             /**
-             * @param count
-             * @return {void}
+             * @param {number} count
+             * @return {Promise}
              */
             getUsers(count) {
                 this._runLedgerCommand = 'getUsers';
                 this.loading = true;
                 this.error = false;
-                const start = this.users.length;
+
                 const countUsers = (count || USERS_COUNT) - 1;
-                const promise = utils.timeoutPromise(this.adapter.getUserList(start, countUsers), 25000);
+                const promise = utils.timeoutPromise(this.adapter.getUserList(this.offset, countUsers), 25000);
 
                 const modalPromise = this.isInit ?
                     Promise.resolve() :
                     modalManager.showLoginByDevice(promise, this.adapter.type);
 
-                Promise.all([promise, modalPromise])
+                return Promise.all([promise, modalPromise])
                     .then(([users]) => {
                         this.isInit = true;
-                        this.users = [...this.users, ...users];
                         this.loading = false;
                         this.error = false;
+
+                        (users || []).forEach(curUser => {
+                            this._users[curUser.id] = curUser;
+                        });
+
                         this.showVisibleUsers();
                         this.selectUser();
                         $scope.$digest();
@@ -152,6 +162,12 @@
                         const error = { ...err, count };
                         this.loading = false;
                         this.error = error;
+
+                        if (err instanceof RangeError) {
+                            this.offset = 0;
+                            this.id = '';
+                        }
+
                         $scope.$digest();
                         throw error;
                     });
@@ -177,10 +193,8 @@
                     return null;
                 }
 
-                if (!user && !this.selectedUser && this.users.length) {
-                    this.selectedUser = this.users[0];
-                    // } else if (this.selectedUser === user) {
-                    //     this.selectedUser = null;
+                if (!user && !this.selectedUser && this._users[0]) {
+                    this.selectedUser = this._users[0];
                 } else if (user) {
                     this.selectedUser = user;
                 }
@@ -196,9 +210,19 @@
                 if (this.selectDefault || this.disabledLeft) {
                     return;
                 }
-                this.currentStep--;
-                this.currentStep = this.currentStep >= 0 ? this.currentStep : 0;
-                this.showVisibleUsers();
+
+                this.offset = this._normalizeOffset(this.offset - USERS_COUNT);
+
+                if (this._hasUsersInCache(this.offset, this.offset + USERS_COUNT - 1)) {
+                    this.showVisibleUsers();
+                } else {
+                    if (this.loading) {
+                        return;
+                    }
+
+                    this.getUsers();
+                }
+
                 this._calculateDisabled();
             }
 
@@ -210,25 +234,32 @@
                     return;
                 }
 
-                if (this.users.length <= this.currentStep + USERS_COUNT) {
+                this.offset = this._normalizeOffset(this.offset + USERS_COUNT);
+
+                if (this._hasUsersInCache(this.offset, this.offset + USERS_COUNT - 1)) {
+                    this.showVisibleUsers();
+                } else {
                     if (this.loading) {
                         return;
                     }
-                    this.currentStep++;
+
                     this.getUsers();
-                    this._calculateDisabled();
-                } else {
-                    this.currentStep++;
-                    this.showVisibleUsers();
-                    this._calculateDisabled();
                 }
+
+                this._calculateDisabled();
             }
 
             /**
              * {void}
              */
             showVisibleUsers() {
-                this.visibleUsers = this.users.slice(this.currentStep, this.currentStep + USERS_COUNT);
+                const tmp = [];
+
+                for (let i = this.offset; i < this.offset + USERS_COUNT; i++) {
+                    tmp.push(this._users[i]);
+                }
+
+                this.visibleUsers = tmp;
             }
 
             /**
@@ -262,18 +293,62 @@
                 return index !== 0 && this.selectDefault;
             }
 
+            /**
+             * @public
+             */
+            onChangeId() {
+                let id = parseInt(this.id, 10);
+
+                if (isNaN(id) || id < 0) {
+                    id = 0;
+                }
+
+                if (id > MAX_USER_COUNT) {
+                    id = MAX_USER_COUNT;
+                }
+
+                this.id = String(id);
+
+                this.offset = this._normalizeOffset(id - Math.floor(USERS_COUNT / 2));
+
+                if (this._hasUsersInCache(this.offset, this.offset + USERS_COUNT - 1)) {
+                    this.showVisibleUsers();
+                    this.selectUser(this._users[id]);
+                } else {
+                    this.getUsers().then(() => {
+                        this.selectUser(this._users[id]);
+                    });
+                }
+            }
+
             _calculateDisabled(disable) {
-                // const limitRight = this.users.length < this.currentStep + USERS_COUNT + 1;
-                this.disabledLogin = disable || this.loading || !this.selectedUser;
-                this.disabledRight = disable || this.selectDefault || this.loading;
-                this.disabledLeft = disable || this.selectDefault || this.loading || this.currentStep === 0;
+                this.disabledLogin = (
+                    disable ||
+                    this.loading ||
+                    !this.selectedUser
+                );
+
+                this.disabledRight = (
+                    disable ||
+                    this.selectDefault ||
+                    this.loading ||
+                    this.offset === MAX_USER_COUNT - (USERS_COUNT - 1)
+                );
+
+                this.disabledLeft = (
+                    disable ||
+                    this.selectDefault ||
+                    this.loading ||
+                    this.offset === 0
+                );
             }
 
             _onChangeSelectDefault() {
                 if (this.selectDefault) {
-                    this.currentStep = 0;
-                    this.selectedUser = this.users[0];
+                    this.offset = 0;
+                    this.selectedUser = this._users[0];
                 }
+
                 this._calculateDisabled();
                 this.showVisibleUsers();
             }
@@ -282,6 +357,7 @@
              * @private
              */
             _onSelectUser() {
+                this.id = this.selectedUser.id;
                 this.userExisted =
                     this._usersInStorage.find(user => user.address === this.selectedUser.address) ||
                     null;
@@ -298,6 +374,37 @@
                     return user.name === this.name && user.address !== this.selectedUser.address;
                 });
                 this.importForm.userName.$setValidity('isUnique', !isUnique);
+            }
+
+            /**
+             * @private
+             * @param {number} from
+             * @param {number} to
+             */
+            _hasUsersInCache(from, to) {
+                for (let i = from; i <= to; i++) {
+                    if (!this._users[i]) {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+
+            /**
+             * @private
+             * @param {number} offset
+             */
+            _normalizeOffset(offset) {
+                if (offset > MAX_USER_COUNT - (USERS_COUNT - 1)) {
+                    return MAX_USER_COUNT - (USERS_COUNT - 1);
+                }
+
+                if (offset < 0) {
+                    return 0;
+                }
+
+                return offset;
             }
 
         }
