@@ -57,9 +57,9 @@
 
             <div class="avatars-list flex margin-1 margin-top-1">
                 <div class="avatar-wrapper"
-                        ng-repeat="seed in $ctrl.seedList track by seed.address"
-                        ng-class="{active: seed.active}"
-                        ng-click="$ctrl.setActiveSeed(seed)">
+                     ng-repeat="seed in $ctrl.seedList track by seed.address"
+                     ng-class="{active: seed.active}"
+                     ng-click="$ctrl.setActiveSeed(seed)">
                     <w-avatar address="seed.address"></w-avatar>
                 </div>
             </div>
@@ -67,15 +67,16 @@
             <div class="body-2 basic-900 margin-05" w-i18n="createAccount.address"></div>
 
             <w-copy-wrap class="body-2 margin-2"
-                    info="$ctrl.address">{{$ctrl.address}}
+                         info="$ctrl.address">{{$ctrl.address}}
                 <w-loader ng-if="!$ctrl.address"></w-loader>
             </w-copy-wrap>
-
-            <w-button
-                on-click="$ctrl.next($ctrl.stepIndex + $ctrl.saveUserData ? 1 : 2)"
-                class="submit long big">
-                <span w-i18n="button.continue"></span>
-            </w-button>
+            <w-analytics event="'Create New Continue Click'" event-params="{ guestMode: !this.saveUserData }">
+                <w-button
+                        on-click="$ctrl.next($ctrl.stepIndex + $ctrl.saveUserData ? 1 : 2)"
+                        class="submit long big">
+                    <span w-i18n="button.continue"></span>
+                </w-button>
+            </w-analytics>
         </w-step>
     </w-step-by-step>
 
