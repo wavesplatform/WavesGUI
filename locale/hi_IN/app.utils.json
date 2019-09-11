@@ -286,6 +286,12 @@
                 "warningText": "Sending any other currency to this address may result in the loss of your deposit.",
                 "warningTitle": "Send only ERGO to this deposit address"
             },
+            "wavesGatewayETH": {
+                "warningMinAmountText": "If you will send less than {{minAmount, BigNumber}} {{assetTicker}}, you will lose that money.",
+                "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}, the maximum amount of deposit is {{maxAmount}} {{assetTicker}}",
+                "warningText": "क करें किया क्या आपका वॉलेट या एक्सचेंज, ETH निकासी के लिए स्मार्ट-कॉन्ट्रैक्ट का उपयोग करता है।  हम ऐसे लेनेदेन स्वीकार नहीं करते हैं और उनको रिफंड नहीं कर सकते हैं। आपको उस धन की हानि हो जाएगी।",
+                "warningTitle": "कृपया स्मार्ट-कॉन्ट्रैक्ट से ETH जमा ना करें! ERC20 टोकन जमा ना करें! केवल Ethereum अनुमत है।"
+            },
             "wavesGatewayVST": {
                 "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of Vostok to a token in your Waves account.",
                 "helpDescrTitle": "Enter this address into your Vostok client or wallet",
@@ -688,6 +694,7 @@
                 "backupPhrase": "बैकअप वाक्य",
                 "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "इनकोडेड सीड",
+                "id": "Account ID",
                 "privateKey": "निजी कुंजी",
                 "publicKey": "सार्वजनिक कुंजी",
                 "script": "स्क्रिप्ट",

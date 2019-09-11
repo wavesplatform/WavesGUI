@@ -286,6 +286,12 @@
                 "warningText": "Het versturen van elke andere currency naar dit adres kan resulteren in het verlies van uw storting.",
                 "warningTitle": "Stuur alleen ERGO naar dit stortingsadres"
             },
+            "wavesGatewayETH": {
+                "warningMinAmountText": "Als u minder dan {{minAmount, BigNumber}} {{assetTicker}} verstuurt, verliest u dat geld.",
+                "warningMinAmountTitle": "Het minimale stortingsbedrag is {{minAmount, BigNumber}} {{assetTicker}}, het maximale stortingsbedrag is {{maxAmount}} {{assetTicker}}",
+                "warningText": "Controleer of uw wallet of exchange smart-contracts gebruikt om ETH the withdrawen. Wij accepteren zulke transacties niet en kunnen dit niet terug betalen. U raakt op deze manier uw geld kwijt.",
+                "warningTitle": "Verstuur geen ETH vanuit smart contracts naar dit adres. Stort geen ERC20 tokens! Alleen Ethereum is toegestaan."
+            },
             "wavesGatewayVST": {
                 "helpDescrText": "Zodra de transactie bevestigd is zal de gateway de transactie behandelen en dit omzetten naar een Vostok token in uw Waves account.",
                 "helpDescrTitle": "Dit adres invoeren in uw Vostok-client of wallet",
@@ -688,6 +694,7 @@
                 "backupPhrase": "Backup regel",
                 "base58Seed": "Gecodeerde back-upzin",
                 "encodedSeed": "Gecodeerde seed",
+                "id": "Account ID",
                 "privateKey": "Privésleutel",
                 "publicKey": "Publieke sleutel",
                 "script": "Script",
