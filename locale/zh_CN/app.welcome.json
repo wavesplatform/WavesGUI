@@ -118,7 +118,7 @@
         }
     },
     "userList": {
-        "addNew": "添加一个帐号",
+        "addNew": "新增帐户",
         "back": "返回",
         "create": "创建新的帐号",
         "frombackup": "备份",
