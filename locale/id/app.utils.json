@@ -286,6 +286,12 @@
                 "warningText": "Mengirimkan mata uang lain ke alamat ini dapat menyebabkan hilangnya deposit Anda.",
                 "warningTitle": "Kirim hanya ERGO ke alamat penyetoran ini"
             },
+            "wavesGatewayETH": {
+                "warningMinAmountText": "Jika Anda akan mengirim kurang dari {{minAmount, BigNumber}} {{assetTicker}} , Anda akan kehilangan uang itu.",
+                "warningMinAmountTitle": "Jumlah minimum setoran adalah {{minAmount, BigNumber}} {{assetTicker}} , jumlah setoran maksimum adalah {{maxAmount}} {{assetTicker}}",
+                "warningText": "Periksa apakah dompet atau pertukaran Anda menggunakan kontrak cerdas untuk menarik ETH. Kami tidak menerima transaksi semacam itu dan dapat mengembalikan uang mereka. Anda akan kehilangan uang itu.",
+                "warningTitle": "Tolong jangan depositkan ETH dari kontrak pintar! Jangan setor token ERC20! Hanya Ethereum yang diizinkan."
+            },
             "wavesGatewayVST": {
                 "helpDescrText": "Setelah transaksi dikonfirmasi, gateway akan memproses transfer Vostok ke token di akun Waves Anda.",
                 "helpDescrTitle": "Masukkan alamat ini ke klien atau dompet Vostok Anda",
@@ -688,6 +694,7 @@
                 "backupPhrase": "Frasa cadangan",
                 "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "SEED terenkode",
+                "id": "Account ID",
                 "privateKey": "Kunci pribadi",
                 "publicKey": "Kunci Publik",
                 "script": "Skrip",

@@ -118,7 +118,7 @@
         }
     },
     "userList": {
-        "addNew": "Add an account",
+        "addNew": "Add account",
         "back": "Back",
         "create": "Create a new account",
         "frombackup": "from backup",
