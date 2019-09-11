@@ -286,6 +286,12 @@
                 "warningText": "Wysłanie innej waluty na ten adres może spowodować utratę depozytu.",
                 "warningTitle": "Wysyłaj tylko ERGO na ten adres depozytu"
             },
+            "wavesGatewayETH": {
+                "warningMinAmountText": "Jeśli wyślesz mniej niż {{minAmount, BigNumber}} {{assetTicker}} , stracisz te środki.",
+                "warningMinAmountTitle": "Minimalna kwota depozytu to {{minAmount, BigNumber}} {{assetTicker}} , maksymalna kwota depozytu to {{maxAmount}} {{assetTicker}}",
+                "warningText": "Sprawdź czy portfel lub giełda używają inteligentnych kontraktów (smart contracts) do wycofania ETH. Nie akceptujemy takich transakcji i nie możemy ich zwrócić. Stracisz te pieniądze.",
+                "warningTitle": "Proszę nie deponować ETH z inteligentnych kontraktów (smart contracts)! Proszę nie deponować tokenów ERC20! Tylko Ethereum dozwolone."
+            },
             "wavesGatewayVST": {
                 "helpDescrText": "Jeżeli transakcja zostanie potwierdzona, system wymieni Vostok na tokeny w Twoim koncie Waves.",
                 "helpDescrTitle": "Wprowadź ten adres w swoim kliencie albo portfelu Vostok",
@@ -688,6 +694,7 @@
                 "backupPhrase": "Kopia zapasowa wyrażenia",
                 "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "Zakodowany SEED",
+                "id": "Account ID",
                 "privateKey": "Klucz prywatny",
                 "publicKey": "Klucz publiczny",
                 "script": "Skrypt",
