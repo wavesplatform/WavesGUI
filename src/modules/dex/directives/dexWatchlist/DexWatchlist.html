@@ -52,7 +52,7 @@
         </w-help-icon>
     </div>
     <w-loader ng-if="$ctrl.pending"></w-loader>
-    <w-error-block ng-show="$ctrl.loadingError"></w-error-block>
+    <w-error-block class="error-block" ng-show="$ctrl.loadingError"></w-error-block>
     <w-smart-table ng-if="!$ctrl.pending"
                    name="watchlist"
                    options="$ctrl.tableOptions"
