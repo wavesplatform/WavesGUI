@@ -9,7 +9,7 @@
         <i class="icon"></i><span w-i18n="directives.myOrders.noPermissionCancelOrder"></span>
     </div>
 
-    <w-empty-block ng-if="!$ctrl.orders.length && !$ctrl.isDemo && !$ctrl.loadingError"></w-empty-block>
+    <w-empty-block class="empty-block" ng-if="!$ctrl.orders.length && !$ctrl.isDemo && !$ctrl.loadingError"></w-empty-block>
     <w-error-block ng-if="$ctrl.loadingError"></w-error-block>
 
     <div class="sign-in-message" ng-if="$ctrl.isDemo">
