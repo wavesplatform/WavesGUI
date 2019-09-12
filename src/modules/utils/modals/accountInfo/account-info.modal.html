@@ -56,7 +56,7 @@
                                          w-validator-custom="{{!$ctrl.invalid && !$ctrl.pendingAlias}}">
                                 </w-input>
 
-                                <w-loader ng-if="$ctrl.pendingAlias"></w-loader>
+                                <w-loader class="loader" ng-if="$ctrl.pendingAlias"></w-loader>
 
                                 <div class="create-alias-wrap">
                                     <w-analytics event="'Account Alias New Click With Name'" event-target="'ui'">
@@ -89,7 +89,7 @@
                                 </div>
 
                                 <div class="sign-loader" ng-if="$ctrl.signLoader">
-                                    <w-loader></w-loader>
+                                    <w-loader class="loader"></w-loader>
                                 </div>
 
                                 <div class="errors-margin">

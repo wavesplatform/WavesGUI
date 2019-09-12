@@ -8,8 +8,6 @@
                         <div class="headline-1 margin-1">
                             <span w-i18n="createAccount.header.withBlockchain"></span>
                         </div>
-
-
                         <div class="body-2 basic-500">
                             <span w-i18n="createAccount.description.becomePart"></span>
                         </div>
@@ -68,7 +66,7 @@
 
             <w-copy-wrap class="body-2 margin-2"
                          info="$ctrl.address">{{$ctrl.address}}
-                <w-loader ng-if="!$ctrl.address"></w-loader>
+                <w-loader class="loader" ng-if="!$ctrl.address"></w-loader>
             </w-copy-wrap>
             <w-analytics event="'Create New Continue Click'" event-params="{ guestMode: !this.saveUserData }">
                 <w-button
