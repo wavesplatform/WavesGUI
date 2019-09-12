@@ -1,8 +1,7 @@
 <div class="dex-order-book__wrapper">
     <w-loader class="loader" ng-show="$ctrl.pending"></w-loader>
     <w-empty-block class="empty-block" ng-show="$ctrl.nothingFound()"></w-empty-block>
-    <w-error-block ng-show="$ctrl.loadingError"></w-error-block>
-
+    <w-error-block class="error-block" ng-show="$ctrl.loadingError"></w-error-block>
     <w-table class="table">
         <w-thead class="table__thead">
             <w-row class="table__row">
