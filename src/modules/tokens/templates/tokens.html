@@ -149,7 +149,8 @@
                             <w-checkbox-submit id="has-script"
                                                name="has-script"
                                                ng-model="$ctrl.hasAssetScript"
-                                               class="checkbox-submit">
+                                               ng-class="{'checkbox-switcher_active': $ctrl.hasAssetScript}"
+                                               class="checkbox-switcher">
                             </w-checkbox-submit>
                             <label for="has-script" class="switcher-input__label margin-right-1"></label>
                             <div ng-if="$ctrl.hasAssetScript" class="footnote-1" w-i18n="switchScriptOff"></div>
