@@ -1,7 +1,7 @@
-<div ng-if="!$ctrl.isVisibleSeed" class="user-list get-started-content">
+ <div class="user-list get-started-content">
 
     <div class="margin-5 text-center">
-        <div class="headline-1 margin-1" w-i18n="userList.exportUser"></div>
+        <div class="headline-1 margin-1" w-i18n="userList.title"></div>
         <div class="body-2 margin-top-2 basic-500 margin-05">
             <span w-i18n="userList.notHaveAccount"></span>
         </div>
@@ -21,13 +21,13 @@
                 <w-avatar type="{{user.userType}}"
                           class="avatar margin-right-1"
                           address="user.address"
-                          size="30"></w-avatar>
-            </div>
+                          size="30"></w-avatar></div>
 
             <div ng-class="::{'has-name': !!user.name}" class="ellipsis">
                 <div class="name body-2 margin-05 mobile-caption-2">{{::user.name}}</div>
                 <div class="address footnote-1 mobile-caption-2 ellipsis">{{::user.address}}</div>
             </div>
+            <div class="icon-remove-user icon-close" ng-click="$ctrl.removeUser(user.address)"></div>
         </w-option>
     </w-select>
 
@@ -59,42 +59,16 @@
             </div>
         </w-input-container>
 
-        <w-analytics event="'Migration Import Continue Click'" event-target="'ui'">
+        <w-analytics event="'Sign In Log In Click'" event-target="'ui'" event-params="{from: 'welcome'}">
             <w-button disabled="$ctrl.loginForm.$invalid"
-                      on-click="$ctrl.showSeed()"
+                      on-click="$ctrl.login()"
                       type="submit"
                       class="submit big long">
-                <span w-i18n="continue"></span>
+                <span w-i18n="userList.buttons.login"></span>
             </w-button>
         </w-analytics>
     </form>
 
-</div>
-
-<div class="seed" ng-if="$ctrl.isVisibleSeed">
-    <div class="backup-seed movable get-started-content">
-        <div class="headline-1 margin-1 text-center">
-            <span w-i18n="copySeed"></span>
-        </div>
-
-        <div class="body-2 basic-500 margin-top-1 margin-4 text-center">
-            <span w-i18n="warn"></span>
-            <a ng-click="$ctrl.backToUsersList()" class="submit-400" w-i18n="goBack"></a>
-        </div>
-
-        <div class="body-2 basic-900 margin-1">
-            <span w-i18n="yourSeed"></span>
-        </div>
-
-        <w-seed-read type="read" seed="{{::$ctrl.seed}}" class="no-user-select margin-2 margin-top-1"></w-seed-read>
-
-        <div class="margin-top-4">
-            <a class="fake-button submit big long"
-                      ng-click="$ctrl.clickCopySeed()"
-                      w-copy="::$ctrl.seed">
-                <span class="fake-button-content submit big long" w-i18n="copy"></span>
-            </a>
-        </div>
-    </div>
+    <w-get-started-link has-create="::true" has-import="::true"></w-get-started-link>
 
 </div>
