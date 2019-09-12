@@ -37,7 +37,6 @@
                             <w-input-error message="byteGte">
                                 <span w-i18n="validators.byte.gte"></span>
                             </w-input-error>
-
                         </w-input-container>
                     </div>
 
@@ -146,12 +145,13 @@
                             </w-help-icon>
                         </div>
 
-                        <div class="input-toggle" ng-class="{active: $ctrl.hasAssetScript}">
+                        <div class="switcher-input" ng-class="{active: $ctrl.hasAssetScript}">
                             <w-checkbox-submit id="has-script"
                                                name="has-script"
-                                               ng-model="$ctrl.hasAssetScript">
+                                               ng-model="$ctrl.hasAssetScript"
+                                               class="checkbox-submit">
                             </w-checkbox-submit>
-                            <label for="has-script" class="input-toggle__label"></label>
+                            <label for="has-script" class="switcher-input__label margin-right-1"></label>
                             <div ng-if="$ctrl.hasAssetScript" class="footnote-1" w-i18n="switchScriptOff"></div>
                             <div ng-if="!$ctrl.hasAssetScript" class="footnote-1" w-i18n="switchScriptOn"></div>
                         </div>
@@ -220,9 +220,10 @@
                         <div class="footnote-1 basic-500" w-i18n="modal.token.warning.text"></div>
                     </div>
 
-                    <div class="generate-form__row flex">
-                        <w-checkbox-submit id="agreeConditions" ng-model="$ctrl.agreeConditions"></w-checkbox-submit>
+                    <div class="checkbox-input generate-form__checkbox">
+                        <w-checkbox-submit class="checkbox-submit" id="agreeConditions" ng-model="$ctrl.agreeConditions"></w-checkbox-submit>
                         <label for="agreeConditions"
+                               class="checkbox-input__label"
                                w-i18n="tokens.termsOfUse.checkbox"></label>
                     </div>
 
@@ -248,7 +249,6 @@
                     </w-sign-button>
                 </w-analytics>
             </div>
-
         </div>
     </div>
 </div>
