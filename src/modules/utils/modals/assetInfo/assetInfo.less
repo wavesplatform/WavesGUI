@@ -101,11 +101,6 @@
     max-height: calc(~'90vh - 280px');
   }
 
-  w-tabs {
-    margin: -1px 0 0 -40px;
-    width: calc(100% ~'+ 80px');
-  }
-
   @media screen and (max-width: 768px) {
     .asset {
       &-modal__name {
@@ -244,7 +239,7 @@
     }
   }
 
-  .tab-container {
+  .tabs__wrap {
     w-transaction-list ul {
       border-top: none;
 
@@ -284,7 +279,7 @@
 @media screen and (max-width: 768px) {
 
   .m-dialog_asset-info {
-    .tab-container w-transaction-list {
+    .tabs__wrap w-transaction-list {
       .w-visible {
         height: 91px;
       }
@@ -315,20 +310,6 @@
       overflow-y: auto;
     }
 
-    w-tabs.inner {
-      .titles-wrap {
-        padding: 0;
-      }
-      .tab-body-wrap {
-        height: auto;
-      }
-    }
-
-    w-tabs {
-      margin: 0;
-      width: 100%;
-    }
-
     .padding-content .tab-tem {
       padding: 40px 20px;
     }
@@ -349,10 +330,7 @@
       }
     }
 
-    .tab-container {
-      width: calc(100% ~'+ 40px');
-      margin-left: -20px;
-
+    .tabs__wrap {
       w-transaction-list ul .transaction-item .date {
         padding-left: 23px;
       }
