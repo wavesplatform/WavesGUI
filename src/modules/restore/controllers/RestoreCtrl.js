@@ -199,7 +199,11 @@
              */
             _onChangeEncodedSeed() {
                 if (this.encodedSeedForm.$valid && RestoreCtrl._isEncoded(this.encodedSeed)) {
-                    this.address = new ds.Seed(base58Decode(this.encodedSeed), window.WavesApp.network.code).address;
+                    try {
+                        this.address = new ds.Seed(base58Decode(this.encodedSeed), WavesApp.network.code).address;
+                    } catch (e) {
+                        this.address = '';
+                    }
                 } else {
                     this.address = '';
                 }
