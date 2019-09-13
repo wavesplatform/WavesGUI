@@ -1,0 +1,78 @@
+@import (reference) 'config';
+@import (reference) '../../../app/less/typography';
+
+.dex .tabs_mobile {
+	.titles-wrap {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		display: flex;
+		height: 50px;
+		
+		.title {
+			.body-2();
+			text-transform: capitalize;
+			flex: 1;
+			background: @color-white;
+			margin-right: 1px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			color: @color-basic-700;
+
+			&:last-child {
+				margin-right: 0;
+			}
+
+			&.active {
+				border: 0 none;
+				border-top: 2px solid @color-submit-400;
+				color: @color-submit-400;
+			}
+		}
+	}
+
+	&-orders {
+		.titles-wrap {
+			position: relative;
+			bottom: auto;
+			right: auto;
+			padding: 0 16px;
+			margin-bottom: 1px;
+			background: @color-white;
+			box-shadow: none;
+			overflow-x: auto;
+
+			.title {
+				margin: 0;
+				border-top: 0;
+				border-bottom: 2px solid transparent;
+				margin-right: 20px;
+				height: 100%;
+				position: relative;
+				
+				&.active {
+					border-top: 0;
+					border-bottom: 2px solid @color-submit-400;
+				}
+			}
+		}
+
+		::-webkit-scrollbar {
+			height: 0;
+		}
+
+		:hover::-webkit-scrollbar {
+			height: 0;
+		}
+
+		::-webkit-scrollbar-thumb {
+			height: 0;
+		}
+
+		::-webkit-scrollbar-thumb:window-inactive {
+			height: 0;
+		}
+	}
+}

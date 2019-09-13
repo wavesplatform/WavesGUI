@@ -282,18 +282,17 @@ body.dex-demo {
 }
 
 @media screen and (max-width: 659px) {
-  .dex,
-  .dex-demo {
+  body.dex,
+  body.dex-demo {
     min-width: 100%;
 
-    .content {
+    .main-content .content {
       width: 100%;
       padding: 5px;
       right: 0;
       bottom: 0;
       height: 100%;
-      max-height: calc(100% ~' - 80px');
-      overflow: auto;
+      overflow-x: hidden;
     }
 
     .tabs {
