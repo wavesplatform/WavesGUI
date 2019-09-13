@@ -11,6 +11,10 @@
         "avatarUnique": "这个头像是独一无二的，您以后不能改变头像。",
         "back": "返回",
         "choose": "选择您的帐户",
+        "help": {
+            "id": "{div}[Set an ID manually or select an account from the list.]\n{div}[Please save the ID, it would be needed for importing.]"
+        },
+        "id": "Account ID",
         "importAccount": "导入 Ledger 帐户",
         "ImportOrSignIn": "导入帐户或",
         "login": "继续",

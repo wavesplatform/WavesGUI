@@ -11,6 +11,10 @@
         "avatarUnique": "본 아바타는 고유하며 추후 변경이 불가합니다.",
         "back": "뒤로가기",
         "choose": "귀하의 계정을 선택하세요",
+        "help": {
+            "id": "{div}[Set an ID manually or select an account from the list.]\n{div}[Please save the ID, it would be needed for importing.]"
+        },
+        "id": "Account ID",
         "importAccount": "Ledger 계정 불러오기",
         "ImportOrSignIn": "계정을 불러오거나",
         "login": "계속하기",
