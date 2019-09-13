@@ -1,8 +1,6 @@
 (function () {
     'use strict';
 
-    const ds = require('data-service');
-
     /**
      * @param {Base} Base
      * @param {JQuery} $element
@@ -29,6 +27,8 @@
         modalManager) {
 
         const analytics = require('@waves/event-sender');
+        const ds = require('data-service');
+        const PATH = 'modules/dex/';
 
         const ANALYTICS_TABS_NAMES = {
             myOpenOrders: 'My Open Orders',
@@ -69,6 +69,11 @@
                  * @private
                  */
                 this._assetIdPair = null;
+
+                const dexLarge = `${PATH}/templates/dexLarge.html`;
+                const dexMobile = `${PATH}/directives/mobileLayout/mobileLayout.html`;
+
+                this.currentTemplate = window.innerWidth <= 861 ? dexMobile : dexLarge;
 
                 this.observe('tab', this._onChangeTab);
 
