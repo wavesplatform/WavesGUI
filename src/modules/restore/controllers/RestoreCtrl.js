@@ -4,7 +4,7 @@
     const analytics = require('@waves/event-sender');
     const { validators, libs } = require('@waves/waves-transactions');
     const { isPublicKey } = validators;
-    const { address, publicKey } = libs.crypto;
+    const { address, publicKey, bytesToString, base58Decode } = libs.crypto;
     const TABS = {
         seed: 'seed',
         encodedSeed: 'encodedSeed',
@@ -198,8 +198,8 @@
              * @private
              */
             _onChangeEncodedSeed() {
-                if (this.encodedSeedForm.$valid) {
-                    this.address = new ds.Seed(`base58:${this.encodedSeed}`, window.WavesApp.network.code).address;
+                if (this.encodedSeedForm.$valid && RestoreCtrl._isEncoded(this.encodedSeed)) {
+                    this.address = new ds.Seed(base58Decode(this.encodedSeed), window.WavesApp.network.code).address;
                 } else {
                     this.address = '';
                 }
@@ -253,7 +253,8 @@
                     case TABS.encodedSeed:
                         return ({
                             keyOrSeed: {
-                                encodedSeed: this.encodedSeed
+                                seed: `base58:${this.encodedSeed}`,
+                                publicKey: publicKey(bytesToString(base58Decode(this.encodedSeed)))
                             },
                             type: 'seed'
                         });
@@ -264,6 +265,18 @@
                             },
                             type: 'seed'
                         });
+                }
+            }
+
+            /**
+             * @private
+             * @param seed
+             */
+            static _isEncoded(seed) {
+                try {
+                    return !!base58Decode(seed);
+                } catch (e) {
+                    return false;
                 }
             }
 
