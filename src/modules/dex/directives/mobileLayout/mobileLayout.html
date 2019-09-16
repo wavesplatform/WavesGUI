@@ -10,13 +10,19 @@
                                                                           precision="3"></span>
             </div>
         </div>
-        <div>
-            <div class="mobile-watchlist-header__change24">
-                <span ng-class="$ctrl.pairInfo.change24.gt(0) ? 'blue' : 'red'">{{$ctrl.pairInfo.change24}}%</span>
+<!--        TODO @Gakhramanov change class name some-wrapper, or use different decision-->
+        <div class="some-flex-wrapper">
+            <div>
+                <div class="mobile-watchlist-header__change24 mobile-watchlist-header__change24_{{$ctrl.pairInfo.change24.gt(0) ? 'blue' : 'red'}}">
+                    <span>{{$ctrl.pairInfo.change24.gt(0) ? '+' :  '-'}}{{$ctrl.pairInfo.change24}}%</span>
+                </div>
+                <div class="mobile-watchlist-header__last-price">
+                    <w-balance money="$ctrl.pairInfo.lastPrice"></w-balance>
+                </div>
             </div>
-            <div class="mobile-watchlist-header__last-price">
-                <w-balance money="$ctrl.pairInfo.lastPrice"></w-balance>
+            <div class="mobile-watchlist-header__toggle-arrow mobile-watchlist-header__toggle-arrow_{{$ctrl.watchListVisible ? 'up' : 'down'}}">
             </div>
+
         </div>
     </div>
     <div class="mobile-layout__watchlist-wrapper">
@@ -55,7 +61,7 @@
             <div>
                 <w-tabs ng-model="$ctrl.mobileHistoryTab">
                     <w-tab title-name="::'tradeHistory'" id="::'orderBook'" class="tab_orderbook">
-                        <w-dex-order-book is-scrolled="true"/>
+                        <w-dex-order-book is-scrolled="false"/>
                     </w-tab>
                     <w-tab title-name="::'tradeHistory'" id="::'tradeHistory'" class="tab_tradeHistory">
                         <w-dex-trade-history is-my="::false"></w-dex-trade-history>
