@@ -268,3 +268,48 @@ form.ng-submitted {
     }
   }
 }
+
+md-dialog {
+  fieldset.disabled {
+    .input-container w-input .w-input-wrap {
+      input[type="text"],
+      input[type="password"],
+      input[type="number"],
+      textarea {
+          background: @color-basic-50;
+  
+          &:not(.no-validate).ng-touched.ng-valid:not(:focus):not(.focus):not(.ng-empty) {
+            border-color: @color-basic-200;
+          }
+      }
+    }
+  
+    .input-like {
+      background: @color-basic-50;
+    }
+  }
+}
+
+.modal-send {
+  fieldset.disabled {
+    .select .title {
+      background: @color-basic-50;
+    }
+  }
+}
+
+.change-token {
+  fieldset.disabled {
+    .input-like .select-wrap .select .title {
+      background: @color-basic-50;
+    }
+  }
+}
+
+.tokens-page {
+  fieldset.disabled {
+    .input-like .select .title {
+      background: @color-basic-50;
+    }
+  }
+}

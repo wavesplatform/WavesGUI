@@ -2,15 +2,17 @@
     'use strict';
 
     /**
-     * @param Base
-     * @param $scope
+     * @param {typeof Base} Base
+     * @param {ng.IScope} $scope
+     * @param {*} $state
      * @param {User} user
      * @param {app.utils} utils
      * @return {KeeperCtrl}
      */
-    const controller = function (Base, $scope, user, utils) {
+    const controller = function (Base, $scope, $state, user, utils) {
 
         const signatureAdapter = require('@waves/signature-adapter');
+        const analytics = require('@waves/event-sender');
 
         class KeeperCtrl extends Base {
 
@@ -92,10 +94,13 @@
                 this.observe('selectedUser', this._onSelectUser);
                 this.adapter.onUpdate(this._onUpdateAdapter);
 
-                user.getFilteredUserList().then(users => {
-                    this._usersInStorage = users;
+                Promise.all([
+                    user.getFilteredUserList(),
+                    user.getMultiAccountUsers()
+                ]).then(([legacyUsers = [], users = []]) => {
+                    this._usersInStorage = [...legacyUsers, ...users];
                 });
-
+                analytics.send({ name: 'Import Keeper Click', target: 'ui' });
                 this.getUsers();
             }
 
@@ -180,22 +185,15 @@
              * @return {void}
              */
             login() {
-                const userSettings = user.getDefaultUserSettings({ termsAccepted: false });
-
                 const newUser = {
                     ...this.selectedUser,
                     userType: this.adapter.type,
-                    settings: userSettings,
-                    saveToStorage: this.saveUserData
+                    networkByte: WavesApp.network.code.charCodeAt(0)
                 };
 
-                const api = ds.signature.getDefaultSignatureApi(newUser);
-
-                return user.create({
-                    ...newUser,
-                    settings: userSettings.getSettings(),
-                    api
-                }, true, true).catch(() => {
+                return user.create(newUser, true, true).then(() => {
+                    $state.go(user.getActiveState('wallet'));
+                }).catch(() => {
                     this.error = true;
                     $scope.$digest();
                 });
@@ -241,7 +239,7 @@
         return new KeeperCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'user', 'utils'];
+    controller.$inject = ['Base', '$scope', '$state', 'user', 'utils'];
 
     angular.module('app.keeper').controller('KeeperCtrl', controller);
 })();

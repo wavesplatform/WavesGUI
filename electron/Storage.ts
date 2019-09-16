@@ -20,8 +20,10 @@ export class Storage {
     }
 
     public writeStorage(key: string, value: any): Promise<void> {
-        this.storageCache[key] = value;
-        return writeJSON(this.storagePath, this.storageCache);
+        return this.ready.then(() => {
+            this.storageCache[key] = value;
+            return writeJSON(this.storagePath, this.storageCache);
+        });
     }
 
     public clearStorage(): Promise<void> {

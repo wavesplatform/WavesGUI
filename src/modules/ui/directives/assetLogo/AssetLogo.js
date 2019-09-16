@@ -87,6 +87,7 @@
              */
             _addLogo() {
                 if (!this.isNew && this.assetId) {
+
                     const { logo } = utils.getDataFromOracles(this.assetId);
 
                     if (logo) {

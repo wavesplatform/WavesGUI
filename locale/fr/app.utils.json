@@ -286,6 +286,12 @@
                 "warningText": "L'envoi de toute autre devise à cette adresse peut entraîner la perte de votre dépôt.",
                 "warningTitle": "Envoyez uniquement de l'ERGO à cette adresse de dépôt"
             },
+            "wavesGatewayETH": {
+                "warningMinAmountText": "Si vous envoyez moins de {{minAmount, BigNumber}} {{assetTicker}}, vous perdrez cet argent.",
+                "warningMinAmountTitle": "Le montant minimum du dépôt est de {{minAmount, BigNumber}} {{assetTicker}}, le montant maximum du dépôt est de {{maxAmount}} {{assetTicker}}",
+                "warningText": "Vérifiez si votre portefeuille ou votre plateforme d'échange utilise des smart-contracts pour retirer ETH. Nous n'acceptons pas de telles transactions et ne pouvons pas les rembourser. Vous perdrez cet argent.",
+                "warningTitle": "Ne déposez pas d'ETH à partir de smart-contracts ! Ne déposez pas de tokens ERC20 ! Seul Ethereum est autorisé."
+            },
             "wavesGatewayVST": {
                 "helpDescrText": "Une fois la transaction confirmée, le portail traitera le transfert de Vostok vers un jeton dans votre compte Waves.",
                 "helpDescrTitle": "Entrez cette adresse dans votre client ou portefeuille Vostok",
@@ -688,6 +694,7 @@
                 "backupPhrase": "Phrase de sauvegarde",
                 "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "SEED encodée",
+                "id": "Account ID",
                 "privateKey": "Clé privée",
                 "publicKey": "Clé publique",
                 "script": "Script",
@@ -701,6 +708,7 @@
         },
         "sign": {
             "article": "Article",
+            "buy": "Buy",
             "cancel": "Annuler",
             "cancelOrder": "Annuler l'ordre",
             "close": "Fermer",
@@ -735,6 +743,7 @@
             "request": "Requête",
             "requestId": "Requête de hachage",
             "retry": "Réessayer",
+            "sell": "Sell",
             "signByKeeper": "En attente de la confirmation de Waves Keeper...",
             "signByLedger": "En attente de la confirmation sur l'appareil Ledger",
             "signError": "La requête n'a pas été confirmée.",
@@ -742,6 +751,7 @@
             "signErrorText": "Vous n'avez pas confirmé la requête sur votre appareil Ledger",
             "signErrorTextImportKeeper": "Connectez-vous à Waves Keeper avec l'adresse {{address}}, puis rafraîchissez la page pour continuer.",
             "signErrorTextKeeper": "Veuillez réessayer. Si l'erreur persiste, veuillez créer un ticket pour [le support](https://support.wavesplatform.com/)",
+            "signErrorTextKeeperWrongUser": "This account does not match the selected account in your Waves Keeper. Please activate another account in Waves Keeper and try again.",
             "timestamp": "Timestamp",
             "txId": "TXID"
         },
@@ -931,7 +941,8 @@
                 "1_3_20": "{span.line}[1. Improved system for storing and restoring accounts from local storage (Need to update the [desktop application](https://wavesplatform.com/technology/wallet)).]\n{span.line}[2. Fixed rounding of prices in the orderbook.]",
                 "1_3_5": "{span.line}[1. Un onglet avec les jetons du concours [wsoc.io] (https://wsoc.io) a été ajouté.] \n {span.line}[2. Prise en charge de la langue française ajoutée.] \n {span.line}[3. Des bugs mineurs supplémentaires ont été corrigés.]",
                 "1_3_7": "{span.line}[1. Intégration avec [tokenrating.wavesexplorer.com] (https://tokenrating.wavesexplorer.com) Vous pouvez maintenant noter les jetons directement dans l'application.] \n {span.line}[2. Des bugs mineurs supplémentaires ont été corrigés.]",
-                "1_3_9": "{span.line}[1. Interface utilisateur améliorée et fonctionnalités des sections Échange et Portefeuille.] \n{span.line}[2. Des bugs mineurs supplémentaires ont été corrigés.]"
+                "1_3_9": "{span.line}[1. Interface utilisateur améliorée et fonctionnalités des sections Échange et Portefeuille.] \n{span.line}[2. Des bugs mineurs supplémentaires ont été corrigés.]",
+                "1_4_0": "{span.line}[Added ability for easy switching between  accounts within one wallet.]"
             },
             "title": "Quoi de neuf dans cette {{version}}"
         }

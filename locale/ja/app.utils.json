@@ -286,6 +286,12 @@
                 "warningText": "このアドレスに他の通貨を送信した場合、資産の消失につながる可能性があります。",
                 "warningTitle": "このデポジットアドレスにはERGOのみ送信してください"
             },
+            "wavesGatewayETH": {
+                "warningMinAmountText": "If you will send less than {{minAmount, BigNumber}} {{assetTicker}}, you will lose that money.",
+                "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}, the maximum amount of deposit is {{maxAmount}} {{assetTicker}}",
+                "warningText": "あなたのウォレットと取引所がスマートコントラクトを用いて、ETHを引出していないか、確認してください。私たちはそのような形式のトランザクションを受け入れておらず、返金することもできません。あなたはあなたの資金を失います。",
+                "warningTitle": "ETHをスマートコントラクトからデポジットしないでください。また、ERC20トークンもデポジットしないでください。"
+            },
             "wavesGatewayVST": {
                 "helpDescrText": "トランザクションが承認されると、ゲートウェイはVostokの送信を進め、あなたのWavesアカウントにトークンが反映されます。",
                 "helpDescrTitle": "このアドレスをVostokクライアント、またはウォレットに入力してください",
@@ -688,6 +694,7 @@
                 "backupPhrase": "バックアップフレーズ",
                 "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "エンコードされたシード",
+                "id": "Account ID",
                 "privateKey": "秘密鍵",
                 "publicKey": "公開鍵",
                 "script": "スクリプト",
@@ -701,6 +708,7 @@
         },
         "sign": {
             "article": "記事",
+            "buy": "Buy",
             "cancel": "キャンセル",
             "cancelOrder": "注文をキャンセル",
             "close": "閉じる",
@@ -735,6 +743,7 @@
             "request": "リクエスト",
             "requestId": "ハッシュをリクエスト",
             "retry": "リトライ",
+            "sell": "Sell",
             "signByKeeper": "Waves Keeperからの承認を待っています",
             "signByLedger": "Ledgerデバイスからの承認を待っています",
             "signError": "リクエストは未承認です。",
@@ -742,6 +751,7 @@
             "signErrorText": "あなたはLedgerデバイスでリクエストを承認しませんでした",
             "signErrorTextImportKeeper": "Waves Keeperに、アドレス : {{address}}でサインインし、\r\nページを再読込みして続ける。",
             "signErrorTextKeeper": "再度お試し下さい。問題が継続する場合、 [サポート](https://support.wavesplatform.com)で、サポートチケットを発行して下さい。",
+            "signErrorTextKeeperWrongUser": "This account does not match the selected account in your Waves Keeper. Please activate another account in Waves Keeper and try again.",
             "timestamp": "Timestamp",
             "txId": "TXID"
         },
@@ -931,7 +941,8 @@
                 "1_3_20": "{span.line}[1. Improved system for storing and restoring accounts from local storage (Need to update the [desktop application](https://wavesplatform.com/technology/wallet)).]\n{span.line}[2. Fixed rounding of prices in the orderbook.]",
                 "1_3_5": "{span.line}[1. [wsoc.io](https://wsoc.io) コンテスト用のトークンタブが追加されました。]{span.line}[2. フランス語に対応しました。]{span.line}[3. 一部のマイナーバグを修正しました。]",
                 "1_3_7": "{span.line}[1.[tokenrating.wavesexplorer.com](https://tokenrating.wavesexplorer.com) に対応。アプリから直接トークンのレーティングが可能に。]{span.line}[2. 追加のマイナーバグを修正しました。]",
-                "1_3_9": "{span.line}[1. 交換とウォレットセクションにおけるUIと機能の改善。]\n {span.line}[2. マイナーバグを修正。]"
+                "1_3_9": "{span.line}[1. 交換とウォレットセクションにおけるUIと機能の改善。]\n {span.line}[2. マイナーバグを修正。]",
+                "1_4_0": "{span.line}[Added ability for easy switching between  accounts within one wallet.]"
             },
             "title": "このアップデート {{version}} の新機能"
         }

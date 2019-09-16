@@ -169,6 +169,12 @@
       }
     }
 
+    &.show-accounts {
+      .mobile-menu__wrapper_inner.accounts-menu {
+        right: 0;
+      }
+    }
+
     &.show-downloads {
       .mobile-menu__wrapper_inner {
         right: 0;
@@ -177,6 +183,21 @@
 
     .mobile-menu__wrapper:not(.mobile-menu__wrapper_inner) {
       right: 0;
+    }
+  }
+
+  .icon-remove-user {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    background-size: 14px 14px;
+    background-position: center;
+
+    @media screen and (max-width: 860px) {
+      right: -3px;
     }
   }
 }

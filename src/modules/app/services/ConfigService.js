@@ -62,7 +62,8 @@
                             return JSON.parse(data);
                         }
                         return data;
-                    });
+                    })
+                    .catch(() => Promise.resolve(WavesApp.network.featuresConfig));
             }
 
             /**
@@ -72,7 +73,8 @@
             _getFeeConfig() {
                 return fetch(WavesApp.network.feeConfigUrl)
                     .then(WavesApp.parseJSON)
-                    .then(ConfigService._parseFeeConfig);
+                    .then(ConfigService._parseFeeConfig)
+                    .catch(() => Promise.resolve(WavesApp.network.feeConfig));
             }
 
             /**

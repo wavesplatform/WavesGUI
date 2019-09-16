@@ -286,6 +286,12 @@
                 "warningText": "Het versturen van elke andere currency naar dit adres kan resulteren in het verlies van uw storting.",
                 "warningTitle": "Stuur alleen ERGO naar dit stortingsadres"
             },
+            "wavesGatewayETH": {
+                "warningMinAmountText": "Als u minder dan {{minAmount, BigNumber}} {{assetTicker}} verstuurt, verliest u dat geld.",
+                "warningMinAmountTitle": "Het minimale stortingsbedrag is {{minAmount, BigNumber}} {{assetTicker}}, het maximale stortingsbedrag is {{maxAmount}} {{assetTicker}}",
+                "warningText": "Controleer of uw wallet of exchange smart-contracts gebruikt om ETH the withdrawen. Wij accepteren zulke transacties niet en kunnen dit niet terug betalen. U raakt op deze manier uw geld kwijt.",
+                "warningTitle": "Verstuur geen ETH vanuit smart contracts naar dit adres. Stort geen ERC20 tokens! Alleen Ethereum is toegestaan."
+            },
             "wavesGatewayVST": {
                 "helpDescrText": "Zodra de transactie bevestigd is zal de gateway de transactie behandelen en dit omzetten naar een Vostok token in uw Waves account.",
                 "helpDescrTitle": "Dit adres invoeren in uw Vostok-client of wallet",
@@ -477,7 +483,7 @@
             "remove": "Verwijderen",
             "text": "{div}[Het verwijderen van een account zal tot het onherstelbare verlies daarvan leiden indien u geen back-upfrase (SEED) heeft opgeslagen.]\n{div}[Klik on de knop VERWIJDEREN om verder te gaan met het verwijderen van het account, of druk op ANNULEREN om terug te keren naar het vorige scherm.]",
             "warning": "U heeft uw SEED niet opgeslagen",
-            "warningPlural": "You did not save your Seed phrases"
+            "warningPlural": "U heeft uw SEED niet opgeslagen"
         },
         "removeKeeperAccount": {
             "heading": "Verwijder Waves Keeper account",
@@ -686,8 +692,9 @@
             "security": {
                 "address": "Adres",
                 "backupPhrase": "Backup regel",
-                "base58Seed": "Encoded backup phrase",
+                "base58Seed": "Gecodeerde back-upzin",
                 "encodedSeed": "Gecodeerde seed",
+                "id": "Account ID",
                 "privateKey": "Privésleutel",
                 "publicKey": "Publieke sleutel",
                 "script": "Script",
@@ -701,6 +708,7 @@
         },
         "sign": {
             "article": "Artikel",
+            "buy": "Koop",
             "cancel": "Annuleren",
             "cancelOrder": "Annuleer de bestelling",
             "close": "Sluit",
@@ -735,6 +743,7 @@
             "request": "Verzoek",
             "requestId": "Verzoek hash",
             "retry": "Opnieuw proberen",
+            "sell": "Verkoop",
             "signByKeeper": "Wacht op bevestiging op Waves Keeper...",
             "signByLedger": "Wacht op bevestiging op Ledger…",
             "signError": "Het verzoek is niet bevestigd.",
@@ -742,6 +751,7 @@
             "signErrorText": "U hebt het verzoek op uw Ledger niet bevestigd",
             "signErrorTextImportKeeper": "Login met Waves Keeper met {{address}} adres, en ververs dan de pagina om door te gaan.",
             "signErrorTextKeeper": "Probeer alstublieft opnieuw. Als deze error aanhoudt maak dan een ticket op [Support](https://support.wavesplatform.com/)",
+            "signErrorTextKeeperWrongUser": "Dit account komt niet overeen met het geselecteerde account in uw Waves Keeper. Activeer een ander account in Waves Keeper en probeer het opnieuw.",
             "timestamp": "Tijdstempel",
             "txId": "TXID"
         },
@@ -931,7 +941,8 @@
                 "1_3_20": "{span.line}[1. Improved system for storing and restoring accounts from local storage (Need to update the [desktop application](https://wavesplatform.com/technology/wallet)).]\n{span.line}[2. Fixed rounding of prices in the orderbook.]",
                 "1_3_5": "{span.line}[1. A tab with [wsoc.io](https://wsoc.io) contest tokens has been added.]\n{span.line}[2. French language support added.]\n{span.line}[3. Additional minor bugs have been fixed.]",
                 "1_3_7": "{span.line}[1. Integration with [tokenrating.wavesexplorer.com](https://tokenrating.wavesexplorer.com) Now you can rate tokens directly in the app.]\n{span.line}[2. Additional minor bugs have been fixed.]",
-                "1_3_9": "{span.line}[1. Improved UI and functionality of Exchange and Wallet sections.]\n{span.line}[2. Additional minor bugs have been fixed.]"
+                "1_3_9": "{span.line}[1. Improved UI and functionality of Exchange and Wallet sections.]\n{span.line}[2. Additional minor bugs have been fixed.]",
+                "1_4_0": "{span.line}[Added ability for easy switching between  accounts within one wallet.]"
             },
             "title": "Wat is er nieuw in deze update {{version}}"
         }

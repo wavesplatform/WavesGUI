@@ -286,6 +286,12 @@
                 "warningText": "Inviare qualunque altra valuta a questo indirizzo potrebbe risultare in una perdita di quanto inviato.",
                 "warningTitle": "Invia esclusivamente ERGO a questo indirizzo"
             },
+            "wavesGatewayETH": {
+                "warningMinAmountText": "Inviando meno di {{minAmount, BigNumber}} {{assetTicker}}, l'importo trasferito andrà perduto.",
+                "warningMinAmountTitle": "L'importo minimo di deposito è di {{minAmount, BigNumber}} {{assetTicker}}, l'importo massimo di deposito è di {{maxAmount}} {{assetTicker}}",
+                "warningText": "Controlla se il tuo wallet o exchange utilizza smart contract per trasferire ETH. Non accettiamo questo tipo di transazioni e non ci sarà possibile rimborsarle. L'importo trasferito andrà perduto.",
+                "warningTitle": "Per favore, non inviare ETH da smart contracts! Non inviare token ERC20! Accettiamo esclusivamente Ethereum."
+            },
             "wavesGatewayVST": {
                 "helpDescrText": "Una volta che la transazione sarà confermata, il gateway processerà il trasferimento di Vostok in favore di un token nel tuo account Waves.",
                 "helpDescrTitle": "Inserisci questo indirizzo nel tuo client Vostok o nel tuo wallet",
@@ -688,6 +694,7 @@
                 "backupPhrase": "Frase di Backup",
                 "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "Seed codificato",
+                "id": "Account ID",
                 "privateKey": "Chiave Privata",
                 "publicKey": "Chiave Pubblica",
                 "script": "Script",
@@ -701,6 +708,7 @@
         },
         "sign": {
             "article": "articolo",
+            "buy": "Buy",
             "cancel": "Cancella",
             "cancelOrder": "Cancella l'ordine",
             "close": "Chiudi",
@@ -735,6 +743,7 @@
             "request": "richiesta",
             "requestId": "hash della richiesta",
             "retry": "Riprova",
+            "sell": "Sell",
             "signByKeeper": "In attesa di conferma sul Waves Keeper...",
             "signByLedger": "In attesa di conferma sul Ledger...",
             "signError": "La richiesta non è stata confermata.",
@@ -742,6 +751,7 @@
             "signErrorText": "Non hai confermato la richiesta sul tuo dispositivo Ledger",
             "signErrorTextImportKeeper": "Accedi al Waves Keeper con l'indirizzo {{address}}, dopodichè ricarica questa pagina per continuare.",
             "signErrorTextKeeper": "Riprovare. Se l'errore dovesse persistere, aprire un ticket sul [Supporto](https://support.wavesplatform.com/)",
+            "signErrorTextKeeperWrongUser": "This account does not match the selected account in your Waves Keeper. Please activate another account in Waves Keeper and try again.",
             "timestamp": "Timestamp",
             "txId": "TXID"
         },
@@ -931,7 +941,8 @@
                 "1_3_20": "{span.line}[1. Improved system for storing and restoring accounts from local storage (Need to update the [desktop application](https://wavesplatform.com/technology/wallet)).]\n{span.line}[2. Fixed rounding of prices in the orderbook.]",
                 "1_3_5": "{span.line}[1. Aggiunto il tab al concorso [wsoc.io](https://wsoc.io) tokens.]\n{span.line}[2. Aggiunto il supporto alla lingua Francese.]\n{span.line}[3. Risoluzione di bug minori.]",
                 "1_3_7": "{span.line} [1. Integrazione con [tokenrating.wavesexplorer.com] (https://tokenrating.wavesexplorer.com) Ora puoi valutare i token direttamente nell'app.] \n {span.line} [2. Sono stati corretti altri bug minori.]",
-                "1_3_9": "{span.line} [1. Miglioramento Interfaccia utente e funzionalità delle sezioni di Exchange e Wallet.] \n {span.line} [2. Correzione di altri bug minori.]"
+                "1_3_9": "{span.line} [1. Miglioramento Interfaccia utente e funzionalità delle sezioni di Exchange e Wallet.] \n {span.line} [2. Correzione di altri bug minori.]",
+                "1_4_0": "{span.line}[Added ability for easy switching between  accounts within one wallet.]"
             },
             "title": "Le novità della versione {{version}}"
         }
