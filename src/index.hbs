@@ -362,8 +362,14 @@
                     TRY: config.network.assets.TRY,
                     XMR: config.network.assets.XMR,
                     VST: config.network.assets.VST,
-                    ERGO: config.network.assets.ERGO
+                    ERGO: config.network.assets.ERGO,
+                    BNT: config.network.assets.BNT
                 },
+                rewriteAssets: [{
+                    id: config.network.assets.VST,
+                    name: 'VST',
+                    description: 'Waves Enterprise Platform System Token'
+                }],
                 tradingPairs: config.tradingPairs,
                 ALWAYS_PINNED_ASSETS: ['WAVES'],
                 WCTAsset: config.network.assets.WCT,
@@ -574,7 +580,7 @@
     </div>
 </div>
 
-<ui-view name="main"></ui-view>
+<ui-view name="main" class="ui-view ui-view_main"></ui-view>
 
 <div class="notifications">
     <w-container-alert-notification type="notification"></w-container-alert-notification>
@@ -601,10 +607,33 @@
             id: 'root',
             children: [
                 {
+                    id: 'signUp',
+                    data: {
+                        url: '/sign-up',
+                        noLogin: true,
+                        views: [{ name: 'main' }]
+                    }
+                },
+                {
                     id: 'signIn',
                     data: {
                         url: '/sign-in',
                         noLogin: true,
+                        views: [{ name: 'main' }]
+                    }
+                },
+                {
+                    id: 'switch',
+                    data: {
+                        url: '/switch',
+                        noLogin: true,
+                        views: [{ name: 'main' }]
+                    }
+                },
+                {
+                    id: 'migrate',
+                    data: {
+                        url: '/migrate?id',
                         views: [{ name: 'main' }]
                     }
                 },
@@ -627,7 +656,6 @@
                     id: 'saveSeed',
                     data: {
                         url: '/save-seed',
-                        noLogin: true,
                         views: [{ name: 'main' }]
                     }
                 },
@@ -641,7 +669,6 @@
                 {
                     id: 'create',
                     data: {
-                        noLogin: true,
                         views: [{ name: 'main' }]
                     }
                 },
@@ -649,7 +676,6 @@
                     id: 'restore',
                     data: {
                         url: '/import/restore',
-                        noLogin: true,
                         views: [{ name: 'main' }]
                     }
                 },
@@ -657,7 +683,6 @@
                     id: 'ledger',
                     data: {
                         url: '/import/ledger',
-                        noLogin: true,
                         views: [{ name: 'main' }]
                     }
                 },
@@ -665,14 +690,12 @@
                     id: 'keeper',
                     data: {
                         url: '/import/waveskeeper',
-                        noLogin: true,
                         views: [{ name: 'main' }]
                     }
                 },
                 {
                     id: 'import',
                     data: {
-                        noLogin: true,
                         views: [{ name: 'main' }]
                     }
                 },
@@ -703,7 +726,7 @@
                                 views: [{
                                     name: 'mainContent',
                                     noController: true,
-                                    template: '<ui-view name="content"></ui-view>'
+                                    template: '<ui-view name="content" class="ui-view"></ui-view>'
                                 }],
                                 redirectTo: 'main.wallet.assets'
                             },

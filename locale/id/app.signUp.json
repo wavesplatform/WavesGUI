@@ -1,0 +1,16 @@
+{
+    "signUp": {
+        "headers": {
+            "onePassBtn": "Ayo mulai!",
+            "onePassDesc": "Penyimpanan data lokal, frasa SEED, dan enkripsi membuat WAVES DEX terpercaya. Namun, kami melangkah lebih jauh. Saatnya untuk beralih ke tingkat keamanan baru. Masuk ke akun Anda dan beralih di antara mereka dengan beberapa ketukan.",
+            "onePassword": "Satu kata sandi untuk semua akun Anda",
+            "protect": "Lindungi Akun Anda",
+            "protectDesc": "Tetapkan satu kata sandi untuk semua akun Anda",
+            "protectPass": "buat kata sandi"
+        },
+        "password": {
+            "notMatch": "Kata sandi tidak cocok"
+        },
+        "termsAgreement": "I have read and agree with the [Terms and Conditions](https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf), [Privacy Policy](https://wavesplatform.com/files/docs/Waves_privacy_policy.pdf)."
+    }
+}

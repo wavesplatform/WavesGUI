@@ -1,0 +1,94 @@
+{
+    "back": "Torna alla pagina principale",
+    "button": {
+        "cancel": "Cancella",
+        "continue": "Continua"
+    },
+    "confirmTransaction": {
+        "notPermitted": {
+            "issue": "L'emissione di token è temporaneamente non disponibile",
+            "issue-title": "Generazione token",
+            "massSendTitle": "Invio massivo",
+            "reissue": "La riemissione di token è temporaneamente non disponibile",
+            "sendTitle": "Invia",
+            "set-script-title": "Script transazione"
+        },
+        "send": {
+            "errors": {
+                "fee": "Non hai fondi sufficienti al pagamento delle commissioni obbligatorie. Devi pagare {{fee, money-currency}} di costi di commissione;"
+            }
+        }
+    },
+    "date": {
+        "month": [
+            "Gen",
+            "Feb",
+            "Mar",
+            "Apr",
+            "Mag",
+            "Giu",
+            "Lug",
+            "Ago",
+            "Set",
+            "Ott",
+            "Nov",
+            "Dic"
+        ]
+    },
+    "EXK2jJo1PbL9CUNr5FSedw6cueZH5MUCDXNhR1WQEZa4": {
+        "description": "Aloha funky coin, for any good&evil purposes ;)"
+    },
+    "fee": "{{money, money-fee}}",
+    "header": {
+        "assets": "Assets",
+        "dex": "DEX",
+        "leasing": "Prestiti",
+        "portfolio": "Portafoglio",
+        "tokens": "Tokens",
+        "transactions": "Transazioni",
+        "wallet": "Wallet"
+    },
+    "inputs": {
+        "errors": {
+            "required": "Questo campo è obbligatorio!"
+        }
+    },
+    "leftmenu": {
+        "login": "Log in",
+        "logout": "Log out",
+        "settings": "Impostazioni"
+    },
+    "matcher": {
+        "orders": {
+            "statuses": {
+                "canceled": "Cancellato",
+                "filled": "Completato ({{percent}}%)",
+                "opened": "Aperto"
+            }
+        }
+    },
+    "modal": {
+        "enterPassword": {
+            "ok": "OK",
+            "title": "Inserisci la Password"
+        },
+        "pairing": {
+            "showQr": "Mostra"
+        },
+        "tryDesktop": {
+            "cancel": "Continua sul web",
+            "label": "Ricorda la mia scelta e non ricordarmelo nuovamente",
+            "message": "Ti consigliamo vivamente di usare l'app desktop ufficiale di Waves. In caso ancora non l'avessi fatto, puoi scaricarla dal sito ufficiale.",
+            "title": "Usa l'app desktop ufficiale di Waves",
+            "try": "Apri l'app desktop"
+        }
+    },
+    "money-currency": "{{money, money-currency}}",
+    "number": {
+        "short": {
+            "million": "M",
+            "thousand": "k"
+        }
+    },
+    "Suspicious": "Sospetto"
+}

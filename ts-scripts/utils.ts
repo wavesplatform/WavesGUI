@@ -1,9 +1,9 @@
 import { getType } from 'mime';
 import { exec, spawn } from 'child_process';
-import { existsSync, readdirSync, readFileSync, statSync, unlink, exists } from 'fs';
+import { readdirSync, readFileSync, statSync, unlink } from 'fs';
 import { join, relative, extname, dirname } from 'path';
 import { IPackageJSON, IMetaJSON, TBuild, TConnection, TPlatform, IConfItem } from './interface';
-import { readFile, readJSON, readJSONSync, createWriteStream, mkdirpSync, copy } from 'fs-extra';
+import { readFile, readJSON, readJSONSync, createWriteStream, mkdirp } from 'fs-extra';
 import { compile } from 'handlebars';
 import { transform } from 'babel-core';
 import { render } from 'less';
@@ -158,8 +158,9 @@ export function getScripts(param: IPrepareHTMLOptions, pack, meta) {
         const sourceFiles = getFilesFrom(join(__dirname, '../src'), '.js', function (name, path) {
             return !name.includes('.spec') && !path.includes('/test/');
         });
+        const sentryScripts = meta.vendorsNotWrapped.map((i) => join(__dirname, '..', i));
         const cacheKiller = `?v${pack.version}`;
-        scripts = meta.vendors.map((i) => join(__dirname, '..', i)).concat(sourceFiles);
+        scripts = meta.vendors.map((i) => join(__dirname, '..', i)).concat(sentryScripts).concat(sourceFiles);
         meta.debugInjections.forEach((path) => {
             scripts.unshift(join(__dirname, '../', path));
         });
@@ -251,30 +252,6 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
     return Promise.all([pFile, pConfig]).then(([file, config]) => compile(file)(config));
 }
 
-export function download(url: string, filePath: string): Promise<void> {
-    return new Promise<void>((resolve) => {
-
-        const cachePath = join(process.cwd(), '.cache-download', filePath.replace(process.cwd(), ''));
-        if (existsSync(cachePath)) {
-            copy(cachePath, filePath).then(resolve);
-        } else {
-
-            try {
-                mkdirpSync(dirname(filePath));
-            } catch (e) {
-                console.log(e);
-            }
-
-            const file = createWriteStream(filePath);
-
-            get(url, (response) => {
-                response.pipe(file);
-                response.on('end', () => copy(filePath, cachePath).then(resolve));
-            });
-        }
-    });
-}
-
 export function parseArguments<T>(): T {
     const result = Object.create(null);
     process.argv.forEach((argument) => {
@@ -290,7 +267,36 @@ export function parseArguments<T>(): T {
     return result;
 }
 
-export async function getInitScript(connectionType: TConnection, type: TPlatform, paramsIn?: IPrepareHTMLOptions) {
+export function getJSON(url: string): Promise<unknown> {
+    return new Promise((resolve, reject) => {
+        get(url, (res: IncomingMessage) => {
+            let data = '';
+
+            res.on('data', chunk => {
+                data += chunk;
+            });
+
+            res.on('end', () => {
+                try {
+                    resolve(JSON.parse(data));
+                } catch (e) {
+                    reject(e);
+                }
+            });
+
+            res.on('error', error => {
+                reject(error);
+            });
+        });
+    });
+}
+
+export async function getInitScript(
+    connectionType: TConnection,
+    type: TPlatform,
+    paramsIn?: IPrepareHTMLOptions,
+    fallbackConfigs?: boolean
+) {
     const params = paramsIn || {
         target: join(__dirname, '..', 'src'),
         connection: connectionType,
@@ -298,6 +304,11 @@ export async function getInitScript(connectionType: TConnection, type: TPlatform
     };
 
     const config = await getBuildParams(params);
+
+    if (fallbackConfigs) {
+        config.network.featuresConfig = await getJSON(config.network.featuresConfigUrl);
+        config.network.feeConfig = await getJSON(config.network.feeConfigUrl);
+    }
 
     function initConfig(config) {
         var global = (window) as any;
@@ -391,7 +402,7 @@ export async function getInitScript(connectionType: TConnection, type: TPlatform
                     var analytics = require('@waves/event-sender');
 
                     analytics.addApi({
-                        apiToken: '7a280fdf83a5efc5b8dfd52fc89de3d7',
+                        apiToken: config._isProduction() ? '7a280fdf83a5efc5b8dfd52fc89de3d7' : '56bc30688ef3d7127feaa8f0dc2e5fc0',
                         libraryUrl: location.origin + '/amplitude.js',
                         initializeMethod: 'amplitudeInit',
                         sendMethod: 'amplitudePushEvent',
@@ -399,7 +410,7 @@ export async function getInitScript(connectionType: TConnection, type: TPlatform
                     });
 
                     analytics.addApi({
-                        apiToken: 'UA-75283398-20',
+                        apiToken: config._isProduction() ? 'UA-75283398-20' : 'UA-75283398-21',
                         libraryUrl: location.origin + '/googleAnalytics.js',
                         initializeMethod: 'gaInit',
                         sendMethod: 'gaPushEvent',
@@ -513,10 +524,27 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
         if (buildType !== 'development') {
             if (isPage(req.url)) {
                 const path = join(__dirname, '..', 'dist', type, connectionType, 'index.html');
+
                 return readFile(path, 'utf8').then((file) => {
                     res.end(file);
+                }).catch(e => {
+                    if (e.code === 'ENOENT') {
+                        const cookie = serialize('session', '', {
+                            expires: new Date(),
+                            path: '/'
+                        });
+
+                        res.statusCode = 302;
+                        res.setHeader('Location', '/');
+                        res.setHeader('Set-Cookie', cookie);
+                    } else {
+                        res.statusCode = 500;
+                    }
+
+                    res.end();
                 });
             }
+
             return routeStatic(req, res, connectionType, buildType, type);
         } else {
             if (buildType === 'development' && req.url.includes('init.js')) {
@@ -547,39 +575,21 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
                 .replace('.json', '')
                 .split('/');
 
-            const localePath = join(process.cwd(), '.cache-download', 'locale');
-            const cachePath = join(localePath, lang, `${ns}.json`);
+            const localePath = join(process.cwd(), 'locale', lang, `${ns}.json`);
 
-            const isModified = path => {
-                const { mtime } = statSync(path);
-                const dateNow = new Date();
-                return (dateNow.getTime() - mtime.getTime()) > 60 * 10000;
-            };
-
-            if (existsSync(cachePath)) {
-                if (isModified(cachePath) && lang === 'ru' && ns === 'app') {
-                    loadLocales(localePath)
-                        .then(() => {
-                            const data = readFileSync(cachePath);
-                            res.end(data);
-                        })
-                        .catch(error => {
-                            res.statusCode = 404;
-                            res.end(error);
-                        });
-                } else {
-                    const data = readFileSync(cachePath);
-                    res.end(data);
+            readFile(localePath, (err, data) => {
+                if (err) {
+                    res.statusCode = 404;
+                    res.end('Not found!');
                 }
 
-            } else {
-                res.statusCode = 404;
-                res.end('Not found!');
-            }
+                res.end(data);
+            });
+
             return null;
         }
 
-        if (url.indexOf('export') !== -1) {
+        if (url.indexOf('/export.html') !== -1) {
             prepareExport().then((file) => {
                 res.end(file);
             });
@@ -807,16 +817,15 @@ function routeStatic(req, res, connectionType: TConnection, buildType: TBuild, p
     stat(req, res, ROOTS);
 }
 
-export function loadLocales(path: string, options?: object) {
+export function loadLocales(path: string, options?: object): Promise<void> {
     const postOptions = {
         method: 'POST',
         hostname: 'api.lokalise.co',
         path: '/api2/projects/389876335c7d2c119edf16.76978095/files/download',
-        headers:
-            {
-                'x-api-token': '3ffba358636086e35054412e37db76d933cfe3b5',
-                'content-type': 'application/json'
-            }
+        headers: {
+            'x-api-token': '3ffba358636086e35054412e37db76d933cfe3b5',
+            'content-type': 'application/json'
+        }
     };
 
     const dataOptions = {
@@ -829,48 +838,44 @@ export function loadLocales(path: string, options?: object) {
         ...options
     };
 
-    const zipName = `locale.zip`;
-    const filePath = join(path, zipName);
+    const cachePath = join(process.cwd(), '.cache-download');
+    const zipPath = join(cachePath, 'locale.zip');
 
-    const loadAndExtract = () => {
-        return new Promise((resolve, reject) => {
-            const req = request(postOptions, response => {
-                response.on('data', (data: string) => {
-                    const file = createWriteStream(filePath);
-                    const url = JSON.parse(data).bundle_url;
+    return mkdirp(dirname(cachePath))
+        .then(() => {
+            return new Promise((resolve, reject) => {
+                const req = request(postOptions, response => {
+                    response.on('data', (data: string) => {
+                        const file = createWriteStream(zipPath);
+                        const url = JSON.parse(data).bundle_url;
 
-                    get(url, (response) => {
-                        response.pipe(file);
-                        response.on('end', () => {
-                            extract(filePath, { dir: `${path}/` }, error => {
-                                if (error) {
-                                    reject(error);
-                                }
-                                resolve();
+                        get(url, (res) => {
+                            res.pipe(file);
+                            res.on('end', () => {
+                                console.log(zipPath)
+                                extract(zipPath, { dir: `${path}/` }, error => {
+                                    if (error) {
+                                        reject(error);
+                                    }
+                                    resolve();
+                                });
+                            });
+                            res.on('error', (err) => {
+                                reject(err);
                             });
                         });
-                        response.on('error', (err) => {
-                            console.log('err', err)
-                            reject(err);
-                        });
                     });
-
                 });
+
+                req.on('error', error => {
+                    reject(error);
+                });
+
+                req.end(JSON.stringify(dataOptions));
             });
-
-            req.on('error', error => {
-                reject(error);
-            });
-
-            req.write(JSON.stringify(dataOptions));
-
-            req.end();
-        });
-    };
-
-    return loadAndExtract()
+        })
         .then(() => {
-            unlink(filePath, error => {
+            unlink(zipPath, error => {
                 if (error) {
                     console.log('ERROR', error);
                 }

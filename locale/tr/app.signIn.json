@@ -1,0 +1,37 @@
+{
+    "createAccount": "Hesap oluştur",
+    "notHaveAccounts": "Kayıtlı hesabınız yok",
+    "nothingHere": "Burada hiçbir şey yok!",
+    "password": {
+        "error": "Hatalı Parola!"
+    },
+    "signIn": {
+        "btn": {
+            "cancel": "Cancel",
+            "restore": "Reset all"
+        },
+        "enterPass": "Please enter your password to continue",
+        "passForgot": {
+            "attention": "Attention!",
+            "description": "To recover the password, you need to reset all accounts, set a new password, import each account from the Seed phrase or via Private key.",
+            "importantDesc": "If you have not saved the Seed phrase or Private key, then you will not be able to recover access to your account."
+        },
+        "password": {
+            "forgot": "Forgot your password?"
+        },
+        "signIn": "Sign in",
+        "welcomeBack": "Welcome Back!"
+    },
+    "userList": {
+        "address": "Adres / hesap adı",
+        "buttons": {
+            "login": "Giriş Yap"
+        },
+        "notHaveAccount": "Devam etmek için giriş yapın",
+        "password": "Parola",
+        "placeholders": {
+            "password": "Parola"
+        },
+        "title": "Hoşgeldiniz"
+    }
+}

@@ -13,11 +13,15 @@
 
         class DefaultSettings {
 
-            constructor(settings) {
+            constructor(settings, commonSettings) {
                 /**
                  * @private
                  */
-                this.settings = settings;
+                this.commonSettings = commonSettings || Object.create(null);
+                /**
+                 * @private
+                 */
+                this.settings = settings || Object.create(null);
                 /**
                  * @type {Signal}
                  */
@@ -25,28 +29,33 @@
                 /**
                  * @private
                  */
-                this.defaults = {
+                this.commonDefaults = {
+                    lng: 'en',
+                    theme: 'default',
                     advancedMode: false,
-                    network: WavesApp.network,
                     lastOpenVersion: '',
                     whatsNewList: [],
-                    closedNotification: [],
+                    network: WavesApp.network,
+                    oracleWaves: WavesApp.oracles.waves,
                     dontShowSpam: true,
+                    logoutAfterMin: 5,
+                    termsAccepted: true,
+                    needReadNewTerms: false,
+                    closedNotification: [],
                     withScam: false,
                     scamListUrl: WavesApp.network.scamListUrl,
                     tokensNameListUrl: WavesApp.network.tokensNameListUrl,
-                    logoutAfterMin: 5,
-                    encryptionRounds: 5000,
-                    savePassword: true,
-                    hasBackup: true,
-                    termsAccepted: true,
                     tradeWithScriptAssets: false,
-                    needReadNewTerms: false,
-                    lastInterval: WavesApp.dex.defaultResolution,
                     baseAssetId: WavesApp.defaultAssets.USD,
-                    oracleWaves: WavesApp.oracles.waves,
-                    events: Object.create(null),
-                    lng: 'en',
+                    events: Object.create(null)
+                };
+                /**
+                 * @private
+                 */
+                this.defaults = {
+                    encryptionRounds: 5000,
+                    hasBackup: true,
+                    lastInterval: WavesApp.dex.defaultResolution,
                     send: {
                         defaultTab: 'singleSend'
                     },
@@ -65,7 +74,8 @@
                         WavesApp.defaultAssets.DASH,
                         WavesApp.defaultAssets.XMR,
                         WavesApp.defaultAssets.VST,
-                        WavesApp.defaultAssets.ERGO
+                        WavesApp.defaultAssets.ERGO,
+                        WavesApp.defaultAssets.BNT
                     ],
                     wallet: {
                         activeState: 'assets',
@@ -121,24 +131,56 @@
             }
 
             get(path) {
-                const setting = tsUtils.get(this.settings, path);
-                return tsUtils.isEmpty(setting) ? tsUtils.get(this.defaults, path) : setting;
+                const valueCommon = tsUtils.get(this.commonSettings, path);
+
+                if (tsUtils.isEmpty(valueCommon)) {
+                    const defaultCommonValue = tsUtils.get(this.commonDefaults, path);
+
+                    if (tsUtils.isEmpty(defaultCommonValue)) {
+                        const value = tsUtils.get(this.settings, path);
+
+                        if (tsUtils.isEmpty(value)) {
+                            return tsUtils.get(this.defaults, path);
+                        } else {
+                            return value;
+                        }
+                    } else {
+                        return defaultCommonValue;
+                    }
+                } else {
+                    return valueCommon;
+                }
             }
 
             set(path, value) {
                 if (utils.isEqual(this.get(path), value)) {
                     return null;
                 }
-                if (utils.isEqual(tsUtils.get(this.defaults, path), value)) {
+
+                if (tsUtils.isEmpty(tsUtils.get(this.defaults, path))) {
+                    if (utils.isEqual(tsUtils.get(this.commonDefaults, path), value)) {
+                        tsUtils.unset(this.commonSettings, path);
+                    } else {
+                        tsUtils.set(this.commonSettings, path, value);
+                    }
+                } else if (utils.isEqual(tsUtils.get(this.defaults, path), value)) {
                     tsUtils.unset(this.settings, path);
                 } else {
                     tsUtils.set(this.settings, path, value);
                 }
+
                 this.change.dispatch(path);
             }
 
+            setCommonSettings(commonSettings) {
+                this.commonSettings = commonSettings;
+            }
+
             getSettings() {
-                return this.settings;
+                return {
+                    common: this.commonSettings,
+                    settings: this.settings
+                };
             }
 
         }
@@ -147,10 +189,11 @@
             /**
              * @name app.defaultSettings#create
              * @param {object} settings
+             * @param {object} commonSettings
              * @return {DefaultSettings}
              */
-            create(settings) {
-                return new DefaultSettings(settings);
+            create(settings, commonSettings) {
+                return new DefaultSettings(settings, commonSettings);
             }
         };
     };

@@ -2,8 +2,9 @@
     'use strict';
 
     /**
-     * @param Base
-     * @param {$rootScope.Scope} $scope
+     * @param {typeof Base} Base
+     * @param {ng.IScope} $scope
+     * @param {User} user
      * @return {ImportCtrl}
      */
     const controller = function (Base, $scope, user) {

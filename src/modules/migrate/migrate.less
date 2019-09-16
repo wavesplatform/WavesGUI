@@ -1,0 +1,79 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+@import (reference) "../app/less/app-icons";
+@import (reference) '../app/less/typography';
+
+.migrate {
+  &__account {
+    width: 400px;
+    height: 54px;
+    padding: 8px 20px;
+    display: flex;
+    align-items: center;
+    border-radius: @border-radius;
+    background: @color-white;
+    box-shadow: 0 1px 4px 0 rgba(58,78,136,.1);
+    cursor: pointer;
+    margin-bottom: 10px;
+
+    @media screen and (max-width: 860px) {
+      width: 100%;
+      height: 42px;
+      padding: 5px 12px;
+    }
+
+    &-info {
+      flex: 1;
+    }
+
+    &-address {
+      color: @color-basic-500;
+    }
+  }
+
+  &__avatar {
+    display: block;
+
+    @media screen and (max-width: 860px) {
+      transform: scale(.85);
+    }
+    
+    &-container {
+      height: 30px;
+      width: 30px;
+      margin-right: 10px;
+    }
+  }
+
+  &__icon {
+    &-lock {
+      background-image: @migrate-lock-icon;
+    }
+
+    &-unlock {
+      background-image: @migrate-success-icon;
+    }
+  }
+
+  &__subtitle {
+    margin-bottom: 5px;
+    color: @color-basic-700;
+  }
+
+  &__list_unlocked {
+    .migrate__account {
+      background: transparent;
+      border: 1px solid @color-basic-200;
+      box-shadow: none;
+      cursor: default;
+    }
+
+    .migrate__subtitle {
+      margin-top: -10px;
+
+      @media screen and (max-width: 860px) {
+        margin-top: 0;
+      }      
+    }
+  }
+}

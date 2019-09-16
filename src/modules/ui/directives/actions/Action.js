@@ -1,12 +1,12 @@
 (function () {
     'use strict';
 
-    angular.module('app.ui').component('wAction', {
+    angular.module('app.ui').component('wActionItem', {
         require: {
             parent: '^wActions'
         },
         scope: false,
-        template: '<div class="action disabled-900 body-2" ng-click="$ctrl.parent.onClick()" ng-transclude></div>',
+        templateUrl: 'modules/ui/directives/actions/action-item.html',
         transclude: true
     });
 })();

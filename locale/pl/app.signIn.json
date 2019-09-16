@@ -1,0 +1,37 @@
+{
+    "createAccount": "Utwórz konto",
+    "notHaveAccounts": "Nie masz zapisanych kont",
+    "nothingHere": "Nic tutaj…",
+    "password": {
+        "error": "Złe hasło!"
+    },
+    "signIn": {
+        "btn": {
+            "cancel": "Anuluj",
+            "restore": "Reset all"
+        },
+        "enterPass": "Wprowadź swoje hasło, aby kontynuować.",
+        "passForgot": {
+            "attention": "Uwaga!",
+            "description": "Jeśli zapomnisz hasła, musisz przywrócić wszystkie konta z ich SEED i ustawić nowe hasło.",
+            "importantDesc": "If you have not saved the Seed phrase or Private key, then you will not be able to recover access to your account."
+        },
+        "password": {
+            "forgot": "Zapomniałeś swoje hasło?"
+        },
+        "signIn": "Zaloguj się",
+        "welcomeBack": "Witamy z powrotem!"
+    },
+    "userList": {
+        "address": "Adres / Nazwa konta",
+        "buttons": {
+            "login": "Zaloguj się"
+        },
+        "notHaveAccount": "Zaloguj się, aby kontynuować",
+        "password": "Hasło",
+        "placeholders": {
+            "password": "Hasło"
+        },
+        "title": "Witaj z powrotem"
+    }
+}

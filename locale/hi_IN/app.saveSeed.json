@@ -1,0 +1,27 @@
+{
+    "continue": "जारी रहना",
+    "copy": "Copy",
+    "copySeed": "Copy Seed phrase",
+    "createAccount": "Create account",
+    "goBack": "go back",
+    "notHaveAccounts": "You do not have saved accounts",
+    "nothingHere": "यहां कुछ नहीं...",
+    "password": {
+        "error": "गलत पासवर्ड!"
+    },
+    "userList": {
+        "address": "एड्रेस/खाता नाम",
+        "buttons": {
+            "login": "लॉग इन"
+        },
+        "exportUser": "Export your account",
+        "notHaveAccount": "Please sign in to continue",
+        "password": "पासवर्ड",
+        "placeholders": {
+            "password": "पासवर्ड"
+        },
+        "title": "साइन इन करें"
+    },
+    "warn": "Since only you control your money, you’ll need to save your Seed phrase in case this app is deleted or",
+    "yourSeed": "Your Seed phrase"
+}

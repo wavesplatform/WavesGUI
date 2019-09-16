@@ -10,9 +10,11 @@
      * @param {$injector} $injector
      * @param {State} state
      * @param {Storage} storage
+     * @param {User} user
      * @return {ModalManager}
      */
-    const factory = function ($mdDialog, utils, decorators, $templateRequest, $rootScope, $injector, state, storage) {
+    const factory = function ($mdDialog, utils, decorators, $templateRequest, $rootScope, $injector, state, storage,
+                              user) {
 
         const tsUtils = require('ts-utils');
         const ds = require('data-service');
@@ -50,13 +52,8 @@
                  */
                 this._counter = 0;
 
-                state.signals.changeRouterStateStart.on(() => {
-                    const counter = this._counter;
-
-                    for (let i = 0; i < counter; i++) {
-                        $mdDialog.cancel();
-                    }
-                });
+                state.signals.changeRouterStateStart.on(this.closeModals, this);
+                user.logoutSignal.on(this.closeModals, this);
             }
 
             showScriptModal() {
@@ -65,6 +62,31 @@
                     contentUrl: 'modules/utils/modals/script/script.html',
                     controller: 'ScriptModalCtrl',
                     title: 'modal.script.setScript'
+                });
+            }
+
+            showPasswordModal() {
+                return this._getModal({
+                    id: 'password-modal',
+                    contentUrl: 'modules/utils/modals/password/password.html',
+                    controller: 'PasswordModalCtrl',
+                    title: 'modal.settings.changePass'
+                });
+            }
+
+            showForgotPasswordModal() {
+                return this._getModal({
+                    id: 'forgot-password-modal',
+                    contentUrl: 'modules/utils/modals/forgot-password/forgot-password.html',
+                    controller: 'ForgotPasswordModalCtrl'
+                });
+            }
+
+            showDeleteAccountModal() {
+                return this._getModal({
+                    id: 'delete-account-modal',
+                    contentUrl: 'modules/utils/modals/delete-account/delete-account.html',
+                    controller: 'DeleteAccountModalCtrl'
                 });
             }
 
@@ -171,7 +193,7 @@
                     contentUrl: 'modules/utils/modals/assetInfo/assetInfo.html',
                     locals: asset,
                     controller: 'AssetInfoCtrl',
-                    mod: 'asset-info-modal'
+                    mod: 'm-dialog m-dialog_asset-info'
                 });
             }
 
@@ -186,30 +208,6 @@
                 });
             }
 
-            showTermsAccept() {
-                /**
-                 * @type {User}
-                 */
-                const user = $injector.get('user');
-
-                analytics.send({
-                    name: 'Create Done Show', params: { hasBackup: user.getSetting('hasBackup') }
-                });
-
-                return this._getModal({
-                    id: 'terms-accept',
-                    templateUrl: 'modules/utils/modals/termsAccept/terms-accept.html',
-                    controller: 'TermsAcceptCtrl',
-                    clickOutsideToClose: false,
-                    escapeToClose: false
-                })
-                    .then(() => {
-                        analytics.send({ name: 'Create Done Confirm and Begin Click' });
-                        storage.save('needReadNewTerms', false);
-                        storage.save('termsAccepted', true);
-                    });
-            }
-
             showAcceptNewTerms() {
                 return this._getModal({
                     id: 'accept-new-terms',
@@ -217,18 +215,21 @@
                     controller: 'AcceptNewTermsCtrl',
                     clickOutsideToClose: false,
                     escapeToClose: false
-                })
-                    .then(() => {
-                        storage.save('needReadNewTerms', false);
-                        storage.save('termsAccepted', true);
-                    });
+                }).then(() => {
+                    storage.save('needReadNewTerms', false);
+                });
             }
 
             showTutorialModals() {
-                return this._getModal({
-                    id: 'tutorial-modals',
-                    templateUrl: 'modules/utils/modals/tutorialModals/tutorialModals.html',
-                    controller: 'TutorialModalsCtrl'
+                return user.getMultiAccountUsers().then(users => {
+                    return this._getModal({
+                        id: 'tutorial-modals',
+                        templateUrl: 'modules/utils/modals/tutorialModals/tutorialModals.html',
+                        controller: 'TutorialModalsCtrl',
+                        locals: {
+                            hasAccounts: users.length > 0
+                        }
+                    });
                 });
             }
 
@@ -267,6 +268,22 @@
                     locals: {
                         assets
                     }
+                });
+            }
+
+            showAccountChangeName() {
+                return this._getModal({
+                    id: 'changeName',
+                    templateUrl: 'modules/utils/modals/changeName/changeName.html',
+                    controller: 'ChangeNameCtrl'
+                });
+            }
+
+            showAccountAddress() {
+                return this._getModal({
+                    id: 'addressInfo',
+                    templateUrl: 'modules/utils/modals/addressInfo/addressInfo.html',
+                    controller: 'AddressInfoCtrl'
                 });
             }
 
@@ -544,6 +561,14 @@
                 return this._getModal(tsUtils.merge({}, DEFAULT_OPTIONS, options));
             }
 
+            closeModals() {
+                const counter = this._counter;
+
+                for (let i = 0; i < counter; i++) {
+                    $mdDialog.cancel();
+                }
+            }
+
             /**
              * @return {User}
              * @private
@@ -782,7 +807,8 @@
         '$rootScope',
         '$injector',
         'state',
-        'storage'];
+        'storage',
+        'user'];
 
     angular.module('app.utils')
         .factory('modalManager', factory);

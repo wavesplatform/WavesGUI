@@ -50,7 +50,10 @@
              * @type {boolean}
              */
             hideId = false;
-
+            /**
+             * @type {number}
+             */
+            keeperError = 0
 
             constructor() {
                 super();
@@ -61,15 +64,20 @@
             trySign() {
                 this.signError = false;
                 this.signPending = true;
-
+                this.keeperError = 0;
                 return this.signable.addMyProof()
                     .then(signature => {
                         this.signPending = false;
                         this.onSuccess({ signature });
                     })
-                    .catch(() => {
+                    .catch((e) => {
                         this.signPending = false;
                         this.signError = true;
+
+                        if (this.isKeeper && e && e.code === 5 && e.msg.includes('another active account')) {
+                            this.keeperError = 1;
+                        }
+
                     })
                     .then(() => {
                         $scope.$apply();

@@ -1,0 +1,16 @@
+{
+    "signUp": {
+        "headers": {
+            "onePassBtn": "开始吧！",
+            "onePassDesc": "本地数据存储，种子短语和加密使WAVES DEX可靠。但是，我们正在走得更远。是时候开启新的安全级别了。登录您的帐户并通过几次点击在它们之间切换。",
+            "onePassword": "为您的所有帐户设置一个密码",
+            "protect": "保护您的帐户",
+            "protectDesc": "为您的所有帐户设置一个密码",
+            "protectPass": "创建一个密码"
+        },
+        "password": {
+            "notMatch": "密码不匹配"
+        },
+        "termsAgreement": "我已阅读并同意[条款和条件]（https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf），[隐私政策]（https://wavesplatform.com/files/docs/Waves_privacy_policy.pdf ）。"
+    }
+}

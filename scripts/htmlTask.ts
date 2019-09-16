@@ -13,6 +13,7 @@ function getScriptsList(input: string) {
 
     return [
         filesMap['vendors'],
+        filesMap['not-wrapped-vendors'],
         filesMap['bundle'],
         filesMap['templates']
     ];
@@ -49,7 +50,7 @@ export function createHtmlTask(params: IPrepareHTMLOptions): TaskFunction {
 
         return Promise.all([
             prepareHTML(params),
-            getInitScript(null, null, params),
+            getInitScript(null, null, params, true),
             prepareExport()
         ]).then(([file, initScript, exportTemplate]) => Promise.all([
             outputFile(`${params.target}/index.html`, file),

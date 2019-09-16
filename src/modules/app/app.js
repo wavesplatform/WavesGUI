@@ -75,7 +75,7 @@
                             try {
                                 return originalPostLink.apply(instance, args);
                             } catch (e) {
-                                return onError();
+                                return onError(e);
                             }
                         };
                     }
@@ -97,13 +97,15 @@
         'ngMaterial',
         'ui.router',
         'ui.router.state.events',
-        'n3-line-chart',
 
         'app.templates',
         'app.utils',
         'app.ui',
         'app.welcome',
+        'app.signUp',
         'app.signIn',
+        'app.migrate',
+        'app.switch',
         'app.create',
         'app.restore',
         'app.saveSeed',
