@@ -188,6 +188,7 @@ w-create-order {
             .name {
               line-height: 32px;
               text-transform: uppercase;
+              color: @color-basic-700;
             }
 
             &:first-child {
@@ -229,6 +230,67 @@ w-create-order {
             }
           }
 
+          .total .input-wrapper {
+            border: none;
+
+            .input-like {
+              border: 1px solid @color-basic-200;
+            }
+          }
+
+          .input-controls {
+            display: none;
+          }
+
+          @media screen and (max-width: 860px) {
+            .input-wrapper {
+              display: flex;
+              height: 36px;
+              border-radius: 4px;
+              border: 1px solid @color-basic-200;
+  
+              .input-controls {
+                font-size: 25px;
+                width: 50px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: @color-basic-200;
+  
+                &.plus {
+                  border-left: 1px solid @color-basic-200;
+                }
+  
+                &.minus {
+                  border-right: 1px solid #dae1e9;
+                }
+              }
+
+              .input-like {
+                border: none;
+              }
+  
+              w-input-container {
+                flex: 1;
+                padding: 2px 0;
+  
+                .asset-name-wrap {
+                  background: transparent;
+                  width: auto;
+                  height: auto;
+                  border: none;
+                  padding: 0 2px;
+                }
+  
+                w-input, input {
+                  width: auto;
+                  text-align: right;
+                  padding: 0;
+                }
+              }
+            }
+          }
+
           w-input-container.invalid {
             .input-like {
               border: 1px solid @color-error-200;
@@ -239,7 +301,7 @@ w-create-order {
             padding: 0;
             display: flex;
             align-items: center;
-            border-radius: @border-radius / 2;
+            justify-content: center;
 
             w-input {
               display: block;
@@ -293,6 +355,10 @@ w-create-order {
             border-bottom: 1px solid @color-white;
             cursor: default;
             opacity: 1;
+
+            .name {
+              color: @color-submit-400;
+            }
           }
 
           button.place-order {
@@ -316,6 +382,10 @@ w-create-order {
             border-bottom: 1px solid @color-white;
             cursor: default;
             opacity: 1;
+
+            .name {
+              color: @color-error-400;
+            }
           }
 
           button.place-order {
@@ -336,6 +406,10 @@ w-create-order {
         .price {
           font-size: @font-size-caption-2;
           line-height: 12px;
+
+          @media screen and (max-width: 860px) {
+            margin-bottom: 15px;
+          }
 
           span.link {
             color: @color-disabled-900;
@@ -367,10 +441,16 @@ w-create-order {
       }
     }
   }
+
+  @media screen and (max-width: 860px) {
+    margin-bottom: 15px;
+  }
 }
 
 @media screen and (max-width: 1024px) {
   w-create-order {
+    height: 100%;
+    background: @color-white;
     .create-order {
       .body {
         .making-order {
@@ -388,8 +468,16 @@ w-create-order {
             }
           }
 
-          .areas {
-            display: none;
+          w-button > *.micro {
+            padding: 6px 19px;
+          }
+
+          .areas .area {
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: @color-basic-700;
           }
         }
       }

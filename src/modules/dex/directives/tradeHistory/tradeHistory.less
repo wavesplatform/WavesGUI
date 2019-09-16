@@ -10,13 +10,25 @@
     color: @color-disabled-500;
   }
 
-  .order-side {
+  .order-side, .price {
     &.sell {
       color: @color-error-400;
+
+      @media screen and (max-width: 860px) {
+        .decimal-muted {
+          color: @color-error-400;
+        }
+      }
     }
 
     &.buy {
       color: @color-submit-400;
+
+      @media screen and (max-width: 860px) {
+        .decimal-muted {
+          color: @color-submit-400;
+        }
+      }
     }
   }
 }

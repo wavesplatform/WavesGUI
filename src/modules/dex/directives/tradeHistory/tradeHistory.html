@@ -34,7 +34,7 @@
         </w-table-cell>
         <w-table-cell>
             <span class="cell-label" w-i18n="directives.tradeHistory.tableTitle.price"></span>
-            <w-balance money="::tx.price" short-mode="::true"></w-balance>
+            <w-balance class="price {{::tx.exchangeType}}" money="::tx.price" short-mode="::true"></w-balance>
         </w-table-cell>
         <w-table-cell>
             <span class="cell-label" w-i18n="directives.tradeHistory.tableTitle.size"></span>

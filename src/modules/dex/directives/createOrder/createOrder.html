@@ -21,7 +21,7 @@
                      event-params='{Pair: $ctrl.analyticsPair}'
                      class="area buy"
                      ng-click="$ctrl.fee && $ctrl.expand('buy')">
-                    <div class="name headline-4 basic-700" w-i18n="directives.createOrder.buy"></div>
+                    <div class="name headline-4" w-i18n="directives.createOrder.buy"></div>
                 </div>
                 <div w-analytics
                      event="'DEX Sell Click'"
@@ -29,11 +29,11 @@
                      event-target="'ui'"
                      class="area sell"
                      ng-click="$ctrl.fee && $ctrl.expand('sell')">
-                    <div class="name headline-4 basic-700" w-i18n="directives.createOrder.sell"></div>
+                    <div class="name headline-4" w-i18n="directives.createOrder.sell"></div>
                 </div>
             </div>
 
-            <div class="choice">
+            <!-- <div class="choice">
                 <div class="choose buy"
                      ng-click="$ctrl.expand('buy')">
                     <div class="name" w-i18n="directives.createOrder.buy"></div>
@@ -51,7 +51,7 @@
                          w-nice-number="$ctrl.bid.price"
                          precision="$ctrl.priceBalance.asset.precision"></div>
                 </div>
-            </div>
+            </div> -->
 
             <div class="create-order-notification js-order-notification">
                 <div ng-if="$ctrl.createOrderFailed">
@@ -67,7 +67,7 @@
                     <div class="price">
                         <div class="split-half field-label">
                             <div class="basic-600" w-i18n="directives.createOrder.priceField"></div>
-                            <div class="flex">
+                            <!-- <div class="flex">
                                 <span ng-if="$ctrl.ask && $ctrl.ask.price && $ctrl.ask.price !== '0'"
                                       ng-class="{active: $ctrl.price.getTokens().toFixed() === $ctrl.ask.price}"
                                       ng-click="$ctrl.setAskPrice()" class="underline-dashed link">
@@ -83,37 +83,41 @@
                                       ng-click="$ctrl.setLastPrice()" class="underline-dashed link">
                                     <span w-i18n="directives.createOrder.last"></span>
                                 </span>
-                            </div>
+                            </div> -->
                         </div>
 
-                        <w-input-container ng-class="{'invalid': $ctrl.isPriceInvalid()}">
-                            <div class="input-like tiny">
-                                <w-input class="tiny no-validate-icons"
-                                         tabindex="2"
-                                         type="text"
-                                         ng-blur="$ctrl.setChangedInput('price')"
-                                         w-validate
-                                         w-validator-asset="{{$ctrl.priceBalance.asset}}"
-                                         w-validator-gt="0"
-                                         name="price"
-                                         ng-model="$ctrl.price"
-                                         autocomplete="off"
-                                         required></w-input>
-                                <div class="asset-name-wrap">
-                                    <div class="caption-1 basic-500">{{$ctrl.priceDisplayName}}</div>
+                        <div class="input-wrapper">
+                            <div class="input-controls minus">-</div>
+                            <w-input-container ng-class="{'invalid': $ctrl.isPriceInvalid()}">
+                                <div class="input-like tiny">
+                                    <w-input class="tiny no-validate-icons"
+                                             tabindex="2"
+                                             type="text"
+                                             ng-blur="$ctrl.setChangedInput('price')"
+                                             w-validate
+                                             w-validator-asset="{{$ctrl.priceBalance.asset}}"
+                                             w-validator-gt="0"
+                                             name="price"
+                                             ng-model="$ctrl.price"
+                                             autocomplete="off"
+                                             required></w-input>
+                                    <div class="asset-name-wrap">
+                                        <div class="caption-1 basic-500">{{$ctrl.priceDisplayName}}</div>
+                                    </div>
                                 </div>
-                            </div>
-                            <w-input-error message="precision" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
-                                <span w-i18n="directives.createOrder.errors.precision"
-                                      params="{precision: $ctrl.priceBalance.asset.precision}"></span>
-                            </w-input-error>
-                            <w-input-error message="gt" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
-                                <span w-i18n="directives.createOrder.errors.required"></span>
-                            </w-input-error>
-                            <w-input-error message="required" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
-                                <span w-i18n="directives.createOrder.errors.required"></span>
-                            </w-input-error>
-                        </w-input-container>
+                                <w-input-error message="precision" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
+                                    <span w-i18n="directives.createOrder.errors.precision"
+                                          params="{precision: $ctrl.priceBalance.asset.precision}"></span>
+                                </w-input-error>
+                                <w-input-error message="gt" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
+                                    <span w-i18n="directives.createOrder.errors.required"></span>
+                                </w-input-error>
+                                <w-input-error message="required" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
+                                    <span w-i18n="directives.createOrder.errors.required"></span>
+                                </w-input-error>
+                            </w-input-container>
+                            <div class="input-controls plus">+</div>
+                        </div>
                     </div>
 
                     <div class="amount">
@@ -132,40 +136,44 @@
                             </div>
                         </div>
 
-                        <w-input-container ng-class="{'invalid': $ctrl.isAmountInvalid()}">
-                            <div class="input-like tiny">
-                                <w-input tabindex="1"
-                                         class="tiny no-validate-icons"
-                                         type="text"
-                                         ng-blur="$ctrl.setChangedInput('amount')"
-                                         w-validate
-                                         w-validator-asset="{{$ctrl.amountBalance.asset}}" amount
-                                         w-validator-lte="{{$ctrl.maxAmountBalance}}"
-                                         w-validator-gt="0"
-                                         name="amount"
-                                         ng-model="$ctrl.amount"
-                                         autocomplete="off"
-                                         required></w-input>
-                                <div class="asset-name-wrap">
-                                    <div class="caption-1 basic-500">{{$ctrl.amountDisplayName}}</div>
+                        <div class="input-wrapper">
+                            <div class="input-controls minus">-</div>
+                            <w-input-container ng-class="{'invalid': $ctrl.isAmountInvalid()}">
+                                <div class="input-like tiny">
+                                    <w-input tabindex="1"
+                                            class="tiny no-validate-icons"
+                                            type="text"
+                                            ng-blur="$ctrl.setChangedInput('amount')"
+                                            w-validate
+                                            w-validator-asset="{{$ctrl.amountBalance.asset}}" amount
+                                            w-validator-lte="{{$ctrl.maxAmountBalance}}"
+                                            w-validator-gt="0"
+                                            name="amount"
+                                            ng-model="$ctrl.amount"
+                                            autocomplete="off"
+                                            required></w-input>
+                                    <div class="asset-name-wrap">
+                                        <div class="caption-1 basic-500">{{$ctrl.amountDisplayName}}</div>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <w-input-error message="required" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
-                                <span w-i18n="directives.createOrder.errors.required"></span>
-                            </w-input-error>
-                            <w-input-error message="gt" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
-                                <span w-i18n="directives.createOrder.errors.required"></span>
-                            </w-input-error>
-                            <w-input-error message="precision" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
-                                <span w-i18n="directives.createOrder.errors.precision"
-                                      params="{precision: $ctrl.amountBalance.asset.precision}"></span>
-                            </w-input-error>
-                            <w-input-error message="lte" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
-                                <span w-i18n="directives.createOrder.errors.balance"
-                                      params="{name: $ctrl.amountBalance.asset.displayName}"></span>
-                            </w-input-error>
-                        </w-input-container>
+                                <w-input-error message="required" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
+                                    <span w-i18n="directives.createOrder.errors.required"></span>
+                                </w-input-error>
+                                <w-input-error message="gt" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
+                                    <span w-i18n="directives.createOrder.errors.required"></span>
+                                </w-input-error>
+                                <w-input-error message="precision" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
+                                    <span w-i18n="directives.createOrder.errors.precision"
+                                        params="{precision: $ctrl.amountBalance.asset.precision}"></span>
+                                </w-input-error>
+                                <w-input-error message="lte" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
+                                    <span w-i18n="directives.createOrder.errors.balance"
+                                        params="{name: $ctrl.amountBalance.asset.displayName}"></span>
+                                </w-input-error>
+                            </w-input-container>
+                            <div class="input-controls plus">+</div>
+                        </div>
 
                         <div class="field-buttons">
                             <w-button ng-class="{active: $ctrl.isActiveBalanceButton(0.25)}"
@@ -198,29 +206,31 @@
                     <div class="total">
                         <div class="field-label caption-2 basic-600"
                              w-i18n="directives.createOrder.total"></div>
-                        <w-input-container ng-class="{ 'invalid': $ctrl.isTotalInvalid() }">
-                            <div class="input-like tiny">
-                                <w-input class="tiny no-validate-icons"
-                                         tabindex="3"
-                                         type="text"
-                                         name="total"
-                                         ng-model="$ctrl.total"
-                                         w-validate
-                                         ng-blur="$ctrl.setChangedInput('total')"
-                                         w-validator-asset="{{$ctrl.priceBalance.asset}}"
-                                         w-validator-custom="{{$ctrl.canBuyOrder}}"
-                                         w-validator-gt="0"
-                                         autocomplete="off"
-                                         required></w-input>
-                                <div class="asset-name-wrap">
-                                    <div class="caption-1 basic-500">{{$ctrl.priceDisplayName}}</div>
+                        <div class="input-wrapper">
+                            <w-input-container ng-class="{ 'invalid': $ctrl.isTotalInvalid() }">
+                                <div class="input-like tiny">
+                                    <w-input class="tiny no-validate-icons"
+                                            tabindex="3"
+                                            type="text"
+                                            name="total"
+                                            ng-model="$ctrl.total"
+                                            w-validate
+                                            ng-blur="$ctrl.setChangedInput('total')"
+                                            w-validator-asset="{{$ctrl.priceBalance.asset}}"
+                                            w-validator-custom="{{$ctrl.canBuyOrder}}"
+                                            w-validator-gt="0"
+                                            autocomplete="off"
+                                            required></w-input>
+                                    <div class="asset-name-wrap">
+                                        <div class="caption-1 basic-500">{{$ctrl.priceDisplayName}}</div>
+                                    </div>
                                 </div>
-                            </div>
-                            <w-input-error message="custom" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
-                                <span w-i18n="directives.createOrder.errors.balance"
-                                      params="{name: $ctrl.priceBalance.asset.displayName}"></span>
-                            </w-input-error>
-                        </w-input-container>
+                                <w-input-error message="custom" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
+                                    <span w-i18n="directives.createOrder.errors.balance"
+                                        params="{name: $ctrl.priceBalance.asset.displayName}"></span>
+                                </w-input-error>
+                            </w-input-container>
+                        </div>
                     </div>
 
                     <div class="expiration">
