@@ -15,18 +15,18 @@
             <div class="asset-name-desktop asset__wrapper">
                 <div>{{assetName}}</div>
                 {{#if isVerified}}
-                    <span class="status-label-min active" w-i18n-literal="qualified"></span>
+                    <span class="status-label active" w-i18n-literal="qualified"></span>
                 {{/if}}
                 {{#if isGateway}}
-                    <span class="status-label-min active" w-i18n-literal="gateway"></span>
+                    <span class="status-label active" w-i18n-literal="gateway"></span>
                 {{/if}}
                 {{#if isTokenomica}}
-                    <span class="status-label-min active" w-i18n-literal="tokenomica"></span>
+                    <span class="status-label active" w-i18n-literal="tokenomica"></span>
                 {{/if}}
                 {{#if isGatewaySoon}}
-                    <span class="status-label-min active" w-i18n-literal="gateway soon"></span>
+                    <span class="status-label active" w-i18n-literal="gateway soon"></span>
                 {{/if}}
-                <span class="status-label-min inactive {{SELECTORS.SUSPICIOUS_LABEL}}"
+                <span class="status-label inactive {{SELECTORS.SUSPICIOUS_LABEL}}"
                       w-i18n-literal="suspicious"></span>
             </div>
             <div class="js-stars-container"></div>
@@ -44,7 +44,7 @@
         <div class="mobile-flex">
             <span class="{{SELECTORS.AVAILABLE}}"></span>
             {{#if isVerified}}
-                <span class="status-label-min active mobiles-only" w-i18n-literal="qualified"></span>
+                <span class="status-label active mobiles-only" w-i18n-literal="qualified"></span>
             {{/if}}
         </div>
     </div>

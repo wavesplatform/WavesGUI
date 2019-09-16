@@ -8,29 +8,27 @@
 }
 
 .status-label,
-.status-label-min,
 .asset-status__status {
-  font-size: 13px;
-  line-height: 18px;
   display: inline-flex;
-  padding: 4px 11px;
-  border-radius: @border-radius;
   text-transform: uppercase;
   color: @color-basic-500;
   margin: 0 0 0 6px;
   white-space: nowrap;
-}
-
-.asset-status__status_small,
-.status-label-min {
   font-size: 9px;
   line-height: 12px;
-  padding: 2px 6px;
+  padding: 3px 6px;
   border-radius: @border-radius / 2;
 }
 
+.status-label-medium,
+.asset-status_medium {
+  font-size: 13px;
+  line-height: 18px;
+  padding: 4px 11px;
+  border-radius: @border-radius;
+}
+
 .status-label,
-.status-label-min,
 .asset-status__status {
   &.success,
   &_success,
