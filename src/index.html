@@ -75,7 +75,8 @@
                         <p class="loginAccountDiv" ng-repeat="account in list.accounts track by $index">
                             <span class="loginAccount fade" tooltipster tooltip-theme="tooltipster-theme1"
                                   title="Log into this account." ng-click="list.signIn(account)">
-                                <b>{{::account.name}}</b> <span class="divider-1"></span> <small>{{::account.address}}</small>
+                                <b>{{::account.name}}</b> <span
+                                    class="divider-1"></span> <small>{{::account.address}}</small>
                             </span>
                             <span class="clipSpan" tooltipster tooltip-theme="tooltipster-theme1" ngclipboard
                                   title="Copy this address to the clipboard."
@@ -254,15 +255,44 @@
                 <!-- BACKUP SEED PAGE -->
                 <div ng-show="accounts.mode === 'backup-seed'" ng-controller="accountLoginController as vm">
                     <h1>Save your Seed phrase</h1>
-                    <div class="accountsDescription">This app has been discontinued. Since only you control your funds, you will need to import your Seed to the new desktop application.</div>
+                    <div class="accountsDescription">This app has been discontinued. Since only you control your funds,
+                        you will need to import your Seed to the new desktop application.
+                    </div>
                     <span class="login-form-title">ACCOUNT</span>
-                    <div>{{accounts.visibleAddress}}</div><br>
-                    <span class="login-form-title">SEED PHRASE</span>
-                    <div class="wInput accountsSeed">{{accounts.visibleSeed}}</div><br>
+                    <div>{{accounts.visibleAddress}}</div>
+                    <br>
+
+                    <div class="backup-stuff-wrapper">
+                        <span class="login-form-title">SEED PHRASE</span>
+                        <button class="fade" type="submit" ngclipboard data-clipboard-text="{{accounts.visibleSeed}}"
+                                ngclipboard-success="clipboardOk('the seed was copied the clipboard')">Copy
+                        </button>
+                    </div>
+                    <div class="wInput accountsSeed">{{accounts.visibleSeed}}</div>
+                    <br>
+
+                    <div class="backup-stuff-wrapper">
+                        <span class="login-form-title">ENCODED SEED</span>
+                        <button class="fade" type="submit" ngclipboard data-clipboard-text="{{accounts.encodedSeed}}"
+                                ngclipboard-success="clipboardOk('the encoded seed was copied the clipboard')">Copy
+                        </button>
+                    </div>
+                    <div class="wInput accountsSeed">{{accounts.encodedSeed}}</div>
+                    <br>
+
+                    <div class="backup-stuff-wrapper">
+                        <span class="login-form-title">PRIVATE KEY</span>
+                        <button class="fade" type="submit" ngclipboard data-clipboard-text="{{accounts.privateKey}}"
+                                ngclipboard-success="clipboardOk('the private key was copied the clipboard')">Copy
+                        </button>
+                    </div>
+                    <div class="wInput accountsSeed">{{accounts.privateKey}}</div>
+                    <br>
                     <button class="wButton fade" type="submit" ng-click="vm.cancel()">GO BACK</button>
                     <span class="divider-2"></span>
-                    <button class="wButton fade" type="submit" ngclipboard data-clipboard-text="{{accounts.visibleSeed}}"
-                            ngclipboard-success="clipboardOk('the seed was copied the clipboard')">COPY SEED
+                    <button class="wButton fade" type="submit" ngclipboard
+                            data-clipboard-text="{{accounts.copyAllToClipboard}}"
+                            ngclipboard-success="clipboardOk('the seed was copied the clipboard')">COPY ALL
                     </button>
                 </div>
             </td>

@@ -57,6 +57,20 @@
         function switchToBackupSeed(appState) {
             accounts.visibleSeed = appState.seed;
             accounts.visibleAddress = appState.address;
+            accounts.privateKey =  appState.keyPair.private;
+            accounts.encodedSeed =  cryptoService.base58.encode(converters.stringToByteArray(appState.seed));
+
+            function buildBackupClipboardText() {
+                let text = 'Seed: ' + accounts.visibleSeed + '\n';
+                text += 'Encoded seed: ' + accounts.encodedSeed + '\n';
+                text += 'Private key: ' + accounts.privateKey + '\n';
+                text += 'Public key: ' + appState.keyPair.public + '\n';
+                text += 'Address: ' + accounts.visibleAddress;
+                return text;
+            }
+
+            accounts.copyAllToClipboard = buildBackupClipboardText();
+
         }
 
         function switchToRegisterMode(seed) {
