@@ -1,3 +1,6 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+
 .mobile-tabs__wrapper {
   position: fixed;
   bottom: 0;
@@ -9,10 +12,11 @@
 
 .mobile-layout {
   height: 100%;
-  
+
   &__header {
 
   }
+
   &__watchlist-wrapper {
     max-height: 100vh;
   }
@@ -25,4 +29,39 @@
   .titles-wrap {
     order: 2;
   }
+}
+
+.mobile-watchlist-header {
+  display: flex;
+  justify-content: space-between;
+  background: @color-white;
+  border-radius: 2px;
+  padding: 9px 16px;
+  margin-bottom: 5px;
+
+  &__change24 {
+    &_blue {
+      color: @color-submit-400;
+    }
+    &_red {
+      color: tomato;
+    }
+  }
+
+  &__toggle-arrow {
+    background-image: @dex-arrow-down-icon;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 10px;
+    height: 100%;
+
+    &_up {
+      transform: scaleY(-1);
+    }
+  }
+}
+
+.some-flex-wrapper {
+  display: flex;
+  justify-content: space-between;
 }

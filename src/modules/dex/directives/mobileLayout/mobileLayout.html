@@ -1,6 +1,29 @@
 <div w-i18n-ns="app.dex" class="mobile-layout">
-    <div class="mobile-layout__watchlist-header">
+    <div class="mobile-layout__watchlist-header mobile-watchlist-header"
+         ng-click="$ctrl.watchListVisible = !$ctrl.watchListVisible">
+        <div>
+            <div class="mobile-watchlist-header__pair-tickers">
+                {{$ctrl.pairInfo.amountAsset.displayName}} / {{$ctrl.pairInfo.priceAsset.displayName}}
+            </div>
+            <div class="mobile-watchlist-header__volume">
+                <span w-i18n="directives.watchlist.volume"></span>: <span w-nice-number="$ctrl.pairInfo.volumeBigNum"
+                                                                          precision="3"></span>
+            </div>
+        </div>
+<!--        TODO @Gakhramanov change class name some-wrapper, or use different decision-->
+        <div class="some-flex-wrapper">
+            <div>
+                <div class="mobile-watchlist-header__change24 mobile-watchlist-header__change24_{{$ctrl.pairInfo.change24.gt(0) ? 'blue' : 'red'}}">
+                    <span>{{$ctrl.pairInfo.change24.gt(0) ? '+' :  '-'}}{{$ctrl.pairInfo.change24}}%</span>
+                </div>
+                <div class="mobile-watchlist-header__last-price">
+                    <w-balance money="$ctrl.pairInfo.lastPrice"></w-balance>
+                </div>
+            </div>
+            <div class="mobile-watchlist-header__toggle-arrow mobile-watchlist-header__toggle-arrow_{{$ctrl.watchListVisible ? 'up' : 'down'}}">
+            </div>
 
+        </div>
     </div>
     <div class="mobile-layout__watchlist-wrapper">
         <w-dex-watchlist ng-if="$ctrl.watchListVisible" class="mobile-layout__watch-list"></w-dex-watchlist>
@@ -38,7 +61,7 @@
             <div>
                 <w-tabs class="tabs_mobile-history" ng-model="$ctrl.mobileHistoryTab">
                     <w-tab title-name="::'Order Book'" id="::'orderBook'" class="tab_orderbook">
-                        <w-dex-order-book is-scrolled="true"/>
+                        <w-dex-order-book is-scrolled="false"/>
                     </w-tab>
                     <w-tab title-name="::'Trade History'" id="::'tradeHistory'" class="tab_tradeHistory">
                         <w-dex-trade-history is-my="::false"></w-dex-trade-history>
