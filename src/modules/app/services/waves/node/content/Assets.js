@@ -39,16 +39,6 @@
             }
 
             /**
-             * @param {ExtendedAsset} asset
-             * @param {{quantity: string, reissuable: boolean}} props
-             * @private
-             */
-            static _updateAsset(asset, props) {
-                asset.reissuable = props.reissuable;
-                asset.quantity = new BigNumber(props.quantity);
-            }
-
-            /**
              * @param {string} address
              * @return {Promise<Assets.IWavesBalanceDetails>}
              */
@@ -262,6 +252,16 @@
             _getEmptyBalanceList(idList) {
                 return ds.api.assets.get(idList)
                     .then((list) => list.map(asset => new Money(0, asset)));
+            }
+
+            /**
+             * @param {ExtendedAsset} asset
+             * @param {{quantity: string, reissuable: boolean}} props
+             * @private
+             */
+            static _updateAsset(asset, props) {
+                asset.reissuable = props.reissuable;
+                asset.quantity = new BigNumber(props.quantity);
             }
 
         }
