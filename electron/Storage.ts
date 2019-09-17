@@ -6,6 +6,7 @@ import { exist, localeReady, readJSON, writeJSON, readdir, unlink, read, rename 
 export class Storage {
 
     private storageCache: object;
+    private activeWrite: Promise<void> = Promise.resolve();
     private readonly storagePath: string = join(remote.app.getPath('userData'), 'storage.json');
     private readonly ready: Promise<void>;
     private static readonly backupCount: number = 100;
@@ -21,8 +22,14 @@ export class Storage {
 
     public writeStorage(key: string, value: any): Promise<void> {
         return this.ready.then(() => {
+            if (this.storagePath[key] === value) {
+                return void 0;
+            }
             this.storageCache[key] = value;
-            return writeJSON(this.storagePath, this.storageCache);
+            this.activeWrite = this.activeWrite
+                .then(() => writeJSON(this.storagePath, this.storageCache));
+
+            return this.activeWrite;
         });
     }
 
@@ -51,6 +58,8 @@ export class Storage {
                             return Storage.createBackup(cache);
                         })
                         .catch(() => this.restoreFromBackup());
+                } else {
+                    return Storage.getBackupFileNames().then(list => list.length ? this.restoreFromBackup() : void 0);
                 }
             })
             .catch(() => this.restoreFromBackup());
@@ -58,6 +67,7 @@ export class Storage {
 
     private restoreFromBackup(): Promise<void> {
         return Storage.markAsBroken(this.storagePath)
+            .catch(() => void 0)
             .then(Storage.getBackupFileNames)
             .then(names => {
                 const loop = (index) => {
