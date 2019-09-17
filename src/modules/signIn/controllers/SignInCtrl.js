@@ -99,7 +99,9 @@
 
             _login(userData) {
                 user.login(userData).then(() => {
-                    $state.go(user.getActiveState('wallet'));
+                    modalManager.showMatcherChoice().then(() => {
+                        $state.go(user.getActiveState('wallet'));
+                    });
                 });
             }
 

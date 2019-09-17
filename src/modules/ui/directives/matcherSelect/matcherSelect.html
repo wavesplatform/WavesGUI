@@ -1,0 +1,5 @@
+<w-select ng-model="$ctrl.active" class="select__no-user-select">
+    <w-option ng-repeat="matcher in $ctrl.matcherList" value="::matcher">
+        <div class="lng-item"><span>{{ ::matcher.name }}</span></div>
+    </w-option>
+</w-select>
