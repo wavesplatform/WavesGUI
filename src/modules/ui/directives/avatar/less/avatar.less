@@ -33,7 +33,7 @@
 
   &[type='ledger'],
   &[type='wavesKeeper'] {
-    &__wrap:not(.scripted) {
+    .avatar__wrap:not(.scripted) {
       &::after {
         .avatar-label();
       }
@@ -41,13 +41,13 @@
   }
 
   &[type='ledger'] {
-    &__wrap:not(.scripted)::after {
+    .avatar__wrap:not(.scripted)::after {
       background-image: @ledger-mini-icon;
     }
   }
   
   &[type='wavesKeeper'] {
-    &__wrap:not(.scripted)::after {
+    .avatar__wrap:not(.scripted)::after {
       background-image: @keeper-mini-icon;
     }
   }
@@ -55,7 +55,7 @@
   &[type='seed'],
   &[type='ledger'],
   &[type='wavesKeeper'] {
-    &__wrap.scripted {
+    .avatar__wrap.scripted {
       &::after {
         .avatar-label();
         background-image: @scripted-mini-icon;
