@@ -1,4 +1,8 @@
 {
+    "encodedSeedForm": {
+        "placeholder": "Введите вашу закодированную секретную фразу"
+    },
+    "encodedSeedTab": "Encoded seed",
     "keyForm": {
         "placeholder": "Özel anahtarınızı buraya girin"
     },
@@ -51,6 +55,7 @@
     },
     "seedOrKeyForm": {
         "description": "Cüzdanınıza erişmek için Anahtar kelimeleri veya özel anahtarınızı girin.",
+        "encodedSeed": "Encoded seed",
         "keyTitle": "Özel Anahtar",
         "seedTitle": "Anahtar kelimeler",
         "title": "Anahtar kelimelerden içeri aktar"
