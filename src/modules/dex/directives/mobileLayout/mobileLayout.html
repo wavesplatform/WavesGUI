@@ -58,16 +58,14 @@
 
         </w-tab>
         <w-tab title-name="::'history'" id="::'History'" class="tab_history">
-            <div>
-                <w-tabs class="tabs_mobile-history" ng-model="$ctrl.mobileHistoryTab">
-                    <w-tab title-name="::'Order Book'" id="::'orderBook'" class="tab_orderbook">
-                        <w-dex-order-book is-scrolled="false"/>
-                    </w-tab>
-                    <w-tab title-name="::'Trade History'" id="::'tradeHistory'" class="tab_tradeHistory">
-                        <w-dex-trade-history is-my="::false"></w-dex-trade-history>
-                    </w-tab>
-                </w-tabs>
-            </div>
+            <w-tabs class="tabs_mobile-history" ng-model="$ctrl.mobileHistoryTab">
+                <w-tab title-name="::'Order Book'" id="::'orderBook'" class="tab_orderbook">
+                    <w-dex-order-book is-scrolled="false"/>
+                </w-tab>
+                <w-tab title-name="::'Trade History'" id="::'tradeHistory'" class="tab_tradeHistory">
+                    <w-dex-trade-history is-my="::false"></w-dex-trade-history>
+                </w-tab>
+            </w-tabs>
         </w-tab>
     </w-tabs>
 </div>

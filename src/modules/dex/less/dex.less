@@ -293,7 +293,6 @@ body.dex-demo {
       right: 0;
       bottom: 0;
       height: 100%;
-      overflow: hidden;
     }
 
     .tabs {
@@ -304,6 +303,15 @@ body.dex-demo {
         overflow-y: auto;
         overflow-x: hidden;
       }
+    }
+  }
+}
+
+@media screen and (max-width: 860px) {
+  body.dex,
+  body.dex-demo {
+    .main-content .content {
+      overflow: hidden;
     }
   }
 }
