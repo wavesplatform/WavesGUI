@@ -220,6 +220,16 @@
                 });
             }
 
+            showMatcherChoice() {
+                return this._getModal({
+                    id: 'matcher-choice',
+                    templateUrl: 'modules/utils/modals/matcherChoice/matcherChoice.html',
+                    controller: 'MatcherChoiceCtrl',
+                    clickOutsideToClose: false,
+                    escapeToClose: false
+                });
+            }
+
             showTutorialModals() {
                 return user.getMultiAccountUsers().then(users => {
                     return this._getModal({
