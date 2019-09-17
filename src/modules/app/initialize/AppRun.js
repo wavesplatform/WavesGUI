@@ -4,7 +4,6 @@
     'use strict';
 
     const locationHref = location.href;
-    const tsUtils = require('ts-utils');
     const i18next = require('i18next');
     const ds = require('data-service');
     const { propEq, where, gte, lte, equals, __ } = require('ramda');
@@ -64,14 +63,14 @@
      * @param {Storage} storage
      * @param {INotification} notification
      * @param {app.utils.decorators} decorators
-     * @param {Waves} waves
+     * @param {MultiAccount} multiAccount
      * @param {ModalRouter} ModalRouter
      * @param {ConfigService} configService
      * @param {INotification} userNotification
      * @return {AppRun}
      */
     const run = function ($rootScope, utils, user, $state, $transitions, state, modalManager, storage,
-                          notification, decorators, waves, ModalRouter, configService, userNotification) {
+                          notification, decorators, multiAccount, ModalRouter, configService, userNotification) {
 
         const phone = WavesApp.device.phone();
         const tablet = WavesApp.device.tablet();
@@ -80,6 +79,7 @@
         const isPhone = !!phone;
         const isTablet = !!tablet;
         const isDesktop = !(isPhone || isTablet);
+        const isWeb = WavesApp.isWeb();
 
         $rootScope.isDesktop = isDesktop;
         $rootScope.isNotDesktop = !isDesktop;
@@ -91,6 +91,8 @@
             document.body.classList.add('phone');
         } else if (isTablet) {
             document.body.classList.add('tablet');
+        } else if (isWeb) {
+            document.body.classList.add('web');
         } else {
             document.body.classList.add('desktop');
         }
@@ -129,14 +131,6 @@
                 this._initializeLogin();
                 this._initializeOutLinks();
 
-                Promise.all([
-                    user.onLogin(),
-                    i18nextReady
-                ]).then(() => {
-                    this._updateUserNotifications();
-                    setInterval(() => this._updateUserNotifications(), 10000);
-                });
-
                 if (WavesApp.isDesktop()) {
                     window.listenMainProcessEvent((type, url) => {
                         const parts = utils.parseElectronUrl(url);
@@ -166,7 +160,7 @@
             }
 
             _initTryDesktop() {
-                if (!isDesktop || WavesApp.isDesktop()) {
+                if (multiAccount.isSignedIn || !isDesktop || WavesApp.isDesktop()) {
                     return Promise.resolve(true);
                 }
 
@@ -329,6 +323,21 @@
                 analytics.activate();
 
                 this._onInitialTransitions();
+
+                user.logoutSignal.on(() => {
+                    notification.destroyAll();
+                    userNotification.removeAll();
+                    clearInterval(this._notifyTimer);
+                });
+
+                user.loginSignal.on(() => {
+                    userNotification.destroyAll();
+                    i18nextReady.then(() => {
+                        this._updateUserNotifications();
+                        clearInterval(this._notifyTimer);
+                        this._notifyTimer = setInterval(() => this._updateUserNotifications(), 10000);
+                    });
+                });
             }
 
             _onInitialTransitions() {
@@ -347,7 +356,9 @@
                             return $state.target(START_STATES[0]);
                         }
 
-                        transition.abort();
+                        if (!multiAccount.isSignedIn) {
+                            return $state.target(START_STATES[0]);
+                        }
                     }
 
                     if (toState.name === 'unavailable' && !this._unavailable) {
@@ -371,7 +382,7 @@
                     waiting = true;
 
                     tryDesktop
-                        .then((canChangeState) => this._login(toState, canChangeState))
+                        .then(canChangeState => this._login(toState, canChangeState))
                         .then(() => {
                             waiting = false;
                             offInitialTransitions();
@@ -422,17 +433,11 @@
              * @private
              */
             _initializeTermsAccepted() {
-                return Promise.all([
-                    storage.load('needReadNewTerms'),
-                    storage.load('termsAccepted')
-                ]).then(([needReadNewTerms, termsAccepted]) => {
-
+                return storage.load('needReadNewTerms').then(needReadNewTerms => {
                     if (needReadNewTerms) {
                         return modalManager.showAcceptNewTerms(user);
-
-                    } else if (!termsAccepted) {
-                        return modalManager.showTermsAccept(user);
                     }
+
                     return Promise.resolve();
                 });
             }
@@ -444,10 +449,9 @@
              */
             @decorators.scope({ closeByModal: false })
             _initializeBackupWarning(scope) {
-                if (!user.getSetting('hasBackup')) {
+                const id = '_hasBackupId';
 
-                    const id = tsUtils.uniqueId('n');
-
+                if (!user.getSetting('hasBackup') && !notification.has(id)) {
                     const changeModalsHandler = (modal) => {
 
                         scope.closeByModal = true;
@@ -484,6 +488,9 @@
                         },
                         onClose: () => {
                             analytics.send({ name: 'Create Save Phrase No Click', target: 'ui' });
+
+                            notification.remove(id);
+
                             if (scope.closeByModal || user.getSetting('hasBackup')) {
                                 return null;
                             }
@@ -509,7 +516,8 @@
                 // const sessions = sessionBridge.getSessionsData();
 
                 const states = WavesApp.stateTree.where({ noLogin: true })
-                    .map((item) => WavesApp.stateTree.getPath(item.id).join('.'));
+                    .map((item) => WavesApp.stateTree.getPath(item.id).join('.'))
+                    .concat(multiAccount.isSignedIn ? ['create', 'migrate'] : []);
 
                 if (canChangeState && states.indexOf(currentState.name) === -1) {
                     // if (sessions.length) {
@@ -694,7 +702,7 @@
         'storage',
         'notification',
         'decorators',
-        'waves',
+        'multiAccount',
         'ModalRouter',
         'configService',
         'userNotification',

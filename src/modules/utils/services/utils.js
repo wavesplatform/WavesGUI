@@ -68,6 +68,7 @@
         [WavesApp.defaultAssets.XMR]: '/img/assets/xmr.svg',
         [WavesApp.defaultAssets.VST]: '/img/assets/vostok.svg',
         [WavesApp.defaultAssets.ERGO]: '/img/assets/ergo.svg',
+        [WavesApp.defaultAssets.BNT]: '/img/assets/bnt.svg',
         [WavesApp.otherAssetsWithIcons.EFYT]: '/img/assets/efyt.svg',
         [WavesApp.otherAssetsWithIcons.WNET]: '/img/assets/wnet.svg'
     });
@@ -175,6 +176,12 @@
             converter: el => el
         }
     };
+    const IMPORT_PRIORITY_MAP = {
+        seed: 0,
+        key: 0,
+        wavesKeeper: 1,
+        ledger: 2
+    };
 
     class BigNumberPart extends tsApiValidator.BasePart {
 
@@ -230,6 +237,12 @@
                     .map(char => char.charCodeAt(0))
                     .reduce((acc, code) => acc + code, 0);
                 return GOOD_COLORS_LIST[sum % GOOD_COLORS_LIST.length];
+            },
+            /**
+             * @return {{ledger: number, seed: number, wavesKeeper: number}}
+             */
+            getImportPriorityMap() {
+                return IMPORT_PRIORITY_MAP;
             },
             /**
              * @name app.utils#base58ToBytes
@@ -655,7 +668,8 @@
              * @param {$rootScope.Scope} $scope
              */
             safeApply($scope) {
-                const phase = $scope.$root.$$phase;
+                const phase = $scope.$root && $scope.$root.$$phase;
+
                 if (phase !== '$apply' && phase !== '$digest') {
                     $scope.$apply();
                 }
@@ -1094,14 +1108,17 @@
              * @name app.utils#getNiceNumberTemplate
              * @param {BigNumber|string|number} num
              * @param {number} precision
-             * @param {boolean} [shortMode]
+             * @param {boolean | number} [shortMode]
              * @return {string}
              */
             getNiceNumberTemplate(num, precision, shortMode) {
                 const bigNum = this.parseNiceNumber(num);
                 const formatted = this.getNiceNumber(bigNum, precision);
 
-                if (shortMode && bigNum.gte(10000)) {
+                const isShortMode = typeof shortMode === 'number' ? true : shortMode;
+                const minValue = typeof shortMode === 'number' ? shortMode : 10000;
+
+                if (isShortMode && bigNum.gte(minValue)) {
                     return this.getNiceBigNumberTemplate(bigNum);
                 } else {
                     const separatorDecimal = WavesApp.getLocaleData().separators.decimal;
@@ -1450,7 +1467,15 @@
                         clientY: event.changedTouches[0].clientY
                     };
                 } else {
-                    newEvent = event;
+                    newEvent = {
+                        ...event,
+                        pageX: event.pageX,
+                        pageY: event.pageY,
+                        screenX: event.screenX,
+                        screenY: event.screenY,
+                        clientX: event.clientX,
+                        clientY: event.clientY
+                    };
                 }
                 return newEvent;
             },
@@ -1888,15 +1913,22 @@
                  */
                 const modalManager = $injector.get('modalManager');
 
-                if (user.userType === 'seed') {
+                if (user.userType === 'seed' || user.userType === 'privateKey') {
                     return signable.addMyProof()
                         .then(() => signable);
                 }
 
-                const errorParams = { error: 'sign-error', userType: user.userType };
+                const getError = (user, error) => {
+                    if (user.userType === 'wavesKeeper' && error &&
+                        error.code === 5 && error.msg.includes('another active account')) {
+                        return { error: 'sign-user-error', userType: user.userType };
+                    }
+
+                    return { error: 'sign-error', userType: user.userType };
+                };
 
                 const signByDeviceLoop = () => modalManager.showSignByDevice(signable)
-                    .catch(() => modalManager.showSignDeviceError(errorParams)
+                    .catch((e) => modalManager.showSignDeviceError(getError(user, e))
                         .then(signByDeviceLoop))
                     .catch(() => Promise.reject({ message: 'Your sign is not confirmed!' }));
 

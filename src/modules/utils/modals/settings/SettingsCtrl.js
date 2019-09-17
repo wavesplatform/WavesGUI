@@ -4,6 +4,8 @@
     const ds = require('data-service');
     const { path } = require('ramda');
     const analytics = require('@waves/event-sender');
+    const { libs } = require('@waves/waves-transactions');
+    const { base58Encode, stringToBytes } = libs.crypto;
 
     /**
      * @param Base
@@ -50,7 +52,8 @@
                 analytics.send({ name: `Settings Advanced Features ${mode ? 'On' : 'Off'}`, target: 'ui' });
                 user.setSetting('advancedMode', mode);
             }
-
+            encodedSeed = '';
+            shownEncodedSeed = false;
             oracleWaves = '';
             tab = 'general';
             address = user.address;
@@ -215,6 +218,7 @@
                     ds.signature.getSignatureApi().getPublicKey()
                 ]).then(([seed, privateKey, publicKey]) => {
                     this.phrase = seed;
+                    this.encodedSeed = typeof seed === 'string' ? base58Encode(stringToBytes(seed)) : null;
                     this.privateKey = privateKey;
                     this.publicKey = publicKey;
                     $scope.$digest();
@@ -251,6 +255,14 @@
 
             showScriptModal() {
                 modalManager.showScriptModal();
+            }
+
+            showPasswordModal() {
+                modalManager.showPasswordModal();
+            }
+
+            showDeleteAccountModal() {
+                modalManager.showDeleteAccountModal();
             }
 
         }

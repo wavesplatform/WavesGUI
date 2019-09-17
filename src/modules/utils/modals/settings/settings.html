@@ -126,6 +126,19 @@
                     </div>
                 </div>
 
+                <div class="row margin-1" ng-if="$ctrl.encodedSeed">
+                    <div class="footnote-1 basic-500 label">
+                        <span w-i18n="modal.settings.security.base58Seed"></span>
+                        <a class="settings-copy" w-copy="::$ctrl.encodedSeed" w-i18n="modal.settings.network.copy"></a>
+                    </div>
+                    <div class="data-field">
+                        <w-button ng-if="!$ctrl.shownEncodedSeed" class="tiny" on-click="$ctrl.shownEncodedSeed = true">
+                            <span w-i18n="modal.settings.security.show"></span>
+                        </w-button>
+                        <pre class="footnote-1 pre" ng-if="$ctrl.shownEncodedSeed">{{::$ctrl.encodedSeed}}</pre>
+                    </div>
+                </div>
+
                 <div class="row margin-1" ng-if="$ctrl.privateKey">
                     <div class="footnote-1 basic-500 label">
                         <span w-i18n="modal.settings.security.privateKey"></span>
@@ -140,6 +153,7 @@
                         <div class="mobile-low-fsize" ng-if="$ctrl.shownKey">{{::$ctrl.privateKey}}</div>
                     </div>
                 </div>
+
                 <div class="row flex-row row-style row-mobile">
                     <div class="footnote basic-500" w-i18n="modal.settings.security.publicKey"></div>
                     <div class="mobile-low-fsize">{{::$ctrl.publicKey}}</div>
@@ -148,6 +162,24 @@
                 <div class="row flex-row row-style row-mobile" ng-class="{'solid-border': !$ctrl.advancedMode}">
                     <div class="footnote basic-500" w-i18n="modal.settings.security.address"></div>
                     <div class="mobile-low-fsize">{{::$ctrl.address}}</div>
+                </div>
+
+                <div class="row flex-row row-style solid-border text-right">
+                    <div class="footnote basic-500" w-i18n="modal.settings.password"></div>
+                    <div>
+                        <a class="label link" ng-click="$ctrl.showPasswordModal()" w-modal-close>
+                            <span w-i18n="modal.settings.changePass"></span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="row flex-row row-style solid-border text-right">
+                    <div class="footnote basic-500" w-i18n="modal.settings.account"></div>
+                    <div>
+                        <a class="label link error-400" ng-click="$ctrl.showDeleteAccountModal()" w-modal-close>
+                            <span w-i18n="modal.settings.deleteAccount"></span>
+                        </a>
+                    </div>
                 </div>
 
                 <div ng-if="$ctrl.advancedMode" class="row flex-row row-style solid-border text-right">

@@ -1,0 +1,37 @@
+{
+    "createAccount": "Crear una cuenta",
+    "notHaveAccounts": "No tienes cuentas guardadas.",
+    "nothingHere": "Nada por aquí...",
+    "password": {
+        "error": "¡Contraseña incorrecta!"
+    },
+    "signIn": {
+        "btn": {
+            "cancel": "Cancelar",
+            "restore": "Restaurar todo"
+        },
+        "enterPass": "Por favor ingrese su contraseña para continuar",
+        "passForgot": {
+            "attention": "¡Atención!",
+            "description": "Si olvida la contraseña, debe restaurar todas sus cuentas desde sus frases de seguridad (SEED) y establecer una nueva contraseña",
+            "importantDesc": "Si no ha guardado la frase SEED o la clave privada, no podrá recuperar el acceso a su cuenta."
+        },
+        "password": {
+            "forgot": "¿Olvidó su contraseña?"
+        },
+        "signIn": "Iniciar sesión",
+        "welcomeBack": "¡Bienvenido de nuevo!"
+    },
+    "userList": {
+        "address": "Dirección / Nombre de la cuenta",
+        "buttons": {
+            "login": "Iniciar sesión"
+        },
+        "notHaveAccount": "Por favor inicie sesión para continuar",
+        "password": "Contraseña",
+        "placeholders": {
+            "password": "Contraseña"
+        },
+        "title": "Bienvenido de nuevo"
+    }
+}

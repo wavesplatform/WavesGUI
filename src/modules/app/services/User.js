@@ -1,37 +1,37 @@
-/* global transfer Mousetrap WavesApp: true */
+/* global transfer Mousetrap WavesApp: readonly */
 (function () {
     'use strict';
 
     const { equals } = require('ramda');
     const { isValidAddress } = require('@waves/signature-adapter');
 
-    const NOT_SYNC_FIELDS = [
-        'changeSetting',
-        'isAuthorised',
-        'extraFee',
-        'networkError',
-        'changeScript',
-        'setScamSignal',
-        'scam',
-        'loginSignal',
-        'logoutSignal',
-        'setTokensNameSignal',
-        'tokensName'
-    ];
-
     /**
      * @param {Storage} storage
      * @param {*} $state
      * @param {app.defaultSettings} defaultSettings
      * @param {State} state
+     * @param {ng.auto.IInjectorService} $injector
      * @param {UserRouteState} UserRouteState
      * @param {Poll} Poll
      * @param {TimeLine} timeLine
      * @param {app.utils} utils
      * @param {*} themes
+     * @param {MultiAccount} multiAccount
      * @return {User}
      */
-    const factory = function (storage, $state, defaultSettings, state, UserRouteState, Poll, timeLine, utils, themes) {
+    const factory = function (
+        storage,
+        $state,
+        $injector,
+        defaultSettings,
+        state,
+        UserRouteState,
+        Poll,
+        timeLine,
+        utils,
+        themes,
+        multiAccount
+    ) {
 
         const tsUtils = require('ts-utils');
         const ds = require('data-service');
@@ -48,6 +48,36 @@
              */
             get changeSetting() {
                 return this._settings.change;
+            }
+
+            get hash() {
+                return this.currentUser ? this.currentUser.hash : null;
+            }
+
+            get address() {
+                return this.currentUser ? this.currentUser.address : null;
+            }
+
+            get name() {
+                return this.currentUser ? this.currentUser.name : null;
+            }
+
+            set name(name) {
+                if (this.currentUser) {
+                    this.currentUser.name = name;
+                }
+            }
+
+            get userType() {
+                return this.currentUser ? this.currentUser.userType : null;
+            }
+
+            get publicKey() {
+                return this.currentUser ? this.currentUser.publicKey : null;
+            }
+
+            get matcherSign() {
+                return this.currentUser ? this.currentUser.matcherSign : null;
             }
 
             /**
@@ -70,41 +100,9 @@
              */
             networkError;
             /**
-             * @type {string}
+             * @type {ICurrentUser|null}
              */
-            address;
-            /**
-             * @type {string}
-             */
-            id;
-            /**
-             * @type {string}
-             */
-            name;
-            /**
-             * @type {string}
-             */
-            publicKey;
-            /**
-             * @type {string}
-             */
-            encryptedSeed;
-            /**
-             * @type {string}
-             */
-            userType;
-            /**
-             * @type {object}
-             */
-            settings;
-            /**
-             * @type {number}
-             */
-            lastLogin;
-            /**
-             * @type {{signature: string, timestamp: number}}
-             */
-            matcherSign;
+            currentUser = null
             /**
              * @type {Money}
              */
@@ -140,11 +138,6 @@
              */
             __props;
             /**
-             * @type {string}
-             * @private
-             */
-            _password;
-            /**
              * @type {number}
              * @private
              */
@@ -154,11 +147,6 @@
              * @private
              */
             _stateList;
-            /**
-             * @type {Array}
-             * @private
-             */
-            _fieldsForSave = [];
             /**
              * @type {Array}
              * @private
@@ -178,15 +166,10 @@
              * @type {number}
              */
             _scriptInfoPollTimeoutId;
-            /**
-             * @type {boolean}
-             * @private
-             */
-            _noSaveToStorage;
 
             constructor() {
                 this._resetFields();
-                this._setObserve();
+                this._settings = defaultSettings.create();
                 this._settings.change.on(() => this._onChangeSettings());
 
                 Mousetrap.bind(['ctrl+shift+k'], () => this.switchNextTheme());
@@ -211,13 +194,6 @@
              */
             hasScript() {
                 return this._hasScript;
-            }
-
-            /**
-             * @return {boolean}
-             */
-            isMaster() {
-                return !!this._password;
             }
 
             /**
@@ -286,22 +262,14 @@
                 return list.includes(value);
             }
 
-            /**
-             * @param {User} user
-             * @param {string} name
-             * @return {*}
-             */
-            getSettingByUser(user, name) {
-                const settings = defaultSettings.create(user.settings);
-                return settings.get(name);
-            }
-
             getDefaultUserSettings(settings) {
-                return defaultSettings.create({ ...settings });
+                const { common } = this._settings.getSettings();
+
+                return defaultSettings.create({ ...settings }, { ...common });
             }
 
             /**
-             * @param {User} user
+             * @param {*} user
              * @return {DefaultSettings}
              */
             getSettingsByUser(user) {
@@ -314,6 +282,106 @@
              */
             setSetting(name, value) {
                 this._settings.set(name, value);
+            }
+
+            /**
+             * @return {Promise}
+             */
+            getMultiAccountData() {
+                return storage.load('multiAccountData');
+            }
+
+            /**
+             * @return {Promise}
+             */
+            getMultiAccountHash() {
+                return storage.load('multiAccountHash');
+            }
+
+            /**
+             * @return {Promise}
+             */
+            getMultiAccountUsers() {
+                return storage.load('multiAccountUsers').then(users => {
+                    return multiAccount.toList(users)
+                        .filter(user => this.isValidAddress(user.address));
+                });
+            }
+
+            /**
+             * @return {Promise}
+             */
+            saveMultiAccount(data) {
+                return Promise.all([
+                    storage.save('multiAccountData', data.multiAccountData),
+                    storage.save('multiAccountHash', data.multiAccountHash)
+                ]);
+            }
+
+            /**
+             * @return {Promise}
+             */
+            migrateUser(userToMigrate, userHash) {
+                return this.saveMultiAccountUser(userToMigrate, userHash)
+                    .then(() => this.removeUserByAddress(userToMigrate.address));
+            }
+
+            /**
+             * @return {Promise}
+             */
+            saveMultiAccountUser(user, userHash) {
+                return storage.load('multiAccountUsers')
+                    .then(users => this.saveMultiAccountUsers({
+                        ...users,
+                        [userHash]: { // TODO map user settings to a new schema
+                            name: user.name,
+                            settings: user.settings,
+                            matcherSign: user.matcherSign,
+                            lastLogin: user.lastLogin
+                        }
+                    }));
+            }
+
+            deleteMultiAccountUser(userHash) {
+                return Promise.all([
+                    multiAccount.deleteUser(userHash),
+                    storage.load('multiAccountUsers')
+                ]).then(([data, users]) => {
+                    delete users[userHash];
+
+                    return Promise.all([
+                        this.saveMultiAccountUsers(users),
+                        this.saveMultiAccount(data)
+                    ]);
+                });
+            }
+
+            /**
+             * @return {Promise}
+             */
+            saveMultiAccountUsers(users) {
+                return storage.save('multiAccountUsers', users);
+            }
+
+            /**
+             * @param {*} commonSettings
+             */
+            setMultiAccountSettings(commonSettings) {
+                this._settings.setCommonSettings(commonSettings);
+            }
+
+            /**
+             * @returns {Promise}
+             */
+            getMultiAccountSettings() {
+                return storage.load('multiAccountSettings');
+            }
+
+            /**
+             * @returns {Promise}
+             */
+            saveMultiAccountSettings(settings) {
+                return storage.save('multiAccountSettings', settings);
             }
 
             /**
@@ -341,71 +409,69 @@
             }
 
             /**
-             * @param {object} data
-             * @param {string} data.address
-             * @param {string} data.password
-             * @return {Promise}
-             *
+             * @param {object} userData
+             * @returns {Promise}
              */
-            login(data) {
+            login(userData) {
                 this.networkError = false;
 
-                return this._addUserData(data).then(() => {
+                return this._addUserData(userData).then(() => {
                     this.initScriptInfoPolling();
                     analytics.send({ name: 'Sign In Success' });
                 });
             }
 
             /**
-             * @param {object} data
-             * @param {string} data.address
-             * @param {string} data.name
-             * @param {string} data.id
-             * @param {string} data.encryptedSeed
-             * @param {string} data.publicKey
-             * @param {string} data.password
-             * @param {string} data.userType
-             * @param {string} data.api
-             * @param {boolean} data.saveToStorage
-             * @param {boolean} hasBackup
-             * @param {boolean} restore
+             * @param {object} userData
+             * @param {string} userData.userType
+             * @param {number} userData.networkByte
+             * @param {string} [userData.seed]
+             * @param {string} [userData.privateKey]
+             * @param {string} [userData.publicKey]
+             * @param {string} [userData.id]
+             * @param {string} userData.name
+             * @param {boolean} [hasBackup]
+             * @param {boolean} [restore]
              * @return {Promise}
              */
-            create(data, hasBackup, restore) {
-                this._noSaveToStorage = !data.saveToStorage;
+            create(userData, hasBackup, restore) {
+                return multiAccount.addUser({
+                    userType: userData.userType || 'seed',
+                    seed: userData.seed,
+                    networkByte: userData.networkByte,
+                    privateKey: userData.privateKey,
+                    publicKey: userData.publicKey,
+                    id: userData.id
+                }).then(({ multiAccountData, multiAccountHash, userHash }) => {
+                    return Promise.all([
+                        this.saveMultiAccountUser({
+                            ...userData,
+                            settings: {
+                                hasBackup
+                            }
+                        }, userHash),
+                        this.saveMultiAccount({ multiAccountData, multiAccountHash })
+                    ]).then(
+                        () => this.getMultiAccountUsers()
+                    ).then(multiAccountUsers => {
+                        const createdUser = multiAccountUsers.find(user => user.hash === userHash);
 
-                data.userType = data.userType || 'seed';
-
-                return this._addUserData({
-                    id: data.id,
-                    api: data.api,
-                    address: data.address,
-                    password: data.password,
-                    name: data.name,
-                    userType: data.userType,
-                    encryptedSeed: data.encryptedSeed,
-                    publicKey: data.publicKey,
-                    settings: {
-                        termsAccepted: false,
-                        hasBackup,
-                        lng: i18next.language,
-                        theme: themes.getDefaultTheme(),
-                        candle: 'blue',
-                        dontShowSpam: true
-                    }
+                        this.login(createdUser);
+                    });
                 }).then(() => {
                     this.initScriptInfoPolling();
+
                     if (restore) {
                         analytics.send({
                             name: 'Import Backup Success',
-                            params: { userType: data.userType }
+                            params: { userType: userData.userType }
                         });
                     } else {
                         analytics.send({
                             name: 'Create Success',
                             params: {
                                 hasBackup,
-                                userType: data.userType
+                                userType: userData.userType
                             }
                         });
                     }
@@ -414,8 +480,13 @@
 
             /**
              * @param {string} [stateName]
+             * @param {boolean} [isSwitch]
              */
-            logout(stateName) {
+            logout(stateName, isSwitch) {
+                if (!this.isAuthorised) {
+                    return null;
+                }
+
                 ds.app.logOut();
                 clearTimeout(this._scriptInfoPollTimeoutId);
 
@@ -424,15 +495,33 @@
                 }
 
                 if (stateName) {
-                    this.logoutSignal.dispatch({});
                     this._resetFields();
-                    this.changeTheme(themes.getDefaultTheme());
-                    $state.go(stateName, undefined, { custom: { logout: true } });
+
+                    if (isSwitch) {
+                        $state.go(stateName);
+                    }
+
+                    this.logoutSignal.dispatch({});
+
+                    if (!isSwitch) {
+                        this.changeTheme(themes.getDefaultTheme());
+                        multiAccount.signOut();
+                        $state.go(stateName, undefined, { custom: { logout: true } });
+                    }
                 } else if (WavesApp.isDesktop()) {
                     transfer('reload');
                 } else {
                     window.location.reload();
                 }
+            }
+
+            resetAll() {
+                return Promise.all([
+                    storage.save('multiAccountData', ''),
+                    storage.save('multiAccountHash', ''),
+                    storage.save('multiAccountUsers', ''),
+                    storage.save('userList', '')
+                ]);
             }
 
             /**
@@ -442,17 +531,17 @@
              */
             getActiveState(name) {
                 const userState = tsUtils.find(this._stateList || [], { name });
+
                 if (userState) {
                     return userState.state;
                 } else {
-                    return WavesApp.stateTree.getPath(name)
-                        .join('.');
+                    return WavesApp.stateTree.getPath(name).join('.');
                 }
             }
 
             /**
              * Apply active state for children of state with name {{state}}
-             * @param {string} state    state name
+             * @param {*} state    state name
              */
             applyState(state) {
                 this._history.push(state.name);
@@ -470,14 +559,9 @@
              * @return {Promise}
              */
             getUserList() {
-                return storage.onReady().then(() => storage.load('userList'))
-                    .then(list => {
-                        list = list || [];
-
-                        list.sort((a, b) => a.lastLogin - b.lastLogin).reverse();
-
-                        return list;
-                    });
+                return storage.onReady()
+                    .then(() => storage.load('userList'))
+                    .then(list => (list || []).sort((a, b) => b.lastLogin - a.lastLogin));
             }
 
             /**
@@ -567,20 +651,15 @@
             }
 
             /**
-             * @return {Promise<{signature, timestamp}>}
+             * @returns {Promise<{signature: string, timestamp: number}>}
              */
             addMatcherSign() {
-                /**
-                 * @type {Promise<{signature: string, timestamp: number}>}
-                 */
-                const promise = utils.signUserOrders({ matcherSign: this.matcherSign });
-
-                promise.then(matcherSign => {
-                    this.matcherSign = matcherSign;
+                return utils.signUserOrders({
+                    matcherSign: this.matcherSign
+                }).then(matcherSign => {
+                    this.currentUser.matcherSign = matcherSign;
                     ds.app.addMatcherSign(matcherSign.timestamp, matcherSign.signature);
                 });
-
-                return promise;
             }
 
             /**
@@ -588,106 +667,89 @@
              */
             _resetFields() {
                 this.networkError = false;
-                this.address = null;
-                this.id = null;
-                this.name = null;
-                this.publicKey = null;
-                this.encryptedSeed = null;
-                this.userType = null;
-                this.settings = Object.create(null);
-                this.lastLogin = Date.now();
-                this.matcherSign = null;
+                this.currentUser = null;
                 this.extraFee = null;
                 this.changeScript = new tsUtils.Signal();
                 this.setScamSignal = new tsUtils.Signal();
                 this.scam = Object.create(null);
-                this._settings = defaultSettings.create(Object.create(null));
                 this.__props = Object.create(null);
-                this._password = null;
                 this._changeTimer = null;
                 this._stateList = null;
                 this._history = [];
                 this._hasScript = false;
                 this._scriptInfoPoll = null;
                 this._scriptInfoPollTimeoutId = null;
-                this._noSaveToStorage = false;
             }
 
             /**
-             * @param {object} data
-             * @param {Adapter} data.api
-             * @param {string} data.address
-             * @param {string} data.userType
-             * @param {string} [data.encryptedSeed]
-             * @param {string} [data.publicKey]
-             * @param {string} data.password
-             * @param {string} data.userType
-             * @param {object} [data.settings]
-             * @param {boolean} [data.settings.termsAccepted]
-             * @return Promise
+             * @param {object} userData
+             * @param {string} userData.name
+             * @param {string} userData.userType
+             * @param {string} userData.address
+             * @param {string} userData.hash
+             * @param {string} [userData.id]
+             * @param {string} [userData.publicKey]
+             * @param {string} [userData.matcherSign]
+             * @param {object} [userData.settings]
+             * @return {Promise}
              * @private
              */
-            _addUserData(data) {
-                return data.api.getPublicKey()
-                    .then(publicKey => (data.publicKey = publicKey))
-                    .then(() => this._loadUserByAddress(data.address))
-                    .then((item) => {
-                        this._fieldsForSave.forEach((propertyName) => {
-                            if (data[propertyName] != null) {
-                                this[propertyName] = data[propertyName];
-                            } else if (item[propertyName] != null) {
-                                this[propertyName] = item[propertyName];
-                            }
-                        });
+            _addUserData(userData) {
+                this.currentUser = {
+                    hash: userData.hash,
+                    name: userData.name,
+                    id: userData.id,
+                    address: userData.address,
+                    publicKey: userData.publicKey,
+                    userType: userData.userType,
+                    settings: userData.settings,
+                    matcherSign: userData.matcherSign,
+                    lastLogin: Date.now()
+                };
 
-                        analytics.addDefaultParams({ userType: this.userType });
-                        this.lastLogin = Date.now();
+                this._setObserve();
 
-                        if (this._settings) {
-                            this._settings.change.off();
-                        }
+                analytics.addDefaultParams({ userType: this.userType });
 
-                        this._settings = defaultSettings.create(this.settings);
-                        this._settings.change.on(() => this._onChangeSettings());
+                let commonSettings;
 
-                        if (this._settings.get('savePassword')) {
-                            this._password = data.password;
-                        }
+                if (this._settings) {
+                    commonSettings = this._settings.getSettings().common;
 
-                        const states = WavesApp.stateTree.find('main').getChildren();
-                        this._stateList = states.map((baseTree) => {
-                            const id = baseTree.id;
-                            return new UserRouteState('main', id, this._settings.get(`${id}.activeState`));
-                        });
+                    this._settings.change.off();
+                }
 
-                        Object.keys(WavesApp.network).forEach((key) => {
-                            ds.config.set(key, this._settings.get(`network.${key}`));
-                        });
+                this._settings = defaultSettings.create(this.currentUser.settings, commonSettings);
+                this._settings.change.on(() => this._onChangeSettings());
 
-                        ds.config.set('oracleWaves', this.getSetting('oracleWaves'));
+                const states = WavesApp.stateTree.find('main').getChildren();
+                this._stateList = states.map((baseTree) => {
+                    const id = baseTree.id;
+                    return new UserRouteState('main', id, this._settings.get(`${id}.activeState`));
+                });
 
-                        ds.app.login(data.address, data.api);
+                Object.keys(WavesApp.network).forEach((key) => {
+                    ds.config.set(key, this._settings.get(`network.${key}`));
+                });
 
-                        data.api.onDestroy(() => {
-                            if (this.isAuthorised) {
-                                this.logout('welcome');
-                            }
-                        });
+                ds.config.set('oracleWaves', this.getSetting('oracleWaves'));
 
-                        return this.addMatcherSign()
-                            .catch(() => Promise.resolve())
-                            .then(() => {
-                                this.changeTheme();
-                                this.changeCandle();
-                                return this._save();
-                            })
-                            .then(() => this._logoutTimer())
-                            .then(() => this.updateScriptAccountData())
-                            .then(() => this.loginSignal.dispatch())
-                            .catch((e) => {
-                                ds.app.logOut();
-                                return Promise.reject(e);
-                            });
+                ds.app.login(userData);
+
+                return this.addMatcherSign()
+                    .catch(() => Promise.resolve())
+                    .then(() => {
+                        this.changeTheme(this._settings.get('theme'));
+                        this.changeCandle();
+
+                        return this.saveMultiAccountUser(this.currentUser, this.currentUser.hash);
+                    })
+                    .then(() => this._logoutTimer())
+                    .then(() => this.updateScriptAccountData())
+                    .then(() => this.loginSignal.dispatch())
+                    .catch((e) => {
+                        ds.app.logOut();
+                        return Promise.reject(e);
                     });
             }
 
@@ -697,7 +759,7 @@
             _logoutTimer() {
                 this.receive(state.signals.sleep, min => {
                     if (min >= this._settings.get('logoutAfterMin')) {
-                        this.logout('welcome');
+                        this.logout('signIn');
                     }
                 });
             }
@@ -706,7 +768,13 @@
              * @private
              */
             _onChangeSettings() {
-                this.settings = { ...this._settings.getSettings() };
+                const { common, settings } = this._settings.getSettings();
+
+                if (this.currentUser) {
+                    this.currentUser.settings = { ...settings };
+                }
+
+                this.saveMultiAccountSettings(common);
             }
 
             /**
@@ -716,7 +784,7 @@
                 if (!this._changeTimer) {
                     this._changeTimer = timeLine.timeout(() => {
                         this._changeTimer = null;
-                        this._save();
+                        this.saveMultiAccountUser(this.currentUser, this.currentUser.hash);
                     }, 500);
                 }
             }
@@ -725,10 +793,8 @@
              * @private
              */
             _setObserve() {
-                this._fieldsForSave = Object.keys(this)
-                    .filter((property) => property.charAt(0) !== '_' && NOT_SYNC_FIELDS.indexOf(property) === -1);
-                this._fieldsForSave.forEach((key) => {
-                    this._observe(key, this);
+                Object.keys(this.currentUser).forEach(key => {
+                    this._observe(key, this.currentUser);
                 });
             }
 
@@ -751,35 +817,21 @@
             }
 
             /**
-             * @return {Promise}
+             * @param {Adapter} adapter
+             * @returns {boolean}
              * @private
              */
-            _save() {
-                if (this._noSaveToStorage || !this.address) {
-                    return Promise.resolve();
-                }
-
-                return storage.load('userList')
-                    .then((list) => {
-                        list = list || [];
-                        list = list.filter(tsUtils.notContains({ address: this.address }));
-                        const props = this._fieldsForSave.reduce((result, propertyName) => {
-                            const property = this[propertyName];
-                            if (property != null) {
-                                result[propertyName] = property;
-                            }
-                            return result;
-                        }, Object.create(null));
-                        list.push(props);
-                        return storage.save('userList', list);
-                    });
+            _isSeedAdapter(adapter) {
+                return adapter.type && adapter.type === 'seed';
             }
 
-            _loadUserByAddress(address) {
-                return storage.load('userList')
-                    .then((list) => {
-                        return tsUtils.find(list || [], { address }) || Object.create(null);
-                    });
+            /**
+             * @param {Adapter} adapter
+             * @returns {boolean}
+             * @private
+             */
+            _isPrivateKeyAdapter(adapter) {
+                return adapter.type && adapter.type === 'privateKey';
             }
 
         }
@@ -806,13 +858,15 @@
     factory.$inject = [
         'storage',
         '$state',
+        '$injector',
         'defaultSettings',
         'state',
         'UserRouteState',
         'Poll',
         'timeLine',
         'utils',
-        'themes'
+        'themes',
+        'multiAccount'
     ];
 
     angular.module('app').factory('user', factory);
@@ -825,9 +879,13 @@
 
 /**
  * @typedef {object} ICurrentUser
+ * @property {string} hash
  * @property {string} address
+ * @property {string} id
  * @property {string} name
  * @property {string} publicKey
  * @property {string} userType
  * @property {number} lastLogin
+ * @property {object} settings
+ * @property {object} matcherSign
  */

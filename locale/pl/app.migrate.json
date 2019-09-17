@@ -1,0 +1,21 @@
+{
+    "migrate": {
+        "btn": {
+            "unlock": "Odblokuj"
+        },
+        "description": {
+            "enterPass": "Wprowadź swoje hasło do konta lub",
+            "goBack": "powrót",
+            "unlock": "Odblokuj swoje konta. Możesz wrócić do tego kroku później."
+        },
+        "headers": {
+            "unlock": "Odblokuj swoje konta",
+            "unlockAccount": "Odblokuj konto"
+        },
+        "subtitle": {
+            "account": "Konto",
+            "pending": "W oczekiwaniu na odblokowanie",
+            "unlocked": "Pomyślnie odblokowano"
+        }
+    }
+}

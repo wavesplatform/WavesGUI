@@ -5,29 +5,26 @@
 
         class GetStartedLinkCtrl extends Base {
 
-            /**
-             * @private
-             * @type {Array}
-             */
-            _userList = [];
+            hasMultiAccount;
+            hasCreate;
+            hasImport;
 
             constructor() {
                 super($scope);
                 this.hovered = false;
-                this._initUserList();
+                this._init();
             }
 
             /**
              * @private
              */
-            _initUserList() {
-                user.getFilteredUserList()
-                    .then((list) => {
-                        this._userList = list;
-                        angularUtils.postDigest($scope).then(() => {
-                            $scope.$apply();
-                        });
+            _init() {
+                user.getMultiAccountData().then(data => {
+                    this.hasMultiAccount = !!data;
+                    angularUtils.postDigest($scope).then(() => {
+                        $scope.$apply();
                     });
+                });
             }
 
         }
@@ -40,7 +37,6 @@
     angular.module('app.ui').component('wGetStartedLink', {
         templateUrl: 'modules/ui/directives/getStartedLink/getStartedLink.html',
         bindings: {
-            hasSignIn: '<',
             hasCreate: '<',
             hasImport: '<'
         },

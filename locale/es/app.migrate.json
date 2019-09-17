@@ -1,0 +1,21 @@
+{
+    "migrate": {
+        "btn": {
+            "unlock": "Desbloquear"
+        },
+        "description": {
+            "enterPass": "Introduzca la contraseña de su cuenta o",
+            "goBack": "Volver",
+            "unlock": "Desbloquee sus cuentas. Puedes volver a este paso más tarde"
+        },
+        "headers": {
+            "unlock": "Desbloquee sus cuentas",
+            "unlockAccount": "Desbloquear cuenta"
+        },
+        "subtitle": {
+            "account": "Cuenta",
+            "pending": "Desbloqueo pendiente",
+            "unlocked": "Desbloqueado con éxito"
+        }
+    }
+}

@@ -63,11 +63,19 @@ export class Poll<T> {
         try {
             const promise = this._api.get();
             promise.then(data => {
+                if (this._timer === null) {
+                    return;
+                }
+
                 this._api.set(data);
                 this.lastData = data;
                 this.signals.requestSuccess.dispatch(data);
                 this._setTimeout();
             }, e => {
+                if (this._timer === null) {
+                    return;
+                }
+
                 this.signals.requestError.dispatch(e);
                 this._setTimeout(true);
             });

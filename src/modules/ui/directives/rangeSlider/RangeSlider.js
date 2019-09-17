@@ -36,6 +36,10 @@
              */
             ngModel;
             /**
+             * @type {boolean}
+             */
+            disabled;
+            /**
              * @type {Array<number>}
              */
             _numberValues;
@@ -196,13 +200,15 @@
                     this._container.addClass('range-slider_drag');
 
                     const onDrag = utils.debounceRequestAnimationFrame(event => {
-                        const utilEvent = utils.getEventInfo(event);
-                        const position = Math.round(utilEvent.pageX - startPos - (this._handle.width() / 2));
-                        const newPosition = Math.min(Math.max(head(this._coords), position), last(this._coords));
+                        if (!this.disabled) {
+                            const utilEvent = utils.getEventInfo(event);
+                            const position = Math.round(utilEvent.pageX - startPos - (this._handle.width() / 2));
+                            const newPosition = Math.min(Math.max(head(this._coords), position), last(this._coords));
 
-                        this._updateModel(this._numberValues[this._findClosestIndex(newPosition)]);
-                        this._handleTranslateX = newPosition;
-                        $scope.$apply();
+                            this._updateModel(this._numberValues[this._findClosestIndex(newPosition)]);
+                            this._handleTranslateX = newPosition;
+                            $scope.$apply();
+                        }
                     });
 
                     const afterDrag = pos => {
@@ -211,12 +217,14 @@
                     };
 
                     const onDragEnd = utils.debounceRequestAnimationFrame(event => {
-                        const utilEvent = utils.getEventInfo(event);
-                        this._container.removeClass('range-slider_drag');
                         $document.off('mousemove touchmove', onDrag);
                         $document.off('mouseup touchend', onDragEnd);
-                        afterDrag(utilEvent.pageX - startPos - (this._handle.width() / 2));
-                        $scope.$apply();
+                        if (!this.disabled) {
+                            const utilEvent = utils.getEventInfo(event);
+                            this._container.removeClass('range-slider_drag');
+                            afterDrag(utilEvent.pageX - startPos - (this._handle.width() / 2));
+                            $scope.$apply();
+                        }
                     });
 
                     $document.on('mousemove touchmove', onDrag);
@@ -261,7 +269,8 @@
             max: '<',
             scaleInterval: '<',
             intervals: '<',
-            ngModel: '='
+            ngModel: '=',
+            disabled: '<'
         },
         templateUrl: 'modules/ui/directives/rangeSlider/rangeSlider.html',
         controller

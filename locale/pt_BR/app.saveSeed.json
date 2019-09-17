@@ -1,0 +1,27 @@
+{
+    "continue": "Continuar",
+    "copy": "Copiar",
+    "copySeed": "Copy Seed phrase",
+    "createAccount": "Create account",
+    "goBack": "Voltar",
+    "notHaveAccounts": "You do not have saved accounts",
+    "nothingHere": "Não há nada aqui…",
+    "password": {
+        "error": "Senha incorreta!"
+    },
+    "userList": {
+        "address": "Endereço / Nome da conta",
+        "buttons": {
+            "login": "Entrar"
+        },
+        "exportUser": "Export your account",
+        "notHaveAccount": "Please sign in to continue",
+        "password": "Senha",
+        "placeholders": {
+            "password": "Senha"
+        },
+        "title": "Bem-vindo de volta"
+    },
+    "warn": "Since only you control your money, you’ll need to save your Seed phrase in case this app is deleted or",
+    "yourSeed": "Your Seed phrase"
+}

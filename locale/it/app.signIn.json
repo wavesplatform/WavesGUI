@@ -1,0 +1,37 @@
+{
+    "createAccount": "Crea account",
+    "notHaveAccounts": "Non hai account salvati",
+    "nothingHere": "Niente qui…",
+    "password": {
+        "error": "Password Errata!"
+    },
+    "signIn": {
+        "btn": {
+            "cancel": "Annulla",
+            "restore": "Reset all"
+        },
+        "enterPass": "Inserisci la tua password per continuare",
+        "passForgot": {
+            "attention": "Attenzione!",
+            "description": "Se dimentichi la tua password, dovrai ripristinare i tuoi account dai rispettivi SEED e settare una nuova password.",
+            "importantDesc": "If you have not saved the Seed phrase or Private key, then you will not be able to recover access to your account."
+        },
+        "password": {
+            "forgot": "Hai dimenticato la password?"
+        },
+        "signIn": "Accedi",
+        "welcomeBack": "Ben tornato!"
+    },
+    "userList": {
+        "address": "Indirizzo / nome Account",
+        "buttons": {
+            "login": "Accedi"
+        },
+        "notHaveAccount": "Accedi per continuare",
+        "password": "Password",
+        "placeholders": {
+            "password": "Password"
+        },
+        "title": "Bentornato"
+    }
+}
