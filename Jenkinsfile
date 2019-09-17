@@ -182,7 +182,7 @@ timeout(time:20, unit:'MINUTES') {
                                             """
 
                                         // run build
-                                        ut.buildDockerImage('waves/' + serviceName, source.split("\\.")[0], "--build-arg trading_view_token=${Constants.WAVES_WALLET_TRADING_VIEW_TOKEN} --build-arg platform=${platform}")
+                                        ut.buildDockerImage('waves/' + serviceName, source.split("\\.")[0] + '.latest', "--build-arg trading_view_token=${Constants.WAVES_WALLET_TRADING_VIEW_TOKEN} --build-arg platform=${platform}")
                                         pipeline_status["built-${serviceName}"] = true
                                         ut.notifySlack("docker_builds",
                                             currentBuild.result,
