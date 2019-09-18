@@ -230,22 +230,12 @@ w-create-order {
             }
           }
 
-          .total .input-wrapper {
-            border: none;
-
-            .input-like {
-              border: 1px solid @color-basic-200;
-            }
-          }
-
           .input-controls {
             display: none;
           }
 
-          @media screen and (max-width: 860px) {
             .input-wrapper {
               display: flex;
-              height: 36px;
               border-radius: 4px;
               border: 1px solid @color-basic-200;
   
@@ -256,13 +246,16 @@ w-create-order {
                 justify-content: center;
                 align-items: center;
                 color: @color-basic-200;
+                cursor: pointer;
   
                 &.plus {
                   border-left: 1px solid @color-basic-200;
+                  background: @trade-icon-plus center no-repeat;
                 }
   
                 &.minus {
                   border-right: 1px solid #dae1e9;
+                  background: @trade-icon-minus center no-repeat;
                 }
               }
 
@@ -272,7 +265,6 @@ w-create-order {
   
               w-input-container {
                 flex: 1;
-                padding: 2px 0;
   
                 .asset-name-wrap {
                   background: transparent;
@@ -288,14 +280,11 @@ w-create-order {
                   padding: 0;
                 }
               }
-            }
-          }
 
-          w-input-container.invalid {
-            .input-like {
-              border: 1px solid @color-error-200;
+              &.invalid {
+                border: 1px solid @color-error-200;
+              }
             }
-          }
 
           .input-like {
             padding: 0;
@@ -454,10 +443,6 @@ w-create-order {
     .create-order {
       .body {
         .making-order {
-          .create-order-notification {
-            z-index: 1;
-          }
-
           .choice {
             display: flex;
 
@@ -490,6 +475,18 @@ w-create-order {
         display: flex;
       }
 
+    }
+  }
+}
+
+@media screen and (max-width: 860px) {
+  .create-order .body .making-order {
+    .fields .input-wrapper {
+      height: 36px;
+
+      w-input-container {
+        padding: 2px 0;
+      }
     }
   }
 }

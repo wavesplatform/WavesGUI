@@ -37,6 +37,10 @@
 
         &[data-column-id="favourite"] {
           flex-basis: 30px;
+
+          @media screen and (max-width: 860px) {
+            display: none;
+          }
         }
 
         &[data-column-id="pair"] {
@@ -107,3 +111,23 @@
   }
 }
 
+@media screen and (max-width: 659px) {
+  .smart-table_watchlist {
+    .smart-table {
+      &__wrapper {
+        padding: 4px;
+        background: @color-white;
+      }
+      
+      &__tbody {
+        &::-webkit-scrollbar-track {
+          -webkit-box-shadow: none;
+        }
+      }
+
+      &__thead {
+        display: none;
+      }
+    }
+  }
+}

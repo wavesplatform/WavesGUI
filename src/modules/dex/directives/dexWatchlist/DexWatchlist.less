@@ -26,12 +26,20 @@
     z-index: 4;
     height: 35px;
 
+    @media screen and (max-width: 860px) {
+      height: 40px;
+    }
+
     w-help-icon {
       position: absolute;
       top: 50%;
       right: 10px;
       z-index: 10;
       transform: translate(0, -50%);
+
+      @media screen and (max-width: 860px) {
+        display: none;
+      }
 
       .help-icon {
         &__content {

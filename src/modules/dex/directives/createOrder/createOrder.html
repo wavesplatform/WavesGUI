@@ -4,13 +4,13 @@
      w-i18n-ns="app.dex"
      ng-if="$ctrl.loaded">
 
-    <div class="head">
+    <!-- <div class="head">
         <div class="icon-drag margin-right-1"></div>
         <div class="footnote-2 disabled-900">{{$ctrl.amountDisplayName}} / {{$ctrl.priceDisplayName}}</div>
         <div class="icon-close"
              ng-if="$ctrl.step !== 0"
              ng-click="$ctrl.closeCreateOrder()"></div>
-    </div>
+    </div> -->
 
     <div class="body">
 
@@ -86,9 +86,9 @@
                             </div> -->
                         </div>
 
-                        <div class="input-wrapper">
-                            <div class="input-controls minus">-</div>
-                            <w-input-container ng-class="{'invalid': $ctrl.isPriceInvalid()}">
+                        <div class="input-wrapper" ng-class="{'invalid': $ctrl.isPriceInvalid()}">
+                            <div class="input-controls minus"></div>
+                            <w-input-container>
                                 <div class="input-like tiny">
                                     <w-input class="tiny no-validate-icons"
                                              tabindex="2"
@@ -116,7 +116,7 @@
                                     <span w-i18n="directives.createOrder.errors.required"></span>
                                 </w-input-error>
                             </w-input-container>
-                            <div class="input-controls plus">+</div>
+                            <div class="input-controls plus"></div>
                         </div>
                     </div>
 
@@ -136,9 +136,9 @@
                             </div>
                         </div>
 
-                        <div class="input-wrapper">
-                            <div class="input-controls minus">-</div>
-                            <w-input-container ng-class="{'invalid': $ctrl.isAmountInvalid()}">
+                        <div class="input-wrapper" ng-class="{'invalid': $ctrl.isAmountInvalid()}">
+                            <div class="input-controls minus"></div>
+                            <w-input-container>
                                 <div class="input-like tiny">
                                     <w-input tabindex="1"
                                             class="tiny no-validate-icons"
@@ -172,7 +172,7 @@
                                         params="{name: $ctrl.amountBalance.asset.displayName}"></span>
                                 </w-input-error>
                             </w-input-container>
-                            <div class="input-controls plus">+</div>
+                            <div class="input-controls plus"></div>
                         </div>
 
                         <div class="field-buttons">
@@ -206,8 +206,8 @@
                     <div class="total">
                         <div class="field-label caption-2 basic-600"
                              w-i18n="directives.createOrder.total"></div>
-                        <div class="input-wrapper">
-                            <w-input-container ng-class="{ 'invalid': $ctrl.isTotalInvalid() }">
+                        <div class="input-wrapper" ng-class="{ 'invalid': $ctrl.isTotalInvalid() }">
+                            <w-input-container>
                                 <div class="input-like tiny">
                                     <w-input class="tiny no-validate-icons"
                                             tabindex="3"
