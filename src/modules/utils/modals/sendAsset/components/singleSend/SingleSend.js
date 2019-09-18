@@ -36,7 +36,7 @@
              * @return {Money}
              */
             get balance() {
-                return this.moneyHash[this.assetId];
+                return this.moneyHash && this.moneyHash[this.assetId];
             }
 
             /**

@@ -37,7 +37,7 @@
              */
             get isGatewayAccepted() {
                 return !configService
-                    .get('PERMISSIONS.CANT_TRANSFER_GATEWAY').includes(this.balance.asset.id);
+                    .get('PERMISSIONS.CANT_TRANSFER_GATEWAY').includes(this.assetId);
             }
 
             /**

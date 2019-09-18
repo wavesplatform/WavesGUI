@@ -152,14 +152,6 @@
                 }
 
                 this.receive(utils.observe(this.state, 'moneyHash'), this._onChangeMoneyHash, this);
-                // this.observe('hasOuterBlockChain', () => {
-                //     if (!this.hasOuterBlockChain && this.tab === 'gatewaySend') {
-                //         this.tab = 'singleSend';
-                //     }
-                // });
-                // if (!this.hasOuterBlockChain && this.tab === 'gatewaySend') {
-                //     this.tab = 'singleSend';
-                // }
             }
 
             back() {

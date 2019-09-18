@@ -1,7 +1,7 @@
 <div class="tab-container" ng-class="$ctrl.mod">
     <div class="titles-wrap">
         <a ng-repeat="tab in $ctrl.tabs.components track by tab.id"
-           ng-class="{active: tab.selected, 'hidden-tab': tab.hidden}"
+           ng-class="{active: tab.selected}"
            ng-click="$ctrl.select(tab)"
            w-i18n="{{tab.title}}"
            class="title"></a>
