@@ -352,6 +352,9 @@
             "wavesLiteClient": "Waves Lite Client",
             "wavesLiteClientDescription": "Hesapları Waves Lite Client'ten aktar"
         },
+        "matcherChoice": {
+            "title": "Choose matcher"
+        },
         "open-main": {
             "dex": {
                 "cancel": "Hesap oluştur",
@@ -545,6 +548,11 @@
             "gateway": {
                 "feeExplanation": "{{assetName}} adresi tespit ettik ve bu adrese geçit tarafından transfer gerçekleştirilecektir. Gönderilecek minimum miktar {{min, BigNumber}} {{assetTicker}}. Maksimum miktar ise {{max, BigNumber}} {{assetTicker}} 'dır."
             },
+            "gatewayTerms": {
+                "accept": "Accept and Continue",
+                "text": "By using Gateway service, you agree to be bound by [Gateway Terms of Service](https://dex.wavesplatform.com/) and [Conduction of Transactions](https://dex.wavesplatform.com/). If you do not agree to these terms, then do not use this Gateway service.",
+                "title": "Gateway service agreement"
+            },
             "icoWarning": "Do not withdraw {{assetName}} to an ICO. We will not credit your account with tokens from that sale.",
             "idNumber": {
                 "helpIcon": {
@@ -596,7 +604,8 @@
             "validationError": {
                 "notEnoughFunds": "Gerekli olan komisyon için yeterli bakiyeniz bulunmamaktadır. İşlem için {{fee, money-currency}} ödemeniz gerekmektedir.",
                 "notEnoughFundsWithdraw": "Gerekli olan komisyon için yeterli bakiyeniz bulunmamaktadır. İşlem için {{fee, money-currency}} {{getawayFee, BigNumber}} {{currency}} ödemeniz ve geçit için {{minGatewayAmount, BigNumber}} {{currency}} komisyon ödemeniz gerekmektedir."
-            }
+            },
+            "withdrawTitle": "Withdraw"
         },
         "sepa": {
             "countryList": "Uygun ülkelerin ve geçerli kimliklerin listesi",
