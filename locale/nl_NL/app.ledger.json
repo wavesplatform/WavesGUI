@@ -11,6 +11,10 @@
         "avatarUnique": "Deze avatar is uniek, u kunt deze later niet wijzigen.",
         "back": "Ga terug",
         "choose": "Kies uw account",
+        "help": {
+            "id": "{div}[Set an ID manually or select an account from the list.]\n{div}[Please save the ID, it would be needed for importing.]"
+        },
+        "id": "Account ID",
         "importAccount": "Importeer een Ledger account",
         "ImportOrSignIn": "Account importeren of",
         "login": "Doorgaan",

@@ -1,4 +1,8 @@
 {
+    "encodedSeedForm": {
+        "placeholder": "Enter your encoded seed"
+    },
+    "encodedSeedTab": "Encoded seed",
     "keyForm": {
         "placeholder": "Voer hier uw privésleutel in"
     },
@@ -51,6 +55,7 @@
     },
     "seedOrKeyForm": {
         "description": "Voer uw seed-regel of privésleutel in om toegang te krijgen tot uw portemonnee",
+        "encodedSeed": "Encoded seed",
         "keyTitle": "Privésleutel",
         "seedTitle": "SEED regel",
         "title": "Importeren vanuit SEED of sleutel"

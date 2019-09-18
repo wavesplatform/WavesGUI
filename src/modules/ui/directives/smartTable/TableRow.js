@@ -23,11 +23,14 @@
             const index = $element.index();
             const idAttrName = 'data-column-id';
             const element = $element.get(0);
-
-            if (element.parentElement) {
-                $element.attr(idAttrName, this.stService.getTableByCid(this.parentCid).getIdByIndex(index));
-            } else {
-                $element.attr(idAttrName, id);
+            try {
+                if (element.parentElement) {
+                    $element.attr(idAttrName, this.stService.getTableByCid(this.parentCid).getIdByIndex(index));
+                } else {
+                    $element.attr(idAttrName, id);
+                }
+            } catch (e) {
+                return null;
             }
         }
 
