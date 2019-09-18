@@ -28,7 +28,7 @@
         </div>
 
         <div ng-if="!$ctrl.gatewayError && $ctrl.isGatewayAccepted" class="row">
-            <div class="plate-warning margin-2">
+            <div ng-if="$ctrl.gatewayDetails" class="plate-warning margin-2">
                 <div class="body-2 warning-500"
                      w-i18n="modal.send.coinomat.feeTitle"
                      params="{ fee: $ctrl.gatewayDetails.gatewayFee,
@@ -167,7 +167,7 @@
              ng-if="!$ctrl.hasFee && !$ctrl.gatewayError && $ctrl.isGatewayAccepted">
             <span w-i18n="modal.send.validationError.notEnoughFundsWithdraw"
                   params="{
-                            fee: $ctrl.state.singleSend.fee,
+                            fee: $ctrl.state.gatewaySend.fee,
                             getawayFee: $ctrl.gatewayDetails.gatewayFee,
                             currency: $ctrl.balance.asset.displayName,
                             minGatewayAmount: $ctrl.gatewayDetails.minimumAmount
@@ -185,4 +185,12 @@
                    disabled="$ctrl.gatewaySend.$invalid || !$ctrl.hasFee || $ctrl.gatewayError">
         <span w-i18n="button.continue"></span>
     </w-sign-button>
+</div>
+
+<div ng-if="!$ctrl.gatewayTermsAccepted" class="gateway-terms">
+    <div w-i18n="modal.send.gatewayTerms.title"></div>
+    <div w-i18n="modal.send.gatewayTerms.text"></div>
+    <w-button class="submit big long" on-click="$ctrl.acceptGatewayTerms()">
+        <span w-i18n="modal.send.gatewayTerms.accept"></span>
+    </w-button>
 </div>

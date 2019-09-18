@@ -545,6 +545,11 @@
             "gateway": {
                 "feeExplanation": "Введенный адрес определен как {{assetName}}-адрес, ваши средства будут отправлены на него через шлюз. Минимальная сумма перевода — {{min, BigNumber}} {{assetTicker}}, максимальная — {{max, BigNumber}} {{assetTicker}}."
             },
+            "gatewayTerms": {
+                "accept": "Accept and Continue",
+                "text": "By using Gateway service, you agree to be bound by [Gateway Terms of Service](https://dex.wavesplatform.com/) and [Conduction of Transactions](https://dex.wavesplatform.com/). If you do not agree to these terms, then do not use this Gateway service.",
+                "title": "Gateway service agreement"
+            },
             "icoWarning": "Не выводите {{assetName}} на адреса ICO, так как мы не зачислим вам токены полученные после окончания распродажи.",
             "idNumber": {
                 "helpIcon": {
@@ -596,7 +601,8 @@
             "validationError": {
                 "notEnoughFunds": "У вас недостаточно средств для оплаты комиссии. Вам необходимо оплатить комиссию за транзакцию {{fee, money-currency}}.",
                 "notEnoughFundsWithdraw": "У вас недостаточно средств для отправки транзакции. Вам необходимо оплатить комиссию за транзакцию {{fee, money-currency}} и комиссию шлюза {{getawayFee, BigNumber}} {{currency}}. Минимальная сумма для отправки составляет {{minGatewayAmount, BigNumber}} {{currency}}."
-            }
+            },
+            "withdrawTitle": "Withdraw"
         },
         "sepa": {
             "countryList": "Список допустимых стран и ID",

@@ -35,15 +35,11 @@
             }
 
             /**
-             * @type {ISendMode}
-             */
-            sendMode;
-
-            /**
              * @param {IAssetSendCtrl.IOptions} options
              */
             constructor(options) {
                 super($scope);
+                this.options = options;
 
                 /**
                  * @type {string}
@@ -78,18 +74,20 @@
                     paymentId: '',
                     moneyHash: null,
                     singleSend: utils.liteObject({ type: SIGN_TYPE.TRANSFER }),
-                    massSend: utils.liteObject({ type: SIGN_TYPE.MASS_TRANSFER })
+                    massSend: utils.liteObject({ type: SIGN_TYPE.MASS_TRANSFER }),
+                    gatewaySend: utils.liteObject({ type: SIGN_TYPE.TRANSFER })
                 };
 
                 this.receive(balanceWatcher.change, this._updateBalanceList, this);
                 this._updateBalanceList();
 
-                this.observe('sendMode', this._onChangeSendMode);
+                this.receive(utils.observe(this.state, 'assetId'), this._onChangeAssetId, this);
+                this._onChangeGatewayRecipient();
 
-                this.receive(utils.observe(this.state, 'assetId'), this.checkSendMode, this);
-                this.receive(utils.observe(this.state.singleSend, 'recipient'), this.checkSendMode, this);
-                this.checkSendMode();
-
+                /**
+                 * @type {ISendMode}
+                 */
+                this.sendMode = 'waves';
                 /**
                  * @type {string}
                  */
@@ -102,6 +100,10 @@
                  * @type {boolean}
                  */
                 this.errorOccured = false;
+                /**
+                 * @type {boolean}
+                 */
+                this.hasOuterBlockChain = !!this._checkHasOuterBlockChain();
 
                 try {
                     this.referrer = new URL(options.referrer).href;
@@ -118,8 +120,7 @@
                     this.state.singleSend.recipient = options.recipient;
                     this.state.singleSend.attachment = options.attachment;
 
-                    const toGateway = this.sendMode === 'gateway' && this.gatewayDetails;
-                    const attachment = toGateway ? this.gatewayDetails.attachment : options.attachment;
+                    const attachment = options.attachment;
                     const attachmentString = attachment ? attachment.toString() : '';
                     const bytesAttachment = utils.stringToBytes(attachmentString);
 
@@ -151,6 +152,14 @@
                 }
 
                 this.receive(utils.observe(this.state, 'moneyHash'), this._onChangeMoneyHash, this);
+                // this.observe('hasOuterBlockChain', () => {
+                //     if (!this.hasOuterBlockChain && this.tab === 'gatewaySend') {
+                //         this.tab = 'singleSend';
+                //     }
+                // });
+                // if (!this.hasOuterBlockChain && this.tab === 'gatewaySend') {
+                //     this.tab = 'singleSend';
+                // }
             }
 
             back() {
@@ -173,31 +182,29 @@
                 this.sendMode = mode;
             }
 
-            checkSendMode() {
-                if (this._isOuterBlockchains()) {
-                    this.setMode('gateway');
-                } else {
-                    this.setMode('waves');
-                }
-            }
-
             updateGatewayData() {
-                if (gatewayService.hasSupportOf(this.balance.asset, 'deposit')) {
+                if (gatewayService.hasSupportOf(this.balance.asset, 'deposit') && this._isOuterBlockchains()) {
                     return gatewayService
-                        .getWithdrawDetails(this.balance.asset, this.state.singleSend.recipient, this.state.paymentId)
+                        .getWithdrawDetails(this.balance.asset, this.state.gatewaySend.recipient, this.state.paymentId)
                         .then(details => {
                             this.state.gatewayData = {
                                 error: null,
                                 details
                             };
-                            $scope.$apply();
+                            utils.safeApply($scope);
                         }, error => {
                             this.state.gatewayData = {
                                 details: null,
                                 error
                             };
-                            $scope.$apply();
+                            utils.safeApply($scope);
                         });
+                } else {
+                    this.state.gatewayData = {
+                        error: null,
+                        details: null
+                    };
+                    utils.safeApply($scope);
                 }
             }
 
@@ -255,17 +262,32 @@
              */
             _isOuterBlockchains() {
                 const outerChain = outerBlockchains[this.state.assetId];
-                const isValidWavesAddress = user.isValidAddress(this.state.singleSend.recipient);
+                const isValidWavesAddress = user.isValidAddress(this.state.gatewaySend.recipient);
                 const isGatewayAddress = !isValidWavesAddress &&
-                    outerChain && outerChain.isValidAddress(this.state.singleSend.recipient);
+                    outerChain && outerChain.isValidAddress(this.state.gatewaySend.recipient);
                 return isGatewayAddress;
+            }
+
+            /**
+             * @return {boolean}
+             * @private
+             */
+            _checkHasOuterBlockChain() {
+                return outerBlockchains[this.state.assetId];
             }
 
             /**
              * @private
              */
-            _onChangeSendMode() {
-                if (this.sendMode === 'gateway') {
+            _onChangeAssetId() {
+                this.hasOuterBlockChain = !!this._checkHasOuterBlockChain();
+            }
+
+            /**
+             * @private
+             */
+            _onChangeGatewayRecipient() {
+                if (this._isOuterBlockchains()) {
                     this.updateGatewayData();
                 } else {
                     this.gatewayData = {
@@ -340,6 +362,7 @@
  * @property {IGatewayDetails} gatewayDetails
  * @property {Object.<string, Money>} moneyHash
  * @property {ISingleSendTx} singleSend
+ * @property {ISingleSendTx} gatewaySend
  * @property {IMassSendTx} massSend
  * @property {string} warning
  */
@@ -360,5 +383,5 @@
  */
 
 /**
- * @typedef {'waves' | 'bank' | 'gataway'} ISendMode
+ * @typedef {'waves' | 'bank'} ISendMode
  */

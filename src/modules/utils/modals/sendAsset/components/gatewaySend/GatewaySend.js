@@ -12,8 +12,9 @@
      * @param {Waves} waves
      * @param {GatewayService} gatewayService
      * @param {ConfigService} configService
+     * @param {app.Storage} storage
      */
-    const controller = function (SingleSend, $scope, utils, user, waves, gatewayService, configService) {
+    const controller = function (SingleSend, $scope, utils, user, waves, gatewayService, configService, storage) {
 
         class GatewaySend extends SingleSend {
 
@@ -40,6 +41,13 @@
             }
 
             /**
+             * @return {ISingleSendTx}
+             */
+            get tx() {
+                return this.state.gatewaySend;
+            }
+
+            /**
              * @type {boolean}
              */
             gatewayError = false;
@@ -59,6 +67,19 @@
              * @type {Money}
              */
             maxGatewayAmount = null;
+            /**
+             * @type {boolean}
+             */
+            gatewayTermsAccepted;
+
+            constructor(props) {
+                super(props);
+
+                storage.load('gatewayTermAccepted')
+                    .then(termsAccepted => {
+                        this.gatewayTermsAccepted = termsAccepted;
+                    });
+            }
 
             $postLink() {
                 this.receive(utils.observe(this.tx, 'recipient'), this._onUpdateRecipient, this);
@@ -127,12 +148,16 @@
                 return signable;
             }
 
+            acceptGatewayTerms() {
+                this.gatewayTermsAccepted = true;
+                storage.save('gatewayTermAccepted', true);
+            }
+
             /**
              * @private
              */
             _onUpdateGatewayData() {
                 const { details, error } = this.state.gatewayData;
-
                 if (details) {
                     this.gatewayDetailsError = false;
                     this.gatewayAddressError = false;
@@ -159,17 +184,16 @@
                         this.gatewayDetailsError = true;
                     }
                 } else {
-                    this.gatewayDetailsError = true;
+                    // this.gatewayDetailsError = true;
                 }
 
-                $scope.$apply();
+                utils.safeApply($scope);
             }
 
             /**
              * @private
              */
             _onUpdateRecipient() {
-                this.onChangeRecipient();
                 this.updateGatewayData();
             }
 
@@ -207,12 +231,18 @@
              * @private
              */
             _updateWavesTxObject() {
-                const fee = this.tx.amount ? this.tx.amount.cloneWithTokens(this.gatewayDetails.gatewayFee) : null;
+                const fee = (this.tx.amount && this.gatewayDetails) ?
+                    this.tx.amount.cloneWithTokens(this.gatewayDetails.gatewayFee) :
+                    null;
+
+                const recipient = this.gatewayDetails ? this.gatewayDetails.address : '';
+                const attachment = this.gatewayDetails ? this.gatewayDetails.attachment : '';
+
                 this.wavesTx = {
                     ...this.wavesTx,
-                    recipient: this.gatewayDetails.address,
-                    attachment: utils.stringToBytes(this.gatewayDetails.attachment),
-                    amount: this.tx.amount.add(fee),
+                    recipient,
+                    attachment: utils.stringToBytes(attachment),
+                    amount: fee ? this.tx.amount.add(fee) : this.tx.amount,
                     assetId: this.assetId
                 };
             }
@@ -252,17 +282,17 @@
         'user',
         'waves',
         'gatewayService',
-        'configService'
+        'configService',
+        'storage'
     ];
 
     angular.module('app.ui').component('wGatewaySend', {
         bindings: {
             state: '<',
             onSign: '&',
-            onChangeRecipient: '&',
             updateGatewayData: '&'
         },
-        templateUrl: 'modules/utils/modals/sendAsset/components/singleSend/gatewaySend/gateway-send.html',
+        templateUrl: 'modules/utils/modals/sendAsset/components/gatewaySend/gateway-send.html',
         transclude: true,
         controller
     });

@@ -24,13 +24,13 @@
                              placeholder="modal.send.placeholderRecipient"
                              w-i18n-attr="placeholder"
                              w-validate
-                             w-validator-any-address="{{$ctrl.state.assetId}}"
+                             w-validator-waves-address
                              required></w-input>
 
                     <w-qr-code-read on-read="$ctrl.onReadQrCode(text)" max-width="415" max-height="310"></w-qr-code-read>
                 </div>
 
-                <w-input-error message="anyAddress">
+                <w-input-error message="wavesAddress">
                     <span w-i18n="modal.send.errors.address"></span>
                 </w-input-error>
                 <w-input-error message="required">

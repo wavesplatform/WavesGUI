@@ -32,7 +32,6 @@
             onChangeMode = null;
 
             $postLink() {
-                this.receive(utils.observe(this.tx, 'recipient'), this.onChangeRecipient, this);
 
                 const onHasMoneyHash = () => {
                     this.tx.amount = this.tx.amount || this.balance.cloneWithTokens('0');
@@ -48,7 +47,6 @@
                     this.receive(utils.observe(this.tx, 'recipient'), this._updateWavesTxObject, this);
                     this.receive(utils.observe(this.tx, 'attachment'), this._updateWavesTxObject, this);
 
-                    this.onChangeRecipient();
                     this._onChangeFee();
                     this._setMinAndMaxAmount();
                     this._onChangeBaseAssets();
@@ -156,8 +154,7 @@
         bindings: {
             state: '<',
             onSign: '&',
-            onChangeMode: '&',
-            onChangeRecipient: '&'
+            onChangeMode: '&'
         },
         templateUrl: 'modules/utils/modals/sendAsset/components/singleSend/wavesSend/waves-send.html',
         transclude: true,

@@ -545,6 +545,11 @@
             "gateway": {
                 "feeExplanation": "私たちは {{assetName}} アドレスを検知しました。ゲートウェイを通じてそのアドレスに送金します。最小数量は {{min, BigNumber}} {{assetTicker}}、最大数量は {{max, BigNumber}} {{assetTicker}}です。"
             },
+            "gatewayTerms": {
+                "accept": "Accept and Continue",
+                "text": "By using Gateway service, you agree to be bound by [Gateway Terms of Service](https://dex.wavesplatform.com/) and [Conduction of Transactions](https://dex.wavesplatform.com/). If you do not agree to these terms, then do not use this Gateway service.",
+                "title": "Gateway service agreement"
+            },
             "icoWarning": "{{assetName}} をICOに向けて引き出さないでください。私たちはそのトークンセールから受け取るトークンをあなたのアカウントに反映しません。",
             "idNumber": {
                 "helpIcon": {
@@ -596,7 +601,8 @@
             "validationError": {
                 "notEnoughFunds": "あなたは必要な手数料を支払う資金を保有していません。 {{fee, money-currency}} をトランザクション手数料として支払う必要があります。",
                 "notEnoughFundsWithdraw": "あなたは必要な手数料を支払う資金を保有していません。トランザクション手数料 {{fee, money-currency}} として、ゲートウェイ手数料{{getawayFee, BigNumber}} {{currency}} を支払う必要があります。最低引出し可能額は {{minGatewayAmount, BigNumber}} {{currency}}です。"
-            }
+            },
+            "withdrawTitle": "Withdraw"
         },
         "sepa": {
             "countryList": "適格な国とIDのリスト",

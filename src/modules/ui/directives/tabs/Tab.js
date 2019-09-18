@@ -33,6 +33,10 @@
                  * @type {Signal<Tab>} changeId
                  */
                 this.changeId = new tsUtils.Signal();
+                /**
+                 * @type {boolean}
+                 */
+                this.hidden = false;
 
                 this.observe('id', () => {
                     const id = this.id;
@@ -46,7 +50,17 @@
             }
 
             $onInit() {
-                this.wTabs.addTab(this);
+                if (!this.hidden) {
+                    this.wTabs.addTab(this);
+                }
+
+                this.observe('hidden', () => {
+                    if (!this.hidden) {
+                        this.wTabs.addTab(this);
+                    } else {
+                        this.wTabs.removeTab(this);
+                    }
+                });
             }
 
         }
@@ -65,7 +79,8 @@
         },
         bindings: {
             title: '<titleName',
-            id: '<'
+            id: '<',
+            hidden: '<hiddenTab'
         }
     });
 })();

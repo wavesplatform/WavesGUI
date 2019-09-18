@@ -545,6 +545,11 @@
             "gateway": {
                 "feeExplanation": "Wykryliśmy adres {{assetName}} i wyślemy twoje środki za pośrednictwem bramki na ten adres. Minimalną kwotą jest {{min, BigNumber}} {{assetTicker}}, maksymalną kwotą jest {{max, BigNumber}} {{assetTicker}}."
             },
+            "gatewayTerms": {
+                "accept": "Accept and Continue",
+                "text": "By using Gateway service, you agree to be bound by [Gateway Terms of Service](https://dex.wavesplatform.com/) and [Conduction of Transactions](https://dex.wavesplatform.com/). If you do not agree to these terms, then do not use this Gateway service.",
+                "title": "Gateway service agreement"
+            },
             "icoWarning": "Nie wycofuj {{assetName}} do ICO. Nie obciążymy Twojego konta tokenami z tej sprzedaży.",
             "idNumber": {
                 "helpIcon": {
@@ -596,7 +601,8 @@
             "validationError": {
                 "notEnoughFunds": "Nie ma wystarczających środków aby zapłacić wymagane prowizje. Musisz zapłacić {{fee, money-currency}} opłaty transakcyjnej.",
                 "notEnoughFundsWithdraw": "Nie masz wystarczających środków, aby zapłacić wymagane prowizje. Musisz zapłacić {{fee, money-currency}} {{getawayFee, BigNumber}} {{currency}} opłaty transakcyjnej. Minimalnie do wypłaty jest {{minGatewayAmount, BigNumber}} {{currency}}"
-            }
+            },
+            "withdrawTitle": "Withdraw"
         },
         "sepa": {
             "countryList": "Lista kwalifikujących się krajów",

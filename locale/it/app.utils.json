@@ -545,6 +545,11 @@
             "gateway": {
                 "feeExplanation": "Abbiamo rilevato un indirizzo {{assetName}} a cui invieremo i tuoi fondi tramite un gateway. L'importo minimo è di {{min, BigNumber}} {{assetTicker}}, l'importo massimo è di {{max, BigNumber}} {{assetTicker}}."
             },
+            "gatewayTerms": {
+                "accept": "Accept and Continue",
+                "text": "By using Gateway service, you agree to be bound by [Gateway Terms of Service](https://dex.wavesplatform.com/) and [Conduction of Transactions](https://dex.wavesplatform.com/). If you do not agree to these terms, then do not use this Gateway service.",
+                "title": "Gateway service agreement"
+            },
             "icoWarning": "Non prelevare {{assetName}} verso una ICO. Non accrediteremo il tuo account con token provenienti da quell'iniziativa.",
             "idNumber": {
                 "helpIcon": {
@@ -596,7 +601,8 @@
             "validationError": {
                 "notEnoughFunds": "Non hai fondi sufficienti per pagare le spese. Devi pagare {{fee, money-currency}} per spese di transazione.",
                 "notEnoughFundsWithdraw": "Non hai fondi sufficienti per pagare le spese. Devi pagare {{fee, money-currency}} per spese di transazione e {{getawayFee, BigNumber}} {{currency}} per spese del gateway. Jumlah minimum untuk penarikan adalah {{minGatewayAmount, BigNumber}} {{currency}}."
-            }
+            },
+            "withdrawTitle": "Withdraw"
         },
         "sepa": {
             "countryList": "Lista di paesi abilitati e documenti di identità",

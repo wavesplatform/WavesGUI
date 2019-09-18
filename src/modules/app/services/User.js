@@ -102,7 +102,7 @@
             /**
              * @type {ICurrentUser|null}
              */
-            currentUser = null
+            currentUser = null;
             /**
              * @type {Money}
              */
