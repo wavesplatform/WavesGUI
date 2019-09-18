@@ -223,10 +223,12 @@
             showMatcherChoice() {
                 return this._getModal({
                     id: 'matcher-choice',
-                    templateUrl: 'modules/utils/modals/matcherChoice/matcherChoice.html',
+                    title: 'modal.matcherChoice.title',
+                    contentUrl: 'modules/utils/modals/matcherChoice/matcherChoice.html',
                     controller: 'MatcherChoiceCtrl',
                     clickOutsideToClose: false,
-                    escapeToClose: false
+                    escapeToClose: false,
+                    mod: 'matcher-choice'
                 });
             }
 

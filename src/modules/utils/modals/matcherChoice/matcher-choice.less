@@ -1,0 +1,45 @@
+@import (reference) url('config');
+@import (reference) '../../../app/less/typography';
+@import (reference) '../../../config-classes';
+
+.matcher-choice {
+  &__content {
+    margin-top: 30px !important;
+  }
+
+  &__row {
+    margin-bottom: 20px;
+  }
+
+  &__label {
+    .body-2();
+    color: @color-basic-900;
+  }
+
+  &__terms {
+    max-height: 300px;
+    padding: 12px 16px;
+    border-radius: 4px;
+    border: solid 1px @color-basic-200;
+    overflow: auto;
+
+    &-title {
+      font-size: 17px;
+      font-weight: 500;
+      color: @color-basic-900;
+      margin: 0 0 10px;
+    }
+
+    &-date {
+      font-size: 13px;
+      color: @color-basic-600;
+      margin-bottom: 10px;
+    }
+
+    &-text {
+      font-size: 15px;
+      line-height: 1.33;
+      color: @color-basic-700;
+    }
+  }
+}

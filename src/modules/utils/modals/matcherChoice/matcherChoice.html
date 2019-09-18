@@ -1,53 +1,55 @@
-<md-dialog w-i18n-ns="app.utils" class="terms-accept" aria-label="modal">
-    <h3 class="basic-700">Choose matcher</h3>
-    <div class="btn icon-close"
-         ng-click="$ctrl.close()"></div>
-    <md-dialog-content>
-        <div>
+ <div class="matcher-choice__content">
 
-            <w-matcher-select on-change="$ctrl.onChangeMatcher(matcher)"></w-matcher-select>
+     <div class="matcher-choice__row">
+        <div w-i18n="modal.matcherChoice.matcher" class="matcher-choice__label margin-05"></div>
+        <w-matcher-select on-change="$ctrl.onChangeMatcher(matcher)"></w-matcher-select>
+    </div>
 
-            <div w-i18n="modal.matcherChoice.customMatcher" ng-if="$ctrl.isCustomForm"></div>
-            <form name="$ctrl.customMatcherForm"
-                  novalidate>
-                <w-input-container ng-if="$ctrl.isCustomForm">
-                    <w-input
-                            w-autofocus
-                            name="customMatcherInput"
-                            class="big no-icon"
-                            type="text"
-                            maxlength="100"
-                            ng-model="$ctrl.matcherUrl"
-                            required
-                    ></w-input>
-                </w-input-container>
-            </form>
+     <div class="matcher-choice__row">
+         <div w-i18n="modal.matcherChoice.customMatcher" ng-if="$ctrl.isCustomForm" class="matcher-choice__label margin-05"></div>
+        <form name="$ctrl.customMatcherForm"
+              novalidate>
+            <w-input-container ng-if="$ctrl.isCustomForm">
+                <w-input
+                        w-autofocus
+                        name="customMatcherInput"
+                        class="big no-icon"
+                        type="text"
+                        maxlength="100"
+                        ng-model="$ctrl.matcherUrl"
+                        required
+                ></w-input>
+            </w-input-container>
+        </form>
+     </div>
 
-            <div ng-if="!$ctrl.isCustomForm">
-                <h4>{{$ctrl.matcherName}}</h4>
-                <div>{{$ctrl.matcherTermsText}}</div>
-            </div>
-
-
-            <div class="basic-500 body-2 unit-checkbox margin-3">
-                <w-checkbox-submit id="wavesTerms"
-                                   ng-model="$ctrl.wavesTerms"></w-checkbox-submit>
-                <label for="wavesTerms"
-                       w-i18n="modal.matcherChoice.wavesTerms"></label>
-            </div>
-
-            <div class="basic-500 body-2 unit-checkbox margin-3" ng-if="!$ctrl.isCustomForm">
-                <w-checkbox-submit id="matcherTerms"
-                                   ng-model="$ctrl.matcherTerms"></w-checkbox-submit>
-                <label for="matcherTerms"
-                       w-i18n="modal.matcherChoice.matcherTerms" params="{ name: $ctrl.matcherName }"></label>
-            </div>
-
-            <w-button class="submit long big"
-                      on-click="$ctrl.confirm()"
-                      disabled="!$ctrl.matcherTerms || !$ctrl.wavesTerms || ($ctrl.isCustomForm && !$ctrl.customMatcherForm.$dirty)">
-                <span w-i18n="button.continue"></span>
-            </w-button>
+     <div class="matcher-choice__row" ng-if="!$ctrl.isCustomForm">
+         <div w-i18n="modal.matcherChoice.terms" class="matcher-choice__label margin-05"></div>
+        <div class="matcher-choice__terms">
+            <h4 w-i18n="modal.matcherChoice.termsTitle" class="matcher-choice__terms-title">{{$ctrl.matcherName}}</h4>
+            <div class="matcher-choice__terms-date">Last revised: 15 August 2019</div>
+            <div w-i18n="modal.matcherChoice.termsText" class="matcher-choice__terms-text">{{$ctrl.matcherTermsText}}</div>
         </div>
-    </md-dialog-content>
-</md-dialog>
+     </div>
+
+    <div class="basic-500 body-2 unit-checkbox margin-3">
+        <w-checkbox-submit id="wavesTerms"
+                           ng-model="$ctrl.wavesTerms"></w-checkbox-submit>
+        <label for="wavesTerms"
+               w-i18n="modal.matcherChoice.wavesTerms"></label>
+    </div>
+
+    <div class="basic-500 body-2 unit-checkbox margin-3" ng-if="!$ctrl.isCustomForm">
+        <w-checkbox-submit id="matcherTerms"
+                           ng-model="$ctrl.matcherTerms"></w-checkbox-submit>
+        <label for="matcherTerms"
+               w-i18n="modal.matcherChoice.matcherTerms" params="{ name: $ctrl.matcherName }"></label>
+    </div>
+
+    <w-button class="submit long big"
+              on-click="$ctrl.confirm()"
+              disabled="!$ctrl.matcherTerms || !$ctrl.wavesTerms || ($ctrl.isCustomForm && !$ctrl.customMatcherForm.$dirty)">
+        <span w-i18n="button.continue"></span>
+    </w-button>
+</div>
+
