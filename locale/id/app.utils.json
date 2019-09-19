@@ -352,6 +352,9 @@
             "wavesLiteClient": "Klien Lite Waves",
             "wavesLiteClientDescription": "Impor akun dari Klien Lite Waves"
         },
+        "matcherChoice": {
+            "title": "Choose matcher"
+        },
         "open-main": {
             "dex": {
                 "cancel": "Buat sebuah akun",
@@ -545,6 +548,11 @@
             "gateway": {
                 "feeExplanation": "Kami telah mendeteksi alamat {{assetName}} dan akan mengirimkan dana Anda melalui gateway ke alamat ini. Jumlah minimum adalah {{min, BigNumber}} {{assetTicker}}. Jumlah maksimum adalah {{max, BigNumber}} {{assetTicker}}."
             },
+            "gatewayTerms": {
+                "accept": "Accept and Continue",
+                "text": "By using Gateway service, you agree to be bound by [Gateway Terms of Service](https://dex.wavesplatform.com/) and [Conduction of Transactions](https://dex.wavesplatform.com/). If you do not agree to these terms, then do not use this Gateway service.",
+                "title": "Gateway service agreement"
+            },
             "icoWarning": "Jangan menarik {{assetName}} ke ICO. Kami tidak akan mengkredit akun Anda dengan token dari penjualan itu.",
             "idNumber": {
                 "helpIcon": {
@@ -596,7 +604,8 @@
             "validationError": {
                 "notEnoughFunds": "Anda tidak memiliki cukup dana untuk membayar biaya yang diperlukan. Anda harus membayar {{fee, money-currency}} biaya transaksi.",
                 "notEnoughFundsWithdraw": "Anda tidak memiliki cukup dana untuk membayar biaya yang diperlukan. Anda harus membayar {{fee, money-currency}} biaya transaksi dan {{getawayFee, BigNumber}} {{currency}} biaya gateway. Jumlah minimum untuk penarikan adalah {{minGatewayAmount, BigNumber}} {{currency}}."
-            }
+            },
+            "withdrawTitle": "Withdraw"
         },
         "sepa": {
             "countryList": "Daftar negara dan ID yang memenuhi syarat",

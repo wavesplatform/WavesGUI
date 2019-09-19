@@ -12,9 +12,9 @@
         "back": "返回",
         "choose": "选择您的帐户",
         "help": {
-            "id": "{div}[Set an ID manually or select an account from the list.]\n{div}[Please save the ID, it would be needed for importing.]"
+            "id": "{div} [手动设置ID或从列表中选择一个帐户。] \n {div} [请保存ID，导入时需要。]"
         },
-        "id": "Account ID",
+        "id": "帐户ID",
         "importAccount": "导入 Ledger 帐户",
         "ImportOrSignIn": "导入帐户或",
         "login": "继续",

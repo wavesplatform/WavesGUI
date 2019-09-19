@@ -352,6 +352,9 @@
             "wavesLiteClient": "Waves Lite Client",
             "wavesLiteClientDescription": "Importar contas da Waves Lite Client"
         },
+        "matcherChoice": {
+            "title": "Choose matcher"
+        },
         "open-main": {
             "dex": {
                 "cancel": "Criar uma conta",
@@ -545,6 +548,11 @@
             "gateway": {
                 "feeExplanation": "We have detected a {{assetName}} address and will send your funds via a gateway to this address. The minimum amount is {{min, BigNumber}} {{assetTicker}}. The maximum amount is {{max, BigNumber}} {{assetTicker}}."
             },
+            "gatewayTerms": {
+                "accept": "Accept and Continue",
+                "text": "By using Gateway service, you agree to be bound by [Gateway Terms of Service](https://dex.wavesplatform.com/) and [Conduction of Transactions](https://dex.wavesplatform.com/). If you do not agree to these terms, then do not use this Gateway service.",
+                "title": "Gateway service agreement"
+            },
             "icoWarning": "Não transfira {{assetName}} para uma ICO. Nós não iremos contabilizar seu saldo com tokens por esta venda.",
             "idNumber": {
                 "helpIcon": {
@@ -596,7 +604,8 @@
             "validationError": {
                 "notEnoughFunds": "Você não tem saldo suficientes para pagar as taxas exigidas. Você deve pagar {{fee, money-currency}} taxa da transação.",
                 "notEnoughFundsWithdraw": "Você não tem saldo suficiente para pagar as taxas exigidas. Você deve pagar uma taxa de transação de {{fee, money-currency}} e uma taxa de gateway de {{getawayFee, BigNumber}} {{currency}}. O valor mínimo para saque é {{minGatewayAmount, BigNumber}} {{currency}}."
-            }
+            },
+            "withdrawTitle": "Withdraw"
         },
         "sepa": {
             "countryList": "Lista de países e IDs permitidos",
