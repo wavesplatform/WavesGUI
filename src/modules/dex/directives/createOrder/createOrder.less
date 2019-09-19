@@ -230,8 +230,39 @@ w-create-order {
             }
           }
 
-          .input-controls {
-            display: none;
+          .tricky-input {
+            background: transparent;
+            &__wrapper {
+              height: 100%;
+              width: 100%;
+              position: relative;
+              .input-container {
+                width: 100%;
+                position: relative;
+                top: -100%;
+                background: transparent;
+                input.tiny {
+                  background: transparent;
+                }
+                input {
+                  text-align: center;
+                }
+              }
+            }
+          }
+
+          .hidden-input {
+            position: relative;
+            text-align: center;
+            height: 100%;
+            overflow: hidden;
+            span {
+              line-height: 34px;
+            }
+            &__transparent-value {
+              font-size: 12px;
+              opacity: 0;
+            }
           }
 
             .input-wrapper {
@@ -275,18 +306,6 @@ w-create-order {
                 }
               }
 
-              .icon-plus {
-                background: @trade-icon-plus center no-repeat;
-                width: 100%;
-                height: 34px;
-              }
-
-              .icon-minus {
-                background: @trade-icon-minus center no-repeat;
-                width: 100%;
-                height: 34px;
-              }
-
               .input-like {
                 border: none;
               }
@@ -300,6 +319,9 @@ w-create-order {
                   height: auto;
                   border: none;
                   padding: 0 2px;
+                  &.transparent {
+                    opacity: 0;
+                  }
                 }
   
                 w-input, input {
