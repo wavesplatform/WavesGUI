@@ -50,7 +50,7 @@
                     }
                 });
 
-                return storage.save('userList', users);
+                return storage.save('userList', users || []);
             });
         }
 
@@ -125,9 +125,12 @@
             constructor() {
                 usedStorage.init();
                 this._isNewDefer = $q.defer();
+                this._canWrite = $q.defer();
+                this._activeWrite = Promise.resolve();
 
                 this.load('lastVersion')
                     .then((version) => {
+                        this._canWrite.resolve();
                         this.save('lastVersion', WavesApp.version);
                         state.lastOpenVersion = version;
 
@@ -149,7 +152,10 @@
             }
 
             save(key, value) {
-                return utils.when(usedStorage.write(key, value));
+                return this._canWrite.promise.then(() => {
+                    this._activeWrite = this._activeWrite.then(() => utils.when(usedStorage.write(key, value)));
+                    return this._activeWrite;
+                });
             }
 
             load(key) {
@@ -157,7 +163,7 @@
             }
 
             clear() {
-                return utils.when(usedStorage.clear());
+                return this._canWrite.promise.then(() => utils.when(usedStorage.clear()));
             }
 
         }

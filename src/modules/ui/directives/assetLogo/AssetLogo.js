@@ -88,11 +88,6 @@
             _addLogo() {
                 if (!this.isNew && this.assetId) {
 
-                    if (this.assetId === WavesApp.defaultAssets.VST) {
-                        $element.find('.asset-logo__logo')
-                            .addClass('asset-logo__logo_vostok');
-                    }
-
                     const { logo } = utils.getDataFromOracles(this.assetId);
 
                     if (logo) {

@@ -12,6 +12,7 @@
     const controller = function (Base, $scope, $state, user, utils) {
 
         const signatureAdapter = require('@waves/signature-adapter');
+        const analytics = require('@waves/event-sender');
 
         class KeeperCtrl extends Base {
 
@@ -99,7 +100,7 @@
                 ]).then(([legacyUsers = [], users = []]) => {
                     this._usersInStorage = [...legacyUsers, ...users];
                 });
-
+                analytics.send({ name: 'Import Keeper Click', target: 'ui' });
                 this.getUsers();
             }
 

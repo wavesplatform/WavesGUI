@@ -11,6 +11,10 @@
         "avatarUnique": "Avatar ini unik, Anda tidak dapat mengubahnya nanti.",
         "back": "Kembali",
         "choose": "Pilih akun Anda",
+        "help": {
+            "id": "{div}[Set an ID manually or select an account from the list.]\n{div}[Please save the ID, it would be needed for importing.]"
+        },
+        "id": "Account ID",
         "importAccount": "Impor akun Ledger",
         "ImportOrSignIn": "Impor akun atau",
         "login": "Lanjutkan",

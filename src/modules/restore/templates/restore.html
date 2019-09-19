@@ -20,6 +20,8 @@
 
                     <div ng-show="$ctrl.activeTab === TABS.seed" class="body-2 margin-05 basic-900"
                          w-i18n="seedOrKeyForm.seedTitle"></div>
+                    <div ng-show="$ctrl.activeTab === TABS.encodedSeed" class="body-2 margin-05 basic-900"
+                         w-i18n="seedOrKeyForm.encodedSeed"></div>
                     <div ng-show="$ctrl.activeTab === TABS.key" class="body-2 margin-05 basic-900"
                          w-i18n="seedOrKeyForm.keyTitle"></div>
 
@@ -32,6 +34,15 @@
                                      placeholder="seedForm.placeholder"
                                      w-i18n-attr="placeholder"
                                      minlength="25"
+                                     required></w-input>
+                        </form>
+                        <form ng-show="$ctrl.activeTab === TABS.encodedSeed" name="$ctrl.encodedSeedForm">
+                            <w-input textarea
+                                     w-autofocus
+                                     class="embed no-icon"
+                                     ng-model="$ctrl.encodedSeed"
+                                     placeholder="encodedSeedForm.placeholder"
+                                     w-i18n-attr="placeholder"
                                      required></w-input>
                         </form>
                         <form ng-show="$ctrl.activeTab === TABS.key" name="$ctrl.keyForm">

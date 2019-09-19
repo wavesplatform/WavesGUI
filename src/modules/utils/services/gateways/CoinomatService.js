@@ -92,7 +92,7 @@
             getSupportMap(asset) {
                 if (GATEWAYS[asset.id]) {
                     return {
-                        deposit: true,
+                        deposit: asset.id !== WavesApp.defaultAssets.ETH,
                         withdraw: true,
                         errorAddressMessage: true
                     };

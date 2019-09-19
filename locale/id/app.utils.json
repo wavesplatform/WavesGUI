@@ -286,6 +286,12 @@
                 "warningText": "Mengirimkan mata uang lain ke alamat ini dapat menyebabkan hilangnya deposit Anda.",
                 "warningTitle": "Kirim hanya ERGO ke alamat penyetoran ini"
             },
+            "wavesGatewayETH": {
+                "warningMinAmountText": "Jika Anda akan mengirim kurang dari {{minAmount, BigNumber}} {{assetTicker}} , Anda akan kehilangan uang itu.",
+                "warningMinAmountTitle": "Jumlah minimum setoran adalah {{minAmount, BigNumber}} {{assetTicker}} , jumlah setoran maksimum adalah {{maxAmount}} {{assetTicker}}",
+                "warningText": "Periksa apakah dompet atau pertukaran Anda menggunakan kontrak cerdas untuk menarik ETH. Kami tidak menerima transaksi semacam itu dan dapat mengembalikan uang mereka. Anda akan kehilangan uang itu.",
+                "warningTitle": "Tolong jangan depositkan ETH dari kontrak pintar! Jangan setor token ERC20! Hanya Ethereum yang diizinkan."
+            },
             "wavesGatewayVST": {
                 "helpDescrText": "Setelah transaksi dikonfirmasi, gateway akan memproses transfer Vostok ke token di akun Waves Anda.",
                 "helpDescrTitle": "Masukkan alamat ini ke klien atau dompet Vostok Anda",
@@ -345,6 +351,9 @@
             "wavesBetaClientDescription": "Mengimpor akun dari Klien Beta Waves",
             "wavesLiteClient": "Klien Lite Waves",
             "wavesLiteClientDescription": "Impor akun dari Klien Lite Waves"
+        },
+        "matcherChoice": {
+            "title": "Choose matcher"
         },
         "open-main": {
             "dex": {
@@ -539,6 +548,11 @@
             "gateway": {
                 "feeExplanation": "Kami telah mendeteksi alamat {{assetName}} dan akan mengirimkan dana Anda melalui gateway ke alamat ini. Jumlah minimum adalah {{min, BigNumber}} {{assetTicker}}. Jumlah maksimum adalah {{max, BigNumber}} {{assetTicker}}."
             },
+            "gatewayTerms": {
+                "accept": "Accept and Continue",
+                "text": "By using Gateway service, you agree to be bound by [Gateway Terms of Service](https://dex.wavesplatform.com/) and [Conduction of Transactions](https://dex.wavesplatform.com/). If you do not agree to these terms, then do not use this Gateway service.",
+                "title": "Gateway service agreement"
+            },
             "icoWarning": "Jangan menarik {{assetName}} ke ICO. Kami tidak akan mengkredit akun Anda dengan token dari penjualan itu.",
             "idNumber": {
                 "helpIcon": {
@@ -590,7 +604,8 @@
             "validationError": {
                 "notEnoughFunds": "Anda tidak memiliki cukup dana untuk membayar biaya yang diperlukan. Anda harus membayar {{fee, money-currency}} biaya transaksi.",
                 "notEnoughFundsWithdraw": "Anda tidak memiliki cukup dana untuk membayar biaya yang diperlukan. Anda harus membayar {{fee, money-currency}} biaya transaksi dan {{getawayFee, BigNumber}} {{currency}} biaya gateway. Jumlah minimum untuk penarikan adalah {{minGatewayAmount, BigNumber}} {{currency}}."
-            }
+            },
+            "withdrawTitle": "Withdraw"
         },
         "sepa": {
             "countryList": "Daftar negara dan ID yang memenuhi syarat",
@@ -688,6 +703,7 @@
                 "backupPhrase": "Frasa cadangan",
                 "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "SEED terenkode",
+                "id": "Account ID",
                 "privateKey": "Kunci pribadi",
                 "publicKey": "Kunci Publik",
                 "script": "Skrip",
@@ -701,6 +717,7 @@
         },
         "sign": {
             "article": "artikel",
+            "buy": "Buy",
             "cancel": "Batalkan",
             "cancelOrder": "Batalkan pesanan",
             "close": "Tutup",
@@ -735,6 +752,7 @@
             "request": "permintaan",
             "requestId": "Minta hash",
             "retry": "Mencoba kembali",
+            "sell": "Sell",
             "signByKeeper": "Menunggu konfirmasi tentang Waves Keeper...",
             "signByLedger": "Menunggu konfirmasi tentang Ledger...",
             "signError": "Permintaan belum dikonfirmasi.",
@@ -742,6 +760,7 @@
             "signErrorText": "Anda tidak mengonfirmasi permintaan pada Perangkat Ledger Anda",
             "signErrorTextImportKeeper": "Masuk ke Waves Keeper dengan alamat {{address}}, lalu segarkan laman untuk melanjutkan.",
             "signErrorTextKeeper": "Silakan coba lagi. Jika kesalahan berlanjut, silakan buat tiket ke [Dukungan](https://support.wavesplatform.com/)",
+            "signErrorTextKeeperWrongUser": "This account does not match the selected account in your Waves Keeper. Please activate another account in Waves Keeper and try again.",
             "timestamp": "Timestamp",
             "txId": "TXID"
         },
@@ -931,7 +950,8 @@
                 "1_3_20": "{span.line}[1. Improved system for storing and restoring accounts from local storage (Need to update the [desktop application](https://wavesplatform.com/technology/wallet)).]\n{span.line}[2. Fixed rounding of prices in the orderbook.]",
                 "1_3_5": "{span.line} [1. Tab dengan token kontes [wsoc.io] (https://wsoc.io) telah ditambahkan.] \n {span.line} [2. Dukungan bahasa Perancis ditambahkan.] \n {span.line} [3. Bug minor tambahan telah diperbaiki.]",
                 "1_3_7": "{span.line}[1. Integrasi dengan [tokenrating.wavesexplorer.com] (https://tokenrating.wavesexplorer.com) Sekarang Anda dapat menilai token langsung di app.] \n {span.line}[2. Bug minor tambahan telah diperbaiki.]",
-                "1_3_9": "{span.line}[1. UI dan fungsionalitas yang lebih baik dari bagian Exchange dan Dompet.] \n {span.line}[2. Bug minor tambahan telah diperbaiki.]"
+                "1_3_9": "{span.line}[1. UI dan fungsionalitas yang lebih baik dari bagian Exchange dan Dompet.] \n {span.line}[2. Bug minor tambahan telah diperbaiki.]",
+                "1_4_0": "{span.line}[Added ability for easy switching between  accounts within one wallet.]"
             },
             "title": "Apa yang baru di pembaruan ini {{version}}"
         }
