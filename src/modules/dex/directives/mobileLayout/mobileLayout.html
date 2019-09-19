@@ -7,21 +7,19 @@
                     {{$ctrl.pairInfo.amountAsset.displayName}} / {{$ctrl.pairInfo.priceAsset.displayName}}
                 </div>
                 <div class="mobile-watchlist-header__volume">
-                    <span w-i18n="directives.watchlist.volume"></span>: <span w-nice-number="$ctrl.pairInfo.volumeBigNum"
+                    <span class="basic-500" w-i18n="directives.watchlist.volume"></span>: <span w-nice-number="$ctrl.pairInfo.volumeBigNum"
                                                                               precision="3"></span>
                 </div>
             </div>
     <!--        TODO @Gakhramanov change class name some-wrapper, or use different decision-->
             <div class="some-flex-wrapper">
-                <div>
+                <div class="{{$ctrl.watchListVisible ? 'mobile-watchlist-header__info opened' : 'mobile-watchlist-header__info'}}">
                     <div class="mobile-watchlist-header__change24 mobile-watchlist-header__change24_{{$ctrl.pairInfo.change24.gt(0) ? 'blue' : 'red'}}">
-                        <span>{{$ctrl.pairInfo.change24.gt(0) ? '+' :  '-'}}{{$ctrl.pairInfo.change24}}%</span>
+                        <span>{{$ctrl.pairInfo.change24.gt(0) ? '+' :  ''}}{{$ctrl.pairInfo.change24}}%</span>
                     </div>
-                    <div class="mobile-watchlist-header__last-price">
+                    <div class="mobile-watchlist-header__last-price mobile-watchlist-header__last-price_{{$ctrl.pairInfo.change24.gt(0) ? 'blue' : 'red'}}">
                         <w-balance money="$ctrl.pairInfo.lastPrice"></w-balance>
                     </div>
-                </div>
-                <div class="mobile-watchlist-header__toggle-arrow mobile-watchlist-header__toggle-arrow_{{$ctrl.watchListVisible ? 'up' : 'down'}}">
                 </div>
     
             </div>
@@ -34,8 +32,8 @@
 
     <w-tabs class="tabs_mobile" ng-model="$ctrl.mobileTab">
         <w-tab title-name="::'charts'" id="::'Charts'" class="mobile-tab_charts">
-            <w-dex-candle-chart style="height: 400px"></w-dex-candle-chart>
-            <w-dex-trade-graph style="height: 200px"></w-dex-trade-graph>
+            <w-dex-candle-chart></w-dex-candle-chart>
+            <w-dex-trade-graph></w-dex-trade-graph>
         </w-tab>
         <w-tab title-name="::'trade'" id="::'Trade'" class="mobile-tab_trade">
             <w-create-order></w-create-order>

@@ -76,7 +76,7 @@
                 <span>{{::pair.pairNames}}</span>
                 <!--div class="tooltip-dex left">{{::pair.pairNames || '—'}}</div-->
             </w-table-cell>
-            <w-table-cell>
+            <w-table-cell ng-class="{'plus': pair.change24.gt(0),'minus': pair.change24.lt(0)}">
                 <span>{{pair.lastPrice.toFormat() || '—'}}</span>
             </w-table-cell>
             <w-table-cell ng-class="{'plus': pair.change24.gt(0),'minus': pair.change24.lt(0)}">

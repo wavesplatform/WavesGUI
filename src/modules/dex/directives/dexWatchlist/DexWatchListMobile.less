@@ -2,15 +2,52 @@
 @import (reference) "../../../app/less/typography";
 @import (reference) 'icons';
 
-.mobile-watchlist {
-	&__bg {
-		padding: 5px;
-		background: rgba(38, 50, 65, 0.3);
-		z-index: 7;
-		position: absolute;
-		bottom: 0;
-		top: 0;
-		left: 0;
-		right: 0;
+@media screen and (max-width: 860px) {
+	.dex .mobile-watchlist {
+		&__bg {
+			padding: 5px;
+			background: rgba(38, 50, 65, 0.3);
+			z-index: 7;
+			position: absolute;
+			bottom: 0;
+			top: 0;
+			left: 0;
+			right: 0;
+	
+			.titles-wrap {
+				position: relative;
+				bottom: auto;
+				right: auto;
+				padding: 0 16px;
+				margin-bottom: 1px;
+				background: #fff;
+				box-shadow: none;
+				overflow-x: auto;
+				display: flex;
+				height: 50px;
+	
+				title {
+					margin-right: 30px;
+					height: 100%;
+					position: relative;
+					.body-2();
+					text-transform: capitalize;
+					flex: 1;
+					background: @color-white;
+					margin-right: 1px;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					color: @color-basic-700;
+					border-top: 2px solid transparent;
+	
+					&.active {
+						border: 0 none;
+						border-top: 0;
+						border-bottom: 2px solid #1f5af6;
+					}
+				}
+			}
+		}
 	}
 }

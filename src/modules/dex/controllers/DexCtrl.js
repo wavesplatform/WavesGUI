@@ -102,6 +102,12 @@
                 this.observe('_assetIdPair', this._onChangePair);
                 this.observe('_titleTxt', this._setTitle);
                 this.observe(['_leftHidden', '_rightHidden'], this._onChangeProperty);
+
+                const onResize = () => {
+                    this.isMobile = window.innerWidth <= 861;
+                };
+
+                this.listenEventEmitter($(window), 'resize', onResize);
             }
 
             $onDestroy() {

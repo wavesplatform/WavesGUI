@@ -5,7 +5,7 @@
 
         const { Money } = require('@waves/data-entities');
 
-        class Controller extends Base {
+        class MobileLayout extends Base {
 
             constructor() {
                 super();
@@ -57,8 +57,7 @@
 
         }
 
-
-        return new Controller();
+        return new MobileLayout();
     }
 
     controller.$inject = ['Base', 'matcher'];

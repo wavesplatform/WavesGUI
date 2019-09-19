@@ -238,11 +238,16 @@ w-create-order {
               display: flex;
               border-radius: 4px;
               border: 1px solid @color-basic-200;
+              height: 32px;
+
+              @media screen and (max-width: 860px) {
+                height: 34px;
+              }
 
               .step-button-content {
                 font-size: 25px;
                 width: 50px;
-                height: 34px;
+                height: 30px;
                 display: flex;
                 justify-content: center;
                 align-items: center;
@@ -250,6 +255,10 @@ w-create-order {
                 cursor: pointer;
                 border: 0;
                 border-radius: 4px;
+
+                @media screen and (max-width: 860px) {
+                  height: 34px;
+                }
 
                 &_plus {
                   border-left: 1px solid @color-basic-200;
@@ -500,12 +509,8 @@ w-create-order {
 
 @media screen and (max-width: 860px) {
   .create-order .body .making-order {
-    .fields .input-wrapper {
-      height: 36px;
-
-      w-input-container {
-        padding: 2px 0;
-      }
+    .fields .input-wrapper w-input-container {
+      padding: 2px 0;
     }
   }
 }

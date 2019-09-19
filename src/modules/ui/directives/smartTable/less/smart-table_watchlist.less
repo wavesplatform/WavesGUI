@@ -131,3 +131,61 @@
     }
   }
 }
+
+@media screen and (max-width: 659px) {
+  .smart-table_watchlist {
+    .smart-table {
+      &__row {
+        padding: 9px 16px;
+
+        &.selected .smart-table__cell[data-column-id="info"] {
+          display: none;
+        }
+      }
+
+      &__cell {
+        &[data-column-id="pair"],
+        &[data-column-id="change"] {
+          min-width: 50%;
+        }
+
+        &[data-column-id="price"] {
+          min-width: 50%;
+          order: 4;
+          position: relative;
+
+          span {
+            position: relative;
+
+            &::before {
+              content: "";
+              display: block;
+              position: absolute;
+              height: 14px;
+              width: 14px;
+              top: -2px;
+              left: -16px;
+            }
+          }
+      
+          &.minus span::before {
+            background: @arrow-orderbook-down-icon;
+          }
+      
+          &.plus span::before {
+            background: @arrow-orderbook-top-icon;
+          }
+        }
+
+        &[data-column-id="volume"] {
+          min-width: 50%;
+          text-align: left;
+
+          .tooltip-dex {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}
