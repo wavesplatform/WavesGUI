@@ -352,6 +352,9 @@
             "wavesLiteClient": "Waves Lite 클라이언트",
             "wavesLiteClientDescription": "Waves Lite 클라이언트에서 계정 불러오기"
         },
+        "matcherChoice": {
+            "title": "Choose matcher"
+        },
         "open-main": {
             "dex": {
                 "cancel": "신규 계정 생성",
@@ -545,6 +548,11 @@
             "gateway": {
                 "feeExplanation": "{{assetName}} 주소를 확인하였으며 게이트웨이를 통해 해당 주소로 자산을 송금합니다. 최소 수량은 {{min, BigNumber}} {{assetTicker}} 이며 최대 수량은 {{max, BigNumber}} {{assetTicker}} 입니다."
             },
+            "gatewayTerms": {
+                "accept": "Accept and Continue",
+                "text": "By using Gateway service, you agree to be bound by [Gateway Terms of Service](https://dex.wavesplatform.com/) and [Conduction of Transactions](https://dex.wavesplatform.com/). If you do not agree to these terms, then do not use this Gateway service.",
+                "title": "Gateway service agreement"
+            },
             "icoWarning": "{{assetName}}을 ICO로 인출하지 마십시오. 당사는 귀하의 계정에 해당 판매의 토큰을 입금하지 않습니다.",
             "idNumber": {
                 "helpIcon": {
@@ -596,7 +604,8 @@
             "validationError": {
                 "notEnoughFunds": "수수료를 지불할 충분한 자금이 없습니다. {{fee, money-currency}} 트랜잭션 수수료로 지불해야 합니다.",
                 "notEnoughFundsWithdraw": "수수료를 지불할 충분한 자금이 없습니다. {{fee, money-currency}}를 트랜잭션 수수료와 {{getawayFee, BigNumber}} {{currency}}를 게이트웨이 수수료로 지불해야 합니다. 최수 출금 금액은 {{minGatewayAmount, BigNumber}} {{currency}} 입니다."
-            }
+            },
+            "withdrawTitle": "Withdraw"
         },
         "sepa": {
             "countryList": "이용 가능한 국가 및 ID 목록",
