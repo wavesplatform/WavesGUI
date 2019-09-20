@@ -52,6 +52,8 @@
                 analytics.send({ name: `Settings Advanced Features ${mode ? 'On' : 'Off'}`, target: 'ui' });
                 user.setSetting('advancedMode', mode);
             }
+
+            allowParing = true;
             encodedSeed = '';
             shownEncodedSeed = false;
             oracleWaves = '';
@@ -221,6 +223,7 @@
                     this.encodedSeed = typeof seed === 'string' ? base58Encode(stringToBytes(seed)) : null;
                     this.privateKey = privateKey;
                     this.publicKey = publicKey;
+                    this.allowParing = !!this.phrase;
                     $scope.$digest();
                 });
             }
