@@ -69,7 +69,7 @@
                  */
                 this._assetIdPair = null;
 
-                this.isMobile = window.innerWidth <= 861;
+                this.isMobile = window.innerWidth <= 720;
 
                 this.observe('tab', this._onChangeTab);
 
@@ -104,7 +104,7 @@
                 this.observe(['_leftHidden', '_rightHidden'], this._onChangeProperty);
 
                 const onResize = () => {
-                    this.isMobile = window.innerWidth <= 861;
+                    this.isMobile = window.innerWidth <= 720;
                 };
 
                 this.listenEventEmitter($(window), 'resize', onResize);

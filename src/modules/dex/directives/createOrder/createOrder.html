@@ -4,13 +4,13 @@
      w-i18n-ns="app.dex"
      ng-if="$ctrl.loaded">
 
-    <!-- <div class="head">
+    <div class="head">
         <div class="icon-drag margin-right-1"></div>
         <div class="footnote-2 disabled-900">{{$ctrl.amountDisplayName}} / {{$ctrl.priceDisplayName}}</div>
         <div class="icon-close"
              ng-if="$ctrl.step !== 0"
              ng-click="$ctrl.closeCreateOrder()"></div>
-    </div> -->
+    </div>
 
     <div class="body">
 
@@ -33,7 +33,7 @@
                 </div>
             </div>
 
-            <!-- <div class="choice">
+            <div class="choice">
                 <div class="choose buy"
                      ng-click="$ctrl.expand('buy')">
                     <div class="name" w-i18n="directives.createOrder.buy"></div>
@@ -51,7 +51,7 @@
                          w-nice-number="$ctrl.bid.price"
                          precision="$ctrl.priceBalance.asset.precision"></div>
                 </div>
-            </div> -->
+            </div>
 
             <div class="create-order-notification js-order-notification">
                 <div ng-if="$ctrl.createOrderFailed">
