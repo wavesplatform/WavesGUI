@@ -293,8 +293,8 @@
                 "warningTitle": "Per favore, non inviare ETH da smart contracts! Non inviare token ERC20! Accettiamo esclusivamente Ethereum."
             },
             "wavesGatewayVST": {
-                "helpDescrText": "Una volta che la transazione sarà confermata, il gateway processerà il trasferimento di Vostok in favore di un token nel tuo account Waves.",
-                "helpDescrTitle": "Inserisci questo indirizzo nel tuo client Vostok o nel tuo wallet",
+                "helpDescrText": "Una volta che la transazione sarà confermata, il gateway processerà il trasferimento di VST in favore di un token nel tuo account Waves.",
+                "helpDescrTitle": "Inserisci questo indirizzo nel tuo client VST o nel tuo wallet",
                 "warningMinAmountTitle": "L'importo minimo di deposito è di {{minAmount, BigNumber}} {{assetTicker}}, l'importo massimo di deposito è di {{maxAmount}} {{assetTicker}}"
             }
         },
@@ -353,7 +353,12 @@
             "wavesLiteClientDescription": "Importa account dal Client Waves Lite"
         },
         "matcherChoice": {
-            "title": "Choose matcher"
+            "customMatcher": "Custom matcher address",
+            "matcher": "Matcher",
+            "matcherTerms": "I agree to the Super DEX Mather Terms of Use.",
+            "terms": "Terms",
+            "title": "Choose matcher",
+            "wavesTerms": "I am over 18 years old, and I agree to the Waves Terms of Use and Waves Privacy Policy."
         },
         "open-main": {
             "dex": {
@@ -470,7 +475,7 @@
             "shareInvoiceLink": "Condividi il link ad una fattura",
             "verified": "Verificato",
             "vostok": {
-                "serverError": "Servizio Vostok temporaneamente non disponibile. Riprova più tardi."
+                "serverError": "Servizio VST temporaneamente non disponibile. Riprova più tardi."
             },
             "wtry": {
                 "info": "In caso di problema con la procedura di pagamento, per favore contattare il team di supporto di Digilira — [support@digilira.com](mailto:support@digilira.com)"
@@ -670,6 +675,7 @@
                 "dataProviderInvalid": "Informazioni del provider non acquisite. Controllare il link e riprovare più tardi",
                 "dataProviderName": "{{dataProviderName}}",
                 "dontShowSpamCheckboxDescr": "Nascondi token sospetti",
+                "edit": "Edit",
                 "forDisableClear": "Per disabilitarlo completamente, lascia vuoto il campo.",
                 "matcherAddress": "Indirizzo Matcher",
                 "nodeAddress": "Indirizzo Nodo",
@@ -946,7 +952,7 @@
                 "1_3_0": "{span.line}[1. Miglioramento dell'interfaccia do navigazione della pagina iniziale.]",
                 "1_3_18": "{span.line} [1. Aggiunto login al wallet utilizzando una chiave privata.]\n{span.line} [2. La modifica del prezzo di 24 ore di un token è ora associata alla coppia token/WAVES.]",
                 "1_3_19": "{span.line} [1. Lancio del gateway Bancor.] \n{span.line} [2.Miglioramento dell'interfaccia del menu utente.]",
-                "1_3_2": "{span.line} [1. Lancio del gateway Vostok.] \n{span.line} [2. Miglioramento dell'interfaccia utente e risoluzione di altri bug minori.]",
+                "1_3_2": "{span.line} [1. Lancio del gateway VST.] \n{span.line} [2. Miglioramento dell'interfaccia utente e risoluzione di altri bug minori.]",
                 "1_3_20": "{span.line}[1. Improved system for storing and restoring accounts from local storage (Need to update the [desktop application](https://wavesplatform.com/technology/wallet)).]\n{span.line}[2. Fixed rounding of prices in the orderbook.]",
                 "1_3_5": "{span.line}[1. Aggiunto il tab al concorso [wsoc.io](https://wsoc.io) tokens.]\n{span.line}[2. Aggiunto il supporto alla lingua Francese.]\n{span.line}[3. Risoluzione di bug minori.]",
                 "1_3_7": "{span.line} [1. Integrazione con [tokenrating.wavesexplorer.com] (https://tokenrating.wavesexplorer.com) Ora puoi valutare i token direttamente nell'app.] \n {span.line} [2. Sono stati corretti altri bug minori.]",
