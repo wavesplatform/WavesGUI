@@ -36,8 +36,8 @@
              * @return {boolean}
              */
             get isGatewayAccepted() {
-                return !configService
-                    .get('PERMISSIONS.CANT_TRANSFER_GATEWAY').includes(this.assetId);
+                const permissions = configService.get('PERMISSIONS.CANT_TRANSFER_GATEWAY');
+                return permissions ? !permissions.includes(this.assetId) : true;
             }
 
             /**
@@ -158,6 +158,7 @@
              */
             _onUpdateGatewayData() {
                 const { details, error } = this.state.gatewayData;
+
                 if (details) {
                     this.gatewayDetailsError = false;
                     this.gatewayAddressError = false;
@@ -183,8 +184,6 @@
                     } else {
                         this.gatewayDetailsError = true;
                     }
-                } else {
-                    // this.gatewayDetailsError = true;
                 }
 
                 utils.safeApply($scope);
