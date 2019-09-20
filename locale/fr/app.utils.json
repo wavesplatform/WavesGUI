@@ -352,6 +352,9 @@
             "wavesLiteClient": "Client Waves Lite",
             "wavesLiteClientDescription": "Importer des comptes depuis le Client Waves Lite"
         },
+        "matcherChoice": {
+            "title": "Choose matcher"
+        },
         "open-main": {
             "dex": {
                 "cancel": "Créer un compte",

@@ -352,6 +352,9 @@
             "wavesLiteClient": "वेव्स लाइट क्लाइंट",
             "wavesLiteClientDescription": "वेव्स लाइट क्लाइंट से खाते आयात करें"
         },
+        "matcherChoice": {
+            "title": "Choose matcher"
+        },
         "open-main": {
             "dex": {
                 "cancel": "खाता बनाएं",

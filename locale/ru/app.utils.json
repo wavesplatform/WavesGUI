@@ -352,6 +352,9 @@
             "wavesLiteClient": "Waves Lite Client",
             "wavesLiteClientDescription": "Импорт аккаунтов из Waves Lite Client"
         },
+        "matcherChoice": {
+            "title": "Choose matcher"
+        },
         "open-main": {
             "dex": {
                 "cancel": "Create an account",

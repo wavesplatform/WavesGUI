@@ -352,6 +352,9 @@
             "wavesLiteClient": "Waves Lite クライアント",
             "wavesLiteClientDescription": "Wavesのライトクライアントからアカウントをインポート"
         },
+        "matcherChoice": {
+            "title": "Choose matcher"
+        },
         "open-main": {
             "dex": {
                 "cancel": "アカウントを作成",

@@ -352,6 +352,9 @@
             "wavesLiteClient": "Waves Lite 클라이언트",
             "wavesLiteClientDescription": "Waves Lite 클라이언트에서 계정 불러오기"
         },
+        "matcherChoice": {
+            "title": "Choose matcher"
+        },
         "open-main": {
             "dex": {
                 "cancel": "신규 계정 생성",

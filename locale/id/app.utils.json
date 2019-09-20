@@ -352,6 +352,9 @@
             "wavesLiteClient": "Klien Lite Waves",
             "wavesLiteClientDescription": "Impor akun dari Klien Lite Waves"
         },
+        "matcherChoice": {
+            "title": "Choose matcher"
+        },
         "open-main": {
             "dex": {
                 "cancel": "Buat sebuah akun",

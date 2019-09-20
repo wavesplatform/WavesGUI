@@ -352,6 +352,9 @@
             "wavesLiteClient": "Waves Lite Client",
             "wavesLiteClientDescription": "Hesapları Waves Lite Client'ten aktar"
         },
+        "matcherChoice": {
+            "title": "Choose matcher"
+        },
         "open-main": {
             "dex": {
                 "cancel": "Hesap oluştur",

@@ -352,6 +352,9 @@
             "wavesLiteClient": "Waves Lite klient",
             "wavesLiteClientDescription": "Importige kontosid Waves Lite kliendist"
         },
+        "matcherChoice": {
+            "title": "Choose matcher"
+        },
         "open-main": {
             "dex": {
                 "cancel": "Loo konto",

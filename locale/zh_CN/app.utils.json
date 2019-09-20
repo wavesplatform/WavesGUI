@@ -352,6 +352,9 @@
             "wavesLiteClient": "Waves Lite客户端",
             "wavesLiteClientDescription": "从Waves Lite客户端导入帐户"
         },
+        "matcherChoice": {
+            "title": "Choose matcher"
+        },
         "open-main": {
             "dex": {
                 "cancel": "创建帐户",
@@ -546,9 +549,9 @@
                 "feeExplanation": "我们检测到{{assetName}}地址，并会通过网关将您的资金发送到此地址。最低金额为 {{min, BigNumber}} {{assetTicker}} 。最大金额为 {{max, BigNumber}} {{assetTicker}}。"
             },
             "gatewayTerms": {
-                "accept": "Accept and Continue",
-                "text": "By using Gateway service, you agree to be bound by [Gateway Terms of Service](https://dex.wavesplatform.com/) and [Conduction of Transactions](https://dex.wavesplatform.com/). If you do not agree to these terms, then do not use this Gateway service.",
-                "title": "Gateway service agreement"
+                "accept": "接受并继续",
+                "text": "使用网关服务即表示您同意受[网关服务条款]（https://dex.wavesplatform.com/）和[交易行为]（https://dex.wavesplatform.com/）的约束。如果您不同意这些条款，请不要使用此Gateway服务。",
+                "title": "网关服务协议"
             },
             "icoWarning": "不要将 {{assetName}} 转到ICO地址。我们将无法将这笔销售中的代币存入您的账号。",
             "idNumber": {
@@ -602,7 +605,7 @@
                 "notEnoughFunds": "您的余额不足以支付所需交易费用。您需要{{fee, money-currency}} 作为交易费用。",
                 "notEnoughFundsWithdraw": "您的余额不足以支付所需交易费用。您需要 {{fee, money-currency}} {{getawayFee, BigNumber}} {{currency}} 作为交易费用和 {{minGatewayAmount, BigNumber}} {{currency}} 网关费用。"
             },
-            "withdrawTitle": "Withdraw"
+            "withdrawTitle": "退出"
         },
         "sepa": {
             "countryList": "符合条件的国家和ID列表",
