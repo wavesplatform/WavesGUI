@@ -38,7 +38,7 @@
             }
 
             /**
-             * From Vostok to Waves
+             * From VST to Waves
              * @param {Asset} asset
              * @param {string} wavesAddress
              * @return {Promise}
@@ -65,7 +65,7 @@
             }
 
             /**
-             * From Waves to Vostok
+             * From Waves to VST
              * @param {Asset} asset
              * @param {string} targetAddress
              * @param {string} [paymentId]
@@ -132,7 +132,7 @@
 
             static _assertAsset(assetId) {
                 if (!GATEWAYS[assetId]) {
-                    throw new Error('Asset is not supported by Vostok');
+                    throw new Error('Asset is not supported by VST');
                 }
             }
 

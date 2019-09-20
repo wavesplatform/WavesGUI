@@ -35,7 +35,7 @@
         </w-select>
     </div>
 
-    <div class="plate-warning margin-1" ng-if="!$ctrl.gatewayServerError && !$ctrl.isVostok">
+    <div class="plate-warning margin-1" ng-if="!$ctrl.gatewayServerError && !$ctrl.isVST">
         <div class="body-2 warning-500" w-i18n="modal.deposit.{{$ctrl.assetKeyName}}.warningTitle"></div>
         <div class="footnote-1 basic-500" w-i18n="modal.deposit.{{$ctrl.assetKeyName}}.warningText"></div>
     </div>
@@ -48,7 +48,7 @@
                         maxAmount: $ctrl.maxAmount.getTokens().toFormat()  }"
         ></div>
         <div class="footnote-1 basic-500"
-             ng-if="!$ctrl.isVostok" w-i18n="modal.deposit.{{$ctrl.assetKeyName}}.warningMinAmountText"
+             ng-if="!$ctrl.isVST" w-i18n="modal.deposit.{{$ctrl.assetKeyName}}.warningMinAmountText"
              params="{minAmount: $ctrl.minAmount.getTokens(), assetTicker: $ctrl.asset.displayName}"
         ></div>
     </div>
