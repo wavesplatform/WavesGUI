@@ -208,10 +208,10 @@
                 <div class="row margin-1">
                     <div class="footnote-1 basic-500 label">
                         <span w-i18n="modal.settings.network.matcherAddress"></span>
-                        <a class="settings-copy" w-copy="$ctrl.matcher" w-i18n="modal.settings.network.copy"></a>
+                        <a class="settings-copy" ng-click="$ctrl.showMatcherChoice()" w-i18n="modal.settings.network.edit"></a>
                     </div>
                     <div class="data-field">
-                        <w-input ng-model="$ctrl.matcher"></w-input>
+                        <w-input ng-model="$ctrl.matcher" disabled></w-input>
                     </div>
                 </div>
 

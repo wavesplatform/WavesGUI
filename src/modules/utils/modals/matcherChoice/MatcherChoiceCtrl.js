@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    const controller = function (Base, $scope, user, $mdDialog) {
+    const controller = function (Base, $scope, user, $mdDialog, storage) {
 
         class MatcherChoiceCtrl extends Base {
 
@@ -33,6 +33,7 @@
 
             confirm() {
                 user.setSetting('network.matcher', this.matcherUrl);
+                storage.save('matcherSelected', true);
                 $mdDialog.hide();
             }
 
@@ -56,7 +57,7 @@
         return new MatcherChoiceCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'user', '$mdDialog'];
+    controller.$inject = ['Base', '$scope', 'user', '$mdDialog', 'storage'];
 
     angular.module('app.utils').controller('MatcherChoiceCtrl', controller);
 })();

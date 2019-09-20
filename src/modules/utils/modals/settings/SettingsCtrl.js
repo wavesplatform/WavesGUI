@@ -265,6 +265,10 @@
                 modalManager.showDeleteAccountModal();
             }
 
+            showMatcherChoice() {
+                modalManager.showMatcherChoice();
+            }
+
         }
 
         return new SettingsCtrl();

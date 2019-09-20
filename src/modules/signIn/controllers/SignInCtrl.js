@@ -12,7 +12,7 @@
      * @param {ModalManager} modalManager
      * @returns {SignInCtrl}
      */
-    const controller = function (Base, $scope, $state, user, multiAccount, modalManager) {
+    const controller = function (Base, $scope, $state, user, multiAccount, modalManager, storage) {
 
         class SignInCtrl extends Base {
 
@@ -99,9 +99,16 @@
 
             _login(userData) {
                 user.login(userData).then(() => {
-                    modalManager.showMatcherChoice().then(() => {
-                        $state.go(user.getActiveState('wallet'));
+                    storage.load('matcherSelected').then(isSelected => {
+                        if (!isSelected) {
+                            modalManager.showMatcherChoice().then(() => {
+                                $state.go(user.getActiveState('wallet'));
+                            });
+                        } else {
+                            $state.go(user.getActiveState('wallet'));
+                        }
                     });
+
                 });
             }
 
@@ -121,7 +128,7 @@
         return new SignInCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', '$state', 'user', 'multiAccount', 'modalManager'];
+    controller.$inject = ['Base', '$scope', '$state', 'user', 'multiAccount', 'modalManager', 'storage'];
 
     angular.module('app.signIn').controller('SignInCtrl', controller);
 })();
