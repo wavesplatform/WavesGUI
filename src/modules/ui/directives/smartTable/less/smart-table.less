@@ -243,4 +243,26 @@
   }
 }
 
+@media screen and (max-width: 860px) {
+  .smart-table {
+    .smart-table {
+      &__wrapper {
+        padding: 4px;
+        background: @color-white;
+      }
+  
+      &__tbody {
+        padding: 0 10px 0 12px;
+  
+        &::-webkit-scrollbar-track {
+          -webkit-box-shadow: none;
+        }
+      }
 
+      &__row {
+        margin: 0;
+        padding-right: 0;
+      }
+    }
+  }
+}

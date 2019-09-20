@@ -6,7 +6,7 @@
 	.dex .mobile-watchlist {
 		&__bg {
 			padding: 5px;
-			background: rgba(38, 50, 65, 0.3);
+			background: rgba(23, 30, 40, 0.5);
 			z-index: 7;
 			position: absolute;
 			bottom: 0;
@@ -15,37 +15,42 @@
 			right: 0;
 	
 			.titles-wrap {
-				position: relative;
 				bottom: auto;
 				right: auto;
 				padding: 0 16px;
-				margin-bottom: 1px;
-				background: #fff;
 				box-shadow: none;
-				overflow-x: auto;
-				display: flex;
 				height: 50px;
+				z-index: 5;
 	
-				title {
+				.title {
 					margin-right: 30px;
 					height: 100%;
 					position: relative;
 					.body-2();
 					text-transform: capitalize;
-					flex: 1;
 					background: @color-white;
-					margin-right: 1px;
 					display: flex;
 					justify-content: center;
 					align-items: center;
 					color: @color-basic-700;
-					border-top: 2px solid transparent;
 	
 					&.active {
-						border: 0 none;
-						border-top: 0;
-						border-bottom: 2px solid #1f5af6;
+						color: @color-submit-400;
+						&::before {
+							content: '';
+							display: block;
+							position: absolute;
+							top: calc(100% - 1px);
+							left: 0;
+							width: 100%;
+							height: 2px;
+							background:  @color-submit-400;
+						}
 					}
+				}
+
+				.select .title {
+					margin-right: 0;
 				}
 			}
 		}

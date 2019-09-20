@@ -522,3 +522,19 @@
   }
 }
 
+@media screen and (max-width: 860px) {
+  .smart-table_dex-my-orders {
+    .smart-table__cell[data-column-id="status"] {
+      left: 0;
+    }
+
+    .order-row {
+      &:not(:last-child) {
+        &::before {
+          width: 100%;
+          left: 0;
+        }
+      }
+    }
+  }  
+}

@@ -83,6 +83,8 @@
                 <span>{{ pair.change24.toFormat() }}</span>{{ pair.change24 ? '%' : '—' }}
             </w-table-cell>
             <w-table-cell>
+                <span class="volume-subtitle basic-500" w-i18n="directives.watchlist.volume"></span>
+                <span class="volume-subtitle basic-500">:</span>
                 <span ng-if="pair.volume"
                       w-nice-number="pair.currentVolume"
                       short-mode="::true"></span>

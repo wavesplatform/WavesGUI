@@ -148,7 +148,7 @@
       }
 
       &__row {
-        padding: 8px 38px 8px 12px;
+        padding: 8px 12px;
         flex-wrap: wrap;
         margin: 0 2px;
         max-height: 37px;
@@ -225,6 +225,17 @@
 
       w-copy-wrap .copy-icon {
         margin-top: 0;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 860px) {
+  .smart-table_dex-my-balance {
+    .smart-table {
+      &__thead {
+        width: calc(100% ~'+ 8px');
+        transform: translate(-4px, -4px);
       }
     }
   }

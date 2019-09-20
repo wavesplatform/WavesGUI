@@ -40,17 +40,13 @@
         </w-tab>
         <w-tab title-name="::'orders'" id="::'Orders'" class="mobile-tab_orders">
             <w-tabs class="tabs_mobile-orders" ng-model="$ctrl.mobileOrdersTab">
-                <w-tab title-name="::'openOrders'" id="::'myOpenOrders'" class="tab_myOpenOrders">
+                <w-tab title-name="::'My open Orders'" id="::'myOpenOrders'" class="tab_myOpenOrders">
                     <w-dex-my-orders is-active-orders="::true"></w-dex-my-orders>
                 </w-tab>
-                <w-tab title-name="::'OrderHistory'" id="::'myOrderHistory'" class="tab_myOrderHistory">
+                <w-tab title-name="::'My Order History'" id="::'myOrderHistory'" class="tab_myOrderHistory">
                     <w-dex-my-orders is-active-orders="::false"></w-dex-my-orders>
                 </w-tab>
-                <w-tab title-name="::'myTradeHistory'" id="::'myTradeHistory'"
-                       class="tab_myTradeHistory">
-                    <w-dex-trade-history is-my="::true"></w-dex-trade-history>
-                </w-tab>
-                <w-tab title-name="::'myBalance'" id="::'myBalance'" class="tab_myBalance">
+                <w-tab title-name="::'my Balance'" id="::'myBalance'" class="tab_myBalance">
                     <w-dex-my-balance></w-dex-my-balance>
                 </w-tab>
             </w-tabs>

@@ -11,7 +11,7 @@
 		height: 50px;
 		
 		.title {
-			.body-2();
+			.footnote-1();
 			text-transform: capitalize;
 			flex: 1;
 			background: @color-white;
@@ -21,6 +21,7 @@
 			align-items: center;
 			color: @color-basic-700;
 			border-top: 2px solid transparent;
+			font-weight: bold;
 
 			&:last-child {
 				margin-right: 0;
@@ -60,23 +61,32 @@
 			bottom: auto;
 			right: auto;
 			padding: 0 16px;
-			margin-bottom: 1px;
+			border-bottom: 1px solid @color-basic-100;
 			background: @color-white;
 			box-shadow: none;
-			overflow-x: auto;
 
 			.title {
 				margin: 0;
 				border-top: 0;
-				border-bottom: 2px solid transparent;
 				margin-right: 20px;
 				height: 100%;
 				position: relative;
 				flex: inherit;
+				white-space: nowrap;
 				
 				&.active {
 					border-top: 0;
-					border-bottom: 2px solid @color-submit-400;
+
+					&::before {
+						content: '';
+						display: block;
+						position: absolute;
+						top: 100%;
+						left: 0;
+						width: 100%;
+						height: 2px;
+						background:  @color-submit-400;
+					}
 				}
 			}
 		}
@@ -101,6 +111,17 @@
 	&-history .titles-wrap {
 		.title {
 			margin-right: 30px;
+		}
+	}
+
+	&-orders {
+		.titles-wrap {
+			overflow-x: auto;
+
+			.title.active::before {
+				top: auto;
+				bottom: 0;
+			}
 		}
 	}
 }
