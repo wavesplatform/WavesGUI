@@ -1,4 +1,8 @@
 {
+    "encodedSeedForm": {
+        "placeholder": "Enter your encoded seed"
+    },
+    "encodedSeedTab": "Encoded seed",
     "keyForm": {
         "placeholder": "Masukkan kunci pribadimu di sini"
     },
@@ -51,6 +55,7 @@
     },
     "seedOrKeyForm": {
         "description": "Masukkan frase Seed atau kunci pribadi Anda untuk mengakses dompet Anda",
+        "encodedSeed": "Encoded seed",
         "keyTitle": "Kunci pribadi",
         "seedTitle": "Frasa SEED",
         "title": "Impor dari seed atau kunci"

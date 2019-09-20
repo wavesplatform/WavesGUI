@@ -293,8 +293,8 @@
                 "warningTitle": "कृपया स्मार्ट-कॉन्ट्रैक्ट से ETH जमा ना करें! ERC20 टोकन जमा ना करें! केवल Ethereum अनुमत है।"
             },
             "wavesGatewayVST": {
-                "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of Vostok to a token in your Waves account.",
-                "helpDescrTitle": "Enter this address into your Vostok client or wallet",
+                "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of VST to a token in your Waves account.",
+                "helpDescrTitle": "Enter this address into your VST client or wallet",
                 "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}, the maximum amount of deposit is {{maxAmount}} {{assetTicker}}"
             }
         },
@@ -351,6 +351,14 @@
             "wavesBetaClientDescription": "वेव्स बीटा क्लाइंट से खाते आयात करें",
             "wavesLiteClient": "वेव्स लाइट क्लाइंट",
             "wavesLiteClientDescription": "वेव्स लाइट क्लाइंट से खाते आयात करें"
+        },
+        "matcherChoice": {
+            "customMatcher": "Custom matcher address",
+            "matcher": "Matcher",
+            "matcherTerms": "I agree to the Super DEX Mather Terms of Use.",
+            "terms": "Terms",
+            "title": "Choose matcher",
+            "wavesTerms": "I am over 18 years old, and I agree to the Waves Terms of Use and Waves Privacy Policy."
         },
         "open-main": {
             "dex": {
@@ -467,7 +475,7 @@
             "shareInvoiceLink": "किसी इनवॉइस का लिंक साझा करें",
             "verified": "सत्यापित",
             "vostok": {
-                "serverError": "Service Vostok temporarily unavailable. Try again later."
+                "serverError": "Service VST temporarily unavailable. Try again later."
             },
             "wtry": {
                 "info": "भुगतान प्रोसेसिंग की समस्याओं की स्थिति में, कृपया Digilira सपोर्टिंग टीम से संपर्क करें — [support@digilira.com](mailto:support@digilira.com)"
@@ -545,6 +553,11 @@
             "gateway": {
                 "feeExplanation": "We have detected a {{assetName}} address and will send your funds via a gateway to this address. The minimum amount is {{min, BigNumber}} {{assetTicker}}. The maximum amount is {{max, BigNumber}} {{assetTicker}}."
             },
+            "gatewayTerms": {
+                "accept": "Accept and Continue",
+                "text": "By using Gateway service, you agree to be bound by [Gateway Terms of Service](https://dex.wavesplatform.com/) and [Conduction of Transactions](https://dex.wavesplatform.com/). If you do not agree to these terms, then do not use this Gateway service.",
+                "title": "Gateway service agreement"
+            },
             "icoWarning": "मैं एक ICO पर {{assetName}} निकासी नहीं करता हूँ। हम इस सेल के टोक्नों को आपके खाते में क्रेडिट नहीं करेंगे।",
             "idNumber": {
                 "helpIcon": {
@@ -596,7 +609,8 @@
             "validationError": {
                 "notEnoughFunds": "जरूरी फीस के भुगतान के लिए आपके पास पर्याप्त फंड नहीं हैं। आपको {{fee, money-currency}} लेनदेन फीस का भुगतान करना चाहिए।",
                 "notEnoughFundsWithdraw": "जरूरी फीस के भुगतान के लिए आपके पास पर्याप्त फंड नहीं हैं। आपको {{fee, money-currency}}{{getawayFee, BigNumber}} {{currency}} लेनदेन फीस और {{minGatewayAmount, BigNumber}} {{currency}} गेटवे फीस फीस का भुगतान करना चाहिए।"
-            }
+            },
+            "withdrawTitle": "Withdraw"
         },
         "sepa": {
             "countryList": "पात्र देशों की सूची व ID",
@@ -661,6 +675,7 @@
                 "dataProviderInvalid": "प्रदाता की जानकारी प्राप्त करने में विफल। कृपया पते की जांच करें और पुनः प्रयास करें",
                 "dataProviderName": "{{dataProviderName}}",
                 "dontShowSpamCheckboxDescr": "Don't show suspicious tokens",
+                "edit": "Edit",
                 "forDisableClear": "For completely disable it, clear the field.",
                 "matcherAddress": "मैचर पता",
                 "nodeAddress": "नोड पता",
@@ -937,7 +952,7 @@
                 "1_3_0": "{span.line}[1. Improved app navigation and start page interface.]",
                 "1_3_18": "{span.line}[1. Added login to wallet using a private key.]\n{span.line}[2. The 24 hours price change of a token is now bound to token/WAVES pair.]",
                 "1_3_19": "{span.line}[1. Bancor gateway has been launched.]\n{span.line}[2. User menu interface has been improved.]",
-                "1_3_2": "{span.line}[1. Vostok gateway has been launched.]\n{span.line}[2. Improved UI and additional minor bugs have been fixed.]",
+                "1_3_2": "{span.line}[1. VST gateway has been launched.]\n{span.line}[2. Improved UI and additional minor bugs have been fixed.]",
                 "1_3_20": "{span.line}[1. Improved system for storing and restoring accounts from local storage (Need to update the [desktop application](https://wavesplatform.com/technology/wallet)).]\n{span.line}[2. Fixed rounding of prices in the orderbook.]",
                 "1_3_5": "{span.line}[1. A tab with [wsoc.io](https://wsoc.io) contest tokens has been added.]\n{span.line}[2. French language support added.]\n{span.line}[3. Additional minor bugs have been fixed.]",
                 "1_3_7": "{span.line}[1. Integration with [tokenrating.wavesexplorer.com](https://tokenrating.wavesexplorer.com) Now you can rate tokens directly in the app.]\n{span.line}[2. Additional minor bugs have been fixed.]",

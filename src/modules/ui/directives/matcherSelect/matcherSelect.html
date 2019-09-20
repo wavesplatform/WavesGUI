@@ -1,5 +1,12 @@
 <w-select ng-model="$ctrl.active" class="select__no-user-select big">
     <w-option ng-repeat="matcher in $ctrl.matcherList" value="::matcher">
-        <div class="lng-item"><span>{{ ::matcher.name }}</span></div>
+        <div class="matcher-item">
+            <span>{{ ::matcher.name }}</span>
+            <div class="matcher-item__volume">
+                <span w-i18n-ns="app.dex" w-i18n="matcherSelect.volume"></span>:
+                <span w-nice-number="matcher.wavesBtcVolume.getTokens()" precision="0"></span>
+                <span>{{matcher.wavesBtcVolume.asset.displayName}}</span>
+            </div>
+        </div>
     </w-option>
 </w-select>

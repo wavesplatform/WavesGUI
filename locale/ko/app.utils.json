@@ -293,8 +293,8 @@
                 "warningTitle": "Smart Contracts에서 ETH를 입금하지 마세요! ERC20 토큰을 입금하지 마세요! Ethereum 입금만 가능합니다."
             },
             "wavesGatewayVST": {
-                "helpDescrText": "트랜잭션이 승인되면 게이트웨이가 귀하의 Waves 계정에서 Vostok를 토큰으로 전송하는 작업을 처리할 것입니다.",
-                "helpDescrTitle": "이 주소를 Vostok 클라이언트 또는 지갑에 입력하세요",
+                "helpDescrText": "트랜잭션이 승인되면 게이트웨이가 귀하의 Waves 계정에서 VST를 토큰으로 전송하는 작업을 처리할 것입니다.",
+                "helpDescrTitle": "이 주소를 VST 클라이언트 또는 지갑에 입력하세요",
                 "warningMinAmountTitle": "최소 입금액은 {{minAmount, BigNumber}} {{assetTicker}} 이며 최대 입금액은 {{maxAmount}} {{assetTicker}} 입니다."
             }
         },
@@ -351,6 +351,14 @@
             "wavesBetaClientDescription": "Waves Beta 클라이언트에서 계정 불러오기",
             "wavesLiteClient": "Waves Lite 클라이언트",
             "wavesLiteClientDescription": "Waves Lite 클라이언트에서 계정 불러오기"
+        },
+        "matcherChoice": {
+            "customMatcher": "Custom matcher address",
+            "matcher": "Matcher",
+            "matcherTerms": "I agree to the Super DEX Mather Terms of Use.",
+            "terms": "Terms",
+            "title": "Choose matcher",
+            "wavesTerms": "I am over 18 years old, and I agree to the Waves Terms of Use and Waves Privacy Policy."
         },
         "open-main": {
             "dex": {
@@ -467,7 +475,7 @@
             "shareInvoiceLink": "인보이스 링크 복사",
             "verified": "인증 완료",
             "vostok": {
-                "serverError": "Vostok 서비스를 일시적으로 사용할 수 없습니다. 나중에 다시 시도하세요."
+                "serverError": "VST 서비스를 일시적으로 사용할 수 없습니다. 나중에 다시 시도하세요."
             },
             "wtry": {
                 "info": "지불 처리와 관련된 문제가 있을 경우 Digilira 지원팀에 문의하세요 — [support@digilira.com](mailto:support@digilira.com)"
@@ -545,6 +553,11 @@
             "gateway": {
                 "feeExplanation": "{{assetName}} 주소를 확인하였으며 게이트웨이를 통해 해당 주소로 자산을 송금합니다. 최소 수량은 {{min, BigNumber}} {{assetTicker}} 이며 최대 수량은 {{max, BigNumber}} {{assetTicker}} 입니다."
             },
+            "gatewayTerms": {
+                "accept": "Accept and Continue",
+                "text": "By using Gateway service, you agree to be bound by [Gateway Terms of Service](https://dex.wavesplatform.com/) and [Conduction of Transactions](https://dex.wavesplatform.com/). If you do not agree to these terms, then do not use this Gateway service.",
+                "title": "Gateway service agreement"
+            },
             "icoWarning": "{{assetName}}을 ICO로 인출하지 마십시오. 당사는 귀하의 계정에 해당 판매의 토큰을 입금하지 않습니다.",
             "idNumber": {
                 "helpIcon": {
@@ -596,7 +609,8 @@
             "validationError": {
                 "notEnoughFunds": "수수료를 지불할 충분한 자금이 없습니다. {{fee, money-currency}} 트랜잭션 수수료로 지불해야 합니다.",
                 "notEnoughFundsWithdraw": "수수료를 지불할 충분한 자금이 없습니다. {{fee, money-currency}}를 트랜잭션 수수료와 {{getawayFee, BigNumber}} {{currency}}를 게이트웨이 수수료로 지불해야 합니다. 최수 출금 금액은 {{minGatewayAmount, BigNumber}} {{currency}} 입니다."
-            }
+            },
+            "withdrawTitle": "Withdraw"
         },
         "sepa": {
             "countryList": "이용 가능한 국가 및 ID 목록",
@@ -661,6 +675,7 @@
                 "dataProviderInvalid": "제공자의 정보를 가져오는데 실패했습니다. 주소를 확인하고 다시 시도하세요.",
                 "dataProviderName": "{{dataProviderName}}",
                 "dontShowSpamCheckboxDescr": "검증되지 않은 토큰을 표시하지 않습니다",
+                "edit": "Edit",
                 "forDisableClear": "완전히 비활성화하려면 항목을 지우세요",
                 "matcherAddress": "Matcher 주소",
                 "nodeAddress": "Node 주소",
@@ -937,7 +952,7 @@
                 "1_3_0": "{span.line}[1. 앱 네비게이션 및 시작 페이지 인터페이스 개선.]",
                 "1_3_18": "{span.line}[1. Added login to wallet using a private key.]\n{span.line}[2. The 24 hours price change of a token is now bound to token/WAVES pair.]",
                 "1_3_19": "{span.line}[1. Bancor gateway has been launched.]\n{span.line}[2. User menu interface has been improved.]",
-                "1_3_2": "{span.line}[1. Vostok 게이트웨이 런칭 완료.]\n{span.line}[2. UI 개선 및 기타 버그 픽스.]",
+                "1_3_2": "{span.line}[1. VST 게이트웨이 런칭 완료.]\n{span.line}[2. UI 개선 및 기타 버그 픽스.]",
                 "1_3_20": "{span.line}[1. Improved system for storing and restoring accounts from local storage (Need to update the [desktop application](https://wavesplatform.com/technology/wallet)).]\n{span.line}[2. Fixed rounding of prices in the orderbook.]",
                 "1_3_5": "{span.line}[1. [wsoc.io](https://wsoc.io) 컨테스트 토큰 탭 추가 완료.]\n{span.line}[2. 프랑스어 지원 추가.]\n{span.line}[3. 기타 버그 픽스.]",
                 "1_3_7": "{span.line}[1. Integration with [tokenrating.wavesexplorer.com](https://tokenrating.wavesexplorer.com)과의 통합. 앱에서 토큰을 평가할 수 있습니다.]\n{span.line}[2. 기타 버그 픽스.]",

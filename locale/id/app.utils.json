@@ -293,8 +293,8 @@
                 "warningTitle": "Tolong jangan depositkan ETH dari kontrak pintar! Jangan setor token ERC20! Hanya Ethereum yang diizinkan."
             },
             "wavesGatewayVST": {
-                "helpDescrText": "Setelah transaksi dikonfirmasi, gateway akan memproses transfer Vostok ke token di akun Waves Anda.",
-                "helpDescrTitle": "Masukkan alamat ini ke klien atau dompet Vostok Anda",
+                "helpDescrText": "Setelah transaksi dikonfirmasi, gateway akan memproses transfer VST ke token di akun Waves Anda.",
+                "helpDescrTitle": "Masukkan alamat ini ke klien atau dompet VST Anda",
                 "warningMinAmountTitle": "Jumlah minimum deposit adalah {{minAmount, BigNumber}} {{assetTicker}}, jumlah deposit maksimum adalah {{maxAmount}} {{assetTicker}}"
             }
         },
@@ -351,6 +351,14 @@
             "wavesBetaClientDescription": "Mengimpor akun dari Klien Beta Waves",
             "wavesLiteClient": "Klien Lite Waves",
             "wavesLiteClientDescription": "Impor akun dari Klien Lite Waves"
+        },
+        "matcherChoice": {
+            "customMatcher": "Custom matcher address",
+            "matcher": "Matcher",
+            "matcherTerms": "I agree to the Super DEX Mather Terms of Use.",
+            "terms": "Terms",
+            "title": "Choose matcher",
+            "wavesTerms": "I am over 18 years old, and I agree to the Waves Terms of Use and Waves Privacy Policy."
         },
         "open-main": {
             "dex": {
@@ -467,7 +475,7 @@
             "shareInvoiceLink": "Bagikan Tautan ke Faktur",
             "verified": "Terverifikasi",
             "vostok": {
-                "serverError": "Layanan Vostok sementara tidak tersedia. Coba lagi nanti."
+                "serverError": "Layanan VST sementara tidak tersedia. Coba lagi nanti."
             },
             "wtry": {
                 "info": "Jika ada masalah dengan proses pembayaran, silakan hubungi tim dukungan Digilira — [support@digilira.com](mailto:support@digilira.com)"
@@ -545,6 +553,11 @@
             "gateway": {
                 "feeExplanation": "Kami telah mendeteksi alamat {{assetName}} dan akan mengirimkan dana Anda melalui gateway ke alamat ini. Jumlah minimum adalah {{min, BigNumber}} {{assetTicker}}. Jumlah maksimum adalah {{max, BigNumber}} {{assetTicker}}."
             },
+            "gatewayTerms": {
+                "accept": "Accept and Continue",
+                "text": "By using Gateway service, you agree to be bound by [Gateway Terms of Service](https://dex.wavesplatform.com/) and [Conduction of Transactions](https://dex.wavesplatform.com/). If you do not agree to these terms, then do not use this Gateway service.",
+                "title": "Gateway service agreement"
+            },
             "icoWarning": "Jangan menarik {{assetName}} ke ICO. Kami tidak akan mengkredit akun Anda dengan token dari penjualan itu.",
             "idNumber": {
                 "helpIcon": {
@@ -596,7 +609,8 @@
             "validationError": {
                 "notEnoughFunds": "Anda tidak memiliki cukup dana untuk membayar biaya yang diperlukan. Anda harus membayar {{fee, money-currency}} biaya transaksi.",
                 "notEnoughFundsWithdraw": "Anda tidak memiliki cukup dana untuk membayar biaya yang diperlukan. Anda harus membayar {{fee, money-currency}} biaya transaksi dan {{getawayFee, BigNumber}} {{currency}} biaya gateway. Jumlah minimum untuk penarikan adalah {{minGatewayAmount, BigNumber}} {{currency}}."
-            }
+            },
+            "withdrawTitle": "Withdraw"
         },
         "sepa": {
             "countryList": "Daftar negara dan ID yang memenuhi syarat",
@@ -661,6 +675,7 @@
                 "dataProviderInvalid": "Gagal mendapatkan informasi penyedia. Silakan periksa alamatnya dan coba lagi",
                 "dataProviderName": "{{dataProviderName}}",
                 "dontShowSpamCheckboxDescr": "Jangan tampilkan token yang mencurigakan",
+                "edit": "Edit",
                 "forDisableClear": "Untuk sepenuhnya menonaktifkannya, kosongkan bidang.",
                 "matcherAddress": "Alamat pencocok",
                 "nodeAddress": "Alamat node",
@@ -937,7 +952,7 @@
                 "1_3_0": "{span.line} [1. Navigasi aplikasi yang ditingkatkan dan antarmuka halaman mulai.]",
                 "1_3_18": "{span.line} [1. Menambahkan login ke dompet menggunakan kunci pribadi.] \n{span.line} [2. Perubahan harga 24 jam dari token sekarang terikat ke pasangan token/WAVES.]",
                 "1_3_19": "{span.line} [1. Gerbang Bancor telah diluncurkan.] \n {span.line} [2. Antarmuka menu pengguna telah ditingkatkan.]",
-                "1_3_2": "{span.line} [1. Gateway Vostok telah diluncurkan.] \n{span.line} [2. UI yang diperbaiki dan bug minor tambahan telah diperbaiki.]",
+                "1_3_2": "{span.line} [1. Gateway VST telah diluncurkan.] \n{span.line} [2. UI yang diperbaiki dan bug minor tambahan telah diperbaiki.]",
                 "1_3_20": "{span.line}[1. Improved system for storing and restoring accounts from local storage (Need to update the [desktop application](https://wavesplatform.com/technology/wallet)).]\n{span.line}[2. Fixed rounding of prices in the orderbook.]",
                 "1_3_5": "{span.line} [1. Tab dengan token kontes [wsoc.io] (https://wsoc.io) telah ditambahkan.] \n {span.line} [2. Dukungan bahasa Perancis ditambahkan.] \n {span.line} [3. Bug minor tambahan telah diperbaiki.]",
                 "1_3_7": "{span.line}[1. Integrasi dengan [tokenrating.wavesexplorer.com] (https://tokenrating.wavesexplorer.com) Sekarang Anda dapat menilai token langsung di app.] \n {span.line}[2. Bug minor tambahan telah diperbaiki.]",

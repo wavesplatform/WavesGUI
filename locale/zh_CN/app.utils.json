@@ -293,8 +293,8 @@
                 "warningTitle": "请不要从智能合约中交存ETH！别交存ERC20代币！您只能交存以太坊Ethereum。"
             },
             "wavesGatewayVST": {
-                "helpDescrText": "确认交易后，网关将处理将Vostok转移到Waves帐户中的代币。",
-                "helpDescrTitle": "在您的Vostok客户端或钱包中输入此地址",
+                "helpDescrText": "确认交易后，网关将处理将VST转移到Waves帐户中的代币。",
+                "helpDescrTitle": "在您的VST客户端或钱包中输入此地址",
                 "warningMinAmountTitle": "最低存款金额为{{minAmount, BigNumber}} {{assetTicker}}，最高存款金额为{{maxAmount}} {{assetTicker}}"
             }
         },
@@ -351,6 +351,14 @@
             "wavesBetaClientDescription": "从Waves客户端测试版导入帐户",
             "wavesLiteClient": "Waves Lite客户端",
             "wavesLiteClientDescription": "从Waves Lite客户端导入帐户"
+        },
+        "matcherChoice": {
+            "customMatcher": "自定义匹配器地址",
+            "matcher": "匹配",
+            "matcherTerms": "我同意Super DEX Mather使用条款。",
+            "terms": "条款",
+            "title": "选择匹配器",
+            "wavesTerms": "我已超过18岁，我同意Waves使用条款和Waves隐私政策。"
         },
         "open-main": {
             "dex": {
@@ -467,7 +475,7 @@
             "shareInvoiceLink": "分享单据链接",
             "verified": "验证",
             "vostok": {
-                "serverError": "Vostok服务暂时无法使用。稍后再试。"
+                "serverError": "VST服务暂时无法使用。稍后再试。"
             },
             "wtry": {
                 "info": "如果付款处理出了问题，请联系Digilira支持团队 — [support@digilira.com](mailto:support@digilira.com)"
@@ -545,6 +553,11 @@
             "gateway": {
                 "feeExplanation": "我们检测到{{assetName}}地址，并会通过网关将您的资金发送到此地址。最低金额为 {{min, BigNumber}} {{assetTicker}} 。最大金额为 {{max, BigNumber}} {{assetTicker}}。"
             },
+            "gatewayTerms": {
+                "accept": "接受并继续",
+                "text": "使用网关服务即表示您同意受[网关服务条款]（https://dex.wavesplatform.com/）和[交易行为]（https://dex.wavesplatform.com/）的约束。如果您不同意这些条款，请不要使用此Gateway服务。",
+                "title": "网关服务协议"
+            },
             "icoWarning": "不要将 {{assetName}} 转到ICO地址。我们将无法将这笔销售中的代币存入您的账号。",
             "idNumber": {
                 "helpIcon": {
@@ -596,7 +609,8 @@
             "validationError": {
                 "notEnoughFunds": "您的余额不足以支付所需交易费用。您需要{{fee, money-currency}} 作为交易费用。",
                 "notEnoughFundsWithdraw": "您的余额不足以支付所需交易费用。您需要 {{fee, money-currency}} {{getawayFee, BigNumber}} {{currency}} 作为交易费用和 {{minGatewayAmount, BigNumber}} {{currency}} 网关费用。"
-            }
+            },
+            "withdrawTitle": "退出"
         },
         "sepa": {
             "countryList": "符合条件的国家和ID列表",
@@ -661,6 +675,7 @@
                 "dataProviderInvalid": "无法获得提供商信息。请检查地址并再试一次",
                 "dataProviderName": "{{dataProviderName}}",
                 "dontShowSpamCheckboxDescr": "不要显示可疑代币",
+                "edit": "Edit",
                 "forDisableClear": "要完全禁用它，请清除该字段。",
                 "matcherAddress": "交易匹配节点地址",
                 "nodeAddress": "节点地址",
@@ -937,7 +952,7 @@
                 "1_3_0": "{span.line}[1。改进了应用程序导航和起始页面界面。]",
                 "1_3_18": "{span.line} [1。使用私钥添加了对钱包的登录。] \n {span.line} [2。令牌的24小时价格变化现在绑定到代币/ WAVES对。]",
                 "1_3_19": "{span.line} [1。 Bancor网关已经推出。] \n {span.line} [2。用户菜单界面已得到改进。]",
-                "1_3_2": "{span.line} [1。 Vostok网关已经推出。] \n {span.line} [2。改进的用户界面和其他小错误已得到修复。]",
+                "1_3_2": "{span.line} [1。 VST网关已经推出。] \n {span.line} [2。改进的用户界面和其他小错误已得到修复。]",
                 "1_3_20": "{span.line} [1。改进了从本地存储中存储和恢复帐户的系统（需要更新[桌面应用程序]（https://wavesplatform.com/technology/wallet））。 \n {span.line} [2。修正了订单中价格的四舍五入。]",
                 "1_3_5": "{span.line} [1。已添加包含[wsoc.io]（https://wsoc.io）竞赛代币的标签。 \n {span.line} [2。增加了法语支持。] \n {span.line} [3。其他小错误已得到修复。]",
                 "1_3_7": "{span.line} [1。与[tokenrating.wavesexplorer.com]集成（https://tokenrating.wavesexplorer.com）现在您可以直接在应用程序中对令牌进行评分。 \n {span.line} [2。其他小错误已得到修复。]",

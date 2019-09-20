@@ -7,6 +7,8 @@
      */
     const controller = function (Base, i18n) {
 
+        const { libs } = require('@waves/waves-transactions');
+
         const MATCHER_LIST = [
             {
                 url: 'https://matcher.wavesplatform.com/matcher',
@@ -38,6 +40,8 @@
             constructor() {
                 super();
 
+                this._addVolume();
+
                 this.matcherList = MATCHER_LIST.concat({
                     custom: true,
                     name: i18n.translate('modal.matcherChoice.customMatcher', 'app.utils')
@@ -45,6 +49,37 @@
 
                 this.observe('active', () => {
                     this.onChange({ matcher: this.active });
+                });
+            }
+
+            _addVolume() {
+                // const matcherListHash = utils.toHash(this.matcherList, 'url');
+                MATCHER_LIST.forEach(({ url }) => {
+                    ds.fetch(url)
+                    // TODO вынести в utils
+                        .then(matcherPublicKey => {
+                            if (matcherPublicKey) {
+                                const matcherPublicKeyBytes = libs.crypto.base58Decode(matcherPublicKey);
+                                return libs.crypto.address(
+                                    {
+                                        publicKey: matcherPublicKeyBytes
+                                    },
+                                    ds.config.get('code'));
+                            }
+                        })
+                        .then(matcherAddress => {
+                            ds.api.pairs.get(WavesApp.defaultAssets.WAVES, WavesApp.defaultAssets.BTC)
+                                .then(pair => {
+                                    ds.api.pairs.info(matcherAddress, [pair])
+                                        .then(infoList => {
+                                            // matcherListHash[url].wavesBtcVolume = infoList.volume;
+                                            // this.matcherList = Object.values(matcherListHash);
+                                            this.matcherList
+                                                .find(matcher => matcher.url === url)
+                                                .wavesBtcVolume = infoList[0].volume;
+                                        });
+                                });
+                        });
                 });
             }
 
