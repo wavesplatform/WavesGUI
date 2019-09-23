@@ -940,9 +940,7 @@
                 }
                 const price = this._validPrice();
                 const amount = this._validAmount();
-                const total = amount.isZero() ?
-                    this.priceBalance.cloneWithTokens('0') :
-                    this.priceBalance.cloneWithTokens(price.mul(amount));
+                const total = this.priceBalance.cloneWithTokens(price.mul(amount));
                 this._setDirtyField('total', total);
                 this._silenceNow = true;
             }
