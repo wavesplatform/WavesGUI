@@ -6,7 +6,7 @@
         'ts-utils': 'tsUtils',
         '@waves/bignumber': 'BigNumber',
         'ts-api-validator': 'tsApiValidator',
-        'parse-json-bignumber': 'parseJsonBignumber',
+        '@waves/parse-json-bignumber': 'parseJsonBignumber',
         'papaparse': 'Papa',
         'waves-api': 'WavesAPI',
         'identity-img': 'identityImg',

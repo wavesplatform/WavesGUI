@@ -11,6 +11,10 @@
         "avatarUnique": "このアバターはユニークです。あとで変更することはできません。",
         "back": "戻る",
         "choose": "アカウントを選択",
+        "help": {
+            "id": "{div}[Set an ID manually or select an account from the list.]\n{div}[Please save the ID, it would be needed for importing.]"
+        },
+        "id": "Account ID",
         "importAccount": "Ledgerアカウントをインポート",
         "ImportOrSignIn": "アカウントをインポート。または、",
         "login": "次へ",

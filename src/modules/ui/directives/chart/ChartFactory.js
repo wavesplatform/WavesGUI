@@ -370,7 +370,7 @@
                     }
                 };
 
-                if (!this.chartData && !this.chartData.coordinates) {
+                if (!this.chartData || !this.chartData.coordinates) {
                     return null;
                 }
 

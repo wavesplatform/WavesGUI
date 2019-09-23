@@ -1,4 +1,8 @@
 {
+    "encodedSeedForm": {
+        "placeholder": "Enter your encoded seed"
+    },
+    "encodedSeedTab": "Encoded seed",
     "keyForm": {
         "placeholder": "Entrez votre clé privée ici"
     },
@@ -51,6 +55,7 @@
     },
     "seedOrKeyForm": {
         "description": "Entrez votre phrase de sauvegarde (SEED) ou votre clé privée pour accéder à votre portefeuille.",
+        "encodedSeed": "Encoded seed",
         "keyTitle": "Clé privée",
         "seedTitle": "Phrase de sauvegarde (SEED)",
         "title": "Importer depuis une phrase de sauvegarde (SEED) ou une clé privée"
