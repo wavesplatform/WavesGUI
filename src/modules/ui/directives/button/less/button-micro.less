@@ -11,20 +11,23 @@
     padding: @padding-control-button-micro;
     box-shadow: none;
 
-    &:hover, &.hover {
+    &:hover,
+    &.hover {
       border-color: @color-submit-300;
       color: @color-basic-700;
       box-shadow: none;
     }
 
-    &:disabled, &.disabled {
+    &:disabled,
+    &.disabled {
       border: 1px solid @color-accent-50;
       color: @color-basic-500;
       pointer-events: none;
     }
   }
 
-  &:active, &.active {
+  &:active,
+  &.active {
     &:not(.transparent) {
       .button__elem_micro {
         &,

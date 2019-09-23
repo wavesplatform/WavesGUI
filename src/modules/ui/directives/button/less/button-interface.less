@@ -19,9 +19,11 @@
       padding: 0 18px;
     }
 
-    &:hover, &.hover {
+    &:hover,
+    &.hover {
       box-shadow: @shadow-buttons-hover;
       color: @color-basic-700;
+
       svg {
         fill: @color-basic-700;
       }
@@ -39,12 +41,14 @@
       }
     }
 
-    &:active, &.active {
+    &:active,
+    &.active {
       box-shadow: @shadow-buttons-hover;
       color: @color-basic-500;
     }
 
-    &:disabled, &.disabled {
+    &:disabled,
+    &.disabled {
       opacity: 0.5;
       cursor: default;
       border: none;

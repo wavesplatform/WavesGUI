@@ -9,16 +9,20 @@
     background-color: @color-submit-400;
     color: @white-only;
 
-    &:hover, &.hover {
+    &:hover,
+    &.hover {
+      box-shadow: none;
       background-color: @color-submit-500;
       color: @color-white;
     }
 
-    &:active, &.active {
+    &:active,
+    &.active {
       background-color: @color-submit-600;
     }
 
-    &:disabled, &.disabled {
+    &:disabled,
+    &.disabled {
       opacity: 0.3;
     }
 

@@ -16,13 +16,15 @@
     box-shadow: 0 0 0 1px @color-basic-200 inset;
     color: @color-basic-500;
 
-    &:hover, &.hover,
-    &:active, &.active {
+    &:hover,
+    &.hover,
+    &:active,
+    &.active {
       box-shadow: 0 0 0 1px @color-basic-500 inset;
-      color: @color-basic-700;
     }
 
-    &:disabled, &.disabled {
+    &:disabled,
+    &.disabled {
       color: @color-basic-200;
     }
 
@@ -38,10 +40,12 @@
       color: @color-white;
 
       &:hover, &.hover {
+        box-shadow: none;
         background-color: @color-success-400;
       }
 
       &:active, &.active {
+        box-shadow: none;
         background-color: @color-success-500;
       }
 
@@ -55,13 +59,17 @@
       background-color: @color-error-400;
       color: @white-only;
 
-      &:hover, &.hover,
-      &:active, &.active {
+      &:hover,
+      &.hover,
+      &:active,
+      &.active {
+        box-shadow: none;
         background-color: @color-error-600;
         border-color: transparent;
       }
 
-      &:disabled, &.disabled {
+      &:disabled,
+      &.disabled {
         background-color: @color-error-200;
         box-shadow: inset -1px 1px 0 0 rgba(255, 255, 255, 0);
       }
@@ -109,7 +117,8 @@
     width: 50%;
   }
 
-  &.long > *, &.half > * {
+  &.long > *,
+  &.half > * {
     width: 100%;
   }
 }
@@ -176,16 +185,5 @@
     40% {
       box-shadow: 0 13px 0 -13px @color-white;
     }
-  }
-}
-
-/* Mac button text centering fix */
-.button > button {
-  w-i18n,
-  .button__elem,
-  .full-width,
-  .full-width * {
-    width: 100%;
-    display: block;
   }
 }
