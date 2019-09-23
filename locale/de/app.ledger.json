@@ -11,6 +11,10 @@
         "avatarUnique": "Dieser Avatar ist einzigartig, Sie können ihn später nicht ändern.",
         "back": "Zurück",
         "choose": "Wählen sie ihren Account",
+        "help": {
+            "id": "{div}[Set an ID manually or select an account from the list.]\n{div}[Please save the ID, it would be needed for importing.]"
+        },
+        "id": "Account ID",
         "importAccount": "Importieren sie einen Account von ihrem Nano Ledger S",
         "ImportOrSignIn": "Account importieren oder",
         "login": "Fortsetzen",

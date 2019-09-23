@@ -1,0 +1,166 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+@import (reference) "../../../../../app/less/app-icons";
+@import (reference) '../../../../../app/less/typography';
+
+.switch-accounts {
+  margin-left: 18px;
+  display: flex;
+  flex-direction: column;
+
+  &__back {
+    .headline-3();
+    margin: 0 25px 0 10px;
+    padding-left: 33px;
+    padding-bottom: 14px;
+    position: relative;
+    display: block;
+    color: @color-basic-900;
+    border-bottom: 1px solid @mobile-menu-inner-border;
+
+    &::before {
+      content: "";
+      display: block;
+      background: @dropdown-arrow-back-icon;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  &__list {
+    flex: 1;
+    max-height: 195px;
+    padding: 4px 20px 4px 0;
+    overflow: auto;
+    overflow-x: hidden;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    width: 230px;
+
+    &-wrap {
+      padding: 6px 10px;
+      margin-bottom: 4px;
+      cursor: pointer;
+      position: relative;
+      border-radius: @border-radius;
+      transition: all .3s;
+
+      &:hover {
+        background: @color-basic-50;
+
+        & .switch-accounts__remove {
+          display: block;
+          background-size: 12px;
+        }
+
+        & .switch-accounts__address {
+          width: 170px;
+        }
+
+        & .switch-accounts__active {
+          margin-right: 20px;
+        }
+      }
+
+      &_unlock {
+        opacity: .7;
+      }
+    }
+  }
+
+  &__avatar {
+    height: 30px;
+    width: 30px;
+    margin-right: 8px;
+  }
+
+  &__info-wrap {
+    width: 185px;
+  }
+
+  &__name {
+    font-size: 13px;
+    color: @color-basic-900;
+    max-width: 145px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: 4px;
+
+    &-wrap {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  &__active {
+    color: @color-submit-400;
+    padding: 3px 4px;
+    border-radius: @border-radius / 2;
+    background: rgba(31, 90, 246, 0.1);
+    font-size: 9px;
+    line-height: 9px;
+    height: 15px;
+    display: flex;
+    align-items: center;
+    text-transform: uppercase;
+  }
+
+  &__address {
+    font-size: 11px;
+    line-height: normal;
+    text-overflow: ellipsis;
+    width: 100%;
+    overflow: hidden;
+    color: @color-basic-500;
+  }
+
+  &__remove {
+    display: none;
+    transition: all .3s;
+  }
+
+  &__add {
+    display: flex;
+    align-items: center;
+    height: 42px;
+    padding-left: 38px;
+    margin-top: 8px;
+    color: @color-basic-900;
+    position: relative;
+
+    &::before {
+      content: "";
+      display: block;
+      height: 30px;
+      width: 30px;
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+      border-radius: 50px;
+      background-color: @color-basic-50;
+      background-image: @add-account-icon;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 14px 14px;
+      transition: all .3s;
+    }
+
+    &-wrapper {
+      border-top: 1px solid @color-basic-50;
+      margin: 0 25px 0 10px;
+    }
+  }
+
+  &__unlock {
+    font-size: 13px;
+    color: @color-basic-700;
+    margin: 8px 10px;
+  }
+}

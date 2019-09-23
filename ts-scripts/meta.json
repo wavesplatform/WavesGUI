@@ -3,7 +3,7 @@
     "node_modules/@waves/bignumber/dist/bignumber.umd.js",
     "node_modules/@waves/waves-transactions/dist/min/waves-transactions.min.js",
     "node_modules/@waves/oracle-data/dist/oracle-data.min.js",
-    "node_modules/parse-json-bignumber/dist/parse-json-bignumber.min.js",
+    "node_modules/@waves/parse-json-bignumber/dist/parse-json-bignumber.min.js",
     "node_modules/handlebars/dist/handlebars.min.js",
     "node_modules/ramda/dist/ramda.min.js",
     "node_modules/mobile-detect/mobile-detect.min.js",
@@ -175,7 +175,7 @@
   ],
   "copyNodeModules": [
     "node_modules/qrcode-reader/dist/index.min.js",
-    "node_modules/parse-json-bignumber/dist/parse-json-bignumber.min.js"
+    "node_modules/@waves/parse-json-bignumber/dist/parse-json-bignumber.min.js"
   ],
   "electron": {
     "createPackageJSONFields": [
@@ -196,7 +196,7 @@
         "@ledgerhq/hw-transport-node-hid": "4.22.0",
         "babel-runtime": "^6.26.0",
         "i18next": "9.1.0",
-        "parse-json-bignumber": "0.0.2",
+        "@waves/parse-json-bignumber": "0.0.2",
         "qrcode-reader": "1.0.3",
         "ts-utils": "6.0.2"
       },

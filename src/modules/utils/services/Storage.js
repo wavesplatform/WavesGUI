@@ -7,8 +7,10 @@
      * @param {Migration} migration
      * @param {State} state
      * @param {storageSelect} storageSelect
+     * @param {DefaultSettings} defaultSettings
+     * @param {StorageDataConverter} storageDataConverter
      */
-    const factory = function ($q, utils, migration, state, storageSelect) {
+    const factory = function ($q, utils, migration, state, storageSelect, defaultSettings, storageDataConverter) {
 
         const usedStorage = storageSelect();
 
@@ -22,7 +24,8 @@
             '1.3.19': function (storage) {
                 return saveUsersWithUniqueName(storage)
                     .then(data => addNewGateway(data, WavesApp.defaultAssets.BNT));
-            }
+            },
+            '1.4.0': storage => migrateCommonSettings(storage)
         };
 
         function newTerms(storage) {
@@ -47,7 +50,7 @@
                     }
                 });
 
-                return storage.save('userList', users);
+                return storage.save('userList', users || []);
             });
         }
 
@@ -88,14 +91,46 @@
             });
         }
 
+        function migrateCommonSettings(storage) {
+            return storage.load('userList').then(userList => {
+                const commonSettings = defaultSettings.create();
+
+                (userList || []).sort((a, b) => a.lastLogin - b.lastLogin).forEach(curUser => {
+                    if (curUser.settings) {
+                        try {
+                            const userSettings = defaultSettings.create();
+                            const flatSettings = JSON.parse(storageDataConverter.stringify(curUser.settings));
+
+                            Object.entries(flatSettings).forEach(([path, value]) => {
+                                commonSettings.set(path, value);
+                                userSettings.set(path, value);
+                            });
+
+                            curUser.settings = userSettings.getSettings().settings;
+                        } catch (e) {
+                            delete curUser.settings;
+                        }
+                    }
+                });
+
+                return Promise.all([
+                    storage.save('multiAccountSettings', commonSettings.getSettings().common),
+                    storage.save('userList', userList)
+                ]);
+            });
+        }
+
         class Storage {
 
             constructor() {
                 usedStorage.init();
                 this._isNewDefer = $q.defer();
+                this._canWrite = $q.defer();
+                this._activeWrite = Promise.resolve();
 
                 this.load('lastVersion')
                     .then((version) => {
+                        this._canWrite.resolve();
                         this.save('lastVersion', WavesApp.version);
                         state.lastOpenVersion = version;
 
@@ -117,7 +152,10 @@
             }
 
             save(key, value) {
-                return utils.when(usedStorage.write(key, value));
+                return this._canWrite.promise.then(() => {
+                    this._activeWrite = this._activeWrite.then(() => utils.when(usedStorage.write(key, value)));
+                    return this._activeWrite;
+                });
             }
 
             load(key) {
@@ -125,7 +163,7 @@
             }
 
             clear() {
-                return utils.when(usedStorage.clear());
+                return this._canWrite.promise.then(() => utils.when(usedStorage.clear()));
             }
 
         }
@@ -133,7 +171,7 @@
         return new Storage();
     };
 
-    factory.$inject = ['$q', 'utils', 'migration', 'state', 'storageSelect'];
+    factory.$inject = ['$q', 'utils', 'migration', 'state', 'storageSelect', 'defaultSettings', 'storageDataConverter'];
 
     angular.module('app.utils')
         .factory('storage', factory);

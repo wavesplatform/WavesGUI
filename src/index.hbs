@@ -365,6 +365,11 @@
                     ERGO: config.network.assets.ERGO,
                     BNT: config.network.assets.BNT
                 },
+                rewriteAssets: [{
+                    id: config.network.assets.VST,
+                    name: 'VST',
+                    description: 'Waves Enterprise Platform System Token'
+                }],
                 tradingPairs: config.tradingPairs,
                 ALWAYS_PINNED_ASSETS: ['WAVES'],
                 WCTAsset: config.network.assets.WCT,
@@ -602,10 +607,33 @@
             id: 'root',
             children: [
                 {
+                    id: 'signUp',
+                    data: {
+                        url: '/sign-up',
+                        noLogin: true,
+                        views: [{ name: 'main' }]
+                    }
+                },
+                {
                     id: 'signIn',
                     data: {
                         url: '/sign-in',
                         noLogin: true,
+                        views: [{ name: 'main' }]
+                    }
+                },
+                {
+                    id: 'switch',
+                    data: {
+                        url: '/switch',
+                        noLogin: true,
+                        views: [{ name: 'main' }]
+                    }
+                },
+                {
+                    id: 'migrate',
+                    data: {
+                        url: '/migrate?id',
                         views: [{ name: 'main' }]
                     }
                 },
@@ -628,7 +656,6 @@
                     id: 'saveSeed',
                     data: {
                         url: '/save-seed',
-                        noLogin: true,
                         views: [{ name: 'main' }]
                     }
                 },
@@ -642,7 +669,6 @@
                 {
                     id: 'create',
                     data: {
-                        noLogin: true,
                         views: [{ name: 'main' }]
                     }
                 },
@@ -650,7 +676,6 @@
                     id: 'restore',
                     data: {
                         url: '/import/restore',
-                        noLogin: true,
                         views: [{ name: 'main' }]
                     }
                 },
@@ -658,7 +683,6 @@
                     id: 'ledger',
                     data: {
                         url: '/import/ledger',
-                        noLogin: true,
                         views: [{ name: 'main' }]
                     }
                 },
@@ -666,14 +690,12 @@
                     id: 'keeper',
                     data: {
                         url: '/import/waveskeeper',
-                        noLogin: true,
                         views: [{ name: 'main' }]
                     }
                 },
                 {
                     id: 'import',
                     data: {
-                        noLogin: true,
                         views: [{ name: 'main' }]
                     }
                 },

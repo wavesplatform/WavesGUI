@@ -8,12 +8,13 @@
     "signIn": {
         "btn": {
             "cancel": "Anuluj",
-            "restore": "Przywróć wszystko"
+            "restore": "Reset all"
         },
         "enterPass": "Wprowadź swoje hasło, aby kontynuować.",
         "passForgot": {
             "attention": "Uwaga!",
-            "description": "Jeśli zapomnisz hasła, musisz przywrócić wszystkie konta z ich SEED i ustawić nowe hasło."
+            "description": "Jeśli zapomnisz hasła, musisz przywrócić wszystkie konta z ich SEED i ustawić nowe hasło.",
+            "importantDesc": "If you have not saved the Seed phrase or Private key, then you will not be able to recover access to your account."
         },
         "password": {
             "forgot": "Zapomniałeś swoje hasło?"

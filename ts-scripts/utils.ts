@@ -1,9 +1,9 @@
 import { getType } from 'mime';
 import { exec, spawn } from 'child_process';
-import { existsSync, readdirSync, readFileSync, statSync, unlink } from 'fs';
+import { readdirSync, readFileSync, statSync, unlink } from 'fs';
 import { join, relative, extname, dirname } from 'path';
 import { IPackageJSON, IMetaJSON, TBuild, TConnection, TPlatform, IConfItem } from './interface';
-import { readFile, readJSON, readJSONSync, createWriteStream, mkdirpSync, copy, mkdirp } from 'fs-extra';
+import { readFile, readJSON, readJSONSync, createWriteStream, mkdirp } from 'fs-extra';
 import { compile } from 'handlebars';
 import { transform } from 'babel-core';
 import { render } from 'less';
@@ -267,7 +267,36 @@ export function parseArguments<T>(): T {
     return result;
 }
 
-export async function getInitScript(connectionType: TConnection, type: TPlatform, paramsIn?: IPrepareHTMLOptions) {
+export function getJSON(url: string): Promise<unknown> {
+    return new Promise((resolve, reject) => {
+        get(url, (res: IncomingMessage) => {
+            let data = '';
+
+            res.on('data', chunk => {
+                data += chunk;
+            });
+
+            res.on('end', () => {
+                try {
+                    resolve(JSON.parse(data));
+                } catch (e) {
+                    reject(e);
+                }
+            });
+
+            res.on('error', error => {
+                reject(error);
+            });
+        });
+    });
+}
+
+export async function getInitScript(
+    connectionType: TConnection,
+    type: TPlatform,
+    paramsIn?: IPrepareHTMLOptions,
+    fallbackConfigs?: boolean
+) {
     const params = paramsIn || {
         target: join(__dirname, '..', 'src'),
         connection: connectionType,
@@ -275,6 +304,11 @@ export async function getInitScript(connectionType: TConnection, type: TPlatform
     };
 
     const config = await getBuildParams(params);
+
+    if (fallbackConfigs) {
+        config.network.featuresConfig = await getJSON(config.network.featuresConfigUrl);
+        config.network.feeConfig = await getJSON(config.network.feeConfigUrl);
+    }
 
     function initConfig(config) {
         var global = (window) as any;
@@ -340,7 +374,7 @@ export async function getInitScript(connectionType: TConnection, type: TPlatform
                     var wrapper = require('worker-wrapper');
 
                     var worker = wrapper.create({
-                        libs: ['/node_modules/parse-json-bignumber/dist/parse-json-bignumber.min.js?v' + WavesApp.version]
+                        libs: ['/node_modules/@waves/parse-json-bignumber/dist/parse-json-bignumber.min.js?v' + WavesApp.version]
                     });
 
                     worker.process(function () {
@@ -368,7 +402,7 @@ export async function getInitScript(connectionType: TConnection, type: TPlatform
                     var analytics = require('@waves/event-sender');
 
                     analytics.addApi({
-                        apiToken: '7a280fdf83a5efc5b8dfd52fc89de3d7',
+                        apiToken: config._isProduction() ? '7a280fdf83a5efc5b8dfd52fc89de3d7' : '56bc30688ef3d7127feaa8f0dc2e5fc0',
                         libraryUrl: location.origin + '/amplitude.js',
                         initializeMethod: 'amplitudeInit',
                         sendMethod: 'amplitudePushEvent',
@@ -376,7 +410,7 @@ export async function getInitScript(connectionType: TConnection, type: TPlatform
                     });
 
                     analytics.addApi({
-                        apiToken: 'UA-75283398-20',
+                        apiToken: config._isProduction() ? 'UA-75283398-20' : 'UA-75283398-21',
                         libraryUrl: location.origin + '/googleAnalytics.js',
                         initializeMethod: 'gaInit',
                         sendMethod: 'gaPushEvent',
@@ -818,6 +852,7 @@ export function loadLocales(path: string, options?: object): Promise<void> {
                         get(url, (res) => {
                             res.pipe(file);
                             res.on('end', () => {
+                                console.log(zipPath)
                                 extract(zipPath, { dir: `${path}/` }, error => {
                                     if (error) {
                                         reject(error);
@@ -826,7 +861,6 @@ export function loadLocales(path: string, options?: object): Promise<void> {
                                 });
                             });
                             res.on('error', (err) => {
-                                console.log('err', err)
                                 reject(err);
                             });
                         });

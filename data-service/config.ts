@@ -4,6 +4,7 @@ import { time } from './api/node/node';
 import { request } from './utils/request';
 import { MAINNET_DATA } from '@waves/assets-pairs-order';
 import { Signal } from 'ts-utils';
+import {IAssetInfo} from "@waves/data-entities/dist/entities/Asset";
 
 
 const config: IConfigParams = Object.create(null);
@@ -72,4 +73,5 @@ export interface IConfigParams {
     oracleWaves: string;
     oracleTokenomica: string;
     tokenrating: string;
+    rewriteAssets: {[key: string]: Partial<IAssetInfo>}
 }
