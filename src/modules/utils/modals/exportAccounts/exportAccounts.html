@@ -1,0 +1,39 @@
+<div class="btn icon-close ng-scope" w-modal-close></div>
+
+<h3 class="basic-700 margin-top-3 margin-1"
+    w-i18n="modal.settings.exportAccounts.title">
+    Choose which accounts you want to export
+</h3>
+
+
+<div>
+    <div>
+        Accounts
+        <a ng-click="$ctrl.selectAll()" w-i18n="modal.settings.exportAccounts.selectAll"></a>
+    </div>
+
+    <div class="" ng-repeat="user in $ctrl.userList track by $index" ng-click="$ctrl.toggleSelect(user.address)">
+        <div>
+            <div>
+                <w-avatar address="user.address"
+                          size="36"
+                          type="{{user.userType}}">
+                </w-avatar>
+            </div>
+            <div>
+                <div>{{user.name}}</div>
+                <div>{{user.address}}</div>
+            </div>
+        </div>
+        <w-checkbox-submit ng-model="$ctrl.checkedHash[user.address]"></w-checkbox-submit>
+    </div>
+
+    <div>
+        <span w-i18n="modal.settings.exportAccounts.password"></span>
+        <w-info-tooltip>
+            <span class="tooltip__content">HELP ME!!!!</span>
+        </w-info-tooltip>
+        <w-checkbox-submit ng-model="$ctrl.needPassword"></w-checkbox-submit>
+    </div>
+
+</div>
