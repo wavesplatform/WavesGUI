@@ -106,13 +106,13 @@
                                 </div>
                             </div>
                             <w-input-error message="lte" hide-within="$ctrl.ERROR_CLICKABLE_DISPLAY_INTERVAL">
-                                <span w-i18n="directives.createOrder.errors.priceLte"></span>
+                                <span w-i18n="directives.createOrder.errors.priceMax"></span>
                                 <span class="clickable-value" ng-click="$ctrl.setPrice($ctrl.pairRestrictions.maxPrice)">
                                     {{$ctrl.pairRestrictions.maxPrice.toFormat()}}
                                 </span>
                             </w-input-error>
                             <w-input-error message="gte" hide-within="$ctrl.ERROR_CLICKABLE_DISPLAY_INTERVAL">
-                                <span w-i18n="directives.createOrder.errors.priceGte"></span>
+                                <span w-i18n="directives.createOrder.errors.priceMin"></span>
                                 <span class="clickable-value" ng-click="$ctrl.setPrice($ctrl.pairRestrictions.minPrice)">
                                     {{$ctrl.pairRestrictions.minPrice.toFormat()}}
                                 </span>
@@ -165,7 +165,7 @@
                             </div>
 
                             <w-input-error message="gte" hide-within="$ctrl.ERROR_CLICKABLE_DISPLAY_INTERVAL">
-                                <span w-i18n="directives.createOrder.errors.amountGte"></span>
+                                <span w-i18n="directives.createOrder.errors.amountMin"></span>
                                 <span class="clickable-value"
                                       ng-click="$ctrl.setAmount($ctrl.pairRestrictions.minAmount)">
                                         {{$ctrl.pairRestrictions.minAmount.toFormat()}}
@@ -176,7 +176,7 @@
                                       w-i18n="directives.createOrder.errors.balance"
                                       params="{name: $ctrl.amountBalance.asset.displayName}"></span>
                                 <span ng-if="!$ctrl.maxAmountBalance">
-                                    <span w-i18n="directives.createOrder.errors.amountLte"></span>
+                                    <span w-i18n="directives.createOrder.errors.amountMax"></span>
                                     <span class="clickable-value"
                                           ng-click="$ctrl.setAmount($ctrl.pairRestrictions.maxAmount)">
                                             {{$ctrl.pairRestrictions.maxAmount.toFormat()}}
