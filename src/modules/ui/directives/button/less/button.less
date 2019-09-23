@@ -9,7 +9,11 @@
 .button {
   display: inline-block;
 
-  & > * {
+  &__elem {
+    display: block;
+    border-radius: @border-radius;
+    width: 100%;
+    white-space: nowrap;
     transition: all 0.3s;
     border: 0 none;
     background-color: @color-white;
@@ -74,18 +78,103 @@
         box-shadow: inset -1px 1px 0 0 rgba(255, 255, 255, 0);
       }
     }
-  }
-
-  &__elem {
-    display: block;
-    border-radius: @border-radius;
-    width: 100%;
-    white-space: nowrap;
 
     &_small {
       padding: 0 20px;
       height: 36px;
       line-height: 36px;
+    }
+
+    &_submit {
+      box-shadow: none;
+      background-color: @color-submit-400;
+      color: @white-only;
+
+      &:hover,
+      &.hover {
+        box-shadow: none;
+        background-color: @color-submit-500;
+        color: @color-white;
+      }
+
+      &:active,
+      &.active {
+        background-color: @color-submit-600;
+      }
+
+      &:disabled,
+      &.disabled {
+        opacity: 0.3;
+      }
+
+      &-light {
+        background: @color-submit-50;
+        color: @color-submit-400;
+        box-shadow: none;
+        border-radius: @border-radius;
+
+        &:hover {
+          background: @color-submit-100;
+          color: @color-submit-400;
+          box-shadow: none;
+        }
+      }
+    }
+
+    &_interface {
+      color: @color-basic-700;
+      font-family: @font-roboto-medium;
+      font-size: 15px;
+      height: 42px;
+      line-height: 42px;
+      padding: 0 30px;
+      text-transform: capitalize;
+      box-shadow: @shadow-buttons-default;
+      white-space: nowrap;
+
+      @media screen and (max-width: 480px) {
+        padding: 0 18px;
+      }
+
+      &:hover,
+      &.hover {
+        box-shadow: @shadow-buttons-hover;
+        color: @color-basic-700;
+
+        svg {
+          fill: @color-basic-700;
+        }
+      }
+
+      svg {
+        transition: .3s;
+        vertical-align: middle;
+        fill: @color-basic-500;
+        margin: -3px 7px 0 -4px;
+
+        @media screen and (max-width: 560px) {
+          margin-right: 0;
+          margin-left: 0;
+        }
+      }
+
+      &:active,
+      &.active {
+        box-shadow: @shadow-buttons-hover;
+        color: @color-basic-500;
+      }
+
+      &:disabled,
+      &.disabled {
+        opacity: 0.5;
+        cursor: default;
+        border: none;
+      }
+
+      &.bordered {
+        box-shadow: none;
+        border: 1px solid @color-basic-100;
+      }
     }
   }
 

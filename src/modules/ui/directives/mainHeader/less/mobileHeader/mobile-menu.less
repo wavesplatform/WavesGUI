@@ -1,0 +1,331 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+@import (reference) "../../../../../app/less/app-icons";
+@import (reference) '../../../../../app/less/typography';
+
+.link-border() {
+  content: '';
+  width: 100%;
+  height: 1px;
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-color: @mobile-menu-border;
+  opacity: .3;
+}
+
+.mobile-menu {
+  display: block;
+  position: fixed;
+  right: 0;
+  z-index: 12;
+
+  &__list {
+    display: flex;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    flex-direction: column;
+
+    &-wrapper {
+      height: 100%;
+
+      .mobile-menu__item:nth-child(2) {
+        overflow-y: auto;
+      }
+    }
+  }
+
+  &__item {
+    display: block;
+
+    &_logout,
+    &_add,
+    &_get-started-link {
+      margin-top: auto;
+    }
+  }
+
+  &__wrapper {
+    position: fixed;
+    transition: right .2s;
+    height: 100%;
+    background: @mobile-menu-background;
+    width: 261px;
+    top: 0;
+    min-height: 250px;
+    z-index: 1;
+    max-height: 100%;
+
+    &_inner {
+      z-index: 2;
+      right: -261px;
+      height: 100%;
+
+      &::after {
+        content: '';
+        display: block;
+        height: 100%;
+        width: 1px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: @mobile-menu-inner-border;
+        opacity: .3;
+      }
+    }
+  }
+
+  &__link {
+    color: @white-only;
+    line-height: 50px;
+    display: flex;
+    width: 100%;
+    padding: 0 20px;
+    font-size: 17px;
+    position: relative;
+    background-position: 20px center;
+    background-repeat: no-repeat;
+
+    &_main {
+      display: none;
+    }
+
+    &_menu {
+      color: @white-only;
+      background-image: @menu-back-icon;
+      background-position: 20px;
+      background-repeat: no-repeat;
+
+      &::before {
+        opacity: .6;
+      }
+    }
+
+    &_aliases {
+      background-image: @aliases-icon;
+    }
+
+    &_name {
+      background-image: @change-name-icon;
+    }
+
+    &_address {
+      background-image: @change-address-icon;
+    }
+
+    &_settings {
+      background-image: @settings-icon;
+    }
+
+    &_leasing {
+      background-image: @leasing-icon;
+    }
+
+    &_portfolio {
+      background-image: @portfolio-desktop-icon;
+    }
+
+    &_dashboard {
+      background-image: @wallet-desktop-icon;
+    }
+
+    &_transactions {
+      background-image: @transactions-desktop-icon;
+    }
+
+    &_apple {
+      background-image: @apple-store-icon;
+    }
+
+    &_android {
+      background-image: @google-play-icon;
+    }
+
+    &_add {
+      background-image: @add-user-icon;
+
+      &::before {
+        top: 0;
+      }
+    }
+
+    &_accounts {
+      background-image: @accounts-icon;
+      position: relative;
+    }
+
+    &_logout {
+      background-image: @logout-icon;
+      border-bottom: 0 none;
+
+      &::before {
+        .link-border;
+        bottom: auto;
+        top: 0;
+      }
+    }
+
+    &_get-started-link {
+      background-position: calc(100% ~' - 20px') center;
+      background-repeat: no-repeat;
+      background-image: @arrow-white-right;
+    }
+
+    &_has-child {
+      position: relative;
+
+      &::after {
+        position: absolute;
+        display: block;
+        content: '';
+        background: @dex-arrow-right-icon;
+        right: 20px;
+        top: 50%;
+        transform: translate(0, -50%);
+        width: 14px;
+        height: 14px;
+      }
+    }
+
+    &::before {
+      .link-border;
+    }
+
+    &_has-user-address {
+      .mobile-user {
+        &__name,
+        &__address {
+          max-width: 100%;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+        }
+
+        &__name {
+          .headline-3();
+        }
+      }
+    }
+
+    &_sign-in-link,
+    &_get-started-link {
+      z-index: 10;
+
+      &::before {
+        bottom: auto;
+        top: 0;
+      }
+    }
+  }
+  
+  .mobile-menu__link_menu,
+  .mobile-menu__link_aliases,
+  .mobile-menu__link_settings,
+  .mobile-menu__link_dashboard,
+  .mobile-menu__link_transactions,
+  .mobile-menu__link_portfolio,
+  .mobile-menu__link_leasing,
+  .mobile-menu__link_logout,
+  .mobile-menu__link_apple,
+  .mobile-menu__link_android,
+  .mobile-menu__link_name,
+  .mobile-menu__link_add,
+  .mobile-menu__link_accounts,
+  .mobile-menu__link_address {
+    @media screen and (max-width: 860px) {
+      padding-left: 58px;
+    }
+  }
+
+  &__user {
+    display: flex;
+    width: 100%;
+  }
+
+  &__avatar,
+  &__info {
+    display: flex;
+    align-items: center;
+  }
+
+  &__info {
+    width: calc(~'100%' - 68px);
+  }
+
+  &__avatar {
+    margin: 14px 14px 14px 0;
+  }
+
+  &__account {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    
+    &-wrapper {
+      cursor: pointer;
+      position: relative;
+      margin: 5px 15px;
+
+      &_unlock {
+        opacity: .6;
+      }
+    }
+
+    &-avatar {
+      height: 30px;
+      width: 30px;
+    }
+
+    &-info {
+      margin-left: 10px;
+    }
+
+    &-name {
+      .footnote-1();
+      color: @white-only;
+      max-width: 120px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-right: 4px;
+
+      &-wrap {
+        display: flex;
+        align-items: center;
+      }
+    }
+
+    &-address {
+      .caption-4();
+      color: @color-basic-500;
+      width: 157px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    &-unlock {
+      margin: 5px 20px;
+      color: @white-only;
+    }
+  }
+
+  &__active {
+    color: #5a81ea;
+    padding: 3px 4px;
+    border-radius: @border-radius / 2;
+    background: rgba(31, 90, 246, 0.1);
+    font-size: 9px;
+    line-height: 9px;
+    height: 15px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+.mobile-user {
+  &__info {
+    overflow: hidden;
+  }
+}

@@ -59,6 +59,10 @@
              */
             hasFee = false;
             /**
+             * @type {args}
+             */
+            signPending = false;
+            /**
              * @type {Promise}
              * @private
              */
@@ -68,6 +72,11 @@
              * @private
              */
             _activeXHR_Id = null;
+            /**
+             * @type {Array}
+             * @private
+             */
+            _listeners = [];
 
 
             constructor() {
@@ -88,10 +97,21 @@
                 this.observe(['requiredError', 'validationError'], this._updateValidationState);
                 this._updateValidationState();
                 this._currentHasFee();
+
+                const signPendingListener = $scope.$on('signPendingChange', (event, data) => {
+                    this.signPending = data;
+                });
+
+                this._listeners.push(signPendingListener);
             }
 
             $postLink() {
                 this._initScript();
+            }
+
+            $onDestroy() {
+                super.$onDestroy();
+                this._listeners.forEach(listener => listener());
             }
 
             getSignable() {

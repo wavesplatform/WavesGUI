@@ -1,0 +1,130 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+@import (reference) '../../../../app/less/typography';
+
+@cell-height: 64px;
+@responsive-cell-height: auto;
+
+.smart-table {
+  &_dex-trade-history {
+    .smart-table {
+      &__row {
+        flex-wrap: nowrap;
+        padding: 6px 14px;
+        justify-content: space-between;
+
+        .to-dex-link {
+          cursor: default;
+        }
+
+        .underline .to-dex-link {
+          cursor: pointer;
+        }
+      }
+
+      &__cell {
+        flex-basis: calc(20% ~' - 20px');
+      }
+
+      &__cell[data-column-id="type"] {
+        flex-basis: 80px;
+        color: @color-basic-900;
+      }
+
+      &__cell[data-column-id="price"],
+      &__cell[data-column-id="amount"],
+      &__cell[data-column-id="total"],
+      &__cell[data-column-id="time"],
+      &__cell[data-column-id="fee"] {
+        text-align: right;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .smart-table_dex-trade-history {
+    min-width: 100%;
+
+    .smart-table {
+      &__thead {
+        display: flex;
+      }
+
+      &__cell {
+        flex-basis: 25%;
+
+        .cell-label {
+          display: none;
+        }
+      }
+
+      &__row {
+        flex-wrap: nowrap;
+        padding: 6px 12px;
+        margin: 0 2px;
+      }
+
+      &__cell[data-column-id="pair"] {
+        order: 0;
+        margin-bottom: 5px;
+        font-family: @font-roboto-medium;
+
+        span {
+          max-width: none;
+        }
+      }
+
+      &__cell[data-column-id="type"] {
+        display: none;
+      }
+
+      &__cell[data-column-id="price"] {
+        text-align: left;
+        order: 0;
+      }
+
+      &__cell[data-column-id="total"] {
+        order: 1;
+      }
+
+      &__cell[data-column-id="amount"] {
+        order: 2;
+      }
+
+      &__cell[data-column-id="time"] {
+        order: 3;
+        text-align: right;
+        margin-right: 0;
+        color: @color-basic-500;
+        font-size: @font-size-caption-2;
+
+        .cell-label {
+          display: none;
+        }
+      }
+
+      &__cell[data-column-id="controls"] {
+        order: 4;
+        position: absolute;
+        flex-basis: 30px;
+        right: 10px;
+        min-width: 30px;
+        top: 0;
+        height: 30px;
+        width: 30px;
+        font-size: 0;
+        margin-top: 5px;
+      }
+    }
+
+    .stop {
+      background-size: 10px 10px;
+      background-repeat: no-repeat;
+      background-position: center center;
+      margin-left: 0;
+      height: 30px;
+      width: 30px;
+    }
+  }
+}

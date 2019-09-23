@@ -1,5 +1,5 @@
-<w-site-header class="header-new-user" sign-in-btn="$ctrl.hasUsers" get-started-btn="true"
-               user-list="$ctrl.userList"></w-site-header>
+<w-main-header class="main-header main-header_new-user"></w-main-header>
+
 <div w-i18n-ns="app.welcome" class="wrapper movable scrolled-view">
     <div class="white-bg"></div>
     <section class="section-welcome">
@@ -8,19 +8,23 @@
                 <h1 class="margin-2 headline-0 welcome-text" w-i18n="welcome.tradeOnWaves"></h1>
                 <div class="basic-500 body-1 margin-5" w-i18n="welcome.tradeOnWavesDescription"></div>
                 <div class="buttons-wrapper buttons-wrapper-nowidth">
-                    <a class="fake-button get-started-btn" ui-sref="create">
-                        <span class="fake-button__elem fake-button__elem_big fake-button__elem_submit" w-i18n="welcome.getStarted"></span>
+                    <w-analytics event="'Onboarding Get Started Click'" event-target="ui"><a
+                            ng-if="!$ctrl.hasMultiAccount" class="fake-button get-started-btn" ui-sref="signUp">
+                        <span class="fake-button__elem fake-button__elem_big fake-button__elem_submit" w-i18n="welcome.getStarted">
                             <i class="fake-button__icon"></i>
                         </span>
                     </a>
-
-                    <a ng-if="$ctrl.userList.length" ui-sref="signIn" class="fake-button"
-                        w-analytics event="'Sign In Click'" event-target="ui">
-                        <span class="fake-button__elem fake-button__elem_big fake-button__elem_submit-light" w-i18n="welcome.signIn"></span>
-                    </a>
+                    </w-analytics>
+                    <w-analytics event="'Sign In Click'" event-target="ui">
+                        <a ng-if="$ctrl.hasMultiAccount" ui-sref="signIn" class="fake-button">
+                            <span class="fake-button__elem fake-button__elem_big fake-button__elem_submit-light" w-i18n="welcome.signIn"></span>
+                        </a>
+                    </w-analytics>
                 </div>
             </div>
-            <w-web-only><div class="dex-screenshot"></div></w-web-only>
+            <w-web-only>
+                <div class="dex-screenshot"></div>
+            </w-web-only>
         </div>
     </section>
 

@@ -1,0 +1,109 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+@import (reference) '../../../../app/less/typography';
+
+@cell-height: 64px;
+@responsive-cell-height: auto;
+
+.smart-table {
+  &_watchlist {
+    .smart-table {
+      &__row {
+        flex-wrap: wrap;
+        cursor: pointer;
+        padding: 2px 0;
+
+        &.selected {
+          background-color: @dex-selected-item-bg;
+
+          .smart-table {
+            &__cell[data-column-id="info"] {
+              display: block;
+            }
+          }
+        }
+
+        &.disabled {
+          cursor: default;
+
+          .smart-table__cell {
+            opacity: 0.4;
+          }
+        }
+      }
+
+      &__cell {
+        padding: 0;
+
+        &[data-column-id="favourite"] {
+          flex-basis: 30px;
+        }
+
+        &[data-column-id="pair"] {
+          flex-basis: calc(34% ~'- 30px');
+        }
+
+        &[data-column-id="price"] {
+          flex-basis: 24%;
+          max-width: 24%;
+          text-align: right;
+        }
+
+        &[data-column-id="change"] {
+          flex-basis: 17%;
+          text-align: right;
+
+          &.plus {
+            color: @color-submit-400;
+            &::before {
+              content: '+';
+              display: inline-block;
+            }
+          }
+
+          &.minus {
+            color: @color-error-400;
+          }
+        }
+
+        &[data-column-id="volume"] {
+          flex-basis: 25%;
+          text-align: right;
+          padding-right: 10px;
+        }
+
+        &[data-column-id="info"] {
+          flex-basis: 100%;
+          display: none;
+          width: 100%;
+          padding: 5px 20px 10px 30px;
+          .caption-3();
+
+          .chosen {
+            &__info {
+              margin-bottom: 2px;
+            }
+
+            &__link {
+              position: relative;
+              display: inline-block;
+
+              &:hover {
+                &::after {
+                  height: 1px;
+                  display: block;
+                  width: 100%;
+                  content: '';
+                  position: absolute;
+                  bottom: 0;
+                  border-bottom: 1px dashed @color-disabled-400;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+

@@ -1,0 +1,16 @@
+{
+    "signUp": {
+        "headers": {
+            "onePassBtn": "Iniziamo!",
+            "onePassDesc": "L'archiviazione dei dati locali, delle frasi SEED e la crittografia rendono il WAVES DEX affidabile. Tuttavia, ci stiamo spingendo ancora più avanti. È ora di passare a un nuovo livello di sicurezza. Accedi ai tuoi account e passa da uno all'altro con un paio di tocchi.",
+            "onePassword": "Una password per tutti i tuoi account",
+            "protect": "Proteggi i tuoi account",
+            "protectDesc": "Imposta una sola password per tutti i tuoi account",
+            "protectPass": "Crea password"
+        },
+        "password": {
+            "notMatch": "La password non corrisponde"
+        },
+        "termsAgreement": "I have read and agree with the [Terms and Conditions](https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf), [Privacy Policy](https://wavesplatform.com/files/docs/Waves_privacy_policy.pdf)."
+    }
+}

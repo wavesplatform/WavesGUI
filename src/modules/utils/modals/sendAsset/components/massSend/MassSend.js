@@ -39,6 +39,16 @@
                 }
             }
 
+            /**
+             * @type {args}
+             */
+            signPending = false;
+            /**
+             * @type {Array}
+             * @private
+             */
+            _listeners = [];
+
             constructor() {
                 super();
                 /**
@@ -91,6 +101,12 @@
                  * @type {boolean}
                  */
                 this.hasFee = false;
+
+                const signPendingListener = $scope.$on('signPendingChange', (event, data) => {
+                    this.signPending = data;
+                });
+
+                this._listeners.push(signPendingListener);
             }
 
             $postLink() {
@@ -135,6 +151,11 @@
                         $scope.$digest();
                     });
                 }
+            }
+
+            $onDestroy() {
+                super.$onDestroy();
+                this._listeners.forEach(listener => listener());
             }
 
             /**

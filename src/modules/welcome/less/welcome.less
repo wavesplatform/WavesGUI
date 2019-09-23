@@ -27,6 +27,7 @@ body.welcome {
     width: 100%;
     max-width: 100%;
     height: calc(~'100%' - 60px);
+    transition: .15s;
   }
 
   .wrapper {
@@ -57,9 +58,26 @@ body.welcome {
   .get-started-btn {
     margin-right: 15px;
     position: relative;
-    
+
     .fake-button__elem {
       padding-right: 64px;
+
+      &:after {
+        content: "";
+        width: 24px;
+        height: 24px;
+        position: absolute;
+        top: 50%;
+        right: 0;
+        margin-right: 25px;
+        margin-top: -12px;
+        background: @arrow-right-white-icon;
+        transition: margin .3s;
+      }
+
+      &:hover:after {
+        margin-right: 15px;
+      }
     }
   }
 
@@ -296,7 +314,6 @@ body.welcome {
 
 @media screen and (max-width: 1440px) {
   body.welcome {
-
     .section-wrapper {
       padding-left: @welcomeSectionWrapperPaddingMedium;
       padding-right: @welcomeSectionWrapperPaddingMedium;
@@ -473,6 +490,7 @@ body.welcome {
       padding-left: @welcomeSectionWrapperPaddingSmall;
       padding-right: @welcomeSectionWrapperPaddingSmall;
     }
+
     footer {
       .section-wrapper {
         margin-top: 0px;

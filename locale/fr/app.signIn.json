@@ -1,0 +1,37 @@
+{
+    "createAccount": "Créer un compte",
+    "notHaveAccounts": "Vous n'avez pas de comptes enregistrés",
+    "nothingHere": "Il n'y a rien ici...",
+    "password": {
+        "error": "Mot de passe erroné !"
+    },
+    "signIn": {
+        "btn": {
+            "cancel": "Cancel",
+            "restore": "Reset all"
+        },
+        "enterPass": "Please enter your password to continue",
+        "passForgot": {
+            "attention": "Attention!",
+            "description": "To recover the password, you need to reset all accounts, set a new password, import each account from the Seed phrase or via Private key.",
+            "importantDesc": "If you have not saved the Seed phrase or Private key, then you will not be able to recover access to your account."
+        },
+        "password": {
+            "forgot": "Forgot your password?"
+        },
+        "signIn": "Sign in",
+        "welcomeBack": "Welcome Back!"
+    },
+    "userList": {
+        "address": "Adresse / Nom du compte",
+        "buttons": {
+            "login": "Connexion"
+        },
+        "notHaveAccount": "Veuillez vous connecter pour continuer",
+        "password": "Mot de passe",
+        "placeholders": {
+            "password": "Mot de passe"
+        },
+        "title": "Bon retour parmi nous"
+    }
+}

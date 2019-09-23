@@ -2,30 +2,30 @@
     'use strict';
 
     /**
-     * @param Base
-     * @param $scope
-     * @param $state
-     * @param user
-     * @param modalManager
-     * @param storage
-     * @param ChartFactory
+     * @param {typeof Base} Base
+     * @param {ng.IScope} $scope
+     * @param {User} user
+     * @param {ModalManager} modalManager
+     * @param {app.utils.Storage} storage
+     * @param {ChartFactory} ChartFactory
      * @param {app.utils} utils
      * @param {JQuery} $element
      * @param {Waves} waves
      * @param {Matcher} matcher
      * @return {WelcomeCtrl}
      */
-    const controller = function (Base,
-                                 $scope,
-                                 $state,
-                                 user,
-                                 modalManager,
-                                 utils,
-                                 waves,
-                                 $element,
-                                 ChartFactory,
-                                 storage,
-                                 matcher) {
+    const controller = function (
+        Base,
+        $scope,
+        user,
+        modalManager,
+        utils,
+        waves,
+        $element,
+        ChartFactory,
+        storage,
+        matcher
+    ) {
 
         const ds = require('data-service');
         const { Money } = require('@waves/data-entities');
@@ -82,28 +82,28 @@
 
         const chartOptions = {
             red: {
-                charts: [
-                    {
-                        axisX: 'timestamp',
-                        axisY: 'rate',
+                axisX: 'timestamp',
+                axisY: 'rate',
+                view: {
+                    rate: {
                         lineColor: '#ef4829',
                         fillColor: '#FFF',
                         gradientColor: ['#FEEFEC', '#FFF'],
                         lineWidth: 4
                     }
-                ]
+                }
             },
             blue: {
-                charts: [
-                    {
-                        axisX: 'timestamp',
-                        axisY: 'rate',
+                axisX: 'timestamp',
+                axisY: 'rate',
+                view: {
+                    rate: {
                         lineColor: '#1f5af6',
                         fillColor: '#FFF',
                         gradientColor: ['#EAF0FE', '#FFF'],
                         lineWidth: 4
                     }
-                ]
+                }
             }
         };
 
@@ -120,36 +120,26 @@
             /**
              * @type {boolean}
              */
-            hasUsers = false;
+            hasMultiAccount = false;
 
             constructor() {
                 super($scope);
 
                 this._initDeviceTypes();
 
-                if (this.isWeb) {
-                    storage.load('accountImportComplete')
-                        .then((complete) => {
-                            if (complete) {
-                                this._initUserList();
-                            } else {
+                user.getMultiAccountData().then(data => {
+                    this.hasMultiAccount = !!data;
+
+                    if (!this.hasMultiAccount && this.isWeb) {
+                        storage.load('accountImportComplete').then(complete => {
+                            if (!complete) {
                                 this._loadUserListFromOldOrigin();
                             }
                         });
-                } else {
-                    this._initUserList();
-                }
+                    }
+                });
 
                 this._initPairs();
-                this._initDeviceTypes();
-
-                if (this.isDesktop) {
-                    this.observeOnce('userList', () => {
-                        if (this.userList.length) {
-                            $state.go('signIn');
-                        }
-                    });
-                }
             }
 
             /**
@@ -157,7 +147,7 @@
              */
             _addScrollHandler() {
                 const scrolledView = $element.find('.scrolled-view');
-                const header = $element.find('w-site-header');
+                const header = $element.find('w-main-header');
 
                 scrolledView.on('scroll', () => {
                     header.toggleClass('fixed', scrolledView.scrollTop() > whenHeaderGetFix);
@@ -241,28 +231,15 @@
                 const marketRows = $element.find('.table-markets .row-content');
                 PAIRS_IN_SLIDER.forEach((pair, i) => {
                     const options = this.pairsInfoList[i].change24.gt(0) ? chartOptions.blue : chartOptions.red;
+                    const chartData = {
+                        rate: this.pairsInfoList[i].rateHistory
+                    };
                     new ChartFactory(
                         marketRows.eq(i).find('.graph'),
                         options,
-                        this.pairsInfoList[i].rateHistory
+                        chartData
                     );
                 });
-            }
-
-
-            /**
-             * @private
-             */
-            _initUserList() {
-                user.getFilteredUserList()
-                    .then((list) => {
-                        this.userList = list;
-                        this.hasUsers = this.userList && this.userList.length > 0;
-                        this.pendingRestore = false;
-                        utils.postDigest($scope).then(() => {
-                            $scope.$apply();
-                        });
-                    });
             }
 
             /**
@@ -286,10 +263,10 @@
                         user.getFilteredUserList()
                             .then((list) => {
                                 this.pendingRestore = false;
-                                this.userList = uniqBy(user => user.name, userList.concat(list) || list);
+                                const newUserList = uniqBy(user => user.name, userList.concat(list) || list);
 
                                 storage.save('accountImportComplete', true);
-                                storage.save('userList', this.userList);
+                                storage.save('userList', newUserList);
                                 utils.postDigest($scope).then(() => {
                                     $scope.$apply();
                                 });
@@ -297,7 +274,6 @@
                     })
                     .catch(() => {
                         storage.save('accountImportComplete', true);
-                        this._initUserList();
                     });
             }
 
@@ -309,7 +285,6 @@
     controller.$inject = [
         'Base',
         '$scope',
-        '$state',
         'user',
         'modalManager',
         'utils',

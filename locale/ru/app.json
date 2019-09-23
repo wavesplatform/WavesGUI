@@ -1,0 +1,94 @@
+{
+    "back": "Перейти на главную",
+    "button": {
+        "cancel": "Отмена",
+        "continue": "Продолжить"
+    },
+    "confirmTransaction": {
+        "notPermitted": {
+            "issue": "Выпуск токена временно недоступен.",
+            "issue-title": "Выпуск токена",
+            "massSendTitle": "Массовая отправка",
+            "reissue": "Перевыпуск токена временно недоступен.",
+            "sendTitle": "Отправить",
+            "set-script-title": "Script транзакция"
+        },
+        "send": {
+            "errors": {
+                "fee": "У вас недостаточно средств для оплаты комиссии. Вам необходимо оплатить комиссию за транзакцию {{fee, money-currency}};"
+            }
+        }
+    },
+    "date": {
+        "month": [
+            "Янв",
+            "Фев",
+            "Мар",
+            "Апр",
+            "Май",
+            "Июн",
+            "Июл",
+            "Авг",
+            "Сен",
+            "Окт",
+            "Ноя",
+            "Дек"
+        ]
+    },
+    "EXK2jJo1PbL9CUNr5FSedw6cueZH5MUCDXNhR1WQEZa4": {
+        "description": "Алоха тестотокен ;)"
+    },
+    "fee": "{{money, money-fee}}",
+    "header": {
+        "assets": "Aссеты",
+        "dex": "DEX",
+        "leasing": "Лизинг",
+        "portfolio": "Портфель",
+        "tokens": "Выпуск токена",
+        "transactions": "Транзакции",
+        "wallet": "Кошелёк"
+    },
+    "inputs": {
+        "errors": {
+            "required": "Поле обязательно для заполнения!"
+        }
+    },
+    "leftmenu": {
+        "login": "Вход",
+        "logout": "Выход",
+        "settings": "Настройки"
+    },
+    "matcher": {
+        "orders": {
+            "statuses": {
+                "canceled": "Отменён",
+                "filled": "Выполнен на {{percent}}%",
+                "opened": "Открыт"
+            }
+        }
+    },
+    "modal": {
+        "enterPassword": {
+            "ok": "OK",
+            "title": "Введите пароль"
+        },
+        "pairing": {
+            "showQr": "Показать"
+        },
+        "tryDesktop": {
+            "cancel": "Остаться в браузере",
+            "label": "Запомнить выбор и больше не показывать",
+            "message": "Мы рекомендуем вам использовать десктопное приложение Waves. Вы можете скачать его с официального сайта.",
+            "title": "Используйте десктопное приложение Waves",
+            "try": "Открыть приложение"
+        }
+    },
+    "money-currency": "{{money, money-currency}}",
+    "number": {
+        "short": {
+            "million": "M",
+            "thousand": "k"
+        }
+    },
+    "Suspicious": "Подозрительный"
+}

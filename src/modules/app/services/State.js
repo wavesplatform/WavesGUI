@@ -93,10 +93,8 @@
                 timeLine.wait(100).then(() => {
                     this.user = $injector.get('user');
 
-                    this.user.onLogin().then(
-                        () => this._handleLogin(),
-                        () => this._handleLogout()
-                    );
+                    this.user.loginSignal.once(this._handleLogin, this);
+                    this.user.logoutSignal.once(this._handleLogout, this);
                 });
 
                 this._initialize();
@@ -125,8 +123,11 @@
              * @private
              */
             _handleLogout() {
+                if (this._timer) {
+                    timeLine.cancel(this._timer);
+                    this._timer = null;
+                }
                 this.user.changeSetting.off(this._onUserSettingChange);
-
                 this.user.loginSignal.once(this._handleLogin, this);
             }
 
@@ -208,8 +209,8 @@
                     this._timer = null;
                     const time = Date.now() - this._seepStartTime;
                     const sleepMinutes = Math.floor(time / (1000 * 60));
-                    this._setSleepStep(sleepMinutes);
                     this._sleep();
+                    this._setSleepStep(sleepMinutes);
                 }, 1000);
             }
 

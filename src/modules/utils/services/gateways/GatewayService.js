@@ -70,8 +70,8 @@
             }
 
             canUseGateway(asset) {
-                return !configService
-                    .get('PERMISSIONS.CANT_TRANSFER_GATEWAY')
+                const permissions = configService.get('PERMISSIONS.CANT_TRANSFER_GATEWAY');
+                return !permissions || !permissions
                     .includes(asset.id);
             }
 

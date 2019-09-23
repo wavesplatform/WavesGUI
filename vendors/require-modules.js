@@ -1,11 +1,12 @@
 (function () {
+    /* eslint-disable */
     'use strict';
 
-    var MODULES_MAP = {
+    const MODULES_MAP = {
         'ts-utils': 'tsUtils',
         '@waves/bignumber': 'BigNumber',
         'ts-api-validator': 'tsApiValidator',
-        'parse-json-bignumber': 'parseJsonBignumber',
+        '@waves/parse-json-bignumber': 'parseJsonBignumber',
         'papaparse': 'Papa',
         'waves-api': 'WavesAPI',
         'identity-img': 'identityImg',
@@ -29,12 +30,12 @@
 
     function getModule(require) {
         return function (name) {
-            if (name in MODULES_MAP && MODULES_MAP.hasOwnProperty(name)) {
+            if (name in MODULES_MAP && Object.prototype.hasOwnProperty.call(MODULES_MAP, name)) {
                 return tsUtils.get(window, MODULES_MAP[name]);
             } else if (require) {
                 return require(name);
             } else {
-                throw new Error('Not loaded module with name "' + name);
+                throw new Error(`Not loaded module with name "${name}`);
             }
         };
     }
