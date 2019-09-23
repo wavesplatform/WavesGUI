@@ -49,10 +49,10 @@
             }
 
             /**
-             * @return {number}
+             * @return {boolean}
              */
             get loadedPairRestrictions() {
-                return Object.keys(this.pairRestrictions).length;
+                return Object.keys(this.pairRestrictions).length > 0;
             }
 
             /**
@@ -172,13 +172,13 @@
             /**
              * @type {boolean}
              */
-            isValidStepSize = false;
+            isValidAmountPrecision = false;
             /**
              * @type {boolean}
              */
-            isValidTickSize = false;
+            isValidPricePrecision = false;
             /**
-             * @type {Object}
+             * @type {TPairRestrictions | {}}
              */
             pairRestrictions = {};
 
@@ -190,8 +190,8 @@
 
                 this.receive(dexDataService.chooseOrderBook, ({ type, price, amount }) => {
                     this.expand(type);
-                    const roundedPrice = this.getRoundPriceTokensByTickSize(new BigNumber(price)).toFixed();
-                    const roundedAmount = this.getClosestValidAmountTokens(new BigNumber(amount)).toFixed();
+                    const roundedPrice = this._getRoundPriceByPrecision(new BigNumber(price)).getTokens().toString();
+                    const roundedAmount = this._getClosestValidAmount(new BigNumber(amount)).getTokens().toString();
                     switch (type) {
                         case 'buy':
                             this._onClickBuyOrder(roundedPrice, roundedAmount);
@@ -253,8 +253,8 @@
                     }
                 });
 
-                this.isValidStepSize = this._validateStepSize();
-                this.isValidTickSize = this._validateTickSize();
+                this.isValidAmountPrecision = this._validateAmountPrecision();
+                this.isValidPricePrecision = this._validatePricePrecision();
 
                 this.observe(['amountBalance', 'type', 'fee', 'priceBalance'], this._updateMaxAmountOrPriceBalance);
                 this.observe(['maxAmountBalance', 'amountBalance', 'priceBalance'], this._setPairRestrictions);
@@ -291,17 +291,27 @@
                 this.observe(['priceBalance', 'total', 'maxPriceBalance'], this._setIfCanBuyOrder);
 
                 this.observe('amount', () => {
-                    this.isValidStepSize = this._validateStepSize();
+                    this.isValidAmountPrecision = this._validateAmountPrecision();
                     if (!this._silenceNow) {
                         this._updateField({ amount: this.amount });
                     }
                 });
 
                 this.observe('price', () => {
-                    this.isValidTickSize = this._validateTickSize();
-                    if (!this._silenceNow) {
+                    this.isValidPricePrecision = this._validatePricePrecision();
+                    if (this._silenceNow) {
                         this._updateField({ price: this.price });
                     }
+                });
+
+                $scope.$watch('$ctrl.order.price.$viewValue', () => {
+                    this.isValidPricePrecision = this._validatePricePrecision();
+                    utils.safeApply();
+                });
+
+                $scope.$watch('$ctrl.order.amount.$viewValue', () => {
+                    this.isValidAmountPrecision = this._validateAmountPrecision();
+                    utils.safeApply();
                 });
 
                 this.observe('total', () => (
@@ -348,7 +358,7 @@
                 }
 
                 return this.maxAmount.cloneWithTokens(
-                    this.getRoundAmountTokensByStepSize(this.maxAmount.getTokens().mul(factor))
+                    this._getRoundAmountByPrecision(this.maxAmount.getTokens().mul(factor)).getTokens()
                 ).eq(amount);
             }
 
@@ -357,7 +367,7 @@
              * @return {Promise}
              */
             setAmountByBalance(factor) {
-                const amount = this.getClosestValidAmount(
+                const amount = this._getClosestValidAmount(
                     this.maxAmount.getTokens().mul(factor)
                 );
                 this._updateField({ amount });
@@ -419,14 +429,14 @@
             }
 
             setMaxAmount() {
-                const amount = this.getClosestValidAmount(this.maxAmount.getTokens());
+                const amount = this._getClosestValidAmount(this.maxAmount.getTokens());
                 this._updateField({ amount });
             }
 
             setMaxPrice() {
-                const amount = this.getRoundAmountByStepSize(this.maxAmount.getTokens());
-                const price = this.getClosestValidPrice(this.price.getTokens());
-                const total = this.getRoundPriceByTickSize(
+                const amount = this._getRoundAmountByPrecision(this.maxAmount.getTokens());
+                const price = this._getClosestValidPrice(this.price.getTokens());
+                const total = this.priceBalance.cloneWithTokens(
                     price.getTokens().mul(amount.getTokens())
                 );
                 this._updateField({ amount, total, price });
@@ -535,28 +545,30 @@
 
             /**
              * @param {BigNumber} price
-             * @return {Money|*}
+             * @return {Money}
+             * @private
              */
-            getRoundPriceByTickSize(price) {
+            _getRoundPriceByPrecision(price) {
                 if (!this.loadedPairRestrictions) {
-                    return;
+                    return this.priceBalance.cloneWithTokens(price);
                 }
-                const { tickSize } = this.pairRestrictions;
-                const roundedPrice = price.dividedToIntegerBy(tickSize).mul(tickSize);
+                const { pricePrecision } = this.pairRestrictions;
+                const roundedPrice = price.roundTo(pricePrecision);
                 return this.priceBalance.cloneWithTokens(roundedPrice);
             }
 
             /**
              * @param {BigNumber} price
-             * @return {Money|*}
+             * @return {Money}
+             * @private
              */
-            getClosestValidPrice(price) {
+            _getClosestValidPrice(price) {
                 if (!this.loadedPairRestrictions) {
-                    return;
+                    return this.priceBalance.cloneWithTokens(price);
                 }
 
                 const { minPrice, maxPrice } = this.pairRestrictions;
-                const roundedPrice = this.getRoundPriceTokensByTickSize(price);
+                const roundedPrice = this._getRoundPriceByPrecision(price).getTokens();
 
                 if (roundedPrice.lt(minPrice)) {
                     return this.priceBalance.cloneWithTokens(minPrice);
@@ -571,102 +583,46 @@
 
             /**
              * @param {BigNumber} value
-             * @return {BigNumber|*}
-             */
-            getRoundPriceTokensByTickSize(price) {
-                const roundedPrice = this.getRoundPriceByTickSize(price);
-                if (!roundedPrice) {
-                    return;
-                }
-                return roundedPrice.getTokens();
-            }
-
-            /**
-             * @param {BigNumber} price
-             * @return {BigNumber|*}
-             */
-            getClosestValidPriceTokens(value) {
-                const price = value ?
-                    value :
-                    this.priceBalance.cloneWithTokens(this.order.price.$viewValue).getTokens();
-                const validPrice = this.getClosestValidPrice(price);
-                if (!validPrice) {
-                    return;
-                }
-
-                return validPrice.getTokens();
-            }
-
-            /**
-             * @param {BigNumber} value
              * @return {Money}
+             * @private
              */
-            getRoundAmountByStepSize(value) {
+            _getRoundAmountByPrecision(value) {
                 if (!this.loadedPairRestrictions) {
-                    return;
+                    return this.amountBalance.cloneWithTokens(value);
                 }
 
-                const { stepSize } = this.pairRestrictions;
-                const roundedAmount = value.div(stepSize).integerValue().mul(stepSize);
+                const { amountPrecision } = this.pairRestrictions;
+
+                const roundedAmount = value.roundTo(amountPrecision, 1);
                 return this.amountBalance.cloneWithTokens(roundedAmount);
             }
 
             /**
-             *
-             * @param {BigNumber} value
-             * @return {BigNumber}
-             */
-            getRoundAmountTokensByStepSize(value) {
-                const roundedAmount = this.getRoundAmountByStepSize(value);
-                if (!roundedAmount) {
-                    return;
-                }
-                return roundedAmount.getTokens();
-            }
-
-            /**
              * @param {BigNumber} amount
-             * @return {Money|*}
+             * @return {Money}
+             * @private
              */
-            getClosestValidAmount(amount) {
+            _getClosestValidAmount(amount) {
                 if (!this.loadedPairRestrictions) {
-                    return;
+                    return this.amountBalance.cloneWithTokens(amount);
                 }
 
-                const { stepSize } = this.pairRestrictions;
-                const { minAmount, maxAmount } = this.pairRestrictions;
-                const roundedAmount = this.getRoundAmountTokensByStepSize(amount);
+                const { amountPrecision, minAmount, maxAmount } = this.pairRestrictions;
+                const roundedAmount = this._getRoundAmountByPrecision(amount).getTokens();
 
                 if (roundedAmount.lt(minAmount)) {
                     return this.amountBalance.cloneWithTokens(
-                        minAmount.decimalPlaces(stepSize.decimalPlaces())
+                        minAmount.roundTo(amountPrecision)
                     );
                 }
 
                 if (roundedAmount.gt(maxAmount)) {
                     return this.amountBalance.cloneWithTokens(
-                        maxAmount.decimalPlaces(stepSize.decimalPlaces())
+                        maxAmount.roundTo(amountPrecision)
                     );
                 }
 
                 return this.amountBalance.cloneWithTokens(roundedAmount);
-            }
-
-            /**
-             * @param {BigNumber} value
-             * @return {BigNumber|*}
-             */
-            getClosestValidAmountTokens(value) {
-                const amount = value ?
-                    value :
-                    this.amountBalance.cloneWithTokens(this.order.amount.$viewValue.replace(/\s/g, '')).getTokens();
-                const validAmount = this.getClosestValidAmount(amount);
-
-                if (!validAmount) {
-                    return;
-                }
-
-                return validAmount.getTokens();
             }
 
             /**
@@ -986,7 +942,7 @@
                 const amount = this._validAmount();
                 const total = amount.isZero() ?
                     this.priceBalance.cloneWithTokens('0') :
-                    this.getRoundPriceByTickSize(price.mul(amount));
+                    this.priceBalance.cloneWithTokens(price.mul(amount));
                 this._setDirtyField('total', total);
                 this._silenceNow = true;
             }
@@ -1000,7 +956,7 @@
                 }
                 const total = this._validTotal();
                 const amount = this._validAmount();
-                this._setDirtyField('price', this.getClosestValidPrice(
+                this._setDirtyField('price', this._getClosestValidPrice(
                     total.div(amount)
                 ));
                 this._silenceNow = true;
@@ -1016,7 +972,7 @@
                 const total = this._validTotal();
                 const price = this._validPrice();
 
-                this._setDirtyField('amount', this.getClosestValidAmount(
+                this._setDirtyField('amount', this._getClosestValidAmount(
                     total.div(price)
                 ));
                 this._silenceNow = true;
@@ -1199,33 +1155,49 @@
             }
 
             /**
+             * @return {Promise<void>|Promise<T | never>}
              * @private
              */
             _setPairRestrictions() {
                 if (!this.loaded) {
-                    return;
+                    return Promise.resolve();
                 }
 
                 this.pairRestrictions = {};
                 const defaultPairRestriction = this._getDefaultPairRestriction();
 
-                ds.api.matcher.getPairRestrictions({
-                    amountAsset: this.amountBalance.asset,
-                    priceAsset: this.priceBalance.asset
-                })
-                    .then(info => {
-                        const maxAmount = info.maxAmount ?
-                            new BigNumber(info.maxAmount) :
-                            defaultPairRestriction.maxAmount;
+                return ds.api.matcher
+                    .getPairRestrictions({
+                        amountAsset: this.amountBalance.asset,
+                        priceAsset: this.priceBalance.asset
+                    })
+                    .then(data => {
+                        const { maxAmount, maxPrice, stepPrice, stepAmount, minPrice, minAmount } = data.restrictions;
+                        const restMaxAmount = maxAmount ? new BigNumber(maxAmount) : defaultPairRestriction.maxAmount;
+                        const pricePrecision = stepPrice ?
+                            Math.min(
+                                new BigNumber(stepPrice).getDecimalsCount(), defaultPairRestriction.pricePrecision
+                            ) :
+                            defaultPairRestriction.pricePrecision;
+                        const amountPrecision = stepAmount ?
+                            Math.min(
+                                new BigNumber(stepAmount).getDecimalsCount(), defaultPairRestriction.amountPrecision
+                            ) :
+                            defaultPairRestriction.amountPrecision;
+
                         this.pairRestrictions = {
-                            maxPrice: info.maxPrice ? new BigNumber(info.maxPrice) : defaultPairRestriction.maxPrice,
+                            maxPrice: maxPrice ? new BigNumber(maxPrice) : defaultPairRestriction.maxPrice,
                             maxAmount: this.maxAmountBalance ?
-                                this.maxAmountBalance.getTokens() :
-                                maxAmount,
-                            tickSize: info.tickSize ? new BigNumber(info.tickSize) : defaultPairRestriction.tickSize,
-                            stepSize: info.stepSize ? new BigNumber(info.stepSize) : defaultPairRestriction.stepSize,
-                            minPrice: info.minPrice ? new BigNumber(info.minPrice) : defaultPairRestriction.minPrice,
-                            minAmount: info.minAmount ? new BigNumber(info.minAmount) : defaultPairRestriction.minAmount
+                                BigNumber.min(this.maxAmountBalance.getTokens(), restMaxAmount) :
+                                restMaxAmount,
+                            minPrice: minPrice ?
+                                BigNumber.max(new BigNumber(minPrice), defaultPairRestriction.minPrice) :
+                                defaultPairRestriction.minPrice,
+                            minAmount: minAmount ?
+                                BigNumber.max(new BigNumber(minAmount), defaultPairRestriction.minAmount) :
+                                defaultPairRestriction.minAmount,
+                            pricePrecision,
+                            amountPrecision
                         };
                     })
                     .catch(() => {
@@ -1234,12 +1206,12 @@
             }
 
             /**
-             * @return {{minAmount, minPrice, stepSize, maxPrice, maxAmount, tickSize}}
+             * @return {TPairRestrictions}
              * @private
              */
             _getDefaultPairRestriction() {
-                const tickSize = new BigNumber(Math.pow(10, -this.priceBalance.asset.precision));
-                const stepSize = new BigNumber(Math.pow(10, -this.amountBalance.asset.precision));
+                const pricePrecision = this.priceBalance.asset.precision;
+                const amountPrecision = this.amountBalance.asset.precision;
                 const maxPrice = new BigNumber(Infinity);
                 const maxAmount = this.maxAmountBalance ?
                     this.maxAmountBalance.getTokens() :
@@ -1247,34 +1219,37 @@
                 return ({
                     maxPrice,
                     maxAmount,
-                    tickSize,
-                    stepSize,
-                    minPrice: tickSize,
-                    minAmount: stepSize
+                    pricePrecision,
+                    amountPrecision,
+                    minPrice: (new BigNumber(10)).pow(-pricePrecision),
+                    minAmount: (new BigNumber(10)).pow(-amountPrecision)
                 });
             }
 
             /**
              * @return {boolean}
              */
-            _validateStepSize() {
-                if (!this.amount) {
+            _validateAmountPrecision() {
+                if (!this.loadedPairRestrictions) {
                     return true;
                 }
 
-                return this.amount.getTokens().modulo(this.pairRestrictions.stepSize).isZero();
+                const { amountPrecision } = this.pairRestrictions;
+
+                return (new BigNumber(this.order.amount.$viewValue)).getDecimalsCount() <= amountPrecision;
             }
 
             /**
              * @return {boolean}
              */
-            _validateTickSize() {
-                const { tickSize, minPrice, maxPrice } = this.pairRestrictions;
-                if (!this.price || this.price.getTokens().lte(minPrice) || this.price.getTokens().gte(maxPrice)) {
+            _validatePricePrecision() {
+                if (!this.loadedPairRestrictions) {
                     return true;
                 }
 
-                return this.price.getTokens().modulo(tickSize).isZero();
+                const { pricePrecision } = this.pairRestrictions;
+
+                return (new BigNumber(this.order.price.$viewValue)).getDecimalsCount() <= pricePrecision;
             }
 
             static _animateNotification($element) {
@@ -1326,3 +1301,13 @@
         controller
     });
 })();
+
+/**
+ * @typedef {object} TPairRestrictions
+ * @property {BigNumber} maxPrice
+ * @property {BigNumber} maxAmount
+ * @property {BigNumber} minPrice
+ * @property {BigNumber} minAmount
+ * @property {number} pricePrecision
+ * @property {number} amountPrecision
+ */
