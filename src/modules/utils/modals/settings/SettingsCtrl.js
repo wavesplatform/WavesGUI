@@ -4,8 +4,6 @@
     const ds = require('data-service');
     const { path } = require('ramda');
     const analytics = require('@waves/event-sender');
-    const { libs } = require('@waves/waves-transactions');
-    const { base58Encode, stringToBytes } = libs.crypto;
 
     /**
      * @param Base
@@ -212,13 +210,16 @@
                     }
                 };
 
+                const api = ds.signature.getSignatureApi();
+
                 Promise.all([
-                    catchProcessor(() => ds.signature.getSignatureApi().getSeed()),
-                    catchProcessor(() => ds.signature.getSignatureApi().getPrivateKey()),
-                    ds.signature.getSignatureApi().getPublicKey()
-                ]).then(([seed, privateKey, publicKey]) => {
+                    catchProcessor(() => api.getSeed()),
+                    catchProcessor(() => api.getPrivateKey()),
+                    catchProcessor(() => api.getPublicKey()),
+                    catchProcessor(() => api.getEncodedSeed())
+                ]).then(([seed, privateKey, publicKey, encodedSeed]) => {
                     this.phrase = seed;
-                    this.encodedSeed = typeof seed === 'string' ? base58Encode(stringToBytes(seed)) : null;
+                    this.encodedSeed = encodedSeed;
                     this.privateKey = privateKey;
                     this.publicKey = publicKey;
                     $scope.$digest();

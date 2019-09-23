@@ -4,7 +4,7 @@
     const analytics = require('@waves/event-sender');
     const { validators, libs } = require('@waves/waves-transactions');
     const { isPublicKey } = validators;
-    const { address, publicKey, bytesToString, base58Decode } = libs.crypto;
+    const { address, publicKey, base58Decode } = libs.crypto;
     const TABS = {
         seed: 'seed',
         encodedSeed: 'encodedSeed',
@@ -258,7 +258,7 @@
                         return ({
                             keyOrSeed: {
                                 seed: `base58:${this.encodedSeed}`,
-                                publicKey: publicKey(bytesToString(base58Decode(this.encodedSeed)))
+                                publicKey: publicKey(base58Decode(this.encodedSeed))
                             },
                             type: 'seed'
                         });
