@@ -131,7 +131,7 @@
                 this._activeWrite = Promise.resolve();
                 const version = navigator.userAgent.replace(/.*?waves-(client|dex)\/(\d+\.\d+\.\d+).*/g, '$2');
 
-                if (version && migration.lte(version, '1.2.1')) {
+                if (version && migration.lte(version, '1.4.0')) {
                     setTimeout(() => {
                         $injector.get('notification').error({
                             title: { literal: 'Need update client from official site!' }
