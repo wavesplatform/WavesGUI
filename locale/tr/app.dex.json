@@ -19,6 +19,7 @@
         "candleChart": {
             "error": "{div}[grafikler indirilememektedir.]{div}[Eğer uygulamanızda grafikleri kullanmak istiyorsanız [tradingview.com] a mesaj atın(https://tradingview.com)]"
         },
+        "charts": "charts",
         "createOrder": {
             "1day": "1 gün",
             "1hour": "1 saat",
@@ -144,6 +145,7 @@
                 "header": "Bir şeyler ters gitti"
             }
         },
+        "orders": "orders",
         "portfolio": {
             "title": "Portföy"
         },
@@ -229,10 +231,12 @@
             "all": "Hepsi",
             "btc": "Btc",
             "eth": "ETH",
+            "history": "history",
             "myBalance": "Bakiyem",
             "myTradeHistory": "Takas geçmişim",
             "openOrders": "Açık emirlerim",
             "OrderHistory": "Takas geçmişim",
+            "trade": "Trade",
             "tradeHistory": "Takas geçmişi",
             "waves": "Waves"
         }

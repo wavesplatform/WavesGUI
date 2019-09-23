@@ -19,6 +19,7 @@
         "candleChart": {
             "error": "{div}[チャートをダウンロードできません。]{div}[アプリケーション内でチャートの利用を希望する場合 [tradingview.com](https://tradingview.com)にリクエストを送信して下さい。]"
         },
+        "charts": "charts",
         "createOrder": {
             "1day": "1日",
             "1hour": "1時間",
@@ -144,6 +145,7 @@
                 "header": "何かがおかしいようです"
             }
         },
+        "orders": "orders",
         "portfolio": {
             "title": "ポートフォリオ"
         },
@@ -229,10 +231,12 @@
             "all": "すべて",
             "btc": "Btc",
             "eth": "ETH",
+            "history": "history",
             "myBalance": "自分の残高",
             "myTradeHistory": "自分のトレード履歴",
             "openOrders": "自分の未約定注文",
             "OrderHistory": "自分のトレード履歴",
+            "trade": "Trade",
             "tradeHistory": "トレード履歴",
             "waves": "Waves"
         }

@@ -293,8 +293,8 @@
                 "warningTitle": "ETHをスマートコントラクトからデポジットしないでください。また、ERC20トークンもデポジットしないでください。"
             },
             "wavesGatewayVST": {
-                "helpDescrText": "トランザクションが承認されると、ゲートウェイはVostokの送信を進め、あなたのWavesアカウントにトークンが反映されます。",
-                "helpDescrTitle": "このアドレスをVostokクライアント、またはウォレットに入力してください",
+                "helpDescrText": "トランザクションが承認されると、ゲートウェイはVSTの送信を進め、あなたのWavesアカウントにトークンが反映されます。",
+                "helpDescrTitle": "このアドレスをVSTクライアント、またはウォレットに入力してください",
                 "warningMinAmountTitle": "最小デポジット額は{{minAmount, BigNumber}} {{assetTicker}}、最大デポジット額は{{maxAmount}} {{assetTicker}}です"
             }
         },
@@ -353,7 +353,12 @@
             "wavesLiteClientDescription": "Wavesのライトクライアントからアカウントをインポート"
         },
         "matcherChoice": {
-            "title": "Choose matcher"
+            "customMatcher": "Custom matcher address",
+            "matcher": "Matcher",
+            "matcherTerms": "I agree to the Super DEX Mather Terms of Use.",
+            "terms": "Terms",
+            "title": "Choose matcher",
+            "wavesTerms": "I am over 18 years old, and I agree to the Waves Terms of Use and Waves Privacy Policy."
         },
         "open-main": {
             "dex": {
@@ -470,7 +475,7 @@
             "shareInvoiceLink": "請求書リンクを共有",
             "verified": "承認済",
             "vostok": {
-                "serverError": "現在、一時的に、Vostokのサービスがご利用いただけません。再度お試しください。"
+                "serverError": "現在、一時的に、VSTのサービスがご利用いただけません。再度お試しください。"
             },
             "wtry": {
                 "info": "送金処理に問題が生じた場合、Digiliraのサポートチームに連絡してください。— [support@digilira.com](mailto:support@digilira.com)"
@@ -670,6 +675,7 @@
                 "dataProviderInvalid": "プロバイダー情報の取得に失敗しました。アドレスを確認して再度お試しください。",
                 "dataProviderName": "{{dataProviderName}}",
                 "dontShowSpamCheckboxDescr": "不審なトークンを表示しない",
+                "edit": "Edit",
                 "forDisableClear": "完全に無効にするには、このフィールドをクリアします。",
                 "matcherAddress": "Matcher アドレス",
                 "nodeAddress": "ノードアドレス",
@@ -946,7 +952,7 @@
                 "1_3_0": "{span.line} [1. アプリのナビゲーションとスタートページのインターフェースが改善されました。]",
                 "1_3_18": "{span.line}[1. 秘密鍵によるログインが可能になりました。]{span.line}[2. 24時間以内のトークン価格の変化がトークン/WAVESペアに対応しました。]",
                 "1_3_19": "{span.line}[1. Bancor gateway has been launched.]\n{span.line}[2. User menu interface has been improved.]",
-                "1_3_2": "{span.line} [1. Vostokのゲートウェイが追加されました。 \n{span.line} [2. UIの改善と、いくつかのマイナーなバグを修正しました。]",
+                "1_3_2": "{span.line} [1. VSTのゲートウェイが追加されました。 \n{span.line} [2. UIの改善と、いくつかのマイナーなバグを修正しました。]",
                 "1_3_20": "{span.line}[1. Improved system for storing and restoring accounts from local storage (Need to update the [desktop application](https://wavesplatform.com/technology/wallet)).]\n{span.line}[2. Fixed rounding of prices in the orderbook.]",
                 "1_3_5": "{span.line}[1. [wsoc.io](https://wsoc.io) コンテスト用のトークンタブが追加されました。]{span.line}[2. フランス語に対応しました。]{span.line}[3. 一部のマイナーバグを修正しました。]",
                 "1_3_7": "{span.line}[1.[tokenrating.wavesexplorer.com](https://tokenrating.wavesexplorer.com) に対応。アプリから直接トークンのレーティングが可能に。]{span.line}[2. 追加のマイナーバグを修正しました。]",

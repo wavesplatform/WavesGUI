@@ -486,6 +486,20 @@ w-create-order {
   }
 }
 
+@media screen and (min-width: 721px) and (max-width: 1024px) {
+  w-create-order .create-order {
+    .head {
+      display: flex;
+    }
+    
+    .body {
+      .making-order .areas {
+        display: none;
+      }
+    }
+  }
+}
+
 @media screen and (max-width: 1024px) {
   w-create-order {
     height: 100%;
@@ -508,8 +522,6 @@ w-create-order {
           }
 
           .areas {
-            display: none;
-
             .area {
               height: 42px;
               display: flex;
@@ -524,28 +536,15 @@ w-create-order {
       .expandable {
         display: block;
       }
-
-      .head {
-        display: flex;
-      }
-
     }
   }
 }
 
 @media screen and (max-width: 720px) {
   w-create-order .create-order {
-    .head {
-      display: none;
-    }
-
     .body .making-order {
       .choice {
         display: none;
-      }
-
-      .areas {
-        display: flex;
       }
   
       .fields .input-wrapper w-input-container {

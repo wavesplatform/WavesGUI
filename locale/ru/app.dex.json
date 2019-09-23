@@ -19,6 +19,7 @@
         "candleChart": {
             "error": "{div}[Невозможно загрузить график.]{div}[Если вы хотите использовать график в своем приложении, отправьте заявку [tradingview.com](https://tradingview.com)]"
         },
+        "charts": "графики",
         "createOrder": {
             "1day": "1 день",
             "1hour": "1 час",
@@ -144,6 +145,7 @@
                 "header": "Что-то пошло не так..."
             }
         },
+        "orders": "ордера",
         "portfolio": {
             "title": "Портфолио"
         },
@@ -229,10 +231,12 @@
             "all": "Все",
             "btc": "Btc",
             "eth": "ETH",
+            "history": "история",
             "myBalance": "Мой баланс",
             "myTradeHistory": "Моя история сделок",
             "openOrders": "Мои открытые ордера",
             "OrderHistory": "Моя история ордеров",
+            "trade": "Сделки",
             "tradeHistory": "История сделок",
             "waves": "Waves"
         }

@@ -19,6 +19,7 @@
         "candleChart": {
             "error": "{div} [Diagrammi ei õnnestunud alla laadida.] {div} [Kui soovite seda skeemi oma rakenduses kasutada, saatke palun oma päring [tradingview.com'le](https://tradingview.com)]"
         },
+        "charts": "charts",
         "createOrder": {
             "1day": "1 päev",
             "1hour": "1 tund",
@@ -144,6 +145,7 @@
                 "header": "Midagi läks valesti"
             }
         },
+        "orders": "orders",
         "portfolio": {
             "title": "Portfell"
         },
@@ -229,10 +231,12 @@
             "all": "Kõik",
             "btc": "Btc",
             "eth": "ETH",
+            "history": "history",
             "myBalance": "Minu Saldod",
             "myTradeHistory": "Minu Kauplemisajalugu",
             "openOrders": "Minu Avatud Orderid",
             "OrderHistory": "My Order History",
+            "trade": "Trade",
             "tradeHistory": "Kauplemisajalugu",
             "waves": "Waves"
         }

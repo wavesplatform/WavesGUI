@@ -19,6 +19,7 @@
         "candleChart": {
             "error": "{div}[Bagan tidak dapat diunduh.] {div}[Jika Anda ingin menggunakan bagan ini di aplikasi Anda, silakan kirim permintaan ke [tradingview.com](https://tradingview.com)]"
         },
+        "charts": "charts",
         "createOrder": {
             "1day": "1 hari",
             "1hour": "1 jam",
@@ -144,6 +145,7 @@
                 "header": "Ada yang salah"
             }
         },
+        "orders": "orders",
         "portfolio": {
             "title": "Portofolio"
         },
@@ -229,10 +231,12 @@
             "all": "Semua",
             "btc": "Btc",
             "eth": "ETH",
+            "history": "history",
             "myBalance": "Saldo saya",
             "myTradeHistory": "Sejarah Dagang Anda",
             "openOrders": "Pesanan Terbuka Anda",
             "OrderHistory": "Riwayat Pesanan Saya",
+            "trade": "Trade",
             "tradeHistory": "Sejarah Perdagangan",
             "waves": "Waves"
         }

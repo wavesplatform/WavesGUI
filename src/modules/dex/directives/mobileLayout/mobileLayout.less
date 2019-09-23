@@ -1,112 +1,116 @@
 @import (reference) 'config';
 @import (reference) 'icons';
 
-.mobile-tabs__wrapper {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  z-index: 100;
-  display: flex;
-  background: red;
-}
-
-.mobile-layout {
-  height: 100%;
-
-  &__watchlist-wrapper {
-    height: calc(100% ~'- 58px');
-    overflow: hidden;
+@media screen and (max-width: 720px) {
+  .mobile-tabs__wrapper {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+    display: flex;
+    background: red;
   }
-}
-
-.mobile-layout > w-tabs > .tab-container {
-  display: flex;
-  flex-direction: column;
-  padding-bottom: 58px;
-  position: relative;
-
-  .titles-wrap {
-    order: 2;
+  
+  .mobile-layout {
+    height: 100%;
+  
+    &__watchlist-wrapper {
+      height: calc(100% ~'- 58px');
+      overflow: hidden;
+    }
+  
+    .tooltip-dex {
+      display: none;
+    }
+  
+    .tab-body-wrap {
+      background: @color-white;
+    }
   }
-}
-
-.mobile-watchlist-header {
-  display: flex;
-  justify-content: space-between;
-  background: @color-white;
-  border-radius: 2px;
-  padding: 9px 16px;
-  margin-bottom: 5px;
-
-  &__info {
-    padding-right: 24px;
+  
+  .mobile-layout > w-tabs > .tab-container {
+    padding-bottom: 55px;
     position: relative;
-    text-align: end;
-
-    &::after {
-      content: '';
-      display: block;
-      background: @dex-arrow-down-icon;
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: 100% 100%;
-      height: 14px;
-      width: 14px;
-      position: absolute;
-      top: 50%;
-      right: 0;
-      transform: translateY(-50%);
+  }
+  
+  .mobile-watchlist-header {
+    display: flex;
+    justify-content: space-between;
+    background: @color-white;
+    border-radius: 2px;
+    padding: 9px 16px;
+    margin-bottom: 5px;
+  
+    &__info {
+      padding-right: 24px;
+      position: relative;
+      text-align: end;
+  
+      &::after {
+        content: '';
+        display: block;
+        background: @dex-arrow-down-icon;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 100% 100%;
+        height: 14px;
+        width: 14px;
+        position: absolute;
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%);
+      }
+  
+      &.opened::after {
+        transform: translateY(-50%) scaleY(-1);
+      }
     }
-
-    &.opened::after {
-      transform: translateY(-50%) scaleY(-1);
+  
+    &__change24 {
+      &_blue {
+        color: @color-submit-400;
+      }
+      &_red {
+        color: tomato;
+      }
+    }
+  
+    &__pair-tickers {
+      font-size: 13px;
+      color: @color-basic-900;
+      font-weight: bold;
+    }
+  
+    &__volume {
+      font-size: 12px;
+    }
+  
+    &__last-price {
+      position: relative;
+  
+      &::before {
+        content: "";
+        display: block;
+        position: absolute;
+        height: 14px;
+        width: 14px;
+        top: 0;
+        left: -16px;
+        background-repeat: no-repeat;
+      }
+  
+      &_red::before {
+        background: @arrow-orderbook-down-icon;
+      }
+  
+      &_blue::before {
+        background: @arrow-orderbook-top-icon;
+      }
     }
   }
-
-  &__change24 {
-    &_blue {
-      color: @color-submit-400;
-    }
-    &_red {
-      color: tomato;
-    }
+  
+  .some-flex-wrapper {
+    display: flex;
+    justify-content: space-between;
   }
-
-  &__pair-tickers {
-    font-size: 13px;
-    color: @color-basic-900;
-    font-weight: bold;
-  }
-
-  &__volume {
-    font-size: 12px;
-  }
-
-  &__last-price {
-    position: relative;
-
-    &::before {
-      content: "";
-      display: block;
-      position: absolute;
-      height: 14px;
-      width: 14px;
-      top: 0;
-      left: -16px;
-      background-repeat: no-repeat;
-    }
-
-    &_red::before {
-      background: @arrow-orderbook-down-icon;
-    }
-
-    &_blue::before {
-      background: @arrow-orderbook-top-icon;
-    }
-  }
-}
-
-.some-flex-wrapper {
-  display: flex;
-  justify-content: space-between;
 }

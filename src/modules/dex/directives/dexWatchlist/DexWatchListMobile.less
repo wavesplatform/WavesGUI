@@ -25,17 +25,18 @@
 				.title {
 					margin-right: 30px;
 					height: 100%;
-					position: relative;
 					.body-2();
 					text-transform: capitalize;
 					background: @color-white;
 					display: flex;
 					justify-content: center;
 					align-items: center;
-					color: @color-basic-700;
+					padding: 0;
+					border: 0 none;
 	
 					&.active {
 						color: @color-submit-400;
+
 						&::before {
 							content: '';
 							display: block;
@@ -46,11 +47,15 @@
 							height: 2px;
 							background:  @color-submit-400;
 						}
+						&::after {
+							display: none;
+						}
 					}
 				}
 
 				.select .title {
 					margin-right: 0;
+					padding: 0 35px 0 0;
 				}
 			}
 		}

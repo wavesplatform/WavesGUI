@@ -10,7 +10,7 @@ body.dex-demo {
   color: @color-basic-900;
 
   .main-content {
-    min-height: 520px;
+    min-height: 510px;
 
     .content {
       max-width: 100%;
@@ -214,35 +214,10 @@ body.dex-demo {
     }
 
     .tabs {
-      .tab-body-wrap {
-        height: calc(100% ~'- 50px');
-        overflow: hidden;
-      }
-
       .titles-wrap {
-        height: 48px;
         box-shadow: @shadow-menu-top;
         position: relative;
         z-index: 6;
-
-        &::after {
-          display: none;
-        }
-
-        .title {
-          height: 48px;
-          line-height: 48px;
-
-          &.active {
-            border: 0 none;
-            border-bottom: 1px solid @color-submit-400;
-
-            &::after,
-            &::before {
-              display: none;
-            }
-          }
-        }
       }
     }
 
@@ -250,6 +225,56 @@ body.dex-demo {
     .dex-watchlist {
       .table {
         .t-head {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 720px) {
+  body.dex,
+  body.dex-demo {
+    .main-content .content {
+      overflow: hidden;
+    }
+
+    .tabs {
+      .tab-body-wrap {
+        height: calc(100% ~'- 55px');
+        overflow: hidden;
+      }
+
+      .mobile-tab {
+        &_orders,
+        &_trade,
+        &_charts,
+        &_history {
+          .tab-body-wrap {
+            height: calc(100% ~'- 50px');
+          }
+
+          .titles-wrap .title {
+            height: 100%;
+            line-height: 48px;
+    
+            &.active {
+              border: 0 none;
+              border-bottom: 2px solid @color-submit-400;
+    
+              &::after,
+              &::before {
+                display: none;
+              }
+            }
+          }
+        }
+      }
+
+      .titles-wrap {
+        height: 48px;
+
+        &::after {
           display: none;
         }
       }
@@ -293,15 +318,6 @@ body.dex-demo {
         overflow-y: auto;
         overflow-x: hidden;
       }
-    }
-  }
-}
-
-@media screen and (max-width: 860px) {
-  body.dex,
-  body.dex-demo {
-    .main-content .content {
-      overflow: hidden;
     }
   }
 }

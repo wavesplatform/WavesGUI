@@ -19,6 +19,7 @@
         "candleChart": {
             "error": "{div}[Le graphique n'a pas pu être téléchargé.]{div}[Si vous désirez utiliser ce graphique dans votre application, veuillez envoyer une requête à [tradingview.com](https://tradingview.com)]"
         },
+        "charts": "charts",
         "createOrder": {
             "1day": "1 jour",
             "1hour": "1 heure",
@@ -144,6 +145,7 @@
                 "header": "Une erreur est survenue"
             }
         },
+        "orders": "orders",
         "portfolio": {
             "title": "Portfolio"
         },
@@ -229,10 +231,12 @@
             "all": "Tout",
             "btc": "Btc",
             "eth": "ETH",
+            "history": "history",
             "myBalance": "Mon solde",
             "myTradeHistory": "Historique de mes échanges",
             "openOrders": "Mes ordres ouverts",
             "OrderHistory": "Mon historique d'ordres",
+            "trade": "Trade",
             "tradeHistory": "Historique d'échanges",
             "waves": "Waves"
         }

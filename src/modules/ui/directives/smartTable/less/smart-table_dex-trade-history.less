@@ -10,7 +10,7 @@
     .smart-table {
       &__row {
         flex-wrap: nowrap;
-        padding: 6px 14px;
+        padding: 6px 12px;
         justify-content: space-between;
 
         .to-dex-link {
@@ -59,11 +59,6 @@
         }
       }
 
-      &__row {
-        flex-wrap: nowrap;
-        padding: 6px 12px;
-      }
-
       &__cell[data-column-id="pair"] {
         order: 0;
         margin-bottom: 5px;
@@ -72,6 +67,31 @@
         span {
           max-width: none;
         }
+      }
+    }
+
+    .stop {
+      background-size: 10px 10px;
+      background-repeat: no-repeat;
+      background-position: center center;
+      margin-left: 0;
+      height: 30px;
+      width: 30px;
+    }
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .smart-table_dex-trade-history {
+    .smart-table {
+      &__thead {
+        display: none;
+      }
+
+      &__tbody {
+        &::-webkit-scrollbar-track {
+					-webkit-box-shadow: none;
+				}
       }
 
       &__cell[data-column-id="type"] {
@@ -115,36 +135,13 @@
         font-size: 0;
         margin-top: 5px;
       }
-    }
 
-    .stop {
-      background-size: 10px 10px;
-      background-repeat: no-repeat;
-      background-position: center center;
-      margin-left: 0;
-      height: 30px;
-      width: 30px;
-    }
-  }
-}
-
-@media screen and (max-width: 860px) {
-  .smart-table_dex-trade-history {
-    .smart-table {
-
-      &__wrapper {
-        padding: 4px;
-        background: @color-white;
-      }
-
-      &__thead {
+      &__cell[data-column-id="pair"] {
         display: none;
       }
 
-      &__tbody {
-        &::-webkit-scrollbar-track {
-					-webkit-box-shadow: none;
-				}
+      &__cell[data-column-id="fee"] {
+        display: none;
       }
     }
   }

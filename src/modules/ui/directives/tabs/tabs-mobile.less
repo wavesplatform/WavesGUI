@@ -1,126 +1,128 @@
 @import (reference) 'config';
 @import (reference) '../../../app/less/typography';
 
-.dex .tabs_mobile {
-	.titles-wrap {
-		position: fixed;
-		bottom: 0;
-		left: 0;
-		right: 0;
-		display: flex;
-		height: 50px;
-		
-		.title {
-			.footnote-1();
-			text-transform: capitalize;
-			flex: 1;
-			background: @color-white;
-			margin-right: 1px;
+@media screen and (max-width: 720px) {
+	body.dex .tabs_mobile {
+		.titles-wrap {
+			position: fixed;
+			bottom: 0;
+			left: 0;
+			right: 0;
 			display: flex;
-			justify-content: center;
-			align-items: center;
-			color: @color-basic-700;
-			border-top: 2px solid transparent;
-			font-weight: bold;
-
-			&:last-child {
-				margin-right: 0;
-			}
-
-			&.active {
-				border: 0 none;
-				border-top: 2px solid @color-submit-400;
-				color: @color-submit-400;
-			}
-		}
-
-	}
+			
+			.title {
+				.footnote-1();
+				text-transform: capitalize;
+				flex: 1;
+				background: @color-white;
+				margin-right: 1px;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				color: @color-basic-700;
+				border-top: 2px solid transparent;
+				font-weight: bold;
 	
-	.table {
-		&__thead {
-			display: none;
-		}
-		
-		&__tbody {
-			padding: 4px;
-			background: @color-white;
-
-			w-scroll-box {
-				padding: 0 12px;
-
-				&::-webkit-scrollbar-track {
-					-webkit-box-shadow: none;
+				&:last-child {
+					margin-right: 0;
+				}
+	
+				&.active {
+					border: 0 none;
+					border-top: 2px solid @color-submit-400;
+					color: @color-submit-400;
 				}
 			}
+	
 		}
-	}
-
-	&-orders, &-history {
-		.titles-wrap {
-			position: relative;
-			bottom: auto;
-			right: auto;
-			padding: 0 16px;
-			border-bottom: 1px solid @color-basic-100;
-			background: @color-white;
-			box-shadow: none;
-
-			.title {
-				margin: 0;
-				border-top: 0;
-				margin-right: 20px;
-				height: 100%;
-				position: relative;
-				flex: inherit;
-				white-space: nowrap;
-				
-				&.active {
-					border-top: 0;
-
-					&::before {
-						content: '';
-						display: block;
-						position: absolute;
-						top: 100%;
-						left: 0;
-						width: 100%;
-						height: 2px;
-						background:  @color-submit-400;
+		
+		.table {
+			&__thead {
+				display: none;
+			}
+			
+			&__tbody {
+				padding: 4px;
+				background: @color-white;
+	
+				w-scroll-box {
+					padding: 0 12px;
+	
+					&::-webkit-scrollbar-track {
+						-webkit-box-shadow: none;
 					}
 				}
 			}
 		}
-
-		::-webkit-scrollbar {
-			height: 0;
+	
+		&-orders, &-history {
+			.titles-wrap {
+				position: relative;
+				bottom: auto;
+				right: auto;
+				padding: 0 16px;
+				border-bottom: 1px solid @color-basic-100;
+				background: @color-white;
+				box-shadow: none;
+	
+				.title {
+					margin: 0;
+					border-top: 0;
+					margin-right: 20px;
+					height: 100%;
+					position: relative;
+					flex: inherit;
+					white-space: nowrap;
+					border-bottom: 2px solid transparent;
+					
+					&.active {
+						border-top: 0;
+	
+						&::before {
+							content: '';
+							display: block;
+							position: absolute;
+							top: 100%;
+							left: 0;
+							width: 100%;
+							height: 2px;
+							background:  @color-submit-400;
+						}
+					}
+				}
+			}
+	
+			::-webkit-scrollbar {
+				height: 0;
+			}
+	
+			:hover::-webkit-scrollbar {
+				height: 0;
+			}
+	
+			::-webkit-scrollbar-thumb {
+				height: 0;
+			}
+	
+			::-webkit-scrollbar-thumb:window-inactive {
+				height: 0;
+			}
 		}
-
-		:hover::-webkit-scrollbar {
-			height: 0;
+	
+		&-history .titles-wrap {
+			.title {
+				margin-right: 30px;
+			}
 		}
-
-		::-webkit-scrollbar-thumb {
-			height: 0;
-		}
-
-		::-webkit-scrollbar-thumb:window-inactive {
-			height: 0;
-		}
-	}
-
-	&-history .titles-wrap {
-		.title {
-			margin-right: 30px;
-		}
-	}
-
-	&-orders {
-		.titles-wrap {
-			overflow-x: auto;
-
-			.title.active::before {
-				top: auto;
-				bottom: 0;
+	
+		&-orders {
+			.titles-wrap {
+				overflow-x: auto;
+	
+				.title.active::before {
+					top: auto;
+					bottom: 0;
+				}
 			}
 		}
 	}
