@@ -27,7 +27,7 @@
                         </div>
                     </div>
                 </div>
-                <w-analytics event="'Onboarding SEED Click'" target="'ui'"></w-analytics>
+                <w-analytics event="'Onboarding SEED Click'" event-target="'ui'">
                     <w-button class="big long submit margin-auto desktop-only" w-step-next>
                         <span ng-if="!$ctrl.hasAccounts" w-i18n="modal.tutorialModals.step1.button"></span>
                         <span ng-if="$ctrl.hasAccounts" w-i18n="modal.tutorialModals.step1.buttonReadMore"></span>

@@ -286,6 +286,12 @@
                 "warningText": "Sending any other currency to this address may result in the loss of your deposit.",
                 "warningTitle": "Send only ERGO to this deposit address"
             },
+            "wavesGatewayETH": {
+                "warningMinAmountText": "If you will send less than {{minAmount, BigNumber}} {{assetTicker}}, you will lose that money.",
+                "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}, the maximum amount of deposit is {{maxAmount}} {{assetTicker}}",
+                "warningText": "Check if your wallet or exchange uses smart-contracts to withdraw ETH. We do not accept such transactions and can’t refund them. You will lose that money.",
+                "warningTitle": "Please do not deposit ETH from smart contracts! Do not deposit ERC20 tokens! Only Ethereum is allowed."
+            },
             "wavesGatewayVST": {
                 "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of Vostok to a token in your Waves account.",
                 "helpDescrTitle": "Enter this address into your Vostok client or wallet",
@@ -345,6 +351,9 @@
             "wavesBetaClientDescription": "Import accounts from Waves Beta Client",
             "wavesLiteClient": "Waves Lite Client",
             "wavesLiteClientDescription": "Import accounts from Waves Lite Client"
+        },
+        "matcherChoice": {
+            "title": "Choose matcher"
         },
         "open-main": {
             "dex": {
@@ -539,6 +548,11 @@
             "gateway": {
                 "feeExplanation": "We have detected a {{assetName}} address and will send your funds via a gateway to this address. The minimum amount is {{min, BigNumber}} {{assetTicker}}. The maximum amount is {{max, BigNumber}} {{assetTicker}}."
             },
+            "gatewayTerms": {
+                "accept": "Accept and Continue",
+                "text": "By using Gateway service, you agree to be bound by [Gateway Terms of Service](https://dex.wavesplatform.com/) and [Conduction of Transactions](https://dex.wavesplatform.com/). If you do not agree to these terms, then do not use this Gateway service.",
+                "title": "Gateway service agreement"
+            },
             "icoWarning": "Do not withdraw {{assetName}} to an ICO. We will not credit your account with tokens from that sale.",
             "idNumber": {
                 "helpIcon": {
@@ -590,7 +604,8 @@
             "validationError": {
                 "notEnoughFunds": "You don't have enough funds to pay the required fees. You must pay {{fee, money-currency}} transaction fee.",
                 "notEnoughFundsWithdraw": "You don’t have enough funds to pay the required fees. You must pay {{fee, money-currency}} transaction fee and {{getawayFee, BigNumber}} {{currency}} gateway fee. The minimum amount for withdrawal is {{minGatewayAmount, BigNumber}} {{currency}}."
-            }
+            },
+            "withdrawTitle": "Withdraw"
         },
         "sepa": {
             "countryList": "List of eligible countries and IDs",
@@ -688,6 +703,7 @@
                 "backupPhrase": "Backup phrase",
                 "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "Encoded seed",
+                "id": "Account ID",
                 "privateKey": "Private key",
                 "publicKey": "Public Key",
                 "script": "Script",
@@ -744,6 +760,7 @@
             "signErrorText": "You did not confirm the request on your Ledger Device",
             "signErrorTextImportKeeper": "Sign in to Waves Keeper with address {{address}}, and then refresh page to continue.",
             "signErrorTextKeeper": "Please try again. If the error persists, please create a ticket to [Support](https://support.wavesplatform.com/)",
+            "signErrorTextKeeperWrongUser": "This account does not match the selected account in your Waves Keeper. Please activate another account in Waves Keeper and try again.",
             "timestamp": "Timestamp",
             "txId": "TXID"
         },
