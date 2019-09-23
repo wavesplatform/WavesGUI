@@ -17,28 +17,28 @@
 
         const chartOptions = {
             red: {
-                charts: [
-                    {
-                        axisX: 'timestamp',
-                        axisY: 'rate',
+                axisX: 'timestamp',
+                axisY: 'rate',
+                view: {
+                    rate: {
                         lineColor: '#ef4829',
                         fillColor: '#FFF',
                         gradientColor: ['#FEEFEC', '#FFF'],
                         lineWidth: 4
                     }
-                ]
+                }
             },
             blue: {
-                charts: [
-                    {
-                        axisX: 'timestamp',
-                        axisY: 'rate',
+                axisX: 'timestamp',
+                axisY: 'rate',
+                view: {
+                    rate: {
                         lineColor: '#1f5af6',
                         fillColor: '#FFF',
                         gradientColor: ['#EAF0FE', '#FFF'],
                         lineWidth: 4
                     }
-                ]
+                }
             }
         };
 
@@ -90,7 +90,10 @@
                         this._fillGraphs();
                         this._remapSlides();
 
-                        const onResize = utils.debounceRequestAnimationFrame(() => this._remapSlides());
+                        const onResize = utils.debounceRequestAnimationFrame(() => {
+                            this._remapSlides();
+                            this.initializeInterval();
+                        });
                         this.listenEventEmitter($(window), 'resize', onResize);
 
                         $element.hover(() => {
@@ -98,6 +101,7 @@
                         }, () => {
                             this.initializeInterval();
                         });
+
                         this.initializeInterval();
                     });
                 });
@@ -138,10 +142,13 @@
                 this._mapSlides.forEach(({ $slide }, i) => {
                     const info = this.pairsInfoList[i];
                     const options = info.change24.gt(0) ? chartOptions.blue : chartOptions.red;
+                    const chartData = {
+                        rate: info.rateHistory
+                    };
                     new ChartFactory(
                         $slide.find('.graph'),
                         options,
-                        this.pairsInfoList[i].rateHistory
+                        chartData
                     );
                 });
             }
@@ -150,6 +157,7 @@
              * @private
              */
             _remapSlides() {
+                this._stopSlides();
                 this.slidesAmount = Carousel._getSlidesInWindowAmount(window.innerWidth);
 
                 const { width, startCoords } = this._getWidthAndStart();
@@ -262,6 +270,15 @@
                     default:
                         return 1;
                 }
+            }
+
+            /**
+             * @private
+             */
+            _stopSlides() {
+                this._mapSlides.forEach(slide => {
+                    slide.$slide.stop();
+                });
             }
 
         }

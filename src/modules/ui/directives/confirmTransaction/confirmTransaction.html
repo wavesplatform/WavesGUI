@@ -76,22 +76,24 @@
                         </div>
                     </div>
 
-                    <div class="bottom-warning" ng-if="::$ctrl.isTockenIssue">
-                        <div class="plate-warning">
-                            <div class="body-2 margin-05 warning-500" w-i18n="modal.token.warning.header"></div>
-                            <div class="footnote-1 basic-500" w-i18n="modal.token.warning.text"></div>
-                            <div class="body-2 margin-05 warning-500" w-i18n="modal.token.warning.textWarning"></div>
-                        </div>
-                    </div>
+
 
                     <h3 class="info margin-4 basic-700" ng-if="$ctrl.referrer">
                         <span w-i18n="confirmTransaction.redirect" params="{referrer: $ctrl.referrer}"></span>
                     </h3>
 
                     <div class="bottom-wrapper">
+                        <div ng-if="$ctrl.errorType"
+                             class="error-500 margin-2 margin-top-2"
+                             w-i18n-ns="app.dex"
+                             w-i18n="directives.createOrder.notifications.error.{{::$ctrl.errorType}}"
+                             params="$ctrl.errorParams">
+                        </div>
+
                         <div ng-if="$ctrl.errorMessage" class="error-500 margin-2 margin-top-2">
                             {{$ctrl.errorMessage}}
                         </div>
+
                         <div ng-if="$ctrl.errors" class="margin-top-2 error-500 footnote-1">
                             <div params="error.data"
                                  ng-repeat="error in $ctrl.errors"
@@ -145,7 +147,13 @@
                 <div ng-if="$ctrl.type !== 1002">
                     <h2 class="text-center basic-700" w-i18n="confirmTransaction.success"></h2>
                     <div class="basic-500 margin-4 body-2 text-center"
-                         w-i18n="confirmTransaction.description.{{::$ctrl.tx.typeName}}" params="$ctrl.tx"></div>
+                         ng-if="$ctrl.tx.typeName !== 'data-vote'"
+                         w-i18n="confirmTransaction.description.{{::$ctrl.tx.typeName}}" params="$ctrl.tx">
+                    </div>
+                    <div class="basic-500 margin-4 body-2 text-center"
+                         ng-if="$ctrl.tx.typeName === 'data-vote'"
+                         w-i18n="confirmTransaction.description.{{::$ctrl.tx.typeName}}" params="{moneyCurrency: $ctrl.votedAssetID}">
+                    </div>
                     <div>
                         <w-button class="submit half big" on-click="$ctrl.showTxInfo()">
                             <span w-i18n="confirmTransaction.details"></span>

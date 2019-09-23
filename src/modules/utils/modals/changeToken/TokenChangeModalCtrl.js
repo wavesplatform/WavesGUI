@@ -21,6 +21,16 @@
 
         class TokenChangeModalCtrl extends Base {
 
+            /**
+             * @type {args}
+             */
+            signPending = false;
+            /**
+             * @type {Array}
+             * @private
+             */
+            _listeners = [];
+
             constructor({ money, txType }) {
                 super($scope);
                 /**
@@ -46,7 +56,7 @@
                 /**
                  * @type {BigNumber}
                  */
-                this.maxCoinsCount = WavesApp.maxCoinsCount.minus(money.asset.quantity);
+                this.maxCoinsCount = WavesApp.maxCoinsCount.sub(money.asset.quantity);
                 /**
                  * @type {Money}
                  */
@@ -120,6 +130,17 @@
 
                 this.observe(['input', 'issue'], this._createTx);
                 this.observe(['_waves', 'fee'], this._changeHasFee);
+
+                const signPendingListener = $scope.$on('signPendingChange', (event, data) => {
+                    this.signPending = data;
+                });
+
+                this._listeners.push(signPendingListener);
+            }
+
+            $onDestroy() {
+                super.$onDestroy();
+                this._listeners.forEach(listener => listener());
             }
 
             getSignable() {

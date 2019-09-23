@@ -1,0 +1,37 @@
+{
+    "createAccount": "创建帐号",
+    "notHaveAccounts": "您没有已保存的帐户",
+    "nothingHere": "这里没有什么…",
+    "password": {
+        "error": "密码不正确"
+    },
+    "signIn": {
+        "btn": {
+            "cancel": "取消",
+            "restore": "重置所有"
+        },
+        "enterPass": "请输入您的密码以继续",
+        "passForgot": {
+            "attention": "注意！",
+            "description": "要恢复密码，您需要重置所有帐户，设置新密码，从种子短语或私钥导入每个帐户。",
+            "importantDesc": "如果您尚未保存种子短语或私钥，则您将无法恢复对帐户的访问权限。"
+        },
+        "password": {
+            "forgot": "忘记密码了？"
+        },
+        "signIn": "登录",
+        "welcomeBack": "欢迎回来"
+    },
+    "userList": {
+        "address": "地址 / 用户名",
+        "buttons": {
+            "login": "登入"
+        },
+        "notHaveAccount": "请登录以继续",
+        "password": "密码",
+        "placeholders": {
+            "password": "密码"
+        },
+        "title": "欢迎回来"
+    }
+}

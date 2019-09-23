@@ -86,7 +86,7 @@
                 i18next.on('languageChanged', apply);
 
                 controller.signals.destroy.once(() => {
-                    i18next.off('languageChanged');
+                    i18next.off('languageChanged', apply);
                 });
 
                 if (!controller[translatedField]) {

@@ -1,8 +1,11 @@
 @import (reference) 'config';
+@import (reference) '../../../app/less/typography';
 
 w-input-container {
   display: block;
   position: relative;
+
+
 
   input {
     transition: all 0.3s;
@@ -11,6 +14,7 @@ w-input-container {
   .like-input-error,
   w-input-error {
     position: absolute;
+    left: 0;
 
     &.multiline {
       .error {
@@ -33,6 +37,14 @@ w-input-container {
       }
     }
 
+    &.tiny {
+      .error {
+        margin-top: 5px;
+        padding: 7px 12px;
+        font-size: @font-size-caption-1;
+      }
+    }
+
     &::before {
       display: block;
       width: 10px;
@@ -43,6 +55,7 @@ w-input-container {
       top: 2px;
       left: 20px;
       position: absolute;
+      z-index: 10;
     }
 
     .error {

@@ -6,22 +6,13 @@
     const { path } = require('ramda');
     const { SIGN_TYPE } = require('@waves/signature-adapter');
     const analytics = require('@waves/event-sender');
-
-    // TODO: delete after contest
-    const CONTEST_ASSET_ID_MAP = WavesApp.network.code === 'W' ?
-        {
-            '7eMpAC1CVLeZq7Mi16AkvkY2BmLytyApLaUG4TxNFew5': '/img/assets/wsoc.svg',
-            '8ouNBeYFxJMaeyPBwF8jY86R457CyEjAY98HaNLFox7N': '/img/assets/wsoc.svg',
-            'BFWboD9xC64tSmirFbCNARR1NSu6Ep9rP4SRoLkQhBUF': '/img/assets/wsoc.svg'
-        } :
-        {};
-    // TODO: delete after contest
+    const { BigNumber } = require('@waves/bignumber');
 
     const TEMPLATE_PATH = 'modules/wallet/modules/portfolio/directives/portfolioRow/row.hbs';
     const SELECTORS = {
         AVAILABLE: 'js-balance-available',
         SPONSORED: 'js-sponsored-asset',
-        IN_ORDERS: 'js-balance-in-orders',
+        IN_RESERVED: 'js-balance-in-reserved',
         BASE_ASSET_BALANCE: 'js-balance-in-base-asset',
         EXCHANGE_RATE: 'js-exchange-rate',
         CHANGE_24: 'js-change-24',
@@ -49,6 +40,7 @@
         SUSPICIOUS_LABEL: 'js-suspicious-label'
     };
 
+    const i18next = require('i18next');
     const ds = require('data-service');
     /**
      * @param Base
@@ -164,14 +156,15 @@
                 }
 
                 this.chartOptions = {
-                    charts: [
-                        {
-                            axisX: 'timestamp',
-                            axisY: 'rate',
+                    axisX: 'timestamp',
+                    axisY: 'rate',
+                    view: {
+                        rate: {
                             lineColor: 'rgba(90, 129, 234)',
-                            fillColor: 'rgba(90, 129, 234, .3)'
+                            fillColor: 'rgba(90, 129, 234, .3)',
+                            lineWidth: 1
                         }
-                    ]
+                    }
                 };
             }
 
@@ -191,21 +184,25 @@
                     this.isSmart = balance.asset.hasScript;
                     const firstAssetChar = this.balance.asset.name.slice(0, 1);
                     const canPayFee = list.find(item => item.asset.id === this.balance.asset.id) && !this._isWaves;
-                    const { isVerified, isGateway,
-                        isTokenomica, logo, isGatewaySoon } = utils.getDataFromOracles(this.balance.asset.id);
+                    const {
+                        isVerified, isGateway,
+                        isTokenomica, logo, isGatewaySoon
+                    } = utils.getDataFromOracles(this.balance.asset.id);
+
+                    this.isVostok = this.balance.asset.id === WavesApp.defaultAssets.VST;
 
                     this.isVerifiedOrGateway = isVerified || isGateway;
 
                     const html = template({
                         canSetAssetScript: this._isMyAsset && this.isSmart,
                         isSmart: this.isSmart,
-                        isVerified: isVerified,
+                        isVerified: this.isVerified,
                         isGateway: isGateway,
                         isTokenomica: isTokenomica,
+                        isVostok: this.isVostok,
                         isGatewaySoon: isGatewaySoon,
                         assetIconPath: logo ||
-                            this.utils.getAssetLogo(this.balance.asset.id) ||
-                            CONTEST_ASSET_ID_MAP[this.balance.asset.id],
+                            this.utils.getAssetLogo(this.balance.asset.id),
                         firstAssetChar,
                         canBurn: !this._isWaves,
                         canReissue: this._isMyAsset && this.balance.asset.reissuable,
@@ -242,14 +239,13 @@
                      */
                     this._poll = createPoll(this, this._initSponsorShips, angular.noop, 5000);
                     this._onUpdateBalance();
-                    // this._initSponsorShips();
                     this._setHandlers();
                     this.changeLanguageHandler();
                 });
             }
 
             $onDestroy() {
-                i18next.off('languageChanged', this.changeLanguageHandler);
+                super.$onDestroy();
                 this.$node.off();
             }
 
@@ -282,15 +278,16 @@
              */
             _getCanShowDex() {
                 const statusPath = ['assets', this.balance.asset.id, 'status'];
-
-                return this.balance.isPinned ||
-                    this._isMyAsset ||
-                    this.balance.asset.isMyAsset ||
-                    this.balance.asset.id === WavesApp.defaultAssets.WAVES ||
-                    this.gatewayService.getPurchasableWithCards()[this.balance.asset.id] ||
-                    this.gatewayService.getCryptocurrencies()[this.balance.asset.id] ||
-                    this.gatewayService.getFiats()[this.balance.asset.id] ||
-                    path(statusPath, ds.dataManager.getOracleData('oracleWaves')) === STATUS_LIST.VERIFIED;
+                const isAssetLockedInDex = utils.isLockedInDex(this.balance.asset.id);
+                return !isAssetLockedInDex &&
+                    (this.balance.isPinned ||
+                        this._isMyAsset ||
+                        this.balance.asset.isMyAsset ||
+                        this.balance.asset.id === WavesApp.defaultAssets.WAVES ||
+                        this.gatewayService.getPurchasableWithCards()[this.balance.asset.id] ||
+                        this.gatewayService.getCryptocurrencies()[this.balance.asset.id] ||
+                        this.gatewayService.getFiats()[this.balance.asset.id] ||
+                        path(statusPath, ds.dataManager.getOracleData('oracleWaves')) === STATUS_LIST.VERIFIED);
 
             }
 
@@ -310,70 +307,67 @@
                     this.node.querySelector(`.${SELECTORS.SUSPICIOUS_LABEL}`).classList.remove('hidden');
 
                     return null;
-                } else {
-                    const suspiciousSelector = this.node.querySelector(`.${SELECTORS.SUSPICIOUS_LABEL}`);
-                    if (suspiciousSelector) {
-                        suspiciousSelector.classList.add('hidden');
-                    }
+                }
+
+                const suspiciousSelector = this.node.querySelector(`.${SELECTORS.SUSPICIOUS_LABEL}`);
+                if (suspiciousSelector) {
+                    suspiciousSelector.classList.add('hidden');
                 }
 
                 const baseAssetId = this.user.getSetting('baseAssetId');
+                const change24Node = this.node.querySelector(`.${SELECTORS.CHANGE_24}`);
 
                 if (baseAssetId === balance.asset.id) {
-                    const change24Node = this.node.querySelector(`.${SELECTORS.CHANGE_24}`);
                     change24Node.innerHTML = '—';
                     change24Node.classList.remove('minus');
                     change24Node.classList.remove('plus');
-                    this.node.querySelector(`.${SELECTORS.EXCHANGE_RATE}`).innerHTML = '—';
-                    this.node.querySelector(`.${SELECTORS.BASE_ASSET_BALANCE}`).innerHTML = '—';
-
-                    return null;
+                } else {
+                    const baseChange24AssetId = WavesApp.defaultAssets.WAVES === balance.asset.id ?
+                        baseAssetId :
+                        WavesApp.defaultAssets.WAVES;
+                    this.waves.utils.getChange(balance.asset.id, baseChange24AssetId)
+                        .then(change24 => {
+                            const change24BN = new BigNumber(change24);
+                            const isMoreZero = change24BN.gt(0);
+                            const isLessZero = change24BN.lt(0);
+                            change24Node.classList.toggle('minus', isLessZero);
+                            change24Node.classList.toggle('plus', isMoreZero);
+                            change24Node.innerHTML = `${change24.toFixed(2)}%`;
+                        }, () => {
+                            change24Node.innerHTML = '0.00%';
+                        });
                 }
 
-                if (balance.isOnScamList) {
-                    this.node.querySelector(`.${SELECTORS.CHANGE_24}`).innerHTML = '—';
-                    this.node.querySelector(`.${SELECTORS.BASE_ASSET_BALANCE}`).innerHTML = '—';
+                if (baseAssetId === balance.asset.id) {
                     this.node.querySelector(`.${SELECTORS.EXCHANGE_RATE}`).innerHTML = '—';
+                    this.node.querySelector(`.${SELECTORS.BASE_ASSET_BALANCE}`).innerHTML = '—';
+                } else {
+                    this.waves.utils.getRate(balance.asset.id, baseAssetId)
+                        .then(rate => {
+                            const baseAssetBalance = balance.available.getTokens().mul(rate).toFormat(2);
+                            this.node.querySelector(`.${SELECTORS.EXCHANGE_RATE}`).innerHTML = rate.toFixed(2);
+                            this.node.querySelector(`.${SELECTORS.BASE_ASSET_BALANCE}`).innerHTML = baseAssetBalance;
+                        });
 
-                    return null;
-                }
+                    const startDate = this.utils.moment().add().day(-7);
+                    this.waves.utils.getRateHistory(balance.asset.id, baseAssetId, startDate).then(values => {
+                        const chartData = {
+                            rate: values.map(item => ({ ...item, rate: Number(item.rate.toFixed()) }))
+                        };
+                        this.chart = new this.ChartFactory(
+                            this.$node.find(`.${SELECTORS.CHART_CONTAINER}`),
+                            this.chartOptions,
+                            chartData
+                        );
+                    }).catch(() => null);
 
-                this.waves.utils.getChange(balance.asset.id, baseAssetId)
-                    .then(change24 => {
-                        const change24Node = this.node.querySelector(`.${SELECTORS.CHANGE_24}`);
-                        const isMoreZero = typeof change24 === 'number' ? change24 > 0 : change24.gt(0);
-                        const isLessZero = typeof change24 === 'number' ? change24 < 0 : change24.lt(0);
-                        change24Node.classList.toggle('minus', isLessZero);
-                        change24Node.classList.toggle('plus', isMoreZero);
-                        change24Node.innerHTML = `${change24.toFixed(2)}%`;
-                    }, () => {
-                        const change24Node = this.node.querySelector(`.${SELECTORS.CHANGE_24}`);
-                        change24Node.innerHTML = '0.00%';
-                    });
-
-                this.waves.utils.getRate(balance.asset.id, baseAssetId)
-                    .then(rate => {
-                        const baseAssetBalance = balance.available.getTokens().times(rate).toFormat(2);
-
-                        this.node.querySelector(`.${SELECTORS.EXCHANGE_RATE}`).innerHTML = rate.toFixed(2);
-                        this.node.querySelector(`.${SELECTORS.BASE_ASSET_BALANCE}`).innerHTML = baseAssetBalance;
-                    });
-
-                const startDate = this.utils.moment().add().day(-7);
-                this.waves.utils.getRateHistory(balance.asset.id, baseAssetId, startDate).then((values) => {
-                    this.chart = new this.ChartFactory(
-                        this.$node.find(`.${SELECTORS.CHART_CONTAINER}`),
-                        this.chartOptions,
-                        values
-                    );
-                }).catch(() => null);
-
-                if (typeof balance.rating === 'number') {
-                    new RatingStarsFactory({
-                        $container: this.$node.find(`.${SELECTORS.STARS_CONTAINER}`),
-                        rating: balance.rating,
-                        size: 's'
-                    });
+                    if (typeof balance.rating === 'number') {
+                        new RatingStarsFactory({
+                            $container: this.$node.find(`.${SELECTORS.STARS_CONTAINER}`),
+                            rating: balance.rating,
+                            size: 's'
+                        });
+                    }
                 }
 
             }
@@ -384,11 +378,11 @@
             _initActions() {
                 let expanded = false;
 
-                const $wrapper = this.$node.find('.actions-wrapper');
+                const $wrapper = this.$node.find('.actions__container');
 
                 const toggleExpanded = () => {
                     expanded = !expanded;
-                    const conteiner = this.$node.find('.actions-container');
+                    const conteiner = this.$node.find('.actions__container');
                     const conteinerNode = conteiner.get(0);
                     conteiner.toggleClass('expanded', expanded);
 
@@ -410,7 +404,7 @@
                     }
                 };
 
-                this.$node.find('.click-area').on('click', () => {
+                this.$node.find('.actions__click').on('click', () => {
                     toggleExpanded();
                 });
 
@@ -425,7 +419,7 @@
             _setHandlers() {
                 this._initActions();
 
-                i18next.on('languageChanged', this.changeLanguageHandler);
+                this.listenEventEmitter(i18next, 'languageChanged', this.changeLanguageHandler);
 
                 this.$node.on('click', `.${SELECTORS.BUTTONS.SEND}`, () => {
                     analytics.send({
@@ -451,7 +445,7 @@
                         params: { Currency: this.balance.asset.id },
                         target: 'ui'
                     });
-                    this.modalManager.showReceiveModal(this.user, this.balance.asset);
+                    this.modalManager.showReceiveModal(this.balance.asset);
                 });
 
                 this.$node.on('click', `.${SELECTORS.BUTTONS.TOGGLE_SPAM}`, () => {
@@ -478,7 +472,7 @@
                         params: { Currency: this.balance.asset.id },
                         target: 'ui'
                     });
-                    this.modalManager.showReceiveModal(this.user, this.balance.asset);
+                    this.modalManager.showReceiveModal(this.balance.asset);
                 });
 
                 this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.BURN}`, () => {
@@ -585,7 +579,7 @@
                 const btnCreate = this.node.querySelector(`.${SELECTORS.ACTION_BUTTONS.SPONSORSHIP_CREATE}`);
                 const btnEdit = this.node.querySelector(`.${SELECTORS.ACTION_BUTTONS.SPONSORSHIP_EDIT}`);
                 const btnStop = this.node.querySelector(`.${SELECTORS.ACTION_BUTTONS.SPONSORSHIP_STOP}`);
-                const icon = this.node.querySelector(`.${SELECTORS.SPONSORED} .marker`);
+                const icon = this.node.querySelector(`.${SELECTORS.SPONSORED} .asset-logo__marker`);
 
                 btnCreate.classList.toggle('hidden', isSmart || !(canSponsored && !canStopSponsored));
                 btnEdit.classList.toggle('hidden', !(canSponsored && canStopSponsored));
@@ -594,7 +588,7 @@
                 Promise.resolve(list || this.waves.node.getFeeList({ type: SIGN_TYPE.TRANSFER }))
                     .then((list) => {
                         const canPayFee = list.find(item => item.asset.id === this.balance.asset.id) && !this._isWaves;
-                        icon.classList.toggle('sponsored-asset', !!canPayFee);
+                        icon.classList.toggle('asset-logo__marker_sponsored', !!canPayFee);
                     });
             }
 
@@ -603,18 +597,7 @@
              * @private
              */
             _getSrefParams(asset) {
-                // TODO: delete after contest
-                const contestAssetsId = Object.keys(CONTEST_ASSET_ID_MAP);
-                if (contestAssetsId.indexOf(asset.id) > -1) {
-                    const assetPairs = contestAssetsId.filter(id => id !== asset.id);
-                    this.utils.openDex(
-                        asset.id,
-                        assetPairs[Math.floor(assetPairs.length * Math.random())]
-                    );
-                } else {
-                    this.utils.openDex(asset.id);
-                }
-                // this.utils.openDex(asset.id);
+                this.utils.openDex(asset.id);
 
             }
 
@@ -625,10 +608,11 @@
                 const asset = this.balance.asset;
                 const available = this.balance.available.getTokens();
                 const inOrders = this.balance.inOrders.getTokens();
+                const leasedOut = this.balance.leasedOut.getTokens();
                 const availableHtml = this.utils.getNiceNumberTemplate(available, asset.precision, true);
-                const inOrdersHtml = this.utils.getNiceNumberTemplate(inOrders, asset.precision);
+                const inReservedHtml = this.utils.getNiceNumberTemplate(inOrders.add(leasedOut), asset.precision);
                 this.node.querySelector(`.${SELECTORS.AVAILABLE}`).innerHTML = availableHtml;
-                this.node.querySelector(`.${SELECTORS.IN_ORDERS}`).innerHTML = inOrdersHtml;
+                this.node.querySelector(`.${SELECTORS.IN_RESERVED}`).innerHTML = inReservedHtml;
             }
 
             /**
@@ -674,7 +658,8 @@
         'i18n',
         '$scope',
         'gatewayService',
-        'createPoll'];
+        'createPoll'
+    ];
 
     angular.module('app.wallet.portfolio').component('wPortfolioRow', {
         controller,

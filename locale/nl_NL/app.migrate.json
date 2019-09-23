@@ -1,0 +1,21 @@
+{
+    "migrate": {
+        "btn": {
+            "unlock": "Ontgrendelen"
+        },
+        "description": {
+            "enterPass": "Voer uw accountwachtwoord of in",
+            "goBack": "Ga terug",
+            "unlock": "Ontgrendel uw accounts. U kunt later naar deze stap terugkeren"
+        },
+        "headers": {
+            "unlock": "Ontgrendel uw accounts",
+            "unlockAccount": "Account ontgrendelen"
+        },
+        "subtitle": {
+            "account": "Account",
+            "pending": "In afwachting van ontgrendelen",
+            "unlocked": "Succesvol ontgrendeld"
+        }
+    }
+}

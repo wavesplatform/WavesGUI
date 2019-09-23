@@ -4,7 +4,7 @@
 
     const { fetch } = require('data-service');
     const { Signal, getPaths, get, clone } = require('ts-utils');
-    const { BigNumber } = require('@waves/data-entities');
+    const { BigNumber } = require('@waves/bignumber');
 
 
     const factory = function (Base, createPoll) {
@@ -57,7 +57,8 @@
              */
             _getConfig() {
                 return fetch(WavesApp.network.featuresConfigUrl)
-                    .then(JSON.parse);
+                    .then(JSON.parse)
+                    .catch(() => Promise.resolve(WavesApp.network.featuresConfig));
             }
 
             /**
@@ -67,7 +68,8 @@
             _getFeeConfig() {
                 return fetch(WavesApp.network.feeConfigUrl)
                     .then(WavesApp.parseJSON)
-                    .then(ConfigService._parseFeeConfig);
+                    .then(ConfigService._parseFeeConfig)
+                    .catch(() => Promise.resolve(WavesApp.network.feeConfig));
             }
 
             /**

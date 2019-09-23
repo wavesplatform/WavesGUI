@@ -10,9 +10,11 @@
      * @param {$injector} $injector
      * @param {State} state
      * @param {Storage} storage
+     * @param {User} user
      * @return {ModalManager}
      */
-    const factory = function ($mdDialog, utils, decorators, $templateRequest, $rootScope, $injector, state, storage) {
+    const factory = function ($mdDialog, utils, decorators, $templateRequest, $rootScope, $injector, state, storage,
+                              user) {
 
         const tsUtils = require('ts-utils');
         const ds = require('data-service');
@@ -50,17 +52,8 @@
                  */
                 this._counter = 0;
 
-                state.signals.changeRouterStateStart.on((event) => {
-                    if (event.defaultPrevented) {
-                        return null;
-                    }
-
-                    const counter = this._counter;
-
-                    for (let i = 0; i < counter; i++) {
-                        $mdDialog.cancel();
-                    }
-                });
+                state.signals.changeRouterStateStart.on(this.closeModals, this);
+                user.logoutSignal.on(this.closeModals, this);
             }
 
             showScriptModal() {
@@ -69,6 +62,31 @@
                     contentUrl: 'modules/utils/modals/script/script.html',
                     controller: 'ScriptModalCtrl',
                     title: 'modal.script.setScript'
+                });
+            }
+
+            showPasswordModal() {
+                return this._getModal({
+                    id: 'password-modal',
+                    contentUrl: 'modules/utils/modals/password/password.html',
+                    controller: 'PasswordModalCtrl',
+                    title: 'modal.settings.changePass'
+                });
+            }
+
+            showForgotPasswordModal() {
+                return this._getModal({
+                    id: 'forgot-password-modal',
+                    contentUrl: 'modules/utils/modals/forgot-password/forgot-password.html',
+                    controller: 'ForgotPasswordModalCtrl'
+                });
+            }
+
+            showDeleteAccountModal() {
+                return this._getModal({
+                    id: 'delete-account-modal',
+                    contentUrl: 'modules/utils/modals/delete-account/delete-account.html',
+                    controller: 'DeleteAccountModalCtrl'
                 });
             }
 
@@ -175,7 +193,7 @@
                     contentUrl: 'modules/utils/modals/assetInfo/assetInfo.html',
                     locals: asset,
                     controller: 'AssetInfoCtrl',
-                    mod: 'asset-info-modal'
+                    mod: 'm-dialog m-dialog_asset-info'
                 });
             }
 
@@ -190,30 +208,6 @@
                 });
             }
 
-            showTermsAccept() {
-                /**
-                 * @type {User}
-                 */
-                const user = $injector.get('user');
-
-                analytics.send({
-                    name: 'Create Done Show', params: { hasBackup: user.getSetting('hasBackup') }
-                });
-
-                return this._getModal({
-                    id: 'terms-accept',
-                    templateUrl: 'modules/utils/modals/termsAccept/terms-accept.html',
-                    controller: 'TermsAcceptCtrl',
-                    clickOutsideToClose: false,
-                    escapeToClose: false
-                })
-                    .then(() => {
-                        analytics.send({ name: 'Create Done Confirm and Begin Click' });
-                        storage.save('needReadNewTerms', false);
-                        storage.save('termsAccepted', true);
-                    });
-            }
-
             showAcceptNewTerms() {
                 return this._getModal({
                     id: 'accept-new-terms',
@@ -221,18 +215,21 @@
                     controller: 'AcceptNewTermsCtrl',
                     clickOutsideToClose: false,
                     escapeToClose: false
-                })
-                    .then(() => {
-                        storage.save('needReadNewTerms', false);
-                        storage.save('termsAccepted', true);
-                    });
+                }).then(() => {
+                    storage.save('needReadNewTerms', false);
+                });
             }
 
             showTutorialModals() {
-                return this._getModal({
-                    id: 'tutorial-modals',
-                    templateUrl: 'modules/utils/modals/tutorialModals/tutorialModals.html',
-                    controller: 'TutorialModalsCtrl'
+                return user.getMultiAccountUsers().then(users => {
+                    return this._getModal({
+                        id: 'tutorial-modals',
+                        templateUrl: 'modules/utils/modals/tutorialModals/tutorialModals.html',
+                        controller: 'TutorialModalsCtrl',
+                        locals: {
+                            hasAccounts: users.length > 0
+                        }
+                    });
                 });
             }
 
@@ -241,7 +238,7 @@
 
                 return api.getSeed()
                     .then((phrase) => {
-                        const seed = new ds.Seed(phrase);
+                        const seed = new ds.Seed(phrase, window.WavesApp.network.code);
                         return this._getModal({
                             id: 'seed-backup',
                             title: 'modal.backup.title.{{$ctrl.titleLiteral}}',
@@ -271,6 +268,22 @@
                     locals: {
                         assets
                     }
+                });
+            }
+
+            showAccountChangeName() {
+                return this._getModal({
+                    id: 'changeName',
+                    templateUrl: 'modules/utils/modals/changeName/changeName.html',
+                    controller: 'ChangeNameCtrl'
+                });
+            }
+
+            showAccountAddress() {
+                return this._getModal({
+                    id: 'addressInfo',
+                    templateUrl: 'modules/utils/modals/addressInfo/addressInfo.html',
+                    controller: 'AddressInfoCtrl'
                 });
             }
 
@@ -324,18 +337,15 @@
             }
 
             /**
-             * @param {User} user
              * @param {Asset} [asset]
              * @return {Promise}
              */
-            showReceiveModal(user, asset) {
-                return user.onLogin().then(() => {
-                    return this._getModal({
-                        id: 'receive-popup',
-                        locals: { address: user.address, asset },
-                        templateUrl: 'modules/utils/modals/receive/Receive.html',
-                        controller: 'ReceiveCtrl'
-                    });
+            showReceiveModal(asset) {
+                return this._getModal({
+                    id: 'receive-popup',
+                    locals: { asset },
+                    templateUrl: 'modules/utils/modals/receive/Receive.html',
+                    controller: 'ReceiveCtrl'
                 });
             }
 
@@ -345,16 +355,14 @@
              * @return {Promise}
              */
             showDepositAsset(user, asset) {
-                return user.onLogin().then(() => {
-                    return this._getModal({
-                        id: 'deposit-asset',
-                        locals: { address: user.address, asset },
-                        title: 'modal.deposit.title',
-                        titleParams: { assetName: asset.name },
-                        contentUrl: 'modules/utils/modals/depositAsset/deposit-asset.modal.html',
-                        controller: 'DepositAsset',
-                        mod: 'modal-deposit-asset'
-                    });
+                return this._getModal({
+                    id: 'deposit-asset',
+                    locals: { address: user.address, asset },
+                    title: 'modal.deposit.title',
+                    titleParams: { assetName: asset.name },
+                    contentUrl: 'modules/utils/modals/depositAsset/deposit-asset.modal.html',
+                    controller: 'DepositAsset',
+                    mod: 'modal-deposit-asset'
                 });
             }
 
@@ -364,16 +372,14 @@
              * @return {Promise}
              */
             showSepaAsset(user, asset) {
-                return user.onLogin().then(() => {
-                    return this._getModal({
-                        id: 'sepa-asset',
-                        locals: { address: user.address, asset },
-                        title: 'modal.sepa.title',
-                        titleParams: { assetName: asset.name },
-                        contentUrl: 'modules/utils/modals/sepaAsset/sepa-asset.modal.html',
-                        controller: 'SepaAsset',
-                        mod: 'modal-sepa-asset'
-                    });
+                return this._getModal({
+                    id: 'sepa-asset',
+                    locals: { address: user.address, asset },
+                    title: 'modal.sepa.title',
+                    titleParams: { assetName: asset.name },
+                    contentUrl: 'modules/utils/modals/sepaAsset/sepa-asset.modal.html',
+                    controller: 'SepaAsset',
+                    mod: 'modal-sepa-asset'
                 });
             }
 
@@ -509,6 +515,15 @@
                 });
             }
 
+            showLockPairWarning(amountTicker, priceTicker) {
+                return this._getModal({
+                    id: 'logout-modal',
+                    controller: 'LockPairWarningCtrl',
+                    contentUrl: 'modules/utils/modals/lockPairWarning/lockPairWarning.modal.html',
+                    locals: { amountTicker, priceTicker }
+                });
+            }
+
             /**
              * @param {IDialogOptions} options
              * @return {Promise}
@@ -544,6 +559,14 @@
              */
             showCustomModal(options) {
                 return this._getModal(tsUtils.merge({}, DEFAULT_OPTIONS, options));
+            }
+
+            closeModals() {
+                const counter = this._counter;
+
+                for (let i = 0; i < counter; i++) {
+                    $mdDialog.cancel();
+                }
             }
 
             /**
@@ -784,7 +807,8 @@
         '$rootScope',
         '$injector',
         'state',
-        'storage'];
+        'storage',
+        'user'];
 
     angular.module('app.utils')
         .factory('modalManager', factory);

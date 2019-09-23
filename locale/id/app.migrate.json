@@ -1,0 +1,21 @@
+{
+    "migrate": {
+        "btn": {
+            "unlock": "Membuka kunci"
+        },
+        "description": {
+            "enterPass": "Masukkan kata sandi akun Anda atau",
+            "goBack": "kembali",
+            "unlock": "Buka kunci akun Anda. Anda dapat kembali ke langkah ini nanti"
+        },
+        "headers": {
+            "unlock": "Buka kunci akun Anda",
+            "unlockAccount": "Membuka akun"
+        },
+        "subtitle": {
+            "account": "Akun",
+            "pending": "Buka kunci tertunda",
+            "unlocked": "Berhasil dibuka"
+        }
+    }
+}

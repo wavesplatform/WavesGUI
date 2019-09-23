@@ -1,17 +1,16 @@
-import * as gulp from 'gulp';
 import { getType } from 'mime';
 import { exec, spawn } from 'child_process';
-import { existsSync, readdirSync, readFileSync, statSync, unlink } from 'fs';
+import { readdirSync, readFileSync, statSync, unlink } from 'fs';
 import { join, relative, extname, dirname } from 'path';
-import { IPackageJSON, IMetaJSON, ITaskFunction, TBuild, TConnection, TPlatform } from './interface';
-import { readFile, readJSON, readJSONSync, createWriteStream, mkdirpSync, copy } from 'fs-extra';
+import { IPackageJSON, IMetaJSON, TBuild, TConnection, TPlatform, IConfItem } from './interface';
+import { readFile, readJSON, readJSONSync, createWriteStream, mkdirp } from 'fs-extra';
 import { compile } from 'handlebars';
 import { transform } from 'babel-core';
 import { render } from 'less';
 import { minify } from 'html-minifier';
-import { get, ServerResponse, IncomingMessage, request, ClientRequest } from 'https';
-import { MAINNET_DATA, TESTNET_DATA } from '@waves/assets-pairs-order';
+import { get, ServerResponse, IncomingMessage, request } from 'https';
 import { Http2ServerRequest, Http2ServerResponse } from 'http2';
+import { serialize } from 'cookie';
 
 const extract = require('extract-zip');
 
@@ -23,8 +22,6 @@ declare const parse;
 declare const Mousetrap;
 declare const MobileDetect;
 declare const transfer;
-
-export const task: ITaskFunction = gulp.task.bind(gulp) as any;
 
 export function getBranch(): Promise<string> {
     return new Promise((resolve, reject) => {
@@ -156,17 +153,20 @@ export function getAllLessFiles() {
 export function getScripts(param: IPrepareHTMLOptions, pack, meta) {
     const filter = moveTo(param.target);
     let { scripts } = param || Object.create(null);
+
     if (!scripts) {
         const sourceFiles = getFilesFrom(join(__dirname, '../src'), '.js', function (name, path) {
             return !name.includes('.spec') && !path.includes('/test/');
         });
+        const sentryScripts = meta.vendorsNotWrapped.map((i) => join(__dirname, '..', i));
         const cacheKiller = `?v${pack.version}`;
-        scripts = meta.vendors.map((i) => join(__dirname, '..', i)).concat(sourceFiles);
+        scripts = meta.vendors.map((i) => join(__dirname, '..', i)).concat(sentryScripts).concat(sourceFiles);
         meta.debugInjections.forEach((path) => {
             scripts.unshift(join(__dirname, '../', path));
         });
         scripts = scripts.map((path) => `${path}${cacheKiller}`);
     }
+
     return scripts.map(filter).map(path => `<script src="${path}"></script>`);
 }
 
@@ -192,36 +192,36 @@ export function getStyles(param: IPrepareHTMLOptions, meta, themes) {
 
     return styles.map(({ theme, name, hasGet }) => {
         if (hasGet) {
-            return `<link ${theme ? `theme="${theme}"` : ''} rel="stylesheet" href="${name}?theme=${theme || ''}">`;
+            return `<link ${theme ? `theme="${theme}"` : ''} rel="stylesheet" href="/${filter(name)}?theme=${theme || ''}">`;
         }
 
-        return `<link ${theme ? `theme="${theme}"` : ''} rel="stylesheet" href="${name}">`;
+        return `<link ${theme ? `theme="${theme}"` : ''} rel="stylesheet" href="/${filter(name)}">`;
     });
 }
 
 export async function getBuildParams(param: IPrepareHTMLOptions) {
-    const [pack, meta, themesConf] = await Promise.all([
+    const [pack, meta, themesConf, networkConfig] = await Promise.all([
         readJSON(join(__dirname, '../package.json')) as Promise<IPackageJSON>,
         readJSON(join(__dirname, './meta.json')) as Promise<IMetaJSON>,
-        readJSON(join(__dirname, '../src/themeConfig/theme.json'))
+        readJSON(join(__dirname, '../src/themeConfig/theme.json')),
+        (param.networkConfigFile
+            ? readJSON(param.networkConfigFile) as Promise<IConfItem>
+            : readJSON(join(__dirname, '..', 'configs', `${param.connection}.json`)) as Promise<IConfItem>
+        ).catch(e => {
+            console.error(e);
+            return Promise.reject(e);
+        })
     ]);
 
     const { themes } = themesConf;
     const { domain, analyticsIframe } = meta as any;
-    const { connection, type, buildType, outerScripts = [] } = param;
-    const config = meta.configurations[connection];
-
-    const networks = ['mainnet', 'testnet'].reduce((result, connection) => {
-        result[connection] = meta.configurations[connection];
-        return result;
-    }, Object.create(null));
-
+    const { type, buildType, outerScripts = [] } = param;
     const scripts = getScripts(param, pack, meta).concat(outerScripts);
     const styles = getStyles(param, meta, themes);
     const isWeb = type === 'web';
-    const isProduction = buildType && buildType === 'min';
-    const matcherPriorityList = connection === 'mainnet' ? MAINNET_DATA : TESTNET_DATA;
-    const { origin, oracles, feeConfigUrl, bankRecipient, tradingPairs } = config;
+    const isProduction = buildType && buildType === 'production';
+    const { origin, oracles, feeConfigUrl, bankRecipient, tradingPairs } = networkConfig;
+
     return {
         pack,
         isWeb,
@@ -231,13 +231,16 @@ export async function getBuildParams(param: IPrepareHTMLOptions) {
         oracles,
         domain,
         styles,
-        scripts,
+        scripts: param.scripts
+            ? scripts
+            : scripts.slice(0, meta.vendors.length)
+                .concat([`<script>angular.module('app.templates', []);</script>`])
+                .concat(scripts.slice(meta.vendors.length)),
         isProduction,
         feeConfigUrl,
         bankRecipient,
         build: { type },
-        matcherPriorityList,
-        network: networks[connection],
+        network: networkConfig,
         themesConf: themesConf,
         langList: meta.langList,
     };
@@ -247,30 +250,6 @@ export function prepareHTML(param: IPrepareHTMLOptions): Promise<string> {
     const pFile = readFile(join(__dirname, '../src/index.hbs'), 'utf8');
     const pConfig = getBuildParams(param);
     return Promise.all([pFile, pConfig]).then(([file, config]) => compile(file)(config));
-}
-
-export function download(url: string, filePath: string): Promise<void> {
-    return new Promise<void>((resolve) => {
-
-        const cachePath = join(process.cwd(), '.cache-download', filePath.replace(process.cwd(), ''));
-        if (existsSync(cachePath)) {
-            copy(cachePath, filePath).then(resolve);
-        } else {
-
-            try {
-                mkdirpSync(dirname(filePath));
-            } catch (e) {
-                console.log(e);
-            }
-
-            const file = createWriteStream(filePath);
-
-            get(url, (response) => {
-                response.pipe(file);
-                response.on('end', () => copy(filePath, cachePath).then(resolve));
-            });
-        }
-    });
 }
 
 export function parseArguments<T>(): T {
@@ -288,14 +267,48 @@ export function parseArguments<T>(): T {
     return result;
 }
 
-export async function getInitScript(connectionType: TConnection, buildType: TBuild, type: TPlatform, paramsIn?) {
+export function getJSON(url: string): Promise<unknown> {
+    return new Promise((resolve, reject) => {
+        get(url, (res: IncomingMessage) => {
+            let data = '';
+
+            res.on('data', chunk => {
+                data += chunk;
+            });
+
+            res.on('end', () => {
+                try {
+                    resolve(JSON.parse(data));
+                } catch (e) {
+                    reject(e);
+                }
+            });
+
+            res.on('error', error => {
+                reject(error);
+            });
+        });
+    });
+}
+
+export async function getInitScript(
+    connectionType: TConnection,
+    type: TPlatform,
+    paramsIn?: IPrepareHTMLOptions,
+    fallbackConfigs?: boolean
+) {
     const params = paramsIn || {
         target: join(__dirname, '..', 'src'),
         connection: connectionType,
-        type,
+        type
     };
 
     const config = await getBuildParams(params);
+
+    if (fallbackConfigs) {
+        config.network.featuresConfig = await getJSON(config.network.featuresConfigUrl);
+        config.network.feeConfig = await getJSON(config.network.feeConfigUrl);
+    }
 
     function initConfig(config) {
         var global = (window) as any;
@@ -351,9 +364,8 @@ export async function getInitScript(connectionType: TConnection, buildType: TBui
             };
 
             config._initApp = function () {
-                global.BigNumber = ds.wavesDataEntities.BigNumber;
-
                 // Signed 64-bit integer.
+                const { BigNumber } = require('@waves/bignumber');
                 WavesApp.maxCoinsCount = new BigNumber('9223372036854775807');
                 WavesApp.analyticsIframe = config.analyticsIframe;
                 WavesApp.device = new MobileDetect(navigator.userAgent);
@@ -390,7 +402,7 @@ export async function getInitScript(connectionType: TConnection, buildType: TBui
                     var analytics = require('@waves/event-sender');
 
                     analytics.addApi({
-                        apiToken: '7a280fdf83a5efc5b8dfd52fc89de3d7',
+                        apiToken: config._isProduction() ? '7a280fdf83a5efc5b8dfd52fc89de3d7' : '56bc30688ef3d7127feaa8f0dc2e5fc0',
                         libraryUrl: location.origin + '/amplitude.js',
                         initializeMethod: 'amplitudeInit',
                         sendMethod: 'amplitudePushEvent',
@@ -398,7 +410,7 @@ export async function getInitScript(connectionType: TConnection, buildType: TBui
                     });
 
                     analytics.addApi({
-                        apiToken: 'UA-75283398-20',
+                        apiToken: config._isProduction() ? 'UA-75283398-20' : 'UA-75283398-21',
                         libraryUrl: location.origin + '/googleAnalytics.js',
                         initializeMethod: 'gaInit',
                         sendMethod: 'gaPushEvent',
@@ -509,18 +521,50 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
             return null;
         }
 
-        if (buildType !== 'dev') {
+        if (buildType !== 'development') {
             if (isPage(req.url)) {
-                const path = join(__dirname, '..', 'dist', type, connectionType, buildType, 'index.html');
+                const path = join(__dirname, '..', 'dist', type, connectionType, 'index.html');
+
                 return readFile(path, 'utf8').then((file) => {
                     res.end(file);
+                }).catch(e => {
+                    if (e.code === 'ENOENT') {
+                        const cookie = serialize('session', '', {
+                            expires: new Date(),
+                            path: '/'
+                        });
+
+                        res.statusCode = 302;
+                        res.setHeader('Location', '/');
+                        res.setHeader('Set-Cookie', cookie);
+                    } else {
+                        res.statusCode = 500;
+                    }
+
+                    res.end();
                 });
             }
+
             return routeStatic(req, res, connectionType, buildType, type);
         } else {
-            if (buildType === 'dev' && req.url.includes('init.js')) {
-                return getInitScript(connectionType, buildType, type).then((script) => {
+            if (buildType === 'development' && req.url.includes('init.js')) {
+                return getInitScript(connectionType, type).then((script) => {
                     res.end(script);
+                }).catch(e => {
+                    if (e.code === 'ENOENT') {
+                        const cookie = serialize('session', '', {
+                            expires: new Date(),
+                            path: '/'
+                        });
+
+                        res.statusCode = 302;
+                        res.setHeader('Location', '/');
+                        res.setHeader('Set-Cookie', cookie);
+                    } else {
+                        res.statusCode = 500;
+                    }
+
+                    res.end();
                 });
             }
         }
@@ -531,39 +575,21 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
                 .replace('.json', '')
                 .split('/');
 
-            const localePath = join(process.cwd(), '.cache-download', 'locale');
-            const cachePath = join(localePath, lang, `${ns}.json`);
+            const localePath = join(process.cwd(), 'locale', lang, `${ns}.json`);
 
-            const isModified = path => {
-                const { mtime } = statSync(path);
-                const dateNow = new Date();
-                return (dateNow.getTime() - mtime.getTime()) > 60 * 10000;
-            };
-
-            if (existsSync(cachePath)) {
-                if (isModified(cachePath) && lang === 'ru' && ns === 'app') {
-                    loadLocales(localePath)
-                        .then(() => {
-                            const data = readFileSync(cachePath);
-                            res.end(data);
-                        })
-                        .catch(error => {
-                            res.statusCode = 404;
-                            res.end(error);
-                        });
-                } else {
-                    const data = readFileSync(cachePath);
-                    res.end(data);
+            readFile(localePath, (err, data) => {
+                if (err) {
+                    res.statusCode = 404;
+                    res.end('Not found!');
                 }
 
-            } else {
-                res.statusCode = 404;
-                res.end('Not found!');
-            }
+                res.end(data);
+            });
+
             return null;
         }
 
-        if (url.indexOf('export') !== -1) {
+        if (url.indexOf('/export.html') !== -1) {
             prepareExport().then((file) => {
                 res.end(file);
             });
@@ -585,9 +611,24 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
             return prepareHTML({
                 target: join(__dirname, '..', 'src'),
                 connection: connectionType,
-                type,
+                type
             }).then((file) => {
                 res.end(file);
+            }).catch(e => {
+                if (e.code === 'ENOENT') {
+                    const cookie = serialize('session', '', {
+                        expires: new Date(),
+                        path: '/'
+                    });
+
+                    res.statusCode = 302;
+                    res.setHeader('Location', '/');
+                    res.setHeader('Set-Cookie', cookie);
+                } else {
+                    res.statusCode = 500;
+                }
+
+                res.end();
             });
         } else if (isTemplate(url)) {
             readFile(join(__dirname, '../src', url), 'utf8')
@@ -724,13 +765,12 @@ export function isPage(url: string): boolean {
         'css',
         'fonts',
         'js',
-        'bower_components',
         'node_modules',
         'ts-scripts',
         'modules',
         'themeConfig',
         'locales',
-        'loginDaemon',
+        'helpers',
         'transfer.js',
         'tradingview-style',
         'data-service-dist',
@@ -769,24 +809,23 @@ export function stat(req: Http2ServerRequest, res: Http2ServerResponse, roots: A
 
 function routeStatic(req, res, connectionType: TConnection, buildType: TBuild, platform: TPlatform) {
     const ROOTS = [join(__dirname, '..')];
-    if (buildType !== 'dev') {
-        ROOTS.push(join(__dirname, '..', 'dist', platform, connectionType, buildType));
+    if (buildType !== 'development') {
+        ROOTS.push(join(__dirname, '..', 'dist', platform, connectionType));
     } else {
         ROOTS.push(join(__dirname, '..', 'src'));
     }
     stat(req, res, ROOTS);
 }
 
-export function loadLocales(path: string, options?: object) {
+export function loadLocales(path: string, options?: object): Promise<void> {
     const postOptions = {
         method: 'POST',
         hostname: 'api.lokalise.co',
         path: '/api2/projects/389876335c7d2c119edf16.76978095/files/download',
-        headers:
-            {
-                'x-api-token': '3ffba358636086e35054412e37db76d933cfe3b5',
-                'content-type': 'application/json'
-            }
+        headers: {
+            'x-api-token': '3ffba358636086e35054412e37db76d933cfe3b5',
+            'content-type': 'application/json'
+        }
     };
 
     const dataOptions = {
@@ -799,44 +838,44 @@ export function loadLocales(path: string, options?: object) {
         ...options
     };
 
-    const zipName = `locale.zip`;
-    const filePath = join(path, zipName);
+    const cachePath = join(process.cwd(), '.cache-download');
+    const zipPath = join(cachePath, 'locale.zip');
 
-    const loadAndExtract = () => {
-        return new Promise((resolve, reject) => {
-            const req = request(postOptions, response => {
-                response.on('data', (data: string) => {
-                    const file = createWriteStream(filePath);
-                    const url = JSON.parse(data).bundle_url;
+    return mkdirp(dirname(cachePath))
+        .then(() => {
+            return new Promise((resolve, reject) => {
+                const req = request(postOptions, response => {
+                    response.on('data', (data: string) => {
+                        const file = createWriteStream(zipPath);
+                        const url = JSON.parse(data).bundle_url;
 
-                    get(url, (response) => {
-                        response.pipe(file);
-                        response.on('end', () => {
-                            extract(filePath, { dir: `${path}/` }, error => {
-                                if (error) {
-                                    reject(error);
-                                }
-                                resolve();
+                        get(url, (res) => {
+                            res.pipe(file);
+                            res.on('end', () => {
+                                console.log(zipPath)
+                                extract(zipPath, { dir: `${path}/` }, error => {
+                                    if (error) {
+                                        reject(error);
+                                    }
+                                    resolve();
+                                });
+                            });
+                            res.on('error', (err) => {
+                                reject(err);
                             });
                         });
                     });
-
                 });
+
+                req.on('error', error => {
+                    reject(error);
+                });
+
+                req.end(JSON.stringify(dataOptions));
             });
-
-            req.on('error', error => {
-                reject(error);
-            });
-
-            req.write(JSON.stringify(dataOptions));
-
-            req.end();
-        });
-    };
-
-    return loadAndExtract()
+        })
         .then(() => {
-            unlink(filePath, error => {
+            unlink(zipPath, error => {
                 if (error) {
                     console.log('ERROR', error);
                 }
@@ -870,6 +909,7 @@ export interface IPrepareHTMLOptions {
     type: TPlatform;
     themes?: Array<string>;
     outerScripts?: Array<string>;
+    networkConfigFile?: string;
 }
 
 export interface IFilter {

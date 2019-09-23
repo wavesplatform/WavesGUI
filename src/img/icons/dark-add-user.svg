@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+    <defs>
+        <path id="a" d="M15.833 14.069V7.655C15.833 3.427 12.383 0 8.125 0h-.417C3.451 0 0 3.427 0 7.655v6.414"/>
+        <path id="c" d="M13.75 5.793c0 3.2-2.612 5.793-5.833 5.793-3.222 0-5.834-2.593-5.834-5.793S4.695 0 7.917 0c3.221 0 5.833 2.594 5.833 5.793z"/>
+    </defs>
+    <g fill="none" fill-rule="evenodd" transform="translate(2)">
+        <g transform="translate(0 9.931)">
+            <mask id="b" fill="#fff">
+                <use xlink:href="#a"/>
+            </mask>
+            <use fill="#777" xlink:href="#a"/>
+            <path fill="#FFF" d="M-14.583-18.207h22.5V20.69h-22.5z" mask="url(#b)" opacity=".2"/>
+        </g>
+        <mask id="d" fill="#fff">
+            <use xlink:href="#c"/>
+        </mask>
+        <use fill="#777" xlink:href="#c"/>
+        <path fill="#FFF" d="M-14.583-8.276h22.5v38.897h-22.5z" mask="url(#d)" opacity=".3"/>
+        <ellipse cx="15.417" cy="17.793" fill="#5A81EA" fill-rule="nonzero" rx="4.583" ry="4.552"/>
+        <path fill="#FFF" fill-rule="nonzero" d="M17.917 16.966v1.655H16.25v1.655h-1.667V18.62h-1.666v-1.655h1.666V15.31h1.667v1.656z"/>
+    </g>
+</svg>

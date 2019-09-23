@@ -18,9 +18,18 @@
              * @type {string}
              */
             assetName;
+            /**
+             * @type {boolean}
+             */
+            ratingError = false;
+            /**
+             * @type {string}
+             */
+            tokenratingLink;
 
             $postLink() {
                 this._getAssetInfo();
+                this._setLink();
                 this.observe('assetId', this._getAssetInfo);
                 createPoll(this, this._getTokenRating, this._setTokenRating, 60 * 1000);
             }
@@ -34,23 +43,47 @@
                     this.ticker = asset.ticker;
                     const { hasLabel, isGateway } = utils.getDataFromOracles(asset.id);
                     this.hasLabel = hasLabel;
-                    this.isGateway = isGateway && this.assetId !== WavesApp.defaultAssets.VST;
+                    this.isGatewayOrWaves = this.assetId === WavesApp.defaultAssets.WAVES ||
+                        isGateway &&
+                        this.assetId !== WavesApp.defaultAssets.VST &&
+                        this.assetId !== WavesApp.defaultAssets.ERGO &&
+                        this.assetId !== WavesApp.defaultAssets.BNT;
                     $scope.$apply();
                 });
 
                 this.state = { assetId: this.assetId };
             }
 
+            /**
+             * @private
+             */
             _getTokenRating() {
-                return ds.api.rating.getAssetsRating(this.assetId);
+                return ds.api.rating.getAssetsRating(this.assetId)
+                    .then(assetList => assetList)
+                    .catch(() => null);
             }
 
-            _setTokenRating([asset]) {
-                if (!asset) {
+            /**
+             * @private
+             */
+            _setTokenRating(assetList) {
+                if (!assetList) {
+                    this.ratingError = true;
                     return null;
                 }
-                this.rating = asset.rating;
+                if (!assetList[0]) {
+                    return null;
+                }
+
+                this.rating = assetList[0].rating;
                 $scope.$apply();
+            }
+
+            /**
+             * @private
+             */
+            _setLink() {
+                this.tokenratingLink = `${WavesApp.network.tokenrating}/tokens/${this.assetId}`;
             }
 
         }

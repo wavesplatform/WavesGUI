@@ -1,10 +1,9 @@
 /* eslint-disable no-console */
-/* global openInBrowser, BigNumber */
+/* global openInBrowser */
 (function () {
     'use strict';
 
     const locationHref = location.href;
-    const tsUtils = require('ts-utils');
     const i18next = require('i18next');
     const ds = require('data-service');
     const { propEq, where, gte, lte, equals, __ } = require('ramda');
@@ -58,19 +57,20 @@
      * @param {User} user
      * @param {app.utils} utils
      * @param $state
+     * @param $transitions
      * @param {State} state
      * @param {ModalManager} modalManager
      * @param {Storage} storage
      * @param {INotification} notification
      * @param {app.utils.decorators} decorators
-     * @param {Waves} waves
+     * @param {MultiAccount} multiAccount
      * @param {ModalRouter} ModalRouter
      * @param {ConfigService} configService
      * @param {INotification} userNotification
      * @return {AppRun}
      */
-    const run = function ($rootScope, utils, user, $state, state, modalManager, storage,
-                          notification, decorators, waves, ModalRouter, configService, userNotification) {
+    const run = function ($rootScope, utils, user, $state, $transitions, state, modalManager, storage,
+                          notification, decorators, multiAccount, ModalRouter, configService, userNotification) {
 
         const phone = WavesApp.device.phone();
         const tablet = WavesApp.device.tablet();
@@ -79,6 +79,7 @@
         const isPhone = !!phone;
         const isTablet = !!tablet;
         const isDesktop = !(isPhone || isTablet);
+        const isWeb = WavesApp.isWeb();
 
         $rootScope.isDesktop = isDesktop;
         $rootScope.isNotDesktop = !isDesktop;
@@ -90,6 +91,8 @@
             document.body.classList.add('phone');
         } else if (isTablet) {
             document.body.classList.add('tablet');
+        } else if (isWeb) {
+            document.body.classList.add('web');
         } else {
             document.body.classList.add('desktop');
         }
@@ -128,24 +131,18 @@
                 this._initializeLogin();
                 this._initializeOutLinks();
 
-                Promise.all([
-                    user.onLogin(),
-                    i18nextReady
-                ]).then(() => {
-                    this._updateUserNotifications();
-                    setInterval(() => this._updateUserNotifications(), 10000);
-                });
-
                 if (WavesApp.isDesktop()) {
                     window.listenMainProcessEvent((type, url) => {
                         const parts = utils.parseElectronUrl(url);
                         const path = parts.path.replace(/\/$/, '') || parts.path;
+
                         if (path) {
                             const noLogin = path === '/' || WavesApp.stateTree.where({ noLogin: true })
                                 .some(item => {
                                     const url = item.get('url') || item.id;
                                     return path === url;
                                 });
+
                             if (noLogin) {
                                 location.hash = `#!${path}${parts.search}`;
                             } else {
@@ -163,7 +160,7 @@
             }
 
             _initTryDesktop() {
-                if (!isDesktop || WavesApp.isDesktop()) {
+                if (multiAccount.isSignedIn || !isDesktop || WavesApp.isDesktop()) {
                     return Promise.resolve(true);
                 }
 
@@ -196,7 +193,9 @@
              * @private
              */
             _setHandlers() {
-                $rootScope.$on('$stateChangeSuccess', this._onChangeStateSuccess.bind(this));
+                $transitions.onSuccess({}, transition => {
+                    this._onChangeStateSuccess(transition);
+                });
                 configService.change.on(this._updateServiceAvailable, this);
             }
 
@@ -221,7 +220,7 @@
                     $state.go('unavailable');
                 } else {
                     // TODO Fix State Tree
-                    user.logout();
+                    user.logout('welcome');
                 }
             }
 
@@ -313,15 +312,7 @@
              * @private
              */
             _initializeLogin() {
-
-                // let needShowTutorial = false;
-
                 this._listenChangeLanguage();
-
-                const START_STATES = WavesApp.stateTree.where({ noLogin: true })
-                    .map((item) => WavesApp.stateTree.getPath(item.id).join('.'));
-
-                let waiting = false;
 
                 analytics.init(WavesApp.analyticsIframe, {
                     platform: WavesApp.type,
@@ -331,35 +322,56 @@
 
                 analytics.activate();
 
-                const stop = $rootScope.$on('$stateChangeStart', (event, toState, params, fromState) => {
+                this._onInitialTransitions();
 
+                user.logoutSignal.on(() => {
+                    notification.destroyAll();
+                    userNotification.removeAll();
+                    clearInterval(this._notifyTimer);
+                });
+
+                user.loginSignal.on(() => {
+                    userNotification.destroyAll();
+                    i18nextReady.then(() => {
+                        this._updateUserNotifications();
+                        clearInterval(this._notifyTimer);
+                        this._notifyTimer = setInterval(() => this._updateUserNotifications(), 10000);
+                    });
+                });
+            }
+
+            _onInitialTransitions() {
+                let waiting = false;
+                const START_STATES = WavesApp.stateTree.where({ noLogin: true })
+                    .map((item) => WavesApp.stateTree.getPath(item.id).join('.'));
+
+                const offInitialTransitions = $transitions.onStart({}, transition => {
+                    const toState = transition.to();
+                    const fromState = transition.from();
+                    const params = transition.params();
                     let tryDesktop;
 
                     if (START_STATES.indexOf(toState.name) === -1) {
-                        event.preventDefault();
                         if (fromState.name === 'unavailable') {
-                            $state.go(START_STATES[0]);
+                            return $state.target(START_STATES[0]);
+                        }
+
+                        if (!multiAccount.isSignedIn) {
+                            return $state.target(START_STATES[0]);
                         }
                     }
 
                     if (toState.name === 'unavailable' && !this._unavailable) {
-                        event.preventDefault();
-                        $state.go(START_STATES[0]);
+                        return $state.target(START_STATES[0]);
                     }
 
                     if (toState.name === 'desktop' && !this._canOpenDesktopPage) {
-                        event.preventDefault();
-                        $state.go(START_STATES[0]);
+                        return $state.target(START_STATES[0]);
                     }
 
                     if (waiting) {
                         return null;
                     }
-
-                    // if (needShowTutorial && toState.name !== 'dex-demo') {
-                    //     modalManager.showTutorialModals();
-                    //     needShowTutorial = false;
-                    // }
 
                     if (toState.name === 'main.dex-demo') {
                         tryDesktop = Promise.resolve();
@@ -367,28 +379,16 @@
                         tryDesktop = this._initTryDesktop();
                     }
 
-                    // const promise = Promise.all([
-                    //     storage.onReady(),
-                    //     tryDesktop
-                    // ]).then(([oldVersion, canOpenTutorial]) => {
-                    //     needShowTutorial = canOpenTutorial && !oldVersion;
-                    // });
-                    //
-                    // // promise.then(() => {
-                    // //     if (needShowTutorial && toState.name !== 'dex-demo') {
-                    // //         modalManager.showTutorialModals();
-                    // //         needShowTutorial = false;
-                    // //     }
-                    // // });
-
                     waiting = true;
 
                     tryDesktop
-                        .then((canChangeState) => this._login(toState, canChangeState))
+                        .then(canChangeState => this._login(toState, canChangeState))
                         .then(() => {
-                            stop();
+                            waiting = false;
+                            offInitialTransitions();
 
                             this._stopListenChangeLanguage();
+
                             if (START_STATES.indexOf(toState.name) === -1) {
                                 $state.go(toState.name, params);
                             } else {
@@ -405,16 +405,26 @@
                                     this._modalRouter.initialize();
                                 });
 
-                            const off = $rootScope.$on('$stateChangeStart', (event, current) => {
-                                if (START_STATES.indexOf(current.name) !== -1) {
-                                    event.preventDefault();
-                                } else {
-                                    state.signals.changeRouterStateStart.dispatch(event);
-                                }
-                            });
+                            const offInnerTransitions = this._onInnerTransitions(START_STATES);
 
-                            user.onLogout.once(off);
+                            user.logoutSignal.once(() => {
+                                offInnerTransitions();
+                                this._onInitialTransitions();
+                            });
                         });
+                });
+            }
+
+            _onInnerTransitions(START_STATES) {
+                return $transitions.onStart({}, transition => {
+                    const toState = transition.to();
+                    const { custom } = transition.options();
+
+                    if (START_STATES.indexOf(toState.name) !== -1 && !custom.logout) {
+                        return false;
+                    } else {
+                        state.signals.changeRouterStateStart.dispatch(transition);
+                    }
                 });
             }
 
@@ -423,17 +433,11 @@
              * @private
              */
             _initializeTermsAccepted() {
-                return Promise.all([
-                    storage.load('needReadNewTerms'),
-                    storage.load('termsAccepted')
-                ]).then(([needReadNewTerms, termsAccepted]) => {
-
+                return storage.load('needReadNewTerms').then(needReadNewTerms => {
                     if (needReadNewTerms) {
                         return modalManager.showAcceptNewTerms(user);
-
-                    } else if (!termsAccepted) {
-                        return modalManager.showTermsAccept(user);
                     }
+
                     return Promise.resolve();
                 });
             }
@@ -445,10 +449,9 @@
              */
             @decorators.scope({ closeByModal: false })
             _initializeBackupWarning(scope) {
-                if (!user.getSetting('hasBackup')) {
+                const id = '_hasBackupId';
 
-                    const id = tsUtils.uniqueId('n');
-
+                if (!user.getSetting('hasBackup') && !notification.has(id)) {
                     const changeModalsHandler = (modal) => {
 
                         scope.closeByModal = true;
@@ -485,13 +488,16 @@
                         },
                         onClose: () => {
                             analytics.send({ name: 'Create Save Phrase No Click', target: 'ui' });
+
+                            notification.remove(id);
+
                             if (scope.closeByModal || user.getSetting('hasBackup')) {
                                 return null;
                             }
 
                             modalManager.openModal.off(changeModalsHandler);
 
-                            const stop = $rootScope.$on('$stateChangeSuccess', () => {
+                            const stop = $transitions.onSuccess({}, () => {
                                 stop();
                                 this._initializeBackupWarning();
                             });
@@ -510,10 +516,9 @@
                 // const sessions = sessionBridge.getSessionsData();
 
                 const states = WavesApp.stateTree.where({ noLogin: true })
-                    .map((item) => {
-                        return WavesApp.stateTree.getPath(item.id)
-                            .join('.');
-                    });
+                    .map((item) => WavesApp.stateTree.getPath(item.id).join('.'))
+                    .concat(multiAccount.isSignedIn ? ['create', 'migrate'] : []);
+
                 if (canChangeState && states.indexOf(currentState.name) === -1) {
                     // if (sessions.length) {
                     //     $state.go('sessions');
@@ -527,81 +532,85 @@
 
             /**
              * @param {Event} event
-             * @param {object} toState
-             * @param some
-             * @param fromState
+             * @param {object} transition
              * @param {string} toState.name
              * @private
              */
-            _onChangeStateSuccess(event, toState, some, fromState) {
+            _onChangeStateSuccess(transition) {
+                const toState = transition.to();
+                const fromState = transition.from();
                 const from = fromState.name || document.referrer;
 
-                switch (toState.name) {
-                    case 'create':
-                        analytics.send({
-                            name: 'Create New Account Show',
-                            params: { from }
-                        });
-                        break;
-                    case 'import':
-                        analytics.send({
-                            name: 'Import Accounts Show',
-                            params: { from },
-                            target: 'ui'
-                        });
-                        break;
-                    case 'restore':
-                        analytics.send({
-                            name: 'Import Backup Show',
-                            params: { from },
-                            target: 'ui'
-                        });
-                        break;
-                    case 'main.wallet.leasing':
-                        analytics.send({
-                            name: 'Leasing Show',
-                            params: { from },
-                            target: 'ui'
-                        });
-                        break;
-                    case 'main.tokens':
-                        analytics.send({
-                            name: 'Token Generation Show',
-                            target: 'ui'
-                        });
-                        break;
-                    case 'main.wallet.assets':
-                        analytics.send({
-                            name: 'Wallet Assets Show',
-                            target: 'ui'
-                        });
-                        break;
-                    case 'main.wallet.portfolio':
-                        analytics.send({
-                            name: 'Wallet Portfolio Show',
-                            target: 'ui'
-                        });
-                        break;
-                    case 'main.dex':
-                        analytics.send({
-                            name: 'DEX Show',
-                            target: 'ui'
-                        });
-                        break;
-                    default:
-                        break;
-                }
-                this.activeClasses.forEach((className) => {
-                    document.body.classList.remove(className);
-                });
-                this.activeClasses = [];
-                toState.name.split('.')
-                    .filter(Boolean)
-                    .forEach((className) => {
-                        const name = className.replace(/_/g, '-');
-                        document.body.classList.add(name);
-                        this.activeClasses.push(name);
+                if (toState.name !== fromState.name) {
+                    switch (toState.name) {
+                        case 'create':
+                            analytics.send({
+                                name: 'Create New Account Show',
+                                params: { from }
+                            });
+                            break;
+                        case 'import':
+                            analytics.send({
+                                name: 'Import Accounts Show',
+                                params: { from },
+                                target: 'ui'
+                            });
+                            break;
+                        case 'restore':
+                            analytics.send({
+                                name: 'Import Backup Show',
+                                params: { from },
+                                target: 'ui'
+                            });
+                            break;
+                        case 'main.wallet.leasing':
+                            analytics.send({
+                                name: 'Leasing Show',
+                                params: { from },
+                                target: 'ui'
+                            });
+                            break;
+                        case 'main.tokens':
+                            analytics.send({
+                                name: 'Token Generation Show',
+                                target: 'ui'
+                            });
+                            break;
+                        case 'main.wallet.assets':
+                            analytics.send({
+                                name: 'Wallet Assets Show',
+                                target: 'ui'
+                            });
+                            break;
+                        case 'main.wallet.portfolio':
+                            analytics.send({
+                                name: 'Wallet Portfolio Show',
+                                target: 'ui'
+                            });
+                            break;
+                        case 'main.dex':
+                            analytics.send({
+                                name: 'DEX Show',
+                                target: 'ui'
+                            });
+                            break;
+                        default:
+                            break;
+                    }
+
+                    this.activeClasses.forEach((className) => {
+                        document.body.classList.remove(className);
                     });
+                    this.activeClasses = [];
+                    toState.name.split('.')
+                        .filter(Boolean)
+                        .forEach((className) => {
+                            const name = className.replace(/_/g, '-');
+                            document.body.classList.add(name);
+                            this.activeClasses.push(name);
+                        });
+                }
+
                 user.applyState(toState);
                 state.signals.changeRouterStateSuccess.dispatch(toState);
             }
@@ -687,12 +696,13 @@
         'utils',
         'user',
         '$state',
+        '$transitions',
         'state',
         'modalManager',
         'storage',
         'notification',
         'decorators',
-        'waves',
+        'multiAccount',
         'ModalRouter',
         'configService',
         'userNotification',

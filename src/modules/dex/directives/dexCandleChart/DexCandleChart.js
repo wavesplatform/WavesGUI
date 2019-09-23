@@ -9,7 +9,8 @@
         'display_market_status',
         'control_bar',
         'timeframes_toolbar',
-        'volume_force_overlay'
+        'volume_force_overlay',
+        'header_compare'
     ];
 
     // TODO : added in version 1.12

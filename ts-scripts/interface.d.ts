@@ -2,6 +2,7 @@ import { Stream } from 'stream';
 
 export interface IMetaJSON {
     vendors: Array<string>;
+    vendorsNotWrapped: Array<string>;
     exportPageVendors: Array<string>;
     stylesheets: Array<string>;
     domain: string;
@@ -10,10 +11,6 @@ export interface IMetaJSON {
     electronScripts: Array<string>;
     analyticsIframe: string;
     langList: object,
-    configurations: {
-        testnet: IConfItem;
-        mainnet: IConfItem;
-    };
     tradingView: {
         domain: string;
         files: Array<string>;
@@ -63,25 +60,16 @@ export interface IConfItem {
     support: string;
     nodeList: string;
     scamListUrl: string;
+    tokensNameListUrl: string;
     featuresConfigUrl: string;
+    featuresConfig?: unknown;
     origin: string;
     assets: IHash<string>;
     feeConfigUrl: string;
+    feeConfig?: unknown;
     analyticsIframe: string;
 }
 
 export type TConnection = 'mainnet' | 'testnet';
-export type TBuild = 'dev' | 'normal' | 'min';
+export type TBuild = 'development' | 'production';
 export type TPlatform = 'web' | 'desktop';
-
-export interface ITaskFunction {
-    (name: string, deps: Array<string>): void;
-
-    (name: string, deps: Array<string>, cb: ITaskCallback): void;
-
-    (name: string, cb: ITaskCallback): void;
-}
-
-export interface ITaskCallback {
-    (done?: (error?: any) => void): Stream | void;
-}

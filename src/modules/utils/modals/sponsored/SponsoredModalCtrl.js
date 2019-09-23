@@ -51,14 +51,23 @@
              */
             wavesBalance = null;
             /**
+             * @type {args}
+             */
+            signPending = false;
+            /**
+             * @type {Asset}
+             */
+            asset = null;
+            /**
              * @type {ISponsorshipTx}
              * @private
              */
             _tx = null;
             /**
-             * @type {Asset}
+             * @type {Array}
+             * @private
              */
-            asset = null;
+            _listeners = [];
 
 
             constructor({ asset, isCreateSponsored }) {
@@ -85,6 +94,16 @@
                 this.observe(['fee', 'minSponsoredAssetFee'], this._createTx);
 
                 this._updateFee();
+                const signPendingListener = $scope.$on('signPendingChange', (event, data) => {
+                    this.signPending = data;
+                });
+
+                this._listeners.push(signPendingListener);
+            }
+
+            $onDestroy() {
+                super.$onDestroy();
+                this._listeners.forEach(listener => listener());
             }
 
             getSignable() {

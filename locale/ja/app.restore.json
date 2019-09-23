@@ -1,0 +1,68 @@
+{
+    "encodedSeedForm": {
+        "placeholder": "Enter your encoded seed"
+    },
+    "encodedSeedTab": "Encoded seed",
+    "keyForm": {
+        "placeholder": "秘密鍵をこちらに入力してください"
+    },
+    "keyTab": "秘密鍵",
+    "password": {
+        "error": "パスワードが間違っています！"
+    },
+    "passwordForm": {
+        "back": "戻る",
+        "description": "アカウントを新しいパスワードで保護。または",
+        "importAccounts": "アカウントをインポート",
+        "login": "次へ",
+        "title": "あなたのアカウントを保護する"
+    },
+    "restore": {
+        "beta": {
+            "accountTitle": "アドレス / アカウント名",
+            "buttons": {
+                "cancel": "戻る",
+                "copy": "シードをコピー",
+                "restore": "シードを復元"
+            },
+            "noUsers": {
+                "description": "{div}[保存されたアカウントは見つかりませんでした。]{div}[[client.wavesplatform.com](https://client.wavesplatform.com)]へ戻る",
+                "title": "保存されたアカウントはありません"
+            },
+            "passwordTitle": "パスワード",
+            "placeholders": {
+                "password": "パスワード"
+            },
+            "step1Description": "あなたがSEEDではなくパスワードのみ分かる場合、こちらのページから保存されたアカウントを復元することが出来ます。",
+            "step2Description": "慎重にSEEDを保管して下さい。紛失した場合、あなたのアカウントにアクセスする方法はありません。",
+            "title": "シードを復元"
+        }
+    },
+    "seedForm": {
+        "address": "アドレス",
+        "addressSaved": "保存されたアドレス",
+        "back": "戻る",
+        "continue": "次へ",
+        "create": "新しいアカウントを作成",
+        "description": "あなたのシードはアカウントの作成時に保存した15の単語です",
+        "nameExists": "その名前はすでに使用されています",
+        "or": "または",
+        "placeholder": "あなたのシードはアカウントの作成時に保存した15の単語です",
+        "saveUserData": "アカウントをこのコンピューターに保存",
+        "seedTitle": "あなたのウォレットシード",
+        "title": "シードからインポート",
+        "tosaved": "(保存されたアカウントへ)"
+    },
+    "seedOrKeyForm": {
+        "description": "シードフレーズまたは秘密鍵を入力してウォレットにアクセス",
+        "encodedSeed": "Encoded seed",
+        "keyTitle": "秘密鍵",
+        "seedTitle": "シードフレーズ",
+        "title": "シードかキーからインポート"
+    },
+    "seedTab": "シードフレーズ",
+    "warningSeed": {
+        "message": "フレーズをウォレットアドレスと混同しないようにしてください。 アドレスをシードフレーズ（SEED）として使用すると、資金を失う可能性があります。 SEEDは15語で構成され、各語間にスペースが必要です。",
+        "title": "入力されたシードフレーズは短すぎます。"
+    }
+}

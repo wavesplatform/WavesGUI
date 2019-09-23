@@ -36,6 +36,10 @@ w-select {
     }
   }
 
+  &.hide-active .select .select-list w-option.active {
+    display: none;
+  }
+
   .select {
     height: 100%;
     position: relative;
@@ -56,6 +60,7 @@ w-select {
         display: flex;
         align-items: center;
         width: 100%;
+        overflow: hidden;
       }
 
       &::after {

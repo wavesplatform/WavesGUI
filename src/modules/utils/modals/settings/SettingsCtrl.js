@@ -4,6 +4,8 @@
     const ds = require('data-service');
     const { path } = require('ramda');
     const analytics = require('@waves/event-sender');
+    const { libs } = require('@waves/waves-transactions');
+    const { base58Encode, stringToBytes } = libs.crypto;
 
     /**
      * @param Base
@@ -50,7 +52,8 @@
                 analytics.send({ name: `Settings Advanced Features ${mode ? 'On' : 'Off'}`, target: 'ui' });
                 user.setSetting('advancedMode', mode);
             }
-
+            encodedSeed = '';
+            shownEncodedSeed = false;
             oracleWaves = '';
             tab = 'general';
             address = user.address;
@@ -61,6 +64,7 @@
             matcher = '';
             api = '';
             scamListUrl = '';
+            tokensNameListUrl = '';
             dontShowSpam = true;
             theme = user.getSetting('theme');
             candle = user.getSetting('candle');
@@ -100,6 +104,7 @@
                     api: 'network.api',
                     logoutAfterMin: 'logoutAfterMin',
                     scamListUrl: 'scamListUrl',
+                    tokensNameListUrl: 'tokensNameListUrl',
                     dontShowSpam: 'dontShowSpam',
                     theme: 'theme',
                     candle: 'candle',
@@ -171,6 +176,13 @@
                     waves.node.assets.stopScam();
                 });
 
+                this.observe('tokensNameListUrl', () => {
+                    ds.config.setConfig({
+                        tokensNameListUrl: this.tokensNameListUrl
+                    });
+                    waves.node.assets.tokensNameList();
+                });
+
                 this.observe(['node', 'matcher', 'api'], () => {
                     ds.config.setConfig({
                         node: this.node,
@@ -206,6 +218,7 @@
                     ds.signature.getSignatureApi().getPublicKey()
                 ]).then(([seed, privateKey, publicKey]) => {
                     this.phrase = seed;
+                    this.encodedSeed = typeof seed === 'string' ? base58Encode(stringToBytes(seed)) : null;
                     this.privateKey = privateKey;
                     this.publicKey = publicKey;
                     $scope.$digest();
@@ -222,6 +235,7 @@
                 this.matcher = WavesApp.network.matcher;
                 this.dontShowSpam = true;
                 this.scamListUrl = WavesApp.network.scamListUrl;
+                this.tokensNameListUrl = WavesApp.network.tokensNameListUrl;
                 this.oracleWaves = WavesApp.oracles.waves;
                 this.api = WavesApp.network.api;
             }
@@ -241,6 +255,14 @@
 
             showScriptModal() {
                 modalManager.showScriptModal();
+            }
+
+            showPasswordModal() {
+                modalManager.showPasswordModal();
+            }
+
+            showDeleteAccountModal() {
+                modalManager.showDeleteAccountModal();
             }
 
         }

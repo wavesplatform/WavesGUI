@@ -1,0 +1,21 @@
+{
+    "migrate": {
+        "btn": {
+            "unlock": "Sblocca"
+        },
+        "description": {
+            "enterPass": "Inserisci la password del tuo account oppure",
+            "goBack": "torna indietro",
+            "unlock": "Sblocca i tuoi account. Potrai tornare a questo passaggio successivamente"
+        },
+        "headers": {
+            "unlock": "Sblocca i tuoi account",
+            "unlockAccount": "Sblocca account"
+        },
+        "subtitle": {
+            "account": "Account",
+            "pending": "In attesa di sblocco",
+            "unlocked": "Sbloccato con successo"
+        }
+    }
+}

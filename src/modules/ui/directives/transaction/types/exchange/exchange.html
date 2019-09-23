@@ -3,8 +3,6 @@
         <div class="body-2 margin-05 top flex fs-mobile">
             <span class="flex">
                 <span class="exchange-type" w-i18n="transaction.headers.{{::$ctrl.typeName}}"></span>
-                <span class="ellipsis">
-                    {{$ctrl.getAssetName($ctrl.transaction.amount.asset)}}</span>
                 <span>{{$ctrl.amountAssetName}}</span>
                 <span ng-if="$ctrl.isScamAmount"
                       class="spam-label"

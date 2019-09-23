@@ -15,13 +15,15 @@
      * @param {$state} $state
      * @param {ModalManager} modalManager
      * @param {BalanceWatcher} balanceWatcher
+     * @param {Transactions} transactions
      * @return {CreateOrder}
      */
-    const controller = function (Base, waves, user, utils, createPoll, $scope,
-                                 $element, notification, dexDataService, ease, $state, modalManager, balanceWatcher) {
+    const controller = function (Base, waves, user, utils, createPoll, $scope, $element, notification,
+                                 dexDataService, ease, $state, modalManager, balanceWatcher, transactions) {
 
         const { without, keys, last } = require('ramda');
         const { Money } = require('@waves/data-entities');
+        const { BigNumber } = require('@waves/bignumber');
         const ds = require('data-service');
         const analytics = require('@waves/event-sender');
 
@@ -43,7 +45,7 @@
             }
 
             get loaded() {
-                return this.amountBalance && this.priceBalance;
+                return this.amountBalance && this.priceBalance && this.fee;
             }
 
             /**
@@ -156,6 +158,18 @@
              */
             maxAmount = null;
             /**
+             * @type {Array<Money>}
+             */
+            feeList = [];
+            /**
+             * @type {Object}
+             */
+            matcherSettings = {};
+            /**
+             * @type {Poll}
+             */
+            feePoll = null;
+            /**
              * @type {boolean}
              */
             isValidStepSize = false;
@@ -210,23 +224,20 @@
                 this.receive(balanceWatcher.change, this._updateBalances, this);
                 this._updateBalances().then(() => this._setPairRestrictions());
 
+                const onChangeBalanceWatcher = () => {
+                    this._updateBalances();
+                    if (this.matcherSettings.mode === 'dynamic') {
+                        this._updateFeeList();
+                    }
+                };
+                this.receive(balanceWatcher.change, onChangeBalanceWatcher, this);
+                this._updateBalances();
+
                 const lastTradePromise = new Promise((resolve) => {
                     balanceWatcher.ready.then(() => {
                         lastTraderPoll = createPoll(this, this._getLastPrice, 'lastTradePrice', 1000);
                         resolve();
                     });
-                });
-
-                const currentFee = () => Promise.all([
-                    ds.api.pairs.get(this._assetIdPair.amount, this._assetIdPair.price),
-                    ds.fetch(ds.config.get('matcher'))
-                ]).then(([pair, matcherPublicKey]) => waves.matcher.getCreateOrderFee({
-                    amount: new Money(0, pair.amountAsset),
-                    price: new Money(0, pair.priceAsset),
-                    matcherPublicKey
-                })).then(fee => {
-                    this.fee = fee;
-                    $scope.$apply();
                 });
 
                 Promise.all([
@@ -262,6 +273,9 @@
                     if (lastTraderPoll) {
                         lastTraderPoll.restart();
                     }
+
+                    this.isLockedPair = utils.isLockedInDex(this._assetIdPair.amount, this._assetIdPair.price);
+
                     this.analyticsPair = `${this._assetIdPair.amount} / ${this._assetIdPair.price}`;
                     this.observeOnce(['bid', 'ask'], utils.debounce(() => {
                         if (this.type) {
@@ -271,7 +285,7 @@
                             $scope.$apply();
                         }
                     }));
-                    currentFee();
+                    this._setMatcherSettings();
                 });
 
                 this.observe(['priceBalance', 'total', 'maxPriceBalance'], this._setIfCanBuyOrder);
@@ -299,11 +313,27 @@
                     e.stopPropagation();
                 });
 
-                user.getFilteredUserList().then(list => {
+                user.getMultiAccountUsers().then(list => {
                     this._userList = list;
                 });
 
-                currentFee();
+                this._setMatcherSettings();
+                this.observe('matcherSettings', () => {
+                    if (this.matcherSettings.feeMode === 'dynamic') {
+                        this._updateFeeList();
+                        if (!this.feePoll) {
+                            this.feePoll = createPoll(this, this._getFeeRates, this._updateFeeList, 20000);
+                        }
+                    } else {
+                        this.fee = this.matcherSettings.fee;
+                        this.feeList = [];
+                        if (this.feePoll) {
+                            this.feePoll.destroy();
+                            this.feePoll = null;
+                        }
+                    }
+                    $scope.$apply();
+                });
             }
 
             /**
@@ -318,7 +348,7 @@
                 }
 
                 return this.maxAmount.cloneWithTokens(
-                    this.getRoundAmountTokensByStepSize(this.maxAmount.getTokens().times(factor))
+                    this.getRoundAmountTokensByStepSize(this.maxAmount.getTokens().mul(factor))
                 ).eq(amount);
             }
 
@@ -328,7 +358,7 @@
              */
             setAmountByBalance(factor) {
                 const amount = this.getClosestValidAmount(
-                    this.maxAmount.getTokens().times(factor)
+                    this.maxAmount.getTokens().mul(factor)
                 );
                 this._updateField({ amount });
                 return Promise.resolve();
@@ -397,7 +427,7 @@
                 const amount = this.getRoundAmountByStepSize(this.maxAmount.getTokens());
                 const price = this.getClosestValidPrice(this.price.getTokens());
                 const total = this.getRoundPriceByTickSize(
-                    price.getTokens().times(amount.getTokens())
+                    price.getTokens().mul(amount.getTokens())
                 );
                 this._updateField({ amount, total, price });
             }
@@ -512,7 +542,7 @@
                     return;
                 }
                 const { tickSize } = this.pairRestrictions;
-                const roundedPrice = price.dividedToIntegerBy(tickSize).times(tickSize);
+                const roundedPrice = price.dividedToIntegerBy(tickSize).mul(tickSize);
                 return this.priceBalance.cloneWithTokens(roundedPrice);
             }
 
@@ -577,7 +607,7 @@
                 }
 
                 const { stepSize } = this.pairRestrictions;
-                const roundedAmount = value.div(stepSize).integerValue().times(stepSize);
+                const roundedAmount = value.div(stepSize).integerValue().mul(stepSize);
                 return this.amountBalance.cloneWithTokens(roundedAmount);
             }
 
@@ -683,7 +713,7 @@
                 const isBuy = orderData.orderType === 'buy';
                 const factor = isBuy ? 1 : -1;
                 const limit = 1 + factor * (Number(user.getSetting('orderLimit')) || 0);
-                const price = (new BigNumber(isBuy ? this.ask.price : this.bid.price)).times(limit);
+                const price = (new BigNumber(isBuy ? this.ask.price : this.bid.price)).mul(limit);
                 const orderPrice = orderData.price.getTokens();
 
                 if (price.isNaN() || price.eq(0)) {
@@ -693,7 +723,7 @@
                 /**
                  * @type {BigNumber}
                  */
-                const delta = isBuy ? orderPrice.minus(price) : price.minus(orderPrice);
+                const delta = isBuy ? orderPrice.sub(price) : price.sub(orderPrice);
 
                 if (delta.isNegative()) {
                     return Promise.resolve();
@@ -792,7 +822,7 @@
                         .toNonNegative()
                         .getTokens()
                         .div(this.price.getTokens())
-                        .dp(this.amountBalance.asset.precision)
+                        .roundTo(this.amountBalance.asset.precision)
                 );
             }
 
@@ -809,7 +839,7 @@
              * @private
              */
             _getLastPrice() {
-                return ds.api.transactions.getExchangeTxList({
+                return transactions.getExchangeTxList({
                     amountAsset: this._assetIdPair.amount,
                     priceAsset: this._assetIdPair.price,
                     limit: 1
@@ -874,30 +904,32 @@
              * @private
              */
             _updateField(newState) {
-                this._setSilence(() => {
-                    this._applyState(newState);
+                if (this.loaded) {
+                    this._setSilence(() => {
+                        this._applyState(newState);
 
-                    const inputKeys = ['price', 'total', 'amount'];
-                    const changingValues = without(keys(newState), inputKeys);
+                        const inputKeys = ['price', 'total', 'amount'];
+                        const changingValues = without(keys(newState), inputKeys);
 
-                    let changingValue;
-                    if (changingValues.length === 1) {
-                        changingValue = changingValues[0];
-                    } else {
-                        if (this.changedInputName.length === 0) {
-                            this.changedInputName.push('price');
-                        }
-
-                        if (changingValues.some(el => el === last(this.changedInputName))) {
-                            changingValue = changingValues.find(el => el !== last(this.changedInputName));
+                        let changingValue;
+                        if (changingValues.length === 1) {
+                            changingValue = changingValues[0];
                         } else {
-                            changingValue = without(this.changedInputName, changingValues)[0];
-                        }
-                    }
+                            if (this.changedInputName.length === 0) {
+                                this.changedInputName.push('price');
+                            }
 
-                    this._calculateField(changingValue);
-                    this._setIfCanBuyOrder();
-                });
+                            if (changingValues.some(el => el === last(this.changedInputName))) {
+                                changingValue = changingValues.find(el => el !== last(this.changedInputName));
+                            } else {
+                                changingValue = without(this.changedInputName, changingValues)[0];
+                            }
+                        }
+
+                        this._calculateField(changingValue);
+                        this._setIfCanBuyOrder();
+                    });
+                }
             }
 
             /**
@@ -954,7 +986,7 @@
                 const amount = this._validAmount();
                 const total = amount.isZero() ?
                     this.priceBalance.cloneWithTokens('0') :
-                    this.getRoundPriceByTickSize(price.times(amount));
+                    this.getRoundPriceByTickSize(price.mul(amount));
                 this._setDirtyField('total', total);
                 this._silenceNow = true;
             }
@@ -1082,6 +1114,91 @@
             }
 
             /**
+             *
+             * @return {Promise<T | never>}
+             * @private
+             */
+            _updateFeeList() {
+                return this._getFeeRates()
+                    .then(list => {
+                        const assetsId = this._getOrderedCustomFeeAssetsList(list);
+                        Promise.all(
+                            assetsId.map(id => balanceWatcher.getBalanceByAssetId(id))
+                        ).then(balances => {
+                            const { basedCustomFee } = this.matcherSettings;
+
+                            const feeList = balances
+                                .map(balance => {
+                                    const { id } = balance.asset;
+                                    const rate = new BigNumber(list[id]);
+                                    return balance.cloneWithCoins(
+                                        rate.mul(basedCustomFee[id])
+                                    );
+                                });
+
+                            const filteredFeeList = feeList.filter((fee, i) => fee.lte(balances[i]));
+
+                            if (!filteredFeeList.length) {
+                                this.fee = feeList[0];
+                                this.feeList = [];
+                            } else if (filteredFeeList.length === 1) {
+                                this.fee = filteredFeeList[0];
+                                this.feeList = [];
+                            } else {
+                                this.fee = filteredFeeList[0];
+                                this.feeList = filteredFeeList;
+                            }
+                        });
+
+                    })
+                    .catch(() => {
+                        this.feeList = [];
+                    });
+            }
+
+            /**
+             * @return {Promise<Matcher.IFeeMap>}
+             * @private
+             */
+            _getFeeRates() {
+                return waves.matcher.getFeeRates();
+            }
+
+            /**
+             * @return {Promise<T | never>}
+             * @private
+             */
+            _setMatcherSettings() {
+                return Promise.all([
+                    ds.api.pairs.get(this._assetIdPair.amount, this._assetIdPair.price),
+                    ds.fetch(ds.config.get('matcher'))
+                ]).then(([pair, matcherPublicKey]) => {
+                    waves.matcher.getCreateOrderSettings(pair, matcherPublicKey)
+                        .then(data => {
+                            this.matcherSettings = data;
+                        });
+                });
+            }
+
+            /**
+             * @param {object} list
+             * @return {string[]}
+             * @private
+             */
+            _getOrderedCustomFeeAssetsList(list) {
+                const currentFeeAsset = (this.fee && this.fee.asset.id) || WavesApp.defaultAssets.WAVES;
+                const { currentFee, otherFee } = Object.keys(list).reduce((acc, id) => {
+                    if (id === currentFeeAsset) {
+                        acc.currentFee.push(id);
+                    } else {
+                        acc.otherFee.push(id);
+                    }
+                    return acc;
+                }, { currentFee: [], otherFee: [] });
+                return [...currentFee, ...otherFee];
+            }
+
+            /**
              * @private
              */
             _setPairRestrictions() {
@@ -1198,7 +1315,8 @@
         'ease',
         '$state',
         'modalManager',
-        'balanceWatcher'
+        'balanceWatcher',
+        'transactions'
     ];
 
     angular.module('app.dex').component('wCreateOrder', {

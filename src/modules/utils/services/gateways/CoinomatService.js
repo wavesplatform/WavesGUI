@@ -20,6 +20,7 @@
     const KEY_NAME_PREFIX = 'coinomat';
     const ds = require('data-service');
     const { prop } = require('ramda');
+    const { BigNumber } = require('@waves/bignumber');
 
     /**
      * @returns {CoinomatService}
@@ -43,7 +44,14 @@
                 const from = GATEWAYS[asset.id].gateway;
                 const to = GATEWAYS[asset.id].waves;
                 return this._loadPaymentDetails(from, to, wavesAddress).then((details) => {
-                    return { address: details.tunnel.wallet_from };
+                    return {
+                        address: details.tunnel.wallet_from,
+                        attachment: details.tunnel.attachment,
+                        minimumAmount: new BigNumber(details.tunnel.in_min),
+                        maximumAmount: new BigNumber(details.tunnel.in_max),
+                        exchangeRate: new BigNumber(details.tunnel.xrate),
+                        gatewayFee: new BigNumber(details.tunnel.fee_out)
+                    };
                 });
             }
 
@@ -84,7 +92,7 @@
             getSupportMap(asset) {
                 if (GATEWAYS[asset.id]) {
                     return {
-                        deposit: true,
+                        deposit: asset.id !== WavesApp.defaultAssets.ETH,
                         withdraw: true,
                         errorAddressMessage: true
                     };

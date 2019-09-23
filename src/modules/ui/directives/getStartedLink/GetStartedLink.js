@@ -3,33 +3,28 @@
 
     const controller = function (Base, user, $scope, angularUtils) {
 
-        const { utils } = require('@waves/signature-generator');
-
         class GetStartedLinkCtrl extends Base {
 
-            /**
-             * @private
-             * @type {Array}
-             */
-            _userList = [];
+            hasMultiAccount;
+            hasCreate;
+            hasImport;
 
             constructor() {
                 super($scope);
                 this.hovered = false;
-                this._initUserList();
+                this._init();
             }
 
             /**
              * @private
              */
-            _initUserList() {
-                user.getUserList()
-                    .then((list) => {
-                        this._userList = list.filter(user => utils.crypto.isValidAddress(user.address));
-                        angularUtils.postDigest($scope).then(() => {
-                            $scope.$apply();
-                        });
+            _init() {
+                user.getMultiAccountData().then(data => {
+                    this.hasMultiAccount = !!data;
+                    angularUtils.postDigest($scope).then(() => {
+                        $scope.$apply();
                     });
+                });
             }
 
         }
@@ -42,7 +37,6 @@
     angular.module('app.ui').component('wGetStartedLink', {
         templateUrl: 'modules/ui/directives/getStartedLink/getStartedLink.html',
         bindings: {
-            hasSignIn: '<',
             hasCreate: '<',
             hasImport: '<'
         },

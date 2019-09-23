@@ -1,0 +1,94 @@
+{
+    "back": "Zurück zur Hauptseite",
+    "button": {
+        "cancel": "Abbrechen",
+        "continue": "Weiter"
+    },
+    "confirmTransaction": {
+        "notPermitted": {
+            "issue": "Die Generierung von Token ist vorübergehend nicht verfügbar.",
+            "issue-title": "Token-Generierung",
+            "massSendTitle": "Massentransfer",
+            "reissue": "Die Neugenerierung von Token ist vorübergehend nicht verfügbar.",
+            "sendTitle": "Senden",
+            "set-script-title": "Skripttransaktion"
+        },
+        "send": {
+            "errors": {
+                "fee": "Sie haben nicht genug Geld, um die erforderlichen Gebühren zu zahlen. Sie müssen eine {{fee, money-currency}} Transaktionsgebühr zahlen;"
+            }
+        }
+    },
+    "date": {
+        "month": [
+            "Jan",
+            "Feb",
+            "Mär",
+            "Apr",
+            "Mai",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Okt",
+            "Nov",
+            "Dez"
+        ]
+    },
+    "EXK2jJo1PbL9CUNr5FSedw6cueZH5MUCDXNhR1WQEZa4": {
+        "description": "Hallo funky coin, für gute und schlechte Zwecke ;)"
+    },
+    "fee": "{{money, money-fee}}",
+    "header": {
+        "assets": "Assets",
+        "dex": "DEX",
+        "leasing": "Leasing",
+        "portfolio": "Portfolio",
+        "tokens": "Tokens",
+        "transactions": "Transaktionen",
+        "wallet": "Börse"
+    },
+    "inputs": {
+        "errors": {
+            "required": "Pflichtfeld"
+        }
+    },
+    "leftmenu": {
+        "login": "Einloggen",
+        "logout": "Ausloggen",
+        "settings": "Einstellungen"
+    },
+    "matcher": {
+        "orders": {
+            "statuses": {
+                "canceled": "Abbrechen",
+                "filled": "Ausgeführt ({{percent}}%)",
+                "opened": "Eröffnet"
+            }
+        }
+    },
+    "modal": {
+        "enterPassword": {
+            "ok": "Ok",
+            "title": "Passwort eingeben"
+        },
+        "pairing": {
+            "showQr": "Zeigen"
+        },
+        "tryDesktop": {
+            "cancel": "Mit Webclient fortfahren",
+            "label": "Meine Entscheidung merken und mich nicht mehr daran erinnern",
+            "message": "Wir empfehlen die Waves Desktop App zu verwenden. Download unter offizielle Seite.",
+            "title": "Verwenden sie die Waves Desktop App.",
+            "try": "Desktop App öffnen."
+        }
+    },
+    "money-currency": "{{money, money-currency}}",
+    "number": {
+        "short": {
+            "million": "M",
+            "thousand": "k"
+        }
+    },
+    "Suspicious": "Verdächtig"
+}

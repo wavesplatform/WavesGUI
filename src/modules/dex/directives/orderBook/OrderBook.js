@@ -1,4 +1,3 @@
-/* global BigNumber, tsUtils */
 (function () {
     'use strict';
 
@@ -13,6 +12,7 @@
      * @param {$rootScope.Scope} $scope
      * @param {app.i18n} i18n
      * @param {typeof OrderList} OrderList
+     * @param {Transactions} transactions
      * @return {OrderBook}
      */
     const controller = function (Base,
@@ -23,14 +23,15 @@
                                  utils,
                                  $scope,
                                  i18n,
-                                 OrderList) {
+                                 OrderList,
+                                 transactions) {
 
         const SECTIONS = {
-            ASKS: '.asks',
-            INFO: '.info',
-            BIDS: '.bids',
+            ASKS: '.table__asks',
+            INFO: '.table__info',
+            BIDS: '.table__bids',
             SCROLLBOX: 'w-scroll-box',
-            LAST_PRICE: '.last-price',
+            LAST_PRICE: '.table__last-price',
             SPREAD: '.spread'
         };
 
@@ -40,6 +41,7 @@
         };
 
         const ds = require('data-service');
+        const { BigNumber } = require('@waves/bignumber');
         const { AssetPair } = require('@waves/data-entities');
 
         class OrderBook extends Base {
@@ -211,7 +213,7 @@
                         .then(lastPrice => {
                             const tokens = lastPrice.price.getTokens();
                             if (tokens.isNaN()) {
-                                return ds.api.transactions
+                                return transactions
                                     .getExchangeTxList({ amountAsset, priceAsset, limit })
                                     .then(([tx]) => ({ price: tx.price, lastSide: tx.exchangeType }))
                                     .catch(() => null);
@@ -362,8 +364,8 @@
                 let amountTotal = new BigNumber(0);
 
                 return list.map((item) => {
-                    total = total.plus(item.total);
-                    amountTotal = amountTotal.plus(item.amount);
+                    total = total.add(item.total);
+                    amountTotal = amountTotal.add(item.amount);
                     return {
                         type,
                         amount: new BigNumber(item.amount),
@@ -419,7 +421,8 @@
         'utils',
         '$scope',
         'i18n',
-        'OrderList'
+        'OrderList',
+        'transactions'
     ];
 
     angular.module('app.dex').component('wDexOrderBook', {

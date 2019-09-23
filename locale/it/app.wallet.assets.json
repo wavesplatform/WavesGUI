@@ -1,0 +1,39 @@
+{
+    "addAsset": "Aggiungi Asset",
+    "chart": {
+        "intervals": {
+            "all": "Tutto",
+            "day": "1G",
+            "hour": "1H",
+            "month": "1M",
+            "week": "1S",
+            "year": "1A"
+        }
+    },
+    "directives": {
+        "asset": {
+            "anyTx": "JSON",
+            "deposit": "Deposita",
+            "ofTotalBalance": "sul bilancio complessivo di {{totalBalance}}",
+            "receive": "Ricevi",
+            "script": "Script",
+            "send": "Invia"
+        },
+        "balance": {
+            "actions": {
+                "assetInfo": "Info Asset",
+                "copyAssetId": "Copia ID Asset"
+            }
+        }
+    },
+    "price": "PREZZO {{currency}}",
+    "qr": "Il tuo indirizzo",
+    "send": "Invia",
+    "since": {
+        "day": "DALL'ULTIMO GIORNO",
+        "month": "DALL'ULTIMO MESE",
+        "week": "DALL'ULTIMA SETTIMANA"
+    },
+    "suspicious": "Sospetto - ({span}[{{count}}])",
+    "Unpin": "Sblocca"
+}

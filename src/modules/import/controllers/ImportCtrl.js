@@ -2,21 +2,17 @@
     'use strict';
 
     /**
-     * @param Base
-     * @param {$rootScope.Scope} $scope
-     * @param {modalManager} modalManager
+     * @param {typeof Base} Base
+     * @param {ng.IScope} $scope
+     * @param {User} user
      * @return {ImportCtrl}
      */
-    const controller = function (Base, $scope, modalManager, user) {
+    const controller = function (Base, $scope, user) {
 
         class ImportCtrl extends Base {
 
             constructor() {
                 super($scope);
-            }
-
-            importFromOld() {
-                modalManager.showImportAccountsModal();
             }
 
             backState() {
@@ -28,7 +24,7 @@
         return new ImportCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'modalManager', 'user'];
+    controller.$inject = ['Base', '$scope', 'user'];
 
     angular.module('app.import').controller('ImportCtrl', controller);
 })();

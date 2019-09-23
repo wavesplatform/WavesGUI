@@ -66,8 +66,10 @@
 
                         this.listenEventEmitter(i18next, 'languageChanged', this._handler);
                         if ($attrs.params) {
-                            const stop = $scope.$watch($attrs.params, this._handler);
-                            this._forStop.push(stop);
+                            if (!$attrs.params.includes('::')) {
+                                const stop = $scope.$watch($attrs.params, this._handler);
+                                this._forStop.push(stop);
+                            }
                         }
 
                         this._handler();

@@ -1,16 +1,18 @@
 (function () {
     'use strict';
 
-
     /**
-     * @param Base
-     * @param $scope
+     * @param {typeof Base} Base
+     * @param {ng.IScope} $scope
+     * @param {*} $state
      * @param {User} user
+     * @param {app.utils} utils
      * @return {KeeperCtrl}
      */
-    const controller = function (Base, $scope, user) {
+    const controller = function (Base, $scope, $state, user, utils) {
 
         const signatureAdapter = require('@waves/signature-adapter');
+        const analytics = require('@waves/event-sender');
 
         class KeeperCtrl extends Base {
 
@@ -53,7 +55,7 @@
             /**
              * @type {user}
              */
-            selectedUser = null;
+            selectedUser = Object.create(null);
             /**
              * @type {boolean}
              */
@@ -62,13 +64,49 @@
              * @type {string}
              */
             name = '';
+            /**
+             * @type {boolean}
+             */
+            isPriorityUserTypeExists = false;
+            /**
+             * @type {object | null}
+             */
+            userExisted = Object.create(null);
+            /**
+             * @type {Array}
+             * @private
+             */
+            _usersInStorage = [];
+            /**
+             * @type {string}
+             * @private
+             */
+            _type = 'wavesKeeper';
+            /**
+             * @type {object}
+             * @private
+             */
+            _priorityMap = utils.getImportPriorityMap();
 
             constructor() {
                 super($scope);
-                this.getUsers();
-                this.adapter.onUpdate(() => {
-                    this.getUsers();
+
+                this.observe('selectedUser', this._onSelectUser);
+                this.adapter.onUpdate(this._onUpdateAdapter);
+
+                Promise.all([
+                    user.getFilteredUserList(),
+                    user.getMultiAccountUsers()
+                ]).then(([legacyUsers = [], users = []]) => {
+                    this._usersInStorage = [...legacyUsers, ...users];
                 });
+                analytics.send({ name: 'Import Keeper Click', target: 'ui' });
+                this.getUsers();
+            }
+
+            $onDestroy() {
+                super.$onDestroy();
+                this.adapter.offUpdate(this._onUpdateAdapter);
             }
 
             /**
@@ -104,6 +142,14 @@
                 this.error = true;
             }
 
+            onUpdateState() {
+                if (this.loading) {
+                    return;
+                }
+                clearTimeout(this._time);
+                this._time = setTimeout(() => this.getUsers(), 500);
+            }
+
             /**
              * @return {void}
              */
@@ -123,6 +169,7 @@
                             return Promise.reject({ code: 'locked' });
                         }
                         this.selectedUser = user;
+                        this.receive(utils.observe(this.selectedUser, 'name'), this._onChangeName, this);
                         delete this.selectedUser.type;
                     })
                     .catch((e) => this.onError(e))
@@ -130,6 +177,7 @@
                         this.isInit = true;
                         this.loading = false;
                         $scope.$apply();
+                        this._onSelectUser();
                     });
             }
 
@@ -137,33 +185,61 @@
              * @return {void}
              */
             login() {
-                const userSettings = user.getDefaultUserSettings({ termsAccepted: false });
-
                 const newUser = {
                     ...this.selectedUser,
                     userType: this.adapter.type,
-                    settings: userSettings,
-                    saveToStorage: this.saveUserData
+                    networkByte: WavesApp.network.code.charCodeAt(0)
                 };
 
-                const api = ds.signature.getDefaultSignatureApi(newUser);
-
-                return user.create({
-                    ...newUser,
-                    settings: userSettings.getSettings(),
-                    api
-                }, true, true).catch(() => {
+                return user.create(newUser, true, true).then(() => {
+                    $state.go(user.getActiveState('wallet'));
+                }).catch(() => {
                     this.error = true;
                     $scope.$digest();
                 });
             }
+
+            /**
+             * @private
+             */
+            _onSelectUser() {
+                this._onChangeAddress();
+                this._onChangeName();
+            }
+
+            /**
+             * @private
+             */
+            _onChangeAddress() {
+                this.userExisted =
+                    this._usersInStorage.find(user => user.address === this.selectedUser.address) ||
+                    null;
+                this.isPriorityUserTypeExists =
+                    !!this.userExisted &&
+                    this._priorityMap[this._type] <= this._priorityMap[this.userExisted.userType];
+            }
+
+            /**
+             * @private
+             */
+            _onChangeName() {
+                const isUnique = this._usersInStorage.some(user => {
+                    return user.name === this.selectedUser.name && user.address !== this.selectedUser.address;
+                });
+
+                if (this.importForm) {
+                    this.importForm.userName.$setValidity('isUnique', !isUnique);
+                }
+            }
+
+            _onUpdateAdapter = (state) => this.onUpdateState(state);
 
         }
 
         return new KeeperCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'user'];
+    controller.$inject = ['Base', '$scope', '$state', 'user', 'utils'];
 
     angular.module('app.keeper').controller('KeeperCtrl', controller);
 })();

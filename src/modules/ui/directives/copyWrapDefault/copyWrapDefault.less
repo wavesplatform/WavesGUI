@@ -1,0 +1,26 @@
+@import (reference) url('config');
+@import (reference) 'icons';
+
+w-copy-wrap-default {
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  cursor: pointer;
+
+  .copy-icon {
+    background: @copy-icon center no-repeat;
+    display: block;
+    width: 14px;
+    height: 14px;
+    margin-left: 4px;
+    flex-basis: auto;
+    border: 0 none;
+    cursor: pointer;
+  }
+
+  .container {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

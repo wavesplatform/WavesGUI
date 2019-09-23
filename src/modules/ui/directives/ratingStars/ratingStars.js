@@ -8,11 +8,13 @@
                                  $element,
                                  waves,
                                  modalManager,
-                                 balanceWatcher) {
+                                 balanceWatcher,
+                                 $mdDialog,
+                                 utils) {
 
         const { SIGN_TYPE } = require('@waves/signature-adapter');
-        const WCT_ID = 'DHgwrRvVyqJsepd32YbBqUeDH4GJ1N984X8QoekjgH8J';
-        const WAVES_ID = 'WAVES';
+        const WCT_ID = WavesApp.WCTAsset;
+        const WAVES_ID = WavesApp.defaultAssets.WAVES;
         const NEED_WCT = 1;
 
         class RatingStars extends Base {
@@ -33,6 +35,10 @@
              * @type string
              */
             size;
+            /**
+             * @type string
+             */
+            assetID;
             /**
              * @type boolean
              */
@@ -71,7 +77,7 @@
                 const balance = balanceWatcher.getBalance();
                 this.wavesBalance = balance[WAVES_ID];
                 this.wctBalance = balance[WCT_ID];
-                if (this.wavesBalance.gte(this.fee) && this.wctBalance.getTokens().gte(NEED_WCT)) {
+                if (this.wavesBalance.gte(this.fee) && this.wctBalance && this.wctBalance.getTokens().gte(NEED_WCT)) {
                     this.hasBalance = true;
                     $scope.$apply();
                 }
@@ -106,14 +112,18 @@
                         });
                         this.signable = ds.signature.getSignatureApi().makeSignable(tx);
 
-                        this._generate(this.signable);
+                        RatingStars._generateTx(this.signable);
                     });
 
             }
 
-            _generate(signable) {
-                return modalManager.showConfirmTx(signable)
-                    .then(() => this._reset());
+            static _generateTx(signable) {
+                $mdDialog.hide();
+                return modalManager.showConfirmTx(signable);
+            }
+
+            openDex() {
+                utils.openDex(WCT_ID);
             }
 
         }
@@ -129,7 +139,9 @@
         '$element',
         'waves',
         'modalManager',
-        'balanceWatcher'];
+        'balanceWatcher',
+        '$mdDialog',
+        'utils'];
 
     angular.module('app.ui').component('wRatingStars', {
         bindings: {
@@ -138,7 +150,6 @@
             canRate: '<',
             assetId: '<'
         },
-        // scope: false,
         templateUrl: 'modules/ui/directives/ratingStars/ratingStars.html',
         controller
     });

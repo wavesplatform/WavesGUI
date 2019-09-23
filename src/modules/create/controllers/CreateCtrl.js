@@ -3,16 +3,15 @@
 
     /**
      * @param {typeof Base} Base
-     * @param {$rootScope.Scope} $scope
-     * @param $q
-     * @param $mdDialog
-     * @param $timeout
+     * @param {ng.IScope} $scope
+     * @param {ng.IQService} $q
+     * @param {*} $state
      * @param {User} user
      * @param {ModalManager} modalManager
      * @param {ISeedService} seedService
      * @return {CreateCtrl}
      */
-    const controller = function (Base, $scope, $q, $mdDialog, $timeout, user, modalManager, seedService) {
+    const controller = function (Base, $scope, $q, $state, user, modalManager, seedService) {
 
         const analytics = require('@waves/event-sender');
         const PATH = 'modules/create/templates';
@@ -37,8 +36,8 @@
             constructor() {
                 super($scope);
 
+                this.invitationStep = 0;
                 this.stepIndex = 0;
-                this.password = '';
                 this.name = '';
                 this.seed = '';
                 this.address = '';
@@ -48,6 +47,8 @@
                 this.saveUserData = true;
 
                 this.resetAddress();
+
+                this.showTutorialModals();
             }
 
             showTutorialModals() {
@@ -87,13 +88,13 @@
 
             create() {
                 analytics.send({ name: 'Create Confirm Phrase Confirm Click' });
+
                 return this._create(true);
             }
 
             createWithoutBackup() {
-                analytics.send({
-                    name: 'Create Do It Later Click'
-                });
+                analytics.send({ name: 'Create Do It Later Click' });
+
                 return this._create(false);
             }
 
@@ -114,14 +115,6 @@
                     index = this.stepIndex + index;
                 }
 
-                if (index === STATE_HASH.CREATE_ACCOUNT && index > STATE_HASH.CREATE_ACCOUNT) {
-                    analytics.send({
-                        name: 'Create New Continue Click',
-                        params: {
-                            guestMode: !this.saveUserData
-                        }
-                    });
-                }
                 if (index === STATE_HASH.CREATE_ACCOUNT_DATA) {
                     analytics.send({ name: 'Create Protect Your Account Show' });
                 }
@@ -160,6 +153,10 @@
                 }
             }
 
+            nextInvitationStep() {
+                this.invitationStep += 1;
+            }
+
             checkNext() {
                 const step = ORDER_LIST[this.stepIndex];
                 if (step === 'noBackupNoMoney') {
@@ -175,7 +172,8 @@
             resetAddress() {
                 const list = [];
                 for (let i = 0; i < 5; i++) {
-                    const seedData = ds.Seed.create();
+                    const phrase = ds.Seed.create().phrase;
+                    const seedData = new ds.Seed(phrase, window.WavesApp.network.code);
                     list.push({ seed: seedData.phrase, address: seedData.address });
                 }
 
@@ -191,33 +189,22 @@
                 });
             }
 
+            /**
+             * @param hasBackup
+             * @return {Promise}
+             * @private
+             */
             _create(hasBackup) {
-                if (!this.saveUserData) {
-                    this.password = Date.now().toString();
-                }
-
-                const encryptedSeed = new ds.Seed(this.seed).encrypt(this.password);
-                const userSettings = user.getDefaultUserSettings({ termsAccepted: false });
-
                 const newUser = {
-                    userType: this.restoreType,
-                    address: this.address,
+                    userType: 'seed',
+                    networkByte: WavesApp.network.code.charCodeAt(0),
                     name: this.name,
-                    password: this.password,
-                    id: this.userId,
-                    path: this.userPath,
-                    settings: userSettings,
-                    saveToStorage: this.saveUserData,
-                    encryptedSeed
+                    seed: this.seed
                 };
 
-                const api = ds.signature.getDefaultSignatureApi(newUser);
-
-                return user.create({
-                    ...newUser,
-                    settings: userSettings.getSettings(),
-                    api
-                }, hasBackup);
+                return user.create(newUser, hasBackup).then(() => {
+                    $state.go(user.getActiveState('wallet'));
+                });
             }
 
         }
@@ -226,7 +213,7 @@
     };
 
     controller.$inject = [
-        'Base', '$scope', '$q', '$mdDialog', '$timeout', 'user', 'modalManager', 'seedService'
+        'Base', '$scope', '$q', '$state', 'user', 'modalManager', 'seedService'
     ];
 
     angular.module('app.create').controller('CreateCtrl', controller);

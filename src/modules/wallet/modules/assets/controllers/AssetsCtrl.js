@@ -11,106 +11,95 @@
      * @param {ModalManager} modalManager
      * @param {IPollCreate} createPoll
      * @param {BalanceWatcher} balanceWatcher
-     * // TODO: delete after contest
-     * @param {PermissionManager} permissionManager
-     * // TODO: delete after contest
      * @return {Assets}
      */
-    const controller = function (waves, assetsData, $scope, utils, Base, user, modalManager, createPoll,
-                                 balanceWatcher, permissionManager) {
+    const controller = function (waves, assetsData, $scope, utils, Base,
+                                 user, modalManager, createPoll, balanceWatcher) {
 
-        const tsUtils = require('ts-utils');
+        const { date } = require('ts-utils');
         const ds = require('data-service');
         const analytics = require('@waves/event-sender');
 
+
+        /**
+         * @class Assets
+         * @extends Base
+         */
         class Assets extends Base {
+
+
+            /**
+             * @type {string[]}
+             */
+            pinnedAssetIdList = null;
+            /**
+             * @type {Money[]}
+             */
+            pinnedAssetBalances = null;
+
+            chartMode = null;
+            total = null;
+
+            interval = null;
+            intervalCount = null;
+
+            data = null;
+            options = assetsData.getGraphOptions();
+            mirrorId = null;
+
+            /**
+             * @type {boolean}
+             */
+            invalid = true;
+            /**
+             * @type {Moment}
+             * @private
+             */
+            _startDate = null;
+            /**
+             * @type {string}
+             */
+            activeChartAssetId = null;
+            /**
+             * @type {Money}
+             */
+            activeChartBalance = null;
+            /**
+             * @type {string[]}
+             */
+            chartAssetIdList = null;
+            /**
+             * @type {Asset[]}
+             */
+            chartAssetList = null;
+            /**
+             * @type {string}
+             */
+            change = '0.00';
+            /**
+             * @type {string}
+             */
+            changePercent = '0.00';
+            /**
+             * @type {boolean}
+             */
+            advancedMode = false;
+            /**
+             * @type {string}
+             */
+            theme = 'default';
+
+            dateToHours = date('hh:mm');
+            dateToDates = date('DD/MM');
 
             constructor() {
                 super($scope);
 
-                /**
-                 * @type {string[]}
-                 */
-                this.pinnedAssetIdList = null;
-                /**
-                 * @type {Money[]}
-                 */
-                this.pinnedAssetBalances = null;
-
-                // TODO: delete after contest
-                /**
-                 * @type {string[]}
-                 */
-                this.pinnedContestAssetIdList = WavesApp.network.code === 'W' ?
-                    [
-                        '7eMpAC1CVLeZq7Mi16AkvkY2BmLytyApLaUG4TxNFew5',
-                        '8ouNBeYFxJMaeyPBwF8jY86R457CyEjAY98HaNLFox7N',
-                        'BFWboD9xC64tSmirFbCNARR1NSu6Ep9rP4SRoLkQhBUF'
-                    ] :
-                    [];
-                /**
-                 * @type {Money[]}
-                 */
-                this.pinnedContestAssetBalances = null;
-                this.isContestTimeNow = permissionManager.isPermitted('CONTEST_TIME');
-                // TODO: delete after contest
-
-                this.chartMode = null;
-                this.total = null;
-
-                this.interval = null;
-                this.intervalCount = null;
-
-                this.data = null;
-                this.options = assetsData.getGraphOptions();
-                this.mirrorId = null;
-
-                /**
-                 * @type {boolean}
-                 */
-                this.invalid = true;
-                /**
-                 * @type {Moment}
-                 * @private
-                 */
-                this._startDate = null;
-                /**
-                 * @type {string}
-                 */
-                this.activeChartAssetId = null;
-                /**
-                 * @type {Money}
-                 */
-                this.activeChartBalance = null;
-                /**
-                 * @type {string[]}
-                 */
-                this.chartAssetIdList = null;
-                /**
-                 * @type {Asset[]}
-                 */
-                this.chartAssetList = null;
-                /**
-                 * @type {string}
-                 */
-                this.change = '0.00';
-                /**
-                 * @type {string}
-                 */
-                this.changePercent = '0.00';
-                /**
-                 * @type {boolean}
-                 */
-                this.advancedMode = false;
-
-                const hours = tsUtils.date('hh:mm');
-                const dates = tsUtils.date('DD/MM');
-
                 this.options.axes.x.tickFormat = (date) => {
                     if (this.chartMode === 'hour' || this.chartMode === 'day') {
-                        return hours(date);
+                        return this.dateToHours(date);
                     } else {
-                        return dates(date);
+                        return this.dateToDates(date);
                     }
                 };
 
@@ -121,13 +110,17 @@
                     chartAssetIdList: 'wallet.assets.chartAssetIdList',
                     chartMode: 'wallet.assets.chartMode',
                     pinnedAssetIdList: 'pinnedAssetIdList',
-                    advancedMode: 'advancedMode'
+                    advancedMode: 'advancedMode',
+                    theme: 'theme'
                 });
 
                 this.mirrorId = user.getSetting('baseAssetId');
                 this._onChangeMode();
 
                 this.updateGraph = createPoll(this, this._getGraphData, 'data', 15000, { $scope });
+
+                this.theme = user.getSetting('theme');
+                this._setChartOptions();
 
                 ds.api.assets.get(this.chartAssetIdList).then(assets => {
                     this.chartAssetList = assets;
@@ -144,6 +137,7 @@
                 this.observe('pinnedAssetIdList', this._updateBalances);
 
                 this.observe(['interval', 'intervalCount', 'activeChartAssetId'], this._onChangeInterval);
+                this.observe('theme', this._onThemeChange);
             }
 
             openScriptModal() {
@@ -197,7 +191,7 @@
                     params: { Currency: asset ? asset.id : 'All' },
                     target: 'ui'
                 });
-                return modalManager.showReceiveModal(user, asset);
+                return modalManager.showReceiveModal(asset);
             }
 
             showSeedBackupModals() {
@@ -237,6 +231,21 @@
                 return modalManager.showSepaAsset(user, asset);
             }
 
+            onMouse(chartData) {
+                const id = chartData.id;
+                const { xValue, yValue } = chartData.point;
+
+                const date = new Date(xValue.toNumber());
+                this.chartEvent = {
+                    ...chartData,
+                    id,
+                    price: yValue.toFormat(2),
+                    date: Assets._localDate(date, true),
+                    time: this.dateToHours(date)
+                };
+                utils.safeApply($scope);
+            }
+
             /**
              * @param value
              * @private
@@ -266,35 +275,10 @@
                     });
                 }, Promise.resolve([]));
 
-                // TODO: delete // after contest
-                // balances.then(list => {
-                //     this.pinnedAssetBalances = list;
-                //     utils.safeApply($scope);
-                // });
-
-                // TODO: delete after contest
-                const balancesContest = this.pinnedContestAssetIdList.reduce((acc, assetId) => {
-                    return acc.then(list => {
-                        if (hash[assetId]) {
-                            list.push(hash[assetId]);
-                            return list;
-                        }
-                        return balanceWatcher.getFullBalanceByAssetId(assetId).then(balance => {
-                            list.push(balance);
-                            return list;
-                        });
-                    });
-                }, Promise.resolve([]));
-
-                Promise.all([
-                    balances,
-                    balancesContest
-                ]).then(([list, contestList]) => {
+                balances.then(list => {
                     this.pinnedAssetBalances = list;
-                    this.pinnedContestAssetBalances = contestList;
                     utils.safeApply($scope);
                 });
-                // TODO: delete after contest
             }
 
             /**
@@ -321,15 +305,9 @@
                         const last = values[values.length - 1].rate;
                         this.change = (last - first).toFixed(precision);
                         this.changePercent = ((last - first) / first * 100).toFixed(precision);
-
-                        values = values.map((item) => {
-                            return {
-                                ...item,
-                                rate: +item.rate.toFixed(precision)
-                            };
+                        return ({
+                            rate: values
                         });
-
-                        return { values };
                     });
             }
 
@@ -368,6 +346,64 @@
                 }
             }
 
+            /**
+             * @private
+             */
+            _onThemeChange() {
+                utils.wait(1000).then(() => this._setChartOptions());
+            }
+
+            /**
+             * @private
+             */
+            _setChartOptions() {
+                this.chartOptions =
+                    {
+                        axisX: 'timestamp',
+                        axisY: 'rate',
+                        marginBottom: 46,
+                        hasDates: true,
+                        checkWidth: 2000,
+                        heightFactor: 0.7,
+                        view: {
+                            rate: this._getViewOptions()
+                        }
+                    };
+            }
+
+            /**
+             * @return {{fillColor: string, gradientColor: string[], lineColor: string}}
+             * @private
+             */
+            _getViewOptions() {
+                switch (this.theme) {
+                    case 'black':
+                        return ({
+                            lineColor: '#5a81ea',
+                            fillColor: '#2d2d2d',
+                            gradientColor: ['#334375', '#2d2d2d'],
+                            lineWidth: 4
+                        });
+                    default:
+                        return ({
+                            lineColor: '#1f5af6',
+                            fillColor: '#fff',
+                            gradientColor: ['#eaf0fe', '#fff'],
+                            lineWidth: 4
+                        });
+                }
+            }
+
+            /**
+             * @param date @type {Date}
+             * @param hasYear @type {boolean}
+             * @return {string}
+             * @private
+             */
+            static _localDate(date, hasYear = false) {
+                return hasYear ? tsUtils.date('DD.MM.YYYY')(date) : tsUtils.date('DD.MM')(date);
+            }
+
         }
 
         return new Assets();
@@ -382,8 +418,7 @@
         'user',
         'modalManager',
         'createPoll',
-        'balanceWatcher',
-        'permissionManager'
+        'balanceWatcher'
     ];
 
     angular.module('app.wallet.assets')

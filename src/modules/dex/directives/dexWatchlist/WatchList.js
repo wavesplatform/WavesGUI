@@ -25,13 +25,11 @@
      * @param {JQuery} $element
      * @param {ModalManager} modalManager
      * @param {ConfigService} configService
-     * // TODO: delete after contest
-     * @param {PermissionManager} permissionManager
-     * // TODO: delete after contest
+     * @param {Matcher} matcher
      * @returns {WatchList}
      */
     const controller = function (Base, $scope, utils, waves, stService, PromiseControl, createPoll, $element,
-                                 modalManager, configService, permissionManager) {
+                                 modalManager, configService, matcher) {
 
         const {
             equals, uniq, not,
@@ -41,6 +39,7 @@
         } = require('ramda');
 
         const ds = require('data-service');
+        const { BigNumber } = require('@waves/bignumber');
 
         $scope.WavesApp = WavesApp;
 
@@ -139,6 +138,12 @@
              */
             _poll;
 
+            /**
+             * @type {array}
+             * @private
+             */
+            _lockedPairs = [];
+
 
             constructor() {
                 super($scope);
@@ -176,7 +181,7 @@
                     {
                         id: 'price',
                         title: { literal: 'directives.watchlist.price' },
-                        sort: this._getComparatorByPath('price')
+                        sort: this._getComparatorByPath('lastPrice')
                     },
                     {
                         id: 'change',
@@ -200,10 +205,6 @@
                 this.tableOptions = {
                     filter: this._getTableFilter()
                 };
-
-                // TODO: delete after contest
-                this.isContestTimeNow = permissionManager.isPermitted('CONTEST_TIME');
-                // TODO: delete after contest
             }
 
             $postLink() {
@@ -252,6 +253,10 @@
                     this._assetIdPair.price === pairData.priceAsset.id;
             }
 
+            isLockedPair(amountAssetId, priceAssetId) {
+                return utils.isLockedInDex(amountAssetId, priceAssetId);
+            }
+
             /**
              * @param {WatchList.IPairDataItem} pairData
              */
@@ -260,6 +265,9 @@
                     amount: pairData.amountAsset.id,
                     price: pairData.priceAsset.id
                 };
+                if (this.isLockedPair(pair.amount, pair.price)) {
+                    return null;
+                }
                 this._isSelfSetPair = true;
                 this._assetIdPair = pair;
                 this._isSelfSetPair = false;
@@ -381,7 +389,9 @@
                         this.loadingError = false;
                         return pairs.map(WatchList._addRateForPair(rate));
                     })
-                    .catch(() => (this.loadingError = true));
+                    .catch(() => {
+                        this.loadingError = true;
+                    });
             }
 
             /**
@@ -656,7 +666,9 @@
                         return pair;
                     }
 
-                    const currentVolume = pair.volume.getTokens().times(rate).dp(3, BigNumber.ROUND_HALF_UP);
+                    const currentVolume = pair.volume.getTokens()
+                        .mul(rate)
+                        .roundTo(3, BigNumber.ROUND_MODE.ROUND_HALF_UP);
 
                     return { ...pair, currentVolume };
                 };
@@ -678,14 +690,14 @@
                         return null;
                     }
 
-                    const $body = $element.find('.smart-table__w-tbody');
+                    const $body = $element.find('.smart-table__tbody');
                     const scroll = $body.scrollTop();
                     const chosenOffset = $chosen.offset().top;
                     const bodyOffset = $body.offset().top;
 
                     const top = chosenOffset - bodyOffset + scroll - $body.height() / 2 + $chosen.height() / 2;
 
-                    $element.find('.smart-table__w-tbody').animate({
+                    $element.find('.smart-table__tbody').animate({
                         scrollTop: top
                     }, 300);
                 }, 300);
@@ -706,7 +718,7 @@
              * @private
              */
             static _getBytes(str) {
-                return new Blob([str], { type: 'text/html' }).size;
+                return new Blob([str], { type: 'text/plain' }).size;
             }
 
             static _getAssetsFromPairs(pairs) {
@@ -744,7 +756,7 @@
                     })
                     .then((pairs) => {
                         const promiseList = splitEvery(20, pairs).map((pairs) => {
-                            return ds.api.pairs.info(...pairs)
+                            return ds.api.pairs.info(matcher.currentMatcherAddress, pairs)
                                 .then(infoList => infoList.map((data, i) => ({
                                     ...data,
                                     pairNames:
@@ -828,7 +840,7 @@
         '$element',
         'modalManager',
         'configService',
-        'permissionManager'
+        'matcher'
     ];
 
     angular.module('app.dex')

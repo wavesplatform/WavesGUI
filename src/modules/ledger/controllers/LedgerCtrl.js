@@ -7,14 +7,17 @@
     const PRELOAD_USERS_COUNT = 5;
 
     /**
-     * @param Base
-     * @param $scope
+     * @param {typeof Base} Base
+     * @param {ng.IScope} $scope
+     * @param {*} $state
      * @param {User} user
      * @param {ModalManager} modalManager
      * @param {app.utils} utils
      * @return {LedgerCtrl}
      */
-    const controller = function (Base, $scope, user, modalManager, utils) {
+    const controller = function (Base, $scope, $state, user, modalManager, utils) {
+
+        const analytics = require('@waves/event-sender');
 
         class LedgerCtrl extends Base {
 
@@ -81,9 +84,42 @@
                  * @private
                  */
                 this._runLedgerCommand = '';
+                /**
+                 * @type {Array}
+                 * @private
+                 */
+                this._usersInStorage = [];
+                /**
+                 * @type {boolean}
+                 */
+                this.isPriorityUserTypeExists = false;
+                /**
+                 * @type {string}
+                 * @private
+                 */
+                this._type = 'ledger';
+                /**
+                 * @type {object | null}
+                 */
+                this.userExisted = Object.create(null);
+                /**
+                 * @type {object}
+                 * @private
+                 */
+                this._priorityMap = utils.getImportPriorityMap();
+
+                Promise.all([
+                    user.getFilteredUserList(),
+                    user.getMultiAccountUsers()
+                ]).then(([legacyUsers = [], users = []]) => {
+                    this._usersInStorage = [...legacyUsers, ...users];
+                });
 
                 this.observe('selectDefault', this._onChangeSelectDefault);
                 this.getUsers(PRELOAD_USERS_COUNT);
+                this.observe('selectedUser', this._onSelectUser);
+                this.observe('name', this._onChangeName);
+                analytics.send({ name: 'Import Ledger Click', target: 'ui' });
             }
 
             /**
@@ -200,23 +236,19 @@
              */
             login() {
                 this._runLedgerCommand = 'login';
-                const userSettings = user.getDefaultUserSettings({ termsAccepted: false });
+
                 const newUser = {
                     ...this.selectedUser,
                     userType: this.adapter.type,
                     name: this.name,
-                    settings: userSettings,
-                    saveToStorage: this.saveUserData
+                    networkByte: WavesApp.network.code.charCodeAt(0)
                 };
 
                 this._calculateDisabled(true);
-                const api = ds.signature.getDefaultSignatureApi(newUser);
 
-                return user.create({
-                    ...newUser,
-                    settings: userSettings.getSettings(),
-                    api
-                }, true, true).catch(() => {
+                return user.create(newUser, true, true).then(() => {
+                    $state.go(user.getActiveState('wallet'));
+                }).catch(() => {
                     this.error = true;
                     $scope.$digest();
                 });
@@ -246,12 +278,34 @@
                 this.showVisibleUsers();
             }
 
+            /**
+             * @private
+             */
+            _onSelectUser() {
+                this.userExisted =
+                    this._usersInStorage.find(user => user.address === this.selectedUser.address) ||
+                    null;
+                this.isPriorityUserTypeExists =
+                    !!this.userExisted &&
+                    this._priorityMap[this._type] <= this._priorityMap[this.userExisted.userType];
+            }
+
+            /**
+             * @private
+             */
+            _onChangeName() {
+                const isUnique = this._usersInStorage.some(user => {
+                    return user.name === this.name && user.address !== this.selectedUser.address;
+                });
+                this.importForm.userName.$setValidity('isUnique', !isUnique);
+            }
+
         }
 
         return new LedgerCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'user', 'modalManager', 'utils'];
+    controller.$inject = ['Base', '$scope', '$state', 'user', 'modalManager', 'utils'];
 
     angular.module('app.ledger').controller('LedgerCtrl', controller);
 })();
