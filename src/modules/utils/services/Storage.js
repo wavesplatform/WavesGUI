@@ -134,7 +134,8 @@
                 if (version && migration.lte(version, '1.4.0')) {
                     setTimeout(() => {
                         $injector.get('notification').error({
-                            title: { literal: 'Need update client from official site!' }
+                            title: { literal: 'error.updateClient.title' },
+                            body: { literal: 'error.updateClient.body' }
                         }, -1);
                     }, 2000);
                     this._activeWrite = $q.defer();
