@@ -303,14 +303,15 @@
 
             /**
              * @param {Signable} signable
+             * @param anyData
              * @return {Promise<Signable>}
              */
-            showSignByDevice(signable) {
+            showSignByDevice(signable, anyData = null) {
                 return this._getModal({
                     id: 'sign-by-device',
                     contentUrl: 'modules/utils/modals/signByDevice/signByDevice.html',
                     controller: 'SignByDeviceCtrl',
-                    locals: { signable },
+                    locals: { signable, anyData },
                     clickOutsideToClose: false,
                     escapeToClose: false
                 });

@@ -351,7 +351,7 @@
                 if (toUser.hash === user.hash) {
                     return;
                 }
-
+                this.closeDropdown();
                 user.logout('switch', true);
                 user.login(toUser);
                 analytics.send({ name: 'Switch Account' });
