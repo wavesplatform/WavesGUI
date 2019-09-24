@@ -12,16 +12,46 @@
                 <div class="body-2 basic-500 import-modal__content-text" w-i18n="backupFile.chooseFile"></div>
 
                 <div>
-                    <input type="file" ng-model="$ctrl.file" file-change="$ctrl.onFileChange($event)" w-i18n="backupFile.selectFileBtn"/>
+                    <input class="submit big" type="file"
+                           ng-model="$ctrl.file"
+                           file-change="$ctrl.onFileChange($event)"
+                           w-i18n="backupFile.selectFileBtn"
+                    />
                 </div>
+
+                <div ng-if="$ctrl.readError">
+                    Read error
+                </div>
+
+                <w-button class="submit big" on-click="$ctrl.next()"
+                          disabled="!$ctrl.backup || $ctrl.readError">
+                    <span w-i18n="backupFile.next"></span>
+                </w-button>
             </w-step>
             <w-step>
-                2
+                <div class="body-2 basic-500 import-modal__content-text" w-i18n="backupFile.enterPassword"></div>
+                <w-show-hide-password>
+                    <w-input ng-change="$ctrl.onSetPassword($event)"
+                            name="password"
+                            type="password"
+                            class="big no-validate no-icon"
+                            ng-model="$ctrl.password"
+                            minlength="8"
+                            required>
+                    </w-input>
+                </w-show-hide-password>
+                <w-button class="submit big" on-click="$ctrl.next()"
+                          disabled="$ctrl.password">
+                    <span w-i18n="backupFile.next"></span>
+                </w-button>
             </w-step>
             <w-step>
                 3
             </w-step>
         </w-step-by-step>
+
+
+        <w-get-started-link has-create="::true"></w-get-started-link>
     </div>
 </div>
 

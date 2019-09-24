@@ -30,7 +30,7 @@
             static parseUsers(data) {
                 const backup = JSON.parse(data);
 
-                if (!backup || backup.type !== 'wavesBackup' || !backup.lastOpenVersion) {
+                if (!backup || (backup.type !== 'wavesBackup' || !backup.lastOpenVersion)) {
                     throw new Error('wrongFile');
                 }
 
@@ -43,6 +43,19 @@
                     type: backup.type,
                     lastOpenVersion: backup.lastOpenVersion
                 };
+            }
+
+            next() {
+                if (this.step === 1 && this.backup && this.backup.encrypted) {
+                    this.step = 2;
+                } else if (this.step === 1 && this.backup && !this.backup.encrypted) {
+                    this.decryptedData = this.backup;
+                    this.step = 3;
+                }
+            }
+
+            onSetPassword(e) {
+                this.error = e;
             }
 
             $onDestroy() {
