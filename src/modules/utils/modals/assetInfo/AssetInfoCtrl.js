@@ -80,6 +80,11 @@
                     createPoll(this, this._getCircleGraphData, this._setCircleGraphData, 15000);
                     createPoll(this, AssetInfoCtrl._getTxList, this._setTxList, 4000, { isBalance, $scope });
                 }
+
+                this._updateAsset().then(asset => {
+                    this.quantity = asset.quantity.div(new BigNumber(10).pow(asset.precision)).toFormat();
+                    $scope.$apply();
+                });
             }
 
             togglePin() {
@@ -135,6 +140,14 @@
              */
             _getCircleGraphData() {
                 return waves.node.assets.balance(this.asset.id);
+            }
+
+            /**
+             * @return {*}
+             * @private
+             */
+            _updateAsset() {
+                return waves.node.assets.info(this.asset.id);
             }
 
             /**
