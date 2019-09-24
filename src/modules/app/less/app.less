@@ -156,10 +156,16 @@ body.portfolio {
   cursor: pointer;
   background-repeat: no-repeat;
   background-position: center;
+
+  &_footer {
+    background: @logo-footer;
+    background-position: left;
+    width: 105px;
+    cursor: default;
+  }
 }
 
 body.tokens,
-body.welcome,
 body.wallet,
 body.dex {
   .logo {
@@ -213,7 +219,7 @@ fieldset {
     padding: 10px 80px;
     overflow: hidden;
     margin: 0 auto;
-    max-width: 1440px;
+    max-width: @desktop-full-size;
   }
 }
 
