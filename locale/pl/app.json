@@ -35,6 +35,12 @@
             "Grudzień"
         ]
     },
+    "error": {
+        "updateClient": {
+            "body": "We are constantly working to make Waves DEX better and more useful.\nPlease update the application to continue.  Download the application from the official [website](https://dex.wavesplatform.com/)!",
+            "title": "It's time to update your app!"
+        }
+    },
     "EXK2jJo1PbL9CUNr5FSedw6cueZH5MUCDXNhR1WQEZa4": {
         "description": "Coin Aloha, dla zabawy, dla jakichkolwiek - dobrych lub innych celów ;)"
     },

@@ -35,6 +35,12 @@
             "12월"
         ]
     },
+    "error": {
+        "updateClient": {
+            "body": "We are constantly working to make Waves DEX better and more useful.\nPlease update the application to continue.  Download the application from the official [website](https://dex.wavesplatform.com/)!",
+            "title": "It's time to update your app!"
+        }
+    },
     "EXK2jJo1PbL9CUNr5FSedw6cueZH5MUCDXNhR1WQEZa4": {
         "description": "펑키한 코인, 알로하! 좋든 나쁘든 모든 목적을 응원합니다 ;)"
     },
