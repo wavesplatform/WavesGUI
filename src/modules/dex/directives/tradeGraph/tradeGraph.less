@@ -1,7 +1,7 @@
 @import (reference) 'config';
 @import (reference) '../../../app/less/typography';
 
-w-dex-trade-graph {
+.dex-trade-graph {
   display: block;
   width: 100%;
   position: relative;
@@ -11,12 +11,12 @@ w-dex-trade-graph {
     height: 100%;
   }
 
-  w-empty-block,
-  w-error-block {
+  .empty-block,
+  .error-block {
     margin: 0 auto;
     position: relative;
 
-    .icon {
+    &__icon {
       margin: 15px auto 0;
       background-size: 90%;
     }

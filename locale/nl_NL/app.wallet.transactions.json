@@ -1,0 +1,73 @@
+{
+    "all": "Alle",
+    "confirmTransaction": {
+        "retrySign": "Probeer opnieuw in te loggen"
+    },
+    "csv": {
+        "alias": "Alias naam",
+        "amount": {
+            "id": "Waarde asset ID",
+            "name": "Waarde asset naam",
+            "ticker": "Waarde asset ticker",
+            "value": "Asset waarde"
+        },
+        "attachment": "Transactie bijlage",
+        "date": "Datum",
+        "description": "Token beschrijving",
+        "fee": {
+            "id": "Transactiekosten ID",
+            "name": "Transactiekosten naam",
+            "ticker": "Transactiekosten ticker",
+            "value": "Transactiekosten waarde"
+        },
+        "height": "Transactie hoogte",
+        "id": "Transactie ID",
+        "name": "Token naam",
+        "precision": "Precisie",
+        "price": {
+            "id": "Prijs asset ID",
+            "name": "Prijs asset naam",
+            "ticker": "Prijs asset ticker",
+            "value": "Prijs asset waarde"
+        },
+        "recipient": "Transaction ontvanger",
+        "reissuable": {
+            "false": "Niet heruitgeefbaar",
+            "name": "Kan token heruitgeven",
+            "true": "Heruitgeefbaar"
+        },
+        "sender": "Transactie verzender",
+        "transactionType": "Blockchain transactie type",
+        "type": "Transactie type"
+    },
+    "errors": {
+        "complete": {
+            "body": "De lijst met transacties is niet volledig gedownload. Probeer het later opnieuw.",
+            "title": "Downloaden is niet voltooid."
+        },
+        "download": {
+            "body": "De lijst met transacties is niet gedownload. Probeer het later opnieuw.",
+            "title": "Download error."
+        },
+        "empty": {
+            "body": "Er zijn geen transacties in uw geschiedenis",
+            "title": "Export fout"
+        }
+    },
+    "exchanged": "Verhandeld",
+    "export": "Exporteer",
+    "filter": {
+        "value1": "Recent",
+        "value2": "500 txs",
+        "value3": "1000 txs"
+    },
+    "issued": "Uitgegeven",
+    "leased": "Geleased",
+    "received": "Ontvangen",
+    "sent": "Verstuurd",
+    "transactions": {
+        "script": {
+            "txJson_wallet": "Base64 script"
+        }
+    }
+}

@@ -1,0 +1,16 @@
+{
+    "signUp": {
+        "headers": {
+            "onePassBtn": "Zaczynajmy!",
+            "onePassDesc": "Lokalne przechowywanie danych, fazy SEED i szyfrowanie sprawiają, że WAVES DEX jest niezawodny. Jednak idziemy dalej. Nadszedł czas, aby włączyć nowy poziom bezpieczeństwa. Zaloguj się do swoich kont i przełączaj się między nimi za pomocą kilku kilknięć.",
+            "onePassword": "Jedno hasło do wszystkich kont",
+            "protect": "Chroń Swoje Konta",
+            "protectDesc": "Ustaw jedno hasło dla wszystkich swoich kont",
+            "protectPass": "Utwórz hasło"
+        },
+        "password": {
+            "notMatch": "Hasło nie pasuje"
+        },
+        "termsAgreement": "Przeczytałem i zgadzam się z [Regulaminem] (https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf), [Polityką prywatności] (https://wavesplatform.com/files/docs/Waves_privacy_policy.pdf )."
+    }
+}

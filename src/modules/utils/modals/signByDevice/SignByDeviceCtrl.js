@@ -16,6 +16,10 @@
         class SignByDeviceCtrl extends Base {
 
             /**
+             * @type {*}
+             */
+            anyData = null;
+            /**
              * @type {JQuery.Deferred<Signable>}
              */
             deferred = $.Deferred();
@@ -43,13 +47,22 @@
              * @type {Money}
              */
             total;
+            /**
+             * @type {{type: string, pair: string, amount: Money, type: string}}
+             */
+            order = {
+                type: '',
+                pair: '',
+                amount: null
+            };
 
             /**
              * @param {Signable} signable
+             * @param anyData
              */
-            constructor(signable) {
+            constructor(signable, anyData) {
                 super($scope);
-
+                this.anyData = anyData;
                 this.mode = SignByDeviceCtrl.getSignMode(signable.type);
 
                 signable.getId().then(id => {
@@ -58,6 +71,8 @@
                 });
 
                 this.txData = signable.getTxData();
+
+                this.parseOrderData();
 
                 if (this.txData.price) {
                     this.total = this.txData.price.cloneWithTokens(
@@ -85,20 +100,6 @@
                     });
             }
 
-            onClose() {
-                this.deferred.reject();
-            }
-
-            onLoad(signable) {
-                $mdDialog.hide(signable);
-                $scope.$destroy();
-            }
-
-            onError(error) {
-                $mdDialog.cancel(error);
-                $scope.$destroy();
-            }
-
             /**
              * @param {SIGN_TYPE} type
              * @return string
@@ -116,9 +117,33 @@
                 }
             }
 
+            onClose() {
+                this.deferred.reject();
+            }
+
+            onLoad(signable) {
+                $mdDialog.hide(signable);
+                $scope.$destroy();
+            }
+
+            onError(error) {
+                $mdDialog.cancel(error);
+                $scope.$destroy();
+            }
+
+            parseOrderData() {
+                if (this.mode !== 'cancel-order') {
+                    return null;
+                }
+
+                this.order.type = (this.anyData && this.anyData.type) || '';
+                this.order.pair = (this.anyData && this.anyData.pair) || '';
+                this.order.amount = (this.anyData && this.anyData.amount) || '';
+            }
+
         }
 
-        return new SignByDeviceCtrl(this.signable);
+        return new SignByDeviceCtrl(this.signable, this.anyData);
     };
 
     controller.$inject = ['Base', '$scope', '$mdDialog', 'user'];

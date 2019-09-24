@@ -19,16 +19,12 @@
 
 .logo {
   background: @logo-header;
-
-  &-footer {
-    background: @logo-footer;
-  }
 }
 
 .icon-close {
   width: 40px;
   height: 40px;
-  background: url(/img/icons/close.svg) center no-repeat;
+  background: @close-icon center no-repeat;
   background-size: 16px;
   display: inline-block;
   cursor: pointer;
@@ -349,6 +345,52 @@
   display: block;
 }
 
+.icon-attention {
+  width: 80px;
+  height: 80px;
+  display: block;
+
+  &_orange {
+    background-image: @attention-icon-orange;
+  }
+
+  &_red {
+    background-image: @attention-icon-red;
+  }
+}
+
+.icon-started-blockchain {
+  display: block;
+  width: 286px;
+  height: 220px;
+  background-image: @sign-up-icon;
+  background-size: 100% 100%;
+}
+
+.icon-started-wallet {
+  display: block;
+  width: 286px;
+  height: 220px;
+  background-image: @sign-wallet-icon;
+  background-size: 100% 100%;
+}
+
+.icon-started-token {
+  display: block;
+  width: 286px;
+  height: 220px;
+  background-image: @sign-token-icon;
+  background-size: 100% 100%;
+}
+
+.icon-started-signup {
+  display: block;
+  width: 286px;
+  height: 220px;
+  background-image: @sign-up-icon;
+  background-size: 100% 100%;
+}
+
 .icon-browser {
   width: 80px;
   height: 80px;
@@ -377,6 +419,14 @@
   width: 80px;
   height: 80px;
   background: url(/img/no-preload/userimg-browserwarning-80-mix-sunset.svg) center top no-repeat;
+}
+
+.icon-browser-wrong {
+  display: block;
+  margin: 40px auto 20px;
+  width: 80px;
+  height: 80px;
+  background: url(/img/icons/userimg-browesrbad-80-error-500.svg) center no-repeat;
 }
 
 .icon-connected {
@@ -449,42 +499,8 @@
   flex-shrink: 0;
   display: inline-flex;
 
-  &-min {
-    display: block;
-    width: 24px;
-    height: 24px;
-  }
-
-  &-arrow-right {
-    background: url(/img/landing/arrow-white-right.svg) center no-repeat;
-  }
-
-  &-api {
-    background: url(/img/landing/api.svg) center no-repeat;
-  }
-
-  &-create-token {
-    background: url(/img/landing/create-token.svg) center no-repeat;
-  }
-
-  &-fees {
-    background: url(/img/landing/fees.svg) center no-repeat;
-  }
-
-  &-gateways {
-    background: url(/img/landing/gateways.svg) center no-repeat;
-  }
-
-  &-ledger {
-    background: url(/img/landing/ledger.svg) center no-repeat;
-  }
-
   &-schield {
     background: url(/img/landing/schield.svg) center no-repeat;
-  }
-
-  &-dex {
-    background: url(/img/landing/decentralized.svg) center no-repeat;
   }
 
   &-wallet {
@@ -525,10 +541,6 @@
 
   &-error {
     background: @import-modal-icon-error;
-  }
-
-  &-client {
-    background: @dex-client-icon;
   }
 }
 

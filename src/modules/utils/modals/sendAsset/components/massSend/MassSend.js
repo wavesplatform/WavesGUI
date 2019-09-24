@@ -39,6 +39,16 @@
                 }
             }
 
+            /**
+             * @type {args}
+             */
+            signPending = false;
+            /**
+             * @type {Array}
+             * @private
+             */
+            _listeners = [];
+
             constructor() {
                 super();
                 /**
@@ -91,6 +101,12 @@
                  * @type {boolean}
                  */
                 this.hasFee = false;
+
+                const signPendingListener = $scope.$on('signPendingChange', (event, data) => {
+                    this.signPending = data;
+                });
+
+                this._listeners.push(signPendingListener);
             }
 
             $postLink() {
@@ -101,6 +117,7 @@
                 const transfers = this.tx.transfers || [];
                 this.tx.attachment = this.tx.attachment || '';
                 const assetId = this.state.assetId;
+                this.tx.assetId = assetId;
                 transfers.forEach((item) => {
                     item.amount = this.state.moneyHash[assetId].cloneWithTokens(item.amount.toTokens());
                 });
@@ -134,6 +151,11 @@
                         $scope.$digest();
                     });
                 }
+            }
+
+            $onDestroy() {
+                super.$onDestroy();
+                this._listeners.forEach(listener => listener());
             }
 
             /**
@@ -186,9 +208,8 @@
                 const transfers = this.transfers;
                 if (transfers && transfers.length) {
                     const assetId = this.state.assetId;
-
                     this.clear();
-
+                    this.tx.assetId = assetId;
                     this.transfers = transfers.map((item) => {
                         return {
                             recipient: item.recipient,
@@ -224,6 +245,11 @@
                 if (MassSend._isNotEqual(this.tx.transfers, transfers)) {
                     this.tx.transfers = transfers;
                 }
+
+                if (this.tx.assetId !== this.state.assetId) {
+                    this.tx.assetId = this.state.assetId;
+                }
+
                 this._currentHasFee();
             }
 

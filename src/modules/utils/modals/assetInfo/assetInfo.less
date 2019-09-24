@@ -81,10 +81,8 @@
   }
 }
 
-html body md-dialog.asset-info-modal {
-
+.m-dialog_asset-info {
   md-dialog-content {
-    padding: 0 40px;
     overflow-y: hidden;
 
     &::after {
@@ -101,11 +99,6 @@ html body md-dialog.asset-info-modal {
     .footnote-1();
     overflow-y: auto;
     max-height: calc(~'90vh - 280px');
-  }
-
-  w-tabs {
-    margin: -1px 0 0 -40px;
-    width: calc(100% ~'+ 80px');
   }
 
   @media screen and (max-width: 768px) {
@@ -125,7 +118,7 @@ html body md-dialog.asset-info-modal {
   }
 
   .padding-content .tab-tem {
-    padding: 40px;
+    padding: 40px 0;
 
     .line {
       display: flex;
@@ -150,6 +143,12 @@ html body md-dialog.asset-info-modal {
       &.chart-container {
         .legend-item {
           white-space: nowrap;
+        }
+
+        .circle-chart-legend {
+          .legend-item {
+            height: 38px;
+          }
         }
 
         & > div:first-child {
@@ -240,7 +239,7 @@ html body md-dialog.asset-info-modal {
     }
   }
 
-  .tab-container {
+  .tabs__wrap {
     w-transaction-list ul {
       border-top: none;
 
@@ -264,14 +263,14 @@ html body md-dialog.asset-info-modal {
       display: none;
     }
 
-    w-actions {
+    .actions {
       display: none;
     }
   }
 
   .no-transactions {
-    w-empty-block,
-    w-error-block {
+    .empty-block,
+    .error-block {
       margin: 20px auto;
     }
   }
@@ -279,8 +278,8 @@ html body md-dialog.asset-info-modal {
 
 @media screen and (max-width: 768px) {
 
-  html body md-dialog.asset-info-modal {
-    .tab-container w-transaction-list {
+  .m-dialog_asset-info {
+    .tabs__wrap w-transaction-list {
       .w-visible {
         height: 91px;
       }
@@ -304,27 +303,11 @@ html body md-dialog.asset-info-modal {
 }
 
 @media screen and (max-width: 540px) {
-  html body md-dialog.asset-info-modal {
+  .m-dialog_asset-info {
     padding-bottom: 0;
 
     md-dialog-content {
       overflow-y: auto;
-      height: auto;
-      padding: 0 20px;
-    }
-
-    w-tabs.inner {
-      .titles-wrap {
-        padding: 0;
-      }
-      .tab-body-wrap {
-        height: auto;
-      }
-    }
-
-    w-tabs {
-      margin: 0;
-      width: 100%;
     }
 
     .padding-content .tab-tem {
@@ -347,10 +330,7 @@ html body md-dialog.asset-info-modal {
       }
     }
 
-    .tab-container {
-      width: calc(100% ~'+ 40px');
-      margin-left: -20px;
-
+    .tabs__wrap {
       w-transaction-list ul .transaction-item .date {
         padding-left: 23px;
       }
@@ -359,7 +339,7 @@ html body md-dialog.asset-info-modal {
 }
 
 @media screen and (max-width: 420px) {
-  html body md-dialog.asset-info-modal {
+  .m-dialog_asset-info {
     .padding-content .tab-tem {
       .line.chart-container {
         flex-direction: column;

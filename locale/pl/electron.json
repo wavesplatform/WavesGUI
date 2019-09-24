@@ -1,0 +1,36 @@
+{
+    "menu": {
+        "copy": "Kopiuj",
+        "cut": "Wytnij",
+        "dev_tools": "Narzędzia",
+        "paste": "Wklej",
+        "quit": "Wyjdź",
+        "title": {
+            "application": "Aplikacja",
+            "edit": "Edycja",
+            "god_mode": "God Mode"
+        }
+    },
+    "modal": {
+        "set_protocol_error": {
+            "close": "Zamknij",
+            "message": "Nie można ustawić domyślnego protokołu dla klienta platformy Waves. Łącza z przeglądarki tymczasowo nie są obsługiwane!",
+            "report": "Raport",
+            "title": "Ustaw otwarty błąd protokołu"
+        }
+    },
+    "storage": {
+        "backup": {
+            "error": {
+                "body": "Nie udało się uzyskać kont. Skontaktuj się z działem pomocy technicznej, aby przywrócić kopię zapasową (frazę SEED).",
+                "title": "Coś poszło nie tak!"
+            }
+        },
+        "read": {
+            "error": {
+                "body": "Wystąpił błąd podczas próby załadowania kluczy. Przywróciliśmy Twoje konta z magazynu kopii zapasowych.",
+                "title": "Konta zostały pomyślnie przywrócone z kopii zapasowej"
+            }
+        }
+    }
+}

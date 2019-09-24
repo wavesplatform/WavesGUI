@@ -1,0 +1,37 @@
+{
+    "createAccount": "계정 생성",
+    "notHaveAccounts": "저장된 계정이 없습니다",
+    "nothingHere": "아무것도 없습니다…",
+    "password": {
+        "error": "비밀번호를 다시 입력하세요!"
+    },
+    "signIn": {
+        "btn": {
+            "cancel": "Cancel",
+            "restore": "Reset all"
+        },
+        "enterPass": "Please enter your password to continue",
+        "passForgot": {
+            "attention": "Attention!",
+            "description": "To recover the password, you need to reset all accounts, set a new password, import each account from the Seed phrase or via Private key.",
+            "importantDesc": "If you have not saved the Seed phrase or Private key, then you will not be able to recover access to your account."
+        },
+        "password": {
+            "forgot": "Forgot your password?"
+        },
+        "signIn": "Sign in",
+        "welcomeBack": "Welcome Back!"
+    },
+    "userList": {
+        "address": "주소 / 계정 아이디",
+        "buttons": {
+            "login": "로그인"
+        },
+        "notHaveAccount": "계속하려면 로그인하세요",
+        "password": "비밀번호",
+        "placeholders": {
+            "password": "비밀번호"
+        },
+        "title": "환영합니다"
+    }
+}

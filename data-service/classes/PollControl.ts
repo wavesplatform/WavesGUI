@@ -12,7 +12,12 @@ export class PollControl<T extends IHash<Poll<any>>> {
         this._create = create;
     }
 
-    public restart(): void {
+    public restart(name?: string): void {
+        if (name && this._hash && this._hash[name]) {
+            this._hash[name].restart();
+            return;
+        }
+
         if (this._hash) {
             Object.values(this._hash)
                 .forEach(poll => poll.restart());

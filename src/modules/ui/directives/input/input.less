@@ -1,7 +1,7 @@
 @import (reference) 'config';
 @import (reference) '../../../app/less/typography';
 
-.input-like() {
+.input-like {
   width: 100%;
   height: @height-control-big;
   padding: @padding-control-big;
@@ -11,7 +11,13 @@
   text-align: left;
   box-shadow: none;
   appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
   transition: all 0.3s;
+
+  &.blue {
+    background: @color-basic-200;
+  }
 
   @media screen and (max-width: 768px) {
     height: @height-control-big-responsive;
@@ -135,18 +141,28 @@
   &__wrap {
     position: relative;
     width: 100%;
+
+    &.focused {
+      .byte-validator__help {
+        display: block;
+        color: @color-basic-500;
+      }
+    }
+
+    &.touched.invalid {
+      .byte-validator__help {
+        display: block;
+        color: @color-error-500;
+      }
+    }
   }
 
-  &__value[type="text"],
-  &__value[type="password"],
-  &__value[type="number"],
-  textarea {
+  &__value {
     resize: vertical;
     .input-like();
 
     &:not(.embed):not(.no-validate) {
-      &:focus,
-      &.focus {
+      &:focus, &.focus {
         background-color: @color-white;
         color: @color-basic-900;
         border-color: @input-focused-border;
@@ -216,26 +232,15 @@
       padding-right: 50px;
     }
   }
+}
 
-  .byte-validator__help {
-    position: absolute;
-    top: -20px;
-    display: none;
-    right: 0;
-    color: @color-basic-500;
-    .footnote-1();
-  }
-
-  div.focused .byte-validator__help {
-    display: block;
-    color: @color-basic-500;
-  }
-
-  div.touched.invalid .byte-validator__help,
-  div.focused.invalid .byte-validator__help {
-    display: block;
-    color: @color-error-500;
-  }
+.byte-validator__help {
+  position: absolute;
+  top: -20px;
+  display: none;
+  right: 0;
+  color: @color-basic-500;
+  .footnote-1();
 }
 
 form.ng-submitted {
@@ -270,3 +275,4 @@ form.ng-submitted {
     }
   }
 }
+

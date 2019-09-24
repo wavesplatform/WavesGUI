@@ -1,0 +1,37 @@
+{
+    "ledger": {
+        "article": "bu makale",
+        "connectionError": "Ledger Nano S'e bağlanılamadı..",
+        "connectionText": "Bağlantı zaman aşımına uğramış olabilir. Lütfen tekrar deneyin.",
+        "referTo": "Eğer hata devam ederse lütfen"
+    },
+    "ledgerForm": {
+        "address": "Hesap adresi:",
+        "addressSaved": "Adres kaydedildi",
+        "avatarUnique": "Avatarınız size özeldir. Sonradan değiştirilemez.",
+        "back": "Geri dön",
+        "choose": "Hesabınızı seçin",
+        "help": {
+            "id": "{div}[Set an ID manually or select an account from the list.]\n{div}[Please save the ID, it would be needed for importing.]"
+        },
+        "id": "Account ID",
+        "importAccount": "Ledger hesabını içe aktarın",
+        "ImportOrSignIn": "Hesapları içeri aktar veya",
+        "login": "Devam",
+        "name": "Hesap adı",
+        "nameExists": "Bu isim alınmış",
+        "or": "veya",
+        "retry": "Tekrar deneyin",
+        "savedOne": "kaydedilmiş hesaba",
+        "saveUserData": "Hesabı bu bilgisayarda tut",
+        "selectDefault": "varsayılan hesaba",
+        "signIn": "giriş yap"
+    },
+    "modal": {
+        "sign": {
+            "confirmRequest": "talebi onayla",
+            "confirmRequestMatcher": "Giriş yapın. Eğer Ledger hesabınızdan giriş yapmazsanız merkezsiz borsada takas işlemleri yapamazsınız."
+        }
+    },
+    "or": "Veya"
+}

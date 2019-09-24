@@ -1,0 +1,37 @@
+{
+    "createAccount": "Account erstellen",
+    "notHaveAccounts": "Sie haben keine Konten gespeichert",
+    "nothingHere": "Nichts hier…",
+    "password": {
+        "error": "Falsches Passwort!"
+    },
+    "signIn": {
+        "btn": {
+            "cancel": "Cancel",
+            "restore": "Reset all"
+        },
+        "enterPass": "Please enter your password to continue",
+        "passForgot": {
+            "attention": "Attention!",
+            "description": "To recover the password, you need to reset all accounts, set a new password, import each account from the Seed phrase or via Private key.",
+            "importantDesc": "If you have not saved the Seed phrase or Private key, then you will not be able to recover access to your account."
+        },
+        "password": {
+            "forgot": "Forgot your password?"
+        },
+        "signIn": "Sign in",
+        "welcomeBack": "Welcome Back!"
+    },
+    "userList": {
+        "address": "Account Name",
+        "buttons": {
+            "login": "Einloggen"
+        },
+        "notHaveAccount": "Bitte melden Sie sich an, um fortzufahren.",
+        "password": "Passwort",
+        "placeholders": {
+            "password": "Passwort"
+        },
+        "title": "Willkommen zurück"
+    }
+}

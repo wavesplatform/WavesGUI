@@ -10,9 +10,6 @@ md-dialog.modal-receive {
     color: @color-disabled-900;
 
     .modal-content,
-    .tab-container,
-    .tab-body-wrap,
-    w-tabs,
     w-tab,
     .step-list,
     w-step-by-step,
@@ -118,11 +115,8 @@ md-dialog.modal-receive {
 
     .asset {
       &__name {
-        margin-left: 10px;
-        display: flex;
         flex-direction: column;
         align-items: flex-start;
-        font-size: 15px;
         @media screen and (max-width: 540px) {
           font-size: 13px;
         }
@@ -224,6 +218,10 @@ md-dialog.modal-receive {
       }
     }
   }
+}
+
+.receive-bank__checkbox {
+  margin-bottom: 20px;
 }
 
 

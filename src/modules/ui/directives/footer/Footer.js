@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    const analytics = require('@waves/event-sender');
+
     const controller = function (Base, $scope, $element, utils, storage) {
 
         class FooterCtrl extends Base {
@@ -47,7 +49,14 @@
                 this.lang = localStorage.getItem('lng') === 'ru' ? 'Ru' : 'Global';
 
                 storage.load(this._toasterMobilesStorageKey).then(wasHidden => {
-                    this.isToasterMobilesVisible = !wasHidden;
+                    this.isToasterMobilesVisible = !wasHidden && window.innerWidth <= 768;
+
+                    if (this.isToasterMobilesVisible) {
+                        analytics.send({
+                            name: 'Download Mobile Display',
+                            target: 'all'
+                        });
+                    }
                     utils.safeApply($scope);
                 });
             }
@@ -56,8 +65,11 @@
              * @public
              */
             hideToaster() {
+                analytics.send({
+                    name: 'Download Mobile Close',
+                    target: 'all'
+                });
                 $element.find('.toaster-mobiles').addClass('hidden-toaster');
-
                 storage.save(this._toasterMobilesStorageKey, true);
             }
 

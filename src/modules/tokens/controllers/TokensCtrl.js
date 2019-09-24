@@ -9,8 +9,9 @@
      * @param {BalanceWatcher} balanceWatcher
      * @param {User} user
      * @param {app.utils} utils
+     * @param {PromiseControl} PromiseControl
      */
-    const controller = function (Base, $scope, modalManager, waves, balanceWatcher, user, utils) {
+    const controller = function (Base, $scope, modalManager, waves, balanceWatcher, user, utils, PromiseControl) {
 
         const { SIGN_TYPE, WAVES_ID } = require('@waves/signature-adapter');
         const { BigNumber } = require('@waves/bignumber');
@@ -19,6 +20,26 @@
         const BASE_64_PREFIX = 'base64:';
 
         class TokensCtrl extends Base {
+
+            /**
+             * @type {boolean}
+             */
+            focusName = false;
+
+            /**
+             * @type {PromiseControl}
+             */
+            _findNamePC = null;
+
+            /**
+             * @type {boolean}
+             */
+            agreeConditions = false;
+
+            /**
+             * @type {boolean}
+             */
+            nameWarning = false;
 
             /**
              * Link to angular form object
@@ -101,6 +122,15 @@
              * @type {boolean}
              */
             isNFT = false;
+            /**
+             * @type {args}
+             */
+            signPending = false;
+            /**
+             * @type {Array}
+             * @private
+             */
+            _listeners = [];
 
 
             constructor() {
@@ -133,6 +163,24 @@
                 this.observeOnce('createForm', () => {
                     this.receive(utils.observe(this.createForm, '$valid'), this.createSignable, this);
                 });
+
+                const signPendingListener = $scope.$on('signPendingChange', (event, data) => {
+                    this.signPending = data;
+                });
+
+                this._listeners.push(signPendingListener);
+            }
+
+            $onDestroy() {
+                super.$onDestroy();
+                this._listeners.forEach(listener => listener());
+            }
+
+            /**
+             * @param {boolean} focus
+             */
+            onNameFocus(focus) {
+                this.focusName = !!focus;
             }
 
             generate(signable) {
@@ -149,6 +197,12 @@
             }
 
             createSignable() {
+                this._verifyName().then(
+                    res => {
+                        this.nameWarning = res;
+                        $scope.$apply();
+                    }
+                );
 
                 if (!this.name || !this.createForm || !this.createForm.$valid) {
                     this.assetId = '';
@@ -176,6 +230,19 @@
                     this.assetId = id;
                     utils.safeApply($scope);
                 });
+            }
+
+            /**
+             * @return {*}
+             * @private
+             */
+            _verifyName() {
+                if (this._findNamePC != null) {
+                    this._findNamePC.abort();
+                }
+                this._findNamePC = new PromiseControl(utils.wait(1000));
+                return this._findNamePC
+                    .then(() => utils.assetNameWarning(this.name));
             }
 
             /**
@@ -291,7 +358,8 @@
         return new TokensCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'modalManager', 'waves', 'balanceWatcher', 'user', 'utils'];
+    controller.$inject = ['Base', '$scope', 'modalManager',
+        'waves', 'balanceWatcher', 'user', 'utils', 'PromiseControl'];
 
     angular.module('app.tokens')
         .controller('TokensCtrl', controller);

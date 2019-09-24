@@ -12,6 +12,8 @@
       width: 100%;
       position: relative;
       height: 42px;
+      margin-bottom: 10px;
+
       .title-content {
         height: 36px;
       }
@@ -32,10 +34,14 @@
       position: relative;
       left: @padding-main-layout * -1 / 2;
       margin: @padding-main-layout / 2 0 -@padding-main-layout / 2;
+
+      .asset-logo__logo {
+        margin-right: 6px;
+      }
     }
 
     .chart-rate {
-      height: 394px;
+      //height: 394px;
       box-sizing: border-box;
       background-color: @color-white;
       position: relative;
@@ -89,8 +95,8 @@
       }
 
       .chart-wrapper {
-        height: 239px;
-        padding: 0 10px;
+        height: 279px;
+        //padding: 0 10px;
       }
       .chart-tooltip {
         background: @white-btn-bg;
@@ -103,6 +109,10 @@
       flex-direction: row;
       flex-wrap: wrap;
     }
+  }
+
+  .show-fader + .main-header__header {
+    padding-right: 24px;
   }
 }
 

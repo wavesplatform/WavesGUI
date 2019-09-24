@@ -192,7 +192,7 @@ class Main implements IMain {
     private onAppReady() {
         this.registerProtocol()
             .then(() => this.createWindow())
-            .then(() => this.addContextMenu())
+            .then(() => this.addContextMenu());
     }
 
     private addContextMenu(): Promise<void> {
@@ -217,7 +217,7 @@ class Main implements IMain {
         const ctxMenuTemplate = CONTEXT_MENU(locale);
         const ctxMenu = Menu.buildFromTemplate(ctxMenuTemplate);
         this.ctxMenuList.push(ctxMenu);
-        this.mainWindow.webContents.on('context-menu',  onContextMenu(ctxMenu));
+        this.mainWindow.webContents.on('context-menu', onContextMenu(ctxMenu));
     }
 
     private registerProtocol(): Promise<void> {
@@ -326,7 +326,7 @@ class Main implements IMain {
     private static loadVersion(pack: IPackageJSON): Promise<string> {
         return new Promise<string>((resolve, reject) => {
             const httpGet = get(`https://${pack.server}/package.json?${Date.now()}`, res => {
-                let data = new Buffer('');
+                let data = Buffer.from('');
 
                 // A chunk of data has been recieved.
                 res.on('data', (chunk: Buffer) => {

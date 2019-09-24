@@ -1,0 +1,37 @@
+{
+    "ledger": {
+        "article": "Artikel ini",
+        "connectionError": "Tidak dapat Terhubung pada Perangkat Ledger",
+        "connectionText": "Sambungan mungkin sudah habis waktunya. Silakan coba lagi.",
+        "referTo": "Jika kesalahan berlanjut, silakan merujuk ke"
+    },
+    "ledgerForm": {
+        "address": "Alamat akun:",
+        "addressSaved": "Alamat disimpan",
+        "avatarUnique": "Avatar ini unik, Anda tidak dapat mengubahnya nanti.",
+        "back": "Kembali",
+        "choose": "Pilih akun Anda",
+        "help": {
+            "id": "{div}[Set an ID manually or select an account from the list.]\n{div}[Please save the ID, it would be needed for importing.]"
+        },
+        "id": "Account ID",
+        "importAccount": "Impor akun Ledger",
+        "ImportOrSignIn": "Impor akun atau",
+        "login": "Lanjutkan",
+        "name": "Nama akun",
+        "nameExists": "Nama telah diambil",
+        "or": "Atau",
+        "retry": "Ulangi",
+        "savedOne": "ke akun yang disimpan",
+        "saveUserData": "Biarkan saya tetap masuk di komputer ini",
+        "selectDefault": "Gunakan akun default",
+        "signIn": "masuk"
+    },
+    "modal": {
+        "sign": {
+            "confirmRequest": "Konfirmasi permintaan",
+            "confirmRequestMatcher": "Tandatangani permintaan ke matcher. Jika Anda tidak menandatanganinya, Anda tidak dapat berdagang di DEX dari akun Ledger."
+        }
+    },
+    "or": "Atau"
+}

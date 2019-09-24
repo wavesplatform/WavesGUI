@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <title>Waves Client</title>
+    <title>Waves DEX</title>
     <link rel="icon" href="{{domain}}/img/favicon.ico" type="image/x-icon"/>
 
     <script>
@@ -82,11 +82,11 @@
             margin: 0 auto 80px auto;
         }
 
-        .app-loader.app-loader-transition {
+        .app-preloader.app-preloader-transition {
             animation: loader-transition 4s both;
         }
 
-        .app-loader {
+        .app-preloader {
             z-index: 10000;
             position: fixed;
             top: 0;
@@ -100,7 +100,7 @@
             background: #fff;
         }
 
-        .app-loader .progress {
+        .app-preloader .progress {
             position: absolute;
             top: 0;
             left: 0;
@@ -112,7 +112,7 @@
             -moz-transition: width 1s;
         }
 
-        .loader-wrapper {
+        .preloader-wrapper {
             position: fixed;
             left: 50%;
             top: 50%;
@@ -124,7 +124,7 @@
             text-align: center;
         }
 
-        .loader {
+        .preloader {
             width: 100px;
             height: 100px;
             display: flex;
@@ -135,14 +135,14 @@
             transform: rotate(45deg);
         }
 
-        .loader span {
+        .preloader span {
             position: relative;
             width: 50px;
             height: 50px;
             display: inline-block;
         }
 
-        .loader span::before {
+        .preloader span::before {
             content: '';
             background-color: #1f5af6;
             position: absolute;
@@ -160,42 +160,42 @@
             animation: folding 2.5s infinite linear both;
         }
 
-        .loader .leaf2 {
+        .preloader .preloader__leaf2 {
             -moz-transform: rotateZ(90deg);
             -ms-transform: rotateZ(90deg);
             -webkit-transform: rotateZ(90deg);
             transform: rotateZ(90deg);
         }
 
-        .loader .leaf2::before {
+        .preloader .preloader__leaf2::before {
             -moz-animation-delay: 0.3s;
             -webkit-animation-delay: 0.3s;
             animation-delay: 0.3s;
             background-color: #0a49f2;
         }
 
-        .loader .leaf3 {
+        .preloader .preloader__leaf3 {
             -moz-transform: rotateZ(270deg);
             -ms-transform: rotateZ(270deg);
             -webkit-transform: rotateZ(270deg);
             transform: rotateZ(270deg);
         }
 
-        .loader .leaf3::before {
+        .preloader .preloader__leaf3::before {
             -moz-animation-delay: 0.9s;
             -webkit-animation-delay: 0.9s;
             animation-delay: 0.9s;
             background-color: #0a49f2;
         }
 
-        .loader .leaf4 {
+        .preloader .preloader__leaf4 {
             -moz-transform: rotateZ(180deg);
             -ms-transform: rotateZ(180deg);
             -webkit-transform: rotateZ(180deg);
             transform: rotateZ(180deg);
         }
 
-        .loader .leaf4::before {
+        .preloader .preloader__leaf4::before {
             -moz-animation-delay: 0.6s;
             -webkit-animation-delay: 0.6s;
             animation-delay: 0.6s;
@@ -278,7 +278,7 @@
         }
 
         @media screen and (max-width: 768px) {
-            .app-loader .loader {
+            .app-preloader .preloader {
                 margin: 0 auto;
                 transform: scale(.8) rotate(45deg);
             }
@@ -298,7 +298,7 @@
                         case 'loadingError':
                             clearInterval(__interval);
                             if (config.isBrowserSupported()) {
-                                document.querySelector('.app-loader').style.display = 'none';
+                                document.querySelector('.app-preloader').style.display = 'none';
                                 document.querySelector('.connection-problem').style.display = 'block';
                                 document.querySelector('[name=main]').style.display = 'none';
                             }
@@ -318,7 +318,7 @@
              * @type {IWavesApp}
              */
             var WavesApp = {
-                name: 'Waves Client',
+                name: 'Waves DEX',
                 version: config.pack.version,
                 type: !config.isWeb() ? 'desktop' : 'web',
                 matcherPriorityList: config.network.matcherPriorityList,
@@ -335,18 +335,18 @@
                     matcher: config.network.matcher,
                     api: config.network.api,
                     coinomat: config.network.coinomat,
-                    vostok: {
-                        gateway: config.network.vostok.gateway,
-                        networkByte: config.network.vostok.networkByte
-                    },
+                    wavesGateway: config.network.wavesGateway,
+                    VSTNetworkByte: config.network.VSTNetworkByte,
                     support: config.network.support,
                     termsAndConditions: config.network.termsAndConditions,
                     privacyPolicy: config.network.privacyPolicy,
                     nodeList: config.network.nodeList,
                     scamListUrl: config.network.scamListUrl,
+                    tokensNameListUrl: config.network.tokensNameListUrl,
                     explorer: config.network.explorer,
                     featuresConfigUrl: config.network.featuresConfigUrl,
-                    feeConfigUrl: config.feeConfigUrl
+                    feeConfigUrl: config.feeConfigUrl,
+                    tokenrating: config.network.tokenrating
                 },
                 defaultAssets: {
                     WAVES: 'WAVES',
@@ -362,10 +362,17 @@
                     TRY: config.network.assets.TRY,
                     XMR: config.network.assets.XMR,
                     VST: config.network.assets.VST,
-                    ERGO: config.network.assets.ERGO
+                    ERGO: config.network.assets.ERGO,
+                    BNT: config.network.assets.BNT
                 },
+                rewriteAssets: [{
+                    id: config.network.assets.VST,
+                    name: 'VST',
+                    description: 'Waves Enterprise Platform System Token'
+                }],
                 tradingPairs: config.tradingPairs,
                 ALWAYS_PINNED_ASSETS: ['WAVES'],
+                WCTAsset: config.network.assets.WCT,
 
                 otherAssetsWithIcons: {
                     // TODO @xenohunter : remove that when icons are in @dvshur's service
@@ -459,7 +466,8 @@
     </script>
 
     {{#if isWeb}}
-        <base href="/">{{/if}}
+        <base href="/">
+    {{/if}}
 
     <script>
         try {
@@ -510,11 +518,11 @@
     <w-container-alert-notification type="userNotification"></w-container-alert-notification>
 </div>
 
-<div class="app-loader">
+<div class="app-preloader">
     <div class="progress"></div>
-    <div class="loader-wrapper">
-        <div class="loader"><span class="leaf1"></span><span class="leaf2"></span><span class="leaf3"></span><span
-            class="leaf4"></span></div>
+    <div class="preloader-wrapper">
+        <div class="preloader"><span class="preloader__leaf1"></span><span class="preloader__leaf2"></span><span class="preloader__leaf3"></span><span
+            class="preloader__leaf4"></span></div>
     </div>
 </div>
 
@@ -572,7 +580,7 @@
     </div>
 </div>
 
-<ui-view name="main"></ui-view>
+<ui-view name="main" class="ui-view ui-view_main"></ui-view>
 
 <div class="notifications">
     <w-container-alert-notification type="notification"></w-container-alert-notification>
@@ -599,10 +607,33 @@
             id: 'root',
             children: [
                 {
+                    id: 'signUp',
+                    data: {
+                        url: '/sign-up',
+                        noLogin: true,
+                        views: [{ name: 'main' }]
+                    }
+                },
+                {
                     id: 'signIn',
                     data: {
                         url: '/sign-in',
                         noLogin: true,
+                        views: [{ name: 'main' }]
+                    }
+                },
+                {
+                    id: 'switch',
+                    data: {
+                        url: '/switch',
+                        noLogin: true,
+                        views: [{ name: 'main' }]
+                    }
+                },
+                {
+                    id: 'migrate',
+                    data: {
+                        url: '/migrate?id',
                         views: [{ name: 'main' }]
                     }
                 },
@@ -625,7 +656,6 @@
                     id: 'saveSeed',
                     data: {
                         url: '/save-seed',
-                        noLogin: true,
                         views: [{ name: 'main' }]
                     }
                 },
@@ -639,7 +669,6 @@
                 {
                     id: 'create',
                     data: {
-                        noLogin: true,
                         views: [{ name: 'main' }]
                     }
                 },
@@ -647,7 +676,6 @@
                     id: 'restore',
                     data: {
                         url: '/import/restore',
-                        noLogin: true,
                         views: [{ name: 'main' }]
                     }
                 },
@@ -655,7 +683,6 @@
                     id: 'ledger',
                     data: {
                         url: '/import/ledger',
-                        noLogin: true,
                         views: [{ name: 'main' }]
                     }
                 },
@@ -663,14 +690,12 @@
                     id: 'keeper',
                     data: {
                         url: '/import/waveskeeper',
-                        noLogin: true,
                         views: [{ name: 'main' }]
                     }
                 },
                 {
                     id: 'import',
                     data: {
-                        noLogin: true,
                         views: [{ name: 'main' }]
                     }
                 },
@@ -701,7 +726,7 @@
                                 views: [{
                                     name: 'mainContent',
                                     noController: true,
-                                    template: '<ui-view name="content"></ui-view>'
+                                    template: '<ui-view name="content" class="ui-view"></ui-view>'
                                 }],
                                 redirectTo: 'main.wallet.assets'
                             },

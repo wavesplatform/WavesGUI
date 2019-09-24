@@ -1,14 +1,15 @@
 @import (reference) 'icons';
 
-w-empty-block {
+.empty-block {
   width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
 
-  .icon {
+  &__icon {
     background-image: @empty-icon;
     background-repeat: no-repeat;
     background-position: center center;

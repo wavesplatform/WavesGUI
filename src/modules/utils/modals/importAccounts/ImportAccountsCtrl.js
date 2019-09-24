@@ -14,7 +14,7 @@
     const controller = function (Base, $scope, utils, user, storage, $state, $mdDialog) {
 
         const { find, propEq, uniqBy, filter, pipe, prop } = require('ramda');
-        const { utils: generatorUtils } = require('@waves/signature-generator');
+        const { isValidAddress } = require('@waves/signature-adapter');
 
         const OLD_ORIGIN = 'https://client.wavesplatform.com';
 
@@ -33,14 +33,12 @@
                 this.checkedHash = Object.create(null);
                 this._myUserList = [];
 
-                const userListPromise = user.getFilteredUserList().catch(() => []);
-
-                userListPromise.then(
-                    (userList) => {
+                user.getFilteredUserList()
+                    .catch(() => [])
+                    .then((userList) => {
                         this._myUserList = userList;
                         return this.importFromOld();
-                    }
-                );
+                    });
             }
 
             /**
@@ -73,7 +71,8 @@
                     .catch(() => [])
                     .then(list => {
                         this.pending = false;
-                        const filteredList = list.filter(user => generatorUtils.crypto.isValidAddress(user.address));
+                        const networkByte = WavesApp.network.code.charCodeAt(0);
+                        const filteredList = list.filter(user => isValidAddress(user.address, networkByte));
                         this._addAccountList(filteredList);
                     });
             }

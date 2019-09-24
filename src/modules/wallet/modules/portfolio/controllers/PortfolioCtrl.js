@@ -27,17 +27,17 @@
      * @param {app.utils} utils
      * @param {ModalManager} modalManager
      * @param {User} user
-     * @param {EventManager} eventManager
      * @param {GatewayService} gatewayService
      * @param {$state} $state
      * @param {STService} stService
      * @param {VisibleService} visibleService
      * @param {BalanceWatcher} balanceWatcher
+     * @param {INotification} notification
      * @return {PortfolioCtrl}
      */
     const controller = function (Base, $scope, waves, utils, modalManager, user,
-                                 eventManager, gatewayService, $state,
-                                 stService, visibleService, balanceWatcher) {
+                                 gatewayService, $state,
+                                 stService, visibleService, balanceWatcher, notification) {
 
         class PortfolioCtrl extends Base {
 
@@ -168,6 +168,23 @@
                 this.receive(stService.sort, () => {
                     visibleService.updateSort();
                 });
+
+                waves.node.assets.getNft(1).then(list => {
+                    if (list.length) {
+                        const id = `n-${Date.now()}`;
+                        notification.info({
+                            id,
+                            ns: 'app.wallet.portfolio',
+                            title: {
+                                literal: 'hasNftToken',
+                                params: { address: user.address }
+                            }
+                        }, -1);
+                        this.signals.destroy.once(() => {
+                            notification.remove(id);
+                        });
+                    }
+                });
             }
 
             /**
@@ -188,7 +205,7 @@
              * @param {Asset} asset
              */
             showReceivePopup(asset) {
-                return modalManager.showReceiveModal(user, asset);
+                return modalManager.showReceiveModal(asset);
             }
 
             /**
@@ -397,12 +414,12 @@
         'utils',
         'modalManager',
         'user',
-        'eventManager',
         'gatewayService',
         '$state',
         'stService',
         'visibleService',
-        'balanceWatcher'
+        'balanceWatcher',
+        'notification'
     ];
 
     angular.module('app.wallet.portfolio')

@@ -2,32 +2,34 @@
     'use strict';
 
     /**
-     * @param Base
-     * @param $scope
-     * @param $state
-     * @param user
-     * @param modalManager
-     * @param storage
-     * @param ChartFactory
+     * @param {typeof Base} Base
+     * @param {ng.IScope} $scope
+     * @param {User} user
+     * @param {ModalManager} modalManager
+     * @param {app.utils.Storage} storage
+     * @param {ChartFactory} ChartFactory
      * @param {app.utils} utils
      * @param {JQuery} $element
      * @param {Waves} waves
+     * @param {Matcher} matcher
      * @return {WelcomeCtrl}
      */
-    const controller = function (Base,
-                                 $scope,
-                                 $state,
-                                 user,
-                                 modalManager,
-                                 utils,
-                                 waves,
-                                 $element,
-                                 ChartFactory,
-                                 storage) {
+    const controller = function (
+        Base,
+        $scope,
+        user,
+        modalManager,
+        utils,
+        waves,
+        $element,
+        ChartFactory,
+        storage,
+        matcher
+    ) {
 
         const ds = require('data-service');
         const { Money } = require('@waves/data-entities');
-        const { flatten } = require('ramda');
+        const { flatten, uniqBy } = require('ramda');
         const { BigNumber } = require('@waves/bignumber');
 
         const WCT_ID = WavesApp.network.code === 'T' ?
@@ -80,28 +82,28 @@
 
         const chartOptions = {
             red: {
-                charts: [
-                    {
-                        axisX: 'timestamp',
-                        axisY: 'rate',
+                axisX: 'timestamp',
+                axisY: 'rate',
+                view: {
+                    rate: {
                         lineColor: '#ef4829',
                         fillColor: '#FFF',
                         gradientColor: ['#FEEFEC', '#FFF'],
                         lineWidth: 4
                     }
-                ]
+                }
             },
             blue: {
-                charts: [
-                    {
-                        axisX: 'timestamp',
-                        axisY: 'rate',
+                axisX: 'timestamp',
+                axisY: 'rate',
+                view: {
+                    rate: {
                         lineColor: '#1f5af6',
                         fillColor: '#FFF',
                         gradientColor: ['#EAF0FE', '#FFF'],
                         lineWidth: 4
                     }
-                ]
+                }
             }
         };
 
@@ -118,23 +120,25 @@
             /**
              * @type {boolean}
              */
-            hasUsers = false;
+            hasMultiAccount = false;
 
             constructor() {
                 super($scope);
 
-                if (WavesApp.isWeb()) {
-                    storage.load('accountImportComplete')
-                        .then((complete) => {
-                            if (complete) {
-                                this._initUserList();
-                            } else {
+                this._initDeviceTypes();
+
+                user.getMultiAccountData().then(data => {
+                    this.hasMultiAccount = !!data;
+
+                    if (!this.hasMultiAccount && this.isWeb) {
+                        storage.load('accountImportComplete').then(complete => {
+                            if (!complete) {
                                 this._loadUserListFromOldOrigin();
                             }
                         });
-                } else {
-                    this._initUserList();
-                }
+                    }
+                });
+
                 this._initPairs();
             }
 
@@ -143,7 +147,7 @@
              */
             _addScrollHandler() {
                 const scrolledView = $element.find('.scrolled-view');
-                const header = $element.find('w-site-header');
+                const header = $element.find('w-main-header');
 
                 scrolledView.on('scroll', () => {
                     header.toggleClass('fixed', scrolledView.scrollTop() > whenHeaderGetFix);
@@ -176,7 +180,9 @@
 
                 const startDate = utils.moment().add().day(-7);
                 Promise.all(PAIRS_IN_SLIDER.map(pair => ds.api.pairs.get(pair.amount, pair.price)))
-                    .then(pairs => Promise.all(pairs.map(pair => ds.api.pairs.info(pair))))
+                    .then(pairs => Promise.all(pairs.map(
+                        pair => ds.api.pairs.info(matcher.currentMatcherAddress, [pair])))
+                    )
                     .then(infoList => {
                         const flattenInfoList = flatten(infoList);
 
@@ -222,31 +228,26 @@
              * @private
              */
             _insertCharts() {
-                const marketRows = $element.find('.table-markets .row-content');
+                const marketRows = $element.find('.js-table-markets .js-row-content');
                 PAIRS_IN_SLIDER.forEach((pair, i) => {
                     const options = this.pairsInfoList[i].change24.gt(0) ? chartOptions.blue : chartOptions.red;
+                    const chartData = {
+                        rate: this.pairsInfoList[i].rateHistory
+                    };
                     new ChartFactory(
                         marketRows.eq(i).find('.graph'),
                         options,
-                        this.pairsInfoList[i].rateHistory
+                        chartData
                     );
                 });
             }
 
-
             /**
              * @private
              */
-            _initUserList() {
-                user.getFilteredUserList()
-                    .then((list) => {
-                        this.userList = list;
-                        this.hasUsers = this.userList && this.userList.length > 0;
-                        this.pendingRestore = false;
-                        setTimeout(() => {
-                            $scope.$apply(); // TODO FIX!
-                        }, 100);
-                    });
+            _initDeviceTypes() {
+                this.isDesktop = WavesApp.isDesktop();
+                this.isWeb = WavesApp.isWeb();
             }
 
             /**
@@ -259,17 +260,20 @@
 
                 utils.importAccountByIframe(OLD_ORIGIN, 5000)
                     .then((userList) => {
-                        this.pendingRestore = false;
-                        this.userList = userList || [];
+                        user.getFilteredUserList()
+                            .then((list) => {
+                                this.pendingRestore = false;
+                                const newUserList = uniqBy(user => user.name, userList.concat(list) || list);
 
-                        storage.save('accountImportComplete', true);
-                        storage.save('userList', userList);
-
-                        $scope.$apply();
+                                storage.save('accountImportComplete', true);
+                                storage.save('userList', newUserList);
+                                utils.postDigest($scope).then(() => {
+                                    $scope.$apply();
+                                });
+                            });
                     })
                     .catch(() => {
                         storage.save('accountImportComplete', true);
-                        this._initUserList();
                     });
             }
 
@@ -281,14 +285,14 @@
     controller.$inject = [
         'Base',
         '$scope',
-        '$state',
         'user',
         'modalManager',
         'utils',
         'waves',
         '$element',
         'ChartFactory',
-        'storage'
+        'storage',
+        'matcher'
     ];
 
     angular.module('app.welcome')

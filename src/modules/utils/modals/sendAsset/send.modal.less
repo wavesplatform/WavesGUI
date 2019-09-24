@@ -29,11 +29,8 @@ md-dialog.modal-send {
     color: @color-disabled-900;
 
     .modal-content,
-    .tab-container,
-    .tab-body-wrap,
-    w-tabs,
-    w-tab,
     .step-list,
+    w-tab,
     w-step-by-step,
     w-step,
     w-step > div {
@@ -45,6 +42,10 @@ md-dialog.modal-send {
     w-single-send {
       display: block;
       max-height: calc(90vh ~'- 60px');
+    }
+
+    .error-content {
+      padding: 60px 40px 40px;
     }
 
     w-step.send-form .tab-body-wrap {
@@ -183,7 +184,6 @@ md-dialog.modal-send {
     }
 
     .asset__name {
-      margin-left: 10px;
       max-width: 122px;
     }
 
@@ -223,7 +223,6 @@ md-dialog.modal-send {
     w-select {
       .asset {
         &__name {
-          font-size: 15px;
           @media screen and (max-width: 540px) {
             font-size: 13px;
           }
@@ -290,6 +289,10 @@ md-dialog.modal-send {
 
       &.asset__amount {
         max-width: 100px;
+
+        .decimal {
+          font-family: @font-roboto-regular;
+        }
       }
     }
 
@@ -369,7 +372,6 @@ md-dialog.modal-send {
         text-align: right;
       }
     }
-
   }
 
 }
@@ -378,7 +380,7 @@ md-dialog.modal-send {
   md-dialog.modal-send {
     md-dialog-content {
       w-step.send-form{
-        .tab-body-wrap {
+        .tabs__body {
           padding: 20px 20px 0;
           display: block;
         }

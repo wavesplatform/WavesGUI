@@ -4,6 +4,11 @@
 
     const analytics = require('@waves/event-sender');
     const ds = require('data-service');
+    const WAVES_GATEWAY_ASSETS_ID = [
+        WavesApp.defaultAssets.VST,
+        WavesApp.defaultAssets.ERGO,
+        WavesApp.defaultAssets.BNT
+    ];
 
     /**
      * @param {typeof ConfirmTxService} ConfirmTxService
@@ -39,13 +44,14 @@
             }
 
             sendTransaction() {
-                if (this.signable.getTxData().amount.asset.id !== WavesApp.defaultAssets.VST) {
+                const signableAmountAsset = this.signable.getTxData().amount.asset;
+                if (!WAVES_GATEWAY_ASSETS_ID.includes(signableAmountAsset.id)) {
                     return super.sendTransaction();
                 }
 
                 return this.signable.getDataForApi()
                     .then(data => {
-                        return ds.fetch(`${WavesApp.network.vostok.gateway}/api/v1/external/send`, {
+                        return ds.fetch(`${WavesApp.network.wavesGateway}/api/v1/external/send`, {
                             method: 'POST',
                             body: WavesApp.stringifyJSON({
                                 ...data,
@@ -54,10 +60,10 @@
                         });
                     })
                     .then(data => {
-                        analytics.send({ name: 'VOSTOK Transaction Success' });
+                        analytics.send({ name: `${signableAmountAsset.name.toUpperCase()} Transaction Success` });
                         return data;
                     }, (error) => {
-                        analytics.send({ name: 'VOSTOK Transaction Error' });
+                        analytics.send({ name: `${signableAmountAsset.name.toUpperCase()} Transaction Error` });
                         return Promise.reject(error);
                     });
             }

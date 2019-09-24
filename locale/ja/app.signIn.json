@@ -1,0 +1,37 @@
+{
+    "createAccount": "アカウントを作成",
+    "notHaveAccounts": "保存したアカウントがありません",
+    "nothingHere": "表示するデータがありません",
+    "password": {
+        "error": "パスワードが間違っています！"
+    },
+    "signIn": {
+        "btn": {
+            "cancel": "Cancel",
+            "restore": "Reset all"
+        },
+        "enterPass": "Please enter your password to continue",
+        "passForgot": {
+            "attention": "Attention!",
+            "description": "To recover the password, you need to reset all accounts, set a new password, import each account from the Seed phrase or via Private key.",
+            "importantDesc": "If you have not saved the Seed phrase or Private key, then you will not be able to recover access to your account."
+        },
+        "password": {
+            "forgot": "Forgot your password?"
+        },
+        "signIn": "Sign in",
+        "welcomeBack": "Welcome Back!"
+    },
+    "userList": {
+        "address": "アドレス / アカウント名",
+        "buttons": {
+            "login": "ログイン"
+        },
+        "notHaveAccount": "サインインして続行",
+        "password": "パスワード",
+        "placeholders": {
+            "password": "パスワード"
+        },
+        "title": "おかえりなさい"
+    }
+}

@@ -1,4 +1,4 @@
-<w-site-header></w-site-header>
+<w-main-header class="main-header"></w-main-header>
 <div w-i18n-ns="app.utils" class="main-container movable">
     <div class="main-container-wrapper">
         <div class="keeper-content get-started-content">
@@ -12,7 +12,7 @@
 
                 <div class="text-center" ng-if="$ctrl.loading">
                     <h3 class="basic-700" w-i18n="keeperForm.heading"></h3>
-                    <w-loader></w-loader>
+                    <w-loader class="loader"></w-loader>
                 </div>
 
                 <div ng-if="$ctrl.noKeeper">
@@ -85,36 +85,47 @@
                     <w-avatar address="$ctrl.selectedUser.address"
                               size="30"
                               type="keeper"
-                              class="margin-right-1"></w-avatar>
+                              class="avatar"></w-avatar>
                     <div>{{$ctrl.selectedUser.address}}</div>
                 </div>
 
                 <div class="margin-2">
                     <div class="body-2 basic-900 margin-05" w-i18n="keeperForm.name"></div>
-                    <w-input w-autofocus
-                             class="input big no-validate no-icon"
-                             type="text"
-                             maxlength="20"
-                             ng-model="$ctrl.selectedUser.name">
-                    </w-input>
+                    <form name="$ctrl.importForm">
+                        <w-input-container>
+                            <w-input w-autofocus
+                                     name="userName"
+                                     class="input big no-icon flex"
+                                     type="text"
+                                     maxlength="24"
+                                     ng-model="$ctrl.selectedUser.name"
+                                     required>
+                            </w-input>
+                            <w-input-error ng-class="{hidden: !$ctrl.importForm.userName.$error.isUnique}">
+                                <span w-i18n="keeperForm.nameExists"></span>
+                            </w-input-error>
+                        </w-input-container>
+                    </form>
                 </div>
-                <div class="flex get-started-checkbox-save">
-                    <w-checkbox-submit ng-model="$ctrl.saveUserData" id="save-user-data"></w-checkbox-submit>
-                    <label for="save-user-data" class="footnote-1 basic-500">
-                        <span w-i18n="keeperForm.saveUserData"></span>
+                <div class="checkbox-input keeper-content__checkbox">
+                    <w-checkbox-submit class="checkbox-submit" ng-model="$ctrl.saveUserData" id="save-user-data"></w-checkbox-submit>
+                    <label for="save-user-data" class="checkbox-input__label footnote-1">
+                        <span class="checkbox-input__label-content" w-i18n="keeperForm.saveUserData"></span>
                     </label>
                 </div>
 
+                <div class="margin-1 margin-top-1 error-500" ng-if="$ctrl.isPriorityUserTypeExists" w-i18n="keeperForm.addressSaved"></div>
                 <div class="margin-3">
-                    <w-button class="submit big long" on-click="$ctrl.login()">
+                    <w-button class="submit big long" on-click="$ctrl.login()"
+                              disabled="$ctrl.importForm.$invalid || $ctrl.isPriorityUserTypeExists">
                         <span w-i18n="keeperForm.login"></span>
                     </w-button>
                 </div>
-
-                <w-get-started-link has-sign-in="::true" has-create="::true"></w-get-started-link>
+                <w-get-started-link class="get-started-link" has-create="::true"></w-get-started-link>
             </div>
 
         </div>
     </div>
 </div>
-<w-footer></w-footer>
+
+<w-footer class="footer"></w-footer>
