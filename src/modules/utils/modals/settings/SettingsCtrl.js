@@ -220,7 +220,7 @@
                     catchProcessor(() => api.getPublicKey()),
                     catchProcessor(() => api.getEncodedSeed())
                 ]).then(([seed, privateKey, publicKey, encodedSeed]) => {
-                    this.phrase = seed;
+                    this.phrase = typeof seed === 'string' ? seed : null;
                     this.encodedSeed = encodedSeed;
                     this.privateKey = privateKey;
                     this.publicKey = publicKey;
