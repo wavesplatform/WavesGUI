@@ -21,6 +21,10 @@
              * @type {number}
              */
             step = 0;
+            /**
+             * @type {string}
+             */
+            password = '';
 
             constructor() {
                 super($scope);
@@ -46,16 +50,32 @@
             }
 
             next() {
-                if (this.step === 1 && this.backup && this.backup.encrypted) {
-                    this.step = 2;
-                } else if (this.step === 1 && this.backup && !this.backup.encrypted) {
+                if (this.step === 0 && this.backup && this.backup.encrypted) {
+                    this.password = '';
+                    this.step = 1;
+                } else if (this.step === 0 && this.backup && !this.backup.encrypted) {
+                    this.password = '';
                     this.decryptedData = this.backup;
-                    this.step = 3;
+                    this.step = 2;
+                } else if (this.step === 1 && this.password) {
+                    this.decryptedData = this.decryptData();
+                    if (this.decryptedData) {
+                        this.step = 2;
+                    }
                 }
             }
 
-            onSetPassword(e) {
-                this.error = e;
+            decryptData() {
+                try {
+                    const data = { ...this.backup };
+                    const users = JSON.parse(
+                        libs.crypto.decryptSeed(data.saveUsers, this.password, data.encryptionRounds)
+                    );
+                    this.readError = null;
+                    return users;
+                } catch (e) {
+                    this.readError = 'wrongFile';
+                }
             }
 
             $onDestroy() {

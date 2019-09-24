@@ -28,6 +28,7 @@
                     <span w-i18n="backupFile.next"></span>
                 </w-button>
             </w-step>
+
             <w-step>
                 <div class="body-2 basic-500 import-modal__content-text" w-i18n="backupFile.enterPassword"></div>
                 <w-show-hide-password>
@@ -41,7 +42,7 @@
                     </w-input>
                 </w-show-hide-password>
                 <w-button class="submit big" on-click="$ctrl.next()"
-                          disabled="$ctrl.password">
+                          disabled="!$ctrl.password">
                     <span w-i18n="backupFile.next"></span>
                 </w-button>
             </w-step>
