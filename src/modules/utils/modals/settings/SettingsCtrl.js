@@ -2,6 +2,7 @@
     'use strict';
 
     const ds = require('data-service');
+    const { libs } = require('@waves/waves-transactions');
     const { path } = require('ramda');
     const analytics = require('@waves/event-sender');
 
@@ -220,11 +221,21 @@
                     catchProcessor(() => api.getPublicKey()),
                     catchProcessor(() => api.getEncodedSeed())
                 ]).then(([seed, privateKey, publicKey, encodedSeed]) => {
-                    this.phrase = typeof seed === 'string' ? seed : null;
+
+                    let canSeed = encodedSeed && seed && typeof seed === 'string';
+
+                    try {
+                        canSeed = canSeed && libs.crypto.stringToBytes(seed)
+                            .join(',') === libs.crypto.base58Decode(encodedSeed).join(',');
+                    } catch (e) {
+                        canSeed = false;
+                    }
+
+                    this.phrase = canSeed ? seed : null;
                     this.encodedSeed = encodedSeed;
                     this.privateKey = privateKey;
                     this.publicKey = publicKey;
-                    this.allowParing = !!this.phrase;
+                    this.allowParing = canSeed;
                     $scope.$digest();
                 });
             }
