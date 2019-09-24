@@ -1,13 +1,13 @@
-<div class="tab-container" ng-class="$ctrl.mod">
-    <div class="titles-wrap">
+<div class="tabs__wrap" ng-class="$ctrl.mod">
+    <div class="tabs__header">
         <a ng-repeat="tab in $ctrl.tabs.components track by tab.id"
-           ng-class="{active: tab.selected}"
+           ng-class="{tabs__title_active: tab.selected}"
            ng-click="$ctrl.select(tab)"
            w-i18n="{{tab.title}}"
-           class="title"></a>
+           class="tabs__title"></a>
     </div>
 
-    <div class="tab-body-wrap">
+    <div class="tabs__body">
         <ng-transclude></ng-transclude>
     </div>
 </div>

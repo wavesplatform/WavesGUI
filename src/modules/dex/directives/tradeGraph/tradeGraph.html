@@ -1,5 +1,5 @@
 <div class="graph-wrapper">
-    <w-loader ng-if="$ctrl.pending"></w-loader>
+    <w-loader class="loader" ng-if="$ctrl.pending"></w-loader>
     <w-chart ng-if="!$ctrl.pending && $ctrl.canShowGraph && !$ctrl.loadingError"
              data="$ctrl.data"
              options="$ctrl.options"
@@ -15,6 +15,6 @@
         </w-chart-plate>
     </w-chart>
 
-    <w-empty-block ng-if="!$ctrl.pending && !$ctrl.canShowGraph && !$ctrl.loadingError"></w-empty-block>
-    <w-error-block ng-if="!$ctrl.pending && $ctrl.loadingError"></w-error-block>
+    <w-empty-block class="empty-block" ng-if="!$ctrl.pending && !$ctrl.canShowGraph && !$ctrl.loadingError"></w-empty-block>
+    <w-error-block class="error-block" ng-if="!$ctrl.pending && $ctrl.loadingError"></w-error-block>
 </div>

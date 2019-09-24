@@ -44,23 +44,19 @@
                         <div class="step-left" ng-click="$ctrl.stepLeft()" ng-class="{disabled: $ctrl.disabledLeft}"><div class="icon-left"></div></div>
                         <div class="step-right" ng-click="$ctrl.stepRight()" ng-class="{disabled: $ctrl.disabledRight}"><div class="icon-right"></div></div>
                     </div>
-
-                    <div class="avatars-list">
-                        <div class="avatar-wrapper"
-                            ng-if="!$ctrl.loading"
-                            ng-class="{active: $ctrl.selectedUser === user, disabled: $ctrl.isUserDisable($index)}"
-                            ng-repeat="user in $ctrl.visibleUsers track by user.id"
-                            ng-click="$ctrl.selectUser(user)"
-                        >
-                            <w-avatar
-                                address="user.address"
-                                type="ledger"
-                            ></w-avatar>
-                        </div>
+                <div class="avatars-list">
+                    <div class="avatar__wrapper"
+                         ng-if="!$ctrl.loading"
+                         ng-repeat="user in $ctrl.visibleUsers track by user.id">
+                         <w-avatar class="avatar avatar_create"
+                                   address="user.address"
+                                   ng-click="$ctrl.selectUser(user)"
+                                    type="ledger"
+                                    ng-class="{'avatar_active': $ctrl.selectedUser === user, avatar_disabled: $ctrl.isUserDisable($index)}"></w-avatar>
                     </div>
 
                     <div class="loader-wrapper" ng-if="$ctrl.loading">
-                        <w-loader></w-loader>
+                        <w-loader class="loader"></w-loader>
                     </div>
                 </div>
                 <div class="body-2 basic-900 margin-05" w-i18n="ledgerForm.address"></div>
@@ -70,10 +66,10 @@
                     </div>
                 </div>
 
-                <div class="flex get-started-checkbox-save">
-                    <w-checkbox-submit ng-model="$ctrl.selectDefault" id="select-default"></w-checkbox-submit>
-                    <label for="select-default" class="footnote-1 basic-500">
-                        <span w-i18n="ledgerForm.selectDefault"></span>
+                <div class="checkbox-input ledger__checkbox">
+                    <w-checkbox-submit class="checkbox-submit" ng-model="$ctrl.selectDefault" id="select-default"></w-checkbox-submit>
+                    <label for="select-default" class="checkbox-input__label footnote-1">
+                        <span class="checkbox-input__label-content" w-i18n="ledgerForm.selectDefault"></span>
                     </label>
                 </div>
 
@@ -106,11 +102,9 @@
                 >
                     <span w-i18n="ledgerForm.login"></span>
                 </w-button>
-
-                <w-get-started-link has-create="::true"></w-get-started-link>
+                <w-get-started-link class="get-started-link" has-create="::true"></w-get-started-link>
             </div>
         </div>
     </div>
 </div>
-
-<w-footer></w-footer>
+<w-footer class="footer"></w-footer>
