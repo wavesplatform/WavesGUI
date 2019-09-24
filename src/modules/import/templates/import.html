@@ -19,6 +19,16 @@
                     </div>
                 </div>
 
+                <div class="import-modal__block" ui-sref="fromBackup"
+                     w-analytics event="'Import File Backup Click'" event-target="'ui'">
+                    <div class="import-modal__icon import-modal__icon-keyStoreFile"></div>
+                    <div class="import-modal__content">
+                        <div class="body-1 margin-1 import-modal__content-title" w-i18n="backupFile"></div>
+                        <div class="body-2 basic-500 import-modal__content-text"
+                             w-i18n="backupFileDescription"></div>
+                    </div>
+                </div>
+
                 <div ng-if="isDesktop" class="import-modal__block" ui-sref="ledger">
                         <div class="import-modal__icon import-modal__icon-ledger"></div>
                         <div class="import-modal__content">

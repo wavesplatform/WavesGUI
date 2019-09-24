@@ -1,0 +1,28 @@
+<w-main-header class="main-header"></w-main-header>
+
+<div w-i18n-ns="app.utils" class="main-container movable">
+    <div class="main-container-wrapper">
+
+        <div class="text-center">
+            <div class="headline-1 margin-4" w-i18n="backupFile.heading">Import from Keystore File</div>
+        </div>
+
+        <w-step-by-step active-step="$ctrl.step">
+            <w-step>
+                <div class="body-2 basic-500 import-modal__content-text" w-i18n="backupFile.chooseFile"></div>
+
+                <div>
+                    <input type="file" ng-model="$ctrl.file" file-change="$ctrl.onFileChange($event)" w-i18n="backupFile.selectFileBtn"/>
+                </div>
+            </w-step>
+            <w-step>
+                2
+            </w-step>
+            <w-step>
+                3
+            </w-step>
+        </w-step-by-step>
+    </div>
+</div>
+
+<w-footer></w-footer>
