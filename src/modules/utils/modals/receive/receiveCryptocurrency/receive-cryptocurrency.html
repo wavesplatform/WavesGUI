@@ -77,8 +77,8 @@
         <w-loader class="loader" ng-if="!$ctrl.gatewayAddress"></w-loader>
     </w-copy-wrap>
 
-    <div class="or" ng-if="!$ctrl.gatewayServerError">
-        <span w-i18n="modal.deposit.or"></span>
+    <div class="det-started-link__or or" ng-if="!$ctrl.gatewayServerError">
+        <span class="get-started-link__or-content" w-i18n="modal.deposit.or"></span>
     </div>
 
     <div class="qr-wrapper center margin-2" ng-if="!$ctrl.gatewayServerError" w-toggle-class-container>

@@ -119,11 +119,20 @@
                 }
             }
 
+            checkSeed(seed, publicKey) {
+                return publicKey === libs.crypto.publicKey(seed);
+            }
+
+            checkPK(privateKey, publicKey) {
+                return libs.crypto.publicKey({ privateKey }) === publicKey;
+            }
+
             onSubmit() {
                 try {
                     this._hidePasswordError();
 
-                    const { userType, id, publicKey, address } = this.userToMigrate;
+                    const { id, publicKey, address } = this.userToMigrate;
+                    const userType = userType || 'seed';
                     const networkByte = base58Decode(address)[1];
                     const seed = userType === 'seed' ?
                         ds.Seed.decryptSeedPhrase(
@@ -137,6 +146,14 @@
                             this.migratePassword
                         ) :
                         undefined;
+
+                    if (seed && !this.checkSeed(seed, publicKey)) {
+                        throw new Error('Incorrect seed');
+                    }
+
+                    if (privateKey && !this.checkPK(privateKey, publicKey)) {
+                        throw new Error('Incorrect private key');
+                    }
 
                     this.migrateUser({
                         userType,
