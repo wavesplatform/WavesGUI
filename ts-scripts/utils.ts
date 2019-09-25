@@ -501,7 +501,7 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
             res.end(readFileSync(join(__dirname, '..', 'package.json')));
         } else if (isTradingView(url)) {
             get(`https://dex.wavesplatform.com/${url}`, (resp: IncomingMessage) => {
-                let data = new Buffer('');
+                let data = Buffer.from('');
 
                 // A chunk of data has been recieved.
                 resp.on('data', (chunk: Buffer) => {

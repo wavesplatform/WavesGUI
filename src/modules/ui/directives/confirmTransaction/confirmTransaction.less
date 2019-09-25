@@ -3,6 +3,14 @@
 .txinfo {
   display: block;
   width: 100%;
+
+  &__wrapper {
+    w-transaction-info-header + .tabs {
+      .tabs__wrap .tabs__body {
+        overflow: inherit;
+      }
+    }
+  }
 }
 
 w-confirm-transaction {
