@@ -23,6 +23,7 @@ w-create-order {
   width: 100%;
   max-height: 100%;
   overflow: hidden;
+  position: relative;
 
   .plate-note {
     padding: 6px 14px;
@@ -217,6 +218,11 @@ w-create-order {
           padding: 6px 25px 17px;
           background: @color-white;
 
+          @media screen and (max-width: 720px) {
+            padding-right: 16px;
+            padding-left: 16px;
+          }
+
           .field-label {
             margin-top: 8px;
             padding-bottom: 4px;
@@ -270,8 +276,9 @@ w-create-order {
               border-radius: 4px;
               border: 1px solid @color-basic-200;
               height: 32px;
+              box-sizing: content-box;
 
-              @media screen and (max-width: 860px) {
+              @media screen and (max-width: 720px) {
                 height: 34px;
               }
 
@@ -287,7 +294,7 @@ w-create-order {
                 border: 0;
                 border-radius: 4px;
 
-                @media screen and (max-width: 860px) {
+                @media screen and (max-width: 720px) {
                   height: 34px;
                 }
 
