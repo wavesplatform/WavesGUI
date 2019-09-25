@@ -259,17 +259,19 @@ timeout(time:20, unit:'MINUTES') {
                                         writeFile file: "./${artifactsDir}/${serviceName}/${serviceName}-deployment.yaml", text: deploymentConfFileContent
 
                                         // deploy container to kuber
-                                        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: Constants.AWS_KUBERNETES_KEY, secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-                                            sh """
-                                                docker run -i --rm \
-                                                    -v "${env.WORKSPACE}/${artifactsDir}/${serviceName}":/root/app \
-                                                    -e AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}" \
-                                                    -e AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}" \
-                                                    -e KUBE_CLUSTER_NAME="${Constants.AWS_KUBERNETES_KUBE_CLUSTER_NAME}" \
-                                                    -e AWS_REGION="${Constants.AWS_KUBERNETES_AWS_REGION}" \
-                                                    -e CONFIG_PATH="${serviceName}-deployment.yaml" \
-                                                    "${Constants.DOCKER_KUBERNETES_EXECUTOR_IMAGE}"
-                                                """
+                                        docker.withRegistry(Constants.DOCKER_REGISTRY_ADDRESS, Constants.DOCKER_REGISTRY_CREDS) {
+                                            withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: Constants.AWS_KUBERNETES_KEY, secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+                                                sh """
+                                                    docker run -i --rm \
+                                                        -v "${env.WORKSPACE}/${artifactsDir}/${serviceName}":/root/app \
+                                                        -e AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}" \
+                                                        -e AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}" \
+                                                        -e KUBE_CLUSTER_NAME="${Constants.AWS_KUBERNETES_KUBE_CLUSTER_NAME}" \
+                                                        -e AWS_REGION="${Constants.AWS_KUBERNETES_AWS_REGION}" \
+                                                        -e CONFIG_PATH="${serviceName}-deployment.yaml" \
+                                                        "${Constants.DOCKER_KUBERNETES_EXECUTOR_IMAGE}"
+                                                    """
+                                            }
                                         }
                                         pipeline_status["deployed-${serviceName}"] = true
                                         ut.notifySlack("waves-deploy-alerts",
