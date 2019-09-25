@@ -19,6 +19,7 @@
         "candleChart": {
             "error": "{div}[チャートをダウンロードできません。]{div}[アプリケーション内でチャートの利用を希望する場合 [tradingview.com](https://tradingview.com)にリクエストを送信して下さい。]"
         },
+        "charts": "charts",
         "createOrder": {
             "1day": "1日",
             "1hour": "1時間",
@@ -32,8 +33,12 @@
             "buy": "購入",
             "createOrderNotPermitted": "現在、注文することができません",
             "errors": {
+                "amountMax": "Max Amount - ",
+                "amountMin": "Min Amount - ",
                 "balance": "{{name}} が足りません",
                 "precision": "小数点数の最大は {{precision}} 桁です",
+                "priceMax": "Max Price - ",
+                "priceMin": "Min Price - ",
                 "required": "この項目は必須です"
             },
             "expiration": "有効期限",
@@ -63,6 +68,8 @@
             "priceField": "指値",
             "sell": "売却",
             "spread": "スプレッド",
+            "stopPriceField": "Stop price",
+            "stopPriceHelp": "This is an automatic buy or sell order at a predetermined price",
             "total": "合計"
         },
         "demo": {
@@ -144,6 +151,7 @@
                 "header": "何かがおかしいようです"
             }
         },
+        "orders": "orders",
         "portfolio": {
             "title": "ポートフォリオ"
         },
@@ -229,10 +237,12 @@
             "all": "すべて",
             "btc": "Btc",
             "eth": "ETH",
+            "history": "history",
             "myBalance": "自分の残高",
             "myTradeHistory": "自分のトレード履歴",
             "openOrders": "自分の未約定注文",
             "OrderHistory": "自分のトレード履歴",
+            "trade": "Trade",
             "tradeHistory": "トレード履歴",
             "waves": "Waves"
         }

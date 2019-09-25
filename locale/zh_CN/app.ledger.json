@@ -12,7 +12,7 @@
         "back": "返回",
         "choose": "选择您的帐户",
         "help": {
-            "id": "{div} [手动设置ID或从列表中选择一个帐户。] \n {div} [请保存ID，导入时需要。]"
+            "id": "{div}[手动设置ID或从列表中选择一个帐户。] \n {div}[请保存ID，导入时需要。]"
         },
         "id": "帐户ID",
         "importAccount": "导入 Ledger 帐户",
