@@ -13,8 +13,8 @@ md-dialog.modal-send {
     color: @color-disabled-900;
 
     .modal-content,
-    .tab-container,
-    .tab-body-wrap,
+    .tabs__wrap,
+    .tabs__body,
     w-tabs,
     w-tab,
     .step-list,
@@ -31,7 +31,7 @@ md-dialog.modal-send {
       max-height: calc(90vh ~'- 60px');
     }
 
-    w-step.send-form .tab-body-wrap {
+    w-step.send-form .tabs__body {
       display: block;
       @media screen and (min-width: 541px) {
         padding: 40px 40px 0;
@@ -378,7 +378,7 @@ md-dialog.modal-send {
   md-dialog.modal-send {
     md-dialog-content {
       w-step.send-form{
-        .tab-body-wrap {
+        .tabs__body {
           padding: 20px 20px 0;
           display: block;
         }

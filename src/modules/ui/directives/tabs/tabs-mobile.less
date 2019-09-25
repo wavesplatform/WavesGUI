@@ -3,7 +3,7 @@
 
 @media screen and (max-width: 720px) {
 	body.dex .tabs_mobile {
-		.titles-wrap {
+		.tabs__header {
 			position: fixed;
 			bottom: 0;
 			left: 0;
@@ -36,7 +36,7 @@
 		}
 
 		.tabs_mobile-orders {
-			.titles-wrap .title:last-child {
+			.tabs__header .title:last-child {
 				padding-right: 16px;
 
 				&::before {
@@ -65,7 +65,7 @@
 		}
 	
 		&-orders, &-history {
-			.titles-wrap {
+			.tabs__header {
 				position: relative;
 				bottom: auto;
 				right: auto;
@@ -117,14 +117,14 @@
 			}
 		}
 	
-		&-history .titles-wrap {
+		&-history .tabs__header {
 			.title {
 				margin-right: 30px;
 			}
 		}
 	
 		&-orders {
-			.titles-wrap {
+			.tabs__header {
 				overflow-x: auto;
 	
 				.title.active::before {

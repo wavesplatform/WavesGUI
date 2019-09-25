@@ -1,7 +1,7 @@
 @import (reference) 'config';
 @import (reference) '../../../app/less/typography';
 
-w-tabs.inner .titles-wrap {
+w-tabs.inner .tabs__header {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -62,13 +62,13 @@ w-tabs.header {
   width: 100%;
   height: 100%;
 
-  .tab-container {
+  .tabs__wrap {
     display: flex;
     flex-direction: column;
     height: 100%;
   }
 
-  .tab-body-wrap {
+  .tabs__body {
     max-height: calc(90vh ~'- 60px');
     overflow: auto;
     height: 100%;
@@ -80,7 +80,7 @@ w-tabs.header {
     }
   }
 
-  .titles-wrap {
+  .tabs__header {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -131,7 +131,7 @@ w-tabs.header {
   }
 }
 
-.tab-container,
+.tabs__wrap,
 .tab-tem,
 .tabs {
   display: block;
@@ -139,7 +139,7 @@ w-tabs.header {
 }
 
 @media screen and (max-width: 768px) {
-  w-tabs .titles-wrap {
+  w-tabs .tabs__header {
     padding: 0;
   }
 }
@@ -147,18 +147,18 @@ w-tabs.header {
 @media screen and (max-width: 540px) {
   w-confirm-gateway-transaction,
   w-confirm-transaction {
-    w-tabs .titles-wrap {
+    w-tabs .tabs__header {
       margin: 0 -20px;
       width: calc(100% ~'+ 40px');
     }
   }
 
   w-tabs.header {
-    .tab-body-wrap {
+    .tabs__body {
       max-height: none;
     }
 
-    .titles-wrap {
+    .tabs__header {
       width: 100%;
       padding: 0 20px;
       margin: 0;
@@ -179,7 +179,7 @@ w-tabs.header {
       }
     }
 
-    .tab-body-wrap .tab-tem {
+    .tabs__body .tab-tem {
       padding: 20px 0 0;
       max-height: 100%;
     }
