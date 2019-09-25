@@ -37,7 +37,7 @@
     },
     "error": {
         "updateClient": {
-            "body": "We are constantly working to make Waves DEX better and more useful.\nPlease update the application to continue.  Download the application from the official [website](https://dex.wavesplatform.com/)!",
+            "body": "We are constantly working to make Waves DEX better and more useful.\nPlease update the application to continue.  Download the application from the official [website](https://wavesplatform.com/technology/wallet)!",
             "title": "It's time to update your app!"
         }
     },
