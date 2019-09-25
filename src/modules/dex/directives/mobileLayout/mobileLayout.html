@@ -1,8 +1,8 @@
-<div w-i18n-ns="app.dex" class="mobile-layout">
-    <div class="{{$ctrl.watchListVisible ? 'mobile-watchlist__bg' : ''}}">
+<div w-i18n-ns="app.dex" class="mobile-layout__wrap">
+    <div class="{{$ctrl.watchListVisible ? 'mobile-layout__watchlist-bg' : ''}}">
         <div class="mobile-layout__watchlist-header mobile-watchlist-header"
              ng-click="$ctrl.watchListVisible = !$ctrl.watchListVisible">
-            <div>
+            <div class="mobile-watchlist-header__left">
                 <div class="mobile-watchlist-header__pair-tickers">
                     {{$ctrl.pairInfo.amountAsset.displayName}} / {{$ctrl.pairInfo.priceAsset.displayName}}
                 </div>
@@ -11,8 +11,7 @@
                                                                               precision="3"></span>
                 </div>
             </div>
-    <!--        TODO @Gakhramanov change class name some-wrapper, or use different decision-->
-            <div class="some-flex-wrapper">
+            <div class="mobile-watchlist-header__right">
                 <div class="{{$ctrl.watchListVisible ? 'mobile-watchlist-header__info opened' : 'mobile-watchlist-header__info'}}">
                     <div class="mobile-watchlist-header__change24 mobile-watchlist-header__change24_{{$ctrl.pairInfo.change24.gt(0) ? 'blue' : 'red'}}">
                         <span>{{$ctrl.pairInfo.change24.gt(0) ? '+' :  ''}}{{$ctrl.pairInfo.change24}}%</span>
