@@ -44,50 +44,6 @@
         class User {
 
             /**
-             * @type {Signal<string>} setting path
-             */
-            get changeSetting() {
-                return this._settings.change;
-            }
-
-            get hash() {
-                return this.currentUser ? this.currentUser.hash : null;
-            }
-
-            get address() {
-                return this.currentUser ? this.currentUser.address : null;
-            }
-
-            get name() {
-                return this.currentUser ? this.currentUser.name : null;
-            }
-
-            set name(name) {
-                if (this.currentUser) {
-                    this.currentUser.name = name;
-                }
-            }
-
-            get userType() {
-                return this.currentUser ? this.currentUser.userType : null;
-            }
-
-            get publicKey() {
-                return this.currentUser ? this.currentUser.publicKey : null;
-            }
-
-            get matcherSign() {
-                return this.currentUser ? this.currentUser.matcherSign : null;
-            }
-
-            /**
-             * @type {boolean}
-             */
-            get isAuthorised() {
-                return !!this.address;
-            }
-
-            /**
              * @type {Signal<{}>}
              */
             loginSignal = new tsUtils.Signal();
@@ -102,7 +58,7 @@
             /**
              * @type {ICurrentUser|null}
              */
-            currentUser = null
+            currentUser = null;
             /**
              * @type {Money}
              */
@@ -173,6 +129,50 @@
                 this._settings.change.on(() => this._onChangeSettings());
 
                 Mousetrap.bind(['ctrl+shift+k'], () => this.switchNextTheme());
+            }
+
+            /**
+             * @type {Signal<string>} setting path
+             */
+            get changeSetting() {
+                return this._settings.change;
+            }
+
+            get hash() {
+                return this.currentUser ? this.currentUser.hash : null;
+            }
+
+            get address() {
+                return this.currentUser ? this.currentUser.address : null;
+            }
+
+            get name() {
+                return this.currentUser ? this.currentUser.name : null;
+            }
+
+            set name(name) {
+                if (this.currentUser) {
+                    this.currentUser.name = name;
+                }
+            }
+
+            get userType() {
+                return this.currentUser ? this.currentUser.userType : null;
+            }
+
+            get publicKey() {
+                return this.currentUser ? this.currentUser.publicKey : null;
+            }
+
+            get matcherSign() {
+                return this.currentUser ? this.currentUser.matcherSign : null;
+            }
+
+            /**
+             * @type {boolean}
+             */
+            get isAuthorised() {
+                return !!this.address;
             }
 
             setScam(hash) {
@@ -419,6 +419,24 @@
                     this.initScriptInfoPolling();
                     analytics.send({ name: 'Sign In Success' });
                 });
+            }
+
+            goToActiveState() {
+                if (!this.initRouteState) {
+                    $state.go(this.getActiveState('wallet'));
+                }
+            }
+
+            /**
+             * @param {string} name
+             * @param {string} params
+             */
+            setInitRouteState(name, params) {
+                if (this.initRouteState) {
+                    return;
+                }
+                this.initRouteState = true;
+                this.loginSignal.once(() => $state.go(name, params));
             }
 
             /**
