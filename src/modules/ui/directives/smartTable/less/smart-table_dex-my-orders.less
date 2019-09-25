@@ -117,9 +117,6 @@
       }
 
       &__cell {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
         flex-basis: 100px;
 
         .decimal-muted {
@@ -128,6 +125,10 @@
 
         &[data-column-id="controls"] {
           padding-left: 0;
+
+          .cell {
+            overflow: inherit;
+          }
         }
 
         &__cell[data-column-id="fee"] {

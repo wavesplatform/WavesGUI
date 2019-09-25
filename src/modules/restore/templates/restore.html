@@ -55,7 +55,7 @@
                                      required></w-input>
                         </form>
                         <div class="address-block-info">
-                            <w-avatar ng-if="$ctrl.address" class="address-block-avatar"
+                            <w-avatar ng-if="$ctrl.address" class="avatar address-block-avatar"
                                       address="$ctrl.address"></w-avatar>
                             <div ng-if="!$ctrl.address" class="avatar-fake margin-right-1"></div>
                             <div class="address-block">
@@ -67,7 +67,7 @@
                             </div>
                         </div>
                     </div>
-
+                    
                     <div ng-if="$ctrl.activeTab === TABS.seed && $ctrl.address && $ctrl.seed.length <= 59"
                          class="plate-warning warning-500 body-2 margin-3">
                         <div class="body-2 margin-05" w-i18n="warningSeed.title"></div>
@@ -98,10 +98,8 @@
 
                 </w-step>
             </w-step-by-step>
-
-            <w-get-started-link has-create="::true"></w-get-started-link>
+            <w-get-started-link class="get-started-link" has-create="::true"></w-get-started-link>
         </div>
     </div>
 </div>
-
-<w-footer></w-footer>
+<w-footer class="footer"></w-footer>

@@ -9,8 +9,10 @@
 			left: 0;
 			right: 0;
 			display: flex;
+			background: transparent;
+			padding: 0;
 			
-			.title {
+			.tabs__title {
 				.footnote-1();
 				text-transform: capitalize;
 				flex: 1;
@@ -22,21 +24,20 @@
 				color: @color-basic-700;
 				border-top: 2px solid transparent;
 				font-weight: bold;
+				padding: 0;
 	
 				&:last-child {
 					margin-right: 0;
 				}
-	
-				&.active {
-					border: 0 none;
-					border-top: 2px solid @color-submit-400;
-					color: @color-submit-400;
-				}
 			}
 		}
 
+		.tab-tem {
+			padding-top: 0;
+		}
+
 		.tabs_mobile-orders {
-			.tabs__header .title:last-child {
+			.tabs__header .tabs__title:last-child {
 				padding-right: 16px;
 
 				&::before {
@@ -74,7 +75,7 @@
 				background: @color-white;
 				box-shadow: none;
 	
-				.title {
+				.tabs__title {
 					margin: 0;
 					border-top: 0;
 					margin-right: 20px;
@@ -82,21 +83,6 @@
 					position: relative;
 					flex: inherit;
 					white-space: nowrap;
-					
-					&.active {
-						border-top: 0;
-	
-						&::before {
-							content: '';
-							display: block;
-							position: absolute;
-							top: 100%;
-							left: 0;
-							width: 100%;
-							height: 2px;
-							background:  @color-submit-400;
-						}
-					}
 				}
 			}
 	
@@ -118,7 +104,7 @@
 		}
 	
 		&-history .tabs__header {
-			.title {
+			.tabs__title {
 				margin-right: 30px;
 			}
 		}
@@ -126,11 +112,6 @@
 		&-orders {
 			.tabs__header {
 				overflow-x: auto;
-	
-				.title.active::before {
-					top: auto;
-					bottom: 0;
-				}
 			}
 		}
 	}

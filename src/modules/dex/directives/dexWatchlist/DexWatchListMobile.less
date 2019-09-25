@@ -35,28 +35,46 @@
 					border: 0 none;
 					position: relative;
 	
-					&.active {
-						color: @color-submit-400;
+				}
+				.title.active, .select.active .title-content {
+					color: @color-submit-400;
+					position: relative;
 
-						&::before {
-							content: '';
-							display: block;
-							position: absolute;
-							top: calc(100% - 1px);
-							left: 0;
-							width: 100%;
-							height: 2px;
-							background:  @color-submit-400;
-						}
-						&::after {
-							display: none;
-						}
+					&::before {
+						content: '';
+						display: block;
+						position: absolute;
+						top: calc(100% - 1px);
+						left: 0;
+						width: 100%;
+						height: 2px;
+						background:  @color-submit-400;
+					}
+
+					&::after {
+						display: none;
 					}
 				}
 
-				.select .title {
-					margin-right: 0;
-					padding: 0 35px 0 15px;
+				.select {
+					&.expanded .title {
+						border: 1px solid @color-basic-100;
+            border-bottom: 0 none;
+					}
+
+					.title {
+						margin-right: 0;
+						padding: 0 35px 0 15px;
+						border: 0 none;
+
+						&::before {
+							display: none;
+						}
+					}
+
+					&.active::after {
+						display: none;
+					}
 				}
 			}
 		}

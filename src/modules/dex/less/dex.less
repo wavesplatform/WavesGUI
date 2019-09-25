@@ -144,6 +144,7 @@ body.dex-demo {
         .title {
           height: 42px;
           font-size: 13px;
+
           &.active {
             background: @color-white;
           }
@@ -163,8 +164,23 @@ body.dex-demo {
       &__tradehistory .tabs {
         .tabs__header {
           height: 42px;
+
           .title {
             height: 42px;
+          }
+        }
+
+        .tab-tem {
+          overflow-x: auto;
+        }
+
+        .tabs-myOrderHistory {
+          .smart-table {
+            &__cell {
+              .decimal-muted {
+                color: @color-basic-900;
+              }
+            }
           }
         }
       }
@@ -266,6 +282,51 @@ body.dex-demo {
     
             &.active {
               border: 0 none;
+
+      // .tabs {
+      //   .smart-table {
+      //     &__w-tbody {
+      //       .smart-table {
+      //         &__row {
+      //           position: relative;
+
+      //           &:hover {
+      //             .underline:after {
+      //               display: none;
+      //             }
+      //           }
+
+      //           .status-mobile {
+      //             display: inline-block;
+      //           }
+
+      //           &.active {
+      //             .dropdown {
+      //               transform: rotate(180deg);
+      //             }
+
+      //             & + .active::before {
+      //               background: @color-basic-100;
+      //               height: 1px;
+      //               width: calc(100% ~'- 20px');
+      //               position: absolute;
+      //               top: 0;
+      //               left: 10px;
+      //               display: block;
+      //               content: '';
+      //             }
+      //           }
+      //         }
+      //       }
+      //     }
+
+      //     &__cell {
+      //       padding: 0;
+
+              &::after,
+              &::before {
+                display: none;
+              }
             }
           }
         }
@@ -320,6 +381,7 @@ body.dex-demo {
       height: 100%;
     }
 
+
     .tabs {
       w-scroll-box {
         height: 100%;
@@ -327,6 +389,58 @@ body.dex-demo {
         width: 100%;
         overflow-y: auto;
         overflow-x: hidden;
+
+      // .dex-layout {
+      //   &__tradehistory {
+
+      //     w-dex-my-balance {
+      //       .smart-table {
+      //         &__w-tbody {
+      //           max-height: 217px;
+      //         }
+      //       }
+      //     }
+
+      //     .tabs__body .tab-tem {
+      //       padding: 0;
+      //     }
+
+      //     w-dex-trade-history {
+      //       .smart-table {
+      //         &__w-tbody {
+      //           max-height: 243px;
+      //         }
+
+      //         &.my-trade-history {
+      //           .smart-table {
+      //             &__w-tbody {
+      //               max-height: 255px;
+      //             }
+      //           }
+      //         }
+      //       }
+      //     }
+
+      //     w-dex-my-orders {
+      //       .smart-table {
+      //         &__w-tbody {
+      //           max-height: 254px;
+      //         }
+      //       }
+      //     }
+
+      //   }
+      // }
+
+      // .dex-wrapper {
+      //   .tabs {
+      //     w-scroll-box {
+      //       height: 392px;
+      //       width: 100%;
+      //       overflow-y: auto;
+      //       overflow-x: hidden;
+      //     }
+      //   }
       }
     }
   }

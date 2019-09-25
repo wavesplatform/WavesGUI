@@ -18,6 +18,7 @@ md-dialog.modal-send {
     w-tabs,
     w-tab,
     .step-list,
+    w-tab,
     w-step-by-step,
     w-step,
     w-step > div {
@@ -31,7 +32,12 @@ md-dialog.modal-send {
       max-height: calc(90vh ~'- 60px');
     }
 
-    w-step.send-form .tabs__body {
+
+    .error-content {
+      padding: 60px 40px 40px;
+    }
+    
+    w-step.send-form .tab-body-wrap {
       display: block;
       @media screen and (min-width: 541px) {
         padding: 40px 40px 0;

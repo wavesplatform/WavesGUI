@@ -504,7 +504,7 @@
                     this.logoutSignal.dispatch({});
 
                     if (!isSwitch) {
-                        this.changeTheme(themes.getDefaultTheme());
+                        this.changeTheme(themes.getDefaultTheme(), { dontSave: true });
                         multiAccount.signOut();
                         $state.go(stateName, undefined, { custom: { logout: true } });
                     }
@@ -595,10 +595,16 @@
                 return themes.getSettings(currentTheme);
             }
 
-            changeTheme(theme) {
+            /**
+             * @param {string} theme
+             * @param {*} [options]
+             * @param {boolean} [options.dontSave] Use that for change theme without saving to user settings
+             */
+            changeTheme(theme, options) {
                 const currentTheme = this.getSetting('theme');
                 const newTheme = themes.changeTheme(theme || this.getSetting('theme'));
-                if (currentTheme !== newTheme) {
+
+                if (currentTheme !== newTheme && options && !options.dontSave) {
                     this.setSetting('theme', newTheme);
                 }
                 // analytics.push('Settings', 'Settings.ChangeTheme', newTheme);
