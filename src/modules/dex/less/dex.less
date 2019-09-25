@@ -244,6 +244,11 @@ body.dex-demo {
         height: calc(100% ~'- 53px');
         overflow: hidden;
         border-radius: 2px;
+
+        @media screen and (max-height: 400px) {
+          height: calc(100vh ~'- 165px');
+          overflow: auto;
+        }
       }
 
       .mobile-tab {
@@ -273,6 +278,16 @@ body.dex-demo {
           display: none;
         }
       }
+    }
+  }
+}
+
+@media screen and (max-width: 720px) and (max-height: 400px) {
+  body.dex,
+  body.dex-demo {
+    .tabs .tab-body-wrap {
+      height: calc(100vh ~'- 165px');
+      overflow: auto;
     }
   }
 }
