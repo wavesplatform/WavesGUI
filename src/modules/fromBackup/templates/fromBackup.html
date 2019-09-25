@@ -3,14 +3,17 @@
 <div w-i18n-ns="app.utils" class="main-container movable">
     <div class="main-container-wrapper">
 
-        <div class="text-center">
-            <div class="headline-1 margin-4" w-i18n="backupFile.heading">Import from Keystore File</div>
-        </div>
-
         <w-step-by-step active-step="$ctrl.step">
             <w-step>
-                <div class="body-2 basic-500 import-modal__content-text" w-i18n="backupFile.chooseFile"></div>
 
+
+                <div class="text-center">
+                    <div class="headline-1 margin-4" w-i18n="backupFile.importFromFile">Import from Keystore File</div>
+                </div>
+                <div class="text-center margin-2">
+                    <div class="body-2 basic-500 import-modal__content-text" w-i18n="backupFile.importFromFileDescription"></div>
+                    <a class="submit-400 body-2" w-i18n="backupFile.back" ui-sref="import"></a>
+                </div>
                 <div>
                     <input class="submit big" type="file"
                            ng-model="$ctrl.file"
@@ -30,7 +33,14 @@
             </w-step>
 
             <w-step>
-                <div class="body-2 basic-500 import-modal__content-text" w-i18n="backupFile.enterPassword"></div>
+                <div class="text-center">
+                    <div class="headline-1 margin-4" w-i18n="backupFile.enterPassword"></div>
+                </div>
+                <div class="text-center margin-2">
+                    <div class="body-2 basic-500 import-modal__content-text" w-i18n="backupFile.enterPasswordDescription"></div>
+                    <a class="submit-400 body-2" w-i18n="backupFile.back" ui-sref="import"></a>
+                </div>
+
                 <w-show-hide-password>
                     <w-input ng-change="$ctrl.onSetPassword($event)"
                             name="password"
@@ -47,7 +57,40 @@
                 </w-button>
             </w-step>
             <w-step>
-                3
+                <div class="text-center">
+                    <div class="headline-1 margin-4" w-i18n="backupFile.chooseAccounts"></div>
+                </div>
+                <div class="text-center margin-2">
+                    <div class="body-2 basic-500 import-modal__content-text" w-i18n="backupFile.chooseAccountsDescription"></div>
+                    <a class="submit-400 body-2" w-i18n="backupFile.back" ui-sref="import"></a>
+                </div>
+
+                <div>
+                    Accounts
+                    <a ng-click="$ctrl.selectAll()" w-i18n="backupFile.selectAll"></a>
+                </div>
+
+                <div class="flex-row" ng-repeat="user in $ctrl.decryptedData.saveUsers track by $index">
+                    <div class="flex-row" ng-click="$ctrl.toggleSelect(user.address)">
+                        <div>
+                            <w-avatar address="user.address"
+                                      size="36"
+                                      type="{{user.userType}}">
+                            </w-avatar>
+                        </div>
+                        <div>
+                            <div>{{user.name}}</div>
+                            <div>{{user.address}}</div>
+                        </div>
+                    </div>
+                    <w-checkbox-submit ng-model="$ctrl.checkedHash[user.address]" ng-click="$ctrl.onSelect()"></w-checkbox-submit>
+                </div>
+
+                <div class="buttons-wrapper">
+                    <w-button on-click="$ctrl.hasSelected && $ctrl.onSubmit()" disabled="!$ctrl.hasSelected" class="submit big" >
+                        <div w-i18n="backupFile.importing"></div>
+                    </w-button>
+                </div>
             </w-step>
         </w-step-by-step>
 

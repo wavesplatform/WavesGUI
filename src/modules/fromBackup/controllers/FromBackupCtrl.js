@@ -9,9 +9,10 @@
      * @param {*} $state
      * @param {User} user
      * @param {app.utils} utils
+     * @param {INotification} notification
      * @return {FromBackupCtrl}
      */
-    const controller = function (Base, $scope, $state, user, utils) {
+    const controller = function (Base, $scope, $state, user, utils, notification) {
 
         const analytics = require('@waves/event-sender');
 
@@ -21,10 +22,36 @@
              * @type {number}
              */
             step = 0;
+
             /**
              * @type {string}
              */
             password = '';
+
+            /**
+             * @type {boolean}
+             */
+            passwordError = false;
+
+            /**
+             * @type {{}}
+             */
+            checkedHash = {};
+
+            /**
+             * @type {{}}
+             */
+            decryptedData = {};
+
+            /**
+             * @type {boolean}
+             */
+            hasSelected = false;
+
+            /**
+             * @type {boolean}
+             */
+            exportError = false;
 
             constructor() {
                 super($scope);
@@ -49,20 +76,62 @@
                 };
             }
 
+            toggleSelect(address) {
+                this.checkedHash[address] = !this.checkedHash[address];
+                this.onSelect();
+            }
+
+            onSelect() {
+                this.hasSelected = !!Object.values(this.checkedHash).filter(Boolean).length;
+            }
+
+            selectAll() {
+                (this.decryptedData.saveUsers || []).forEach((user) => {
+                    this.checkedHash[user.address] = true;
+                });
+                this.onSelect();
+            }
+
             next() {
                 if (this.step === 0 && this.backup && this.backup.encrypted) {
                     this.password = '';
                     this.step = 1;
                 } else if (this.step === 0 && this.backup && !this.backup.encrypted) {
                     this.password = '';
-                    this.decryptedData = this.backup;
+                    this.decryptedData = { ...this.backup };
+                    this.decryptedData.saveUsers = typeof this.decryptedData.saveUsers === 'string' ?
+                        JSON.parse(this.decryptedData.saveUsers) :
+                        this.decryptedData.saveUsers;
+                    this.selectFirst();
                     this.step = 2;
                 } else if (this.step === 1 && this.password) {
-                    this.decryptedData = this.decryptData();
-                    if (this.decryptedData) {
+                    const saveUsers = this.decryptData();
+                    if (!this.passwordError) {
+                        this.decryptedData = {
+                            ...this.backup,
+                            saveUsers
+                        };
+                        this.selectFirst();
                         this.step = 2;
                     }
                 }
+            }
+
+            selectFirst() {
+                const user = (this.decryptedData.saveUsers || [])[0];
+                this.checkedHash = {
+                    [user.address]: true
+                };
+                this.onSelect();
+            }
+
+            login(newUser) {
+                user.login(newUser);
+                notification.info({
+                    ns: 'app.ui',
+                    title: { literal: 'importSuccess' }
+                });
+                $state.go(user.getActiveState('wallet'));
             }
 
             decryptData() {
@@ -71,10 +140,10 @@
                     const users = JSON.parse(
                         libs.crypto.decryptSeed(data.saveUsers, this.password, data.encryptionRounds)
                     );
-                    this.readError = null;
+                    this.passwordError = !Array.isArray(users);
                     return users;
                 } catch (e) {
-                    this.readError = 'wrongFile';
+                    this.passwordError = true;
                 }
             }
 
@@ -103,30 +172,35 @@
                 }
             }
 
-            // /**
-            //  * @return {void}
-            //  */
-            // login() {
-            //     const newUser = {
-            //         ...this.selectedUser,
-            //         userType: this.adapter.type,
-            //         networkByte: WavesApp.network.code.charCodeAt(0)
-            //     };
-            //
-            //     return user.create(newUser, true, true).then(() => {
-            //         $state.go(user.getActiveState('wallet'));
-            //     }).catch(() => {
-            //         this.error = true;
-            //         $scope.$digest();
-            //     });
-            // }
+            onSubmit() {
+                const users = Object.entries(this.checkedHash)
+                    .filter(item => item[1])
+                    .map(
+                        ([address]) => this.decryptedData.saveUsers.find(user => user.address === address)
+                    );
+                const promises = [];
+                users.reduce(
+                    (acc, newUser) => {
+                        const userPromise = acc.then(() => user.addUser(newUser, true, true));
+                        promises.push(userPromise);
+                        return userPromise;
+                    },
+                    Promise.resolve()
+                );
+
+                Promise.all(promises)
+                    .then(users => this.login(users[0]))
+                    .catch(() => {
+                        this.exportError = true;
+                    });
+            }
 
         }
 
         return new FromBackupCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', '$state', 'user', 'utils'];
+    controller.$inject = ['Base', '$scope', '$state', 'user', 'utils', 'notification'];
 
     angular.module('app.fromBackup').controller('FromBackupCtrl', controller);
     angular.module('app.fromBackup').directive('fileChange', ['$parse', function ($parse) {
