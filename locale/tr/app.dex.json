@@ -33,8 +33,12 @@
             "buy": "Al",
             "createOrderNotPermitted": "Emirler geçici olarak devre dışı",
             "errors": {
+                "amountMax": "Max Amount - ",
+                "amountMin": "Min Amount - ",
                 "balance": "Yetersiz {{name}} bakiyesi",
                 "precision": "Maksimum ondalık sayısını {{precision}} aştınız",
+                "priceMax": "Max Price - ",
+                "priceMin": "Min Price - ",
                 "required": "Bu alanın doldurulması zorunludur"
             },
             "expiration": "Geçerlilik tarihi",
@@ -64,6 +68,8 @@
             "priceField": "Limit fiyat",
             "sell": "Sat",
             "spread": "Makas",
+            "stopPriceField": "Stop price",
+            "stopPriceHelp": "This is an automatic buy or sell order at a predetermined price",
             "total": "Toplam"
         },
         "demo": {

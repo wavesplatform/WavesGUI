@@ -33,8 +33,12 @@
             "buy": "Kopen",
             "createOrderNotPermitted": "Orders zijn tijdelijk niet beschikbaar.",
             "errors": {
+                "amountMax": "Max Amount - ",
+                "amountMin": "Min Amount - ",
                 "balance": "Niet genoeg {{name}}",
                 "precision": "Maximum aantal decimalen van {{precision}} overschreden",
+                "priceMax": "Max Price - ",
+                "priceMin": "Min Price - ",
                 "required": "Verplicht veld"
             },
             "expiration": "Vervalt",
@@ -64,6 +68,8 @@
             "priceField": "Limiet prijs",
             "sell": "verkoop",
             "spread": "spreiding",
+            "stopPriceField": "Stop price",
+            "stopPriceHelp": "This is an automatic buy or sell order at a predetermined price",
             "total": "Totaal"
         },
         "demo": {
