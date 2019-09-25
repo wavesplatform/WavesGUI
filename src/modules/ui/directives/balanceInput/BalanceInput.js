@@ -149,6 +149,7 @@
             maxBalance: '<',
             fee: '<',
             min: '<',
+            minGte: '<',
             disabled: '<'
         },
         scope: false,

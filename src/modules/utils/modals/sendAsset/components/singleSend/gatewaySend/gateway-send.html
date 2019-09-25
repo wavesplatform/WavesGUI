@@ -113,7 +113,7 @@
                                  on-blur="$ctrl.focus = ''"
                                  fee="$ctrl.feeList"
                                  max-balance="$ctrl.maxAmount"
-                                 min="$ctrl.minAmount"
+                                 min-gte="$ctrl.minAmount"
                                  amount="$ctrl.tx.amount">
                 </w-balance-input>
                 <div class="amount-modal-icon"></div>
@@ -134,10 +134,10 @@
                     <span ng-if="$ctrl.gatewaySend.amount.$error.required"
                           class="error-list-row"
                           w-i18n="inputs.errors.required"></span>
-                    <span ng-if="$ctrl.gatewaySend.amount.$error.gt && $ctrl.tx.amount.getTokens().eq(0)"
+                    <span ng-if="$ctrl.gatewaySend.amount.$error.gte && $ctrl.tx.amount.getTokens().eq(0)"
                           class="error-list-row"
                           w-i18n="inputs.errors.required"></span>
-                    <span ng-if="$ctrl.gatewaySend.amount.$error.gt && $ctrl.tx.amount.getTokens().gt(0)"
+                    <span ng-if="$ctrl.gatewaySend.amount.$error.gte && $ctrl.tx.amount.getTokens().gt(0)"
                           class="error-list-row"
                           w-i18n="inputs.errors.gtGatewayMin"
                           params="{min: $ctrl.gatewayDetails.minimumAmount, assetName: $ctrl.tx.amount.asset.displayName}"></span>
