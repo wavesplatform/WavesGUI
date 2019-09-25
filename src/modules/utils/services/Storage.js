@@ -9,8 +9,10 @@
      * @param {storageSelect} storageSelect
      * @param {DefaultSettings} defaultSettings
      * @param {StorageDataConverter} storageDataConverter
+     * @param {$injector} $injector
      */
-    const factory = function ($q, utils, migration, state, storageSelect, defaultSettings, storageDataConverter) {
+    const factory = function ($q, utils, migration, state, storageSelect, defaultSettings, storageDataConverter,
+                              $injector) {
 
         const usedStorage = storageSelect();
 
@@ -127,6 +129,18 @@
                 this._isNewDefer = $q.defer();
                 this._canWrite = $q.defer();
                 this._activeWrite = Promise.resolve();
+                const version = navigator.userAgent.replace(/.*?waves-(client|dex)\/(\d+\.\d+\.\d+).*/g, '$2');
+
+                if (version && migration.lte(version, '1.4.0')) {
+                    setTimeout(() => {
+                        $injector.get('notification').error({
+                            title: { literal: 'error.updateClient.title' },
+                            body: { literal: 'error.updateClient.body' }
+                        }, -1);
+                    }, 2000);
+                    this._activeWrite = $q.defer();
+                    return this;
+                }
 
                 this.load('lastVersion')
                     .then((version) => {
@@ -171,7 +185,11 @@
         return new Storage();
     };
 
-    factory.$inject = ['$q', 'utils', 'migration', 'state', 'storageSelect', 'defaultSettings', 'storageDataConverter'];
+    factory.$inject = [
+        '$q', 'utils', 'migration',
+        'state', 'storageSelect', 'defaultSettings',
+        'storageDataConverter', '$injector'
+    ];
 
     angular.module('app.utils')
         .factory('storage', factory);
