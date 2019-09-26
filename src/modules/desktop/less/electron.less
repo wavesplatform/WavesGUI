@@ -63,6 +63,7 @@ body.desktop {
 
   .footer {
     background: @color-info-50;
+    width: 100%;
 
     &__wrap {
       display: flex;
@@ -125,7 +126,7 @@ body.desktop {
 
   .section-welcome {
     padding: 40px 0;
-    height: calc(~'100%' - 76px);
+    height: calc(~'100vh' - 136px);
     margin: auto;
     flex-shrink: 0;
 
@@ -152,20 +153,14 @@ body.desktop {
     }
   }
 
-  &:not(.main) {
-    .main-header__wrapper {
-      width: auto;
-    }
-  }
-
-  .main-header__wrapper {
-    justify-content: center;
-  }
-
   &.welcome {
     .footer {
       background: @color-white;
     }
+  }
+
+  .logo-header {
+    margin: auto;
   }
 
   @media screen and (max-width: 1440px) {
