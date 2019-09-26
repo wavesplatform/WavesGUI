@@ -131,7 +131,7 @@
                 this._activeWrite = Promise.resolve();
                 const version = navigator.userAgent.replace(/.*?waves-(client|dex)\/(\d+\.\d+\.\d+).*/g, '$2');
 
-                if (version && migration.lte(version, '1.4.0')) {
+                if (WavesApp.isDesktop() && version && migration.lte(version, '1.4.0')) {
                     setTimeout(() => {
                         $('.ui-view.ui-view_main').hide();
                         const showError = () => {
