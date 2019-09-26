@@ -10,6 +10,7 @@
         },
         "password": {
             "notMatch": "Wachtwoorden komen niet overeen"
-        }
+        },
+        "termsAgreement": "Ik heb de [Algemene voorwaarden](https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf) gelezen en ga hiermee akkoord."
     }
 }

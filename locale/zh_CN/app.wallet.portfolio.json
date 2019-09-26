@@ -3,6 +3,7 @@
     "burn": "代币消除",
     "deposit": "存款",
     "dex": "打开在DEX上",
+    "hasNftToken": "Account has non-fungible tokens [(NFT)](https://wavesexplorer.com/address/{{address}})",
     "info": "资产信息",
     "list": {
         "actions": "操作",
