@@ -1,0 +1,63 @@
+@import (reference) url('config');
+@import (reference) 'icons';
+@import (reference) '../../../../app/less/typography';
+
+.copy-wrap {
+  display: flex;
+  position: relative;
+  background-color: @color-basic-50;
+  border: 1px solid @color-basic-200;
+  border-radius: @border-radius;
+  height: @height-control-big;
+
+  &__container {
+    display: flex;
+    align-items: center;
+    padding: 0 17px;
+    overflow-x: auto;
+    white-space: nowrap;
+    max-width: calc(100% ~'- 45px');
+  }
+
+  &__icon {
+    border-left: 1px solid @color-basic-200;
+    margin-right: 5px;
+    background: url(/img/icons/copy-icon.svg) no-repeat center center;
+    background-size: 16px 16px;
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 40px;
+  }
+
+  &__content {
+    color: @color-basic-900;
+  }
+
+  &__transactionLink {
+    display: inline-block;
+    width: 100%;
+    white-space: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+}
+
+@media screen and (max-width: 768px) {
+
+  .copy-wrap {
+    height: @height-control;
+
+    &__container {
+      padding: 0 @padding-control-big-responsive-horizontal;
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .copy-wrap__content {
+    font-size: @mobile-low-fsize;
+  }
+}

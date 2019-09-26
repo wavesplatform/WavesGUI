@@ -70,6 +70,7 @@ select:-webkit-autofill:focus {
 
 body.keeper,
 body.welcome,
+body.signUp,
 body.signIn,
 body.saveSeed,
 body.create,
@@ -83,20 +84,7 @@ body.desktop {
   }
 }
 
-body.saveSeed,
-body.tokens,
-body.keeper,
-body.welcome,
-body.signIn,
-body.create,
-body.restore,
-body.import,
-body.ledger,
-body.tokens,
-body.wallet,
-body.stand,
-body.dex-demo,
-body.dex {
+body {
   ::-webkit-scrollbar {
     width: 4px;
     height: 4px;
@@ -155,10 +143,16 @@ body.portfolio {
   cursor: pointer;
   background-repeat: no-repeat;
   background-position: center;
+
+  &_footer {
+    background: @logo-footer;
+    background-position: left;
+    width: 105px;
+    cursor: default;
+  }
 }
 
 body.tokens,
-body.welcome,
 body.wallet,
 body.dex {
   .logo {
@@ -171,6 +165,18 @@ body.dex {
   height: 21px;
   background-image: @waves-logo-icon;
   background-repeat: no-repeat;
+}
+
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+
+  &.disabled {
+    w-select, span.link, w-qr-code-read, w-import-file, a.link-clear {
+      pointer-events: none;
+    }
+  }
 }
 
 .scroll-box {
@@ -197,10 +203,10 @@ body.dex {
 
   .content {
     height: 100%;
-    padding: 10px 80px 10px;
+    padding: 10px 80px;
     overflow: hidden;
     margin: 0 auto;
-    max-width: 1440px;
+    max-width: @desktop-full-size;
   }
 }
 
@@ -233,8 +239,10 @@ body.dex {
 }
 
 @media screen and (max-width: 660px) {
-  .ui-view_main {
-    overflow: hidden;
+  .dex {
+    .ui-view_main {
+      overflow: hidden;
+    }
   }
 }
 
@@ -287,7 +295,7 @@ body.dex {
   flex-direction: column;
 
   &-wrapper {
-    height: 100%;
+    min-height: 100%;
     display: flex;
     width: 100%;
     flex-grow: 1;
@@ -320,7 +328,7 @@ body.dex {
 }
 
 .get-started-checkbox-save {
-  margin: 15px 0 20px;
+  margin: 20px 0;
 }
 
 @media screen and (min-width: 480px) {
@@ -330,9 +338,5 @@ body.dex {
 
   .get-started-footer {
     max-width: @getStartedFooterWidth;
-  }
-
-  .get-started-checkbox-save {
-    margin: 20px 0 30px;
   }
 }

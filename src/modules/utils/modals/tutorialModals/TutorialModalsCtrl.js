@@ -7,16 +7,17 @@
 
         class TutorialModalsCtrl extends Base {
 
-            constructor() {
+            constructor({ hasAccounts }) {
                 super($scope);
                 this.isDesktop = WavesApp.isDesktop();
                 this.isWeb = WavesApp.isWeb();
+                this.hasAccounts = hasAccounts;
                 analytics.send({ name: 'Onboarding SEED Popup Show', target: 'ui' });
             }
 
         }
 
-        return new TutorialModalsCtrl();
+        return new TutorialModalsCtrl(this.locals);
     };
 
     controller.$inject = ['Base', '$scope'];

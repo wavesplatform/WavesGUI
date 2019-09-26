@@ -286,6 +286,12 @@
                 "warningText": "Bu adrese başka bir kripto para gönderimi kayıpla sonuçlanabilir.",
                 "warningTitle": "Bu adrese ERGO dışında bir kripto para göndermeyin"
             },
+            "wavesGatewayETH": {
+                "warningMinAmountText": "If you will send less than {{minAmount, BigNumber}} {{assetTicker}}, you will lose that money.",
+                "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}, the maximum amount of deposit is {{maxAmount}} {{assetTicker}}",
+                "warningText": "Cüzdanınızın veya Kripto para borsasının ETH çekimlerinde akıllı kontrat kullanıp kullanmadığını kontrol edin. Akıllı kontratlar tarafından gelen transferleri kabul edemiyoruz. Paranızı kaybedersiniz.",
+                "warningTitle": "ETH akıllı kontratlarından yatırma işlemi yapmayınız. ERC20 tokenleri yatırmayınız! Sadece Ethereum transferleri kabul edilir."
+            },
             "wavesGatewayVST": {
                 "helpDescrText": "İşlem onaylandıktan sonra Vostoklar Waves adresinize geçit tarafından gönderilir.",
                 "helpDescrTitle": "Bu adresi Vostok cüzdanına ya da uygulamasına giriniz.",
@@ -345,6 +351,9 @@
             "wavesBetaClientDescription": "Hesapları Waves Beta Client'ten aktar",
             "wavesLiteClient": "Waves Lite Client",
             "wavesLiteClientDescription": "Hesapları Waves Lite Client'ten aktar"
+        },
+        "matcherChoice": {
+            "title": "Choose matcher"
         },
         "open-main": {
             "dex": {
@@ -539,6 +548,11 @@
             "gateway": {
                 "feeExplanation": "{{assetName}} adresi tespit ettik ve bu adrese geçit tarafından transfer gerçekleştirilecektir. Gönderilecek minimum miktar {{min, BigNumber}} {{assetTicker}}. Maksimum miktar ise {{max, BigNumber}} {{assetTicker}} 'dır."
             },
+            "gatewayTerms": {
+                "accept": "Accept and Continue",
+                "text": "By using Gateway service, you agree to be bound by [Gateway Terms of Service](https://dex.wavesplatform.com/) and [Conduction of Transactions](https://dex.wavesplatform.com/). If you do not agree to these terms, then do not use this Gateway service.",
+                "title": "Gateway service agreement"
+            },
             "icoWarning": "Do not withdraw {{assetName}} to an ICO. We will not credit your account with tokens from that sale.",
             "idNumber": {
                 "helpIcon": {
@@ -590,7 +604,8 @@
             "validationError": {
                 "notEnoughFunds": "Gerekli olan komisyon için yeterli bakiyeniz bulunmamaktadır. İşlem için {{fee, money-currency}} ödemeniz gerekmektedir.",
                 "notEnoughFundsWithdraw": "Gerekli olan komisyon için yeterli bakiyeniz bulunmamaktadır. İşlem için {{fee, money-currency}} {{getawayFee, BigNumber}} {{currency}} ödemeniz ve geçit için {{minGatewayAmount, BigNumber}} {{currency}} komisyon ödemeniz gerekmektedir."
-            }
+            },
+            "withdrawTitle": "Withdraw"
         },
         "sepa": {
             "countryList": "Uygun ülkelerin ve geçerli kimliklerin listesi",
@@ -688,6 +703,7 @@
                 "backupPhrase": "Anahtar (Yedek) kelimeler",
                 "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "Encoded Anahtar kelimeler",
+                "id": "Account ID",
                 "privateKey": "Özel Anahtar",
                 "publicKey": "Açık Anahtar",
                 "script": "Script",
@@ -701,6 +717,7 @@
         },
         "sign": {
             "article": "makale",
+            "buy": "Buy",
             "cancel": "İptal",
             "cancelOrder": "Emri iptal et",
             "close": "Kapat",
@@ -735,6 +752,7 @@
             "request": "talep",
             "requestId": "Talep Hash'ı",
             "retry": "Tekrar dene",
+            "sell": "Sell",
             "signByKeeper": "Waves Keeper'dan doğrulama bekleniyor",
             "signByLedger": "Ledger onay bekleniyor...",
             "signError": "Talep doğrulanmadı",
@@ -742,6 +760,7 @@
             "signErrorText": "Talebi Ledger Nano S'i kullanarak doğrulamadın",
             "signErrorTextImportKeeper": "Waves Keeper'a  {{address}} adresinizle giriş yapın, ve devam etmek için sayfayı yenileyin.",
             "signErrorTextKeeper": "Lütfen tekrar deneyin. Eğer hatalar devam ederse [destek](https://support.wavesplatform.com/) ile iletişime geçin",
+            "signErrorTextKeeperWrongUser": "This account does not match the selected account in your Waves Keeper. Please activate another account in Waves Keeper and try again.",
             "timestamp": "Timestamp",
             "txId": "TXID"
         },
@@ -931,7 +950,8 @@
                 "1_3_20": "{span.line}[1. Improved system for storing and restoring accounts from local storage (Need to update the [desktop application](https://wavesplatform.com/technology/wallet)).]\n{span.line}[2. Fixed rounding of prices in the orderbook.]",
                 "1_3_5": "{span.line}[1. [wsoc.io](https://wsoc.io) Yarışma kripto paraları eklendi.]\n{span.line}[2. Fransızca desteği eklendi.]\n{span.line}[3. Ufak hatalar giderildi.]",
                 "1_3_7": "{span.line}[1. [tokenrating.wavesexplorer.com] entegrasyonu (https://tokenrating.wavesexplorer.com) Artık uygulamadan kripto paralar için derecelendirme puanı verebilirsiniz.]\n{span.line}[2. Ufak hatalar giderildi.]",
-                "1_3_9": "{span.line}[1. Görsel tasarım iyileştirildi. Borsa ve cüzdan geliştirmeleri yapıldı.]\n{span.line}[2. Ufak hatalar giderildi.]"
+                "1_3_9": "{span.line}[1. Görsel tasarım iyileştirildi. Borsa ve cüzdan geliştirmeleri yapıldı.]\n{span.line}[2. Ufak hatalar giderildi.]",
+                "1_4_0": "{span.line}[Added ability for easy switching between  accounts within one wallet.]"
             },
             "title": "Güncelleme ile birlikte gelen yenilikler {{version}}"
         }

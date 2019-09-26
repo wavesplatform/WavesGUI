@@ -3,6 +3,12 @@
 @import (reference) '../../app/less/typography';
 
 body.desktop {
+  w-web-only {
+    &:empty {
+      display: none;
+    }
+  }
+
   .import-modal__blocks-wrapper {
     flex-direction: column;
     max-width: @getStartedContentWidth;
@@ -39,6 +45,10 @@ body.desktop {
 
   .main-container {
     min-height: calc(100vh ~'- 136px');
+
+    &-wrapper {
+      min-height: auto;
+    }
   }
 
   div.wrapper {
@@ -51,26 +61,30 @@ body.desktop {
     display: none;
   }
 
-  w-footer {
-    margin-top: auto;
-  }
-
   .footer {
-    > section {
-      overflow: visible;
-    }
+    background: @color-info-50;
 
-    .section-wrapper {
+    &__wrap {
       display: flex;
       align-items: center;
       padding: 20px;
+      color: @color-basic-500;
+      font-size: 13px;
     }
 
-    &-left {
+    &__left {
       margin-left: auto;
       flex-direction: row-reverse;
       display: flex;
       align-items: center;
+
+      &-item {
+        white-space: nowrap;
+        .footnote-1();
+        color: @color-basic-500;
+        margin-left: 15px;
+        margin-bottom: 0;
+      }
     }
 
     &-actions {
@@ -94,14 +108,6 @@ body.desktop {
       }
     }
 
-    &-copyright {
-      white-space: nowrap;
-      .footnote-1();
-      color: @color-basic-500;
-      margin-left: 15px;
-      margin-bottom: 0;
-    }
-
     w-select .select .title {
       background: transparent;
 
@@ -119,7 +125,7 @@ body.desktop {
 
   .section-welcome {
     padding: 40px 0;
-    height: auto;
+    height: calc(~'100%' - 76px);
     margin: auto;
     flex-shrink: 0;
 
@@ -139,19 +145,26 @@ body.desktop {
     .welcome-text {
       font-size: 38px;
     }
+
+    &__wrapper {
+      justify-content: center;
+      text-align: center;
+    }
   }
 
   &:not(.main) {
-    w-site-header .header-wrapper {
+    .main-header__wrapper {
       width: auto;
     }
   }
 
-  w-site-header .header-wrapper {
+  .main-header__wrapper {
     justify-content: center;
+  }
 
-    &:after {
-      content: none;
+  &.welcome {
+    .footer {
+      background: @color-white;
     }
   }
 

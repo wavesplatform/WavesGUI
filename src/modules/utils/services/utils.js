@@ -668,9 +668,14 @@
              * @param {$rootScope.Scope} $scope
              */
             safeApply($scope) {
-                const phase = $scope.$root.$$phase;
-                if (phase !== '$apply' && phase !== '$digest') {
-                    $scope.$apply();
+                try {
+                    const phase = $scope.$root && $scope.$root.$$phase;
+
+                    if (phase !== '$apply' && phase !== '$digest') {
+                        $scope.$apply();
+                    }
+                } catch (e) {
+                    return null;
                 }
             },
 
@@ -1900,9 +1905,10 @@
             /**
              * @name app.utils#sign
              * @param {Signable} signable
+             * @param {any} anyData
              * @return {Promise<Signable>}
              */
-            signMatcher(signable) {
+            signMatcher(signable, anyData = null) {
                 /**
                  * @type {User}
                  */
@@ -1917,10 +1923,17 @@
                         .then(() => signable);
                 }
 
-                const errorParams = { error: 'sign-error', userType: user.userType };
+                const getError = (user, error) => {
+                    if (user.userType === 'wavesKeeper' && error &&
+                        error.code === 5 && error.msg.includes('another active account')) {
+                        return { error: 'sign-user-error', userType: user.userType };
+                    }
 
-                const signByDeviceLoop = () => modalManager.showSignByDevice(signable)
-                    .catch(() => modalManager.showSignDeviceError(errorParams)
+                    return { error: 'sign-error', userType: user.userType };
+                };
+
+                const signByDeviceLoop = () => modalManager.showSignByDevice(signable, anyData)
+                    .catch((e) => modalManager.showSignDeviceError(getError(user, e))
                         .then(signByDeviceLoop))
                     .catch(() => Promise.reject({ message: 'Your sign is not confirmed!' }));
 

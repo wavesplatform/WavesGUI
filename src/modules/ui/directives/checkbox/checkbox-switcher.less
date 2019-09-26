@@ -1,0 +1,47 @@
+@import (reference) 'config';
+
+.checkbox-switcher {
+  display: none;
+
+  & + .switcher-input__label {
+    width: 40px;
+    border: 1px solid @color-basic-200;
+    background: @color-basic-200;
+    border-radius: 10px;
+    cursor: pointer;
+
+    &:hover {
+      border-color: @input-toggle-bg-hover;
+      background: @input-toggle-bg-hover;
+    }
+
+    &::before {
+      transition: .3s;
+      background: @color-white;
+      width: 18px;
+      height: 18px;
+      content: '';
+      border-radius: 50%;
+      display: block;
+    }
+  }
+  
+  &_active + .switcher-input__label {
+    border-color: @color-submit-400;
+    background: @color-submit-400;
+  
+    &:hover {
+      border-color: @color-submit-400;
+      background: @color-submit-400;
+    }
+  
+    &::before {
+      transform: translateX(20px);
+    }
+  }
+}
+
+.switcher-input {
+  display: flex;
+  align-items: center;
+}

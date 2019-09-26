@@ -1,0 +1,11 @@
+<div class="ui-slider">
+    <div class="ui-slider__content" ng-transclude></div>
+    <div class="ui-slider__dots">
+        <div
+            class="ui-slider__dot"
+            ng-class="{'ui-slider__dot_active': $ctrl.active === $index}"
+            ng-repeat="dot in $ctrl.slides track by $index"
+            ng-click="$ctrl.slideTo($index, $event)"
+        ></div>
+    </div>
+</div>

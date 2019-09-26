@@ -83,7 +83,7 @@
              * @private
              */
             _setLink() {
-                this.tokenratingLink = WavesApp.network.tokenrating;
+                this.tokenratingLink = `${WavesApp.network.tokenrating}/tokens/${this.assetId}`;
             }
 
         }

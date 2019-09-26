@@ -22,8 +22,8 @@
     "storage": {
         "backup": {
             "error": {
-                "body": "Failed to get accounts. Please contact the support service to restore the backup phrase (SEED phrase).",
-                "title": "Something went wrong!"
+                "body": "无法获得帐户。请与支持服务部门联系以恢复备用短语（SEED短语）。",
+                "title": "出了些问题"
             }
         },
         "read": {

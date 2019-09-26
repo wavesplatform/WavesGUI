@@ -4,21 +4,23 @@
     const analytics = require('@waves/event-sender');
     const { validators, libs } = require('@waves/waves-transactions');
     const { isPublicKey } = validators;
-    const { address, publicKey } = libs.crypto;
+    const { address, publicKey, base58Decode } = libs.crypto;
     const TABS = {
         seed: 'seed',
+        encodedSeed: 'encodedSeed',
         key: 'key'
     };
 
     /**
      * @param Base
-     * @param $scope
+     * @param {ng.IScope} $scope
+     * @param {*} $state
      * @param {User} user
      * @param {app.utils} utils
      * @param {ModalManager} modalManager
      * @return {RestoreCtrl}
      */
-    const controller = function (Base, $scope, user, utils, modalManager) {
+    const controller = function (Base, $scope, $state, user, utils, modalManager) {
 
         class RestoreCtrl extends Base {
 
@@ -27,11 +29,16 @@
                 $scope.TABS = TABS;
 
                 this.seedForm = null;
+                this.encodedSeedForm = null;
                 this.keyForm = null;
                 /**
                  * @type {string}
                  */
                 this.seed = '';
+                /**
+                 * @type {string}
+                 */
+                this.encodedSeed = '';
                 /**
                  * @type {string}
                  */
@@ -44,10 +51,6 @@
                  * @type {string}
                  */
                 this.name = '';
-                /**
-                 * @type {string}
-                 */
-                this.password = '';
                 /**
                  * @type {boolean}
                  */
@@ -83,27 +86,16 @@
                  */
                 this._priorityMap = utils.getImportPriorityMap();
 
-                user.getFilteredUserList().then(users => {
-                    this._usersInStorage = users;
+                Promise.all([
+                    user.getFilteredUserList(),
+                    user.getMultiAccountUsers()
+                ]).then(([legacyUsers = [], users = []]) => {
+                    this._usersInStorage = [...legacyUsers, ...users];
                 });
 
-                this.observe('seed', this._onChangeSeed);
-                this.observeOnce('seedForm', () => {
-                    this.receive(utils.observe(this.seedForm, '$valid'), () => {
-                        if (this.activeTab === TABS.seed) {
-                            this._onChangeSeed();
-                        }
-                    });
-                });
+                this._setFormObservers();
+
                 this.observe('address', this._onChangeAddress);
-                this.observe('key', this._onChangeKey);
-                this.observeOnce('keyForm', () => {
-                    this.receive(utils.observe(this.keyForm, '$valid'), () => {
-                        if (this.activeTab === TABS.key) {
-                            this._onChangeKey();
-                        }
-                    });
-                });
                 this.observe('activeTab', this._onChangeActiveTab);
             }
 
@@ -112,35 +104,22 @@
             }
 
             restore() {
-
-                if (!this.saveUserData) {
-                    this.password = Date.now().toString();
-                } else {
+                if (this.saveUserData) {
                     analytics.send({ name: 'Import Backup Protect Your Account Continue Click', target: 'ui' });
                 }
 
-                const { encrypted, type } = this._getEncryptedAndType();
-                const userSettings = user.getDefaultUserSettings({ termsAccepted: false });
+                const { keyOrSeed, type } = this._getEncryptedAndType();
 
                 const newUser = {
                     userType: type,
-                    address: this.address,
                     name: this.name,
-                    password: this.password,
-                    id: this.userId,
-                    path: this.userPath,
-                    settings: userSettings,
-                    saveToStorage: this.saveUserData,
-                    ...encrypted
+                    networkByte: WavesApp.network.code.charCodeAt(0),
+                    ...keyOrSeed
                 };
 
-                const api = ds.signature.getDefaultSignatureApi(newUser);
-
-                return user.create({
-                    ...newUser,
-                    settings: userSettings.getSettings(),
-                    api
-                }, true, true);
+                return user.create(newUser, true, true).then(() => {
+                    $state.go(user.getActiveState('wallet'));
+                });
             }
 
             resetNameAndPassword() {
@@ -175,9 +154,56 @@
             /**
              * @private
              */
+            _setFormObservers() {
+                this.observe('seed', this._onChangeSeed);
+                this.observeOnce('seedForm', () => {
+                    this.receive(utils.observe(this.seedForm, '$valid'), () => {
+                        if (this.activeTab === TABS.seed) {
+                            this._onChangeSeed();
+                        }
+                    });
+                });
+
+                this.observe('encodedSeed', this._onChangeEncodedSeed);
+                this.observeOnce('encodedSeedForm', () => {
+                    this.receive(utils.observe(this.encodedSeedForm, '$valid'), () => {
+                        if (this.activeTab === TABS.encodedSeed) {
+                            this._onChangeEncodedSeed();
+                        }
+                    });
+                });
+
+                this.observe('key', this._onChangeKey);
+                this.observeOnce('keyForm', () => {
+                    this.receive(utils.observe(this.keyForm, '$valid'), () => {
+                        if (this.activeTab === TABS.key) {
+                            this._onChangeKey();
+                        }
+                    });
+                });
+            }
+
+            /**
+             * @private
+             */
             _onChangeSeed() {
                 if (this.seedForm.$valid) {
                     this.address = new ds.Seed(this.seed, window.WavesApp.network.code).address;
+                } else {
+                    this.address = '';
+                }
+            }
+
+            /**
+             * @private
+             */
+            _onChangeEncodedSeed() {
+                if (this.encodedSeedForm.$valid && RestoreCtrl._isEncoded(this.encodedSeed)) {
+                    try {
+                        this.address = new ds.Seed(base58Decode(this.encodedSeed), WavesApp.network.code).address;
+                    } catch (e) {
+                        this.address = '';
+                    }
                 } else {
                     this.address = '';
                 }
@@ -214,28 +240,47 @@
             }
 
             /**
-             * @return {{encrypted: {encryptedSeed: string}, type: string}|
-             * {encrypted: {encryptedPrivateKey: string}, type: string}}
+             * @return {{keyOrSeed: {seed: string}, type: string}|
+             * {keyOrSeed: {encodedSeed: string}, type: string}|
+             * {keyOrSeed: {privateKey: string}, type: string}}
              * @private
              */
             _getEncryptedAndType() {
                 switch (this.activeTab) {
                     case TABS.key:
                         return ({
-                            encrypted: {
-                                encryptedPrivateKey: new ds.Seed(this.key, window.WavesApp.network.code)
-                                    .encrypt(this.password)
+                            keyOrSeed: {
+                                privateKey: this.key
                             },
                             type: 'privateKey'
                         });
-                    default:
+                    case TABS.encodedSeed:
                         return ({
-                            encrypted: {
-                                encryptedSeed: new ds.Seed(this.seed, window.WavesApp.network.code)
-                                    .encrypt(this.password)
+                            keyOrSeed: {
+                                seed: `base58:${this.encodedSeed}`,
+                                publicKey: publicKey(base58Decode(this.encodedSeed))
                             },
                             type: 'seed'
                         });
+                    default:
+                        return ({
+                            keyOrSeed: {
+                                seed: this.seed
+                            },
+                            type: 'seed'
+                        });
+                }
+            }
+
+            /**
+             * @private
+             * @param seed
+             */
+            static _isEncoded(seed) {
+                try {
+                    return !!base58Decode(seed);
+                } catch (e) {
+                    return false;
                 }
             }
 
@@ -244,7 +289,7 @@
         return new RestoreCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', 'user', 'utils', 'modalManager'];
+    controller.$inject = ['Base', '$scope', '$state', 'user', 'utils', 'modalManager'];
 
     angular.module('app.restore').controller('RestoreCtrl', controller);
 })();

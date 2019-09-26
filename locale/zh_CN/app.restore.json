@@ -1,4 +1,8 @@
 {
+    "encodedSeedForm": {
+        "placeholder": "输入您编码的种子"
+    },
+    "encodedSeedTab": "编码种子",
     "keyForm": {
         "placeholder": "在此输入您的私钥"
     },
@@ -51,6 +55,7 @@
     },
     "seedOrKeyForm": {
         "description": "输入您的种子短语或私钥以访问您的钱包",
+        "encodedSeed": "编码种子",
         "keyTitle": "私钥",
         "seedTitle": "种子短语",
         "title": "从种子或密钥导入"

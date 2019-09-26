@@ -108,7 +108,8 @@
                     });
 
                 }
-                user.getFilteredUserList().then(list => {
+
+                user.getMultiAccountUsers().then(list => {
                     this.userList = list;
                 });
 

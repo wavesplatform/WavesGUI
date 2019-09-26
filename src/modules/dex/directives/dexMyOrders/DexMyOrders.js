@@ -97,7 +97,7 @@
                     this._matcherPublicKeyPromise = ds.fetch(user.getSetting('network.matcher'));
                 });
 
-                user.getFilteredUserList().then(list => {
+                user.getMultiAccountUsers().then(list => {
                     this.userList = list;
                 });
             }
@@ -267,7 +267,7 @@
                     data
                 });
 
-                return utils.signMatcher(signable)
+                return utils.signMatcher(signable, order)
                     .then(signable => signable.getDataForApi());
             }
 
