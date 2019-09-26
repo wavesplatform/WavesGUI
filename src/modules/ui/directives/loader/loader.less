@@ -3,16 +3,6 @@
 @preloader-size: 13px;
 @loader-animation: loaderDotsAnimation 1.6s infinite ease-in-out;
 
-w-loader {
-  display: block;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  height: @preloader-size;
-  width: @preloader-size * 4;
-}
-
 .loader-dots() {
   position: absolute;
   width: @preloader-size;
@@ -24,29 +14,40 @@ w-loader {
   animation: @loader-animation;
 }
 
-.preloader {
-  .loader-dots();
-  left: 20px;
-  top: -15px;
-  animation-delay: .16s;
-
-  &::before,
-  &::after {
+.loader {
+  display: block;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  height: @preloader-size;
+  width: @preloader-size * 4;
+  &__dot {
     .loader-dots();
-    top: 0;
-    content: '';
-  }
-
-  &::before {
-    transform: translateX(-20px);
-    animation-delay: 0s;
-  }
-
-  &::after {
-    transform: translateX(20px);
-    animation-delay: .32s;
+    left: 20px;
+    top: -15px;
+    animation-delay: .16s;
+  
+    &::before,
+    &::after {
+      .loader-dots();
+      top: 0;
+      content: '';
+    }
+  
+    &::before {
+      transform: translateX(-20px);
+      animation-delay: 0s;
+    }
+  
+    &::after {
+      transform: translateX(20px);
+      animation-delay: .32s;
+    }
   }
 }
+
+
 
 @keyframes loaderDotsAnimation {
   0%,

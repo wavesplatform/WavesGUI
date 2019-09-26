@@ -4,9 +4,10 @@
     const analytics = require('@waves/event-sender');
     const { validators, libs } = require('@waves/waves-transactions');
     const { isPublicKey } = validators;
-    const { address, publicKey } = libs.crypto;
+    const { address, publicKey, base58Decode } = libs.crypto;
     const TABS = {
         seed: 'seed',
+        encodedSeed: 'encodedSeed',
         key: 'key'
     };
 
@@ -28,11 +29,16 @@
                 $scope.TABS = TABS;
 
                 this.seedForm = null;
+                this.encodedSeedForm = null;
                 this.keyForm = null;
                 /**
                  * @type {string}
                  */
                 this.seed = '';
+                /**
+                 * @type {string}
+                 */
+                this.encodedSeed = '';
                 /**
                  * @type {string}
                  */
@@ -87,23 +93,9 @@
                     this._usersInStorage = [...legacyUsers, ...users];
                 });
 
-                this.observe('seed', this._onChangeSeed);
-                this.observeOnce('seedForm', () => {
-                    this.receive(utils.observe(this.seedForm, '$valid'), () => {
-                        if (this.activeTab === TABS.seed) {
-                            this._onChangeSeed();
-                        }
-                    });
-                });
+                this._setFormObservers();
+
                 this.observe('address', this._onChangeAddress);
-                this.observe('key', this._onChangeKey);
-                this.observeOnce('keyForm', () => {
-                    this.receive(utils.observe(this.keyForm, '$valid'), () => {
-                        if (this.activeTab === TABS.key) {
-                            this._onChangeKey();
-                        }
-                    });
-                });
                 this.observe('activeTab', this._onChangeActiveTab);
             }
 
@@ -162,9 +154,56 @@
             /**
              * @private
              */
+            _setFormObservers() {
+                this.observe('seed', this._onChangeSeed);
+                this.observeOnce('seedForm', () => {
+                    this.receive(utils.observe(this.seedForm, '$valid'), () => {
+                        if (this.activeTab === TABS.seed) {
+                            this._onChangeSeed();
+                        }
+                    });
+                });
+
+                this.observe('encodedSeed', this._onChangeEncodedSeed);
+                this.observeOnce('encodedSeedForm', () => {
+                    this.receive(utils.observe(this.encodedSeedForm, '$valid'), () => {
+                        if (this.activeTab === TABS.encodedSeed) {
+                            this._onChangeEncodedSeed();
+                        }
+                    });
+                });
+
+                this.observe('key', this._onChangeKey);
+                this.observeOnce('keyForm', () => {
+                    this.receive(utils.observe(this.keyForm, '$valid'), () => {
+                        if (this.activeTab === TABS.key) {
+                            this._onChangeKey();
+                        }
+                    });
+                });
+            }
+
+            /**
+             * @private
+             */
             _onChangeSeed() {
                 if (this.seedForm.$valid) {
                     this.address = new ds.Seed(this.seed, window.WavesApp.network.code).address;
+                } else {
+                    this.address = '';
+                }
+            }
+
+            /**
+             * @private
+             */
+            _onChangeEncodedSeed() {
+                if (this.encodedSeedForm.$valid && RestoreCtrl._isEncoded(this.encodedSeed)) {
+                    try {
+                        this.address = new ds.Seed(base58Decode(this.encodedSeed), WavesApp.network.code).address;
+                    } catch (e) {
+                        this.address = '';
+                    }
                 } else {
                     this.address = '';
                 }
@@ -201,7 +240,9 @@
             }
 
             /**
-             * @return {{keyOrSeed: {seed: string}, type: string}|{keyOrSeed: {privateKey: string}, type: string}}
+             * @return {{keyOrSeed: {seed: string}, type: string}|
+             * {keyOrSeed: {encodedSeed: string}, type: string}|
+             * {keyOrSeed: {privateKey: string}, type: string}}
              * @private
              */
             _getEncryptedAndType() {
@@ -213,6 +254,14 @@
                             },
                             type: 'privateKey'
                         });
+                    case TABS.encodedSeed:
+                        return ({
+                            keyOrSeed: {
+                                seed: `base58:${this.encodedSeed}`,
+                                publicKey: publicKey(base58Decode(this.encodedSeed))
+                            },
+                            type: 'seed'
+                        });
                     default:
                         return ({
                             keyOrSeed: {
@@ -220,6 +269,18 @@
                             },
                             type: 'seed'
                         });
+                }
+            }
+
+            /**
+             * @private
+             * @param seed
+             */
+            static _isEncoded(seed) {
+                try {
+                    return !!base58Decode(seed);
+                } catch (e) {
+                    return false;
                 }
             }
 

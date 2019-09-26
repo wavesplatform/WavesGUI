@@ -286,6 +286,12 @@
                 "warningText": "El envío de cualquier otra moneda a esta dirección puede resultar en la pérdida de su depósito.",
                 "warningTitle": "Enviar solo ERGO a esta dirección de depósito"
             },
+            "wavesGatewayETH": {
+                "warningMinAmountText": "Si mandas menos de {{minAmount, BigNumber}} {{assetTicker}} perderás tu dinero.",
+                "warningMinAmountTitle": "La cantidad mínima de depósito es {{minAmount, BigNumber}} {{assetTicker}}, la cantidad máxima de depósito es {{maxAmount}} {{assetTicker}}",
+                "warningText": "Comprueba si tu monedero o tu exchange utiliza Smart-contracts para retirar ETH. No aceptamos ese tipo de transacción y no podemos devolverlo. Perderás ese dinero.",
+                "warningTitle": "!Por favor no deposites ETH desde Smart-Contract! No deposites tokens ERC20, solo se acepta Ethereum."
+            },
             "wavesGatewayVST": {
                 "helpDescrText": "Una vez que se confirma la transacción, la puerta de enlace procesará la transferencia de Vostok en forma de token a su cuenta Waves.",
                 "helpDescrTitle": "Ingrese esta dirección en su cartera o cliente Vostok",
@@ -345,6 +351,9 @@
             "wavesBetaClientDescription": "Importar cuentas de Waves Beta Client",
             "wavesLiteClient": "Waves Lite Client",
             "wavesLiteClientDescription": "Importar cuentas desde Waves Lite Client"
+        },
+        "matcherChoice": {
+            "title": "Choose matcher"
         },
         "open-main": {
             "dex": {
@@ -539,6 +548,11 @@
             "gateway": {
                 "feeExplanation": "Hemos detectado una dirección {{assetName}} y le enviaremos sus fondos a través de una puerta de enlace a esta dirección. La cantidad mínima es {{min, BigNumber}} {{assetTicker}} . La cantidad máxima es {{max, BigNumber}} {{assetTicker}} ."
             },
+            "gatewayTerms": {
+                "accept": "Accept and Continue",
+                "text": "By using Gateway service, you agree to be bound by [Gateway Terms of Service](https://dex.wavesplatform.com/) and [Conduction of Transactions](https://dex.wavesplatform.com/). If you do not agree to these terms, then do not use this Gateway service.",
+                "title": "Gateway service agreement"
+            },
             "icoWarning": "No retires {{assetName}} a una ICO. Nosotros no acreditaremos tu cuenta con tokens de esa venta.",
             "idNumber": {
                 "helpIcon": {
@@ -590,7 +604,8 @@
             "validationError": {
                 "notEnoughFunds": "No tienes suficientes fondos para pagar las comisiones necesarias. Debes pagar {{fee, money-currency}} por comisiones de transacción.",
                 "notEnoughFundsWithdraw": "No tienes suficientes fondos para pagar las comisiones necesarias. Debes pagar {{fee, money-currency}} {{getawayFee, BigNumber}} {{currency}} por comisiones de transacción y {{minGatewayAmount, BigNumber}} {{currency}} por comisiones de puerta de enlace (gateway)."
-            }
+            },
+            "withdrawTitle": "Withdraw"
         },
         "sepa": {
             "countryList": "Lista de IDs y países seleccionables",
@@ -688,6 +703,7 @@
                 "backupPhrase": "Frase de Recuperación",
                 "base58Seed": "Frase de seguridad (SEED) codificada",
                 "encodedSeed": "Semilla codificada",
+                "id": "Account ID",
                 "privateKey": "Clave privada",
                 "publicKey": "Clave pública",
                 "script": "Script",
@@ -744,6 +760,7 @@
             "signErrorText": "No ha confirmado la solicitud en su dispositivo Ledger.",
             "signErrorTextImportKeeper": "Iniciar sesión en Waves Keeper con la dirección{{address}}, y luego actualice la página para continuar.",
             "signErrorTextKeeper": "Inténtelo de nuevo. Si el error persiste, cree un tíquet en [Soporte]https://support.wavesplatform.com/)",
+            "signErrorTextKeeperWrongUser": "This account does not match the selected account in your Waves Keeper. Please activate another account in Waves Keeper and try again.",
             "timestamp": "Timestamp",
             "txId": "TXID"
         },

@@ -1,4 +1,8 @@
 {
+    "encodedSeedForm": {
+        "placeholder": "Enter your encoded seed"
+    },
+    "encodedSeedTab": "Encoded seed",
     "keyForm": {
         "placeholder": "Inserisci qui la tua chiave privata"
     },
@@ -51,6 +55,7 @@
     },
     "seedOrKeyForm": {
         "description": "Inserisci la tua frase Seed o la chiave privata per accedere al tuo wallet",
+        "encodedSeed": "Encoded seed",
         "keyTitle": "Chiave Privata",
         "seedTitle": "La tua frase Seed",
         "title": "Importa dal Seed o da una chiave"

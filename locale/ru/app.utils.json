@@ -286,6 +286,12 @@
                 "warningText": "Отправка любой другой валюты на этот адрес может повлечь за собой потерю средств.",
                 "warningTitle": "Отправляйте только ERGO на этот адрес"
             },
+            "wavesGatewayETH": {
+                "warningMinAmountText": "Если вы отправите меньше чем {{minAmount, BigNumber}} {{assetTicker}}, вы потеряете деньги.",
+                "warningMinAmountTitle": "Минимальная сумма депозита {{minAmount, BigNumber}} {{assetTicker}}, максимальная сумма депозита {{maxAmount}} {{assetTicker}}",
+                "warningText": "Проверьте, не использует ли ваш кошелёк или биржа смарт-контракты для отправки ETH. Мы не принимаем такие переводы и не можем возместить их. Вы потеряете эти деньги.",
+                "warningTitle": "Не отправляйте ETH со смарт-контрактов! Не отправляйте ERC20-токены! Только Ethereum."
+            },
             "wavesGatewayVST": {
                 "helpDescrText": "Как только транзакция будет подтверждена, шлюз отправит Vostok-токен на ваш аккаунт Waves.",
                 "helpDescrTitle": "Введите этот адрес в ваш Vostok клиент или кошелёк.",
@@ -345,6 +351,9 @@
             "wavesBetaClientDescription": "Импорт аккаунтов из Waves Lite Client",
             "wavesLiteClient": "Waves Lite Client",
             "wavesLiteClientDescription": "Импорт аккаунтов из Waves Lite Client"
+        },
+        "matcherChoice": {
+            "title": "Choose matcher"
         },
         "open-main": {
             "dex": {
@@ -438,7 +447,7 @@
             "errors": {
                 "required": "Это обязательное поле"
             },
-            "gatewayError": "Сервис Gateway временно недоступен. Попробуйте, пожалуйста, позже.",
+            "gatewayError": "Сервис Gateway временно недоступен. Пожалуйста, попробуйте позже.",
             "invoice": {
                 "title": "Инвойс"
             },
@@ -539,6 +548,11 @@
             "gateway": {
                 "feeExplanation": "Введенный адрес определен как {{assetName}}-адрес, ваши средства будут отправлены на него через шлюз. Минимальная сумма перевода — {{min, BigNumber}} {{assetTicker}}, максимальная — {{max, BigNumber}} {{assetTicker}}."
             },
+            "gatewayTerms": {
+                "accept": "Accept and Continue",
+                "text": "By using Gateway service, you agree to be bound by [Gateway Terms of Service](https://dex.wavesplatform.com/) and [Conduction of Transactions](https://dex.wavesplatform.com/). If you do not agree to these terms, then do not use this Gateway service.",
+                "title": "Gateway service agreement"
+            },
             "icoWarning": "Не выводите {{assetName}} на адреса ICO, так как мы не зачислим вам токены полученные после окончания распродажи.",
             "idNumber": {
                 "helpIcon": {
@@ -590,7 +604,8 @@
             "validationError": {
                 "notEnoughFunds": "У вас недостаточно средств для оплаты комиссии. Вам необходимо оплатить комиссию за транзакцию {{fee, money-currency}}.",
                 "notEnoughFundsWithdraw": "У вас недостаточно средств для отправки транзакции. Вам необходимо оплатить комиссию за транзакцию {{fee, money-currency}} и комиссию шлюза {{getawayFee, BigNumber}} {{currency}}. Минимальная сумма для отправки составляет {{minGatewayAmount, BigNumber}} {{currency}}."
-            }
+            },
+            "withdrawTitle": "Withdraw"
         },
         "sepa": {
             "countryList": "Список допустимых стран и ID",
@@ -688,6 +703,7 @@
                 "backupPhrase": "Секретная фраза",
                 "base58Seed": "Закодированная секретная фраза",
                 "encodedSeed": "Зашифрованная секретная фраза",
+                "id": "ID аккаунта",
                 "privateKey": "Приватный ключ",
                 "publicKey": "Публичный ключ",
                 "script": "Скрипт",
@@ -744,6 +760,7 @@
             "signErrorText": "Вы не подтвердили запрос на устройстве Ledger",
             "signErrorTextImportKeeper": "Войдите в Waves Keeper с адресом {{address}}, а затем обновите страницу, чтобы продолжить.",
             "signErrorTextKeeper": "Пожалуйста, попробуйте еще раз. Если ошибка повториться, напишите в [Поддержку](https://support.wavesplatform.com/)",
+            "signErrorTextKeeperWrongUser": "Этот аккаунт не совпадает с выбранным аккаунтом в Waves Keeper. Пожалуйста, активируйте подходящий аккаунт в Waves Keeper и попробуйте снова.",
             "timestamp": "Timestamp",
             "txId": "TXID"
         },

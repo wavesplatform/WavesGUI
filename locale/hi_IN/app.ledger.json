@@ -11,6 +11,10 @@
         "avatarUnique": "यह अवतार अनोखा है, आप इसे बाद में नहीं बदल सकते।",
         "back": "वापस जाओ",
         "choose": "अपना खाता चुनें",
+        "help": {
+            "id": "{div}[Set an ID manually or select an account from the list.]\n{div}[Please save the ID, it would be needed for importing.]"
+        },
+        "id": "Account ID",
         "importAccount": "एक लेडजर खाता आयात करें",
         "ImportOrSignIn": "इम्पोर्ट खाता या",
         "login": "जारी रहना",

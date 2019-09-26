@@ -62,9 +62,11 @@ export interface IConfItem {
     scamListUrl: string;
     tokensNameListUrl: string;
     featuresConfigUrl: string;
+    featuresConfig?: unknown;
     origin: string;
     assets: IHash<string>;
     feeConfigUrl: string;
+    feeConfig?: unknown;
     analyticsIframe: string;
 }
 

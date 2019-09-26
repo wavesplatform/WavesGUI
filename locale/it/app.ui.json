@@ -100,6 +100,7 @@
             "confirmRequestKeeper": {
                 "cancel": "Annulla",
                 "errorDescription": "Riprova. Se l'errore persiste, invia un ticket al [supporto](https://support.wavesplatform.com)",
+                "errorDescriptionSwitchUser": "This account does not match the selected account in your Waves Keeper. Please activate another account in Waves Keeper and try again.",
                 "errorHeader": "Non hai confermato la richiesta usando il Waves Keeper",
                 "sign": "Riprova",
                 "waiting": "In attesa di conferma sul Waves Keeper"

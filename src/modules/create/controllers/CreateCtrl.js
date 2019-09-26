@@ -115,14 +115,6 @@
                     index = this.stepIndex + index;
                 }
 
-                if (index === STATE_HASH.CREATE_ACCOUNT && index > STATE_HASH.CREATE_ACCOUNT) {
-                    analytics.send({
-                        name: 'Create New Continue Click',
-                        params: {
-                            guestMode: !this.saveUserData
-                        }
-                    });
-                }
                 if (index === STATE_HASH.CREATE_ACCOUNT_DATA) {
                     analytics.send({ name: 'Create Protect Your Account Show' });
                 }

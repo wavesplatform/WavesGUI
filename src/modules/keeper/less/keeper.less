@@ -5,9 +5,10 @@
 body.keeper {
   .address {
     align-items: center;
-    w-avatar {
-      flex-grow: 0;
-    }
+  }
+  .avatar {
+    // flex-grow: 0;
+    margin-right: 10px;
   }
 
   .error-icon,
@@ -26,5 +27,16 @@ body.keeper {
 
   .error-icon {
     background-image: @error-circle-icon;
+  }
+
+}
+
+.keeper-content__checkbox {
+  margin: 20px 0 30px;
+}
+
+@media screen and (max-width: 480px) {
+  .keeper-content__checkbox {
+    margin: 15px 0 20px;
   }
 }

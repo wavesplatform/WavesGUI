@@ -35,11 +35,14 @@ html body.stand {
     margin-right: 10px;
   }
 
-  w-checkbox-submit {
+  .checkbox-submit {
     margin-right: @padding-main-layout;
+    &__wrap {
+      width: 300px !important;
+    }
   }
 
-  w-error-block {
+  .error-block {
      margin-top: 130px;
   }
 
@@ -75,10 +78,6 @@ html body.stand {
     }
   }
 
-  .unit-checkbox {
-    width: 300px !important;
-  }
-
   .qr-wrapper,
   .relative-wrapper {
     background: @color-white;
@@ -93,15 +92,7 @@ html body.stand {
     display: block !important;
   }
 
-  w-tabs {
-    box-shadow: 0 0 3px #ccc;
-    max-height: 190px;
-    h4 {
-
-    }
-    .tab-body-wrap {
-    }
-
+  .tabs {
     .tab-content {
       display: flex;
       align-items: center;
