@@ -19,6 +19,7 @@
         "candleChart": {
             "error": "{div}[Невозможно загрузить график.]{div}[Если вы хотите использовать график в своем приложении, отправьте заявку [tradingview.com](https://tradingview.com)]"
         },
+        "charts": "графики",
         "createOrder": {
             "1day": "1 день",
             "1hour": "1 час",
@@ -32,8 +33,12 @@
             "buy": "Купить",
             "createOrderNotPermitted": "Ордера временно недоступны.",
             "errors": {
+                "amountMax": "Макс. сумма - ",
+                "amountMin": "Мин. сумма - ",
                 "balance": "Недостаточно {{name}}",
                 "precision": "Десятичных знаков больше, чем {{precision}}",
+                "priceMax": "Макс. цена - ",
+                "priceMin": "Мин. цена - ",
                 "required": "Это поле необходимо заполнить"
             },
             "expiration": "Действителен",
@@ -63,6 +68,8 @@
             "priceField": "Цена",
             "sell": "Продать",
             "spread": "разница",
+            "stopPriceField": "Стоп-цена",
+            "stopPriceHelp": "Это автоматически действующий ордер на покупку или продажу по заранее установленной цене",
             "total": "Сумма"
         },
         "demo": {
@@ -144,6 +151,7 @@
                 "header": "Что-то пошло не так..."
             }
         },
+        "orders": "ордера",
         "portfolio": {
             "title": "Портфолио"
         },
@@ -229,10 +237,12 @@
             "all": "Все",
             "btc": "Btc",
             "eth": "ETH",
+            "history": "история",
             "myBalance": "Мой баланс",
             "myTradeHistory": "Моя история сделок",
             "openOrders": "Мои открытые ордера",
             "OrderHistory": "Моя история ордеров",
+            "trade": "Сделки",
             "tradeHistory": "История сделок",
             "waves": "Waves"
         }

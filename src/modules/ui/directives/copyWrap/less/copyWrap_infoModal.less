@@ -1,0 +1,19 @@
+@import (reference) url('config');
+@import (reference) '../../../../app/less/typography';
+
+.copy-wrap_infoModal {
+  border-bottom: none;
+  border-radius: 0;
+  color: @color-basic-900;
+
+  &:first-child {
+    border-top-left-radius: @border-radius;
+    border-top-right-radius: @border-radius;
+  }
+
+  &:last-child {
+    border-bottom-left-radius: @border-radius;
+    border-bottom-right-radius: @border-radius;
+    border-bottom: 1px solid @color-basic-200;
+  }
+}

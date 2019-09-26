@@ -205,8 +205,8 @@ export async function getBuildParams(param: IPrepareHTMLOptions) {
         readJSON(join(__dirname, './meta.json')) as Promise<IMetaJSON>,
         readJSON(join(__dirname, '../src/themeConfig/theme.json')),
         (param.networkConfigFile
-            ? readJSON(param.networkConfigFile) as Promise<IConfItem>
-            : readJSON(join(__dirname, '..', 'configs', `${param.connection}.json`)) as Promise<IConfItem>
+                ? readJSON(param.networkConfigFile) as Promise<IConfItem>
+                : readJSON(join(__dirname, '..', 'configs', `${param.connection}.json`)) as Promise<IConfItem>
         ).catch(e => {
             console.error(e);
             return Promise.reject(e);
@@ -374,7 +374,7 @@ export async function getInitScript(
                     var wrapper = require('worker-wrapper');
 
                     var worker = wrapper.create({
-                        libs: ['/node_modules/parse-json-bignumber/dist/parse-json-bignumber.min.js?v' + WavesApp.version]
+                        libs: ['/node_modules/@waves/parse-json-bignumber/dist/parse-json-bignumber.min.js?v' + WavesApp.version]
                     });
 
                     worker.process(function () {
@@ -501,7 +501,7 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
             res.end(readFileSync(join(__dirname, '..', 'package.json')));
         } else if (isTradingView(url)) {
             get(`https://dex.wavesplatform.com/${url}`, (resp: IncomingMessage) => {
-                let data = new Buffer('');
+                let data = Buffer.from('');
 
                 // A chunk of data has been recieved.
                 resp.on('data', (chunk: Buffer) => {

@@ -19,6 +19,7 @@
         "candleChart": {
             "error": "{div}[Bagan tidak dapat diunduh.] {div}[Jika Anda ingin menggunakan bagan ini di aplikasi Anda, silakan kirim permintaan ke [tradingview.com](https://tradingview.com)]"
         },
+        "charts": "charts",
         "createOrder": {
             "1day": "1 hari",
             "1hour": "1 jam",
@@ -32,8 +33,12 @@
             "buy": "Beli",
             "createOrderNotPermitted": "Pesanan sementara tidak tersedia",
             "errors": {
+                "amountMax": "Max Amount - ",
+                "amountMin": "Min Amount - ",
                 "balance": "Tidak cukup {{name}}",
                 "precision": "Melebihi {{precision}} angka desimal",
+                "priceMax": "Max Price - ",
+                "priceMin": "Min Price - ",
                 "required": "Bagian ini diperlukan"
             },
             "expiration": "Kedaluwarsa",
@@ -63,6 +68,8 @@
             "priceField": "Batasi harga",
             "sell": "Jual",
             "spread": "Sebaran",
+            "stopPriceField": "Stop price",
+            "stopPriceHelp": "This is an automatic buy or sell order at a predetermined price",
             "total": "Total"
         },
         "demo": {
@@ -144,6 +151,7 @@
                 "header": "Ada yang salah"
             }
         },
+        "orders": "orders",
         "portfolio": {
             "title": "Portofolio"
         },
@@ -229,10 +237,12 @@
             "all": "Semua",
             "btc": "Btc",
             "eth": "ETH",
+            "history": "history",
             "myBalance": "Saldo saya",
             "myTradeHistory": "Sejarah Dagang Anda",
             "openOrders": "Pesanan Terbuka Anda",
             "OrderHistory": "Riwayat Pesanan Saya",
+            "trade": "Trade",
             "tradeHistory": "Sejarah Perdagangan",
             "waves": "Waves"
         }

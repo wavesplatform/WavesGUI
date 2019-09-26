@@ -26,13 +26,13 @@
     const allProgress = Object.values(PROGRESS_MAP)
         .reduce((result, item) => result + item, 0);
     if (allProgress !== 100) {
-        throw new Error('Configure loader progress!');
+        throw new Error('Configure preloader progress!');
     }
 
     const LOADER = {
         _current: 0,
-        _root: document.querySelector('.app-loader'),
-        _element: document.querySelector('.app-loader .progress'),
+        _root: document.querySelector('.app-preloader'),
+        _element: document.querySelector('.app-preloader .progress'),
         addProgress(delta) {
             this._current += delta;
             this._current = Math.min(this._current, 100);
@@ -357,6 +357,7 @@
                         }
 
                         if (!multiAccount.isSignedIn) {
+                            user.setInitRouteState(toState.name, params);
                             return $state.target(START_STATES[0]);
                         }
                     }
@@ -392,7 +393,7 @@
                             if (START_STATES.indexOf(toState.name) === -1) {
                                 $state.go(toState.name, params);
                             } else {
-                                $state.go(user.getActiveState('wallet'));
+                                user.goToActiveState();
                             }
 
                             i18next.changeLanguage(user.getSetting('lng'));

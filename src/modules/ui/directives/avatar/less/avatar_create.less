@@ -1,0 +1,39 @@
+@import (reference) 'icons';
+@import (reference) 'config';
+
+@createAvatarSize: 50px;
+@createAvatarSizePhone: @createAvatarSize - 10px;
+
+.avatar_create {
+  .avatar {
+    &__wrap { // .avatar__wrap
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      opacity: .7;
+      transition: opacity 0.3s;
+    }
+
+    &__img { // .avatar__img
+      width: @createAvatarSize;
+      height: @createAvatarSize;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .avatar_create {
+    .avatar {
+      &__img {
+        width: @createAvatarSizePhone;
+        height: @createAvatarSizePhone;
+      }
+  
+      &__wrapper {
+        padding: 10px 0;
+      }
+    }
+  }
+}

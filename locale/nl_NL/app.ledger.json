@@ -12,7 +12,7 @@
         "back": "Ga terug",
         "choose": "Kies uw account",
         "help": {
-            "id": "{div} [Stel handmatig een ID in of selecteer een account uit de lijst.] \n{div} [Bewaar de ID, deze is nodig voor het importeren.]"
+            "id": "{div}[Stel handmatig een ID in of selecteer een account uit de lijst.] \n{div}[Bewaar de ID, deze is nodig voor het importeren.]"
         },
         "id": "Account ID",
         "importAccount": "Importeer een Ledger account",
