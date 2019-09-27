@@ -2,21 +2,10 @@
 
 
 import { app, BrowserWindow, screen, Menu } from 'electron';
-import loggable from './decorators/loggable';
 import { Bridge } from './Bridge';
 import { ISize, IMetaJSON, ILastOpen } from './package';
 import { join } from 'path';
-import {
-    hasProtocol,
-    read,
-    readJSON,
-    removeProtocol,
-    write,
-    writeJSON,
-    parseElectronUrl,
-    changeLanguage,
-    localeReady
-} from './utils';
+import { hasProtocol, read, readJSON, removeProtocol, write, writeJSON, changeLanguage, localeReady } from './utils';
 import { homedir } from 'os';
 import { execSync } from 'child_process';
 import { ARGV_FLAGS, PROTOCOL, MIN_SIZE, FIRST_OPEN_SIZES, META_NAME, GET_MENU_LIST, CONTEXT_MENU } from './constansts';
