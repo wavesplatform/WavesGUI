@@ -1,11 +1,11 @@
 ///<reference path="node-global-extends.d.ts"/>
 
 
-import { app, BrowserWindow, screen, Menu } from 'electron';
+import {app, BrowserWindow, screen, Menu} from 'electron';
 import loggable from './decorators/loggable';
-import { Bridge } from './Bridge';
-import { ISize, IMetaJSON, ILastOpen } from './package';
-import { join } from 'path';
+import {Bridge} from './Bridge';
+import {ISize, IMetaJSON, ILastOpen} from './package';
+import {join} from 'path';
 import {
     hasProtocol,
     read,
@@ -17,13 +17,13 @@ import {
     changeLanguage,
     localeReady
 } from './utils';
-import { homedir } from 'os';
-import { execSync } from 'child_process';
-import { ARGV_FLAGS, PROTOCOL, MIN_SIZE, FIRST_OPEN_SIZES, META_NAME, GET_MENU_LIST, CONTEXT_MENU } from './constansts';
-import { get } from 'https';
+import {homedir} from 'os';
+import {execSync} from 'child_process';
+import {ARGV_FLAGS, PROTOCOL, MIN_SIZE, FIRST_OPEN_SIZES, META_NAME, GET_MENU_LIST, CONTEXT_MENU} from './constansts';
+import {get} from 'https';
 
 import BrowserWindowConstructorOptions = Electron.BrowserWindowConstructorOptions;
-import { IPackageJSON } from '../ts-scripts/interface';
+import {IPackageJSON} from '../ts-scripts/interface';
 
 
 const META_PATH = join(app.getPath('userData'), META_NAME);
@@ -73,7 +73,7 @@ class Main implements IMain {
                     this.mainWindow.reload();
                 } else {
                     const url = this.mainWindow.webContents.getURL();
-                    this.mainWindow.loadURL(url, { 'extraHeaders': 'pragma: no-cache\n' });
+                    this.mainWindow.loadURL(url, {'extraHeaders': 'pragma: no-cache\n'});
                     this.lastLoadedVersion = version;
                 }
             });
@@ -126,11 +126,20 @@ class Main implements IMain {
             this.mainWindow = new BrowserWindow(Main.getWindowOptions(meta));
 
             const pack = this.pack;
-            const parts = parseElectronUrl(removeProtocol(this.initializeUrl || argv.find(argument => hasProtocol(argument)) || ''));
-            const path = parts.path === '/' ? '/' : parts.path.replace(/\/$/, '');
-            const url = `${path}${parts.search}${parts.hash}`;
+            const parts = removeProtocol(this.initializeUrl || argv.find(argument => hasProtocol(argument)) || '');
 
-            this.mainWindow.loadURL(`https://${pack.server}/#!${url}`, { 'extraHeaders': 'pragma: no-cache\n' });
+            const getUrl = (): string => {
+                try {
+                    const {URL} = require('url');
+                    const url = new URL('', `https://${pack.server}`);
+                    url.hash = parts;
+                    return url.toString();
+                } catch (e) {
+                    return `https://${pack.server}/#`
+                }
+            };
+
+            this.mainWindow.loadURL(getUrl(), {'extraHeaders': 'pragma: no-cache\n'});
 
             Main.loadVersion(pack)
                 .catch(() => null)
@@ -148,12 +157,14 @@ class Main implements IMain {
                 }
             });
 
+            this.mainWindow.webContents.executeJavaScript('console.log()')
+
             const onChangeWindow = Main.asyncHandler(() => {
                 const [x, y] = this.mainWindow.getPosition();
                 const [width, height] = this.mainWindow.getSize();
                 const isFullScreen = this.mainWindow.isFullScreen();
 
-                return Main.updateMeta({ x, y, width, height, isFullScreen });
+                return Main.updateMeta({x, y, width, height, isFullScreen});
             }, 200);
 
             this.mainWindow.on('move', onChangeWindow);
@@ -318,7 +329,7 @@ class Main implements IMain {
 
     private static updateMeta(data: Partial<ILastOpen>) {
         return Main.loadMeta().then((meta) => {
-            meta.lastOpen = { ...meta.lastOpen || Object.create(null), ...data, };
+            meta.lastOpen = {...meta.lastOpen || Object.create(null), ...data,};
             return writeJSON(META_PATH, meta);
         });
     }
@@ -361,7 +372,7 @@ class Main implements IMain {
             x = meta.lastOpen.x;
             y = meta.lastOpen.y;
         } else {
-            const size = Main.getStartSize({ width: display.workAreaSize.width, height: display.size.height });
+            const size = Main.getStartSize({width: display.workAreaSize.width, height: display.size.height});
 
             width = size.width;
             height = size.height;
@@ -391,7 +402,7 @@ class Main implements IMain {
             FIRST_OPEN_SIZES.MIN_SIZE.HEIGHT
         );
 
-        return { width, height };
+        return {width, height};
     }
 
     private static asyncHandler(handler, timeout) {
