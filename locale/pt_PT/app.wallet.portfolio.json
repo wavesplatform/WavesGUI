@@ -3,7 +3,7 @@
     "burn": "Token Burn",
     "deposit": "Deposit",
     "dex": "Open in DEX",
-    "hasNftToken": "Account has non-fungible tokens [(NFT)](https://wavesexplorer.com/address/{{address}})",
+    "hasNftToken": "Account has non-fungible tokens [(NFT)](https://wavesexplorer.com/address/{{address}}/nft)",
     "info": "Asset Info",
     "list": {
         "actions": "Actions",

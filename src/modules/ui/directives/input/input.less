@@ -37,7 +37,7 @@ input[type="checkbox"] {
   }
 
   &.disabled {
-    background: @color-basic-50;
+    background: @color-basic-50 !important;
   }
 
   &.warning {
@@ -276,13 +276,13 @@ md-dialog {
       input[type="number"],
       textarea {
           background: @color-basic-50;
-  
+
           &:not(.no-validate).ng-touched.ng-valid:not(:focus):not(.focus):not(.ng-empty) {
             border-color: @color-basic-200;
           }
       }
     }
-  
+
     .input-like {
       background: @color-basic-50;
     }

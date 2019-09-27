@@ -86,11 +86,23 @@
             /**
              * @type {Money}
              */
+            marketTotal = null;
+            /**
+             * @type {Money}
+             */
             amount = null;
             /**
              * @type {Money}
              */
             price = null;
+            /**
+             * @type {Money}
+             */
+            marketPrice = null;
+            /**
+             * @type {Money}
+             */
+            marketAvgPrice = null;
             /**
              * @type {boolean}
              */
@@ -167,6 +179,35 @@
              */
             minPriceStep = null;
 
+            /**
+             * @public
+             */
+            orderType;
+
+            orderTemplateUrls = {
+                limit: 'modules/dex/directives/createOrder/limitOrderForm.html',
+                market: 'modules/dex/directives/createOrder/marketOrderForm.html'
+            };
+
+            get orderTypes() {
+                return this.orderType ?
+                    this._orderTypes.filter(orderType => orderType.id !== this.orderType.id) :
+                    this._orderTypes.slice(0, 1);
+            }
+
+            _orderTypes = [
+                {
+                    id: 'limit',
+                    name: 'Limit'
+                },
+                {
+                    id: 'market',
+                    name: 'Market'
+                }
+            ];
+
+            _asks = [];
+            _bids = [];
 
             constructor() {
                 super();
@@ -273,9 +314,17 @@
 
                 this.observe(['priceBalance', 'total', 'maxPriceBalance'], this._setIfCanBuyOrder);
 
-                this.observe('amount', () => (
-                    !this._silenceNow && this._updateField({ amount: this.amount })
-                ));
+                this.observe(['_assetIdPair', 'type', 'orderType', 'amount'], () => {
+                    if (this.orderType === 'market') {
+                        this._calculateMarketOrder();
+                    }
+                });
+
+                this.observe('amount', () => {
+                    if (!this._silenceNow) {
+                        this._updateField({ amount: this.amount });
+                    }
+                });
 
                 this.observe('price', () => (
                     !this._silenceNow && this._updateField({ price: this.price })
@@ -451,7 +500,7 @@
 
                         const data = {
                             orderType: this.type,
-                            price: this.price,
+                            price: this.orderType === 'market' ? this.marketPrice : this.price,
                             amount: this.amount,
                             matcherFee: this.fee,
                             matcherPublicKey
@@ -536,7 +585,7 @@
                 );
                 const clone = { ...data, expiration };
 
-                return utils.createOrder(clone);
+                return utils.createOrder(clone, this.orderType);
             }
 
 
@@ -835,7 +884,7 @@
              * @private
              */
             _calculateTotal() {
-                if (!this.price || !this.amount) {
+                if (!this.price || !this.amount || this.orderType !== 'limit') {
                     return null;
                 }
                 const price = this._validPrice();
@@ -850,9 +899,10 @@
              * @private
              */
             _calculatePrice() {
-                if (!this.total || !this.amount) {
+                if (!this.total || !this.amount || this.orderType !== 'limit') {
                     return null;
                 }
+
                 const total = this._validTotal();
                 const amount = this._validAmount();
                 this._setDirtyField('price', this.priceBalance.cloneWithTokens(
@@ -875,6 +925,42 @@
                     total.div(price)
                 ));
                 this._silenceNow = true;
+            }
+
+            /**
+             * @private
+             */
+            _calculateMarketOrder() {
+                if (this.amount) {
+                    const asksOrBids = this.type === 'buy' ? this._asks : this._bids;
+                    let filledAmount = this.amount.cloneWithTokens(0);
+                    let computedTotal = new Money(0, this.price.asset);
+                    let askOrBidPrice = new Money(0, this.price.asset);
+
+                    for (const askOrBid of (asksOrBids || [])) {
+                        if (filledAmount.gte(this.amount)) {
+                            break;
+                        }
+
+                        askOrBidPrice = computedTotal.cloneWithTokens(askOrBid.price);
+
+                        const askOrBidAmount = filledAmount.cloneWithTokens(askOrBid.amount);
+                        const unfilledAmount = this.amount.minus(filledAmount);
+                        const amount = unfilledAmount.lte(askOrBidAmount) ? unfilledAmount : askOrBidAmount;
+                        const total = askOrBidPrice.getTokens().mul(amount.getTokens());
+
+                        computedTotal = computedTotal.add(computedTotal.cloneWithTokens(total));
+                        filledAmount = filledAmount.add(amount);
+                    }
+
+                    this.marketTotal = computedTotal;
+                    this.marketAvgPrice = computedTotal.getTokens().eq(0) ?
+                        new Money(0, this.price.asset) :
+                        computedTotal.cloneWithTokens(computedTotal.getTokens().div(filledAmount.getTokens()));
+                } else {
+                    this.marketTotal = new Money(0, this.price.asset);
+                    this.marketAvgPrice = new Money(0, this.price.asset);
+                }
             }
 
             /**
@@ -933,7 +1019,7 @@
                         const [lastAsk] = asks;
                         const [firstBid] = bids;
 
-                        return { lastAsk, firstBid, spread };
+                        return { lastAsk, firstBid, spread, asks, bids };
                     }).catch(() => (this.loadingError = true));
             }
 
@@ -943,7 +1029,7 @@
              * @param spread
              * @private
              */
-            _setData({ lastAsk, firstBid }) {
+            _setData({ lastAsk, firstBid, asks, bids }) {
                 this.bid = firstBid || { price: 0 };
                 this.ask = lastAsk || { price: 0 };
 
@@ -951,6 +1037,13 @@
                 const buy = Number(this.ask.price);
 
                 this.spreadPercent = buy ? (((buy - sell) * 100 / buy) || 0).toFixed(2) : '0.00';
+                this._asks = asks;
+                this._bids = bids;
+
+                if (this.orderType === 'market') {
+                    this._calculateMarketOrder();
+                }
+
                 $scope.$digest();
             }
 
