@@ -78,13 +78,11 @@
                         <div class="fromBackup__list">
                             <div class="fromBackup__user" ng-repeat="user in $ctrl.decryptedData.saveUsers track by $index">
                                 <div class="fromBackup__user-info" ng-click="$ctrl.toggleSelect(user.address)">
-                                    <div>
-                                        <w-avatar address="user.address"
-                                                  size="36"
-                                                  type="{{user.userType}}"
-                                                  class="fromBackup__avatar">
-                                        </w-avatar>
-                                    </div>
+                                    <w-avatar address="user.address"
+                                                size="36"
+                                                type="{{user.userType}}"
+                                                class="fromBackup__avatar">
+                                    </w-avatar>
                                     <div>
                                         <div>{{user.name}}</div>
                                         <div class="basic-500">{{user.address}}</div>

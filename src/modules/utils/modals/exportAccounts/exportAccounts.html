@@ -1,44 +1,57 @@
 <div class="btn icon-close ng-scope" w-modal-close></div>
 
-<h3 class="basic-700 margin-top-3 margin-1"
+<h3 class="basic-700 margin-top-4 margin-2"
     w-i18n="modal.settings.exportAccounts.title">
     Choose which accounts you want to export
 </h3>
 
 
-<div class="export-accounts-modal">
-    <div>
+<div class="exportAccounts-modal">
+    <div class="exportAccounts-modal__row">
         Accounts
-        <a ng-click="$ctrl.selectAll()" w-i18n="modal.settings.exportAccounts.selectAll"></a>
+        <a class="submit-300" ng-click="$ctrl.selectAll()" w-i18n="modal.settings.exportAccounts.selectAll"></a>
     </div>
 
-    <div class="flex-row" ng-repeat="user in $ctrl.userList track by $index">
-        <div class="flex-row" ng-click="$ctrl.toggleSelect(user.address)">
-            <div>
-                <w-avatar address="user.address"
-                          size="36"
-                          type="{{user.userType}}">
-                </w-avatar>
-            </div>
-            <div>
-                <div>{{user.name}}</div>
-                <div>{{user.address}}</div>
+    <div class="exportAccounts-modal__list-wrap">
+        <div class="exportAccounts-modal__list">
+            <div class="exportAccounts-modal__user" ng-repeat="user in $ctrl.userList track by $index">
+                <div class="exportAccounts-modal__user-info" ng-click="$ctrl.toggleSelect(user.address)">
+                    <w-avatar address="user.address"
+                                size="36"
+                                type="{{user.userType}}"
+                                class="exportAccounts-modal__avatar">
+                    </w-avatar>
+                    <div>
+                        <div>{{user.name}}</div>
+                        <div class="basic-500">{{user.address}}</div>
+                    </div>
+                </div>
+                <w-checkbox-submit ng-model="$ctrl.checkedHash[user.address]" ng-click="$ctrl.onSelect()"></w-checkbox-submit>
             </div>
         </div>
-        <w-checkbox-submit ng-model="$ctrl.checkedHash[user.address]" ng-click="$ctrl.onSelect()"></w-checkbox-submit>
     </div>
 
 
-    <div class="flex-row">
-        <span w-i18n="modal.settings.exportAccounts.password"></span>
-        <w-info-tooltip>
-            <span class="tooltip__content">HELP ME!!!!</span>
-        </w-info-tooltip>
-        <w-checkbox-submit ng-model="$ctrl.needPassword"></w-checkbox-submit>
+    <div class="exportAccounts-modal__row exportAccounts-modal__row_pass">
+        <div class="flex">
+            <span class="exportAccounts-modal__password" w-i18n="modal.settings.exportAccounts.password"></span>
+            <w-info-tooltip>
+                <span class="tooltip__content">HELP ME!!!!</span>
+            </w-info-tooltip>
+        </div>
+        <div class="switcher-input" ng-class="{active: $ctrl.needPassword}">
+                <w-checkbox-submit id="need-password"
+                                   name="need-password"
+                                   ng-model="$ctrl.needPassword"
+                                   ng-class="{'checkbox-switcher_active': $ctrl.needPassword}"
+                                   class="checkbox-switcher">
+                </w-checkbox-submit>
+                <label for="need-password" class="switcher-input__label"></label>
+            </div>
     </div>
 
-    <form name="$ctrl.form" w-i18n-ns="app.ui" novalidate>
-        <w-input-container class="margin-3" ng-if="$ctrl.needPassword">
+    <form class="exportAccounts-modal__form" name="$ctrl.form" w-i18n-ns="app.ui" novalidate>
+        <w-input-container class="margin-2" ng-if="$ctrl.needPassword">
             <div class="left body-2 margin-05">
                 <span w-i18n="password.newPass"></span>
             </div>
@@ -67,7 +80,7 @@
             </w-complexity-meter>
         </w-input-container>
 
-        <w-input-container class="margin-3" ng-if="$ctrl.needPassword">
+        <w-input-container class="margin-2" ng-if="$ctrl.needPassword">
             <div class="left body-2 margin-05">
                 <span w-i18n="password.repeat"></span>
             </div>
