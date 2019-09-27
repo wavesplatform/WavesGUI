@@ -6,7 +6,7 @@
 
                 <w-step class="send-form">
 
-                    <w-tabs class="header" ng-model="$ctrl.tab">
+                    <w-tabs class="tabs" ng-model="$ctrl.tab">
                         <w-tab title-name="::'modal.send.sendTitle'" id="::'singleSend'">
                             <w-permit name="CAN_TRANSFER_TRANSACTION" mode="on">
 
@@ -132,9 +132,9 @@
                     <span w-i18n="modal.send.errors.title"></span>
                 </div>
 
-                <div class="icon-browser-warning"></div>
+                <div class="icon-browser-wrong"></div>
 
-                <h3 class="text-center margin-4 basic-700">
+                <h3 class="text-center margin-6 basic-700">
                     <span w-i18n="modal.send.errors.headline"></span>
                 </h3>
 

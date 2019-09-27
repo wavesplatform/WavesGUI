@@ -84,20 +84,7 @@ body.desktop {
   }
 }
 
-body.saveSeed,
-body.tokens,
-body.keeper,
-body.welcome,
-body.signIn,
-body.create,
-body.restore,
-body.import,
-body.ledger,
-body.tokens,
-body.wallet,
-body.stand,
-body.dex-demo,
-body.dex {
+body {
   ::-webkit-scrollbar {
     width: 4px;
     height: 4px;
@@ -156,10 +143,16 @@ body.portfolio {
   cursor: pointer;
   background-repeat: no-repeat;
   background-position: center;
+
+  &_footer {
+    background: @logo-footer;
+    background-position: left;
+    width: 105px;
+    cursor: default;
+  }
 }
 
 body.tokens,
-body.welcome,
 body.wallet,
 body.dex {
   .logo {
@@ -213,7 +206,7 @@ fieldset {
     padding: 10px 80px;
     overflow: hidden;
     margin: 0 auto;
-    max-width: 1440px;
+    max-width: @desktop-full-size;
   }
 }
 

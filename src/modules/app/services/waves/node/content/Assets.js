@@ -53,8 +53,19 @@
              */
             @decorators.cachable(5)
             info(assetId) {
-                if (assetId === WavesApp.defaultAssets.WAVES) {
-                    return this.getAsset(assetId);
+                if (assetId === WavesApp.defaultAssets.WAVES || assetId === null) {
+                    return Promise.all([
+                        this.getAsset(assetId),
+                        ds.fetch(`${this.node}/blockchain/rewards`)
+                            .then(data => ({ quantity: data.totalWavesAmount }))
+                            .catch(() => null)
+                    ])
+                        .then(([asset, assetData]) => {
+                            if (assetData) {
+                                Assets._updateAsset(asset, assetData);
+                            }
+                            return asset;
+                        });
                 }
 
                 return Promise.all([

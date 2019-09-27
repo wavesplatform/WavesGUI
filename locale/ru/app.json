@@ -35,6 +35,12 @@
             "Дек"
         ]
     },
+    "error": {
+        "updateClient": {
+            "body": "Мы постоянно работаем над тем, чтобы сделать Waves DEX лучше и полезнее.\nПожалуйста, обновите приложение, чтобы продолжить работу. Скачайте приложение на официальном [сайте](https://wavesplatform.com/technology/wallet)!",
+            "title": "Пора обновить приложение!"
+        }
+    },
     "EXK2jJo1PbL9CUNr5FSedw6cueZH5MUCDXNhR1WQEZa4": {
         "description": "Алоха тестотокен ;)"
     },
