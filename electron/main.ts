@@ -146,8 +146,6 @@ class Main implements IMain {
                 }
             });
 
-            this.mainWindow.webContents.executeJavaScript('console.log()');
-
             const onChangeWindow = Main.asyncHandler(() => {
                 const [x, y] = this.mainWindow.getPosition();
                 const [width, height] = this.mainWindow.getSize();
