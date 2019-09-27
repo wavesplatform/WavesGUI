@@ -121,7 +121,7 @@ class Main implements IMain {
                 try {
                     const { URL } = require('url');
                     const url = new URL('', `https://${pack.server}`);
-                    url.hash = parts;
+                    url.hash = `!${parts}`;
                     return url.toString();
                 } catch (e) {
                     return `https://${pack.server}/#`;
