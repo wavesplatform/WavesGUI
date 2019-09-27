@@ -1,18 +1,28 @@
 @import (reference) 'config';
-@import (reference) "../../../app/less/typography";
+@import (reference) "../../../../app/less/typography";
 @import (reference) 'icons';
 
 @media screen and (max-width: 720px) {
 	.dex .mobile-layout__watchlist {
 		&-bg {
-			padding: 5px;
-			background: rgba(23, 30, 40, 0.5);
 			z-index: 7;
-			position: absolute;
-			bottom: 0;
-			top: 0;
-			left: 0;
-			right: 0;
+			position: relative;
+			
+			&_active {
+				height: 100%;
+				
+				&::before {
+					content: "";
+					position: absolute;
+					top: -5px;
+					left: -5px;
+					z-index: -1;
+					display: block;
+					height: calc(100% ~'+ 10px');
+					width: calc(100% ~'+ 10px');
+					background: rgba(23, 30, 40, 0.5);
+				}
+			}
 	
 			.tabs__header {
 				bottom: auto;

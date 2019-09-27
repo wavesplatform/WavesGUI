@@ -66,7 +66,7 @@
                 <form class="fields" novalidate name="$ctrl.order">
                     <div class="price">
                         <div class="split-half field-label">
-                            <div class="basic-600" w-i18n="directives.createOrder.priceField"></div>
+                            <div class="basic-500" w-i18n="directives.createOrder.priceField"></div>
                             <!-- <div class="flex">
                                 <span ng-if="$ctrl.ask && $ctrl.ask.price && $ctrl.ask.price !== '0'"
                                       ng-class="{active: $ctrl.price.getTokens().toFixed() === $ctrl.ask.price}"
@@ -143,7 +143,7 @@
                             <div ng-if="$ctrl.type === 'buy'"
                                  ng-click="$ctrl.setMaxPrice()"
                                  class="caption-2 disabled-900 underline-dashed">
-                                <span w-i18n="money-currency" params="{money: $ctrl.maxPriceBalance}"></span>
+                                <span class="basic-700" w-i18n="money-currency" params="{money: $ctrl.maxPriceBalance}"></span>
                             </div>
                             <div ng-if="$ctrl.type === 'sell'"
                                  ng-click="$ctrl.setMaxAmount()"

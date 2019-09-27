@@ -230,12 +230,17 @@
   }
 }
 
-@media screen and (max-width: 860px) {
+@media screen and (max-width: 720px) {
   .smart-table_dex-my-balance {
     .smart-table {
       &__thead {
         width: calc(100% ~'+ 8px');
         transform: translate(-4px, -4px);
+      }
+
+      &__row {
+        padding: 8px 0;
+        margin: 0;
       }
     }
   }
