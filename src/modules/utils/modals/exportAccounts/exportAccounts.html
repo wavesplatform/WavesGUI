@@ -53,7 +53,7 @@
     <form class="exportAccounts-modal__form" name="$ctrl.form" w-i18n-ns="app.ui" novalidate>
         <w-input-container class="margin-2" ng-if="$ctrl.needPassword">
             <div class="left body-2 margin-05">
-                <span w-i18n="password.newPass"></span>
+                <!-- <span w-i18n="password.newPass"></span> -->
             </div>
 
             <w-show-hide-password>
@@ -82,7 +82,7 @@
 
         <w-input-container class="margin-2" ng-if="$ctrl.needPassword">
             <div class="left body-2 margin-05">
-                <span w-i18n="password.repeat"></span>
+                <!-- <span w-i18n="password.repeat"></span> -->
             </div>
             <w-show-hide-password>
                 <w-input
@@ -102,8 +102,11 @@
         </w-input-container>
 
         <div class="buttons-wrapper">
+            <w-button class="big" >
+                <div w-i18n="password.btn.cancel"></div>
+            </w-button>
             <w-button on-click="$ctrl.form.$valid && $ctrl.onSubmit()" disabled="$ctrl.form.$invalid || !$ctrl.hasSelected" class="submit big" >
-                <div w-i18n="password.btn.confirm"></div>
+                <div w-i18n="password.btn.export"></div>
             </w-button>
         </div>
     </form>
