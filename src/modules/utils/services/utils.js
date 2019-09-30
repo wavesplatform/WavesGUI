@@ -1811,7 +1811,7 @@
                         return utils.signMatcher(signable)
                             .then(signable => signable.getDataForApi())
                             .then(data => orderType === 'market' ?
-                                ds.createMarkerOrder(data) :
+                                ds.createMarketOrder(data) :
                                 ds.createOrder(data)
                             )
                             .catch(data => {
@@ -1823,7 +1823,7 @@
 
                                 return modalManager.showConfirmTx(signable, false).then(
                                     data => orderType === 'market' ?
-                                        ds.createMarkerOrder(data) :
+                                        ds.createMarketOrder(data) :
                                         ds.createOrder(data),
                                     () => null
                                 );

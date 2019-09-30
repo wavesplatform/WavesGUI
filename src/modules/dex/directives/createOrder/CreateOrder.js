@@ -9,7 +9,6 @@
      * @param {IPollCreate} createPoll
      * @param {$rootScope.Scope} $scope
      * @param {JQuery} $element
-     * @param {INotification} notification
      * @param {DexDataService} dexDataService
      * @param {Ease} ease
      * @param {$state} $state
@@ -18,9 +17,21 @@
      * @param {Transactions} transactions
      * @return {CreateOrder}
      */
-    const controller = function (Base, waves, user, utils, createPoll, $scope, $element, notification,
-                                 dexDataService, ease, $state, modalManager, balanceWatcher, transactions) {
-
+    const controller = function (
+        Base,
+        waves,
+        user,
+        utils,
+        createPoll,
+        $scope,
+        $element,
+        dexDataService,
+        ease,
+        $state,
+        modalManager,
+        balanceWatcher,
+        transactions
+    ) {
         const { without, keys, last } = require('ramda');
         const { Money } = require('@waves/data-entities');
         const { BigNumber } = require('@waves/bignumber');
@@ -28,7 +39,6 @@
         const analytics = require('@waves/event-sender');
 
         class CreateOrder extends Base {
-
 
             /**
              * @return {string}
@@ -954,6 +964,7 @@
                     }
 
                     this.marketTotal = computedTotal;
+                    this.marketPrice = askOrBidPrice;
                     this.marketAvgPrice = computedTotal.getTokens().eq(0) ?
                         new Money(0, this.price.asset) :
                         computedTotal.cloneWithTokens(computedTotal.getTokens().div(filledAmount.getTokens()));
@@ -1014,13 +1025,16 @@
              */
             _getData() {
                 this.loadingError = false;
-                return waves.matcher.getOrderBook(this._assetIdPair.amount, this._assetIdPair.price)
-                    .then(({ bids, asks, spread }) => {
-                        const [lastAsk] = asks;
-                        const [firstBid] = bids;
 
-                        return { lastAsk, firstBid, spread, asks, bids };
-                    }).catch(() => (this.loadingError = true));
+                return waves.matcher.getOrderBook(
+                    this._assetIdPair.amount,
+                    this._assetIdPair.price
+                ).then(({ bids, asks, spread }) => {
+                    const [lastAsk] = asks;
+                    const [firstBid] = bids;
+
+                    return { lastAsk, firstBid, spread, asks, bids };
+                }).catch(() => (this.loadingError = true));
             }
 
             /**
@@ -1067,41 +1081,38 @@
              * @private
              */
             _updateFeeList() {
-                return this._getFeeRates()
-                    .then(list => {
-                        const assetsId = this._getOrderedCustomFeeAssetsList(list);
-                        Promise.all(
-                            assetsId.map(id => balanceWatcher.getBalanceByAssetId(id))
-                        ).then(balances => {
-                            const { basedCustomFee } = this.matcherSettings;
+                return this._getFeeRates().then(list => {
+                    const assetsId = this._getOrderedCustomFeeAssetsList(list);
 
-                            const feeList = balances
-                                .map(balance => {
-                                    const { id } = balance.asset;
-                                    const rate = new BigNumber(list[id]);
-                                    return balance.cloneWithCoins(
-                                        rate.mul(basedCustomFee[id])
-                                    );
-                                });
+                    Promise.all(
+                        assetsId.map(id => balanceWatcher.getBalanceByAssetId(id))
+                    ).then(balances => {
+                        const { basedCustomFee } = this.matcherSettings;
 
-                            const filteredFeeList = feeList.filter((fee, i) => fee.lte(balances[i]));
-
-                            if (!filteredFeeList.length) {
-                                this.fee = feeList[0];
-                                this.feeList = [];
-                            } else if (filteredFeeList.length === 1) {
-                                this.fee = filteredFeeList[0];
-                                this.feeList = [];
-                            } else {
-                                this.fee = filteredFeeList[0];
-                                this.feeList = filteredFeeList;
-                            }
+                        const feeList = balances.map(balance => {
+                            const { id } = balance.asset;
+                            const rate = new BigNumber(list[id]);
+                            return balance.cloneWithCoins(
+                                rate.mul(basedCustomFee[id])
+                            );
                         });
 
-                    })
-                    .catch(() => {
-                        this.feeList = [];
+                        const filteredFeeList = feeList.filter((fee, i) => fee.lte(balances[i]));
+
+                        if (!filteredFeeList.length) {
+                            this.fee = feeList[0];
+                            this.feeList = [];
+                        } else if (filteredFeeList.length === 1) {
+                            this.fee = filteredFeeList[0];
+                            this.feeList = [];
+                        } else {
+                            this.fee = filteredFeeList[0];
+                            this.feeList = filteredFeeList;
+                        }
                     });
+                }).catch(() => {
+                    this.feeList = [];
+                });
             }
 
             /**
@@ -1121,10 +1132,9 @@
                     ds.api.pairs.get(this._assetIdPair.amount, this._assetIdPair.price),
                     ds.fetch(ds.config.get('matcher'))
                 ]).then(([pair, matcherPublicKey]) => {
-                    waves.matcher.getCreateOrderSettings(pair, matcherPublicKey)
-                        .then(data => {
-                            this.matcherSettings = data;
-                        });
+                    waves.matcher.getCreateOrderSettings(pair, matcherPublicKey).then(data => {
+                        this.matcherSettings = data;
+                    });
                 });
             }
 
@@ -1141,8 +1151,10 @@
                     } else {
                         acc.otherFee.push(id);
                     }
+
                     return acc;
                 }, { currentFee: [], otherFee: [] });
+
                 return [...currentFee, ...otherFee];
             }
 
@@ -1179,7 +1191,6 @@
         'createPoll',
         '$scope',
         '$element',
-        'notification',
         'dexDataService',
         'ease',
         '$state',
