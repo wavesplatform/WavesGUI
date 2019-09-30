@@ -35,7 +35,8 @@
             SPONSORSHIP_CREATE: 'js-action-button-sponsorship_create',
             SPONSORSHIP_EDIT: 'js-action-button-sponsorship_edit',
             SPONSORSHIP_STOP: 'js-action-button-cancel-sponsorship',
-            SET_ASSET_SCRIPT: 'js-action-button-set-asset-script'
+            SET_ASSET_SCRIPT: 'js-action-button-set-asset-script',
+            WITHDRAW: 'js-action-button-withdraw'
         },
         SUSPICIOUS_LABEL: 'js-suspicious-label'
     };
@@ -541,6 +542,10 @@
                 this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.TOGGLE_SPAM}`, () => {
                     this.user.toggleSpamAsset(this.balance.asset.id);
                     this._initSpamState();
+                });
+
+                this.$node.on('click', `.${SELECTORS.ACTION_BUTTONS.WITHDRAW}`, () => {
+                    this.modalManager.showWithdrawAsset({ assetId: this.balance.asset.id });
                 });
             }
 

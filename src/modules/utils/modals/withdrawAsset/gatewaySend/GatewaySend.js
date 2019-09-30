@@ -269,9 +269,10 @@
         bindings: {
             state: '<',
             onSign: '&',
-            updateGatewayData: '&'
+            updateGatewayData: '&',
+            isOuterBlockchainAddress: '<'
         },
-        templateUrl: 'modules/utils/modals/sendAsset/components/gatewaySend/gateway-send.html',
+        templateUrl: 'modules/utils/modals/withdrawAsset/gatewaySend/gateway-send.html',
         transclude: true,
         controller
     });

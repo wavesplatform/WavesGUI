@@ -63,5 +63,13 @@
             </svg>
             <span w-i18n="directives.asset.receive"></span>
         </div>
+        <div ng-if="$ctrl.isGateway"
+             class="btn-icon icon-withdraw"
+             ng-click="$ctrl.onClick({event: $event, asset: $ctrl.balance.asset, action: 'withdraw'})">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+                <path fill="#9BA6B2" fill-rule="nonzero" d="M15.5 10.391a.75.75 0 0 1 .743.648l.007.102v2.889c0 1.16-.899 2.109-2.038 2.189l-.156.005H3.944a2.195 2.195 0 0 1-2.188-2.037l-.006-.157v-2.889a.75.75 0 0 1 1.493-.102l.007.102v2.889c0 .352.261.642.6.688l.094.006h10.112a.695.695 0 0 0 .688-.6l.006-.094v-2.889a.75.75 0 0 1 .75-.75zM9.446 1.927L9.53 2l3.611 3.61a.75.75 0 0 1-.976 1.134l-.084-.073L9.75 4.34v7.801a.75.75 0 0 1-.648.743L9 12.891a.75.75 0 0 1-.75-.75V4.34L5.92 6.671a.75.75 0 0 1-1.134-.976l.073-.084L8.469 2a.75.75 0 0 1 .977-.073z"/>
+            </svg>
+            <span w-i18n-ns="app.utils" w-i18n="modal.send.withdrawTitle"></span>
+        </div>
     </div>
 </div>
