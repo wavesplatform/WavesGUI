@@ -421,6 +421,24 @@
                 });
             }
 
+            goToActiveState() {
+                if (!this.initRouteState) {
+                    $state.go(this.getActiveState('wallet'));
+                }
+            }
+
+            /**
+             * @param {string} name
+             * @param {string} params
+             */
+            setInitRouteState(name, params) {
+                if (this.initRouteState) {
+                    return;
+                }
+                this.initRouteState = true;
+                this.loginSignal.once(() => $state.go(name, params));
+            }
+
             /**
              * @param {object} userData
              * @param {string} userData.userType
