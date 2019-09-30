@@ -12,9 +12,8 @@
      * @param {Waves} waves
      * @param {GatewayService} gatewayService
      * @param {ConfigService} configService
-     * @param {app.Storage} storage
      */
-    const controller = function (SingleSend, $scope, utils, user, waves, gatewayService, configService, storage) {
+    const controller = function (SingleSend, $scope, utils, user, waves, gatewayService, configService) {
 
         class GatewaySend extends SingleSend {
 
@@ -67,19 +66,6 @@
              * @type {Money}
              */
             maxGatewayAmount = null;
-            /**
-             * @type {boolean}
-             */
-            gatewayTermsAccepted;
-
-            constructor(props) {
-                super(props);
-
-                storage.load('gatewayTermAccepted')
-                    .then(termsAccepted => {
-                        this.gatewayTermsAccepted = termsAccepted;
-                    });
-            }
 
             $postLink() {
                 this.receive(utils.observe(this.tx, 'recipient'), this._onUpdateRecipient, this);
@@ -146,11 +132,6 @@
                 });
 
                 return signable;
-            }
-
-            acceptGatewayTerms() {
-                this.gatewayTermsAccepted = true;
-                storage.save('gatewayTermAccepted', true);
             }
 
             /**
@@ -281,8 +262,7 @@
         'user',
         'waves',
         'gatewayService',
-        'configService',
-        'storage'
+        'configService'
     ];
 
     angular.module('app.ui').component('wGatewaySend', {

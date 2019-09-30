@@ -186,12 +186,3 @@
         <span w-i18n="button.continue"></span>
     </w-sign-button>
 </div>
-
-<div ng-if="!$ctrl.gatewayTermsAccepted" class="gateway-terms">
-    <w-asset-logo class="asset-logo asset-logo_marker-hide" size="80" asset-id="$ctrl.assetId"></w-asset-logo>
-    <h3 class="gateway-terms__title margin-1" w-i18n="modal.send.gatewayTerms.title"></h3>
-    <div class="gateway-terms__text basic-500 margin-3" w-i18n="modal.send.gatewayTerms.text"></div>
-    <w-button class="submit big" on-click="$ctrl.acceptGatewayTerms()">
-        <span w-i18n="modal.send.gatewayTerms.accept"></span>
-    </w-button>
-</div>
