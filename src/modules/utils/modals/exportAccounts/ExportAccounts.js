@@ -69,6 +69,13 @@
                 this.onSelect();
             }
 
+            unselectAll() {
+                this.userList.forEach((user) => {
+                    this.checkedHash[user.address] = false;
+                });
+                this.onSelect();
+            }
+
             onSubmit() {
                 const users = Object.entries(this.checkedHash)
                     .filter(item => item[1])

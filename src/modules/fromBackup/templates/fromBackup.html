@@ -1,6 +1,6 @@
 <w-main-header class="main-header"></w-main-header>
 
-<div w-i18n-ns="app.utils" class="main-container movable">
+<div w-i18n-ns="app.import" class="main-container movable">
     <div class="main-container-wrapper">
         <div class="get-started-content">
             <w-step-by-step active-step="$ctrl.step">
@@ -8,7 +8,7 @@
     
                     <div class="fromBackup__icon fromBackup__icon_keystore"></div>
                     <div class="text-center">
-                        <h3 class="margin-1 basic-700" w-i18n="backupFile.importFromFile">Import from Keystore File</h3>
+                        <h3 class="margin-1 basic-700" w-i18n="backupFile.importFromFile"></h3>
                     </div>
                     <div class="text-center margin-3">
                         <span class="body-2 basic-500 import-modal__content-text" w-i18n="backupFile.importFromFileDescription"></span>
@@ -38,11 +38,18 @@
                 <w-step>
                     <div class="fromBackup__icon fromBackup__icon_password"></div>
                     <div class="text-center">
-                        <h3 class="margin-1" w-i18n="backupFile.enterPassword"></h3>
+                        <h3 class="margin-1" w-i18n="backupFile.importFromFile"></h3>
                     </div>
                     <div class="text-center margin-2">
                         <span class="body-2 basic-500 import-modal__content-text" w-i18n="backupFile.enterPasswordDescription"></span>
                         <a class="submit-400 body-2" w-i18n="backupFile.back" ui-sref="import"></a>
+                    </div>
+
+                    <div class="flex relative">
+                        <span class="fromBackup__password" w-i18n="backupFile.password"></span>
+                        <w-help-icon class="info fromBackup__helper">
+                            <span class="fromBackup__helper"w-i18n="backupFile.helper"></span>
+                        </w-help-icon>
                     </div>
     
                     <w-show-hide-password>
@@ -62,16 +69,17 @@
                 </w-step>
                 <w-step>
                     <div class="text-center">
-                        <h3 class="margin-1" w-i18n="backupFile.chooseAccounts"></h3>
+                        <h3 class="margin-1" w-i18n="backupFile.import.selectAccount"></h3>
                     </div>
                     <div class="text-center margin-2">
-                        <span class="body-2 basic-500 import-modal__content-text" w-i18n="backupFile.chooseAccountsDescription"></span>
+                        <span class="body-2 basic-500 import-modal__content-text" w-i18n="backupFile.import.selectAccountDesc"></span>
                         <a class="submit-400 body-2" w-i18n="backupFile.back" ui-sref="import"></a>
                     </div>
     
                     <div class="fromBackup__subtitle">
-                        Accounts
-                        <a ng-click="$ctrl.selectAll()" w-i18n="backupFile.selectAll" class="submit-300"></a>
+                        <div w-i18n="backupFile.import.accounts"></div>
+                        <a ng-click="$ctrl.selectAll()" w-i18n="backupFile.import.selectAll" class="submit-300"></a>
+                        <a ng-click="$ctrl.selectAll()" w-i18n="backupFile.import.unselectAll" class="submit-300"></a>
                     </div>
     
                     <div class="fromBackup__list-wrap">
@@ -94,7 +102,7 @@
                     </div>
     
                     <w-button on-click="$ctrl.hasSelected && $ctrl.onSubmit()" disabled="!$ctrl.hasSelected" class="submit big long" >
-                        <div w-i18n="backupFile.importing"></div>
+                        <div w-i18n="backupFile.next"></div>
                     </w-button>
                 </w-step>
             </w-step-by-step>

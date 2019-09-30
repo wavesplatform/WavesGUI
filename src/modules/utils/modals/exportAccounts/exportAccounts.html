@@ -1,29 +1,28 @@
 <div class="btn icon-close ng-scope" w-modal-close></div>
 
 <h3 class="basic-700 margin-top-4 margin-2"
-    w-i18n="modal.settings.exportAccounts.title">
-    Choose which accounts you want to export
-</h3>
+    w-i18n="modal.settings.exportAccounts.title"></h3>
 
 
 <div class="exportAccounts-modal">
     <div class="exportAccounts-modal__row">
-        Accounts
+        <div w-i18n="modal.settings.exportAccounts.accounts"></div>
         <a class="submit-300" ng-click="$ctrl.selectAll()" w-i18n="modal.settings.exportAccounts.selectAll"></a>
+        <a class="submit-300" ng-click="$ctrl.unselectAll()" w-i18n="modal.settings.exportAccounts.unselectAll"></a>
     </div>
 
     <div class="exportAccounts-modal__list-wrap">
         <div class="exportAccounts-modal__list">
             <div class="exportAccounts-modal__user" ng-repeat="user in $ctrl.userList track by $index">
-                <div class="exportAccounts-modal__user-info" ng-click="$ctrl.toggleSelect(user.address)">
+                <div class="exportAccounts-modal__user-content" ng-click="$ctrl.toggleSelect(user.address)">
                     <w-avatar address="user.address"
                                 size="36"
                                 type="{{user.userType}}"
                                 class="exportAccounts-modal__avatar">
                     </w-avatar>
-                    <div>
+                    <div class="exportAccounts-modal__user-info">
                         <div>{{user.name}}</div>
-                        <div class="basic-500">{{user.address}}</div>
+                        <div class="exportAccounts-modal__address">{{user.address}}</div>
                     </div>
                 </div>
                 <w-checkbox-submit ng-model="$ctrl.checkedHash[user.address]" ng-click="$ctrl.onSelect()"></w-checkbox-submit>
@@ -34,10 +33,10 @@
 
     <div class="exportAccounts-modal__row exportAccounts-modal__row_pass">
         <div class="flex">
-            <span class="exportAccounts-modal__password" w-i18n="modal.settings.exportAccounts.password"></span>
-            <w-info-tooltip>
-                <span class="tooltip__content">HELP ME!!!!</span>
-            </w-info-tooltip>
+            <span class="exportAccounts-modal__password" w-i18n="modal.settings.password"></span>
+            <w-help-icon class="info">
+                <span class="exportAccounts-modal__helper"w-i18n="modal.settings.helperContent"></span>
+            </w-help-icon>
         </div>
         <div class="switcher-input" ng-class="{active: $ctrl.needPassword}">
                 <w-checkbox-submit id="need-password"
@@ -53,7 +52,7 @@
     <form class="exportAccounts-modal__form" name="$ctrl.form" w-i18n-ns="app.ui" novalidate>
         <w-input-container class="margin-2" ng-if="$ctrl.needPassword">
             <div class="left body-2 margin-05">
-                <!-- <span w-i18n="password.newPass"></span> -->
+                <span w-i18n="password.newPass"></span>
             </div>
 
             <w-show-hide-password>
@@ -80,9 +79,9 @@
             </w-complexity-meter>
         </w-input-container>
 
-        <w-input-container class="margin-2" ng-if="$ctrl.needPassword">
+        <w-input-container class="margin-3" ng-if="$ctrl.needPassword">
             <div class="left body-2 margin-05">
-                <!-- <span w-i18n="password.repeat"></span> -->
+                <span w-i18n="password.repeat"></span>
             </div>
             <w-show-hide-password>
                 <w-input
@@ -101,12 +100,12 @@
             </div>
         </w-input-container>
 
-        <div class="buttons-wrapper">
+        <div class="buttons-wrapper" w-i18n-ns="app.utils">
             <w-button class="big" >
-                <div w-i18n="password.btn.cancel"></div>
+                <div w-i18n="modal.deleteAccount.cancel"></div>
             </w-button>
             <w-button on-click="$ctrl.form.$valid && $ctrl.onSubmit()" disabled="$ctrl.form.$invalid || !$ctrl.hasSelected" class="submit big" >
-                <div w-i18n="password.btn.export"></div>
+                <div w-i18n="modal.settings.exportAccounts.export"></div>
             </w-button>
         </div>
     </form>

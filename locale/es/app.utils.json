@@ -293,8 +293,8 @@
                 "warningTitle": "!Por favor no deposites ETH desde Smart-Contract! No deposites tokens ERC20, solo se acepta Ethereum."
             },
             "wavesGatewayVST": {
-                "helpDescrText": "Una vez que se confirma la transacción, la puerta de enlace procesará la transferencia de Vostok en forma de token a su cuenta Waves.",
-                "helpDescrTitle": "Ingrese esta dirección en su cartera o cliente Vostok",
+                "helpDescrText": "Una vez que se confirma la transacción, la puerta de enlace procesará la transferencia de VST en forma de token a su cuenta Waves.",
+                "helpDescrTitle": "Ingrese esta dirección en su cartera o cliente VST",
                 "warningMinAmountTitle": "La cantidad mínima de depósito es {{minAmount, BigNumber}} {{assetTicker}}, la cantidad máxima de depósito es {{maxAmount}} {{assetTicker}}"
             }
         },
@@ -353,7 +353,12 @@
             "wavesLiteClientDescription": "Importar cuentas desde Waves Lite Client"
         },
         "matcherChoice": {
-            "title": "Choose matcher"
+            "customMatcher": "Custom matcher address",
+            "matcher": "Matcher",
+            "matcherTerms": "I agree to the Super DEX Mather Terms of Use.",
+            "terms": "Terms",
+            "title": "Choose matcher",
+            "wavesTerms": "I am over 18 years old, and I agree to the Waves Terms of Use and Waves Privacy Policy."
         },
         "open-main": {
             "dex": {
@@ -470,7 +475,7 @@
             "shareInvoiceLink": "Comparte un Link a la factura",
             "verified": "Verificado",
             "vostok": {
-                "serverError": "Servicio Vostok temporalmente no disponible. Inténtalo de nuevo más tarde."
+                "serverError": "Servicio VST temporalmente no disponible. Inténtalo de nuevo más tarde."
             },
             "wtry": {
                 "info": "Si tuvieras problemas con el proceso de pago, por favor, contacta con el equipo de soporte de Digilira - [support@digilira.com](mailto:support@digilira.com)"
@@ -632,6 +637,13 @@
             "cancel": "Crear una cuenta",
             "changePass": "Cambiar contraseña",
             "deleteAccount": "Eliminar cuenta",
+            "exportAccounts": {
+                "accounts": "Accounts",
+                "export": "Export",
+                "selectAll": "Select all",
+                "title": "Please select account",
+                "unselectAll": "Unselect all"
+            },
             "general": {
                 "auto": "Auto",
                 "blockHeight": "Altura de bloque",
@@ -649,6 +661,7 @@
                 "title": "General",
                 "white": "Blanco"
             },
+            "helperContent": "You can set a password for exported accounts",
             "info": {
                 "legal": "Legal",
                 "privacyPolicy": "Política de privacidad",
@@ -670,6 +683,7 @@
                 "dataProviderInvalid": "No se ha podido obtener la información del proveedor. Compruebe la dirección e inténtelo de nuevo",
                 "dataProviderName": "{{dataProviderName}}",
                 "dontShowSpamCheckboxDescr": "No mostrar tokens sospechosos",
+                "edit": "Edit",
                 "forDisableClear": "Para desactivarlo por completo, borre el campo.",
                 "matcherAddress": "Dirección del Matcher",
                 "nodeAddress": "Dirección del Nodo",
@@ -703,9 +717,11 @@
                 "backupPhrase": "Frase de Recuperación",
                 "base58Seed": "Frase de seguridad (SEED) codificada",
                 "encodedSeed": "Semilla codificada",
+                "exportAccount": "Export account",
                 "id": "Account ID",
                 "privateKey": "Clave privada",
                 "publicKey": "Clave pública",
+                "savejson": "Save as JSON file",
                 "script": "Script",
                 "scriptButton": "Establecer script",
                 "scriptButtonUpdate": "Actualizar script",
@@ -946,7 +962,7 @@
                 "1_3_0": "\"span.line\" [1. Se ha mejorado la navegación de la aplicación y la interfaz de la página de inicio.]",
                 "1_3_18": "{span.line} [1. Inicio de sesión agregado a la billetera con clave privada.] \n {span.line} [2. El cambio de precio de 24 horas de un token ahora está vinculado al par de tokens / WAVES.]",
                 "1_3_19": "{span.line}[1. Se ha puesto en marcha la puerta de enlace Bancor.]\n{span.line}[2. Se ha corregido la interfaz de usuario y algunos errores menores.]",
-                "1_3_2": "\"span.line\" [1. Se ha puesto en marcha la puerta de enlace Vostok.]\n\"span.line\" [2. Se ha corregido la interfaz de usuario y algunos errores menores.]",
+                "1_3_2": "\"span.line\" [1. Se ha puesto en marcha la puerta de enlace VST.]\n\"span.line\" [2. Se ha corregido la interfaz de usuario y algunos errores menores.]",
                 "1_3_20": "{span.line} [1. Sistema mejorado para almacenar y restaurar cuentas desde el almacenamiento local (es necesario actualizar la [aplicación de escritorio] (https://wavesplatform.com/technology/wallet)).] \n {span.line} [2. Se corrigió el redondeo de precios en el libro de pedidos.]",
                 "1_3_5": "\"span.line\" [1. Se ha añadido una pestaña con tokens de concurso [wsoc.io](https://wsoc.io).\n\"span.line\" [2. Se ha añadido compatibilidad con el idioma francés.]\n\"span.line\" [3. Se han corregido errores menores adicionales.]",
                 "1_3_7": "\"span.line\" [1. Integración con [tokenrating.wavesexplorer.com](https://tokenrating.wavesexplorer.com) Ahora puede calificar tokens directamente en la aplicación.]\n\"span.line\" [2. Se han corregido errores menores.]",

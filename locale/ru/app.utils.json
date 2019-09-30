@@ -189,9 +189,9 @@
             "headerSell": "Цена в вашем ордере на {{orderLimit}}% ниже рыночной цены"
         },
         "createOrder": {
-            "cancel": "Create an account",
-            "message": "To begin trading please sign in or create an account",
-            "ok": "Sign in"
+            "cancel": "Создать аккаунт",
+            "message": "Для того, чтобы начать торговлю, создайте новый аккаунт или войдите в созданный ранее",
+            "ok": "Войти"
         },
         "deleteAccount": {
             "cancel": "Отмена",
@@ -293,8 +293,8 @@
                 "warningTitle": "Не отправляйте ETH со смарт-контрактов! Не отправляйте ERC20-токены! Только Ethereum."
             },
             "wavesGatewayVST": {
-                "helpDescrText": "Как только транзакция будет подтверждена, шлюз отправит Vostok-токен на ваш аккаунт Waves.",
-                "helpDescrTitle": "Введите этот адрес в ваш Vostok клиент или кошелёк.",
+                "helpDescrText": "Как только транзакция будет подтверждена, шлюз отправит VST-токен на ваш аккаунт Waves.",
+                "helpDescrTitle": "Введите этот адрес в ваш VST клиент или кошелёк.",
                 "warningMinAmountTitle": "Минимальная сумма депозита {{minAmount, BigNumber}} {{assetTicker}}, максимальная сумма депозита {{maxAmount}} {{assetTicker}}"
             }
         },
@@ -353,12 +353,17 @@
             "wavesLiteClientDescription": "Импорт аккаунтов из Waves Lite Client"
         },
         "matcherChoice": {
-            "title": "Choose matcher"
+            "customMatcher": "Custom matcher address",
+            "matcher": "Matcher",
+            "matcherTerms": "I agree to the Super DEX Mather Terms of Use.",
+            "terms": "Terms",
+            "title": "Choose matcher",
+            "wavesTerms": "I am over 18 years old, and I agree to the Waves Terms of Use and Waves Privacy Policy."
         },
         "open-main": {
             "dex": {
                 "cancel": "Create an account",
-                "message": "To begin trading please sign in or create an account",
+                "message": "Для того, чтобы начать торговлю, создайте новый аккаунт или войдите в созданный ранее",
                 "ok": "Sign in"
             },
             "tokens": {
@@ -470,7 +475,7 @@
             "shareInvoiceLink": "Ссылка на выставленный счет",
             "verified": "Проверенный",
             "vostok": {
-                "serverError": "Сервис Vostok временно недоступен. Попробуйте, пожалуйста, позже."
+                "serverError": "Сервис VST временно недоступен. Попробуйте, пожалуйста, позже."
             },
             "wtry": {
                 "info": "Если у вас возникнут проблемы с процессингом, пожалуйста, обратитесь в службу поддержки Digilira — [support@digilira.com](mailto:support@digilira.com)"
@@ -632,6 +637,13 @@
             "cancel": "Create an account",
             "changePass": "Изменить пароль",
             "deleteAccount": "Удалить аккаунт",
+            "exportAccounts": {
+                "accounts": "Аккаунты",
+                "export": "Экспортировать",
+                "selectAll": "Выбрать все",
+                "title": "Пожалуйста, выберите аккаунт",
+                "unselectAll": "Отменить все"
+            },
             "general": {
                 "auto": "Авто",
                 "blockHeight": "Текущая высота",
@@ -649,6 +661,7 @@
                 "title": "Основные",
                 "white": "Белая"
             },
+            "helperContent": "Вы можете установить пароль для экспортируемых учетных записей",
             "info": {
                 "legal": "Legal",
                 "privacyPolicy": "Политика конфиденциальности",
@@ -670,6 +683,7 @@
                 "dataProviderInvalid": "Невозможно получить информацию о провайдере. Проверьте корректность адреса и попробуйте ещё раз",
                 "dataProviderName": "{{dataProviderName}}",
                 "dontShowSpamCheckboxDescr": "Не показывать подозрительные токены",
+                "edit": "Изменить",
                 "forDisableClear": "Если хотите его полностью отключить, очистите поле.",
                 "matcherAddress": "Адрес матчера",
                 "nodeAddress": "Адрес ноды",
@@ -703,9 +717,11 @@
                 "backupPhrase": "Секретная фраза",
                 "base58Seed": "Закодированная секретная фраза",
                 "encodedSeed": "Зашифрованная секретная фраза",
+                "exportAccount": "Экспортировать аккаунт",
                 "id": "ID аккаунта",
                 "privateKey": "Приватный ключ",
                 "publicKey": "Публичный ключ",
+                "savejson": "Сохранить как файл JSON",
                 "script": "Скрипт",
                 "scriptButton": "Установить скрипт",
                 "scriptButtonUpdate": "Обновить скрипт",
@@ -946,7 +962,7 @@
                 "1_3_0": "{span.line}[1. Улучшена навигация приложения и интерфейс стартовых страниц.]",
                 "1_3_18": "{span.line}[1. Добавлен импорт из приватного ключа.]\n{span.line}[2. Изменение цены токена теперь считается по паре с WAVES.]",
                 "1_3_19": "{span.line}[1. Запущен шлюз Bancor]\n{span.line}[2. Улучшен интерфейс меню пользователя.]",
-                "1_3_2": "{span.line}[1. Запущен шлюз Vostok.]\n{span.line}[2. Улучшен UI и исправлено несколько багов.]",
+                "1_3_2": "{span.line}[1. Запущен шлюз VST.]\n{span.line}[2. Улучшен UI и исправлено несколько багов.]",
                 "1_3_20": "{span.line}[1. Улучшена система хранения и восстановления аккаунтов из локального хранилища (Необходимо обновить [desktop-приложение](https://wavesplatform.com/technology/wallet))]\n{span.line}[2. Исправлено округление цен в ордербуке]",
                 "1_3_5": "{span.line}[1. Добавлена вкладка с токенами конкурса [wsoc.io](https://wsoc.io)]\n{span.line}[2. Добавлена поддержка франзуского языка]\n{span.line}[3. Исправлены мелкие ошибки]",
                 "1_3_7": "{span.line}[1. Интеграция с [tokenrating.wavesexplorer.com](https://tokenrating.wavesexplorer.com) Теперь вы можете голосовать за токены прямо в приложении]\n{span.line}[2. Исправлены мелкие ошибки]",

@@ -1,5 +1,24 @@
 {
     "back": "Retour à la page d'accueil",
+    "backupFile": {
+        "back": "go back",
+        "enterPasswordDescription": "Please enter your password or",
+        "helper": "You need to enter the password, which you used for the accounts exporting",
+        "import": {
+            "accounts": "Accounts",
+            "selectAccount": "Select account",
+            "selectAccountDesc": "Please select account or",
+            "selectAll": "Select all",
+            "unselectAll": "Unselect all"
+        },
+        "importFromFile": "Import account from Keystore File",
+        "importFromFileDescription": "Choose your JSON file and click Import or",
+        "name": "Keystore File",
+        "next": "Continue",
+        "password": "Password",
+        "selectFileBtn": "Choose file"
+    },
+    "backupFileDescription": "Import account from Keystore File",
     "import": {
         "signIn": "Identifiez-vous"
     },
@@ -11,7 +30,9 @@
     "LedgerClient": "Appareil Ledger",
     "ledgerDescription": "Importer des comptes depuis votre appareil Ledger",
     "or": "OU",
-    "seedAndKey": "Phrase de sauvegarde (SEED) ou clé",
+    "seedAndKey": {
+        "name": "Phrase de sauvegarde (SEED) ou clé"
+    },
     "seedAndKeyDescription": "Importer un compte depuis une sauvegarde (SEED) ou une clé privée",
     "selectButton": "Sélectionner",
     "wavesClient": "Client Waves",

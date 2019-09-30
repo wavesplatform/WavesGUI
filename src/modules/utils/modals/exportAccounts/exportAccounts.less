@@ -19,6 +19,10 @@
       padding: 13px 0;
       border-top: 1px solid @color-basic-100;
       margin-bottom: 0;
+
+      .help-icon__content {
+        width: 50%;
+      }
     }
   }
   
@@ -36,8 +40,10 @@
       border: 1px solid @color-basic-200;
       margin-bottom: 20px;
     }
-  
-    &::-webkit-scrollbar-track {
+  }
+
+  .exportAccounts-modal__list {
+    ::-webkit-scrollbar-track {
       -webkit-box-shadow: none;
     }
   }
@@ -54,13 +60,26 @@
       background: @color-basic-50;
     }
   
-    &-info {
+    &-content {
       display: flex;
+      width: calc(100% ~"- 30px");
+      overflow: hidden;
+    }
+
+    &-info {
+      width: calc(100% ~"- 50px");
     }
   
     .checkbox-submit {
       margin-right: 0;
     }
+  }
+
+  &__address {
+    color: @color-basic-500;
+    text-overflow: ellipsis;
+    width: 100%;
+    overflow: hidden;
   }
   
   &__avatar {
@@ -73,10 +92,17 @@
   }
 
   &__form {
-    .buttons-wrapper {
+  .buttons-wrapper {
       padding-top: 30px;
       border-top: 1px solid @color-basic-100;
     }
   }
 }
 
+@media screen and (max-width: 480px) {
+  .exportAccounts-modal {
+    &__address {
+      font-size: 11px;
+    }
+  }
+}

@@ -19,6 +19,7 @@
         "candleChart": {
             "error": "{div}[无法下载该图表。]{div}[如果您要在您的应用程序中使用此图表，请向[tradingview.com](https://tradingview.com)]发送请求"
         },
+        "charts": "图表",
         "createOrder": {
             "1day": "1天",
             "1hour": "1小时",
@@ -32,8 +33,12 @@
             "buy": "买",
             "createOrderNotPermitted": "订单暂时无法使用",
             "errors": {
+                "amountMax": "最高金额-",
+                "amountMin": "最低金额-",
                 "balance": "您的{{name}}余额不足以",
                 "precision": "超过最大的{{precision}}位小数",
+                "priceMax": "最高价格-",
+                "priceMin": "最低价格-",
                 "required": "这是必填栏"
             },
             "expiration": "满期",
@@ -63,6 +68,8 @@
             "priceField": "限价",
             "sell": "卖",
             "spread": "买卖差价",
+            "stopPriceField": "止损价",
+            "stopPriceHelp": "这是一个以预定价格自动买卖的订单",
             "total": "总额"
         },
         "demo": {
@@ -144,6 +151,7 @@
                 "header": "出了些问题"
             }
         },
+        "orders": "订单",
         "portfolio": {
             "title": "投资组合"
         },
@@ -229,10 +237,12 @@
             "all": "所有",
             "btc": "Btc",
             "eth": "ETH",
+            "history": "历史",
             "myBalance": "我的金额",
             "myTradeHistory": "我的贸易历史",
             "openOrders": "我的开放订单",
             "OrderHistory": "我的订单历史",
+            "trade": "交易",
             "tradeHistory": "交易历史记录",
             "waves": "Waves"
         }
