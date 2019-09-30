@@ -55,6 +55,7 @@
 
             constructor() {
                 super($scope);
+                this.selectIsVisible = true;
                 analytics.send({ name: 'Import From Backup Click', target: 'ui' });
             }
 
@@ -90,6 +91,15 @@
                     this.checkedHash[user.address] = true;
                 });
                 this.onSelect();
+                this.selectIsVisible = !this.selectIsVisible;
+            }
+
+            unselectAll() {
+                (this.decryptedData.saveUsers || []).forEach((user) => {
+                    this.checkedHash[user.address] = false;
+                });
+                this.onSelect();
+                this.selectIsVisible = !this.selectIsVisible;
             }
 
             next() {

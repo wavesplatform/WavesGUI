@@ -7,8 +7,8 @@
 <div class="exportAccounts-modal">
     <div class="exportAccounts-modal__row">
         <div w-i18n="modal.settings.exportAccounts.accounts"></div>
-        <a class="submit-300" ng-click="$ctrl.selectAll()" w-i18n="modal.settings.exportAccounts.selectAll"></a>
-        <a class="submit-300" ng-click="$ctrl.unselectAll()" w-i18n="modal.settings.exportAccounts.unselectAll"></a>
+        <a class="submit-300" ng-if="$ctrl.selectIsVisible" ng-click="$ctrl.selectAll()" w-i18n="modal.settings.exportAccounts.selectAll"></a>
+        <a class="submit-300" ng-if="!$ctrl.selectIsVisible" ng-click="$ctrl.unselectAll()" w-i18n="modal.settings.exportAccounts.unselectAll"></a>
     </div>
 
     <div class="exportAccounts-modal__list-wrap">

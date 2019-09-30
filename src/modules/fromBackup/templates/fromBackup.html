@@ -78,8 +78,8 @@
     
                     <div class="fromBackup__subtitle">
                         <div w-i18n="backupFile.import.accounts"></div>
-                        <a ng-click="$ctrl.selectAll()" w-i18n="backupFile.import.selectAll" class="submit-300"></a>
-                        <a ng-click="$ctrl.selectAll()" w-i18n="backupFile.import.unselectAll" class="submit-300"></a>
+                        <a ng-if="$ctrl.selectIsVisible" ng-click="$ctrl.selectAll()" w-i18n="backupFile.import.selectAll" class="submit-300"></a>
+                        <a ng-if="!$ctrl.selectIsVisible" ng-click="$ctrl.unselectAll()" w-i18n="backupFile.import.unselectAll" class="submit-300"></a>
                     </div>
     
                     <div class="fromBackup__list-wrap">

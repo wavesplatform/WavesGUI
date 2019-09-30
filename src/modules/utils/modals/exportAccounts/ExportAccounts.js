@@ -41,6 +41,7 @@
                 this.settings = user.getMultiAccountSettings();
                 this.userList = [];
                 this.checkedHash[user.address] = true;
+                this.selectIsVisible = true;
                 user.getMultiAccountSettings().then(settings => {
                     this.settings = settings;
                 });
@@ -67,6 +68,7 @@
                     this.checkedHash[user.address] = true;
                 });
                 this.onSelect();
+                this.selectIsVisible = !this.selectIsVisible;
             }
 
             unselectAll() {
@@ -74,6 +76,7 @@
                     this.checkedHash[user.address] = false;
                 });
                 this.onSelect();
+                this.selectIsVisible = !this.selectIsVisible;
             }
 
             onSubmit() {
