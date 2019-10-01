@@ -131,7 +131,7 @@
                         };
                         this.filterUsers();
                         this.selectFirst();
-                        if (!this.this.emptyError) {
+                        if (!this.emptyError) {
                             this.step = 2;
                         }
                     }
