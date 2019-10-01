@@ -34,6 +34,11 @@
             passwordError = false;
 
             /**
+             * @type {boolean}
+             */
+            emptyError = false;
+
+            /**
              * @type {{}}
              */
             checkedHash = {};
@@ -112,8 +117,11 @@
                     this.decryptedData.saveUsers = typeof this.decryptedData.saveUsers === 'string' ?
                         JSON.parse(this.decryptedData.saveUsers) :
                         this.decryptedData.saveUsers;
+                    this.filterUsers();
                     this.selectFirst();
-                    this.step = 2;
+                    if (!this.emptyError) {
+                        this.step = 2;
+                    }
                 } else if (this.step === 1 && this.password) {
                     const saveUsers = this.decryptData();
                     if (!this.passwordError) {
@@ -121,14 +129,32 @@
                             ...this.backup,
                             saveUsers
                         };
+                        this.filterUsers();
                         this.selectFirst();
-                        this.step = 2;
+                        if (!this.this.emptyError) {
+                            this.step = 2;
+                        }
                     }
+                }
+            }
+
+            filterUsers() {
+                const isDesktop = WavesApp.isDesktop();
+                if (isDesktop) {
+                    this.decryptedData.saveUsers = (this.decryptedData.saveUsers || [])
+                        .filter((user) => user.userType !== 'wavesKeeper');
+                }
+
+                if (!this.decryptedData.saveUsers || this.decryptedData.saveUsers.length === 0) {
+                    this.emptyError = true;
                 }
             }
 
             selectFirst() {
                 const user = (this.decryptedData.saveUsers || [])[0];
+                if (!user) {
+                    return;
+                }
                 this.checkedHash = {
                     [user.address]: true
                 };
@@ -163,8 +189,10 @@
 
             onFileChange(event) {
                 const reader = new FileReader();
+                this.emptyError = false;
                 if (event.target.files && event.target.files.length > 0) {
                     const file = event.target.files[0];
+                    this.filename = file.name || '';
                     reader.readAsDataURL(file);
                     reader.onload = () => {
                         try {

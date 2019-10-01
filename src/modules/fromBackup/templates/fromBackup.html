@@ -22,9 +22,10 @@
                                 file-change="$ctrl.onFileChange($event)"
                                 w-i18n="backupFile.selectFileBtn"
                         />
-                        <span class="basic-700" ng-if="$ctrl.backup && !$ctrl.readError">Это название файла</span>
+                        <span class="basic-700" ng-if="$ctrl.backup && !$ctrl.readError && !$ctrl.emptyError">{{$ctrl.filename}}</span>
                         <span w-i18n="backupFile.import.noChosen" class="basic-500" ng-if="!$ctrl.backup && !$ctrl.readError"></span>
                         <span w-i18n="backupFile.import.importFailed" class="error-500" ng-if="$ctrl.readError"></span>
+                        <span w-i18n="backupFile.import.emptyList" class="error-500" ng-if="$ctrl.emptyError && !$ctrl.readError"></span>
                     </div>
     
     
