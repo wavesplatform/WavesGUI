@@ -3,6 +3,17 @@
 
     const { libs } = require('@waves/waves-transactions');
 
+    const getName = (names, name) => {
+        let index = 0;
+
+        do {
+            name = `${name}_${index}`;
+            index++;
+        } while (names.includes(name));
+
+        return name;
+    };
+
     /**
      * @param {typeof Base} Base
      * @param {ng.IScope} $scope
@@ -58,6 +69,11 @@
              */
             exportError = false;
 
+            /**
+             * @type {Array}
+             */
+            originalUsers = [];
+
             constructor() {
                 super($scope);
                 this.selectIsVisible = true;
@@ -74,6 +90,18 @@
                 const dataObject = JSON.parse(
                     libs.crypto.bytesToString(libs.crypto.base64Decode(backup.data))
                 );
+
+                const hashSum = dataObject.hashSum;
+
+                delete dataObject.hashSum;
+
+                const savedDataHash = libs.crypto.base58Encode(
+                    libs.crypto.sha256(libs.crypto.stringToBytes(JSON.stringify(dataObject)))
+                );
+
+                if (savedDataHash !== hashSum) {
+                    throw new Error('Fail is corrupted');
+                }
 
                 return {
                     ...dataObject,
@@ -117,6 +145,7 @@
                     this.decryptedData.saveUsers = typeof this.decryptedData.saveUsers === 'string' ?
                         JSON.parse(this.decryptedData.saveUsers) :
                         this.decryptedData.saveUsers;
+                    this.remapUsers();
                     this.filterUsers();
                     this.selectFirst();
                     if (!this.emptyError) {
@@ -129,6 +158,7 @@
                             ...this.backup,
                             saveUsers
                         };
+                        this.remapUsers();
                         this.filterUsers();
                         this.selectFirst();
                         if (!this.emptyError) {
@@ -194,20 +224,56 @@
                     const file = event.target.files[0];
                     this.filename = file.name || '';
                     reader.readAsDataURL(file);
-                    reader.onload = () => {
-                        try {
+
+                    const userListPromise = user.getMultiAccountUsers().then(users => {
+                        this.originalUsers = users;
+                    });
+
+                    const readerPromise = new Promise((resolve, reject) => {
+                        reader.onload = resolve;
+                        reader.onerror = reject;
+                    });
+
+                    Promise.all([userListPromise, readerPromise]).then(
+                        () => {
                             const fileData = libs.crypto
                                 .bytesToString(libs.crypto.base64Decode(reader.result.split(',')[1]));
+
                             this.backup = FromBackupCtrl.parseUsers(fileData);
                             this.readError = null;
+                        }
+                    ).catch(() => {
+                        this.readError = 'wrongFile';
+                    }).then(() => {
+                        utils.safeApply($scope);
+                    });
 
-                        } catch (e) {
-                            this.readError = 'wrongFile';
+                }
+            }
+
+            remapUsers() {
+                const fromBackup = this.decryptedData.saveUsers || [];
+                const originalUsers = this.originalUsers.reduce((acc, user) => {
+                    acc.names[user.name] = user;
+                    acc.addresses[user.address] = user;
+                    return acc;
+                }, { names: {}, addresses: {} });
+
+                this.decryptedData.saveUsers = fromBackup.map(
+                    (user) => {
+                        const originaluser = originalUsers.addresses[user.address];
+                        if (originaluser) {
+                            return null;
                         }
 
-                        utils.safeApply($scope);
-                    };
-                }
+                        if (originalUsers.names[user.name]) {
+                            user.name = getName(Object.keys(originalUsers.names), user.name);
+                        }
+
+                        return user;
+                    }
+                )
+                    .filter(Boolean);
             }
 
             onSubmit() {

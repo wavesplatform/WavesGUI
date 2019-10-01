@@ -12,6 +12,44 @@
 
         const { encryptSeed } = require('@waves/waves-transactions').seedUtils;
         const { crypto } = require('@waves/waves-transactions').libs;
+        const { publicKey: getPublicKey, address: getAddress, base58Decode } = crypto;
+        const checkAccount = (account) => {
+            if (!account) {
+                return false;
+            }
+
+            const { address, userType, networkByte } = account;
+
+            let publicKey = '';
+
+
+            switch (userType) {
+                case 'seed':
+                    try {
+                        if (/^base58:/.test(account.seed)) {
+                            publicKey = getPublicKey(base58Decode(account.seed.replace('base58:', '')));
+                        } else {
+                            publicKey = getPublicKey(account.seed);
+                        }
+                    } catch (e) {
+                        return false;
+                    }
+                    break;
+                case 'privateKey':
+                    try {
+                        publicKey = getPublicKey({ privateKey: account.privateKey });
+                    } catch (e) {
+                        return false;
+                    }
+                    break;
+                default:
+                    publicKey = account.publicKey;
+            }
+
+            const myAddress = getAddress({ publicKey }, networkByte);
+
+            return myAddress === address;
+        };
 
         class ExportAccountsCtrl extends Base {
 
@@ -47,7 +85,7 @@
                 });
                 user.getMultiAccountUsers().then(
                     (users) => {
-                        this.userList = Array.isArray(users) ? users : [];
+                        this.userList = (Array.isArray(users) ? users : []).filter(checkAccount);
                         this.onSelect();
                         utils.safeApply($scope);
                     }
@@ -94,13 +132,19 @@
                     saveUsers
                 };
 
+                const dataToSaveInBytes = crypto.stringToBytes(JSON.stringify(saveData));
+
+                saveData.hashSum = crypto.base58Encode(crypto.sha256(dataToSaveInBytes));
+
                 const toSave = {
                     type: 'wavesBackup',
                     lastOpenVersion: this.settings.lastOpenVersion,
-                    data: crypto.base64Encode(crypto.stringToBytes(JSON.stringify(saveData)))
+                    data: crypto.base64Encode(crypto.stringToBytes(JSON.stringify(saveData))),
+                    checkSum: saveData.hashSum,
+                    time: Date.now()
                 };
 
-                utils.downloadFile(`accountsBackup-${Date.now()}.json`, JSON.stringify(toSave, null, 4));
+                utils.downloadFile(`accountsBackup-${toSave.time}.json`, JSON.stringify(toSave, null, 4));
             }
 
         }
