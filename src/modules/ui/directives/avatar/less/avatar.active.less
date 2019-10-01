@@ -17,20 +17,14 @@
   }
 }
 
-// .create,
-// .ledger {
   .avatars-list .avatar_active.avatar[type='ledger'] .avatar__wrap:not(.scripted)::after {
     bottom: 3px;
     left: calc(100% ~'- 18px');
   }
-// }
 
 @media screen and (max-width: 480px) {
-  // .create,
-  // .ledger {
-    .avatars-list .avatar[type='ledger'].avatar_active .avatar__wrap:not(.scripted)::after {
-      bottom: 8px;
-      left: calc(100% ~'- 23px');
-    }
-  // }
+  .avatars-list .avatar[type='ledger'].avatar_active .avatar__wrap:not(.scripted)::after {
+    bottom: 8px;
+    left: calc(100% ~'- 23px');
+  }
 }
