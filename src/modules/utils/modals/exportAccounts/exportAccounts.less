@@ -29,7 +29,7 @@
   &__list {
     overflow: hidden;
     overflow-y: auto;
-    max-height: 240px;
+    max-height: 230px;
   
     &-wrap {
       background: @color-white;
@@ -52,12 +52,21 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 5px 25px 5px 15px;
+    padding: 9px 25px 9px 15px;
     width: calc(100% ~'+ 8px');
     transform: translateX(-4px);
+    cursor: pointer;
   
     &:hover {
       background: @color-basic-50;
+    }
+
+    &:first-child {
+      padding-top: 5px;
+    }
+
+    &:last-child {
+      padding-bottom: 5px;
     }
   
     &-content {

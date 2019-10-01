@@ -14,7 +14,7 @@
                         <span class="body-2 basic-500 import-modal__content-text" w-i18n="backupFile.importFromFileDescription"></span>
                         <a class="submit-400 body-2" w-i18n="backupFile.back" ui-sref="import"></a>
                     </div>
-                    <div class="margin-3 relative">
+                    <div class="fromBackup__input-wrap">
                         <label for="file" class="fromBackup__input-file" w-i18n="backupFile.selectFileBtn"></label>
                         <input class="submit big" type="file"
                                 id="file"
@@ -22,12 +22,11 @@
                                 file-change="$ctrl.onFileChange($event)"
                                 w-i18n="backupFile.selectFileBtn"
                         />
-                        <span class="footnote-1 basic-700">file name</span>
+                        <span class="basic-700" ng-if="$ctrl.backup && !$ctrl.readError">Это название файла</span>
+                        <span w-i18n="backupFile.import.noChosen" class="basic-500" ng-if="!$ctrl.backup && !$ctrl.readError"></span>
+                        <span w-i18n="backupFile.import.importFailed" class="error-500" ng-if="$ctrl.readError"></span>
                     </div>
     
-                    <div ng-if="$ctrl.readError">
-                        Read error
-                    </div>
     
                     <w-button class="submit big long" on-click="$ctrl.next()"
                                 disabled="!$ctrl.backup || $ctrl.readError">
@@ -38,7 +37,7 @@
                 <w-step>
                     <div class="fromBackup__icon fromBackup__icon_password"></div>
                     <div class="text-center">
-                        <h3 class="margin-1" w-i18n="backupFile.importFromFile"></h3>
+                        <h3 class="margin-1 basic-700" w-i18n="backupFile.importFromFile"></h3>
                     </div>
                     <div class="text-center margin-2">
                         <span class="body-2 basic-500 import-modal__content-text" w-i18n="backupFile.enterPasswordDescription"></span>
@@ -69,7 +68,7 @@
                 </w-step>
                 <w-step>
                     <div class="text-center">
-                        <h3 class="margin-1" w-i18n="backupFile.import.selectAccount"></h3>
+                        <h3 class="margin-1 basic-700" w-i18n="backupFile.import.selectAccount"></h3>
                     </div>
                     <div class="text-center margin-2">
                         <span class="body-2 basic-500 import-modal__content-text" w-i18n="backupFile.import.selectAccountDesc"></span>
@@ -77,7 +76,7 @@
                     </div>
     
                     <div class="fromBackup__subtitle">
-                        <div w-i18n="backupFile.import.accounts"></div>
+                        <div class="body-2" w-i18n="backupFile.import.accounts"></div>
                         <a ng-if="$ctrl.selectIsVisible" ng-click="$ctrl.selectAll()" w-i18n="backupFile.import.selectAll" class="submit-300"></a>
                         <a ng-if="!$ctrl.selectIsVisible" ng-click="$ctrl.unselectAll()" w-i18n="backupFile.import.unselectAll" class="submit-300"></a>
                     </div>

@@ -6,6 +6,8 @@
         "helper": "You need to enter the password, which you used for the accounts exporting",
         "import": {
             "accounts": "Accounts",
+            "importFailed": "Failed to import keystore file",
+            "noChosen": "No file chosen",
             "selectAccount": "Select account",
             "selectAccountDesc": "Please select account or",
             "selectAll": "Select all",
