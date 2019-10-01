@@ -637,6 +637,13 @@
             "cancel": "Hesap oluştur",
             "changePass": "Change password",
             "deleteAccount": "Remove account",
+            "exportAccounts": {
+                "accounts": "Accounts",
+                "export": "Export",
+                "selectAll": "Select all",
+                "title": "Please select account",
+                "unselectAll": "Unselect all"
+            },
             "general": {
                 "auto": "Otomatik",
                 "blockHeight": "Şu anki blok",
@@ -654,6 +661,7 @@
                 "title": "Genel",
                 "white": "Beyaz"
             },
+            "helperContent": "You can set a password for exported accounts",
             "info": {
                 "legal": "Yasal",
                 "privacyPolicy": "Gizlilik Politikası",
@@ -709,9 +717,11 @@
                 "backupPhrase": "Anahtar (Yedek) kelimeler",
                 "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "Encoded Anahtar kelimeler",
+                "exportAccount": "Export account",
                 "id": "Account ID",
                 "privateKey": "Özel Anahtar",
                 "publicKey": "Açık Anahtar",
+                "savejson": "Save as JSON file",
                 "script": "Script",
                 "scriptButton": "Script ayarla",
                 "scriptButtonUpdate": "Script'i güncelle",

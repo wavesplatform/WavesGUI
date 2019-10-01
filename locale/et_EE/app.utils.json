@@ -637,6 +637,13 @@
             "cancel": "Loo konto",
             "changePass": "Change password",
             "deleteAccount": "Remove account",
+            "exportAccounts": {
+                "accounts": "Accounts",
+                "export": "Export",
+                "selectAll": "Select all",
+                "title": "Please select account",
+                "unselectAll": "Unselect all"
+            },
             "general": {
                 "auto": "Automaatne",
                 "blockHeight": "Praegune kõrgus",
@@ -654,6 +661,7 @@
                 "title": "Üldine",
                 "white": "Valge"
             },
+            "helperContent": "You can set a password for exported accounts",
             "info": {
                 "legal": "Legal",
                 "privacyPolicy": "Privacy Policy",
@@ -709,9 +717,11 @@
                 "backupPhrase": "Salafraas",
                 "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "Kodeeritud salafraas",
+                "exportAccount": "Export account",
                 "id": "Account ID",
                 "privateKey": "Privaatne võti",
                 "publicKey": "Avalik võti",
+                "savejson": "Save as JSON file",
                 "script": "Skript",
                 "scriptButton": "Loo skript",
                 "scriptButtonUpdate": "Uuenda skripti",
