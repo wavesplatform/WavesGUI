@@ -57,20 +57,14 @@
   .import-content-ledger {
     .getStartedContentWidthDesktop();
 
-    .web-import-modal-wrapper {
-      .import-modal {
-        &__block {
-          margin: 0 0 10px 0;
-          padding: 20px 10px 20px 20px;
-          width: 100%;
-          display: flex;
-          align-items: center;
-          min-height: 80px;
-        }
-
-        &__content {
-          text-align: left;
-        }
+    .import-modal {
+      &__block {
+        margin: 0 0 10px 0;
+        padding: 20px 10px 20px 20px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        min-height: 80px;
       }
     }
   }
@@ -83,10 +77,8 @@
 }
 
 .import-content-ledger {
-  .web-import-modal-wrapper {
-    w-web-only.import-modal__block > div {
-      display: flex;
-      align-items: center;
-    }
+  w-web-only.import-modal__block > div {
+    display: flex;
+    align-items: center;
   }
 }
