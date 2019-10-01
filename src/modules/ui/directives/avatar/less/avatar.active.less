@@ -7,12 +7,6 @@
       transform: scale(1.25);
       box-shadow: 0 0 0 4px #fff, 0 4px 18px 0 rgba(30, 41, 73, 0.15);
     }
-
-    
-    &[type='ledger'] .avatar__wrap:not(.scripted)::after {
-      bottom: 3px;
-      left: calc(100% ~'- 18px');
-    }
   }
   
   &.avatar {
@@ -23,11 +17,20 @@
   }
 }
 
+// .create,
+// .ledger {
+  .avatars-list .avatar_active.avatar[type='ledger'] .avatar__wrap:not(.scripted)::after {
+    bottom: 3px;
+    left: calc(100% ~'- 18px');
+  }
+// }
+
 @media screen and (max-width: 480px) {
-  .avatar_active {
-    .avatar[type='ledger'] .avatar__wrap:not(.scripted)::after {
+  // .create,
+  // .ledger {
+    .avatars-list .avatar[type='ledger'].avatar_active .avatar__wrap:not(.scripted)::after {
       bottom: 8px;
       left: calc(100% ~'- 23px');
     }
-  }
+  // }
 }
