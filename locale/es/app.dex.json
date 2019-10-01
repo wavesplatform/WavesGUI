@@ -19,6 +19,7 @@
         "candleChart": {
             "error": "{div}[No se puede descargar el gráfico.]{div}[Si quieres usar este gráfico en tu aplicación, por favor envía una petición a [tradingview.com](https://tradingview.com)]"
         },
+        "charts": "charts",
         "createOrder": {
             "1day": "1 día",
             "1hour": "1 hora",
@@ -32,8 +33,12 @@
             "buy": "Comprar",
             "createOrderNotPermitted": "Los pedidos no estàn disponible temporalmente",
             "errors": {
+                "amountMax": "Max Amount - ",
+                "amountMin": "Min Amount - ",
                 "balance": "No hay suficiente {{name}}",
                 "precision": "Excedido el máximo de {{precision}} lugares decimales",
+                "priceMax": "Max Price - ",
+                "priceMin": "Min Price - ",
                 "required": "Se requiere este campo"
             },
             "expiration": "Terminación",
@@ -63,6 +68,8 @@
             "priceField": "Precio límite",
             "sell": "Vender",
             "spread": "diferencial",
+            "stopPriceField": "Stop price",
+            "stopPriceHelp": "This is an automatic buy or sell order at a predetermined price",
             "total": "Total"
         },
         "demo": {
@@ -144,6 +151,7 @@
                 "header": "Algo ha salido mal"
             }
         },
+        "orders": "orders",
         "portfolio": {
             "title": "Portafolio"
         },
@@ -229,10 +237,12 @@
             "all": "Todo",
             "btc": "Btc",
             "eth": "ETH",
+            "history": "history",
             "myBalance": "Mi balance",
             "myTradeHistory": "Mi historial",
             "openOrders": "Mis órdenes abiertas",
             "OrderHistory": "Mi historial de ordenes",
+            "trade": "Trade",
             "tradeHistory": "Historial",
             "waves": "Waves"
         }

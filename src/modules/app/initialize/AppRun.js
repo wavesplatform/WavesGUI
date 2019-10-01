@@ -357,6 +357,7 @@
                         }
 
                         if (!multiAccount.isSignedIn) {
+                            user.setInitRouteState(toState.name, params);
                             return $state.target(START_STATES[0]);
                         }
                     }
@@ -392,7 +393,7 @@
                             if (START_STATES.indexOf(toState.name) === -1) {
                                 $state.go(toState.name, params);
                             } else {
-                                $state.go(user.getActiveState('wallet'));
+                                user.goToActiveState();
                             }
 
                             i18next.changeLanguage(user.getSetting('lng'));
