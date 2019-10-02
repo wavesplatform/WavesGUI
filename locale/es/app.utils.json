@@ -637,6 +637,13 @@
             "cancel": "Crear una cuenta",
             "changePass": "Cambiar contraseña",
             "deleteAccount": "Eliminar cuenta",
+            "exportAccounts": {
+                "accounts": "Accounts",
+                "export": "Export",
+                "selectAll": "Select all",
+                "title": "Please select account",
+                "unselectAll": "Unselect all"
+            },
             "general": {
                 "auto": "Auto",
                 "blockHeight": "Altura de bloque",
@@ -654,6 +661,7 @@
                 "title": "General",
                 "white": "Blanco"
             },
+            "helperContent": "You can set a password for exported accounts",
             "info": {
                 "legal": "Legal",
                 "privacyPolicy": "Política de privacidad",
@@ -709,9 +717,11 @@
                 "backupPhrase": "Frase de Recuperación",
                 "base58Seed": "Frase de seguridad (SEED) codificada",
                 "encodedSeed": "Semilla codificada",
+                "exportAccount": "Export account",
                 "id": "Account ID",
                 "privateKey": "Clave privada",
                 "publicKey": "Clave pública",
+                "savejson": "Save as JSON file",
                 "script": "Script",
                 "scriptButton": "Establecer script",
                 "scriptButtonUpdate": "Actualizar script",

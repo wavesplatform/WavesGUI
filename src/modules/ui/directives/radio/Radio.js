@@ -37,14 +37,9 @@
                  * @private
                  */
                 this.value = null;
-                /**
-                 * @type {string}
-                 */
-                this.class = null;
             }
 
             $postLink() {
-                // this.class = this.class || 'btn btn-radio';
                 this.input = $element.find('input');
                 this.radioWrap.addRadio(this);
                 this._setHandlers();
@@ -81,8 +76,7 @@
     angular.module('app.ui')
         .component('wRadio', {
             bindings: {
-                value: '<',
-                class: '@'
+                value: '<'
             },
             transclude: true,
             templateUrl: 'modules/ui/directives/radio/radio.html',

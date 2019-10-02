@@ -1,5 +1,26 @@
 {
     "back": "Ana sayfaya dön",
+    "backupFile": {
+        "back": "go back",
+        "enterPasswordDescription": "Please enter your password or",
+        "helper": "You need to enter the password, which you used for the accounts exporting",
+        "import": {
+            "accounts": "Accounts",
+            "importFailed": "Failed to import keystore file",
+            "noChosen": "No file chosen",
+            "selectAccount": "Select account",
+            "selectAccountDesc": "Please select account or",
+            "selectAll": "Select all",
+            "unselectAll": "Unselect all"
+        },
+        "importFromFile": "Import account from Keystore File",
+        "importFromFileDescription": "Choose your JSON file and click Import or",
+        "name": "Keystore File",
+        "next": "Continue",
+        "password": "Password",
+        "selectFileBtn": "Choose file"
+    },
+    "backupFileDescription": "Import account from Keystore File",
     "import": {
         "signIn": "Giriş yap"
     },
@@ -11,7 +32,9 @@
     "LedgerClient": "Ledger cihazı",
     "ledgerDescription": "Hesapları Ledger Nano S'den içeri aktar",
     "or": "Veya",
-    "seedAndKey": "Anahtar kelimeler veya özel anahtar",
+    "seedAndKey": {
+        "name": "Anahtar kelimeler veya özel anahtar"
+    },
     "seedAndKeyDescription": "Hesabı anahtar kelimelerden veya özel anahtardan içeri aktar",
     "selectButton": "Seç",
     "wavesClient": "Waves Uygulaması",
