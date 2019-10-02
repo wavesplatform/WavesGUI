@@ -150,6 +150,8 @@
                     this.selectFirst();
                     if (!this.emptyError) {
                         this.step = 2;
+                    } else {
+                        this.step = 0;
                     }
                 } else if (this.step === 1 && this.password) {
                     const saveUsers = this.decryptData();
