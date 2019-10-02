@@ -6,6 +6,7 @@
         "helper": "You need to enter the password, which you used for the accounts exporting",
         "import": {
             "accounts": "Accounts",
+            "emptyList": "There are no accounts for import in the uploaded file",
             "importFailed": "Failed to import keystore file",
             "noChosen": "No file chosen",
             "selectAccount": "Select account",
