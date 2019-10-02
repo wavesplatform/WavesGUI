@@ -13,8 +13,7 @@
   "code": "W",
   "node": "https://nodes.wavesplatform.com",
   "matcher": "https://matcher.wavesplatform.com/matcher",
-  "api": "https://y
-gwcore-stagenet.wvservices.com",
+  "api": "https://gwcore-stagenet.wvservices.com",
   "explorer": "https://wavesexplorer.com",
   "coinomat": "https://coinomat.com",
   "wavesGateway": "https://gw.wavesplatform.com",
