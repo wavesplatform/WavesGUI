@@ -1,5 +1,11 @@
 @import (reference) "icons";
 
+body.web.desktop {
+  .login-buttons {
+    display: none;
+  }
+}
+
 .desktop-page {
   &__icon {
     width: 100%;
@@ -9,7 +15,7 @@
 
   &__checkbox {
     margin: 20px 0 30px;
-    
+
     @media screen and (max-width: 480px) {
       margin: 15px 0 20px;
     }
