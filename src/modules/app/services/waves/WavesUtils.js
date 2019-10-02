@@ -60,37 +60,21 @@
                 }
             }
 
-            @decorators.cachable(350)
             /**
              * @param {Asset[]} assetList
              * @param {string} baseAssetId
+             * @param {number} date
              * @return {Promise<IRateList>}
              */
+            @decorators.cachable(350)
             getRateList(assetList, baseAssetId, date) {
                 const requestParamsStr = this._getRateListRequestStr(assetList, baseAssetId);
-                const api = WavesApp.network.api;
                 const version = WavesApp.network.apiVersion;
                 const timestamp = date ? `timestamp=${date}&` : '';
-                return ds.fetch(
-                    // eslint-disable-next-line max-len
-                    `${api}/${version}/matcher/${matcher.currentMatcherAddress}/rates?${timestamp}pairs=${requestParamsStr}`
-                );
+                const api = `${WavesApp.network.api}/${version}`;
+                const queryParams = `?${timestamp}pairs=${requestParamsStr}`;
+                return ds.fetch(`${api}/matcher/${matcher.currentMatcherAddress}/rates${queryParams}`);
             }
-
-            // @decorators.cachable(350)
-            // getRateListPost(assetList, baseAssetId) {
-            //     const requestParamsStr = this._getRateListRequestStr(assetList, baseAssetId);
-            //     const api = WavesApp.network.api;
-            //     const version = WavesApp.network.apiVersion;
-            //     // eslint-disable-next-line max-len
-            // eslint-disable-next-line max-len
-            //     return ds.fetch(`${api}/${version}/matcher/${matcher.currentMatcherAddress}/rates?pairs=${requestParamsStr}`, {
-            //         method: 'POST',
-            //         body: JSON.stringify({
-            //             pairs: requestParamsStr
-            //         })
-            //     });
-            // }
 
             /**
              * Get api for current balance from another balance
@@ -359,15 +343,8 @@
              * @private
              */
             _getRateListRequestStr(assetList, baseAssetId) {
-                const params = assetList.reduce((acc, asset, i) => {
-                    const id = WavesUtils.toId(asset);
-                    if (i) {
-                        acc += ',';
-                    }
-                    acc += `${id}/${baseAssetId}`;
-                    return acc;
-                }, '');
-                return params;
+                return assetList.map(asset => `${WavesUtils.toId(asset)}/${baseAssetId}`)
+                    .join(',');
             }
 
             /**
