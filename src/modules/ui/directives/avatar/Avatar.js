@@ -39,8 +39,7 @@
                 this.style = { width: `${this.size}px`, height: `${this.size}px` };
 
                 this.receive(user.changeScript, () => {
-                    this.hasScript = user.hasScript();
-                    $scope.$apply();
+                    this.$onChanges();
                 });
             }
 
