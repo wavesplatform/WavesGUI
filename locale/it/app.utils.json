@@ -637,6 +637,13 @@
             "cancel": "Crea un account",
             "changePass": "Cambia password",
             "deleteAccount": "Remove account",
+            "exportAccounts": {
+                "accounts": "Accounts",
+                "export": "Export",
+                "selectAll": "Select all",
+                "title": "Please select account",
+                "unselectAll": "Unselect all"
+            },
             "general": {
                 "auto": "Auto",
                 "blockHeight": "Posizione Corrente",
@@ -654,6 +661,7 @@
                 "title": "Generale",
                 "white": "Bianco"
             },
+            "helperContent": "You can set a password for exported accounts",
             "info": {
                 "legal": "Note legali",
                 "privacyPolicy": "Informativa sulla privacy",
@@ -709,9 +717,11 @@
                 "backupPhrase": "Frase di Backup",
                 "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "Seed codificato",
+                "exportAccount": "Export account",
                 "id": "Account ID",
                 "privateKey": "Chiave Privata",
                 "publicKey": "Chiave Pubblica",
+                "savejson": "Save as JSON file",
                 "script": "Script",
                 "scriptButton": "Imposta Script",
                 "scriptButtonUpdate": "Imposta Script",
@@ -806,7 +816,7 @@
                 "analytics": "Vorrei contribuire a migliorare la piattaforma Waves inviando statistiche di utilizzo anonime agli sviluppatori.",
                 "backup": "Ho compreso che spostando questa app su un altro dispositivo o cancellandola, i miei Waves potranno essere recuperati esclusivamente utilizzando la frase di backup.",
                 "ok": "Conferma e inizia",
-                "privacyPolicy": "Ho letto e accetto l'[Informativa sulla privacy](https://wavesplatform.com/files/docs/Waves_privacy_policy.pdf).",
+                "privacyPolicy": "Ho letto e accetto l'[Informativa sulla privacy](https://wavesplatform.com/files/docs/Privacy_Policy_SW.pdf).",
                 "read": "Ho letto, compreso e sottoscritto i",
                 "readTermsAndConditions": "Ho letto, compreso e accettato i [termini e condizioni](https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf)",
                 "security": "Ho compreso che i miei fondi sono mantenuti in sicurezza su questo dispositivo, non da una società",
