@@ -61,7 +61,7 @@
                                 minlength="8"
                                 required>
                         </w-input>
-                        <span w-i18n="backupFile.import.wrongPassword" class="error-500" ng-if="$ctrl.passwordError"></span>
+                        <span w-i18n="backupFile.import.wrongPassword" class="error-500 fromBackup__errorPass" ng-if="$ctrl.passwordError"></span>
                     </w-show-hide-password>
                     <w-button class="submit big long" on-click="$ctrl.next()"
                                 disabled="!$ctrl.password">

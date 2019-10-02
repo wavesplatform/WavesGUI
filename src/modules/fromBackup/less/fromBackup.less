@@ -129,6 +129,11 @@
 	&__helper .help-icon__content {
 		width: 60%;
 	}
+
+	&__errorPass {
+		position: absolute;
+		top: calc(100% ~"+ 5px");
+	}
 }
 
 @media screen and (max-width: 480px) {
@@ -146,6 +151,11 @@
 			&-file {
 				margin-bottom: 5px;
 			}
+		}
+
+		&__errorPass {
+			top: 99%;
+			font-size: 11px;
 		}
 	}
 }
