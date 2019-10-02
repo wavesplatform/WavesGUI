@@ -189,9 +189,9 @@
             "headerSell": "Цена в вашем ордере на {{orderLimit}}% ниже рыночной цены"
         },
         "createOrder": {
-            "cancel": "Create an account",
-            "message": "To begin trading please sign in or create an account",
-            "ok": "Sign in"
+            "cancel": "Создать аккаунт",
+            "message": "Для того, чтобы начать торговлю, создайте новый аккаунт или войдите в созданный ранее",
+            "ok": "Войти"
         },
         "deleteAccount": {
             "cancel": "Отмена",
@@ -363,7 +363,7 @@
         "open-main": {
             "dex": {
                 "cancel": "Create an account",
-                "message": "To begin trading please sign in or create an account",
+                "message": "Для того, чтобы начать торговлю, создайте новый аккаунт или войдите в созданный ранее",
                 "ok": "Sign in"
             },
             "tokens": {

@@ -205,8 +205,8 @@ export async function getBuildParams(param: IPrepareHTMLOptions) {
         readJSON(join(__dirname, './meta.json')) as Promise<IMetaJSON>,
         readJSON(join(__dirname, '../src/themeConfig/theme.json')),
         (param.networkConfigFile
-            ? readJSON(param.networkConfigFile) as Promise<IConfItem>
-            : readJSON(join(__dirname, '..', 'configs', `${param.connection}.json`)) as Promise<IConfItem>
+                ? readJSON(param.networkConfigFile) as Promise<IConfItem>
+                : readJSON(join(__dirname, '..', 'configs', `${param.connection}.json`)) as Promise<IConfItem>
         ).catch(e => {
             console.error(e);
             return Promise.reject(e);

@@ -2,7 +2,7 @@
 @import (reference) "icons";
 @import (reference) '../../app/less/typography';
 
-body.desktop {
+body.desktop:not(.web) {
   w-web-only {
     &:empty {
       display: none;
@@ -63,9 +63,11 @@ body.desktop {
 
   .footer {
     background: @color-info-50;
+    width: 100%;
 
     &__wrap {
       display: flex;
+      flex-direction: row;
       align-items: center;
       padding: 20px;
       color: @color-basic-500;
@@ -125,9 +127,10 @@ body.desktop {
 
   .section-welcome {
     padding: 40px 0;
-    height: calc(~'100%' - 76px);
+    height: auto;
+    min-height: calc(~'100%' - 76px);
     margin: auto;
-    flex-shrink: 0;
+    display: flex;
 
     .dex-screenshot {
       display: none;
@@ -152,20 +155,14 @@ body.desktop {
     }
   }
 
-  &:not(.main) {
-    .main-header__wrapper {
-      width: auto;
-    }
-  }
-
-  .main-header__wrapper {
-    justify-content: center;
-  }
-
   &.welcome {
     .footer {
       background: @color-white;
     }
+  }
+
+  .logo-header {
+    margin: auto;
   }
 
   @media screen and (max-width: 1440px) {

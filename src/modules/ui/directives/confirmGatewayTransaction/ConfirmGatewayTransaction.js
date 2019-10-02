@@ -7,7 +7,8 @@
     const WAVES_GATEWAY_ASSETS_ID = [
         WavesApp.defaultAssets.VST,
         WavesApp.defaultAssets.ERGO,
-        WavesApp.defaultAssets.BNT
+        WavesApp.defaultAssets.BNT,
+        WavesApp.defaultAssets.ETH
     ];
 
     /**

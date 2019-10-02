@@ -33,8 +33,12 @@
             "buy": "买",
             "createOrderNotPermitted": "订单暂时无法使用",
             "errors": {
+                "amountMax": "Max Amount - ",
+                "amountMin": "Min Amount - ",
                 "balance": "您的{{name}}余额不足以",
                 "precision": "超过最大的{{precision}}位小数",
+                "priceMax": "Max Price - ",
+                "priceMin": "Min Price - ",
                 "required": "这是必填栏"
             },
             "expiration": "满期",
@@ -64,6 +68,8 @@
             "priceField": "限价",
             "sell": "卖",
             "spread": "买卖差价",
+            "stopPriceField": "Stop price",
+            "stopPriceHelp": "This is an automatic buy or sell order at a predetermined price",
             "total": "总额"
         },
         "demo": {

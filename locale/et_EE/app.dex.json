@@ -33,8 +33,12 @@
             "buy": "Osta",
             "createOrderNotPermitted": "Orderid ei ole ajutiselt saadaval",
             "errors": {
+                "amountMax": "Max Amount - ",
+                "amountMin": "Min Amount - ",
                 "balance": "Pole piisavalt {{name}}",
                 "precision": "Ületati maksimaalselt kasutatava {{precision}} kümnendkoha",
+                "priceMax": "Max Price - ",
+                "priceMin": "Min Price - ",
                 "required": "Selle välja täitmine on kohustuslik"
             },
             "expiration": "Aegumine",
@@ -64,6 +68,8 @@
             "priceField": "Piirhind",
             "sell": "Müü",
             "spread": "hinnavahe",
+            "stopPriceField": "Stop price",
+            "stopPriceHelp": "This is an automatic buy or sell order at a predetermined price",
             "total": "Kokku"
         },
         "demo": {

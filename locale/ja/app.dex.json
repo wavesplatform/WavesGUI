@@ -33,8 +33,12 @@
             "buy": "購入",
             "createOrderNotPermitted": "現在、注文することができません",
             "errors": {
+                "amountMax": "Max Amount - ",
+                "amountMin": "Min Amount - ",
                 "balance": "{{name}} が足りません",
                 "precision": "小数点数の最大は {{precision}} 桁です",
+                "priceMax": "Max Price - ",
+                "priceMin": "Min Price - ",
                 "required": "この項目は必須です"
             },
             "expiration": "有効期限",
@@ -64,6 +68,8 @@
             "priceField": "指値",
             "sell": "売却",
             "spread": "スプレッド",
+            "stopPriceField": "Stop price",
+            "stopPriceHelp": "This is an automatic buy or sell order at a predetermined price",
             "total": "合計"
         },
         "demo": {

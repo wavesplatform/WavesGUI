@@ -33,8 +33,12 @@
             "buy": "매수",
             "createOrderNotPermitted": "일시적으로 거래 주문을 이용할 수 없습니다.",
             "errors": {
+                "amountMax": "Max Amount - ",
+                "amountMin": "Min Amount - ",
                 "balance": "{{name}}가 부족합니다",
                 "precision": "최대 소수점 자리 값 {{precision}} 초과",
+                "priceMax": "Max Price - ",
+                "priceMin": "Min Price - ",
                 "required": "필수 입력 항목입니다"
             },
             "expiration": "주문 만기",
@@ -64,6 +68,8 @@
             "priceField": "지정가",
             "sell": "매도",
             "spread": "스프레드",
+            "stopPriceField": "Stop price",
+            "stopPriceHelp": "This is an automatic buy or sell order at a predetermined price",
             "total": "총금액"
         },
         "demo": {

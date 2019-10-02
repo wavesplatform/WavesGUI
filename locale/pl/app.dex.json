@@ -33,8 +33,12 @@
             "buy": "Kupno",
             "createOrderNotPermitted": "Chwilowo niedostępna informacja o ofertach",
             "errors": {
+                "amountMax": "Max Amount - ",
+                "amountMin": "Min Amount - ",
                 "balance": "Nie wystarczająco {{name}}",
                 "precision": "Przekroczono maksymalną liczbę{{precision}} miejsc dziesiętnych",
+                "priceMax": "Max Price - ",
+                "priceMin": "Min Price - ",
                 "required": "To pole jest wymagane"
             },
             "expiration": "Wygaśnięcie",
@@ -64,6 +68,8 @@
             "priceField": "Limit ceny",
             "sell": "Sprzedaż",
             "spread": "spread",
+            "stopPriceField": "Stop price",
+            "stopPriceHelp": "This is an automatic buy or sell order at a predetermined price",
             "total": "Ogółem"
         },
         "demo": {

@@ -33,8 +33,12 @@
             "buy": "खरीदें",
             "createOrderNotPermitted": "ओर्डर अस्थायी रूप से अनुपलब्ध हैं",
             "errors": {
+                "amountMax": "Max Amount - ",
+                "amountMin": "Min Amount - ",
                 "balance": "पर्याप्त {{name}} नहीं",
                 "precision": "अधिकतम {{precision}} दशमलव स्थानों से अधिक है",
+                "priceMax": "Max Price - ",
+                "priceMin": "Min Price - ",
                 "required": "यह क्षेत्र जरूरी है"
             },
             "expiration": "अवसान",
@@ -64,6 +68,8 @@
             "priceField": "मूल्य सीमित करें",
             "sell": "बेचना",
             "spread": "स्प्रेड",
+            "stopPriceField": "Stop price",
+            "stopPriceHelp": "This is an automatic buy or sell order at a predetermined price",
             "total": "कुल योग"
         },
         "demo": {

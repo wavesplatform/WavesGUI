@@ -33,8 +33,12 @@
             "buy": "Buy",
             "createOrderNotPermitted": "Orders is temporarily unavailable",
             "errors": {
+                "amountMax": "Max Amount - ",
+                "amountMin": "Min Amount - ",
                 "balance": "Not enough {{name}}",
                 "precision": "Exceeded maximum of {{precision}} decimal places",
+                "priceMax": "Max Price - ",
+                "priceMin": "Min Price - ",
                 "required": "This field is required"
             },
             "expiration": "Expiration",
@@ -64,6 +68,8 @@
             "priceField": "Limit price",
             "sell": "Sell",
             "spread": "spread",
+            "stopPriceField": "Stop price",
+            "stopPriceHelp": "This is an automatic buy or sell order at a predetermined price",
             "total": "Total"
         },
         "demo": {

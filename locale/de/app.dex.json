@@ -33,8 +33,12 @@
             "buy": "Kaufen",
             "createOrderNotPermitted": "Bestellungen sind vorübergehend nicht verfügbar",
             "errors": {
+                "amountMax": "Max Amount - ",
+                "amountMin": "Min Amount - ",
                 "balance": "Nicht genug {{name}}",
                 "precision": "Das Maximum der {{precision}} Dezimalstellen wurde überschritten",
+                "priceMax": "Max Price - ",
+                "priceMin": "Min Price - ",
                 "required": "Dieses Feld wird benötigt"
             },
             "expiration": "Ablauf",
@@ -64,6 +68,8 @@
             "priceField": "Limitpreis",
             "sell": "Verkaufen",
             "spread": "Abstand",
+            "stopPriceField": "Stop price",
+            "stopPriceHelp": "This is an automatic buy or sell order at a predetermined price",
             "total": "Gesamt"
         },
         "demo": {
