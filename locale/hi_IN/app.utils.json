@@ -637,6 +637,13 @@
             "cancel": "खाता बनाएं",
             "changePass": "Change password",
             "deleteAccount": "Remove account",
+            "exportAccounts": {
+                "accounts": "Accounts",
+                "export": "Export",
+                "selectAll": "Select all",
+                "title": "Please select account",
+                "unselectAll": "Unselect all"
+            },
             "general": {
                 "auto": "ऑटो",
                 "blockHeight": "वर्तमान ऊंचाई",
@@ -654,6 +661,7 @@
                 "title": "सामान्य",
                 "white": "सफेद"
             },
+            "helperContent": "You can set a password for exported accounts",
             "info": {
                 "legal": "Legal",
                 "privacyPolicy": "Privacy Policy",
@@ -709,9 +717,11 @@
                 "backupPhrase": "बैकअप वाक्य",
                 "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "इनकोडेड सीड",
+                "exportAccount": "Export account",
                 "id": "Account ID",
                 "privateKey": "निजी कुंजी",
                 "publicKey": "सार्वजनिक कुंजी",
+                "savejson": "Save as JSON file",
                 "script": "स्क्रिप्ट",
                 "scriptButton": "स्क्रिप्ट सेट करें",
                 "scriptButtonUpdate": "अपडेट स्क्रिप्ट",

@@ -637,6 +637,13 @@
             "cancel": "アカウントを作成",
             "changePass": "Change password",
             "deleteAccount": "Remove account",
+            "exportAccounts": {
+                "accounts": "Accounts",
+                "export": "Export",
+                "selectAll": "Select all",
+                "title": "Please select account",
+                "unselectAll": "Unselect all"
+            },
             "general": {
                 "auto": "自動",
                 "blockHeight": "現在のブロック",
@@ -654,6 +661,7 @@
                 "title": "一般",
                 "white": "ホワイト"
             },
+            "helperContent": "You can set a password for exported accounts",
             "info": {
                 "legal": "リーガル",
                 "privacyPolicy": "プライバシーポリシー",
@@ -709,9 +717,11 @@
                 "backupPhrase": "バックアップフレーズ",
                 "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "エンコードされたシード",
+                "exportAccount": "Export account",
                 "id": "Account ID",
                 "privateKey": "秘密鍵",
                 "publicKey": "公開鍵",
+                "savejson": "Save as JSON file",
                 "script": "スクリプト",
                 "scriptButton": "スクリプトを設定",
                 "scriptButtonUpdate": "スクリプトをアップデート",

@@ -196,7 +196,7 @@
             "true": "COMPLETED"
         },
         "headers": {
-            "activeLeasing": "active now",
+            "activeLeasing": "Active now",
             "burn": "{{name}} Token Burning",
             "cancel-leasing": "Canceled Leasing",
             "canceled": "Canceled",

@@ -637,6 +637,13 @@
             "cancel": "创建帐户",
             "changePass": "更改密码",
             "deleteAccount": "删除帐号",
+            "exportAccounts": {
+                "accounts": "Accounts",
+                "export": "Export",
+                "selectAll": "Select all",
+                "title": "Please select account",
+                "unselectAll": "Unselect all"
+            },
             "general": {
                 "auto": "Auto",
                 "blockHeight": "当前高度",
@@ -654,6 +661,7 @@
                 "title": "常规设置",
                 "white": "白色"
             },
+            "helperContent": "You can set a password for exported accounts",
             "info": {
                 "legal": "法律",
                 "privacyPolicy": "隐私政策",
@@ -709,9 +717,11 @@
                 "backupPhrase": "备份短语",
                 "base58Seed": "编码备份短语",
                 "encodedSeed": "编码的SEED",
+                "exportAccount": "Export account",
                 "id": "帐户ID",
                 "privateKey": "私钥",
                 "publicKey": "公钥",
+                "savejson": "Save as JSON file",
                 "script": "脚本",
                 "scriptButton": "设置脚本",
                 "scriptButtonUpdate": "更新脚本",
@@ -957,7 +967,7 @@
                 "1_3_5": "{span.line} [1。已添加包含[wsoc.io]（https://wsoc.io）竞赛代币的标签。 \n {span.line} [2。增加了法语支持。] \n {span.line} [3。其他小错误已得到修复。]",
                 "1_3_7": "{span.line} [1。与[tokenrating.wavesexplorer.com]集成（https://tokenrating.wavesexplorer.com）现在您可以直接在应用程序中对令牌进行评分。 \n {span.line} [2。其他小错误已得到修复。]",
                 "1_3_9": "{span.line} [1。改进了Exchange和电子钱包部分的UI和功能。] \n {span.line} [2。其他小错误已得到修复。]",
-                "1_4_0": "{span.line} [添加了在一个钱包内轻松切换帐户的功能。]"
+                "1_4_0": "{span.line} [增加了在一个钱包内轻松切换帐户的功能。]"
             },
             "title": "此更新 {{version}}中的新功能"
         }

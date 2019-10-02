@@ -637,6 +637,13 @@
             "cancel": "Maak een account aan",
             "changePass": "Wachtwoord wijzigen",
             "deleteAccount": "Account verwijderen",
+            "exportAccounts": {
+                "accounts": "Accounts",
+                "export": "Export",
+                "selectAll": "Select all",
+                "title": "Please select account",
+                "unselectAll": "Unselect all"
+            },
             "general": {
                 "auto": "Auto",
                 "blockHeight": "Huidige hoogte",
@@ -654,6 +661,7 @@
                 "title": "Algemeen",
                 "white": "Wit"
             },
+            "helperContent": "You can set a password for exported accounts",
             "info": {
                 "legal": "Legaal",
                 "privacyPolicy": "Privacybeleid",
@@ -709,9 +717,11 @@
                 "backupPhrase": "Backup regel",
                 "base58Seed": "Gecodeerde back-upzin",
                 "encodedSeed": "Gecodeerde seed",
+                "exportAccount": "Export account",
                 "id": "Account ID",
                 "privateKey": "Privésleutel",
                 "publicKey": "Publieke sleutel",
+                "savejson": "Save as JSON file",
                 "script": "Script",
                 "scriptButton": "Stel script in",
                 "scriptButtonUpdate": "Update Script",
