@@ -158,7 +158,7 @@
                 }
 
                 if (this._isCommon(path)) {
-                    if (utils.isEqual(get(this.commonDefaults, value))) {
+                    if (utils.isEqual(get(this.commonDefaults, path), value)) {
                         unset(this.commonSettings, path);
                     } else {
                         set(this.commonSettings, path, value);
