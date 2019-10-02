@@ -8,11 +8,13 @@
             "accounts": "Accounts",
             "emptyList": "There are no accounts for import in the uploaded file",
             "importFailed": "Failed to import keystore file",
+            "importSuccess": "Account Importing from the Keystore File was successful",
             "noChosen": "No file chosen",
             "selectAccount": "Select account",
             "selectAccountDesc": "Please select account or",
             "selectAll": "Select all",
-            "unselectAll": "Unselect all"
+            "unselectAll": "Unselect all",
+            "wrongPassword": "Wrong password!"
         },
         "importFromFile": "Import account from Keystore File",
         "importFromFileDescription": "Choose your JSON file and click Import or",

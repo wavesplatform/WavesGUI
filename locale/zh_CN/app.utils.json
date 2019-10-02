@@ -816,7 +816,7 @@
                 "analytics": "我想向开发者发送匿名统计信息来帮助改善Waves平台。",
                 "backup": "我了解如果此应用移至其他设备或已删除，我的Waves账户只能通过备份短语（助记词）进行恢复。",
                 "ok": "确认并开始",
-                "privacyPolicy": "我已阅读并同意[隐私政策]（https://wavesplatform.com/files/docs/Waves_privacy_policy.pdf）。",
+                "privacyPolicy": "我已阅读并同意[隐私政策](https://wavesplatform.com/files/docs/Privacy_Policy_SW.pdf)。",
                 "read": "我已阅读、理解并同意",
                 "readTermsAndConditions": "我已阅读，理解并同意[条款和细则]（https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf）",
                 "security": "我了解我的资产安全地存放在此设备上，而不是存放于公司",
