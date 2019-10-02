@@ -165,6 +165,8 @@
                         this.selectFirst();
                         if (!this.emptyError) {
                             this.step = 2;
+                        } else {
+                            this.step = 0;
                         }
                     }
                 }
