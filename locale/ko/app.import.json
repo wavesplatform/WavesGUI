@@ -1,5 +1,27 @@
 {
     "back": "메인 페이지로 돌아가기",
+    "backupFile": {
+        "back": "go back",
+        "enterPasswordDescription": "Please enter your password or",
+        "helper": "You need to enter the password, which you used for the accounts exporting",
+        "import": {
+            "accounts": "Accounts",
+            "emptyList": "There are no accounts for import in the uploaded file",
+            "importFailed": "Failed to import keystore file",
+            "noChosen": "No file chosen",
+            "selectAccount": "Select account",
+            "selectAccountDesc": "Please select account or",
+            "selectAll": "Select all",
+            "unselectAll": "Unselect all"
+        },
+        "importFromFile": "Import account from Keystore File",
+        "importFromFileDescription": "Choose your JSON file and click Import or",
+        "name": "Keystore File",
+        "next": "Continue",
+        "password": "Password",
+        "selectFileBtn": "Choose file"
+    },
+    "backupFileDescription": "Import account from Keystore File",
     "import": {
         "signIn": "로그인"
     },
@@ -11,7 +33,9 @@
     "LedgerClient": "Ledger 디바이스",
     "ledgerDescription": "Ledger 디바이스에서 계정 불러오기",
     "or": "또는",
-    "seedAndKey": "Seed or Key",
+    "seedAndKey": {
+        "name": "Seed or Key"
+    },
     "seedAndKeyDescription": "Import account from a backup SEED or Private key",
     "selectButton": "선택",
     "wavesClient": "Waves 클라이언트",

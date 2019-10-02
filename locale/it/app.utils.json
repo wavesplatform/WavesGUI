@@ -637,6 +637,13 @@
             "cancel": "Crea un account",
             "changePass": "Cambia password",
             "deleteAccount": "Remove account",
+            "exportAccounts": {
+                "accounts": "Accounts",
+                "export": "Export",
+                "selectAll": "Select all",
+                "title": "Please select account",
+                "unselectAll": "Unselect all"
+            },
             "general": {
                 "auto": "Auto",
                 "blockHeight": "Posizione Corrente",
@@ -654,6 +661,7 @@
                 "title": "Generale",
                 "white": "Bianco"
             },
+            "helperContent": "You can set a password for exported accounts",
             "info": {
                 "legal": "Note legali",
                 "privacyPolicy": "Informativa sulla privacy",
@@ -709,9 +717,11 @@
                 "backupPhrase": "Frase di Backup",
                 "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "Seed codificato",
+                "exportAccount": "Export account",
                 "id": "Account ID",
                 "privateKey": "Chiave Privata",
                 "publicKey": "Chiave Pubblica",
+                "savejson": "Save as JSON file",
                 "script": "Script",
                 "scriptButton": "Imposta Script",
                 "scriptButtonUpdate": "Imposta Script",
@@ -957,7 +967,7 @@
                 "1_3_5": "{span.line}[1. Aggiunto il tab al concorso [wsoc.io](https://wsoc.io) tokens.]\n{span.line}[2. Aggiunto il supporto alla lingua Francese.]\n{span.line}[3. Risoluzione di bug minori.]",
                 "1_3_7": "{span.line} [1. Integrazione con [tokenrating.wavesexplorer.com] (https://tokenrating.wavesexplorer.com) Ora puoi valutare i token direttamente nell'app.] \n {span.line} [2. Sono stati corretti altri bug minori.]",
                 "1_3_9": "{span.line} [1. Miglioramento Interfaccia utente e funzionalità delle sezioni di Exchange e Wallet.] \n {span.line} [2. Correzione di altri bug minori.]",
-                "1_4_0": "{span.line}[Added ability for easy switching between  accounts within one wallet.]"
+                "1_4_0": "{span.line}[Added ability for easy switching between accounts within one wallet.]"
             },
             "title": "Le novità della versione {{version}}"
         }

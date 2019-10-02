@@ -44,50 +44,6 @@
         class User {
 
             /**
-             * @type {Signal<string>} setting path
-             */
-            get changeSetting() {
-                return this._settings.change;
-            }
-
-            get hash() {
-                return this.currentUser ? this.currentUser.hash : null;
-            }
-
-            get address() {
-                return this.currentUser ? this.currentUser.address : null;
-            }
-
-            get name() {
-                return this.currentUser ? this.currentUser.name : null;
-            }
-
-            set name(name) {
-                if (this.currentUser) {
-                    this.currentUser.name = name;
-                }
-            }
-
-            get userType() {
-                return this.currentUser ? this.currentUser.userType : null;
-            }
-
-            get publicKey() {
-                return this.currentUser ? this.currentUser.publicKey : null;
-            }
-
-            get matcherSign() {
-                return this.currentUser ? this.currentUser.matcherSign : null;
-            }
-
-            /**
-             * @type {boolean}
-             */
-            get isAuthorised() {
-                return !!this.address;
-            }
-
-            /**
              * @type {Signal<{}>}
              */
             loginSignal = new tsUtils.Signal();
@@ -102,7 +58,7 @@
             /**
              * @type {ICurrentUser|null}
              */
-            currentUser = null
+            currentUser = null;
             /**
              * @type {Money}
              */
@@ -173,6 +129,50 @@
                 this._settings.change.on(() => this._onChangeSettings());
 
                 Mousetrap.bind(['ctrl+shift+k'], () => this.switchNextTheme());
+            }
+
+            /**
+             * @type {Signal<string>} setting path
+             */
+            get changeSetting() {
+                return this._settings.change;
+            }
+
+            get hash() {
+                return this.currentUser ? this.currentUser.hash : null;
+            }
+
+            get address() {
+                return this.currentUser ? this.currentUser.address : null;
+            }
+
+            get name() {
+                return this.currentUser ? this.currentUser.name : null;
+            }
+
+            set name(name) {
+                if (this.currentUser) {
+                    this.currentUser.name = name;
+                }
+            }
+
+            get userType() {
+                return this.currentUser ? this.currentUser.userType : null;
+            }
+
+            get publicKey() {
+                return this.currentUser ? this.currentUser.publicKey : null;
+            }
+
+            get matcherSign() {
+                return this.currentUser ? this.currentUser.matcherSign : null;
+            }
+
+            /**
+             * @type {boolean}
+             */
+            get isAuthorised() {
+                return !!this.address;
             }
 
             setScam(hash) {
@@ -421,6 +421,24 @@
                 });
             }
 
+            goToActiveState() {
+                if (!this.initRouteState) {
+                    $state.go(this.getActiveState('wallet'));
+                }
+            }
+
+            /**
+             * @param {string} name
+             * @param {string} params
+             */
+            setInitRouteState(name, params) {
+                if (this.initRouteState) {
+                    return;
+                }
+                this.initRouteState = true;
+                this.loginSignal.once(() => $state.go(name, params));
+            }
+
             /**
              * @param {object} userData
              * @param {string} userData.userType
@@ -504,7 +522,7 @@
                     this.logoutSignal.dispatch({});
 
                     if (!isSwitch) {
-                        this.changeTheme(themes.getDefaultTheme());
+                        this.changeTheme(themes.getDefaultTheme(), { dontSave: true });
                         multiAccount.signOut();
                         $state.go(stateName, undefined, { custom: { logout: true } });
                     }
@@ -595,10 +613,16 @@
                 return themes.getSettings(currentTheme);
             }
 
-            changeTheme(theme) {
+            /**
+             * @param {string} theme
+             * @param {*} [options]
+             * @param {boolean} [options.dontSave] Use that for change theme without saving to user settings
+             */
+            changeTheme(theme, options) {
                 const currentTheme = this.getSetting('theme');
                 const newTheme = themes.changeTheme(theme || this.getSetting('theme'));
-                if (currentTheme !== newTheme) {
+
+                if (currentTheme !== newTheme && options && !options.dontSave) {
                     this.setSetting('theme', newTheme);
                 }
                 // analytics.push('Settings', 'Settings.ChangeTheme', newTheme);

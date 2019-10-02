@@ -637,6 +637,13 @@
             "cancel": "Hesap oluştur",
             "changePass": "Change password",
             "deleteAccount": "Remove account",
+            "exportAccounts": {
+                "accounts": "Accounts",
+                "export": "Export",
+                "selectAll": "Select all",
+                "title": "Please select account",
+                "unselectAll": "Unselect all"
+            },
             "general": {
                 "auto": "Otomatik",
                 "blockHeight": "Şu anki blok",
@@ -654,6 +661,7 @@
                 "title": "Genel",
                 "white": "Beyaz"
             },
+            "helperContent": "You can set a password for exported accounts",
             "info": {
                 "legal": "Yasal",
                 "privacyPolicy": "Gizlilik Politikası",
@@ -709,9 +717,11 @@
                 "backupPhrase": "Anahtar (Yedek) kelimeler",
                 "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "Encoded Anahtar kelimeler",
+                "exportAccount": "Export account",
                 "id": "Account ID",
                 "privateKey": "Özel Anahtar",
                 "publicKey": "Açık Anahtar",
+                "savejson": "Save as JSON file",
                 "script": "Script",
                 "scriptButton": "Script ayarla",
                 "scriptButtonUpdate": "Script'i güncelle",
@@ -957,7 +967,7 @@
                 "1_3_5": "{span.line}[1. [wsoc.io](https://wsoc.io) Yarışma kripto paraları eklendi.]\n{span.line}[2. Fransızca desteği eklendi.]\n{span.line}[3. Ufak hatalar giderildi.]",
                 "1_3_7": "{span.line}[1. [tokenrating.wavesexplorer.com] entegrasyonu (https://tokenrating.wavesexplorer.com) Artık uygulamadan kripto paralar için derecelendirme puanı verebilirsiniz.]\n{span.line}[2. Ufak hatalar giderildi.]",
                 "1_3_9": "{span.line}[1. Görsel tasarım iyileştirildi. Borsa ve cüzdan geliştirmeleri yapıldı.]\n{span.line}[2. Ufak hatalar giderildi.]",
-                "1_4_0": "{span.line}[Added ability for easy switching between  accounts within one wallet.]"
+                "1_4_0": "{span.line}[Added ability for easy switching between accounts within one wallet.]"
             },
             "title": "Güncelleme ile birlikte gelen yenilikler {{version}}"
         }

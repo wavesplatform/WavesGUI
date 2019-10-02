@@ -99,7 +99,7 @@
 
             _login(userData) {
                 user.login(userData).then(() => {
-                    $state.go(user.getActiveState('wallet'));
+                    user.goToActiveState();
                 });
             }
 
