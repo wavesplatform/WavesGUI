@@ -31,7 +31,7 @@
     position: relative;
     width: 100%;
     padding: 0 40px;
-    z-index: 10;
+    z-index: 6;
     height: 60px;
     background: @color-white;
     margin: 0;
@@ -96,11 +96,11 @@ w-confirm-transaction {
       overflow-x: auto;
       height: 39px;
       padding: 0;
-  
+
       &::before {
         display: none;
       }
-  
+
       &:after {
         content: '';
         display: block;
@@ -112,7 +112,7 @@ w-confirm-transaction {
         background: @color-basic-100;
       }
     }
-  
+
     &__title {
       color: @color-basic-700;
       height: 38px;
@@ -126,7 +126,7 @@ w-confirm-transaction {
       border-left: 1px solid transparent;
       border-right: 1px solid transparent;
       white-space: nowrap;
-  
+
       &:first-child {
         border-left: 1px solid @color-white;
       }
@@ -175,13 +175,12 @@ w-confirm-transaction {
       &__header {
         height: 48px;
         box-shadow: @shadow-menu-top;
-        z-index: 6;
-    
+
         &::after {
           display: none;
         }
       }
-  
+
       &__title {
         height: 48px;
         line-height: 48px;

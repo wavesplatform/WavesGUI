@@ -10,30 +10,35 @@
     display: flex;
     background: red;
   }
-  
+
   .mobile-layout {
     height: 100%;
-  
+
     &__watchlist-wrapper {
       height: calc(100% ~'- 58px');
       overflow: hidden;
       border-radius: 2px;
+      background: @color-white;
     }
-  
+
+    &__watch-list {
+      opacity: 0;
+    }
+
     .tooltip-dex {
       display: none;
     }
-  
+
     .tabs__body {
       background: @color-white;
     }
   }
-  
+
   .mobile-layout > w-tabs > .tabs__wrap {
     padding-bottom: 53px;
     position: relative;
   }
-  
+
   .mobile-watchlist-header {
     display: flex;
     justify-content: space-between;
@@ -41,12 +46,12 @@
     border-radius: 2px;
     padding: 9px 16px;
     margin-bottom: 5px;
-  
+
     &__info {
       padding-right: 24px;
       position: relative;
       text-align: end;
-  
+
       &::after {
         content: '';
         display: block;
@@ -61,12 +66,12 @@
         right: 0;
         transform: translateY(-50%);
       }
-  
+
       &.opened::after {
         transform: translateY(-50%) scaleY(-1);
       }
     }
-  
+
     &__change24 {
       &_blue {
         color: @color-submit-400;
@@ -75,20 +80,20 @@
         color: tomato;
       }
     }
-  
+
     &__pair-tickers {
       font-size: 13px;
       color: @color-basic-900;
       font-weight: bold;
     }
-  
+
     &__volume {
       font-size: 12px;
     }
-  
+
     &__last-price {
       position: relative;
-  
+
       &::before {
         content: "";
         display: block;
@@ -99,17 +104,17 @@
         left: -16px;
         background-repeat: no-repeat;
       }
-  
+
       &_red::before {
         background: @arrow-orderbook-down-icon;
       }
-  
+
       &_blue::before {
         background: @arrow-orderbook-top-icon;
       }
     }
   }
-  
+
   .mobile-watchlist-header__right {
     display: flex;
     justify-content: space-between;

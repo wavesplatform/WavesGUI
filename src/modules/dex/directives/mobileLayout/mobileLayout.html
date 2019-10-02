@@ -20,10 +20,11 @@
                         <w-balance money="$ctrl.pairInfo.lastPrice"></w-balance>
                     </div>
                 </div>
-    
+
             </div>
         </div>
         <div class="mobile-layout__watchlist-wrapper">
+            <w-loader class="loader" ng-if="$ctrl.pending"></w-loader>
             <w-dex-watchlist ng-if="$ctrl.watchListVisible" class="mobile-layout__watch-list"></w-dex-watchlist>
         </div>
     </div>

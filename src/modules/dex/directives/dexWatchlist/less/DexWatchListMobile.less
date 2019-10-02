@@ -7,23 +7,33 @@
 		&-bg {
 			z-index: 7;
 			position: relative;
-			
+
+			&::before {
+				content: "";
+				position: absolute;
+				top: -5px;
+				left: -5px;
+				z-index: -1;
+				display: block;
+				height: calc(100% ~'+ 10px');
+				width: calc(100% ~'+ 10px');
+				background: rgba(23, 30, 40, 0.5);
+				opacity: 0;
+			}
+
 			&_active {
 				height: 100%;
-				
+
 				&::before {
-					content: "";
-					position: absolute;
-					top: -5px;
-					left: -5px;
-					z-index: -1;
-					display: block;
-					height: calc(100% ~'+ 10px');
-					width: calc(100% ~'+ 10px');
-					background: rgba(23, 30, 40, 0.5);
+					opacity: 1;
+				}
+
+				.mobile-layout__watch-list {
+					opacity: 1;
+					transition: opacity 0.2s;
 				}
 			}
-	
+
 			.tabs__header {
 				bottom: auto;
 				right: auto;
@@ -31,7 +41,7 @@
 				box-shadow: none;
 				height: 50px;
 				z-index: 5;
-	
+
 				.title {
 					margin-right: 30px;
 					height: 100%;
@@ -44,7 +54,7 @@
 					padding: 0;
 					border: 0 none;
 					position: relative;
-	
+
 				}
 				.title.active, .select.active .title-content {
 					color: @color-submit-400;

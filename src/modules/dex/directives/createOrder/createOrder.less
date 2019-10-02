@@ -237,18 +237,23 @@ w-create-order {
 
           .tricky-input {
             background: transparent;
+
             &__wrapper {
               height: 100%;
               width: calc(100% ~'- 100px');
               position: relative;
+
               .input-container {
                 width: 100%;
                 position: relative;
                 top: -100%;
                 background: transparent;
+                padding: 2px 0;
+
                 input.tiny {
                   background: transparent;
                 }
+
                 input {
                   text-align: center;
                 }
@@ -275,11 +280,11 @@ w-create-order {
               border-radius: 4px;
               border: 1px solid @color-basic-200;
               height: 32px;
+              justify-content: center;
               box-sizing: content-box;
 
               @media screen and (max-width: 720px) {
                 height: 34px;
-                justify-content: center;
               }
 
               .step-button-content {
@@ -316,10 +321,10 @@ w-create-order {
               .input-like {
                 border: none;
               }
-  
+
               w-input-container {
                 flex: 1;
-  
+
                 .asset-name-wrap {
                   background: transparent;
                   width: auto;
@@ -330,7 +335,7 @@ w-create-order {
                     opacity: 0;
                   }
                 }
-  
+
                 w-input, input {
                   width: auto;
                   text-align: right;
@@ -498,7 +503,7 @@ w-create-order {
     .head {
       display: flex;
     }
-    
+
     .body {
       .making-order .areas {
         display: none;
@@ -552,10 +557,6 @@ w-create-order {
     .body .making-order {
       .choice {
         display: none;
-      }
-  
-      .fields .input-wrapper w-input-container {
-        padding: 2px 0;
       }
     }
   }

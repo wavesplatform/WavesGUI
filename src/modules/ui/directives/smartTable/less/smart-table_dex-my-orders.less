@@ -523,8 +523,21 @@
 
 @media screen and (max-width: 720px) {
   .smart-table_dex-my-orders {
-    .smart-table__cell[data-column-id="status"] {
-      left: 0;
+    .smart-table__cell {
+      &[data-column-id="status"] {
+        left: 0;
+      }
+
+      &[data-column-id="controls"] {
+        right: -10px;
+      }
+    }
+
+    .smart-table__tbody {
+      .smart-table__row {
+        padding-right: 28px;
+        padding-left: 44px;
+      }
     }
 
     .order-row {
@@ -535,7 +548,7 @@
         }
       }
     }
-  } 
+  }
 
   .tab_order-history {
     .smart-table__tbody .smart-table__row {
