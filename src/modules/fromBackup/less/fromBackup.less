@@ -27,7 +27,8 @@
 		width: 120px;
 	}
 
-	input[type=password] {
+	input[type=password],
+	input[type=text] {
 		margin-bottom: 0;
 	}
 
@@ -82,7 +83,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		padding: 9px 25px 9px 15px;
+		padding: 9px 20px 9px 10px;
 		width: 100%;
 		cursor: pointer;
 		border-radius: @border-radius;
@@ -99,13 +100,26 @@
 			padding-bottom: 5px;
 		}
 
-		&-info {
+		&-content {
 			display: flex;
+			width: calc(100% ~"- 30px");
+			overflow: hidden;
+		}
+
+		&-info {
+			width: calc(100% ~"- 50px");
 		}
 
 		.checkbox-submit {
 			margin-right: 0;
 		}
+	}
+
+	&__address {
+		color: @color-basic-500;
+		text-overflow: ellipsis;
+		width: 100%;
+		overflow: hidden;
 	}
 
 	&__avatar {

@@ -85,15 +85,15 @@
                     <div class="fromBackup__list-wrap">
                         <div class="fromBackup__list">
                             <div class="fromBackup__user" ng-repeat="user in $ctrl.decryptedData.saveUsers track by $index">
-                                <div class="fromBackup__user-info" ng-click="$ctrl.toggleSelect(user.address)">
+                                <div class="fromBackup__user-content" ng-click="$ctrl.toggleSelect(user.address)">
                                     <w-avatar address="user.address"
                                                 size="36"
                                                 type="{{user.userType}}"
                                                 class="fromBackup__avatar">
                                     </w-avatar>
-                                    <div>
+                                    <div class="fromBackup__user-info">
                                         <div>{{user.name}}</div>
-                                        <div class="basic-500">{{user.address}}</div>
+                                        <div class="fromBackup__address">{{user.address}}</div>
                                     </div>
                                 </div>
                                 <w-checkbox-submit ng-model="$ctrl.checkedHash[user.address]" ng-click="$ctrl.onSelect()"></w-checkbox-submit>
