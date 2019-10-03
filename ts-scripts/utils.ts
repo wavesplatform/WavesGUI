@@ -497,6 +497,10 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
     return function (req: IncomingMessage, res: ServerResponse) {
         const url = req.url.replace(/\?.*/, '');
 
+        if (url.includes('adapter-client.js')) {
+            res.end(readFileSync(join(__dirname, '..', 'adapter-client.js')));
+        }
+
         if (url.includes('/package.json')) {
             res.end(readFileSync(join(__dirname, '..', 'package.json')));
         } else if (isTradingView(url)) {
@@ -591,6 +595,13 @@ export function route(connectionType: TConnection, buildType: TBuild, type: TPla
 
         if (url.indexOf('/export.html') !== -1) {
             prepareExport().then((file) => {
+                res.end(file);
+            });
+            return null;
+        }
+
+        if (url.indexOf('/keeper.html') !== -1) {
+            prepareKeeper().then((file) => {
                 res.end(file);
             });
             return null;
@@ -889,6 +900,16 @@ export function prepareExport(): Promise<string> {
     return Promise.all([
         readJSON(join(__dirname, './meta.json')) as Promise<IMetaJSON>,
         readFile(join(__dirname, '..', 'src', 'export.hbs'), 'utf8') as Promise<string>
+    ])
+        .then(([meta, file]) => {
+            return replaceScripts(compile(file)(meta), meta.exportPageVendors);
+        });
+}
+
+export function prepareKeeper(): Promise<string> {
+    return Promise.all([
+        readJSON(join(__dirname, './meta.json')) as Promise<IMetaJSON>,
+        readFile(join(__dirname, '..', 'src', 'keeper.hbs'), 'utf8') as Promise<string>
     ])
         .then(([meta, file]) => {
             return replaceScripts(compile(file)(meta), meta.exportPageVendors);
