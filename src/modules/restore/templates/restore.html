@@ -18,6 +18,12 @@
                              w-i18n="{{::tab}}Tab"></div>
                     </div>
 
+                    <w-select class="restore-selects big margin-2" ng-model='$ctrl.activeTab'>
+                        <w-option ng-repeat="tab in $ctrl.tabs" value='::tab'>
+                            <div w-i18n="{{::tab}}Tab" w-i18n-ns="app.restore"></div>
+                        </w-option>
+                    </w-select>
+
                     <div ng-show="$ctrl.activeTab === TABS.seed" class="body-2 margin-05 basic-900"
                          w-i18n="seedOrKeyForm.seedTitle"></div>
                     <div ng-show="$ctrl.activeTab === TABS.encodedSeed" class="body-2 margin-05 basic-900"
