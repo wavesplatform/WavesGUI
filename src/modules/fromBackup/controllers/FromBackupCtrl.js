@@ -68,6 +68,11 @@
             /**
              * @type {boolean}
              */
+            selectIsVisible = true;
+
+            /**
+             * @type {boolean}
+             */
             exportError = false;
 
             /**
@@ -117,7 +122,10 @@
             }
 
             onSelect() {
-                this.hasSelected = !!Object.values(this.checkedHash).filter(Boolean).length;
+                const total = (this.decryptedData.saveUsers || []).length;
+                const selected = Object.values(this.checkedHash).filter(Boolean).length;
+                this.hasSelected = !!selected;
+                this.selectIsVisible = total !== selected;
             }
 
             selectAll() {
@@ -125,7 +133,6 @@
                     this.checkedHash[user.address] = true;
                 });
                 this.onSelect();
-                this.selectIsVisible = !this.selectIsVisible;
             }
 
             unselectAll() {
@@ -133,13 +140,16 @@
                     this.checkedHash[user.address] = false;
                 });
                 this.onSelect();
-                this.selectIsVisible = !this.selectIsVisible;
             }
 
             next() {
                 if (this.step === 0 && this.backup && this.backup.encrypted) {
-                    this.password = '';
-                    this.step = 1;
+                    user.getMultiAccountUsers().then(users => {
+                        this.originalUsers = users;
+                        this.password = '';
+                        this.step = 1;
+                        utils.safeApply($scope);
+                    });
                 } else if (this.step === 0 && this.backup && !this.backup.encrypted) {
                     this.password = '';
                     this.decryptedData = { ...this.backup };

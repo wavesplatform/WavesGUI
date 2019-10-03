@@ -61,6 +61,11 @@
              * @type {boolean}
              */
             needPassword = false;
+
+            /**
+             * @type {boolean}
+             */
+            selectIsVisible = true;
             /**
              * @type {Array}
              */
@@ -98,7 +103,10 @@
             }
 
             onSelect() {
-                this.hasSelected = !!Object.values(this.checkedHash).filter(Boolean).length;
+                const selected = Object.values(this.checkedHash).filter(Boolean).length;
+                const total = (this.userList || []).length;
+                this.hasSelected = !!selected;
+                this.selectIsVisible = selected !== total;
             }
 
             selectAll() {
@@ -106,7 +114,6 @@
                     this.checkedHash[user.address] = true;
                 });
                 this.onSelect();
-                this.selectIsVisible = !this.selectIsVisible;
             }
 
             unselectAll() {
@@ -114,7 +121,6 @@
                     this.checkedHash[user.address] = false;
                 });
                 this.onSelect();
-                this.selectIsVisible = !this.selectIsVisible;
             }
 
             onSubmit() {
