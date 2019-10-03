@@ -15,13 +15,15 @@
                         <a class="submit-400 body-2" w-i18n="backupFile.back" ui-sref="import"></a>
                     </div>
                     <div class="fromBackup__input-wrap">
-                        <label for="file" class="fromBackup__input-file" w-i18n="backupFile.selectFileBtn"></label>
-                        <input class="submit big" type="file"
-                                id="file"
-                                ng-model="$ctrl.file"
-                                file-change="$ctrl.onFileChange($event)"
-                                w-i18n="backupFile.selectFileBtn"
-                        />
+                        <div class="fromBackup__input-btnWrap">
+                            <input class="submit big" type="file"
+                            id="file"
+                            ng-model="$ctrl.file"
+                            file-change="$ctrl.onFileChange($event)"
+                            w-i18n="backupFile.selectFileBtn"
+                            />
+                            <label for="file" class="fromBackup__input-file" w-i18n="backupFile.selectFileBtn"></label>
+                        </div>
                         <span class="basic-700" ng-if="$ctrl.backup && !$ctrl.readError && !$ctrl.emptyError">{{$ctrl.filename}}</span>
                         <span w-i18n="backupFile.import.noChosen" class="basic-500" ng-if="!$ctrl.backup && !$ctrl.readError"></span>
                         <span w-i18n="backupFile.import.importFailed" class="error-500" ng-if="$ctrl.readError"></span>

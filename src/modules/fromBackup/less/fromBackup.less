@@ -21,10 +21,12 @@
 	input[type=file] {
 		opacity: 0;
 		position: absolute;
-		top: 0;
+		top: -6px;
 		left: 0;
 		bottom: 0;
 		width: 120px;
+		font-size: 0;
+		cursor: pointer;
 	}
 
 	input[type=password],
@@ -40,13 +42,18 @@
 			margin-bottom: 30px;
 		}
 
+		&-btnWrap {
+			overflow: hidden;
+			margin-right: 10px;
+			position: relative;
+		}
+
 		&-file {
 			background: @color-submit-100;
 			color: @color-submit-400;
 			padding: 9px 27px;
 			border-radius: @border-radius / 2;
 			display: block;
-			margin-right: 10px;
 			white-space: nowrap;
 			cursor: pointer;
 		}

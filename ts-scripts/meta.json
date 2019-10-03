@@ -196,7 +196,7 @@
         "@ledgerhq/hw-transport-node-hid": "4.22.0",
         "babel-runtime": "^6.26.0",
         "i18next": "9.1.0",
-        "@waves/parse-json-bignumber": "0.0.2",
+        "@waves/parse-json-bignumber": "1.0.1",
         "qrcode-reader": "1.0.3",
         "ts-utils": "6.0.2"
       },
