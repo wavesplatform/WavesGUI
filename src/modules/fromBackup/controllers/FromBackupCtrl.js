@@ -1,6 +1,7 @@
 (function () {
     'use strict';
 
+    const networkByte = (WavesApp.network.code || 'W').charCodeAt(0);
     const { libs } = require('@waves/waves-transactions');
 
     const getName = (names, name) => {
@@ -173,11 +174,15 @@
             }
 
             filterUsers() {
+                this.decryptedData.saveUsers = this.decryptedData.saveUsers || [];
                 const isDesktop = WavesApp.isDesktop();
                 if (isDesktop) {
-                    this.decryptedData.saveUsers = (this.decryptedData.saveUsers || [])
+                    this.decryptedData.saveUsers = this.decryptedData.saveUsers
                         .filter((user) => user.userType !== 'wavesKeeper');
                 }
+
+                this.decryptedData.saveUsers = this.decryptedData.saveUsers
+                    .filter((user) => user.networkByte === networkByte);
 
                 if (!this.decryptedData.saveUsers || this.decryptedData.saveUsers.length === 0) {
                     this.emptyError = true;
@@ -260,13 +265,14 @@
                 const originalUsers = this.originalUsers.reduce((acc, user) => {
                     acc.names[user.name] = user;
                     acc.addresses[user.address] = user;
+                    acc.publicKeys[user.publicKey] = user;
                     return acc;
-                }, { names: {}, addresses: {} });
+                }, { names: {}, addresses: {}, publicKeys: {} });
 
                 this.decryptedData.saveUsers = fromBackup.map(
                     (user) => {
-                        const originaluser = originalUsers.addresses[user.address];
-                        if (originaluser) {
+                        const originalUser = originalUsers.addresses[user.address];
+                        if (originalUser) {
                             return null;
                         }
 
