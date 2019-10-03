@@ -12,25 +12,110 @@
             background-color: rgba(255, 255, 255, 0.7);
         }
 
-        #container {
+        .popup-container {
+            box-sizing: border-box;
             background-color: #fff;
-            width: 600px;
-            height: 400px;
+            padding: 35px;
+            width: 500px;
+            height: 320px;
             position: absolute;
             left: 50%;
             top: 50%;
-            border-radius: 3px;
+            display: flex;
+            flex-direction: column;
+            align-content: center;
+            justify-content: center;
+            border-radius: 4px;
             transform: translate(-50%, -50%);
-            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            box-shadow: 0 0 10px rgba(0,0,0,0.25);
+        }
+
+        .popup-title {
+            font-size: 22px;
+            line-height: 28px;
+            margin: 10px 0 20px;
+            text-align: center;
+            color: #4e5c6e;
+        }
+
+        .popup-footer {
+            display: flex;
+            margin-top: auto;
+            justify-content: space-evenly;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            background-image: url(/img/assets/waves.svg);
+            background-size: 100% 100%;
+            margin: 0 auto;
+        }
+
+        .button {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border: 0;
+            font-size: 17px;
+            padding: 0 24px;
+            height: 40px;
+            border-radius: 4px;
+            min-width: 180px;
+            cursor: pointer;
+        }
+
+        .button-cancel {
+            background-color: #fff;
+            box-shadow: 0 0 0 1px #dae1e9 inset;
+            color: #9ba6b2;
+        }
+
+        .button-confirm {
+            background-color: #1f5af6;
+            color: #FFF;
+        }
+
+        .icon-close {
+            width: 40px;
+            height: 40px;
+            background: url(/img/icons/close.svg) center no-repeat;
+            background-size: 16px;
+            display: inline-block;
+            cursor: pointer;
+            right: 17px;
+            position: absolute;
+            top: 10px;
+            z-index: 13;
+        }
+
+        .input {
+            border: 1px solid #dae1e9;
+            height: 40px;
+            background: #fff;
+            font-size: 13px;
+            padding: 0 10px;
+            border-radius: 4px;
+            color: #2d2d2d;
+            margin: 0 auto;
+            width: 356px;
         }
     </style>
 
 </head>
 <body>
 
-<div id="container">
-    <input type="password"/>
-    <button id="password">Confirm</button>
+<div class="popup-container">
+    <div class="icon-close"></div>
+    <div class="logo"></div>
+    <div class="popup-title">Login</div>
+    <input class="input" type="password"/>
+    <div class="popup-footer">
+        <button class="button button-cancel">Cancel</button>
+        <button class="button button-confirm">Confirm</button>
+    </div>
 </div>
 
 </body>
