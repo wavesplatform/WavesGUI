@@ -8,7 +8,6 @@
             "accounts": "Accounts",
             "emptyList": "There are no accounts for import in the uploaded file",
             "importFailed": "Failed to import keystore file",
-            "importSuccess": "Account Importing from the Keystore File was successful",
             "noChosen": "No file chosen",
             "selectAccount": "Select account",
             "selectAccountDesc": "Please select account or",

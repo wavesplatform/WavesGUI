@@ -127,6 +127,7 @@
     "errorBlocks": {
         "title": "Qualcosa non ha funzionato…"
     },
+    "importSuccess": "L'importazione dell'account dal file di Keystore ha avuto successo",
     "modal": {
         "assetInfo": {
             "gateway_ui": "GATEWAY"

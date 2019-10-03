@@ -8,7 +8,6 @@
             "accounts": "Аккаунты",
             "emptyList": "В загруженном файле нет аккаунтов для импорта",
             "importFailed": "Не удалось импортировать keytore файл",
-            "importSuccess": "Успешный импорт аккаунта из Keystore File",
             "noChosen": "Файл не выбран",
             "selectAccount": "Выберите аккаунт",
             "selectAccountDesc": "Пожалуйста, выберите аккаунт или",
