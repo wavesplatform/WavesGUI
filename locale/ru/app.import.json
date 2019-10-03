@@ -12,12 +12,8 @@
             "selectAccount": "Выберите аккаунт",
             "selectAccountDesc": "Пожалуйста, выберите аккаунт или",
             "selectAll": "Выбрать все",
-<<<<<<< HEAD
             "unselectAll": "Отменить все",
             "wrongPassword": "Неправильный пароль!"
-=======
-            "unselectAll": "Отменить все"
->>>>>>> origin/dev
         },
         "importFromFile": "Импорт аккаунтов из Keystore File",
         "importFromFileDescription": "Выберите файл JSON и нажмите импорт или",
