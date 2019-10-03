@@ -33,26 +33,37 @@
                     user.getFilteredUserList(),
                     user.getMultiAccountUsers()
                 ]).then(([userList, multiAccountUsers]) => {
+                    const { id } = $state.params;
                     this.activeStep = userList && userList.length ? 0 : 1;
                     this.userListLocked = userList;
                     this.userListUnlocked = multiAccountUsers;
 
-                    this.migrateUsersWithoutPassword(userList.filter(lockedUser => (
+                    const migrateWithoutPass = userList.filter(lockedUser => (
+                        lockedUser.userType &&
                         lockedUser.userType !== 'seed' &&
                         lockedUser.userType !== 'privateKey'
-                    )));
+                    ));
 
-                    const { id } = $state.params;
+                    this.migrateUsersWithoutPassword(migrateWithoutPass).then(() => {
+                        if (id) {
 
-                    if (id) {
-                        const lockedUserByHash = this.userListLocked.find(lockedUser => (
-                            multiAccount.hash(lockedUser.address) === id
-                        ));
+                            const autoMigrate = migrateWithoutPass.length &&
+                                migrateWithoutPass.some(user => multiAccount.hash(user.address) === id);
 
-                        if (lockedUserByHash) {
-                            this.startMigrate(lockedUserByHash);
+                            if (autoMigrate) {
+                                this.prevStep();
+                                return null;
+                            }
+
+                            const lockedUserByHash = this.userListLocked.find(lockedUser => (
+                                multiAccount.hash(lockedUser.address) === id
+                            ));
+
+                            if (lockedUserByHash) {
+                                this.startMigrate(lockedUserByHash);
+                            }
                         }
-                    }
+                    });
                 });
             }
 
