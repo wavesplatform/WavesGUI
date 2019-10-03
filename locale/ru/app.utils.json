@@ -637,6 +637,13 @@
             "cancel": "Create an account",
             "changePass": "Изменить пароль",
             "deleteAccount": "Удалить аккаунт",
+            "exportAccounts": {
+                "accounts": "Аккаунты",
+                "export": "Экспортировать",
+                "selectAll": "Выбрать все",
+                "title": "Пожалуйста, выберите аккаунт",
+                "unselectAll": "Отменить все"
+            },
             "general": {
                 "auto": "Авто",
                 "blockHeight": "Текущая высота",
@@ -654,6 +661,7 @@
                 "title": "Основные",
                 "white": "Белая"
             },
+            "helperContent": "Вы можете установить пароль для экспортируемых учетных записей",
             "info": {
                 "legal": "Legal",
                 "privacyPolicy": "Политика конфиденциальности",
@@ -709,9 +717,11 @@
                 "backupPhrase": "Секретная фраза",
                 "base58Seed": "Закодированная секретная фраза",
                 "encodedSeed": "Зашифрованная секретная фраза",
+                "exportAccount": "Экспортировать аккаунт",
                 "id": "ID аккаунта",
                 "privateKey": "Приватный ключ",
                 "publicKey": "Публичный ключ",
+                "savejson": "Сохранить как файл JSON",
                 "script": "Скрипт",
                 "scriptButton": "Установить скрипт",
                 "scriptButtonUpdate": "Обновить скрипт",
@@ -806,7 +816,7 @@
                 "analytics": "Я хочу помочь развивать Waves, отправляя анонимную статистику разработчикам",
                 "backup": "Я понимаю, что если это приложение установлено на другом устройстве или удалено, то я получу доступ к своим средствам только с помощью секретной фразы",
                 "ok": "Подтвердить и начать",
-                "privacyPolicy": "Я прочел и согласен с [Privacy Policy](https://wavesplatform.com/files/docs/Waves_privacy_policy.pdf).",
+                "privacyPolicy": "Я прочел и согласен с [Privacy Policy](https://wavesplatform.com/files/docs/Privacy_Policy_SW.pdf).",
                 "read": "Я прочитал, понял и согласен с",
                 "readTermsAndConditions": "Я прочел и согласен с [Terms and Conditions](https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf).",
                 "security": "Я понимаю, что мои средства хранятся на этом устройстве, а не у компании",

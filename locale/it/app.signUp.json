@@ -11,6 +11,6 @@
         "password": {
             "notMatch": "La password non corrisponde"
         },
-        "termsAgreement": "I have read and agree with the [Terms and Conditions](https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf), [Privacy Policy](https://wavesplatform.com/files/docs/Waves_privacy_policy.pdf)."
+        "termsAgreement": "I have read and agree with the [Terms and Conditions](https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf), [Privacy Policy](https://wavesplatform.com/files/docs/Privacy_Policy_SW.pdf)."
     }
 }

@@ -1,5 +1,27 @@
 {
     "back": "返回主页",
+    "backupFile": {
+        "back": "go back",
+        "enterPasswordDescription": "Please enter your password or",
+        "helper": "You need to enter the password, which you used for the accounts exporting",
+        "import": {
+            "accounts": "Accounts",
+            "emptyList": "There are no accounts for import in the uploaded file",
+            "importFailed": "Failed to import keystore file",
+            "noChosen": "No file chosen",
+            "selectAccount": "Select account",
+            "selectAccountDesc": "Please select account or",
+            "selectAll": "Select all",
+            "unselectAll": "Unselect all"
+        },
+        "importFromFile": "Import account from Keystore File",
+        "importFromFileDescription": "Choose your JSON file and click Import or",
+        "name": "Keystore File",
+        "next": "Continue",
+        "password": "Password",
+        "selectFileBtn": "Choose file"
+    },
+    "backupFileDescription": "Import account from Keystore File",
     "import": {
         "signIn": "登录"
     },
@@ -11,7 +33,9 @@
     "LedgerClient": "Ledger设备",
     "ledgerDescription": "从您的分类帐设备导入帐户",
     "or": "或",
-    "seedAndKey": "种子或钥匙",
+    "seedAndKey": {
+        "name": "种子或钥匙"
+    },
     "seedAndKeyDescription": "从备份SEED或私钥导入帐户",
     "selectButton": "选择",
     "wavesClient": "Waves客户端",

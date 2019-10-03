@@ -1,5 +1,27 @@
 {
     "back": "मुख्य पेज पर वापस जाएं",
+    "backupFile": {
+        "back": "go back",
+        "enterPasswordDescription": "Please enter your password or",
+        "helper": "You need to enter the password, which you used for the accounts exporting",
+        "import": {
+            "accounts": "Accounts",
+            "emptyList": "There are no accounts for import in the uploaded file",
+            "importFailed": "Failed to import keystore file",
+            "noChosen": "No file chosen",
+            "selectAccount": "Select account",
+            "selectAccountDesc": "Please select account or",
+            "selectAll": "Select all",
+            "unselectAll": "Unselect all"
+        },
+        "importFromFile": "Import account from Keystore File",
+        "importFromFileDescription": "Choose your JSON file and click Import or",
+        "name": "Keystore File",
+        "next": "Continue",
+        "password": "Password",
+        "selectFileBtn": "Choose file"
+    },
+    "backupFileDescription": "Import account from Keystore File",
     "import": {
         "signIn": "Sign in"
     },
@@ -11,7 +33,9 @@
     "LedgerClient": "Ledger Device",
     "ledgerDescription": "अपने लेडजर नैनो एस से खाते आयात करें",
     "or": "या",
-    "seedAndKey": "Seed or Key",
+    "seedAndKey": {
+        "name": "Seed or Key"
+    },
     "seedAndKeyDescription": "Import account from a backup SEED or Private key",
     "selectButton": "चुने",
     "wavesClient": "Waves Client",
