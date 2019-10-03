@@ -33,8 +33,8 @@
             "buy": "Compra",
             "createOrderNotPermitted": "Ordini temporaneamente non disponibile",
             "errors": {
-                "amountMax": "Max Amount - ",
-                "amountMin": "Min Amount - ",
+                "amountMax": "Importo massimo -",
+                "amountMin": "Importo minimo -",
                 "balance": "{{name}} insufficienti",
                 "precision": "Superamento del massimo di {{precision}} posizioni decimali",
                 "priceMax": "Max Price - ",
