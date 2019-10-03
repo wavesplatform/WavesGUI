@@ -127,6 +127,7 @@
     "errorBlocks": {
         "title": "कुछ गलत हुआ..."
     },
+    "importSuccess": "Account Importing from the Keystore File was successful",
     "modal": {
         "assetInfo": {
             "gateway_ui": "गेटवे"

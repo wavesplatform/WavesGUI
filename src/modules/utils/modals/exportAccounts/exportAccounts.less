@@ -1,0 +1,121 @@
+@import (reference) 'icons';
+@import (reference) 'config';
+
+.exportAccounts-modal {
+  width: 100%;
+
+  .flex-row {
+    display: flex;
+    padding-bottom: 5px;
+  }
+
+  &__row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    color: @color-basic-900;
+
+    &_pass {
+      padding: 13px 0;
+      border-top: 1px solid @color-basic-100;
+      margin-bottom: 0;
+
+      .help-icon__content {
+        width: 50%;
+      }
+    }
+  }
+  
+  &__list {
+    overflow: hidden;
+    overflow-y: auto;
+    max-height: 230px;
+  
+    &-wrap {
+      background: @color-white;
+      border-radius: @border-radius;
+      overflow: hidden;
+      max-height: 240px;
+      padding: 5px;
+      border: 1px solid @color-basic-200;
+      margin-bottom: 20px;
+    }
+  }
+
+  .exportAccounts-modal__list {
+    ::-webkit-scrollbar-track {
+      -webkit-box-shadow: none;
+    }
+  }
+  
+  &__user {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 9px 20px 9px 10px;
+    width: 100%;
+    cursor: pointer;
+    border-radius: @border-radius;
+  
+    &:hover {
+      background: @color-basic-50;
+    }
+
+    &:first-child {
+      padding-top: 5px;
+    }
+
+    &:last-child {
+      padding-bottom: 5px;
+    }
+  
+    &-content {
+      display: flex;
+      width: calc(100% ~"- 30px");
+      overflow: hidden;
+    }
+
+    &-info {
+      width: calc(100% ~"- 50px");
+    }
+  
+    .checkbox-submit {
+      margin-right: 0;
+    }
+  }
+
+  &__address {
+    color: @color-basic-500;
+    text-overflow: ellipsis;
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  &__avatar {
+    margin-right: 10px;
+  }
+
+  &__password {
+    margin-right: 5px;
+    color: @color-basic-900;
+  }
+
+  &__form {
+    .buttons-wrapper {
+      padding-top: 30px;
+      border-top: 1px solid @color-basic-100;
+
+      w-button > .big {
+        padding: 0 10px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .exportAccounts-modal {
+    &__address {
+      font-size: 11px;
+    }
+  }
+}

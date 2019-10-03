@@ -39,6 +39,7 @@
                     this.userListUnlocked = multiAccountUsers;
 
                     const migrateWithoutPass = userList.filter(lockedUser => (
+                        lockedUser.userType &&
                         lockedUser.userType !== 'seed' &&
                         lockedUser.userType !== 'privateKey'
                     ));

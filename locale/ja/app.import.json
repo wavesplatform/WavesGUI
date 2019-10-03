@@ -12,7 +12,8 @@
             "selectAccount": "Select account",
             "selectAccountDesc": "Please select account or",
             "selectAll": "Select all",
-            "unselectAll": "Unselect all"
+            "unselectAll": "Unselect all",
+            "wrongPassword": "Wrong password!"
         },
         "importFromFile": "Import account from Keystore File",
         "importFromFileDescription": "Choose your JSON file and click Import or",

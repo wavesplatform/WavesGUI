@@ -127,6 +127,7 @@
     "errorBlocks": {
         "title": "Er is iets misgegaan…"
     },
+    "importSuccess": "Account Importing from the Keystore File was successful",
     "modal": {
         "assetInfo": {
             "gateway_ui": "GATEWAY"
