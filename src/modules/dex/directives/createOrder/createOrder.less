@@ -23,6 +23,7 @@ w-create-order {
   width: 100%;
   max-height: 100%;
   overflow: hidden;
+  position: relative;
 
   .plate-note {
     padding: 6px 14px;
@@ -188,6 +189,7 @@ w-create-order {
             .name {
               line-height: 32px;
               text-transform: uppercase;
+              color: @color-basic-700;
             }
 
             &:first-child {
@@ -213,8 +215,12 @@ w-create-order {
         }
 
         .fields {
-          padding: 6px 25px 17px;
+          padding: 0 25px 17px;
           background: @color-white;
+
+          @media screen and (max-width: 720px) {
+            padding: 6px 16px 17px;
+          }
 
           .field-label {
             margin-top: 8px;
@@ -229,17 +235,124 @@ w-create-order {
             }
           }
 
-          w-input-container.invalid {
-            .input-like {
-              border: 1px solid @color-error-200;
+          .tricky-input {
+            background: transparent;
+
+            &__wrapper {
+              height: 100%;
+              width: calc(100% ~'- 100px');
+              position: relative;
+
+              .input-container {
+                width: 100%;
+                position: relative;
+                top: -100%;
+                background: transparent;
+                padding: 2px 0;
+
+                input.tiny {
+                  background: transparent;
+                }
+
+                input {
+                  text-align: center;
+                }
+              }
             }
           }
+
+          .hidden-input {
+            position: relative;
+            text-align: center;
+            height: 100%;
+            overflow: hidden;
+            span {
+              line-height: 34px;
+            }
+            &__transparent-value {
+              font-size: 12px;
+              opacity: 0;
+            }
+          }
+
+            .input-wrapper {
+              display: flex;
+              border-radius: 4px;
+              border: 1px solid @color-basic-200;
+              height: 32px;
+              justify-content: center;
+              box-sizing: content-box;
+
+              @media screen and (max-width: 720px) {
+                height: 34px;
+              }
+
+              .step-button-content {
+                font-size: 25px;
+                width: 50px;
+                height: 30px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: @color-basic-200;
+                cursor: pointer;
+                border: 0;
+                border-radius: 4px;
+
+                @media screen and (max-width: 720px) {
+                  height: 34px;
+                }
+
+                &_plus {
+                  border-left: 1px solid @color-basic-200;
+                  border-bottom-left-radius: 0;
+                  border-top-left-radius: 0;
+                  background: @trade-icon-plus center no-repeat;
+                }
+
+                &_minus {
+                  border-right: 1px solid @color-basic-200;
+                  border-bottom-right-radius: 0;
+                  border-top-right-radius: 0;
+                  background: @trade-icon-minus center no-repeat;
+                }
+              }
+
+              .input-like {
+                border: none;
+              }
+
+              w-input-container {
+                flex: 1;
+
+                .asset-name-wrap {
+                  background: transparent;
+                  width: auto;
+                  height: auto;
+                  border: none;
+                  padding: 0 2px;
+                  &.transparent {
+                    opacity: 0;
+                  }
+                }
+
+                w-input, input {
+                  width: auto;
+                  text-align: right;
+                  padding: 0;
+                }
+              }
+
+              &.invalid {
+                border: 1px solid @color-error-200;
+              }
+            }
 
           .input-like {
             padding: 0;
             display: flex;
             align-items: center;
-            border-radius: @border-radius / 2;
+            justify-content: center;
 
             w-input {
               display: block;
@@ -293,6 +406,10 @@ w-create-order {
             border-bottom: 1px solid @color-white;
             cursor: default;
             opacity: 1;
+
+            .name {
+              color: @color-submit-400;
+            }
           }
 
           button.place-order {
@@ -316,6 +433,10 @@ w-create-order {
             border-bottom: 1px solid @color-white;
             cursor: default;
             opacity: 1;
+
+            .name {
+              color: @color-error-400;
+            }
           }
 
           button.place-order {
@@ -336,6 +457,10 @@ w-create-order {
         .price {
           font-size: @font-size-caption-2;
           line-height: 12px;
+
+          @media screen and (max-width: 720px) {
+            margin-bottom: 15px;
+          }
 
           span.link {
             color: @color-disabled-900;
@@ -367,17 +492,33 @@ w-create-order {
       }
     }
   }
+
+  @media screen and (max-width: 720px) {
+    margin-bottom: 15px;
+  }
+}
+
+@media screen and (min-width: 721px) and (max-width: 1024px) {
+  w-create-order .create-order {
+    .head {
+      display: flex;
+    }
+
+    .body {
+      .making-order .areas {
+        display: none;
+      }
+    }
+  }
 }
 
 @media screen and (max-width: 1024px) {
   w-create-order {
+    height: 100%;
+    background: @color-white;
     .create-order {
       .body {
         .making-order {
-          .create-order-notification {
-            z-index: 1;
-          }
-
           .choice {
             display: flex;
 
@@ -388,8 +529,18 @@ w-create-order {
             }
           }
 
+          w-button > *.micro {
+            padding: 6px 19px;
+          }
+
           .areas {
-            display: none;
+            .area {
+              height: 42px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              color: @color-basic-700;
+            }
           }
         }
       }
@@ -397,11 +548,22 @@ w-create-order {
       .expandable {
         display: block;
       }
-
-      .head {
-        display: flex;
-      }
-
     }
+  }
+}
+
+@media screen and (max-width: 720px) {
+  w-create-order .create-order {
+    .body .making-order {
+      .choice {
+        display: none;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 720px) and (max-height: 400px) {
+  w-create-order {
+    overflow: auto;
   }
 }

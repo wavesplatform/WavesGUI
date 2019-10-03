@@ -158,6 +158,14 @@
              * @type {Poll}
              */
             feePoll = null;
+            /**
+             * @type {Money}
+             */
+            minAmountStep = null;
+            /**
+             * @type {Money}
+             */
+            minPriceStep = null;
 
 
             constructor() {
@@ -226,6 +234,8 @@
                     } else {
                         this.price = this._getCurrentPrice();
                     }
+                    this.minAmountStep = new Money(1, this.amount.asset);
+                    this.minPriceStep = new Money(1, this.price.asset);
                 });
 
                 this.observe(['amountBalance', 'type', 'fee', 'priceBalance'], this._updateMaxAmountOrPriceBalance);
@@ -252,6 +262,8 @@
                         if (this.type) {
                             this.amount = this.amountBalance.cloneWithTokens('0');
                             this.price = this._getCurrentPrice();
+                            this.minAmountStep = new Money(1, this.amount.asset);
+                            this.minPriceStep = new Money(1, this.price.asset);
                             this.total = this.priceBalance.cloneWithTokens('0');
                             $scope.$apply();
                         }
@@ -473,6 +485,44 @@
                                 CreateOrder._animateNotification(notify);
                             });
                     });
+            }
+
+            /**
+             * @param {string} field
+             * @param {Money} value
+             * @public
+             */
+            decreaseField(field, value) {
+                const newValue = this[field].minus(value);
+                this._changeField(field, newValue);
+            }
+
+            /**
+             * @param {string} field
+             * @param {Money} value
+             * @public
+             */
+            increaseField(field, value) {
+                const newValue = this[field].plus(value);
+                this._changeField(field, newValue);
+            }
+
+            /**
+             * @param {string} field
+             * @param {Money} newValue
+             * @private
+             */
+            _changeField(field, newValue) {
+                switch (field) {
+                    case 'price':
+                        this.price = newValue;
+                        break;
+                    case 'amount':
+                        this.amount = newValue;
+                        break;
+                    default:
+                        break;
+                }
             }
 
             /**

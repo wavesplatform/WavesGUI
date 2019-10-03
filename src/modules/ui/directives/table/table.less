@@ -193,11 +193,21 @@
     &-title {
       flex: 1;
     }
-
+    
     .spread {
       &::after {
         content: '%';
         display: inline-block;
+      }
+    }
+  }
+
+  @media screen and (max-width: 720px) {
+    &__info {
+      padding-right: 0;
+
+      &-title:first-child {
+        text-align: left;
       }
     }
   }

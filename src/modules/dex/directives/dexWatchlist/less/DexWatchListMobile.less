@@ -1,0 +1,110 @@
+@import (reference) 'config';
+@import (reference) "../../../../app/less/typography";
+@import (reference) 'icons';
+
+@media screen and (max-width: 720px) {
+	.dex .mobile-layout__watchlist {
+		&-bg {
+			z-index: 7;
+			position: relative;
+
+			&::before {
+				content: "";
+				position: absolute;
+				top: -5px;
+				left: -5px;
+				z-index: -1;
+				display: block;
+				height: calc(100% ~'+ 10px');
+				width: calc(100% ~'+ 10px');
+				background: rgba(23, 30, 40, 0.5);
+				opacity: 0;
+			}
+
+			&_active {
+				height: 100%;
+
+				&::before {
+					opacity: 1;
+				}
+
+				.mobile-layout__watch-list {
+					opacity: 1;
+					transition: opacity 0.2s;
+				}
+			}
+
+			.tabs__header {
+				bottom: auto;
+				right: auto;
+				padding: 0 16px;
+				box-shadow: none;
+				height: 50px;
+				z-index: 5;
+
+				.title {
+					margin-right: 30px;
+					height: 100%;
+					.footnote-1();
+					text-transform: capitalize;
+					background: @color-white;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					padding: 0;
+					border: 0 none;
+					position: relative;
+
+				}
+				.title.active, .select.active .title-content {
+					color: @color-submit-400;
+					position: relative;
+
+					&::before {
+						content: '';
+						display: block;
+						position: absolute;
+						top: calc(100% - 1px);
+						left: 0;
+						width: 100%;
+						height: 2px;
+						background:  @color-submit-400;
+					}
+
+					&::after {
+						display: none;
+					}
+				}
+
+				.select {
+					&.expanded .title {
+						border: 1px solid @color-basic-100;
+            border-bottom: 0 none;
+					}
+
+					.title {
+						margin-right: 0;
+						padding: 0 35px 0 15px;
+						border: 0 none;
+
+						&::before {
+							display: none;
+						}
+					}
+
+					&.active::after {
+						display: none;
+					}
+				}
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 720px) and (max-height: 400px) {
+	.dex .mobile-layout__watchlist {
+		&-bg {
+			height: calc(100vh ~'- 50px');
+		}
+	}
+}

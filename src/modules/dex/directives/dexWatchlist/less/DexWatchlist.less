@@ -1,5 +1,5 @@
 @import (reference) 'config';
-@import (reference) "../../../app/less/typography";
+@import (reference) "../../../../app/less/typography";
 @import (reference) 'icons';
 
 .dex-watchlist {
@@ -13,10 +13,6 @@
     position: relative;
     display: flex;
     flex-direction: column;
-
-    @media screen and (max-width: 659px) {
-      min-height: 320px;
-    }
   }
 
   .input-container {
@@ -26,12 +22,20 @@
     z-index: 4;
     height: 35px;
 
+    @media screen and (max-width: 720px) {
+      height: 40px;
+    }
+
     w-help-icon {
       position: absolute;
       top: 50%;
       right: 10px;
       z-index: 10;
       transform: translate(0, -50%);
+
+      @media screen and (max-width: 720px) {
+        display: none;
+      }
 
       .help-icon {
         &__content {
@@ -68,7 +72,7 @@
     margin: 14px 0 0 12px;
   }
 
-  .titles-wrap {
+  .tabs__header {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -102,15 +106,6 @@
         height: 39px;
         padding-right: 30px;
         border: 1px solid transparent;
-
-        &::after {
-          right: 13px;
-          transform: translateY(0);
-          top: 13px;
-          background-size: 80%;
-          background-repeat: no-repeat;
-          background-position: center left;
-        }
       }
 
       .select &.expanded {
@@ -278,14 +273,14 @@
 @media screen and (min-width: 2400px) {
   .dex-watchlist {
     &__wrapper a.title {
-      .titles-wrap {
+      .tabs__header {
         height: 42px;
       }
       font-size: 13px;
     }
 
     .wrapper {
-      .titles-wrap .select a.title {
+      .tabs__header .select a.title {
         font-size: 13px;
       }
     }
@@ -296,10 +291,6 @@
     &__watchlist {
       max-height: calc(100% ~'- 445px');
       width: 360px;
-
-    // .loader {
-    //   top: 60%;
-    // }
     }
 
     &__watchlist-collapsed {

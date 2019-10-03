@@ -37,6 +37,7 @@
 
           &__block[data-block="tradevolume"] {
             height: 38px;
+            overflow: hidden;
 
             .block-title i {
               transform: rotate(-180deg);
@@ -222,7 +223,9 @@
       }
     }
   }
+}
 
+.dex-layout, .mobile-layout {
   .order-permission-error,
   .create-order-notification {
     will-change: transform;
@@ -269,7 +272,7 @@
     &__column {
       min-width: 360px;
     }
-    
+
     &__block {
       min-width: 360px;
     }
@@ -282,7 +285,7 @@
       height: 42px;
     }
 
-    .tabs .titles-wrap {
+    .tabs .tabs__header {
       height: 42px;
 
       a.title {
@@ -330,4 +333,3 @@
     }
   }
 }
-

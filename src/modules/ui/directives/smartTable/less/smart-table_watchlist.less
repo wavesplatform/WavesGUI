@@ -37,6 +37,10 @@
 
         &[data-column-id="favourite"] {
           flex-basis: 30px;
+
+          @media screen and (max-width: 720px) {
+            display: none;
+          }
         }
 
         &[data-column-id="pair"] {
@@ -70,6 +74,10 @@
           flex-basis: 25%;
           text-align: right;
           padding-right: 10px;
+
+          .volume-subtitle {
+            display: none;
+          }
         }
 
         &[data-column-id="info"] {
@@ -107,3 +115,90 @@
   }
 }
 
+@media screen and (max-width: 720px) {
+  .smart-table_watchlist {
+    .smart-table {
+      &__wrapper {
+        padding: 4px;
+        background: @color-white;
+      }
+      
+      &__tbody {
+        &::-webkit-scrollbar-track {
+          -webkit-box-shadow: none;
+        }
+      }
+
+      &__thead {
+        display: none;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .smart-table_watchlist {
+    .smart-table {
+      &__row {
+        padding: 9px 0;
+        border-bottom: 1px solid @color-basic-50;
+
+        &.selected .smart-table__cell[data-column-id="info"] {
+          display: none;
+        }
+      }
+
+      &__cell {
+        &[data-column-id="pair"],
+        &[data-column-id="change"] {
+          min-width: 50%;
+        }
+
+        &[data-column-id="pair"] {
+          font-weight: bold;
+        }
+
+        &[data-column-id="price"] {
+          min-width: 50%;
+          order: 4;
+          position: relative;
+
+          span {
+            position: relative;
+
+            &::before {
+              content: "";
+              display: block;
+              position: absolute;
+              height: 14px;
+              width: 14px;
+              top: -2px;
+              left: -16px;
+            }
+          }
+      
+          &.minus span::before {
+            background: @arrow-orderbook-down-icon;
+          }
+      
+          &.plus span::before {
+            background: @arrow-orderbook-top-icon;
+          }
+        }
+
+        &[data-column-id="volume"] {
+          min-width: 50%;
+          text-align: left;
+
+          .tooltip-dex {
+            display: none;
+          }
+
+          .volume-subtitle {
+            display: inline;
+          }
+        }
+      }
+    }
+  }
+}

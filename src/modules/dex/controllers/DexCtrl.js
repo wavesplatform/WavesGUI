@@ -1,8 +1,6 @@
 (function () {
     'use strict';
 
-    const ds = require('data-service');
-
     /**
      * @param {Base} Base
      * @param {JQuery} $element
@@ -29,6 +27,7 @@
         modalManager) {
 
         const analytics = require('@waves/event-sender');
+        const ds = require('data-service');
 
         const ANALYTICS_TABS_NAMES = {
             myOpenOrders: 'My Open Orders',
@@ -70,6 +69,8 @@
                  */
                 this._assetIdPair = null;
 
+                this.isMobile = window.innerWidth <= 720;
+
                 this.observe('tab', this._onChangeTab);
 
                 this.syncSettings({
@@ -101,6 +102,12 @@
                 this.observe('_assetIdPair', this._onChangePair);
                 this.observe('_titleTxt', this._setTitle);
                 this.observe(['_leftHidden', '_rightHidden'], this._onChangeProperty);
+
+                const onResize = () => {
+                    this.isMobile = window.innerWidth <= 720;
+                };
+
+                this.listenEventEmitter($(window), 'resize', onResize);
             }
 
             $onDestroy() {

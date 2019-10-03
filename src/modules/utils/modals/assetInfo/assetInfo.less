@@ -1,8 +1,6 @@
 @import (reference) 'config';
 @import (reference) '../../../app/less/typography';
 
-// do not forget add all the same changes to 'sponsored.less'
-
 .asset-modal {
   height: 100%;
 
@@ -310,6 +308,20 @@
       overflow-y: auto;
     }
 
+    w-tabs.inner {
+      .tabs__header {
+        padding: 0;
+      }
+      .tabs__body {
+        height: auto;
+      }
+    }
+
+    w-tabs {
+      margin: 0;
+      width: 100%;
+    }
+
     .padding-content .tab-tem {
       padding: 40px 20px;
     }
@@ -331,6 +343,9 @@
     }
 
     .tabs__wrap {
+      width: calc(100% ~'+ 40px');
+      margin-left: -20px;
+
       w-transaction-list ul .transaction-item .date {
         padding-left: 23px;
       }

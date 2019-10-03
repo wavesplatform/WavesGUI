@@ -5,6 +5,7 @@
   display: block;
   width: 100%;
   height: 100%;
+  position: relative;
 
   .decimal-muted {
     color: @color-disabled-500;
@@ -13,10 +14,40 @@
   .order-side {
     &.sell {
       color: @color-error-400;
-    }
 
+      .decimal-muted {
+        color: @color-error-400;
+      }
+    }
+    
     &.buy {
       color: @color-submit-400;
+      
+      .decimal-muted {
+        color: @color-submit-400;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .dex-trade-history {
+    .price {
+      &.sell {
+        color: @color-error-400;
+
+        .decimal-muted {
+          color: @color-error-400;
+        }
+      }
+      
+      &.buy {
+        color: @color-submit-400;
+        
+        .decimal-muted {
+          color: @color-submit-400;
+        }
+      }
     }
   }
 }
