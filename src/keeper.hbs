@@ -13,6 +13,7 @@
         }
 
         .popup-container {
+            font-family: 'Roboto-Regular', sans-serif;
             box-sizing: border-box;
             background-color: #fff;
             padding: 35px;
@@ -42,6 +43,34 @@
             display: flex;
             margin-top: auto;
             justify-content: space-evenly;
+        }
+
+        .popup-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            margin: 0 25px;
+            border-bottom: 1px dashed #edf0f4;
+        }
+
+        .label {
+            flex-basis: auto;
+            flex-grow: 0;
+            padding-right: 20px;
+            overflow: hidden;
+            font-size: 13px;
+            line-height: 18px;
+            color: #9ba6b2;
+        }
+
+        .value {
+            flex-basis: auto;
+            flex-grow: 0;
+            text-align: right;
+            word-break: break-all;
+            font-size: 13px;
+            line-height: 18px;
+            color: #263241;
         }
 
         .logo {
@@ -101,20 +130,89 @@
             color: #2d2d2d;
             margin: 0 auto;
             width: 356px;
+            font-family: 'Roboto-Regular', sans-serif;
         }
+
+        .checkbox {
+            display: flex;
+            margin: 20px 25px;
+        }
+
+        .checkbox-wrap {
+            display: inline-block;
+            min-width: 19px;
+            height: 19px;
+            cursor: pointer;
+            margin-right: 12px;
+        }
+
+        .checkbox-wrap input {
+            margin: 0;
+        }
+
+        .checkbox-wrap input:after {
+            content: '';
+            display: block;
+            width: 16px;
+            height: 16px;
+            background-color: #fff;
+            border: 1px solid #dae1e9;
+            border-radius: 4px;
+        }
+
+        .checkbox-wrap input:checked::after {
+            background: #1f5af6 url(/img/icons/checkbox-icon.svg) no-repeat center center;
+            border-color: #1f5af6;
+        }
+
+        .checkbox label {
+            font-size: 13px;
+            line-height: 21px;
+            color: #4e5c6e;
+        }
+
+        .checkbox-wrap + .checkbox label {
+            cursor: pointer;
+        }
+
     </style>
 
 </head>
 <body>
 
 <div class="popup-container">
+<!--    <div class="icon-close"></div>-->
+<!--    <div class="logo"></div>-->
+<!--    <div class="popup-title">Login</div>-->
+<!--    <input class="input" type="password"/>-->
+<!--    <div class="popup-footer">-->
+<!--        <button class="button button-cancel">Cancel</button>-->
+<!--        <button class="button button-confirm">Confirm</button>-->
+<!--    </div>-->
+
     <div class="icon-close"></div>
-    <div class="logo"></div>
-    <div class="popup-title">Login</div>
-    <input class="input" type="password"/>
+    <div class="popup-title">Confirm TX</div>
+    <div class="popup-row">
+        <span class="label">Type</span>
+        <span class="value">1234</span>
+    </div>
+    <div class="popup-row">
+        <span class="label">Amount</span>
+        <span class="value">1234567890</span>
+    </div>
+    <div class="popup-row">
+        <span class="label">Recipient</span>
+        <span class="value">1234</span>
+    </div>
+    <div class="checkbox">
+        <div class="checkbox-wrap">
+            <input id="ck" type="checkbox" />
+        </div>
+        <label for="ck">Dont't ask me</label>
+    </div>
     <div class="popup-footer">
         <button class="button button-cancel">Cancel</button>
-        <button class="button button-confirm">Confirm</button>
+        <button class="button button-confirm">Ok</button>
     </div>
 </div>
 
