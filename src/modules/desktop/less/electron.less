@@ -2,7 +2,7 @@
 @import (reference) "icons";
 @import (reference) '../../app/less/typography';
 
-body.desktop {
+body.desktop:not(.web) {
   w-web-only {
     &:empty {
       display: none;
@@ -67,6 +67,7 @@ body.desktop {
 
     &__wrap {
       display: flex;
+      flex-direction: row;
       align-items: center;
       padding: 20px;
       color: @color-basic-500;
@@ -126,9 +127,10 @@ body.desktop {
 
   .section-welcome {
     padding: 40px 0;
-    height: calc(~'100vh' - 136px);
+    height: auto;
+    min-height: calc(~'100%' - 76px);
     margin: auto;
-    flex-shrink: 0;
+    display: flex;
 
     .dex-screenshot {
       display: none;

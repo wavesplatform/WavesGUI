@@ -6,14 +6,23 @@
         "helper": "You need to enter the password, which you used for the accounts exporting",
         "import": {
             "accounts": "Accounts",
+<<<<<<< HEAD
             "emptyList": "Non ci sono account per l'importazione nel file caricato",
             "importFailed": "Impossibile importare il file keystore",
+=======
+            "emptyList": "There are no accounts for import in the uploaded file",
+            "importFailed": "Failed to import keystore file",
+>>>>>>> origin/dev
             "noChosen": "No file chosen",
             "selectAccount": "Select account",
             "selectAccountDesc": "Please select account or",
             "selectAll": "Select all",
+<<<<<<< HEAD
             "unselectAll": "Unselect all",
             "wrongPassword": "Password Errata!"
+=======
+            "unselectAll": "Unselect all"
+>>>>>>> origin/dev
         },
         "importFromFile": "Import account from Keystore File",
         "importFromFileDescription": "Choose your JSON file and click Import or",
