@@ -8,13 +8,16 @@
             "accounts": "Аккаунты",
             "emptyList": "В загруженном файле нет аккаунтов для импорта",
             "importFailed": "Не удалось импортировать keytore файл",
-            "importSuccess": "Успешный импорт аккаунта из Keystore File",
             "noChosen": "Файл не выбран",
             "selectAccount": "Выберите аккаунт",
             "selectAccountDesc": "Пожалуйста, выберите аккаунт или",
             "selectAll": "Выбрать все",
+<<<<<<< HEAD
             "unselectAll": "Отменить все",
             "wrongPassword": "Неправильный пароль!"
+=======
+            "unselectAll": "Отменить все"
+>>>>>>> origin/dev
         },
         "importFromFile": "Импорт аккаунтов из Keystore File",
         "importFromFileDescription": "Выберите файл JSON и нажмите импорт или",
