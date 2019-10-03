@@ -57,7 +57,12 @@
              */
             _getConfig() {
                 return fetch(WavesApp.network.featuresConfigUrl)
-                    .then(JSON.parse)
+                    .then(data => {
+                        if (typeof data === 'string') {
+                            return JSON.parse(data);
+                        }
+                        return data;
+                    })
                     .catch(() => Promise.resolve(WavesApp.network.featuresConfig));
             }
 

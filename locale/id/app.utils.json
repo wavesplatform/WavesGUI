@@ -637,6 +637,13 @@
             "cancel": "Buat sebuah akun",
             "changePass": "Ganti kata sandi",
             "deleteAccount": "Menghapus akun",
+            "exportAccounts": {
+                "accounts": "Accounts",
+                "export": "Export",
+                "selectAll": "Select all",
+                "title": "Please select account",
+                "unselectAll": "Unselect all"
+            },
             "general": {
                 "auto": "Auto",
                 "blockHeight": "Tinggi saat ini",
@@ -654,6 +661,7 @@
                 "title": "Umum",
                 "white": "putih"
             },
+            "helperContent": "You can set a password for exported accounts",
             "info": {
                 "legal": "Hukum",
                 "privacyPolicy": "Kebijakan Privasi",
@@ -709,9 +717,11 @@
                 "backupPhrase": "Frasa cadangan",
                 "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "SEED terenkode",
+                "exportAccount": "Export account",
                 "id": "Account ID",
                 "privateKey": "Kunci pribadi",
                 "publicKey": "Kunci Publik",
+                "savejson": "Save as JSON file",
                 "script": "Skrip",
                 "scriptButton": "Setel Skrip",
                 "scriptButtonUpdate": "Perbarui Script",
@@ -806,7 +816,7 @@
                 "analytics": "Saya ingin membantu meningkatkan platform Waves dengan mengirimkan statistik penggunaan anonim ke para pengembang.",
                 "backup": "Saya memahami bahwa jika aplikasi ini dipindahkan ke perangkat lain atau dihapus, Waves saya hanya dapat dipulihkan dengan frasa cadangan.",
                 "ok": "Konfirmasi dan Mulai",
-                "privacyPolicy": "Saya telah membaca dan menyetujui [Kebijakan Privasi] (https://wavesplatform.com/files/docs/Waves_privacy_policy.pdf).",
+                "privacyPolicy": "Saya telah membaca dan menyetujui [Kebijakan Privasi] (https://wavesplatform.com/files/docs/Privacy_Policy_SW.pdf).",
                 "read": "Saya telah membaca, memahami dan menyetujui",
                 "readTermsAndConditions": "Saya telah membaca dan menyetujui [Syarat dan Ketentuan] (https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf)",
                 "security": "Saya memahami bahwa dana saya disimpan dengan aman di perangkat ini, bukan oleh perusahaan",
@@ -957,7 +967,8 @@
                 "1_3_5": "{span.line} [1. Tab dengan token kontes [wsoc.io] (https://wsoc.io) telah ditambahkan.] \n {span.line} [2. Dukungan bahasa Perancis ditambahkan.] \n {span.line} [3. Bug minor tambahan telah diperbaiki.]",
                 "1_3_7": "{span.line}[1. Integrasi dengan [tokenrating.wavesexplorer.com] (https://tokenrating.wavesexplorer.com) Sekarang Anda dapat menilai token langsung di app.] \n {span.line}[2. Bug minor tambahan telah diperbaiki.]",
                 "1_3_9": "{span.line}[1. UI dan fungsionalitas yang lebih baik dari bagian Exchange dan Dompet.] \n {span.line}[2. Bug minor tambahan telah diperbaiki.]",
-                "1_4_0": "{span.line}[Added ability for easy switching between accounts within one wallet.]"
+                "1_4_0": "{span.line}[Added ability for easy switching between accounts within one wallet.]",
+                "1_4_4": "{span.line}[Added ability to backup and restore accounts from the keystore-file]"
             },
             "title": "Apa yang baru di pembaruan ini {{version}}"
         }

@@ -637,6 +637,13 @@
             "cancel": "खाता बनाएं",
             "changePass": "Change password",
             "deleteAccount": "Remove account",
+            "exportAccounts": {
+                "accounts": "Accounts",
+                "export": "Export",
+                "selectAll": "Select all",
+                "title": "Please select account",
+                "unselectAll": "Unselect all"
+            },
             "general": {
                 "auto": "ऑटो",
                 "blockHeight": "वर्तमान ऊंचाई",
@@ -654,6 +661,7 @@
                 "title": "सामान्य",
                 "white": "सफेद"
             },
+            "helperContent": "You can set a password for exported accounts",
             "info": {
                 "legal": "Legal",
                 "privacyPolicy": "Privacy Policy",
@@ -709,9 +717,11 @@
                 "backupPhrase": "बैकअप वाक्य",
                 "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "इनकोडेड सीड",
+                "exportAccount": "Export account",
                 "id": "Account ID",
                 "privateKey": "निजी कुंजी",
                 "publicKey": "सार्वजनिक कुंजी",
+                "savejson": "Save as JSON file",
                 "script": "स्क्रिप्ट",
                 "scriptButton": "स्क्रिप्ट सेट करें",
                 "scriptButtonUpdate": "अपडेट स्क्रिप्ट",
@@ -806,7 +816,7 @@
                 "analytics": "डवलपरों को गुमनाम उपयोग आंकड़ें भेज कर Waves प्लेटफार्म को बेहतर करने में सहायता करना चाहूँगा।",
                 "backup": "मैं समझता हूँ कि यदि ये ऐप एक अन्य डिवाइस पर जाता है हट जाता है तो मेरा Waves केवल मेरे बैकअप वाक्य से ही रिकवर किया जा सकता है।",
                 "ok": "पुष्टि करें और शुरु करें",
-                "privacyPolicy": "I have read and agree with the [Privacy Policy](https://wavesplatform.com/files/docs/Waves_privacy_policy.pdf).",
+                "privacyPolicy": "I have read and agree with the [Privacy Policy](https://wavesplatform.com/files/docs/Privacy_Policy_SW.pdf).",
                 "read": "मैने इसे पढ़, समझ लिया है और सहमतच हूँ",
                 "readTermsAndConditions": "I have read and agree with the [Terms and Conditions](https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf).",
                 "security": "मैं समझता हूँ कि मेरे फंड मेरी डिवाइस पर सुरक्षित रूप से रखे हैं, ना कि कंपनी के पास",
@@ -957,7 +967,8 @@
                 "1_3_5": "{span.line}[1. A tab with [wsoc.io](https://wsoc.io) contest tokens has been added.]\n{span.line}[2. French language support added.]\n{span.line}[3. Additional minor bugs have been fixed.]",
                 "1_3_7": "{span.line}[1. Integration with [tokenrating.wavesexplorer.com](https://tokenrating.wavesexplorer.com) Now you can rate tokens directly in the app.]\n{span.line}[2. Additional minor bugs have been fixed.]",
                 "1_3_9": "{span.line}[1. Improved UI and functionality of Exchange and Wallet sections.]\n{span.line}[2. Additional minor bugs have been fixed.]",
-                "1_4_0": "{span.line}[Added ability for easy switching between accounts within one wallet.]"
+                "1_4_0": "{span.line}[Added ability for easy switching between accounts within one wallet.]",
+                "1_4_4": "{span.line}[Added ability to backup and restore accounts from the keystore-file]"
             },
             "title": "इस अपडेट में नया क्या है {{version}}"
         }

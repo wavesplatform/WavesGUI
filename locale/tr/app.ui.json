@@ -127,6 +127,7 @@
     "errorBlocks": {
         "title": "Bir şeyler ters gitti.."
     },
+    "importSuccess": "Account Importing from the Keystore File was successful",
     "modal": {
         "assetInfo": {
             "gateway_ui": "GEÇİT"

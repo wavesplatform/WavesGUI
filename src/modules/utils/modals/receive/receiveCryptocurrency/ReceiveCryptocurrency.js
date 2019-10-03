@@ -55,7 +55,7 @@
             /**
              * @type {boolean}
              */
-            isVostok;
+            isVST;
 
             /**
              * @type {string}
@@ -110,7 +110,7 @@
                     });
 
                     this.assetKeyName = gatewayService.getAssetKeyName(this.asset, 'deposit');
-                    this.isVostok = this.asset.id === WavesApp.defaultAssets.VST;
+                    this.isVST = this.asset.id === WavesApp.defaultAssets.VST;
                 }
             }
 
