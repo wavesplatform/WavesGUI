@@ -297,7 +297,7 @@
              * @public
              */
             onChangeId() {
-                let id = parseInt(this.id, 10);
+                let id = parseInt(this.selectDefault ? this.selectedUser.id : this.id, 10);
 
                 if (isNaN(id) || id < 0) {
                     id = 0;
@@ -347,6 +347,7 @@
                 if (this.selectDefault) {
                     this.offset = 0;
                     this.selectedUser = this._users[0];
+                    this.id = this.selectedUser.id;
                 }
 
                 this._calculateDisabled();
