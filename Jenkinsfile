@@ -89,7 +89,7 @@ properties([
 
 stage('Build info'){
 
-    if (params.source && params.source.length() && ! params.source.contains('Please select parameter')){
+    if (params.source && params.source.length() > 1 && ! params.source.contains('Please select parameter')){
         source = params.source
     }
 
