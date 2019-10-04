@@ -92,7 +92,7 @@ stage('Build info'){
     if (params.source && params.source.length() && ! params.source.contains('Please select parameter')){
         source = params.source
     }
-    else if (( action.contains('PROD') ) && ! params.confirm){
+    else if (( action.contains('PROD') ) && ! confirm){
         echo "Aborting this build. Deploy to PROD ${network} was not confirmed."
         currentBuild.result = Constants.PIPELINE_ABORTED
         return
