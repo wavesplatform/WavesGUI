@@ -97,6 +97,7 @@ stage('Build info'){
         return
     }
 
+    source = params.source
     echo "Parameters specified: ${params}"
     if (action.contains('Deploy')) pipeline_tasks['deploy'] = true
     if (action.contains('Build') && ! action.contains('Electron')) pipeline_tasks['build'] = true
@@ -322,7 +323,7 @@ timeout(time:20, unit:'MINUTES') {
                             }
                         }
                     }
-                    sh "tar -czvf artifacts.tar.gz -C ./${artifactsDir} ."
+                    sh "tar -czvf artifacts.tar.gz -C ./${artifactsDir} . || true"
                     archiveArtifacts artifacts: 'artifacts.tar.gz'
                 }
             }
