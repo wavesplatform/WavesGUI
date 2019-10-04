@@ -88,15 +88,15 @@ properties([
 ])
 
 stage('Build info'){
-    if ((action.contains('PROD') && ! params.confirm) || params.source || params.source.length() || ! params.source.contains('Please select parameter')){
-        if (action.contains('PROD')
-            echo "Aborting this build. Deploy to PROD ${network} was not confirmed."
+    if ((action.contains('PROD') && ! params.confirm) || ! params.source || ! params.source.length() || params.source.contains('Please select parameter')){
+        if (action.contains('PROD'))
+            echo "Aborting this build. Deploy to PROD ${params.network} was not confirmed."
         else
             echo "Aborting this build. Variable 'source' not defined."
         currentBuild.result = Constants.PIPELINE_ABORTED
         return
     }
-    
+
     echo "Parameters specified: ${params}"
     if (action.contains('Deploy')) pipeline_tasks['deploy'] = true
     if (action.contains('Build') && ! action.contains('Electron')) pipeline_tasks['build'] = true
