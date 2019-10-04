@@ -53,7 +53,7 @@ properties([
 
     parameters([
             // action - choose if you want to deploy or build or both
-            ut.choiceParameterObject('action', ['Build', 'Build and Deploy to stage', 'Build Electron', 'Deploy to stage', 'Deploy PROD mainnet', 'Deploy PROD testnet', 'Deploy PROD stagenet']),
+            ut.choiceParameterObject('action', "return ['Build', 'Build and Deploy to stage', 'Build Electron', 'Deploy to stage', 'Deploy PROD mainnet', 'Deploy PROD testnet', 'Deploy PROD stagenet']"),
 
             // source depends on choice parameter above and dynamically
             // loads either Git repo branches for building or Docker Registry tags for deploy
