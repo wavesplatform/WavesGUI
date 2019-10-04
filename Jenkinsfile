@@ -37,14 +37,15 @@ def pipeline_status = [:]
 def pipeline_trigger_token = 'wavesGuiGithubToken'
 
 
-def branchesOrTagsScript(String imageName, String repoUrl) = 
-return """
-    if (binding.variables.get('action') == 'Deploy to stage' || binding.variables.get('action').contains('PROD')) {
-        ${scripts.getDockerTags(imageName)}
-    } else {
-        ${scripts.getBranches(repoUrl)}
-    }
-"""
+def branchesOrTagsScript(String imageName, String repoUrl){
+    return """
+        if (binding.variables.get('action') == 'Deploy to stage' || binding.variables.get('action').contains('PROD')) {
+            ${scripts.getDockerTags(imageName)}
+        } else {
+            ${scripts.getBranches(repoUrl)}
+        }
+    """
+}
 
 properties([
 
