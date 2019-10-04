@@ -4,6 +4,7 @@
 
     const { equals } = require('ramda');
     const { isValidAddress } = require('@waves/signature-adapter');
+    const ds = require('data-service');
 
     /**
      * @param {Storage} storage
@@ -125,8 +126,6 @@
 
             constructor() {
                 this._resetFields();
-                this._settings = defaultSettings.create();
-                this._settings.change.on(() => this._onChangeSettings());
 
                 Mousetrap.bind(['ctrl+shift+k'], () => this.switchNextTheme());
             }
@@ -330,6 +329,10 @@
              * @return {Promise}
              */
             saveMultiAccountUser(user, userHash) {
+                if (user.settings) {
+                    user.settings = { ...user.settings, encryptionRounds: undefined };
+                }
+
                 return storage.load('multiAccountUsers')
                     .then(users => this.saveMultiAccountUsers({
                         ...users,
@@ -726,6 +729,15 @@
                 this._hasScript = false;
                 this._scriptInfoPoll = null;
                 this._scriptInfoPollTimeoutId = null;
+
+                if (this._settings) {
+                    this._settings.change.off();
+                }
+
+                this._settings = defaultSettings.create();
+                this._settings.change.on(() => this._onChangeSettings());
+
+                ds.dataManager.dropAddress();
             }
 
             /**
