@@ -24,16 +24,27 @@ import devops.waves.*
 ut = new utils()
 scripts = new scripts()
 def buildTasks = [:]
+buildTasks.failFast = true
 def deployTasks = [:]
 def remote_destination = [:]
 def artifactsDir = 'out'
 def container_info = [:]
-buildTasks.failFast = true
+def source = false
 def repo_url = 'https://github.com/wavesplatform/WavesGUI.git'
 def deploymentFile = "./kubernetes/waves-wallet-stage-io/deployment.yaml"
 def pipeline_tasks = ['build': false, 'deploy': false, 'electron': false]
 def pipeline_status = [:]
 def pipeline_trigger_token = 'wavesGuiGithubToken'
+
+
+def branchesOrTagsScript(String imageName, String repoUrl) = 
+return """
+    if (binding.variables.get('action') == 'Deploy to stage' || binding.variables.get('action').contains('PROD')) {
+        ${scripts.getDockerTags(imageName)}
+    } else {
+        ${scripts.getBranches(repoUrl)}
+    }
+"""
 
 properties([
 
@@ -41,11 +52,11 @@ properties([
 
     parameters([
             // action - choose if you want to deploy or build or both
-            ut.choiceParameterObject('action', scripts.getActions()),
+            ut.choiceParameterObject('action', ['Build', 'Build and Deploy to stage', 'Build Electron', 'Deploy to stage', 'Deploy PROD mainnet', 'Deploy PROD testnet', 'Deploy PROD stagenet']),
 
             // source depends on choice parameter above and dynamically
             // loads either Git repo branches for building or Docker Registry tags for deploy
-            ut.cascadeChoiceParameterObject('source', scripts.getBranchesOrTags('waves/wallet', 'Waves', repo_url), 'action', 'PARAMETER_TYPE_SINGLE_SELECT', true),
+            ut.cascadeChoiceParameterObject('source', branchesOrTagsScript('waves/wallet', repo_url), 'action', 'PARAMETER_TYPE_SINGLE_SELECT', true),
 
             // image to deploy from - depends on choice parameter above and used if deploying is specified.
             ut.cascadeChoiceParameterObject('image', scripts.getImages(), 'action'),
@@ -75,31 +86,19 @@ properties([
     ])
 ])
 
-stage('Aborting this build'){
-    // On the first launch pipeline doesn't have any parameters configured and must skip all the steps
-    if (env.BUILD_NUMBER == '1'){
-        echo "This is the first run of the pipeline! It is now should be configured and ready to go!"
-        currentBuild.result = Constants.PIPELINE_ABORTED
-        return
+stage('Build info'){
+
+    if (params.source && params.source.length() && ! params.source.contains('Please select parameter')){
+        source = params.source
     }
 
-    if (! source ) {
-        echo "Aborting this build. Please run it again with the required parameters specified."
-        currentBuild.result = Constants.PIPELINE_ABORTED
-        return
-    }
     if (( action.contains('PROD') ) && ! confirm){
         echo "Aborting this build. Deploy to PROD ${network} was not confirmed."
         currentBuild.result = Constants.PIPELINE_ABORTED
         return
     }
     else
-        echo "Parameters are specified:\n" +
-        "action: ${action}\n" +
-        "source: ${source}\n" +
-        "image: ${image}\n" +
-        "destination: ${destination}\n" +
-        "network: ${network}"
+        echo "Parameters specified: ${params}"
         if (action.contains('Deploy')) pipeline_tasks['deploy'] = true
         if (action.contains('Build') && ! action.contains('Electron')) pipeline_tasks['build'] = true
         if (action.contains('Electron')) pipeline_tasks['electron'] = true
