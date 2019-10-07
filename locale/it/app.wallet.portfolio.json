@@ -3,7 +3,7 @@
     "burn": "Distruggi Token",
     "deposit": "Deposita",
     "dex": "Apri in DEX",
-    "hasNftToken": "Account has non-fungible tokens [(NFT)](https://wavesexplorer.com/address/{{address}})",
+    "hasNftToken": "L'account ha token non fungibili [(NFT)] (https://wavesexplorer.com/address/{{address}}/nft)",
     "info": "Info Asset",
     "list": {
         "actions": "Azioni",

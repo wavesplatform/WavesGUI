@@ -1,0 +1,113 @@
+<div class="btn icon-close ng-scope" w-modal-close></div>
+
+<h3 class="basic-700 margin-top-4 margin-2"
+    w-i18n="modal.settings.exportAccounts.title"></h3>
+
+
+<div class="exportAccounts-modal">
+    <div class="exportAccounts-modal__row">
+        <div w-i18n="modal.settings.exportAccounts.accounts"></div>
+        <a class="submit-300" ng-if="$ctrl.selectIsVisible" ng-click="$ctrl.selectAll()" w-i18n="modal.settings.exportAccounts.selectAll"></a>
+        <a class="submit-300" ng-if="!$ctrl.selectIsVisible" ng-click="$ctrl.unselectAll()" w-i18n="modal.settings.exportAccounts.unselectAll"></a>
+    </div>
+
+    <div class="exportAccounts-modal__list-wrap">
+        <div class="exportAccounts-modal__list">
+            <div class="exportAccounts-modal__user" ng-repeat="user in $ctrl.userList track by $index">
+                <div class="exportAccounts-modal__user-content" ng-click="$ctrl.toggleSelect(user.address)">
+                    <w-avatar address="user.address"
+                                size="36"
+                                type="{{user.userType}}"
+                                class="exportAccounts-modal__avatar">
+                    </w-avatar>
+                    <div class="exportAccounts-modal__user-info">
+                        <div>{{user.name}}</div>
+                        <div class="exportAccounts-modal__address">{{user.address}}</div>
+                    </div>
+                </div>
+                <w-checkbox-submit ng-model="$ctrl.checkedHash[user.address]" ng-click="$ctrl.onSelect()"></w-checkbox-submit>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="exportAccounts-modal__row exportAccounts-modal__row_pass">
+        <div class="flex">
+            <span class="exportAccounts-modal__password" w-i18n="modal.settings.password"></span>
+            <w-help-icon class="info">
+                <span class="exportAccounts-modal__helper"w-i18n="modal.settings.helperContent"></span>
+            </w-help-icon>
+        </div>
+        <div class="switcher-input" ng-class="{active: $ctrl.needPassword}">
+                <w-checkbox-submit id="need-password"
+                                   name="need-password"
+                                   ng-model="$ctrl.needPassword"
+                                   ng-class="{'checkbox-switcher_active': $ctrl.needPassword}"
+                                   class="checkbox-switcher">
+                </w-checkbox-submit>
+                <label for="need-password" class="switcher-input__label"></label>
+            </div>
+    </div>
+
+    <form class="exportAccounts-modal__form" name="$ctrl.form" w-i18n-ns="app.ui" novalidate>
+        <w-input-container class="margin-2" ng-if="$ctrl.needPassword">
+            <div class="left body-2 margin-05">
+                <span w-i18n="password.newPass"></span>
+            </div>
+
+            <w-show-hide-password>
+                <w-input
+                        name="password"
+                        type="password"
+                        class="big no-validate no-icon"
+                        ng-model="$ctrl.password"
+                        minlength="8"
+                        required>
+                </w-input>
+            </w-show-hide-password>
+
+            <w-complexity-meter field="password">
+                <complexity-message message="minlength, required">
+                    <span w-i18n="password.minLength" params="::{minLength: 8}" class="footnote-1"></span>
+                </complexity-message>
+                <complexity-message type="warn">
+                    <span w-i18n="password.warn" class="footnote-1"></span>
+                </complexity-message>
+                <complexity-message type="success">
+                    <span w-i18n="password.secure" class="footnote-1"></span>
+                </complexity-message>
+            </w-complexity-meter>
+        </w-input-container>
+
+        <w-input-container class="margin-3" ng-if="$ctrl.needPassword">
+            <div class="left body-2 margin-05">
+                <span w-i18n="password.repeat"></span>
+            </div>
+            <w-show-hide-password>
+                <w-input
+                        name="confirm"
+                        type="password"
+                        class="no-icon big"
+                        ng-model="$ctrl.confirmPassword"
+                        w-validate
+                        w-validator-compare="password"
+                        required>
+                </w-input>
+            </w-show-hide-password>
+
+            <div class="like-input-error" ng-if="$ctrl.form.confirm.$dirty && $ctrl.form.confirm.$error.compare" w-i18n-ns="app.signUp">
+                <span class="error active" w-i18n="signUp.password.notMatch"></span>
+            </div>
+        </w-input-container>
+
+        <div class="buttons-wrapper" w-i18n-ns="app.utils">
+            <w-button class="big" >
+                <div w-i18n="modal.deleteAccount.cancel" w-modal-close></div>
+            </w-button>
+            <w-button on-click="$ctrl.form.$valid && $ctrl.onSubmit()" disabled="$ctrl.form.$invalid || !$ctrl.hasSelected" class="submit big" >
+                <div w-i18n="modal.settings.exportAccounts.export"></div>
+            </w-button>
+        </div>
+    </form>
+
+</div>

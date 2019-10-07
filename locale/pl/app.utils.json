@@ -637,6 +637,13 @@
             "cancel": "Utwórz konto",
             "changePass": "Zmień hasło",
             "deleteAccount": "Usuń konto",
+            "exportAccounts": {
+                "accounts": "Accounts",
+                "export": "Export",
+                "selectAll": "Select all",
+                "title": "Please select account",
+                "unselectAll": "Unselect all"
+            },
             "general": {
                 "auto": "Auto",
                 "blockHeight": "Aktualny blok",
@@ -654,6 +661,7 @@
                 "title": "Ogólny",
                 "white": "Biały"
             },
+            "helperContent": "You can set a password for exported accounts",
             "info": {
                 "legal": "Prawny",
                 "privacyPolicy": "Polityka prywatności",
@@ -709,9 +717,11 @@
                 "backupPhrase": "Kopia zapasowa wyrażenia",
                 "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "Zakodowany SEED",
+                "exportAccount": "Export account",
                 "id": "Account ID",
                 "privateKey": "Klucz prywatny",
                 "publicKey": "Klucz publiczny",
+                "savejson": "Save as JSON file",
                 "script": "Skrypt",
                 "scriptButton": "Ustaw skrypt",
                 "scriptButtonUpdate": "Zaktualizuj skrypt",
@@ -806,7 +816,7 @@
                 "analytics": "Otwierając aplikację Waves chciałbym pomóc ulepszyć platformę Waves, wysyłając programistom anonimowe statystyki użytkowania.",
                 "backup": "Rozumiem, że jeśli aplikacja zostania przeniesiona do innego urządzenia lub usunięta, dostęp do mojego konta WAVES można odzyskać tylko za pomocą kopii zapasowej fraz.",
                 "ok": "Potwierdzam",
-                "privacyPolicy": "Przeczytałem i zgadzam się z [Polityką prywatności](https://wavesplatform.com/files/docs/Waves_privacy_policy.pdf).",
+                "privacyPolicy": "Przeczytałem i zgadzam się z [Polityką prywatności](https://wavesplatform.com/files/docs/Privacy_Policy_SW.pdf).",
                 "read": "Przeczytałem, zrozumiałem i zgadzam się",
                 "readTermsAndConditions": "Przeczytałem, rozumiem i zgadzam się z [Terms and Conditions](https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf)",
                 "security": "Rozumiem, że moje środki są bezpiecznie przechowywane na tym urządzeniu, a nie przez firmę",
@@ -957,7 +967,8 @@
                 "1_3_5": "{span.line} [1. Dodano zakładkę z tokenami konkursowymi [wsoc.io] (https://wsoc.io).] \n {span.line} [2. Dodano obsługę języka francuskiego.] \n {span.line} [3. Dodatkowe drobne błędy zostały naprawione.]",
                 "1_3_7": "{span.line} [1. Integracja z [tokenrating.wavesexplorer.com] (https://tokenrating.wavesexplorer.com) Teraz możesz oceniać tokeny bezpośrednio w aplikacji.] \n {span.line} [2. Dodatkowe drobne błędy zostały naprawione.]",
                 "1_3_9": "{span.line} [1. Ulepszony interfejs użytkownika i funkcjonalność sekcji Giełda i Portfel.] \n {span.line} [2. Dodatkowe drobne błędy zostały naprawione.]",
-                "1_4_0": "{span.line}[Added ability for easy switching between  accounts within one wallet.]"
+                "1_4_0": "{span.line}[Added ability for easy switching between accounts within one wallet.]",
+                "1_4_4": "{span.line}[Added ability to backup and restore accounts from the keystore-file]"
             },
             "title": "Co nowego w aktualizacji {{version}}"
         }

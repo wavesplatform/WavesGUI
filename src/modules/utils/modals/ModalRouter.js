@@ -49,6 +49,7 @@
 
                 waves.node.assets.userBalances().then(() => {
                     this._apply(this._firstUrl);
+                    this._firstUrl = window.location.href;
                 });
             }
 

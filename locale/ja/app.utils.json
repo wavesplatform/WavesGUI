@@ -637,6 +637,13 @@
             "cancel": "アカウントを作成",
             "changePass": "Change password",
             "deleteAccount": "Remove account",
+            "exportAccounts": {
+                "accounts": "Accounts",
+                "export": "Export",
+                "selectAll": "Select all",
+                "title": "Please select account",
+                "unselectAll": "Unselect all"
+            },
             "general": {
                 "auto": "自動",
                 "blockHeight": "現在のブロック",
@@ -654,6 +661,7 @@
                 "title": "一般",
                 "white": "ホワイト"
             },
+            "helperContent": "You can set a password for exported accounts",
             "info": {
                 "legal": "リーガル",
                 "privacyPolicy": "プライバシーポリシー",
@@ -709,9 +717,11 @@
                 "backupPhrase": "バックアップフレーズ",
                 "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "エンコードされたシード",
+                "exportAccount": "Export account",
                 "id": "Account ID",
                 "privateKey": "秘密鍵",
                 "publicKey": "公開鍵",
+                "savejson": "Save as JSON file",
                 "script": "スクリプト",
                 "scriptButton": "スクリプトを設定",
                 "scriptButtonUpdate": "スクリプトをアップデート",
@@ -806,7 +816,7 @@
                 "analytics": "開発者に匿名の使用統計を送信することで、Wavesプラットフォームの改善に協力します。",
                 "backup": "私は、アプリを他のデバイスに移動するまたは削除した場合、私のWavesはバックアップフレーズのみから復元できることを理解しています。",
                 "ok": "承認して始める",
-                "privacyPolicy": "[プライバシーポリシー](https://wavesplatform.com/files/docs/Waves_privacy_policy.pdf)の内容を確認し、同意します。",
+                "privacyPolicy": "[プライバシーポリシー](https://wavesplatform.com/files/docs/Privacy_Policy_SW.pdf)の内容を確認し、同意します。",
                 "read": "私は規約を読み、十分に理解し、同意します。",
                 "readTermsAndConditions": "私は[利用規則](https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf)を読み、十分に理解し、その内容に同意します。",
                 "security": "私の資金は企業ではなく、デバイス上に安全に保管されていることを理解しています。",
@@ -957,7 +967,8 @@
                 "1_3_5": "{span.line}[1. [wsoc.io](https://wsoc.io) コンテスト用のトークンタブが追加されました。]{span.line}[2. フランス語に対応しました。]{span.line}[3. 一部のマイナーバグを修正しました。]",
                 "1_3_7": "{span.line}[1.[tokenrating.wavesexplorer.com](https://tokenrating.wavesexplorer.com) に対応。アプリから直接トークンのレーティングが可能に。]{span.line}[2. 追加のマイナーバグを修正しました。]",
                 "1_3_9": "{span.line}[1. 交換とウォレットセクションにおけるUIと機能の改善。]\n {span.line}[2. マイナーバグを修正。]",
-                "1_4_0": "{span.line}[Added ability for easy switching between  accounts within one wallet.]"
+                "1_4_0": "{span.line}[Added ability for easy switching between accounts within one wallet.]",
+                "1_4_4": "{span.line}[Added ability to backup and restore accounts from the keystore-file]"
             },
             "title": "このアップデート {{version}} の新機能"
         }

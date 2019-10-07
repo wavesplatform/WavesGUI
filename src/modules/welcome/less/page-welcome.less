@@ -1,0 +1,55 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+@import (reference) '../../app/less/typography';
+@import (reference) '../../app/less/app-icons';
+
+.welcome {
+  width: 100%;
+  overflow: hidden;
+  font-size: 15px;
+  margin: 0 auto;
+  font-weight: normal;
+  color: @color-basic-900;
+  max-width: 100%;
+
+  .white-bg {
+    background: @color-white;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 0;
+  }
+
+  &__wrapper {
+    position: relative;
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 100%;
+    max-width: 100%;
+    height: calc(~'100%' - 60px);
+    margin-top: 60px;
+  }
+
+  &__section {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    max-width: 100%;
+  }
+}
+
+@media screen and (max-width: 860px) {
+  .welcome {
+    font-size: 13px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .welcome {
+    footer {
+      .section-wrapper {
+        margin-top: 0px;
+      }
+    }
+  }
+}

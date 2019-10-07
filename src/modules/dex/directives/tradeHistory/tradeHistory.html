@@ -1,4 +1,4 @@
-<w-loader ng-if="$ctrl.pending && !$ctrl.isDemo"></w-loader>
+<w-loader class="loader" ng-if="$ctrl.pending && !$ctrl.isDemo"></w-loader>
 
 <w-smart-table ng-if="!$ctrl.pending || $ctrl.isDemo"
                class="smart-table smart-table_dex-trade-history"
@@ -6,7 +6,7 @@
                data="$ctrl.history"
                header-info="$ctrl.headers">
 
-    <w-empty-block ng-if="!$ctrl.history.length && !$ctrl.isDemo"></w-empty-block>
+    <w-empty-block class="empty-block" ng-if="!$ctrl.history.length && !$ctrl.isDemo"></w-empty-block>
 
     <div class="sign-in-message" ng-if="$ctrl.isMy && $ctrl.isDemo">
         <a ng-if="$ctrl.userList.length > 0" ui-sref="signIn" class="link" w-i18n="directives.demo.signIn"></a>

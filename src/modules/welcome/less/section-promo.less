@@ -1,0 +1,98 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+@import (reference) 'classes-welcome';
+@import (reference) '../../app/less/typography';
+@import (reference) '../../app/less/app-icons';
+
+.section-promo {
+  .font();
+  background-color: @color-white;
+  
+  &__wrapper {
+    .section-wrapper();
+    display: flex;
+    text-align: left;
+    flex-wrap: wrap;
+    padding-bottom: 60px;
+  }
+
+  &__card {
+    min-width: 280px;
+    flex-basis: 33.33%;
+    padding: 20px 30px 20px 4px;
+    display: flex;
+  }
+
+  &__content {
+    margin-left: 20px;
+  }
+
+  &__title {
+    font-weight: 400;
+    margin-top: 0;
+  }
+
+  &__description {
+    color: @color-basic-500;
+  }
+
+  &__icon {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    display: inline-flex;
+  
+    &_api {
+      background: @dex-api-icon;
+    }
+  
+    &_token {
+      background: @dex-create-token-icon;
+    }
+  
+    &_fees {
+      background: @dex-fees-icon;
+    }
+  
+    &_gateways {
+      background: @dex-gateways-icon;
+    }
+  
+    &_ledger {
+      background: @dex-ledger-icon;
+    }
+  
+    &_dex {
+      background: @dex-decentralized-icon;
+    }
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .section-promo__card {
+    flex-basis: 50%;
+  }
+}
+
+@media screen and (max-width: 860px) {
+  .section-promo {
+    &__wrapper {
+      flex-direction: column;
+      padding-top: 25px;
+      padding-bottom: 25px;
+      text-align: center;
+    }
+  
+    &__card {
+      flex-basis: 100%;
+      width: 100%;
+      padding: 20px 0;
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    &__content {
+      margin-left: 0;
+    }
+  }
+}
