@@ -875,7 +875,7 @@
                 Object.defineProperty(target, key, {
                     get: () => this.__props[key],
                     set: (value) => {
-                        if (value !== this.__props[key]) {
+                        if (!equals(value, this.__props[key])) {
                             this.__props[key] = value;
                             this._onChangePropsForSave();
                         }
