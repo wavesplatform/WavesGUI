@@ -1,4 +1,4 @@
-import { outputFile } from 'fs-extra';
+import { copy, outputFile } from 'fs-extra';
 import { TaskFunction } from 'gulp';
 import { join, basename } from 'path';
 import { getFilesFrom, getInitScript, IPrepareHTMLOptions, prepareExport, prepareHTML } from '../ts-scripts/utils';
@@ -51,7 +51,9 @@ export function createHtmlTask(params: IPrepareHTMLOptions): TaskFunction {
         return Promise.all([
             prepareHTML(params),
             getInitScript(null, null, params, true),
-            prepareExport()
+            prepareExport(),
+            copy(join(__dirname, '..', 'src/keeper.hbs'), join(params.target, 'keeper.html')),
+            copy(join(__dirname, '..', 'adapter-client.js'), join(params.target, 'adapter-client.js'))
         ]).then(([file, initScript, exportTemplate]) => Promise.all([
             outputFile(`${params.target}/index.html`, file),
             outputFile(`${params.target}/init.js`, initScript),
