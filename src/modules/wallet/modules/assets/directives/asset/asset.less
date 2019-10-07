@@ -36,6 +36,7 @@ w-asset {
   @media screen and (max-width: 560px) {
     flex-basis: @asset-block-full;
     max-width: @asset-block-full;
+    padding: 16px;
   }
 
   border-radius: @border-radius;
@@ -242,3 +243,16 @@ w-asset {
   }
 }
 
+@media screen and (max-width: 655px) and (min-width: 565px) {
+  .asset {
+    &__footer {
+      .btn-icon {
+        margin-right: 40px;
+      }
+
+      &-text {
+        display: none;
+      }
+    }
+  }
+}
