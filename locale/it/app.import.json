@@ -1,27 +1,28 @@
 {
     "back": "Torna alla pagina principale",
     "backupFile": {
-        "back": "go back",
-        "enterPasswordDescription": "Please enter your password or",
-        "helper": "You need to enter the password, which you used for the accounts exporting",
+        "back": "Indietro",
+        "enterPasswordDescription": "Inserisci la tua password oppure",
+        "helper": "Devi inserire la password che hai usato per l'esportazione degli account",
         "import": {
-            "accounts": "Accounts",
-            "emptyList": "There are no accounts for import in the uploaded file",
-            "importFailed": "Failed to import keystore file",
-            "noChosen": "No file chosen",
-            "selectAccount": "Select account",
-            "selectAccountDesc": "Please select account or",
-            "selectAll": "Select all",
-            "unselectAll": "Unselect all"
+            "accounts": "Account",
+            "emptyList": "Non ci sono account per l'importazione nel file caricato",
+            "importFailed": "Impossibile importare il file keystore",
+            "noChosen": "Nessun file selzionato",
+            "selectAccount": "Seleziona account",
+            "selectAccountDesc": "Seleziona un account oppure",
+            "selectAll": "Seleziona tutto",
+            "unselectAll": "Deseleziona tutto",
+            "wrongPassword": "Password Errata!"
         },
-        "importFromFile": "Import account from Keystore File",
-        "importFromFileDescription": "Choose your JSON file and click Import or",
-        "name": "Keystore File",
-        "next": "Continue",
+        "importFromFile": "Importa account da un file Keystore",
+        "importFromFileDescription": "Selezione il tuo file JSON e clicca importa oppure",
+        "name": "File Keystore",
+        "next": "Continua",
         "password": "Password",
-        "selectFileBtn": "Choose file"
+        "selectFileBtn": "Seleziona il file"
     },
-    "backupFileDescription": "Import account from Keystore File",
+    "backupFileDescription": "Importa account da un file Keystore",
     "import": {
         "signIn": "Accedi"
     },

@@ -255,6 +255,10 @@
                 this.api = WavesApp.network.api;
             }
 
+            showExportAccountModal() {
+                return modalManager.showExportAccount();
+            }
+
             showPairingWithMobile() {
                 return modalManager.showPairingWithMobile();
             }

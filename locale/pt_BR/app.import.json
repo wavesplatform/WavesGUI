@@ -12,7 +12,8 @@
             "selectAccount": "Select account",
             "selectAccountDesc": "Please select account or",
             "selectAll": "Select all",
-            "unselectAll": "Unselect all"
+            "unselectAll": "Unselect all",
+            "wrongPassword": "Wrong password!"
         },
         "importFromFile": "Import account from Keystore File",
         "importFromFileDescription": "Choose your JSON file and click Import or",
@@ -36,7 +37,7 @@
     "seedAndKey": {
         "name": "Seed or Key"
     },
-    "seedAndKeyDescription": "Import account from a backup SEED or Private key",
+    "seedAndKeyDescription": "Import account from a SEED or Private key",
     "selectButton": "Selecionar",
     "wavesClient": "Waves Client",
     "wavesClientDescription": "Import account from a Waves Client",
