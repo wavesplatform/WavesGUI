@@ -127,6 +127,7 @@
     "errorBlocks": {
         "title": "문제가 발생했습니다…"
     },
+    "importSuccess": "Account Importing from the Keystore File was successful",
     "modal": {
         "assetInfo": {
             "gateway_ui": "게이트웨이"

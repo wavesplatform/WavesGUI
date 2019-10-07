@@ -127,6 +127,7 @@
     "errorBlocks": {
         "title": "Something went wrong…"
     },
+    "importSuccess": "Account Importing from the Keystore File was successful",
     "modal": {
         "assetInfo": {
             "gateway_ui": "GATEWAY"
@@ -196,7 +197,7 @@
             "true": "COMPLETED"
         },
         "headers": {
-            "activeLeasing": "active now",
+            "activeLeasing": "Active now",
             "burn": "{{name}} Token Burning",
             "cancel-leasing": "Canceled Leasing",
             "canceled": "Canceled",

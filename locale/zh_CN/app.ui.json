@@ -127,6 +127,7 @@
     "errorBlocks": {
         "title": "出了些问题…"
     },
+    "importSuccess": "Account Importing from the Keystore File was successful",
     "modal": {
         "assetInfo": {
             "gateway_ui": "出入口"
