@@ -734,7 +734,15 @@
                     this._settings.change.off();
                 }
 
-                this._settings = defaultSettings.create();
+                let commonSettings;
+
+                if (this._settings) {
+                    commonSettings = this._settings.getSettings().common;
+
+                    this._settings.change.off();
+                }
+
+                this._settings = defaultSettings.create({}, commonSettings);
                 this._settings.change.on(() => this._onChangeSettings());
 
                 ds.dataManager.dropAddress();
