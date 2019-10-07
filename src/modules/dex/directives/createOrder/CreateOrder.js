@@ -45,7 +45,7 @@
             }
 
             get loaded() {
-                return this.amountBalance && this.priceBalance && this.fee;
+                return !!(this.amountBalance && this.priceBalance && this.fee);
             }
 
             /**
@@ -257,7 +257,7 @@
                 this.isValidPricePrecision = this._validatePricePrecision();
 
                 this.observe(['amountBalance', 'type', 'fee', 'priceBalance'], this._updateMaxAmountOrPriceBalance);
-                this.observe(['maxAmountBalance', 'amountBalance', 'priceBalance'], this._setPairRestrictions);
+                this.observe(['maxAmountBalance', 'amountBalance', 'priceBalance', 'fee'], this._setPairRestrictions);
 
                 this.observe('_assetIdPair', () => {
                     this.amount = null;
@@ -1163,7 +1163,6 @@
 
                 this.pairRestrictions = {};
                 const defaultPairRestriction = this._getDefaultPairRestriction();
-
                 return ds.api.matcher
                     .getPairRestrictions({
                         amountAsset: this.amountBalance.asset,
