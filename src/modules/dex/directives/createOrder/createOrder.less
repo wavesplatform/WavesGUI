@@ -225,6 +225,8 @@ w-create-order {
           .field-label {
             margin-top: 8px;
             padding-bottom: 4px;
+            display: flex;
+            justify-content: space-between;
           }
 
           .field-fee {
@@ -244,7 +246,7 @@ w-create-order {
               .input-container {
                 width: 100%;
                 position: relative;
-                top: -100%;
+                top: calc(-100% ~"+ 1px");
                 background: transparent;
                 input.tiny {
                   background: transparent;
@@ -476,12 +478,8 @@ w-create-order {
 .amount {
   .field-buttons {
     display: flex;
-    justify-content: space-between;
-    margin-top: 7px;
 
     w-button {
-      width: ~'calc(25% - 6px)';
-
       > * {
         box-shadow: none;
       }
