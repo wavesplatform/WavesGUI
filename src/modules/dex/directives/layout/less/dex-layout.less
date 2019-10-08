@@ -36,7 +36,8 @@
           }
 
           &__block[data-block="tradevolume"] {
-            height: 38px;
+            height: 37px;
+            overflow: hidden;
 
             .block-title i {
               transform: rotate(-180deg);
@@ -269,7 +270,7 @@
     &__column {
       min-width: 360px;
     }
-    
+
     &__block {
       min-width: 360px;
     }
@@ -292,6 +293,14 @@
 
     .caption-2 {
       font-size: 12px;
+    }
+
+    &_tradevolume-collapsed {
+      .dex-layout__column_orderbook {
+        .dex-layout__block[data-block="tradevolume"] {
+          height: 41px;
+        }
+      }
     }
   }
 }
