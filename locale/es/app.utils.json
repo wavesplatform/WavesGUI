@@ -717,7 +717,7 @@
                 "backupPhrase": "Frase de Recuperación",
                 "base58Seed": "Frase de seguridad (SEED) codificada",
                 "encodedSeed": "Semilla codificada",
-                "exportAccount": "Export account",
+                "exportAccount": "Export account to file",
                 "id": "Account ID",
                 "privateKey": "Clave privada",
                 "publicKey": "Clave pública",

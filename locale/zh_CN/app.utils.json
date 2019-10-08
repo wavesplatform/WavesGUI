@@ -717,7 +717,7 @@
                 "backupPhrase": "备份短语",
                 "base58Seed": "编码备份短语",
                 "encodedSeed": "编码的SEED",
-                "exportAccount": "Export account",
+                "exportAccount": "Export account to file",
                 "id": "帐户ID",
                 "privateKey": "私钥",
                 "publicKey": "公钥",

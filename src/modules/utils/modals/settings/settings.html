@@ -87,24 +87,9 @@
                                 <i class="dark-dot"></i>
                                 <span w-i18n-ns="app.utils" w-i18n="modal.settings.general.dark"></span>
                             </w-option>
-                            <!--w-option value="::'auto'"><i class="auto-dot"></i><span w-i18n="modal.settings.general.auto"></span></w-option-->
                         </w-select>
                     </div>
                 </div>
-
-                <w-permit name="CAN_PAIRING_WITH_MOBILE" mode="on">
-                    <div class="row flex-row row-style unit-selectgit stat" ng-if="$ctrl.allowParing">
-                        <div class="footnote-1 basic-500" w-i18n="modal.settings.pairing.devicePairing"></div>
-                        <div>
-                            <a class="label link"
-                               w-i18n="modal.settings.pairing.showCodeLink"
-                               w-modal-close
-                               w-analytics event="'Settings Pairing Code Click'"
-                               event-target="'ui'"
-                               ng-click="$ctrl.showPairingWithMobile()"></a>
-                        </div>
-                    </div>
-                </w-permit>
 
                 <div class="row flex-row row-style solid-border">
                     <div class="footnote-1 basic-500" w-i18n="modal.settings.general.blockHeight"></div>
@@ -163,6 +148,20 @@
                     <div class="footnote basic-500" w-i18n="modal.settings.security.address"></div>
                     <div class="mobile-low-fsize">{{::$ctrl.address}}</div>
                 </div>
+
+                <w-permit name="CAN_PAIRING_WITH_MOBILE" mode="on">
+                    <div class="row flex-row row-style unit-selectgit stat" ng-if="$ctrl.allowParing">
+                        <div class="basic-500" w-i18n="modal.settings.pairing.devicePairing"></div>
+                        <div>
+                            <a class="label link"
+                                w-i18n="modal.settings.pairing.showCodeLink"
+                                w-modal-close
+                                w-analytics event="'Settings Pairing Code Click'"
+                                event-target="'ui'"
+                                ng-click="$ctrl.showPairingWithMobile()"></a>
+                        </div>
+                    </div>
+                </w-permit>
 
                 <div class="row flex-row row-style">
                     <div class="footnote basic-500" w-i18n="modal.settings.security.exportAccount"></div>

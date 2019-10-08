@@ -717,7 +717,7 @@
                 "backupPhrase": "Backup regel",
                 "base58Seed": "Gecodeerde back-upzin",
                 "encodedSeed": "Gecodeerde seed",
-                "exportAccount": "Export account",
+                "exportAccount": "Export account to file",
                 "id": "Account ID",
                 "privateKey": "Privésleutel",
                 "publicKey": "Publieke sleutel",

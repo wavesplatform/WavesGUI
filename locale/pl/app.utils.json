@@ -717,7 +717,7 @@
                 "backupPhrase": "Kopia zapasowa wyrażenia",
                 "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "Zakodowany SEED",
-                "exportAccount": "Export account",
+                "exportAccount": "Export account to file",
                 "id": "Account ID",
                 "privateKey": "Klucz prywatny",
                 "publicKey": "Klucz publiczny",
