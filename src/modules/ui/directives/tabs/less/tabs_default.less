@@ -97,8 +97,7 @@ w-confirm-transaction {
       height: 39px;
       padding: 0;
   
-      &::before,
-      &::after {
+      &::before {
         display: none;
       }
     }
@@ -127,7 +126,6 @@ w-confirm-transaction {
         display: block;
         position: absolute;
         width: 101%;
-        height: 1px;
         left: 0;
         bottom: 0;
         background: @color-basic-100;
@@ -147,6 +145,20 @@ w-confirm-transaction {
   .dex-layout__tradehistory {
     .tabs__header {
       height: 42px;
+    }
+  }
+}
+
+@media screen and (max-width: 1130px) {
+  .dex-layout__column_tradehistory {
+    .tabs {
+      &__header::after {
+        display: none;
+      }
+
+      &__title::after {
+        height: 1px;
+      }
     }
   }
 }
