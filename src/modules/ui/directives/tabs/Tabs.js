@@ -24,6 +24,13 @@
                 this.tabs.push(tab);
             }
 
+            /**
+             * @param {Tab} tab
+             */
+            removeTab(tab) {
+                this.tabs = this.tabs.filter(item => item.id !== tab.id);
+            }
+
             $postLink() {
                 this._initializeSelected();
                 this.receive(this.tabs.signals.remove, this._initializeSelected, this);

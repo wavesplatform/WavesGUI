@@ -166,6 +166,10 @@
                     return this.showReceivePopup(asset);
                 }
 
+                if (action === 'withdraw') {
+                    return this.showWithdraw(asset);
+                }
+
                 throw new Error('Wrong action');
             }
 
@@ -215,6 +219,13 @@
                     target: 'ui'
                 });
                 return modalManager.showSendAsset({ assetId: asset && asset.id || null });
+            }
+
+            /**
+             * @param {Asset} asset
+             */
+            showWithdraw(asset) {
+                return modalManager.showWithdrawAsset({ assetId: asset && asset.id || null });
             }
 
             /**

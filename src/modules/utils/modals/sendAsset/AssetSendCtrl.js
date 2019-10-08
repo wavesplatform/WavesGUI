@@ -4,21 +4,17 @@
     const { SIGN_TYPE } = require('@waves/signature-adapter');
 
     /**
-     * @param $scope
      * @param {Waves} waves
      * @param {Base} Base
      * @param {app.utils} utils
      * @param {User} user
      * @param {$mdDialog} $mdDialog
      * @param {BalanceWatcher} balanceWatcher
-     * @param {IOuterBlockchains} outerBlockchains
-     * @param {GatewayService} gatewayService
-     * @return {AssetSendCtrl}
+     * @return {AssetSendFactory}
      */
-    const controller = function ($scope, waves, Base, utils, user, $mdDialog, balanceWatcher, outerBlockchains,
-                                 gatewayService) {
+    const factory = function (waves, Base, utils, user, $mdDialog, balanceWatcher) {
 
-        class AssetSendCtrl extends Base {
+        class AssetSendFactory extends Base {
 
             /**
              * @return {Money}
@@ -28,23 +24,12 @@
             }
 
             /**
-             * @return {IGatewayDetails}
-             */
-            get gatewayDetails() {
-                return this.state.gatewayData.details;
-            }
-
-            /**
-             * @type {ISendMode}
-             */
-            sendMode;
-
-            /**
              * @param {IAssetSendCtrl.IOptions} options
              */
-            constructor(options) {
+            constructor(options, $scope) {
                 super($scope);
-
+                this.options = options;
+                this.__scope = $scope;
                 /**
                  * @type {string}
                  */
@@ -71,10 +56,6 @@
                 this.state = {
                     assetId: options.assetId || WavesApp.defaultAssets.WAVES,
                     mirrorId: user.getSetting('baseAssetId'),
-                    gatewayData: {
-                        details: null,
-                        error: null
-                    },
                     paymentId: '',
                     moneyHash: null,
                     singleSend: utils.liteObject({ type: SIGN_TYPE.TRANSFER }),
@@ -84,12 +65,10 @@
                 this.receive(balanceWatcher.change, this._updateBalanceList, this);
                 this._updateBalanceList();
 
-                this.observe('sendMode', this._onChangeSendMode);
-
-                this.receive(utils.observe(this.state, 'assetId'), this.checkSendMode, this);
-                this.receive(utils.observe(this.state.singleSend, 'recipient'), this.checkSendMode, this);
-                this.checkSendMode();
-
+                /**
+                 * @type {ISendMode}
+                 */
+                this.sendMode = 'waves';
                 /**
                  * @type {string}
                  */
@@ -118,8 +97,7 @@
                     this.state.singleSend.recipient = options.recipient;
                     this.state.singleSend.attachment = options.attachment;
 
-                    const toGateway = this.sendMode === 'gateway' && this.gatewayDetails;
-                    const attachment = toGateway ? this.gatewayDetails.attachment : options.attachment;
+                    const attachment = options.attachment;
                     const attachmentString = attachment ? attachment.toString() : '';
                     const bytesAttachment = utils.stringToBytes(attachmentString);
 
@@ -146,7 +124,7 @@
                     })
                         .catch(() => {
                             this.errorOccured = true;
-                            $scope.$digest();
+                            this.__scope.$digest();
                         });
                 }
 
@@ -173,41 +151,13 @@
                 this.sendMode = mode;
             }
 
-            checkSendMode() {
-                if (this._isOuterBlockchains()) {
-                    this.setMode('gateway');
-                } else {
-                    this.setMode('waves');
-                }
-            }
-
-            updateGatewayData() {
-                if (gatewayService.hasSupportOf(this.balance.asset, 'deposit')) {
-                    return gatewayService
-                        .getWithdrawDetails(this.balance.asset, this.state.singleSend.recipient, this.state.paymentId)
-                        .then(details => {
-                            this.state.gatewayData = {
-                                error: null,
-                                details
-                            };
-                            $scope.$apply();
-                        }, error => {
-                            this.state.gatewayData = {
-                                details: null,
-                                error
-                            };
-                            $scope.$apply();
-                        });
-                }
-            }
-
             /**
              * @private
              */
             _onChangeMoneyHash() {
                 const hash = this.state.moneyHash;
                 const list = Object.values(hash)
-                    .filter((money) => !money.getTokens().eq(0) && AssetSendCtrl._isNotScam(money));
+                    .filter((money) => !money.getTokens().eq(0) && AssetSendFactory._isNotScam(money));
 
 
                 if (list.length) {
@@ -245,34 +195,8 @@
 
                 loadBalances.then(hash => {
                     this.state.moneyHash = hash;
-                    utils.safeApply($scope);
+                    utils.safeApply(this.__scope);
                 });
-            }
-
-            /**
-             * @return {boolean}
-             * @private
-             */
-            _isOuterBlockchains() {
-                const outerChain = outerBlockchains[this.state.assetId];
-                const isValidWavesAddress = user.isValidAddress(this.state.singleSend.recipient);
-                const isGatewayAddress = !isValidWavesAddress &&
-                    outerChain && outerChain.isValidAddress(this.state.singleSend.recipient);
-                return isGatewayAddress;
-            }
-
-            /**
-             * @private
-             */
-            _onChangeSendMode() {
-                if (this.sendMode === 'gateway') {
-                    this.updateGatewayData();
-                } else {
-                    this.gatewayData = {
-                        details: null,
-                        error: null
-                    };
-                }
             }
 
             /**
@@ -285,22 +209,33 @@
 
         }
 
-        return new AssetSendCtrl(this.locals);
+        return AssetSendFactory;
     };
 
-    controller.$inject = [
-        '$scope',
+    factory.$inject = [
         'waves',
         'Base',
         'utils',
         'user',
         '$mdDialog',
-        'balanceWatcher',
-        'outerBlockchains',
-        'gatewayService'
+        'balanceWatcher'
+    ];
+
+    /**
+     * @param $scope
+     * @return {AssetSendCtrl}
+     */
+    const controller = function ($scope, AssetSendFactory) {
+        return new AssetSendFactory(this.locals, $scope);
+    };
+
+    controller.$inject = [
+        '$scope',
+        'AssetSendFactory'
     ];
 
     angular.module('app.utils')
+        .factory('AssetSendFactory', factory)
         .controller('AssetSendCtrl', controller);
 })();
 
@@ -337,9 +272,8 @@
  * @typedef {object} ISendState
  * @property {string} assetId
  * @property {string} mirrorId
- * @property {IGatewayDetails} gatewayDetails
  * @property {Object.<string, Money>} moneyHash
- * @property {ISingleSendTx} singleSend
+ * @property {ISingleSendTx} singleSend\
  * @property {IMassSendTx} massSend
  * @property {string} warning
  */
@@ -360,5 +294,5 @@
  */
 
 /**
- * @typedef {'waves' | 'bank' | 'gataway'} ISendMode
+ * @typedef {'waves' | 'bank'} ISendMode
  */

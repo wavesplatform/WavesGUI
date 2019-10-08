@@ -292,7 +292,7 @@ md-dialog.modal-send {
     }
 
     w-balance-input {
-      width: 204px;
+      width: calc(50% ~"- 19px");
 
       .input-wrap .w-input-wrap input {
         padding-right: 60px;
@@ -372,7 +372,6 @@ md-dialog.modal-send {
       }
     }
   }
-
 }
 
 @media screen and (max-width: 540px) {
@@ -388,6 +387,10 @@ md-dialog.modal-send {
       .qr-code-wrap {
         width: 100%;
         height: auto;
+      }
+
+      w-balance-input {
+        width: 100%;
       }
 
       .modal-content {

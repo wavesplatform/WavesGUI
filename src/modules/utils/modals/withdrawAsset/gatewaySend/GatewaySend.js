@@ -35,8 +35,15 @@
              * @return {boolean}
              */
             get isGatewayAccepted() {
-                return !configService
-                    .get('PERMISSIONS.CANT_TRANSFER_GATEWAY').includes(this.balance.asset.id);
+                const permissions = configService.get('PERMISSIONS.CANT_TRANSFER_GATEWAY');
+                return permissions ? !permissions.includes(this.assetId) : true;
+            }
+
+            /**
+             * @return {ISingleSendTx}
+             */
+            get tx() {
+                return this.state.gatewaySend;
             }
 
             /**
@@ -158,18 +165,15 @@
                     } else {
                         this.gatewayDetailsError = true;
                     }
-                } else {
-                    this.gatewayDetailsError = true;
                 }
 
-                $scope.$apply();
+                utils.safeApply($scope);
             }
 
             /**
              * @private
              */
             _onUpdateRecipient() {
-                this.onChangeRecipient();
                 this.updateGatewayData();
             }
 
@@ -207,12 +211,18 @@
              * @private
              */
             _updateWavesTxObject() {
-                const fee = this.tx.amount ? this.tx.amount.cloneWithTokens(this.gatewayDetails.gatewayFee) : null;
+                const fee = (this.tx.amount && this.gatewayDetails) ?
+                    this.tx.amount.cloneWithTokens(this.gatewayDetails.gatewayFee) :
+                    null;
+
+                const recipient = this.gatewayDetails ? this.gatewayDetails.address : '';
+                const attachment = this.gatewayDetails ? this.gatewayDetails.attachment : '';
+
                 this.wavesTx = {
                     ...this.wavesTx,
-                    recipient: this.gatewayDetails.address,
-                    attachment: utils.stringToBytes(this.gatewayDetails.attachment),
-                    amount: this.tx.amount.add(fee),
+                    recipient,
+                    attachment: utils.stringToBytes(attachment),
+                    amount: fee ? this.tx.amount.add(fee) : this.tx.amount,
                     assetId: this.assetId
                 };
             }
@@ -259,10 +269,10 @@
         bindings: {
             state: '<',
             onSign: '&',
-            onChangeRecipient: '&',
-            updateGatewayData: '&'
+            updateGatewayData: '&',
+            isOuterBlockchainAddress: '<'
         },
-        templateUrl: 'modules/utils/modals/sendAsset/components/singleSend/gatewaySend/gateway-send.html',
+        templateUrl: 'modules/utils/modals/withdrawAsset/gatewaySend/gateway-send.html',
         transclude: true,
         controller
     });

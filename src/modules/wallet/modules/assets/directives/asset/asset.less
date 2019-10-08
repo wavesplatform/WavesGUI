@@ -36,6 +36,7 @@ w-asset {
   @media screen and (max-width: 560px) {
     flex-basis: @asset-block-full;
     max-width: @asset-block-full;
+    padding: 16px;
   }
 
   border-radius: @border-radius;
@@ -161,26 +162,34 @@ w-asset {
     white-space: nowrap;
     flex-wrap: nowrap;
 
+    @media screen and (min-width: 1300px) {
+      justify-content: space-between;
+    }
+
     .btn-icon {
       display: inline-block;
       margin-top: 10px;
-      margin-right: 20px;
+      margin-right: 10px;
       cursor: pointer;
-      font-size: 15px;
+      font-size: 0;
       transition: .3s;
 
       &:last-child {
-        svg {
-          transform: rotate(180deg);
+        margin-right: 0;
+
+        &:not(.icon-withdraw) {
+          margin-right: auto;
         }
       }
 
       svg {
         transition: .3s;
         vertical-align: middle;
-        margin-right: 6px;
-        margin-top: -3px;
+        margin-right: 4px;
+        margin-top: -12px;
         fill: @color-basic-500;
+        width: 15px;
+        height: 15px;
       }
 
       &:hover {
@@ -189,6 +198,10 @@ w-asset {
           fill: @color-basic-700;
         }
       }
+    }
+
+    &-text {
+      font-size: 15px;
     }
   }
 }
@@ -230,3 +243,20 @@ w-asset {
   }
 }
 
+@media screen and (max-width: 660px) and (min-width: 561px) {
+  .asset {
+    &__footer {
+      .btn-icon {
+        margin-right: 40px;
+
+        svg {
+          margin-top: 0;
+        }
+      }
+
+      &-text {
+        display: none;
+      }
+    }
+  }
+}

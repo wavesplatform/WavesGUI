@@ -610,7 +610,7 @@
                 "notEnoughFunds": "У вас недостаточно средств для оплаты комиссии. Вам необходимо оплатить комиссию за транзакцию {{fee, money-currency}}.",
                 "notEnoughFundsWithdraw": "У вас недостаточно средств для отправки транзакции. Вам необходимо оплатить комиссию за транзакцию {{fee, money-currency}} и комиссию шлюза {{getawayFee, BigNumber}} {{currency}}. Минимальная сумма для отправки составляет {{minGatewayAmount, BigNumber}} {{currency}}."
             },
-            "withdrawTitle": "Withdraw"
+            "withdrawTitle": "Вывод"
         },
         "sepa": {
             "countryList": "Список допустимых стран и ID",

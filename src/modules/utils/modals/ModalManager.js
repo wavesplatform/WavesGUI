@@ -526,6 +526,35 @@
             }
 
             /**
+             * @param {object} [data]
+             * @param {string} [data.assetId]
+             * @param {'gatewaySend'} [data.mode]
+             * @param {string} [data.amount]
+             * @param {string} [data.recipient]
+             * @param {boolean} [data.strict]
+             * @param {string} [data.referrer]
+             * @return {Promise}
+             */
+            showWithdrawAsset(data) {
+                return this._getModal({
+                    id: 'withdraw-asset',
+                    controller: 'WithdrawCtrl',
+                    templateUrl: 'modules/utils/modals/withdrawAsset/withdraw.modal.html',
+                    mod: 'modal-withdraw',
+                    locals: {
+                        assetId: data.assetId,
+                        canChooseAsset: !data.assetId,
+                        mode: data.mode,
+                        amount: data.amount,
+                        recipient: data.recipient,
+                        strict: data.strict,
+                        referrer: data.referrer,
+                        attachment: data.attachment
+                    }
+                });
+            }
+
+            /**
              * @param {Asset} [asset]
              * @return {Promise}
              */

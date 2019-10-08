@@ -19,16 +19,20 @@
                              placeholder="modal.send.placeholderRecipient"
                              w-i18n-attr="placeholder"
                              w-validate
-                             w-validator-any-address="{{$ctrl.state.assetId}}"
+                             w-validator-custom="{{$ctrl.isOuterBlockchainAddress}}"
                              required></w-input>
 
                     <w-qr-code-read on-read="$ctrl.onReadQrCode(text)" max-width="415" max-height="310"></w-qr-code-read>
+
+                    <w-input-error message="custom">
+                        <span w-i18n="modal.send.errors.address"></span>
+                    </w-input-error>
                 </div>
             </w-input-container>
         </div>
 
         <div ng-if="!$ctrl.gatewayError && $ctrl.isGatewayAccepted" class="row">
-            <div class="plate-warning margin-2">
+            <div ng-if="$ctrl.gatewayDetails" class="plate-warning margin-2">
                 <div class="body-2 warning-500"
                      w-i18n="modal.send.coinomat.feeTitle"
                      params="{ fee: $ctrl.gatewayDetails.gatewayFee,
@@ -167,7 +171,7 @@
              ng-if="!$ctrl.hasFee && !$ctrl.gatewayError && $ctrl.isGatewayAccepted">
             <span w-i18n="modal.send.validationError.notEnoughFundsWithdraw"
                   params="{
-                            fee: $ctrl.state.singleSend.fee,
+                            fee: $ctrl.state.gatewaySend.fee,
                             getawayFee: $ctrl.gatewayDetails.gatewayFee,
                             currency: $ctrl.balance.asset.displayName,
                             minGatewayAmount: $ctrl.gatewayDetails.minimumAmount

@@ -13,18 +13,9 @@
                                 <w-waves-send ng-if="$ctrl.sendMode === 'waves'"
                                               state="$ctrl.state"
                                               on-sign="$ctrl.nextStep(signable)"
-                                              on-change-mode="$ctrl.setMode(mode)"
-                                              on-change-recipient="$ctrl.onChangeRecipient()">
+                                              on-change-mode="$ctrl.setMode(mode)">
                                     <ng-include src="::$ctrl.headerPath"></ng-include>
                                 </w-waves-send>
-
-                                <w-gateway-send ng-if="$ctrl.sendMode === 'gateway'"
-                                                state="$ctrl.state"
-                                                on-sign="$ctrl.nextStep(signable)"
-                                                on-change-recipient="$ctrl.onChangeRecipient()"
-                                                update-gateway-data="$ctrl.updateGatewayData()">
-                                    <ng-include src="::$ctrl.headerPath"></ng-include>
-                                </w-gateway-send>
 
                                 <w-bank-send ng-if="$ctrl.sendMode === 'bank'"
                                              state="$ctrl.state"
@@ -87,20 +78,13 @@
                 </w-step>
 
                 <w-step>
-                    <w-confirm-transaction ng-if="$ctrl.sendMode !== 'gateway'"
-                                           on-click-back="$ctrl.back()"
+                    <w-confirm-transaction on-click-back="$ctrl.back()"
                                            no-back-button="$ctrl.strict"
                                            on-tx-sent="$ctrl.onTxSent(id)"
                                            referrer="$ctrl.referrer"
                                            warning="$ctrl.state.warning || ''"
                                            show-validation-errors="$ctrl.strict"
                                            signable="$ctrl.signable"></w-confirm-transaction>
-
-                    <w-confirm-gateway-transaction ng-if="$ctrl.sendMode === 'gateway'"
-                                                   on-click-back="$ctrl.back()"
-                                                   gateway-details="$ctrl.gatewayDetails"
-                                                   target-recipient="$ctrl.state.singleSend.recipient"
-                                                   signable="$ctrl.signable"></w-confirm-gateway-transaction>
                 </w-step>
 
             </w-step-by-step>
