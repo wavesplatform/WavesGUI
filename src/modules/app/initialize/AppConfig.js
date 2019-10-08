@@ -136,6 +136,7 @@
                                 tsUtils.filterList(
                                     tsUtils.notContains('app.templates'),
                                     tsUtils.notContains('app.keeper'),
+                                    tsUtils.notContains('app.fromBackup'),
                                     tsUtils.notContains('app.wallet'),
                                     tsUtils.notContains('app.stand'),
                                     tsUtils.notContains('app.switch')
