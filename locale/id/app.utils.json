@@ -717,7 +717,7 @@
                 "backupPhrase": "Frasa cadangan",
                 "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "SEED terenkode",
-                "exportAccount": "Export account",
+                "exportAccount": "Export account to file",
                 "id": "Account ID",
                 "privateKey": "Kunci pribadi",
                 "publicKey": "Kunci Publik",
