@@ -208,11 +208,11 @@
             _orderTypes = [
                 {
                     id: 'limit',
-                    name: 'Limit'
+                    name: 'Limit Order'
                 },
                 {
                     id: 'market',
-                    name: 'Market'
+                    name: 'Market Order'
                 }
             ];
 

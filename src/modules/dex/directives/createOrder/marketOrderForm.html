@@ -102,7 +102,7 @@
     <div class="price">
         <div class="field-label caption-2" w-i18n="directives.createOrder.priceField"></div>
 
-        <div class="input-like tiny tricky-input disabled">
+        <div class="input-like disabled">
             <span class="caption-1 basic-500" ng-if="$ctrl.marketAvgPrice.toFormat() !== '0'">≈&nbsp;</span>
             <span>{{$ctrl.marketAvgPrice.toFormat()}}</span>
             <span class="caption-1 basic-500">&nbsp;{{$ctrl.priceDisplayName}}</span>
@@ -126,7 +126,7 @@
             </div>
         </div>
 
-        <div class="input-like tiny tricky-input disabled">
+        <div class="input-like disabled">
             <span class="caption-1 basic-500" ng-if="$ctrl.marketTotal.toFormat() !== '0'">≈&nbsp;</span>
             <span>{{$ctrl.marketTotal.toFormat()}}</span>
             <span class="caption-1 basic-500">&nbsp;{{$ctrl.priceDisplayName}}</span>
