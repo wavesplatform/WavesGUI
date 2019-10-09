@@ -199,13 +199,7 @@
                 market: 'modules/dex/directives/createOrder/marketOrderForm.html'
             };
 
-            get orderTypes() {
-                return this.orderType ?
-                    this._orderTypes.filter(orderType => orderType.id !== this.orderType.id) :
-                    this._orderTypes.slice(0, 1);
-            }
-
-            _orderTypes = [
+            orderTypes = [
                 {
                     id: 'limit',
                     name: 'Limit Order'
