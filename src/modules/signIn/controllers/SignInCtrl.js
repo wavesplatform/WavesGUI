@@ -65,7 +65,7 @@
                 multiAccount.signIn(
                     this.multiAccountData,
                     this.password,
-                    user.getSetting('encryptionRounds'),
+                    undefined,
                     this.multiAccountHash
                 ).then(
                     () => Promise.all([
@@ -99,7 +99,7 @@
 
             _login(userData) {
                 user.login(userData).then(() => {
-                    $state.go(user.getActiveState('wallet'));
+                    user.goToActiveState();
                 });
             }
 

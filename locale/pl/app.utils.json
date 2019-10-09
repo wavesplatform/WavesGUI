@@ -293,8 +293,8 @@
                 "warningTitle": "Proszę nie deponować ETH z inteligentnych kontraktów (smart contracts)! Proszę nie deponować tokenów ERC20! Tylko Ethereum dozwolone."
             },
             "wavesGatewayVST": {
-                "helpDescrText": "Jeżeli transakcja zostanie potwierdzona, system wymieni Vostok na tokeny w Twoim koncie Waves.",
-                "helpDescrTitle": "Wprowadź ten adres w swoim kliencie albo portfelu Vostok",
+                "helpDescrText": "Jeżeli transakcja zostanie potwierdzona, system wymieni VST na tokeny w Twoim koncie Waves.",
+                "helpDescrTitle": "Wprowadź ten adres w swoim kliencie albo portfelu VST",
                 "warningMinAmountTitle": "Minimalna kwota depozytu to {{minAmount, BigNumber}} {{assetTicker}}, maksymalna kwota depozytu to {{maxAmount}} {{assetTicker}}"
             }
         },
@@ -353,7 +353,12 @@
             "wavesLiteClientDescription": "Import konta z Waves Lite Client"
         },
         "matcherChoice": {
-            "title": "Choose matcher"
+            "customMatcher": "Custom matcher address",
+            "matcher": "Matcher",
+            "matcherTerms": "I agree to the Super DEX Mather Terms of Use.",
+            "terms": "Terms",
+            "title": "Choose matcher",
+            "wavesTerms": "I am over 18 years old, and I agree to the Waves Terms of Use and Waves Privacy Policy."
         },
         "open-main": {
             "dex": {
@@ -470,7 +475,7 @@
             "shareInvoiceLink": "Udostępnij link do faktury",
             "verified": "Zweryfikowany",
             "vostok": {
-                "serverError": "Usługa Vostok jest tymczasowo niedostępna. Spróbuj ponownie później."
+                "serverError": "Usługa VST jest tymczasowo niedostępna. Spróbuj ponownie później."
             },
             "wtry": {
                 "info": "Na wypadek problemów z procesem płatności, proszę kontaktować się z Digilira support team — [support@digilira.com](mailto:support@digilira.com)"
@@ -632,6 +637,13 @@
             "cancel": "Utwórz konto",
             "changePass": "Zmień hasło",
             "deleteAccount": "Usuń konto",
+            "exportAccounts": {
+                "accounts": "Accounts",
+                "export": "Export",
+                "selectAll": "Select all",
+                "title": "Please select account",
+                "unselectAll": "Unselect all"
+            },
             "general": {
                 "auto": "Auto",
                 "blockHeight": "Aktualny blok",
@@ -649,6 +661,7 @@
                 "title": "Ogólny",
                 "white": "Biały"
             },
+            "helperContent": "You can set a password for exported accounts",
             "info": {
                 "legal": "Prawny",
                 "privacyPolicy": "Polityka prywatności",
@@ -670,6 +683,7 @@
                 "dataProviderInvalid": "Nie udało się pobrać informacji o dostawcy. Sprawdź adres i spróbuj ponownie",
                 "dataProviderName": "{{dataProviderName}}",
                 "dontShowSpamCheckboxDescr": "Nie pokazuj podejrzanych tokenów",
+                "edit": "Edit",
                 "forDisableClear": "Aby całkowicie go wyłączyć, wyczyść pole.",
                 "matcherAddress": "Adres Matchera",
                 "nodeAddress": "Adres Node",
@@ -703,9 +717,11 @@
                 "backupPhrase": "Kopia zapasowa wyrażenia",
                 "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "Zakodowany SEED",
+                "exportAccount": "Export account",
                 "id": "Account ID",
                 "privateKey": "Klucz prywatny",
                 "publicKey": "Klucz publiczny",
+                "savejson": "Save as JSON file",
                 "script": "Skrypt",
                 "scriptButton": "Ustaw skrypt",
                 "scriptButtonUpdate": "Zaktualizuj skrypt",
@@ -800,7 +816,7 @@
                 "analytics": "Otwierając aplikację Waves chciałbym pomóc ulepszyć platformę Waves, wysyłając programistom anonimowe statystyki użytkowania.",
                 "backup": "Rozumiem, że jeśli aplikacja zostania przeniesiona do innego urządzenia lub usunięta, dostęp do mojego konta WAVES można odzyskać tylko za pomocą kopii zapasowej fraz.",
                 "ok": "Potwierdzam",
-                "privacyPolicy": "Przeczytałem i zgadzam się z [Polityką prywatności](https://wavesplatform.com/files/docs/Waves_privacy_policy.pdf).",
+                "privacyPolicy": "Przeczytałem i zgadzam się z [Polityką prywatności](https://wavesplatform.com/files/docs/Privacy_Policy_SW.pdf).",
                 "read": "Przeczytałem, zrozumiałem i zgadzam się",
                 "readTermsAndConditions": "Przeczytałem, rozumiem i zgadzam się z [Terms and Conditions](https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf)",
                 "security": "Rozumiem, że moje środki są bezpiecznie przechowywane na tym urządzeniu, a nie przez firmę",
@@ -946,12 +962,13 @@
                 "1_3_0": "{span.line}[1. Ulepszona nawigacja aplikacji i interfejs strony startowej.]",
                 "1_3_18": "{span.line} [1. Dodano login do portfela za pomocą klucza prywatnego.] \n {span.line} [2. 24-godzinna zmiana ceny tokena jest teraz powiązana z parą token / WAVES.]",
                 "1_3_19": "{span.line} [1. Uruchomiono bramę Bancor.] \n {span.line} [2. Interfejs menu użytkownika został ulepszony.]",
-                "1_3_2": "{span.line} [1. Uruchomiono bramę (gateway) Vostok.] \n {span.line} [2. Poprawiony interfejs użytkownika i dodatkowo zostały naprawione drobne błędy.]",
+                "1_3_2": "{span.line} [1. Uruchomiono bramę (gateway) VST.] \n {span.line} [2. Poprawiony interfejs użytkownika i dodatkowo zostały naprawione drobne błędy.]",
                 "1_3_20": "{span.line} [1. Ulepszony system przechowywania i przywracania kont z lokalnego magazynu (potrzeba aktualizacji [aplikacji komputerowej] (https://wavesplatform.com/technology/wallet)).] \n {span.line} [2. Naprawiono zaokrąglanie cen w księdze zamówień.]",
                 "1_3_5": "{span.line} [1. Dodano zakładkę z tokenami konkursowymi [wsoc.io] (https://wsoc.io).] \n {span.line} [2. Dodano obsługę języka francuskiego.] \n {span.line} [3. Dodatkowe drobne błędy zostały naprawione.]",
                 "1_3_7": "{span.line} [1. Integracja z [tokenrating.wavesexplorer.com] (https://tokenrating.wavesexplorer.com) Teraz możesz oceniać tokeny bezpośrednio w aplikacji.] \n {span.line} [2. Dodatkowe drobne błędy zostały naprawione.]",
                 "1_3_9": "{span.line} [1. Ulepszony interfejs użytkownika i funkcjonalność sekcji Giełda i Portfel.] \n {span.line} [2. Dodatkowe drobne błędy zostały naprawione.]",
-                "1_4_0": "{span.line}[Added ability for easy switching between  accounts within one wallet.]"
+                "1_4_0": "{span.line}[Added ability for easy switching between accounts within one wallet.]",
+                "1_4_4": "{span.line}[Added ability to backup and restore accounts from the keystore-file]"
             },
             "title": "Co nowego w aktualizacji {{version}}"
         }

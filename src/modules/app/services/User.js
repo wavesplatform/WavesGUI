@@ -4,6 +4,7 @@
 
     const { equals } = require('ramda');
     const { isValidAddress } = require('@waves/signature-adapter');
+    const ds = require('data-service');
 
     /**
      * @param {Storage} storage
@@ -44,50 +45,6 @@
         class User {
 
             /**
-             * @type {Signal<string>} setting path
-             */
-            get changeSetting() {
-                return this._settings.change;
-            }
-
-            get hash() {
-                return this.currentUser ? this.currentUser.hash : null;
-            }
-
-            get address() {
-                return this.currentUser ? this.currentUser.address : null;
-            }
-
-            get name() {
-                return this.currentUser ? this.currentUser.name : null;
-            }
-
-            set name(name) {
-                if (this.currentUser) {
-                    this.currentUser.name = name;
-                }
-            }
-
-            get userType() {
-                return this.currentUser ? this.currentUser.userType : null;
-            }
-
-            get publicKey() {
-                return this.currentUser ? this.currentUser.publicKey : null;
-            }
-
-            get matcherSign() {
-                return this.currentUser ? this.currentUser.matcherSign : null;
-            }
-
-            /**
-             * @type {boolean}
-             */
-            get isAuthorised() {
-                return !!this.address;
-            }
-
-            /**
              * @type {Signal<{}>}
              */
             loginSignal = new tsUtils.Signal();
@@ -102,7 +59,7 @@
             /**
              * @type {ICurrentUser|null}
              */
-            currentUser = null
+            currentUser = null;
             /**
              * @type {Money}
              */
@@ -169,10 +126,52 @@
 
             constructor() {
                 this._resetFields();
-                this._settings = defaultSettings.create();
-                this._settings.change.on(() => this._onChangeSettings());
 
                 Mousetrap.bind(['ctrl+shift+k'], () => this.switchNextTheme());
+            }
+
+            /**
+             * @type {Signal<string>} setting path
+             */
+            get changeSetting() {
+                return this._settings.change;
+            }
+
+            get hash() {
+                return this.currentUser ? this.currentUser.hash : null;
+            }
+
+            get address() {
+                return this.currentUser ? this.currentUser.address : null;
+            }
+
+            get name() {
+                return this.currentUser ? this.currentUser.name : null;
+            }
+
+            set name(name) {
+                if (this.currentUser) {
+                    this.currentUser.name = name;
+                }
+            }
+
+            get userType() {
+                return this.currentUser ? this.currentUser.userType : null;
+            }
+
+            get publicKey() {
+                return this.currentUser ? this.currentUser.publicKey : null;
+            }
+
+            get matcherSign() {
+                return this.currentUser ? this.currentUser.matcherSign : null;
+            }
+
+            /**
+             * @type {boolean}
+             */
+            get isAuthorised() {
+                return !!this.address;
             }
 
             setScam(hash) {
@@ -330,6 +329,10 @@
              * @return {Promise}
              */
             saveMultiAccountUser(user, userHash) {
+                if (user.settings) {
+                    user.settings = { ...user.settings, encryptionRounds: undefined };
+                }
+
                 return storage.load('multiAccountUsers')
                     .then(users => this.saveMultiAccountUsers({
                         ...users,
@@ -421,6 +424,24 @@
                 });
             }
 
+            goToActiveState() {
+                if (!this.initRouteState) {
+                    $state.go(this.getActiveState('wallet'));
+                }
+            }
+
+            /**
+             * @param {string} name
+             * @param {string} params
+             */
+            setInitRouteState(name, params) {
+                if (this.initRouteState) {
+                    return;
+                }
+                this.initRouteState = true;
+                this.loginSignal.once(() => $state.go(name, params));
+            }
+
             /**
              * @param {object} userData
              * @param {string} userData.userType
@@ -435,6 +456,37 @@
              * @return {Promise}
              */
             create(userData, hasBackup, restore) {
+                return this.addUser(userData, hasBackup, restore)
+                    .then(createdUser => this.login(createdUser))
+                    .then(() => {
+                        this.initScriptInfoPolling();
+
+                        if (!restore) {
+                            analytics.send({
+                                name: 'Create Success',
+                                params: {
+                                    hasBackup,
+                                    userType: userData.userType
+                                }
+                            });
+                        }
+                    });
+            }
+
+            /**
+             * @param {object} userData
+             * @param {string} userData.userType
+             * @param {number} userData.networkByte
+             * @param {string} [userData.seed]
+             * @param {string} [userData.privateKey]
+             * @param {string} [userData.publicKey]
+             * @param {string} [userData.id]
+             * @param {string} userData.name
+             * @param {boolean} hasBackup
+             * @param {boolean} restore
+             * @return {Promise}
+             */
+            addUser(userData, hasBackup, restore) {
                 return multiAccount.addUser({
                     userType: userData.userType || 'seed',
                     seed: userData.seed,
@@ -442,40 +494,32 @@
                     privateKey: userData.privateKey,
                     publicKey: userData.publicKey,
                     id: userData.id
-                }).then(({ multiAccountData, multiAccountHash, userHash }) => {
-                    return Promise.all([
-                        this.saveMultiAccountUser({
-                            ...userData,
-                            settings: {
-                                hasBackup
-                            }
-                        }, userHash),
-                        this.saveMultiAccount({ multiAccountData, multiAccountHash })
-                    ]).then(
-                        () => this.getMultiAccountUsers()
-                    ).then(multiAccountUsers => {
-                        const createdUser = multiAccountUsers.find(user => user.hash === userHash);
+                }).then(
+                    ({ multiAccountData, multiAccountHash, userHash }) => this.saveMultiAccountUser({
+                        ...userData,
+                        settings: {
+                            hasBackup
+                        }
+                    }, userHash)
+                        .then(() => this.saveMultiAccount({ multiAccountData, multiAccountHash }))
+                        .then(() => this.getMultiAccountUsers())
+                        .then(multiAccountUsers => {
+                            const createdUser = multiAccountUsers.find(user => user.hash === userHash);
 
-                        this.login(createdUser);
-                    });
-                }).then(() => {
-                    this.initScriptInfoPolling();
-
-                    if (restore) {
-                        analytics.send({
-                            name: 'Import Backup Success',
-                            params: { userType: userData.userType }
-                        });
-                    } else {
-                        analytics.send({
-                            name: 'Create Success',
-                            params: {
-                                hasBackup,
-                                userType: userData.userType
+                            if (!createdUser) {
+                                throw new Error('Can\'t save user');
                             }
-                        });
-                    }
-                });
+
+                            if (restore) {
+                                analytics.send({
+                                    name: 'Import Backup Success',
+                                    params: { userType: userData.userType }
+                                });
+                            }
+
+                            return { ...createdUser };
+                        })
+                );
             }
 
             /**
@@ -685,6 +729,23 @@
                 this._hasScript = false;
                 this._scriptInfoPoll = null;
                 this._scriptInfoPollTimeoutId = null;
+
+                if (this._settings) {
+                    this._settings.change.off();
+                }
+
+                let commonSettings;
+
+                if (this._settings) {
+                    commonSettings = this._settings.getSettings().common;
+
+                    this._settings.change.off();
+                }
+
+                this._settings = defaultSettings.create({}, commonSettings);
+                this._settings.change.on(() => this._onChangeSettings());
+
+                ds.dataManager.dropAddress();
             }
 
             /**
@@ -814,7 +875,7 @@
                 Object.defineProperty(target, key, {
                     get: () => this.__props[key],
                     set: (value) => {
-                        if (value !== this.__props[key]) {
+                        if (!equals(value, this.__props[key])) {
                             this.__props[key] = value;
                             this._onChangePropsForSave();
                         }

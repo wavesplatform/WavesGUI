@@ -293,8 +293,8 @@
                 "warningTitle": "Tolong jangan depositkan ETH dari kontrak pintar! Jangan setor token ERC20! Hanya Ethereum yang diizinkan."
             },
             "wavesGatewayVST": {
-                "helpDescrText": "Setelah transaksi dikonfirmasi, gateway akan memproses transfer Vostok ke token di akun Waves Anda.",
-                "helpDescrTitle": "Masukkan alamat ini ke klien atau dompet Vostok Anda",
+                "helpDescrText": "Setelah transaksi dikonfirmasi, gateway akan memproses transfer VST ke token di akun Waves Anda.",
+                "helpDescrTitle": "Masukkan alamat ini ke klien atau dompet VST Anda",
                 "warningMinAmountTitle": "Jumlah minimum deposit adalah {{minAmount, BigNumber}} {{assetTicker}}, jumlah deposit maksimum adalah {{maxAmount}} {{assetTicker}}"
             }
         },
@@ -353,7 +353,12 @@
             "wavesLiteClientDescription": "Impor akun dari Klien Lite Waves"
         },
         "matcherChoice": {
-            "title": "Choose matcher"
+            "customMatcher": "Custom matcher address",
+            "matcher": "Matcher",
+            "matcherTerms": "I agree to the Super DEX Mather Terms of Use.",
+            "terms": "Terms",
+            "title": "Choose matcher",
+            "wavesTerms": "I am over 18 years old, and I agree to the Waves Terms of Use and Waves Privacy Policy."
         },
         "open-main": {
             "dex": {
@@ -470,7 +475,7 @@
             "shareInvoiceLink": "Bagikan Tautan ke Faktur",
             "verified": "Terverifikasi",
             "vostok": {
-                "serverError": "Layanan Vostok sementara tidak tersedia. Coba lagi nanti."
+                "serverError": "Layanan VST sementara tidak tersedia. Coba lagi nanti."
             },
             "wtry": {
                 "info": "Jika ada masalah dengan proses pembayaran, silakan hubungi tim dukungan Digilira — [support@digilira.com](mailto:support@digilira.com)"
@@ -632,6 +637,13 @@
             "cancel": "Buat sebuah akun",
             "changePass": "Ganti kata sandi",
             "deleteAccount": "Menghapus akun",
+            "exportAccounts": {
+                "accounts": "Accounts",
+                "export": "Export",
+                "selectAll": "Select all",
+                "title": "Please select account",
+                "unselectAll": "Unselect all"
+            },
             "general": {
                 "auto": "Auto",
                 "blockHeight": "Tinggi saat ini",
@@ -649,6 +661,7 @@
                 "title": "Umum",
                 "white": "putih"
             },
+            "helperContent": "You can set a password for exported accounts",
             "info": {
                 "legal": "Hukum",
                 "privacyPolicy": "Kebijakan Privasi",
@@ -670,6 +683,7 @@
                 "dataProviderInvalid": "Gagal mendapatkan informasi penyedia. Silakan periksa alamatnya dan coba lagi",
                 "dataProviderName": "{{dataProviderName}}",
                 "dontShowSpamCheckboxDescr": "Jangan tampilkan token yang mencurigakan",
+                "edit": "Edit",
                 "forDisableClear": "Untuk sepenuhnya menonaktifkannya, kosongkan bidang.",
                 "matcherAddress": "Alamat pencocok",
                 "nodeAddress": "Alamat node",
@@ -703,9 +717,11 @@
                 "backupPhrase": "Frasa cadangan",
                 "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "SEED terenkode",
+                "exportAccount": "Export account",
                 "id": "Account ID",
                 "privateKey": "Kunci pribadi",
                 "publicKey": "Kunci Publik",
+                "savejson": "Save as JSON file",
                 "script": "Skrip",
                 "scriptButton": "Setel Skrip",
                 "scriptButtonUpdate": "Perbarui Script",
@@ -800,7 +816,7 @@
                 "analytics": "Saya ingin membantu meningkatkan platform Waves dengan mengirimkan statistik penggunaan anonim ke para pengembang.",
                 "backup": "Saya memahami bahwa jika aplikasi ini dipindahkan ke perangkat lain atau dihapus, Waves saya hanya dapat dipulihkan dengan frasa cadangan.",
                 "ok": "Konfirmasi dan Mulai",
-                "privacyPolicy": "Saya telah membaca dan menyetujui [Kebijakan Privasi] (https://wavesplatform.com/files/docs/Waves_privacy_policy.pdf).",
+                "privacyPolicy": "Saya telah membaca dan menyetujui [Kebijakan Privasi] (https://wavesplatform.com/files/docs/Privacy_Policy_SW.pdf).",
                 "read": "Saya telah membaca, memahami dan menyetujui",
                 "readTermsAndConditions": "Saya telah membaca dan menyetujui [Syarat dan Ketentuan] (https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf)",
                 "security": "Saya memahami bahwa dana saya disimpan dengan aman di perangkat ini, bukan oleh perusahaan",
@@ -946,12 +962,13 @@
                 "1_3_0": "{span.line} [1. Navigasi aplikasi yang ditingkatkan dan antarmuka halaman mulai.]",
                 "1_3_18": "{span.line} [1. Menambahkan login ke dompet menggunakan kunci pribadi.] \n{span.line} [2. Perubahan harga 24 jam dari token sekarang terikat ke pasangan token/WAVES.]",
                 "1_3_19": "{span.line} [1. Gerbang Bancor telah diluncurkan.] \n {span.line} [2. Antarmuka menu pengguna telah ditingkatkan.]",
-                "1_3_2": "{span.line} [1. Gateway Vostok telah diluncurkan.] \n{span.line} [2. UI yang diperbaiki dan bug minor tambahan telah diperbaiki.]",
+                "1_3_2": "{span.line} [1. Gateway VST telah diluncurkan.] \n{span.line} [2. UI yang diperbaiki dan bug minor tambahan telah diperbaiki.]",
                 "1_3_20": "{span.line}[1. Improved system for storing and restoring accounts from local storage (Need to update the [desktop application](https://wavesplatform.com/technology/wallet)).]\n{span.line}[2. Fixed rounding of prices in the orderbook.]",
                 "1_3_5": "{span.line} [1. Tab dengan token kontes [wsoc.io] (https://wsoc.io) telah ditambahkan.] \n {span.line} [2. Dukungan bahasa Perancis ditambahkan.] \n {span.line} [3. Bug minor tambahan telah diperbaiki.]",
                 "1_3_7": "{span.line}[1. Integrasi dengan [tokenrating.wavesexplorer.com] (https://tokenrating.wavesexplorer.com) Sekarang Anda dapat menilai token langsung di app.] \n {span.line}[2. Bug minor tambahan telah diperbaiki.]",
                 "1_3_9": "{span.line}[1. UI dan fungsionalitas yang lebih baik dari bagian Exchange dan Dompet.] \n {span.line}[2. Bug minor tambahan telah diperbaiki.]",
-                "1_4_0": "{span.line}[Added ability for easy switching between  accounts within one wallet.]"
+                "1_4_0": "{span.line}[Added ability for easy switching between accounts within one wallet.]",
+                "1_4_4": "{span.line}[Added ability to backup and restore accounts from the keystore-file]"
             },
             "title": "Apa yang baru di pembaruan ini {{version}}"
         }

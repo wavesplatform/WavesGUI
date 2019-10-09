@@ -131,12 +131,16 @@
                 this._activeWrite = Promise.resolve();
                 const version = navigator.userAgent.replace(/.*?waves-(client|dex)\/(\d+\.\d+\.\d+).*/g, '$2');
 
-                if (version && migration.lte(version, '1.4.0')) {
+                if (WavesApp.isDesktop() && version && migration.lte(version, '1.4.0')) {
                     setTimeout(() => {
-                        $injector.get('notification').error({
-                            title: { literal: 'error.updateClient.title' },
-                            body: { literal: 'error.updateClient.body' }
-                        }, -1);
+                        $('.ui-view.ui-view_main').hide();
+                        const showError = () => {
+                            $injector.get('notification').error({
+                                title: { literal: 'error.updateClient.title' },
+                                body: { literal: 'error.updateClient.body' }
+                            }, -1).then(showError);
+                        };
+                        showError();
                     }, 2000);
                     this._activeWrite = $q.defer();
                     return this;

@@ -66,7 +66,7 @@
         [WavesApp.defaultAssets.BSV]: '/img/assets/bitcoin-cash-sv.svg',
         [WavesApp.defaultAssets.TRY]: '/img/assets/try.svg',
         [WavesApp.defaultAssets.XMR]: '/img/assets/xmr.svg',
-        [WavesApp.defaultAssets.VST]: '/img/assets/vostok.svg',
+        [WavesApp.defaultAssets.VST]: '/img/assets/vst.svg',
         [WavesApp.defaultAssets.ERGO]: '/img/assets/ergo.svg',
         [WavesApp.defaultAssets.BNT]: '/img/assets/bnt.svg',
         [WavesApp.otherAssetsWithIcons.EFYT]: '/img/assets/efyt.svg',
@@ -1952,8 +1952,28 @@
                 const lockedAssetsIndDex = configService.get('SETTINGS.DEX.LOCKED_PAIRS') || [];
 
                 return lockedAssetsIndDex.includes(assetId1) || lockedAssetsIndDex.includes(assetId2);
+            },
+
+            /**
+             * @name app.utils#downloadFile
+             * @param {string} filename
+             * @param {string} text
+             */
+            downloadFile(filename, text) {
+                const pom = document.createElement('a');
+                pom.setAttribute('href', `data:text/plain;charset=utf-8,${encodeURIComponent(text)}`);
+                pom.setAttribute('download', filename);
+
+                if (document.createEvent) {
+                    const event = document.createEvent('MouseEvents');
+                    event.initEvent('click', true, true);
+                    pom.dispatchEvent(event);
+                } else {
+                    pom.click();
+                }
             }
         };
+
 
         /**
          * @param {api.ITransferTransaction<string>} tx

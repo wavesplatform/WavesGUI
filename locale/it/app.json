@@ -37,8 +37,8 @@
     },
     "error": {
         "updateClient": {
-            "body": "We are constantly working to make Waves DEX better and more useful.\nPlease update the application to continue.  Download the application from the official [website](https://dex.wavesplatform.com/)!",
-            "title": "It's time to update your app!"
+            "body": "Lavoriamo costantemente per rendere il Waves DEX migliore e più utile. Aggiorna la tua app per continuare. Scarica l'applicazione dal [sito ufficiale](https://wavesplatform.com/technology/wallet)!",
+            "title": "E' ora di aggiornare la tua app!"
         }
     },
     "EXK2jJo1PbL9CUNr5FSedw6cueZH5MUCDXNhR1WQEZa4": {
