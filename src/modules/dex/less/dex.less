@@ -10,7 +10,11 @@ body.dex-demo {
   color: @color-basic-900;
 
   .main-content {
-    min-height: 500px;
+    min-height: 520px;
+
+    @media screen and (max-width: 720px) {
+      min-height: 500px;
+    }
 
     .content {
       max-width: 100%;
