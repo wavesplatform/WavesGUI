@@ -13,7 +13,7 @@
   "bankRecipient": "3MgT3txVhjUBy8xXBYSbBSezoJNTr1naHhp",
   "node": "https://nodes-stagenet.wavesnodes.com",
   "matcher": "https://matcher-stagenet.wavesplatform.com/matcher",
-  "api": "https://api-stagenet.wavesplatform.com/v0",
+  "api": "https://api-stagenet.wavesplatform.com",
   "explorer": "https://stagenet.wavesexplorer.com/",
   "coinomat": "https://localhost:8080/coinomat",
   "wavesGateway": "https://gw-stagenet.wavesplatform.com/",

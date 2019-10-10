@@ -286,9 +286,15 @@
                 "warningText": "Bu adrese başka bir kripto para gönderimi kayıpla sonuçlanabilir.",
                 "warningTitle": "Bu adrese ERGO dışında bir kripto para göndermeyin"
             },
+            "wavesGatewayETH": {
+                "warningMinAmountText": "If you will send less than {{minAmount, BigNumber}} {{assetTicker}}, you will lose that money.",
+                "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}, the maximum amount of deposit is {{maxAmount}} {{assetTicker}}",
+                "warningText": "Cüzdanınızın veya Kripto para borsasının ETH çekimlerinde akıllı kontrat kullanıp kullanmadığını kontrol edin. Akıllı kontratlar tarafından gelen transferleri kabul edemiyoruz. Paranızı kaybedersiniz.",
+                "warningTitle": "ETH akıllı kontratlarından yatırma işlemi yapmayınız. ERC20 tokenleri yatırmayınız! Sadece Ethereum transferleri kabul edilir."
+            },
             "wavesGatewayVST": {
-                "helpDescrText": "İşlem onaylandıktan sonra Vostoklar Waves adresinize geçit tarafından gönderilir.",
-                "helpDescrTitle": "Bu adresi Vostok cüzdanına ya da uygulamasına giriniz.",
+                "helpDescrText": "İşlem onaylandıktan sonra VSTlar Waves adresinize geçit tarafından gönderilir.",
+                "helpDescrTitle": "Bu adresi VST cüzdanına ya da uygulamasına giriniz.",
                 "warningMinAmountTitle": "Minimum yatırma tutarı {{minAmount, BigNumber}} {{assetTicker}}'dir. Maksimum yatırma tutarı ise {{maxAmount}} {{assetTicker}}'dir."
             }
         },
@@ -345,6 +351,14 @@
             "wavesBetaClientDescription": "Hesapları Waves Beta Client'ten aktar",
             "wavesLiteClient": "Waves Lite Client",
             "wavesLiteClientDescription": "Hesapları Waves Lite Client'ten aktar"
+        },
+        "matcherChoice": {
+            "customMatcher": "Custom matcher address",
+            "matcher": "Matcher",
+            "matcherTerms": "I agree to the Super DEX Mather Terms of Use.",
+            "terms": "Terms",
+            "title": "Choose matcher",
+            "wavesTerms": "I am over 18 years old, and I agree to the Waves Terms of Use and Waves Privacy Policy."
         },
         "open-main": {
             "dex": {
@@ -461,7 +475,7 @@
             "shareInvoiceLink": "Faturanın bir kopyasını paylaş",
             "verified": "Doğrulandı",
             "vostok": {
-                "serverError": "Vostok geçici olarak hizmet dışıdır. Daha sonra tekrar deneyiniz."
+                "serverError": "VST geçici olarak hizmet dışıdır. Daha sonra tekrar deneyiniz."
             },
             "wtry": {
                 "info": "Ödemeler konusunda herhangi bir problem yaşarsanız — [destek@digilira.com](mailto:destek@digilira.com) 'a e-posta gönderebilirsiniz."
@@ -539,6 +553,11 @@
             "gateway": {
                 "feeExplanation": "{{assetName}} adresi tespit ettik ve bu adrese geçit tarafından transfer gerçekleştirilecektir. Gönderilecek minimum miktar {{min, BigNumber}} {{assetTicker}}. Maksimum miktar ise {{max, BigNumber}} {{assetTicker}} 'dır."
             },
+            "gatewayTerms": {
+                "accept": "Accept and Continue",
+                "text": "By using Gateway service, you agree to be bound by [Gateway Terms of Service](https://dex.wavesplatform.com/) and [Conduction of Transactions](https://dex.wavesplatform.com/). If you do not agree to these terms, then do not use this Gateway service.",
+                "title": "Gateway service agreement"
+            },
             "icoWarning": "Do not withdraw {{assetName}} to an ICO. We will not credit your account with tokens from that sale.",
             "idNumber": {
                 "helpIcon": {
@@ -590,7 +609,8 @@
             "validationError": {
                 "notEnoughFunds": "Gerekli olan komisyon için yeterli bakiyeniz bulunmamaktadır. İşlem için {{fee, money-currency}} ödemeniz gerekmektedir.",
                 "notEnoughFundsWithdraw": "Gerekli olan komisyon için yeterli bakiyeniz bulunmamaktadır. İşlem için {{fee, money-currency}} {{getawayFee, BigNumber}} {{currency}} ödemeniz ve geçit için {{minGatewayAmount, BigNumber}} {{currency}} komisyon ödemeniz gerekmektedir."
-            }
+            },
+            "withdrawTitle": "Withdraw"
         },
         "sepa": {
             "countryList": "Uygun ülkelerin ve geçerli kimliklerin listesi",
@@ -617,6 +637,13 @@
             "cancel": "Hesap oluştur",
             "changePass": "Change password",
             "deleteAccount": "Remove account",
+            "exportAccounts": {
+                "accounts": "Accounts",
+                "export": "Export",
+                "selectAll": "Select all",
+                "title": "Please select account",
+                "unselectAll": "Unselect all"
+            },
             "general": {
                 "auto": "Otomatik",
                 "blockHeight": "Şu anki blok",
@@ -634,6 +661,7 @@
                 "title": "Genel",
                 "white": "Beyaz"
             },
+            "helperContent": "You can set a password for exported accounts",
             "info": {
                 "legal": "Yasal",
                 "privacyPolicy": "Gizlilik Politikası",
@@ -655,6 +683,7 @@
                 "dataProviderInvalid": "Sağlayıcı bilgisine ulaşılamadı. Lütfen adresi kontrol edin ve tekrar deneyin.",
                 "dataProviderName": "{{dataProviderName}}",
                 "dontShowSpamCheckboxDescr": "Şüheli tokenleri gösterme",
+                "edit": "Edit",
                 "forDisableClear": "Tamamen devre dışı bırakmak için alanı temizleyin.",
                 "matcherAddress": "Eşleştirici adresi",
                 "nodeAddress": "Tam düğüm adresi",
@@ -688,8 +717,11 @@
                 "backupPhrase": "Anahtar (Yedek) kelimeler",
                 "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "Encoded Anahtar kelimeler",
+                "exportAccount": "Export account to file",
+                "id": "Account ID",
                 "privateKey": "Özel Anahtar",
                 "publicKey": "Açık Anahtar",
+                "savejson": "Save as JSON file",
                 "script": "Script",
                 "scriptButton": "Script ayarla",
                 "scriptButtonUpdate": "Script'i güncelle",
@@ -744,6 +776,7 @@
             "signErrorText": "Talebi Ledger Nano S'i kullanarak doğrulamadın",
             "signErrorTextImportKeeper": "Waves Keeper'a  {{address}} adresinizle giriş yapın, ve devam etmek için sayfayı yenileyin.",
             "signErrorTextKeeper": "Lütfen tekrar deneyin. Eğer hatalar devam ederse [destek](https://support.wavesplatform.com/) ile iletişime geçin",
+            "signErrorTextKeeperWrongUser": "This account does not match the selected account in your Waves Keeper. Please activate another account in Waves Keeper and try again.",
             "timestamp": "Timestamp",
             "txId": "TXID"
         },
@@ -783,7 +816,7 @@
                 "analytics": "Waves Platform'un gelişimine katkı sağlamak adına kullanım istatistiklerimin anonim olarak geliştiriciler ile paylaşılmasına onay veriyorum",
                 "backup": "Eğer uygulamayı başka bir cihaza taşımam gerekirse veya uygulama silinirse cüzdanıma erişmemin tek yolunun Anahtar (yedek) kelimeler olduğunu ve başka hiç bir şekilde erişemeyeceğimi biliyorum.",
                 "ok": "Onayla ve Başla",
-                "privacyPolicy": "[Gizlilik politikası](https://wavesplatform.com/files/docs/Waves_privacy_policy.pdf)'nı okudum ve anladım.",
+                "privacyPolicy": "[Gizlilik politikası](https://wavesplatform.com/files/docs/Privacy_Policy_SW.pdf)'nı okudum ve anladım.",
                 "read": "Okudum, anladım ve onaylıyorum",
                 "readTermsAndConditions": "[Koşullar ve Şartlar](https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf)'ı okudum ve anladım.",
                 "security": "Kripto varlıklarımın herhangi bir şirket tarafından saklanmadığını ve bu cihazda güvenle benim tarafımdan saklandığını anladım.",
@@ -929,12 +962,13 @@
                 "1_3_0": "{span.line}[1. Açılış sayfası güncellendi ve sayfalar arası dolaşım geliştirildi.]",
                 "1_3_18": "{span.line}[1. Özel anahtar ile giriş eklendi]\n{span.line}[2. Bir token'in 24 saatlik değişimi token/WAVES olarak ayarlandı.]",
                 "1_3_19": "{span.line}[1. Bancor gateway has been launched.]\n{span.line}[2. User menu interface has been improved.]",
-                "1_3_2": "{span.line}[1. Vostok geçidi faaliyete alındı.]\n{span.line}[2. Görsel tasarım geliştirildi ve ufak hatalar giderildi.]",
+                "1_3_2": "{span.line}[1. VST geçidi faaliyete alındı.]\n{span.line}[2. Görsel tasarım geliştirildi ve ufak hatalar giderildi.]",
                 "1_3_20": "{span.line}[1. Improved system for storing and restoring accounts from local storage (Need to update the [desktop application](https://wavesplatform.com/technology/wallet)).]\n{span.line}[2. Fixed rounding of prices in the orderbook.]",
                 "1_3_5": "{span.line}[1. [wsoc.io](https://wsoc.io) Yarışma kripto paraları eklendi.]\n{span.line}[2. Fransızca desteği eklendi.]\n{span.line}[3. Ufak hatalar giderildi.]",
                 "1_3_7": "{span.line}[1. [tokenrating.wavesexplorer.com] entegrasyonu (https://tokenrating.wavesexplorer.com) Artık uygulamadan kripto paralar için derecelendirme puanı verebilirsiniz.]\n{span.line}[2. Ufak hatalar giderildi.]",
                 "1_3_9": "{span.line}[1. Görsel tasarım iyileştirildi. Borsa ve cüzdan geliştirmeleri yapıldı.]\n{span.line}[2. Ufak hatalar giderildi.]",
-                "1_4_0": "{span.line}[Added ability for easy switching between  accounts within one wallet.]"
+                "1_4_0": "{span.line}[Added ability for easy switching between accounts within one wallet.]",
+                "1_4_4": "{span.line}[Added ability to backup and restore accounts from the keystore-file]"
             },
             "title": "Güncelleme ile birlikte gelen yenilikler {{version}}"
         }

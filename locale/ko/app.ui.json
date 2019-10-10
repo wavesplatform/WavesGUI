@@ -100,6 +100,7 @@
             "confirmRequestKeeper": {
                 "cancel": "취소",
                 "errorDescription": "다시 시도하세요. 오류가 지속되면 [서포트](https://support.wavesplatform.com)에 티켓을 제출하세요.",
+                "errorDescriptionSwitchUser": "This account does not match the selected account in your Waves Keeper. Please activate another account in Waves Keeper and try again.",
                 "errorHeader": "Waves Keeper 사용 요청을 승인하지 않았습니다",
                 "sign": "재시도",
                 "waiting": "Waves Keeper의 승인을 기다리는 중입니다..."
@@ -126,6 +127,7 @@
     "errorBlocks": {
         "title": "문제가 발생했습니다…"
     },
+    "importSuccess": "Account Importing from the Keystore File was successful",
     "modal": {
         "assetInfo": {
             "gateway_ui": "게이트웨이"

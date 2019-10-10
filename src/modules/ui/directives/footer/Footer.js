@@ -49,8 +49,9 @@
                 this.lang = localStorage.getItem('lng') === 'ru' ? 'Ru' : 'Global';
 
                 storage.load(this._toasterMobilesStorageKey).then(wasHidden => {
-                    this.isToasterMobilesVisible = !wasHidden;
-                    if (!wasHidden) {
+                    this.isToasterMobilesVisible = !wasHidden && window.innerWidth <= 768;
+
+                    if (this.isToasterMobilesVisible) {
                         analytics.send({
                             name: 'Download Mobile Display',
                             target: 'all'

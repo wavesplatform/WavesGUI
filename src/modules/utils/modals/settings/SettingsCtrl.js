@@ -2,10 +2,9 @@
     'use strict';
 
     const ds = require('data-service');
+    const { libs } = require('@waves/waves-transactions');
     const { path } = require('ramda');
     const analytics = require('@waves/event-sender');
-    const { libs } = require('@waves/waves-transactions');
-    const { base58Encode, stringToBytes } = libs.crypto;
 
     /**
      * @param Base
@@ -52,12 +51,15 @@
                 analytics.send({ name: `Settings Advanced Features ${mode ? 'On' : 'Off'}`, target: 'ui' });
                 user.setSetting('advancedMode', mode);
             }
+
+            allowParing = true;
             encodedSeed = '';
             shownEncodedSeed = false;
             oracleWaves = '';
             tab = 'general';
             address = user.address;
             publicKey = user.publicKey;
+            id = user.id;
             shownSeed = false;
             shownKey = false;
             node = '';
@@ -212,15 +214,29 @@
                     }
                 };
 
+                const api = ds.signature.getSignatureApi();
+
                 Promise.all([
-                    catchProcessor(() => ds.signature.getSignatureApi().getSeed()),
-                    catchProcessor(() => ds.signature.getSignatureApi().getPrivateKey()),
-                    ds.signature.getSignatureApi().getPublicKey()
-                ]).then(([seed, privateKey, publicKey]) => {
-                    this.phrase = seed;
-                    this.encodedSeed = typeof seed === 'string' ? base58Encode(stringToBytes(seed)) : null;
+                    catchProcessor(() => api.getSeed()),
+                    catchProcessor(() => api.getPrivateKey()),
+                    catchProcessor(() => api.getPublicKey()),
+                    catchProcessor(() => api.getEncodedSeed())
+                ]).then(([seed, privateKey, publicKey, encodedSeed]) => {
+
+                    let canSeed = encodedSeed && seed && typeof seed === 'string';
+
+                    try {
+                        canSeed = canSeed && libs.crypto.stringToBytes(seed)
+                            .join(',') === libs.crypto.base58Decode(encodedSeed).join(',');
+                    } catch (e) {
+                        canSeed = false;
+                    }
+
+                    this.phrase = canSeed ? seed : null;
+                    this.encodedSeed = encodedSeed;
                     this.privateKey = privateKey;
                     this.publicKey = publicKey;
+                    this.allowParing = canSeed;
                     $scope.$digest();
                 });
             }
@@ -238,6 +254,10 @@
                 this.tokensNameListUrl = WavesApp.network.tokensNameListUrl;
                 this.oracleWaves = WavesApp.oracles.waves;
                 this.api = WavesApp.network.api;
+            }
+
+            showExportAccountModal() {
+                return modalManager.showExportAccount();
             }
 
             showPairingWithMobile() {

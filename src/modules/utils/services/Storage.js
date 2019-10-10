@@ -9,8 +9,10 @@
      * @param {storageSelect} storageSelect
      * @param {DefaultSettings} defaultSettings
      * @param {StorageDataConverter} storageDataConverter
+     * @param {$injector} $injector
      */
-    const factory = function ($q, utils, migration, state, storageSelect, defaultSettings, storageDataConverter) {
+    const factory = function ($q, utils, migration, state, storageSelect, defaultSettings, storageDataConverter,
+                              $injector) {
 
         const usedStorage = storageSelect();
 
@@ -50,7 +52,7 @@
                     }
                 });
 
-                return storage.save('userList', users);
+                return storage.save('userList', users || []);
             });
         }
 
@@ -125,9 +127,28 @@
             constructor() {
                 usedStorage.init();
                 this._isNewDefer = $q.defer();
+                this._canWrite = $q.defer();
+                this._activeWrite = Promise.resolve();
+                const version = navigator.userAgent.replace(/.*?waves-(client|dex)\/(\d+\.\d+\.\d+).*/g, '$2');
+
+                if (WavesApp.isDesktop() && version && migration.lte(version, '1.4.0')) {
+                    setTimeout(() => {
+                        $('.ui-view.ui-view_main').hide();
+                        const showError = () => {
+                            $injector.get('notification').error({
+                                title: { literal: 'error.updateClient.title' },
+                                body: { literal: 'error.updateClient.body' }
+                            }, -1).then(showError);
+                        };
+                        showError();
+                    }, 2000);
+                    this._activeWrite = $q.defer();
+                    return this;
+                }
 
                 this.load('lastVersion')
                     .then((version) => {
+                        this._canWrite.resolve();
                         this.save('lastVersion', WavesApp.version);
                         state.lastOpenVersion = version;
 
@@ -149,7 +170,10 @@
             }
 
             save(key, value) {
-                return utils.when(usedStorage.write(key, value));
+                return this._canWrite.promise.then(() => {
+                    this._activeWrite = this._activeWrite.then(() => utils.when(usedStorage.write(key, value)));
+                    return this._activeWrite;
+                });
             }
 
             load(key) {
@@ -157,7 +181,7 @@
             }
 
             clear() {
-                return utils.when(usedStorage.clear());
+                return this._canWrite.promise.then(() => utils.when(usedStorage.clear()));
             }
 
         }
@@ -165,7 +189,11 @@
         return new Storage();
     };
 
-    factory.$inject = ['$q', 'utils', 'migration', 'state', 'storageSelect', 'defaultSettings', 'storageDataConverter'];
+    factory.$inject = [
+        '$q', 'utils', 'migration',
+        'state', 'storageSelect', 'defaultSettings',
+        'storageDataConverter', '$injector'
+    ];
 
     angular.module('app.utils')
         .factory('storage', factory);

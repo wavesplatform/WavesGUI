@@ -189,9 +189,9 @@
             "headerSell": "Цена в вашем ордере на {{orderLimit}}% ниже рыночной цены"
         },
         "createOrder": {
-            "cancel": "Create an account",
-            "message": "To begin trading please sign in or create an account",
-            "ok": "Sign in"
+            "cancel": "Создать аккаунт",
+            "message": "Для того, чтобы начать торговлю, создайте новый аккаунт или войдите в созданный ранее",
+            "ok": "Войти"
         },
         "deleteAccount": {
             "cancel": "Отмена",
@@ -286,9 +286,15 @@
                 "warningText": "Отправка любой другой валюты на этот адрес может повлечь за собой потерю средств.",
                 "warningTitle": "Отправляйте только ERGO на этот адрес"
             },
+            "wavesGatewayETH": {
+                "warningMinAmountText": "Если вы отправите меньше чем {{minAmount, BigNumber}} {{assetTicker}}, вы потеряете деньги.",
+                "warningMinAmountTitle": "Минимальная сумма депозита {{minAmount, BigNumber}} {{assetTicker}}, максимальная сумма депозита {{maxAmount}} {{assetTicker}}",
+                "warningText": "Проверьте, не использует ли ваш кошелёк или биржа смарт-контракты для отправки ETH. Мы не принимаем такие переводы и не можем возместить их. Вы потеряете эти деньги.",
+                "warningTitle": "Не отправляйте ETH со смарт-контрактов! Не отправляйте ERC20-токены! Только Ethereum."
+            },
             "wavesGatewayVST": {
-                "helpDescrText": "Как только транзакция будет подтверждена, шлюз отправит Vostok-токен на ваш аккаунт Waves.",
-                "helpDescrTitle": "Введите этот адрес в ваш Vostok клиент или кошелёк.",
+                "helpDescrText": "Как только транзакция будет подтверждена, шлюз отправит VST-токен на ваш аккаунт Waves.",
+                "helpDescrTitle": "Введите этот адрес в ваш VST клиент или кошелёк.",
                 "warningMinAmountTitle": "Минимальная сумма депозита {{minAmount, BigNumber}} {{assetTicker}}, максимальная сумма депозита {{maxAmount}} {{assetTicker}}"
             }
         },
@@ -346,10 +352,18 @@
             "wavesLiteClient": "Waves Lite Client",
             "wavesLiteClientDescription": "Импорт аккаунтов из Waves Lite Client"
         },
+        "matcherChoice": {
+            "customMatcher": "Custom matcher address",
+            "matcher": "Matcher",
+            "matcherTerms": "I agree to the Super DEX Mather Terms of Use.",
+            "terms": "Terms",
+            "title": "Choose matcher",
+            "wavesTerms": "I am over 18 years old, and I agree to the Waves Terms of Use and Waves Privacy Policy."
+        },
         "open-main": {
             "dex": {
                 "cancel": "Create an account",
-                "message": "To begin trading please sign in or create an account",
+                "message": "Для того, чтобы начать торговлю, создайте новый аккаунт или войдите в созданный ранее",
                 "ok": "Sign in"
             },
             "tokens": {
@@ -438,7 +452,7 @@
             "errors": {
                 "required": "Это обязательное поле"
             },
-            "gatewayError": "Сервис Gateway временно недоступен. Попробуйте, пожалуйста, позже.",
+            "gatewayError": "Сервис Gateway временно недоступен. Пожалуйста, попробуйте позже.",
             "invoice": {
                 "title": "Инвойс"
             },
@@ -461,7 +475,7 @@
             "shareInvoiceLink": "Ссылка на выставленный счет",
             "verified": "Проверенный",
             "vostok": {
-                "serverError": "Сервис Vostok временно недоступен. Попробуйте, пожалуйста, позже."
+                "serverError": "Сервис VST временно недоступен. Попробуйте, пожалуйста, позже."
             },
             "wtry": {
                 "info": "Если у вас возникнут проблемы с процессингом, пожалуйста, обратитесь в службу поддержки Digilira — [support@digilira.com](mailto:support@digilira.com)"
@@ -539,6 +553,11 @@
             "gateway": {
                 "feeExplanation": "Введенный адрес определен как {{assetName}}-адрес, ваши средства будут отправлены на него через шлюз. Минимальная сумма перевода — {{min, BigNumber}} {{assetTicker}}, максимальная — {{max, BigNumber}} {{assetTicker}}."
             },
+            "gatewayTerms": {
+                "accept": "Accept and Continue",
+                "text": "By using Gateway service, you agree to be bound by [Gateway Terms of Service](https://dex.wavesplatform.com/) and [Conduction of Transactions](https://dex.wavesplatform.com/). If you do not agree to these terms, then do not use this Gateway service.",
+                "title": "Gateway service agreement"
+            },
             "icoWarning": "Не выводите {{assetName}} на адреса ICO, так как мы не зачислим вам токены полученные после окончания распродажи.",
             "idNumber": {
                 "helpIcon": {
@@ -590,7 +609,8 @@
             "validationError": {
                 "notEnoughFunds": "У вас недостаточно средств для оплаты комиссии. Вам необходимо оплатить комиссию за транзакцию {{fee, money-currency}}.",
                 "notEnoughFundsWithdraw": "У вас недостаточно средств для отправки транзакции. Вам необходимо оплатить комиссию за транзакцию {{fee, money-currency}} и комиссию шлюза {{getawayFee, BigNumber}} {{currency}}. Минимальная сумма для отправки составляет {{minGatewayAmount, BigNumber}} {{currency}}."
-            }
+            },
+            "withdrawTitle": "Вывод"
         },
         "sepa": {
             "countryList": "Список допустимых стран и ID",
@@ -617,6 +637,13 @@
             "cancel": "Create an account",
             "changePass": "Изменить пароль",
             "deleteAccount": "Удалить аккаунт",
+            "exportAccounts": {
+                "accounts": "Аккаунты",
+                "export": "Экспортировать",
+                "selectAll": "Выбрать все",
+                "title": "Пожалуйста, выберите аккаунт",
+                "unselectAll": "Отменить все"
+            },
             "general": {
                 "auto": "Авто",
                 "blockHeight": "Текущая высота",
@@ -634,6 +661,7 @@
                 "title": "Основные",
                 "white": "Белая"
             },
+            "helperContent": "Вы можете установить пароль для экспортируемых учетных записей",
             "info": {
                 "legal": "Legal",
                 "privacyPolicy": "Политика конфиденциальности",
@@ -655,6 +683,7 @@
                 "dataProviderInvalid": "Невозможно получить информацию о провайдере. Проверьте корректность адреса и попробуйте ещё раз",
                 "dataProviderName": "{{dataProviderName}}",
                 "dontShowSpamCheckboxDescr": "Не показывать подозрительные токены",
+                "edit": "Изменить",
                 "forDisableClear": "Если хотите его полностью отключить, очистите поле.",
                 "matcherAddress": "Адрес матчера",
                 "nodeAddress": "Адрес ноды",
@@ -666,7 +695,7 @@
             },
             "ok": "Sign in",
             "pairing": {
-                "devicePairing": "Экспортировать аккаунт",
+                "devicePairing": "Экспорт аккаунта в приложение",
                 "header": "Отсканируйте QR-код",
                 "showCodeLink": "Показать QR-код",
                 "unavailable": {
@@ -688,8 +717,11 @@
                 "backupPhrase": "Секретная фраза",
                 "base58Seed": "Закодированная секретная фраза",
                 "encodedSeed": "Зашифрованная секретная фраза",
+                "exportAccount": "Экспорт аккаунта в файл",
+                "id": "ID аккаунта",
                 "privateKey": "Приватный ключ",
                 "publicKey": "Публичный ключ",
+                "savejson": "Сохранить как файл JSON",
                 "script": "Скрипт",
                 "scriptButton": "Установить скрипт",
                 "scriptButtonUpdate": "Обновить скрипт",
@@ -744,6 +776,7 @@
             "signErrorText": "Вы не подтвердили запрос на устройстве Ledger",
             "signErrorTextImportKeeper": "Войдите в Waves Keeper с адресом {{address}}, а затем обновите страницу, чтобы продолжить.",
             "signErrorTextKeeper": "Пожалуйста, попробуйте еще раз. Если ошибка повториться, напишите в [Поддержку](https://support.wavesplatform.com/)",
+            "signErrorTextKeeperWrongUser": "Этот аккаунт не совпадает с выбранным аккаунтом в Waves Keeper. Пожалуйста, активируйте подходящий аккаунт в Waves Keeper и попробуйте снова.",
             "timestamp": "Timestamp",
             "txId": "TXID"
         },
@@ -783,7 +816,7 @@
                 "analytics": "Я хочу помочь развивать Waves, отправляя анонимную статистику разработчикам",
                 "backup": "Я понимаю, что если это приложение установлено на другом устройстве или удалено, то я получу доступ к своим средствам только с помощью секретной фразы",
                 "ok": "Подтвердить и начать",
-                "privacyPolicy": "Я прочел и согласен с [Privacy Policy](https://wavesplatform.com/files/docs/Waves_privacy_policy.pdf).",
+                "privacyPolicy": "Я прочел и согласен с [Privacy Policy](https://wavesplatform.com/files/docs/Privacy_Policy_SW.pdf).",
                 "read": "Я прочитал, понял и согласен с",
                 "readTermsAndConditions": "Я прочел и согласен с [Terms and Conditions](https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf).",
                 "security": "Я понимаю, что мои средства хранятся на этом устройстве, а не у компании",
@@ -929,12 +962,13 @@
                 "1_3_0": "{span.line}[1. Улучшена навигация приложения и интерфейс стартовых страниц.]",
                 "1_3_18": "{span.line}[1. Добавлен импорт из приватного ключа.]\n{span.line}[2. Изменение цены токена теперь считается по паре с WAVES.]",
                 "1_3_19": "{span.line}[1. Запущен шлюз Bancor]\n{span.line}[2. Улучшен интерфейс меню пользователя.]",
-                "1_3_2": "{span.line}[1. Запущен шлюз Vostok.]\n{span.line}[2. Улучшен UI и исправлено несколько багов.]",
+                "1_3_2": "{span.line}[1. Запущен шлюз VST.]\n{span.line}[2. Улучшен UI и исправлено несколько багов.]",
                 "1_3_20": "{span.line}[1. Улучшена система хранения и восстановления аккаунтов из локального хранилища (Необходимо обновить [desktop-приложение](https://wavesplatform.com/technology/wallet))]\n{span.line}[2. Исправлено округление цен в ордербуке]",
                 "1_3_5": "{span.line}[1. Добавлена вкладка с токенами конкурса [wsoc.io](https://wsoc.io)]\n{span.line}[2. Добавлена поддержка франзуского языка]\n{span.line}[3. Исправлены мелкие ошибки]",
                 "1_3_7": "{span.line}[1. Интеграция с [tokenrating.wavesexplorer.com](https://tokenrating.wavesexplorer.com) Теперь вы можете голосовать за токены прямо в приложении]\n{span.line}[2. Исправлены мелкие ошибки]",
                 "1_3_9": "{span.line}[1. Улучшен UI и функциональность разделов Биржа и Кошелек.]\n{span.line}[2. Исправлены мелкие ошибки.]",
-                "1_4_0": "{span.line}[Добавлена возможность легкого переключения между аккаунтами]"
+                "1_4_0": "{span.line}[Добавлена возможность легкого переключения между аккаунтами]",
+                "1_4_4": "{span.line}[Добавлена возможность сохранять и загружать аккаунты из файла]"
             },
             "title": "Новое в этом обновлении {{version}}"
         }

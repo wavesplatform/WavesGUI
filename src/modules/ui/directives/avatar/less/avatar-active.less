@@ -1,0 +1,18 @@
+@import (reference) 'icons';
+@import (reference) 'config';
+
+.avatar_active {
+  .avatar {
+    &__img {
+      transform: scale(1.25);
+      box-shadow: 0 0 0 4px #fff, 0 4px 18px 0 rgba(30, 41, 73, 0.15);
+    }
+  }
+  
+  &.avatar {
+    .avatar__wrap {
+      cursor: default;
+      opacity: 1;
+    }
+  }
+}

@@ -4,6 +4,9 @@
 @import (reference) '../../../../../app/less/typography';
 
 .main-header {
+  display: block;
+  height: 60px;
+
   .shadow() {
     content: '';
     display: block;
@@ -19,8 +22,6 @@
     background: -webkit-linear-gradient(top, rgba(218, 225, 233, 0.65) 0%, rgba(255, 255, 255, 0) 100%);
     background: linear-gradient(to bottom, rgba(218, 225, 233, 0.65) 0%, rgba(255, 255, 255, 0) 100%);
   }
-
-  display: block;
 
   &__header {
     height: 60px;
@@ -90,6 +91,12 @@
       z-index: 10;
       top: 0;
       left: 0;
+      
+      & + .main-header {
+        &__header {
+          position: fixed;
+        }
+      }
     }
   }
 
@@ -259,7 +266,7 @@
   }
 
   .dropdown-toggler__btn {
-    color: @color-submit-300;    
+    color: @color-submit-300;
   }
 }
 
@@ -267,6 +274,12 @@
 .dex-demo {
   .top-menu__link-dex {
     color: @color-submit-300;
+  }
+}
+
+.signUp {
+  .login-buttons {
+    display: none;
   }
 }
 

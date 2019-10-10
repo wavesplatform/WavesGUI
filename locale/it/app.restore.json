@@ -1,4 +1,8 @@
 {
+    "encodedSeedForm": {
+        "placeholder": "Inserisci il tuo seed codificato"
+    },
+    "encodedSeedTab": "Seed codificato",
     "keyForm": {
         "placeholder": "Inserisci qui la tua chiave privata"
     },
@@ -51,11 +55,12 @@
     },
     "seedOrKeyForm": {
         "description": "Inserisci la tua frase Seed o la chiave privata per accedere al tuo wallet",
+        "encodedSeed": "Seed codificato",
         "keyTitle": "Chiave Privata",
         "seedTitle": "La tua frase Seed",
         "title": "Importa dal Seed o da una chiave"
     },
-    "seedTab": "La tua frase Seed",
+    "seedTab": "Frase Seed",
     "warningSeed": {
         "message": "Utilizzare un indirizzo come frase SEED è assolutamente sconsigliato, in quanto altamente insicuro. Sei sicuro di voler continuare?SEED",
         "title": "la frase SEED inserita è troppo corta"

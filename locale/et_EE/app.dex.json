@@ -19,6 +19,7 @@
         "candleChart": {
             "error": "{div} [Diagrammi ei õnnestunud alla laadida.] {div} [Kui soovite seda skeemi oma rakenduses kasutada, saatke palun oma päring [tradingview.com'le](https://tradingview.com)]"
         },
+        "charts": "charts",
         "createOrder": {
             "1day": "1 päev",
             "1hour": "1 tund",
@@ -32,8 +33,12 @@
             "buy": "Osta",
             "createOrderNotPermitted": "Orderid ei ole ajutiselt saadaval",
             "errors": {
+                "amountMax": "Max Amount - ",
+                "amountMin": "Min Amount - ",
                 "balance": "Pole piisavalt {{name}}",
                 "precision": "Ületati maksimaalselt kasutatava {{precision}} kümnendkoha",
+                "priceMax": "Max Price - ",
+                "priceMin": "Min Price - ",
                 "required": "Selle välja täitmine on kohustuslik"
             },
             "expiration": "Aegumine",
@@ -63,6 +68,8 @@
             "priceField": "Piirhind",
             "sell": "Müü",
             "spread": "hinnavahe",
+            "stopPriceField": "Stop price",
+            "stopPriceHelp": "This is an automatic buy or sell order at a predetermined price",
             "total": "Kokku"
         },
         "demo": {
@@ -144,6 +151,7 @@
                 "header": "Midagi läks valesti"
             }
         },
+        "orders": "orders",
         "portfolio": {
             "title": "Portfell"
         },
@@ -229,10 +237,12 @@
             "all": "Kõik",
             "btc": "Btc",
             "eth": "ETH",
+            "history": "history",
             "myBalance": "Minu Saldod",
             "myTradeHistory": "Minu Kauplemisajalugu",
             "openOrders": "Minu Avatud Orderid",
             "OrderHistory": "My Order History",
+            "trade": "Trade",
             "tradeHistory": "Kauplemisajalugu",
             "waves": "Waves"
         }

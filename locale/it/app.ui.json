@@ -100,6 +100,7 @@
             "confirmRequestKeeper": {
                 "cancel": "Annulla",
                 "errorDescription": "Riprova. Se l'errore persiste, invia un ticket al [supporto](https://support.wavesplatform.com)",
+                "errorDescriptionSwitchUser": "Questo account non corrisponde all'account selezionato in Waves Keeper. Attiva un altro account in Waves Keeper e riprova.",
                 "errorHeader": "Non hai confermato la richiesta usando il Waves Keeper",
                 "sign": "Riprova",
                 "waiting": "In attesa di conferma sul Waves Keeper"
@@ -126,6 +127,7 @@
     "errorBlocks": {
         "title": "Qualcosa non ha funzionato…"
     },
+    "importSuccess": "L'importazione dell'account dal file di Keystore ha avuto successo",
     "modal": {
         "assetInfo": {
             "gateway_ui": "GATEWAY"

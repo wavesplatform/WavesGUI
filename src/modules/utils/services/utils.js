@@ -66,7 +66,7 @@
         [WavesApp.defaultAssets.BSV]: '/img/assets/bitcoin-cash-sv.svg',
         [WavesApp.defaultAssets.TRY]: '/img/assets/try.svg',
         [WavesApp.defaultAssets.XMR]: '/img/assets/xmr.svg',
-        [WavesApp.defaultAssets.VST]: '/img/assets/vostok.svg',
+        [WavesApp.defaultAssets.VST]: '/img/assets/vst.svg',
         [WavesApp.defaultAssets.ERGO]: '/img/assets/ergo.svg',
         [WavesApp.defaultAssets.BNT]: '/img/assets/bnt.svg',
         [WavesApp.otherAssetsWithIcons.EFYT]: '/img/assets/efyt.svg',
@@ -668,10 +668,14 @@
              * @param {$rootScope.Scope} $scope
              */
             safeApply($scope) {
-                const phase = $scope.$root && $scope.$root.$$phase;
+                try {
+                    const phase = $scope.$root && $scope.$root.$$phase;
 
-                if (phase !== '$apply' && phase !== '$digest') {
-                    $scope.$apply();
+                    if (phase !== '$apply' && phase !== '$digest') {
+                        $scope.$apply();
+                    }
+                } catch (e) {
+                    return null;
                 }
             },
 
@@ -1901,9 +1905,10 @@
             /**
              * @name app.utils#sign
              * @param {Signable} signable
+             * @param {any} anyData
              * @return {Promise<Signable>}
              */
-            signMatcher(signable) {
+            signMatcher(signable, anyData = null) {
                 /**
                  * @type {User}
                  */
@@ -1918,10 +1923,17 @@
                         .then(() => signable);
                 }
 
-                const errorParams = { error: 'sign-error', userType: user.userType };
+                const getError = (user, error) => {
+                    if (user.userType === 'wavesKeeper' && error &&
+                        error.code === 5 && error.msg.includes('another active account')) {
+                        return { error: 'sign-user-error', userType: user.userType };
+                    }
 
-                const signByDeviceLoop = () => modalManager.showSignByDevice(signable)
-                    .catch(() => modalManager.showSignDeviceError(errorParams)
+                    return { error: 'sign-error', userType: user.userType };
+                };
+
+                const signByDeviceLoop = () => modalManager.showSignByDevice(signable, anyData)
+                    .catch((e) => modalManager.showSignDeviceError(getError(user, e))
                         .then(signByDeviceLoop))
                     .catch(() => Promise.reject({ message: 'Your sign is not confirmed!' }));
 
@@ -1940,8 +1952,28 @@
                 const lockedAssetsIndDex = configService.get('SETTINGS.DEX.LOCKED_PAIRS') || [];
 
                 return lockedAssetsIndDex.includes(assetId1) || lockedAssetsIndDex.includes(assetId2);
+            },
+
+            /**
+             * @name app.utils#downloadFile
+             * @param {string} filename
+             * @param {string} text
+             */
+            downloadFile(filename, text) {
+                const pom = document.createElement('a');
+                pom.setAttribute('href', `data:text/plain;charset=utf-8,${encodeURIComponent(text)}`);
+                pom.setAttribute('download', filename);
+
+                if (document.createEvent) {
+                    const event = document.createEvent('MouseEvents');
+                    event.initEvent('click', true, true);
+                    pom.dispatchEvent(event);
+                } else {
+                    pom.click();
+                }
             }
         };
+
 
         /**
          * @param {api.ITransferTransaction<string>} tx

@@ -100,6 +100,7 @@
             "confirmRequestKeeper": {
                 "cancel": "Batalkan",
                 "errorDescription": "Silakan coba lagi. Jika kesalahan berlanjut, kirimkan tiket ke [dukungan](https://support.wavesplatform.com)",
+                "errorDescriptionSwitchUser": "This account does not match the selected account in your Waves Keeper. Please activate another account in Waves Keeper and try again.",
                 "errorHeader": "Anda tidak mengonfirmasi permintaan menggunakan Waves Keeper",
                 "sign": "Mencoba kembali",
                 "waiting": "Menunggu konfirmasi dari Waves Keeper ..."
@@ -126,6 +127,7 @@
     "errorBlocks": {
         "title": "Ada yang salah…"
     },
+    "importSuccess": "Account Importing from the Keystore File was successful",
     "modal": {
         "assetInfo": {
             "gateway_ui": "GATEWAY"

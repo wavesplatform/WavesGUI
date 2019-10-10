@@ -1,5 +1,5 @@
 {
-    "active": "Active",
+    "active": "激活",
     "all": "所有",
     "amount": "数量",
     "balanceInput": {
@@ -100,6 +100,7 @@
             "confirmRequestKeeper": {
                 "cancel": "取消",
                 "errorDescription": "请再试一次。如果错误仍然存在，请向[support]（https://support.wavesplatform.com）提交一张票",
+                "errorDescriptionSwitchUser": "此帐户与Waves Keeper中的所选帐户不匹配。请在Waves Keeper中激活另一个帐户，然后重试。",
                 "errorHeader": "您没有使用Waves Keeper确认请求",
                 "sign": "重试",
                 "waiting": "等待来自Waves Keeper的确认......"
@@ -126,6 +127,7 @@
     "errorBlocks": {
         "title": "出了些问题…"
     },
+    "importSuccess": "Account Importing from the Keystore File was successful",
     "modal": {
         "assetInfo": {
             "gateway_ui": "出入口"
