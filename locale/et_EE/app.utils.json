@@ -717,7 +717,7 @@
                 "backupPhrase": "Salafraas",
                 "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "Kodeeritud salafraas",
-                "exportAccount": "Export account",
+                "exportAccount": "Export account to file",
                 "id": "Account ID",
                 "privateKey": "Privaatne võti",
                 "publicKey": "Avalik võti",

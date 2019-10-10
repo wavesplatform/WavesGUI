@@ -695,7 +695,7 @@
             },
             "ok": "Sign in",
             "pairing": {
-                "devicePairing": "Export account",
+                "devicePairing": "Export account to app",
                 "header": "Scan Pairing Code",
                 "showCodeLink": "Show Pairing Code",
                 "unavailable": {
@@ -717,7 +717,7 @@
                 "backupPhrase": "Backup phrase",
                 "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "Encoded seed",
-                "exportAccount": "Export account",
+                "exportAccount": "Export account to file",
                 "id": "Account ID",
                 "privateKey": "Private key",
                 "publicKey": "Public Key",
