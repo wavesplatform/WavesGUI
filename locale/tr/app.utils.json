@@ -637,6 +637,13 @@
             "cancel": "Hesap oluştur",
             "changePass": "Change password",
             "deleteAccount": "Remove account",
+            "exportAccounts": {
+                "accounts": "Accounts",
+                "export": "Export",
+                "selectAll": "Select all",
+                "title": "Please select account",
+                "unselectAll": "Unselect all"
+            },
             "general": {
                 "auto": "Otomatik",
                 "blockHeight": "Şu anki blok",
@@ -654,6 +661,7 @@
                 "title": "Genel",
                 "white": "Beyaz"
             },
+            "helperContent": "You can set a password for exported accounts",
             "info": {
                 "legal": "Yasal",
                 "privacyPolicy": "Gizlilik Politikası",
@@ -709,9 +717,11 @@
                 "backupPhrase": "Anahtar (Yedek) kelimeler",
                 "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "Encoded Anahtar kelimeler",
+                "exportAccount": "Export account to file",
                 "id": "Account ID",
                 "privateKey": "Özel Anahtar",
                 "publicKey": "Açık Anahtar",
+                "savejson": "Save as JSON file",
                 "script": "Script",
                 "scriptButton": "Script ayarla",
                 "scriptButtonUpdate": "Script'i güncelle",
@@ -806,7 +816,7 @@
                 "analytics": "Waves Platform'un gelişimine katkı sağlamak adına kullanım istatistiklerimin anonim olarak geliştiriciler ile paylaşılmasına onay veriyorum",
                 "backup": "Eğer uygulamayı başka bir cihaza taşımam gerekirse veya uygulama silinirse cüzdanıma erişmemin tek yolunun Anahtar (yedek) kelimeler olduğunu ve başka hiç bir şekilde erişemeyeceğimi biliyorum.",
                 "ok": "Onayla ve Başla",
-                "privacyPolicy": "[Gizlilik politikası](https://wavesplatform.com/files/docs/Waves_privacy_policy.pdf)'nı okudum ve anladım.",
+                "privacyPolicy": "[Gizlilik politikası](https://wavesplatform.com/files/docs/Privacy_Policy_SW.pdf)'nı okudum ve anladım.",
                 "read": "Okudum, anladım ve onaylıyorum",
                 "readTermsAndConditions": "[Koşullar ve Şartlar](https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf)'ı okudum ve anladım.",
                 "security": "Kripto varlıklarımın herhangi bir şirket tarafından saklanmadığını ve bu cihazda güvenle benim tarafımdan saklandığını anladım.",
@@ -957,7 +967,8 @@
                 "1_3_5": "{span.line}[1. [wsoc.io](https://wsoc.io) Yarışma kripto paraları eklendi.]\n{span.line}[2. Fransızca desteği eklendi.]\n{span.line}[3. Ufak hatalar giderildi.]",
                 "1_3_7": "{span.line}[1. [tokenrating.wavesexplorer.com] entegrasyonu (https://tokenrating.wavesexplorer.com) Artık uygulamadan kripto paralar için derecelendirme puanı verebilirsiniz.]\n{span.line}[2. Ufak hatalar giderildi.]",
                 "1_3_9": "{span.line}[1. Görsel tasarım iyileştirildi. Borsa ve cüzdan geliştirmeleri yapıldı.]\n{span.line}[2. Ufak hatalar giderildi.]",
-                "1_4_0": "{span.line}[Added ability for easy switching between accounts within one wallet.]"
+                "1_4_0": "{span.line}[Added ability for easy switching between accounts within one wallet.]",
+                "1_4_4": "{span.line}[Added ability to backup and restore accounts from the keystore-file]"
             },
             "title": "Güncelleme ile birlikte gelen yenilikler {{version}}"
         }

@@ -33,8 +33,11 @@
                 </div>
 
                 <w-select class="areas__select expiration__select select__no-user-select" ng-model="$ctrl.orderType">
-                    <w-option ng-repeat="orderType in $ctrl.orderTypes track by orderType.id" value="::orderType.id">
-                        {{orderType.name}}
+                    <w-option value="'limit'">
+                        <span w-i18n="directives.createOrder.limit" w-i18n-ns="app.dex"></span>
+                    </w-option>
+                    <w-option value="'market'">
+                        <span w-i18n="directives.createOrder.market" w-i18n-ns="app.dex"></span>
                     </w-option>
                 </w-select>
             </div>

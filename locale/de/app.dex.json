@@ -45,6 +45,8 @@
             "fee": "Gebühr {{fee}} WAVES",
             "hasScript": "Brechen Sie [script](https://docs.wavesplatform.com/de/waves-client/advanced_features/script_transaction.html) ab, um den Handel zu tätigen",
             "last": "Letzte",
+            "limit": "Limit Order",
+            "market": "Market Order",
             "matcherFee": "Fee",
             "notifications": {
                 "error": {

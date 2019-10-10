@@ -1,5 +1,28 @@
 {
     "back": "返回主页",
+    "backupFile": {
+        "back": "回去",
+        "enterPasswordDescription": "请输入您的密码或",
+        "helper": "您需要输入用于帐户导出的密码",
+        "import": {
+            "accounts": "帐目",
+            "emptyList": "在上传的文件中没有要导入的帐户",
+            "importFailed": "导入密钥库文件失败",
+            "noChosen": "没有选中任何文件",
+            "selectAccount": "选择帐号",
+            "selectAccountDesc": "请选择帐户或",
+            "selectAll": "全选",
+            "unselectAll": "全部取消选择",
+            "wrongPassword": "密码错误！"
+        },
+        "importFromFile": "从密钥库文件导入帐户",
+        "importFromFileDescription": "选择您的JSON文件，然后单击导入或",
+        "name": "密钥库文件",
+        "next": "继续",
+        "password": "密码",
+        "selectFileBtn": "选择文件"
+    },
+    "backupFileDescription": "从密钥库文件导入帐户",
     "import": {
         "signIn": "登录"
     },
@@ -11,8 +34,10 @@
     "LedgerClient": "Ledger设备",
     "ledgerDescription": "从您的分类帐设备导入帐户",
     "or": "或",
-    "seedAndKey": "种子或钥匙",
-    "seedAndKeyDescription": "从备份SEED或私钥导入帐户",
+    "seedAndKey": {
+        "name": "种子或钥匙"
+    },
+    "seedAndKeyDescription": "从SEED或私钥导入帐户",
     "selectButton": "选择",
     "wavesClient": "Waves客户端",
     "wavesClientDescription": "从Waves客户端导入帐户",

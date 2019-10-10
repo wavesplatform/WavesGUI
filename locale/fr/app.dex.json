@@ -45,6 +45,8 @@
             "fee": "Frais {{fee}} WAVES",
             "hasScript": "Annuler [script](https://docs.wavesplatform.com/en/waves-client/advanced_features/script_transaction.html) pour échanger",
             "last": "Dernier",
+            "limit": "Limit Order",
+            "market": "Market Order",
             "matcherFee": "Frais",
             "notifications": {
                 "error": {

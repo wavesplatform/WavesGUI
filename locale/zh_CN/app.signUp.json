@@ -11,6 +11,6 @@
         "password": {
             "notMatch": "密码不匹配"
         },
-        "termsAgreement": "我已阅读并同意[条款和条件]（https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf），[隐私政策]（https://wavesplatform.com/files/docs/Waves_privacy_policy.pdf ）。"
+        "termsAgreement": "我已阅读并同意[条款和条件]（https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf），[隐私权政策]（https://wavesplatform.com/files/docs/Privacy_Policy_SW.pdf ）。"
     }
 }

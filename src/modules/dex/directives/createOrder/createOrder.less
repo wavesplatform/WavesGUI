@@ -247,6 +247,8 @@ w-create-order {
             .select-list {
               border-radius: @border-radius;
               top: calc(100% ~"+ 2px");
+              border: none;
+              box-shadow: 0 2px 14px 0 rgba(31, 39, 61, 0.15);
 
               .option {
                 padding: 12px 16px;
@@ -294,7 +296,7 @@ w-create-order {
               .input-container {
                 width: 100%;
                 position: relative;
-                top: calc(-100% ~"+ 1px");
+                top: calc(-100% ~"- 1px");
                 background: transparent;
 
                 input.tiny {
@@ -329,12 +331,16 @@ w-create-order {
 
           .hidden-input {
             position: relative;
-            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             height: 100%;
             overflow: hidden;
+
             span {
               line-height: 34px;
             }
+
             &__transparent-value {
               font-size: 12px;
               opacity: 0;
@@ -348,24 +354,23 @@ w-create-order {
               border: 1px solid @color-basic-200;
               height: 32px;
 
-              .step-button-content {
-                font-size: 25px;
+              .step-btn-content {
                 width: 50px;
-                height: 30px;
+                height: 100%;
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                color: @color-basic-200;
                 cursor: pointer;
-                border: 0;
-                border-radius: 4px;
+                transition: all .3s;
 
-                &_plus {
-                  background: @trade-icon-plus center no-repeat;
+                &:hover {
+                  .step-btn-content-icon {
+                    fill: @color-submit-300;
+                  }
                 }
 
-                &_minus {
-                  background: @trade-icon-minus center no-repeat;
+                &-icon {
+                  fill: #7F8FA4;
                 }
               }
 
@@ -522,7 +527,7 @@ w-create-order {
             }
           }
 
-          .best-ask {
+          .best-price {
             color: @color-submit-300;
             cursor: pointer;
           }
@@ -620,7 +625,7 @@ w-create-order {
           }
 
           .input-container {
-            top: calc(-100% ~"- 1px");
+            top: calc(-100% ~"- 2px");
           }
         }
 

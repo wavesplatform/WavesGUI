@@ -60,7 +60,7 @@
         "seedTitle": "种子短语",
         "title": "从种子或密钥导入"
     },
-    "seedTab": "种子短语",
+    "seedTab": "种子词组",
     "warningSeed": {
         "message": "确保您不要将短语与钱包地址混淆。使用地址作为SEED短语可能导致资金损失。 SEED短语必须由15个单词组成，每个单词之间有空格。",
         "title": "您输入的SEED短语太短。"

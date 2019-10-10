@@ -15,11 +15,20 @@ w-button.button_create-order {
 
 	.button__content {
 		color: @color-basic-600;
+		transition: all .3s;
+
+		&:hover {
+			color: @color-basic-700;
+		}
 	}
 
 	&.active {
 		.button__content {
 			color: @color-submit-300;
+
+			&:hover {
+				color: @color-submit-300;
+			}
 		}
 	}
 }

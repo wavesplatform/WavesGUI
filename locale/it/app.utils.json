@@ -353,12 +353,12 @@
             "wavesLiteClientDescription": "Importa account dal Client Waves Lite"
         },
         "matcherChoice": {
-            "customMatcher": "Custom matcher address",
+            "customMatcher": "Indirizzo Matcher personalizzato",
             "matcher": "Matcher",
             "matcherTerms": "I agree to the Super DEX Mather Terms of Use.",
-            "terms": "Terms",
-            "title": "Choose matcher",
-            "wavesTerms": "I am over 18 years old, and I agree to the Waves Terms of Use and Waves Privacy Policy."
+            "terms": "Termini e condizioni",
+            "title": "Seleziona il Matcher",
+            "wavesTerms": "Ho più di 18 anni e accetto le Condizioni d'uso di Waves e l'Informativa sulla privacy di Waves."
         },
         "open-main": {
             "dex": {
@@ -491,7 +491,7 @@
             "remove": "Elimina",
             "text": "{div}[Cancellare l'account renderà impossibile un nuovo accesso in caso di indisponibilità della frase di recupero (SEED).]{div}[Clicca sul tasto ELIMINA per procedere con la rimozione, oppure su ANNULLA per tornare alla schermata precedente.]",
             "warning": "Non hai salvato il tuo SEED",
-            "warningPlural": "You did not save your Seed phrases"
+            "warningPlural": "Non hai salvato le tue frasi Seed"
         },
         "removeKeeperAccount": {
             "heading": "Rimuovi l'account Waves Keeper",
@@ -554,9 +554,9 @@
                 "feeExplanation": "Abbiamo rilevato un indirizzo {{assetName}} a cui invieremo i tuoi fondi tramite un gateway. L'importo minimo è di {{min, BigNumber}} {{assetTicker}}, l'importo massimo è di {{max, BigNumber}} {{assetTicker}}."
             },
             "gatewayTerms": {
-                "accept": "Accept and Continue",
-                "text": "By using Gateway service, you agree to be bound by [Gateway Terms of Service](https://dex.wavesplatform.com/) and [Conduction of Transactions](https://dex.wavesplatform.com/). If you do not agree to these terms, then do not use this Gateway service.",
-                "title": "Gateway service agreement"
+                "accept": "Accetta e continua",
+                "text": "Utilizzando il servizio Gateway, l'utente accetta di essere vincolato dai [Termini di servizio Gateway] (https://dex.wavesplatform.com/) e [Conduzione delle transazioni] (https://dex.wavesplatform.com/). Se non concordi con questi termini, non utilizzare questo servizio Gateway.",
+                "title": "Accordo di servizio del gateway"
             },
             "icoWarning": "Non prelevare {{assetName}} verso una ICO. Non accrediteremo il tuo account con token provenienti da quell'iniziativa.",
             "idNumber": {
@@ -610,7 +610,7 @@
                 "notEnoughFunds": "Non hai fondi sufficienti per pagare le spese. Devi pagare {{fee, money-currency}} per spese di transazione.",
                 "notEnoughFundsWithdraw": "Non hai fondi sufficienti per pagare le spese. Devi pagare {{fee, money-currency}} per spese di transazione e {{getawayFee, BigNumber}} {{currency}} per spese del gateway. Jumlah minimum untuk penarikan adalah {{minGatewayAmount, BigNumber}} {{currency}}."
             },
-            "withdrawTitle": "Withdraw"
+            "withdrawTitle": "Prelievo"
         },
         "sepa": {
             "countryList": "Lista di paesi abilitati e documenti di identità",
@@ -637,6 +637,13 @@
             "cancel": "Crea un account",
             "changePass": "Cambia password",
             "deleteAccount": "Remove account",
+            "exportAccounts": {
+                "accounts": "Account",
+                "export": "Esportazione",
+                "selectAll": "Seleziona tutto",
+                "title": "Per favore seleziona un account",
+                "unselectAll": "Deseleziona tutto"
+            },
             "general": {
                 "auto": "Auto",
                 "blockHeight": "Posizione Corrente",
@@ -654,6 +661,7 @@
                 "title": "Generale",
                 "white": "Bianco"
             },
+            "helperContent": "È possibile impostare una password per gli account esportati",
             "info": {
                 "legal": "Note legali",
                 "privacyPolicy": "Informativa sulla privacy",
@@ -707,11 +715,13 @@
             "security": {
                 "address": "Indirizzo",
                 "backupPhrase": "Frase di Backup",
-                "base58Seed": "Encoded backup phrase",
+                "base58Seed": "Frase di backup codificata",
                 "encodedSeed": "Seed codificato",
-                "id": "Account ID",
+                "exportAccount": "Esporta account",
+                "id": "ID Account",
                 "privateKey": "Chiave Privata",
                 "publicKey": "Chiave Pubblica",
+                "savejson": "Salva come file JSON",
                 "script": "Script",
                 "scriptButton": "Imposta Script",
                 "scriptButtonUpdate": "Imposta Script",
@@ -723,7 +733,7 @@
         },
         "sign": {
             "article": "articolo",
-            "buy": "Buy",
+            "buy": "Compra",
             "cancel": "Cancella",
             "cancelOrder": "Cancella l'ordine",
             "close": "Chiudi",
@@ -750,15 +760,15 @@
             "fee": "Spese",
             "matcher": "Firma richieste di ordini",
             "openApp": "Apri l'app Waves",
-            "orderType": "Order type",
-            "pair": "Pair",
+            "orderType": "Tipo di ordine",
+            "pair": "Coppia",
             "price": "Prezzo",
             "refererTo": "Se l'errore persiste, per favore fai riferimento a",
             "referTo": "Se l'errore persiste, per favore fai riferimento a",
             "request": "richiesta",
             "requestId": "hash della richiesta",
             "retry": "Riprova",
-            "sell": "Sell",
+            "sell": "Vendi",
             "signByKeeper": "In attesa di conferma sul Waves Keeper...",
             "signByLedger": "In attesa di conferma sul Ledger...",
             "signError": "La richiesta non è stata confermata.",
@@ -766,8 +776,8 @@
             "signErrorText": "Non hai confermato la richiesta sul tuo dispositivo Ledger",
             "signErrorTextImportKeeper": "Accedi al Waves Keeper con l'indirizzo {{address}}, dopodichè ricarica questa pagina per continuare.",
             "signErrorTextKeeper": "Riprovare. Se l'errore dovesse persistere, aprire un ticket sul [Supporto](https://support.wavesplatform.com/)",
-            "signErrorTextKeeperWrongUser": "This account does not match the selected account in your Waves Keeper. Please activate another account in Waves Keeper and try again.",
-            "timestamp": "Timestamp",
+            "signErrorTextKeeperWrongUser": "Questo account non corrisponde all'account selezionato in Waves Keeper. Attiva un altro account in Waves Keeper e riprova.",
+            "timestamp": "Marcatura temporale",
             "txId": "TXID"
         },
         "sponsorship_edit": {
@@ -806,7 +816,7 @@
                 "analytics": "Vorrei contribuire a migliorare la piattaforma Waves inviando statistiche di utilizzo anonime agli sviluppatori.",
                 "backup": "Ho compreso che spostando questa app su un altro dispositivo o cancellandola, i miei Waves potranno essere recuperati esclusivamente utilizzando la frase di backup.",
                 "ok": "Conferma e inizia",
-                "privacyPolicy": "Ho letto e accetto l'[Informativa sulla privacy](https://wavesplatform.com/files/docs/Waves_privacy_policy.pdf).",
+                "privacyPolicy": "Ho letto ed accetto l'[Informativa sulla privacy](https://wavesplatform.com/files/docs/Privacy_Policy_SW.pdf).",
                 "read": "Ho letto, compreso e sottoscritto i",
                 "readTermsAndConditions": "Ho letto, compreso e accettato i [termini e condizioni](https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf)",
                 "security": "Ho compreso che i miei fondi sono mantenuti in sicurezza su questo dispositivo, non da una società",
@@ -851,7 +861,7 @@
             "step1": {
                 "button": "Cosa devi sapere a proposito del tuo SEED",
                 "buttonMobile": "Continua",
-                "buttonReadMore": "Read more",
+                "buttonReadMore": "Dettagli",
                 "p1": "Per favore, prenditi qualche minuto per comprendere alcune cose importanti riguardo la tua stessa sicurezza. 🙏",
                 "p2": "In caso dovessi cadere vittima di una truffa phishing o perdere la tua frase di backup (nota anche come SEED), non potremo in alcun modo recuperare i tuoi fondi o congelare il tuo account.",
                 "p3": "Continuando ad utilizzare la nostra piattaforma, concordi e accetti tutti i rischi connessi all'eventuale smarrimento del tuo SEED, inclusi ma non limitati a quelli relativi all'impossibilità di accedere o gestire i tuoi stessi fondi. In caso di smarrimento del tuo SEED, concordi e confermi di aver compreso che la piattaforma Waves non potrà essere ritenuta responsabile di eventuali conseguenze.",
@@ -953,11 +963,12 @@
                 "1_3_18": "{span.line} [1. Aggiunto login al wallet utilizzando una chiave privata.]\n{span.line} [2. La modifica del prezzo di 24 ore di un token è ora associata alla coppia token/WAVES.]",
                 "1_3_19": "{span.line} [1. Lancio del gateway Bancor.] \n{span.line} [2.Miglioramento dell'interfaccia del menu utente.]",
                 "1_3_2": "{span.line} [1. Lancio del gateway VST.] \n{span.line} [2. Miglioramento dell'interfaccia utente e risoluzione di altri bug minori.]",
-                "1_3_20": "{span.line}[1. Improved system for storing and restoring accounts from local storage (Need to update the [desktop application](https://wavesplatform.com/technology/wallet)).]\n{span.line}[2. Fixed rounding of prices in the orderbook.]",
+                "1_3_20": "{span.line} [1. Miglioramento del sistema di archiviazione e ripristino di account da dispositivi di archiviazione locali (è necessario aggiornare [l'applicazione desktop](https://wavesplatform.com/technology/wallet)).] \n {span.line} [2. Risolto il problema relativo all'arrotondamento dei prezzi nel registro ordini.]",
                 "1_3_5": "{span.line}[1. Aggiunto il tab al concorso [wsoc.io](https://wsoc.io) tokens.]\n{span.line}[2. Aggiunto il supporto alla lingua Francese.]\n{span.line}[3. Risoluzione di bug minori.]",
                 "1_3_7": "{span.line} [1. Integrazione con [tokenrating.wavesexplorer.com] (https://tokenrating.wavesexplorer.com) Ora puoi valutare i token direttamente nell'app.] \n {span.line} [2. Sono stati corretti altri bug minori.]",
                 "1_3_9": "{span.line} [1. Miglioramento Interfaccia utente e funzionalità delle sezioni di Exchange e Wallet.] \n {span.line} [2. Correzione di altri bug minori.]",
-                "1_4_0": "{span.line}[Added ability for easy switching between accounts within one wallet.]"
+                "1_4_0": "{span.line}[Aggiunta la possibilità di passare da un account all'altro nello stesso wallet.]",
+                "1_4_4": "{span.line}[Added ability to backup and restore accounts from the keystore-file]"
             },
             "title": "Le novità della versione {{version}}"
         }

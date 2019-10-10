@@ -199,17 +199,6 @@
                 market: 'modules/dex/directives/createOrder/marketOrderForm.html'
             };
 
-            orderTypes = [
-                {
-                    id: 'limit',
-                    name: 'Limit Order'
-                },
-                {
-                    id: 'market',
-                    name: 'Market Order'
-                }
-            ];
-
             _asks = [];
             _bids = [];
 
