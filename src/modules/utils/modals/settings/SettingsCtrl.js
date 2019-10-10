@@ -59,6 +59,7 @@
             tab = 'general';
             address = user.address;
             publicKey = user.publicKey;
+            id = user.id;
             shownSeed = false;
             shownKey = false;
             node = '';
@@ -253,6 +254,10 @@
                 this.tokensNameListUrl = WavesApp.network.tokensNameListUrl;
                 this.oracleWaves = WavesApp.oracles.waves;
                 this.api = WavesApp.network.api;
+            }
+
+            showExportAccountModal() {
+                return modalManager.showExportAccount();
             }
 
             showPairingWithMobile() {

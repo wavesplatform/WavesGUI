@@ -65,7 +65,7 @@
                 multiAccount.signIn(
                     this.multiAccountData,
                     this.password,
-                    user.getSetting('encryptionRounds'),
+                    undefined,
                     this.multiAccountHash
                 ).then(
                     () => Promise.all([

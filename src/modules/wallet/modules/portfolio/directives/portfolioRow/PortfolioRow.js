@@ -189,7 +189,7 @@
                         isTokenomica, logo, isGatewaySoon
                     } = utils.getDataFromOracles(this.balance.asset.id);
 
-                    this.isVostok = this.balance.asset.id === WavesApp.defaultAssets.VST;
+                    this.isVST = this.balance.asset.id === WavesApp.defaultAssets.VST;
 
                     this.isVerifiedOrGateway = isVerified || isGateway;
 
@@ -199,7 +199,7 @@
                         isVerified: this.isVerified,
                         isGateway: isGateway,
                         isTokenomica: isTokenomica,
-                        isVostok: this.isVostok,
+                        isVST: this.isVST,
                         isGatewaySoon: isGatewaySoon,
                         assetIconPath: logo ||
                             this.utils.getAssetLogo(this.balance.asset.id),

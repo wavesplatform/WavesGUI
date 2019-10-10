@@ -112,6 +112,7 @@
         'app.desktop',
         'app.ledger',
         'app.keeper',
+        'app.fromBackup',
         'app.import',
         'app.wallet',
         'app.dex',

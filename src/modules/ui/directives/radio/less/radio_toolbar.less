@@ -1,0 +1,29 @@
+@import (reference) '../../../../app/less/app';
+@import (reference) '../../../../app/less/typography';
+@import (reference) 'config';
+@import (reference) 'icons';
+
+.radio_toolbar {
+  .radio {
+    &__btn {
+      display: block;
+      font-size: 17px;
+      line-height: @assets-toolbar-height - 1;
+      margin-right: 30px;
+      border-bottom: 1px solid transparent;
+    }
+
+    &__input:checked ~ .radio__btn {
+      color: @color-submit-400;
+      position: relative;
+      z-index: 1;
+      border-color: @color-submit-400;
+      cursor: default;
+    }
+  
+    &__dot {
+      display: inline-block;
+      margin: 0 5px;
+    }
+  }
+}

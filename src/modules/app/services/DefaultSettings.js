@@ -11,6 +11,8 @@
      */
     const factory = function (utils) {
 
+        const { get, set, isEmpty, unset, Signal } = require('ts-utils');
+
         class DefaultSettings {
 
             constructor(settings, commonSettings) {
@@ -25,7 +27,7 @@
                 /**
                  * @type {Signal}
                  */
-                this.change = new tsUtils.Signal();
+                this.change = new Signal();
                 /**
                  * @private
                  */
@@ -131,25 +133,23 @@
             }
 
             get(path) {
-                const valueCommon = tsUtils.get(this.commonSettings, path);
-
-                if (tsUtils.isEmpty(valueCommon)) {
-                    const defaultCommonValue = tsUtils.get(this.commonDefaults, path);
-
-                    if (tsUtils.isEmpty(defaultCommonValue)) {
-                        const value = tsUtils.get(this.settings, path);
-
-                        if (tsUtils.isEmpty(value)) {
-                            return tsUtils.get(this.defaults, path);
-                        } else {
-                            return value;
-                        }
+                if (this._isCommon(path)) {
+                    const valueCommon = get(this.commonSettings, path);
+                    if (isEmpty(valueCommon)) {
+                        return get(this.commonDefaults, path);
                     } else {
-                        return defaultCommonValue;
+                        return valueCommon;
                     }
-                } else {
-                    return valueCommon;
                 }
+
+                const value = get(this.settings, path);
+
+                if (isEmpty(value)) {
+                    return get(this.defaults, path);
+                } else {
+                    return value;
+                }
+
             }
 
             set(path, value) {
@@ -157,16 +157,16 @@
                     return null;
                 }
 
-                if (tsUtils.isEmpty(tsUtils.get(this.defaults, path))) {
-                    if (utils.isEqual(tsUtils.get(this.commonDefaults, path), value)) {
-                        tsUtils.unset(this.commonSettings, path);
+                if (this._isCommon(path)) {
+                    if (utils.isEqual(get(this.commonDefaults, path), value)) {
+                        unset(this.commonSettings, path);
                     } else {
-                        tsUtils.set(this.commonSettings, path, value);
+                        set(this.commonSettings, path, value);
                     }
-                } else if (utils.isEqual(tsUtils.get(this.defaults, path), value)) {
-                    tsUtils.unset(this.settings, path);
+                } else if (utils.isEqual(get(this.defaults, path), value)) {
+                    unset(this.settings, path);
                 } else {
-                    tsUtils.set(this.settings, path, value);
+                    set(this.settings, path, value);
                 }
 
                 this.change.dispatch(path);
@@ -181,6 +181,16 @@
                     common: this.commonSettings,
                     settings: this.settings
                 };
+            }
+
+            /**
+             * @param {string} path
+             * @returns {boolean}
+             * @private
+             */
+            _isCommon(path) {
+                const [start] = path.split('.');
+                return Object.prototype.hasOwnProperty.call(this.commonDefaults, start);
             }
 
         }
