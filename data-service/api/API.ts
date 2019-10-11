@@ -14,6 +14,7 @@ import {
     signatureTimeout,
     factory
 } from './matcher/getOrders';
+import * as matchersApi from './matchers/matchers'
 import * as addressModule from './address';
 import { getLastPrice } from './matcher/getLastPrice';
 import { getAddressByAlias, getAliasesByAddress } from './aliases/aliases';
@@ -31,6 +32,8 @@ export const matcher = {
     getOrderBook, getOrdersByPair, addSignature, clearSignature, getOrders, signatureTimeout, factory, getLastPrice,
     getFeeRates, getSettings
 };
+
+export const matchers = matchersApi;
 
 export const assets = { ...assetsApi };
 

@@ -10,7 +10,6 @@
      * @param {*} $state
      * @param {app.defaultSettings} defaultSettings
      * @param {State} state
-     * @param {ng.auto.IInjectorService} $injector
      * @param {UserRouteState} UserRouteState
      * @param {Poll} Poll
      * @param {TimeLine} timeLine
@@ -22,7 +21,6 @@
     const factory = function (
         storage,
         $state,
-        $injector,
         defaultSettings,
         state,
         UserRouteState,
@@ -886,24 +884,6 @@
                 });
             }
 
-            /**
-             * @param {Adapter} adapter
-             * @returns {boolean}
-             * @private
-             */
-            _isSeedAdapter(adapter) {
-                return adapter.type && adapter.type === 'seed';
-            }
-
-            /**
-             * @param {Adapter} adapter
-             * @returns {boolean}
-             * @private
-             */
-            _isPrivateKeyAdapter(adapter) {
-                return adapter.type && adapter.type === 'privateKey';
-            }
-
         }
 
         /**
@@ -928,7 +908,6 @@
     factory.$inject = [
         'storage',
         '$state',
-        '$injector',
         'defaultSettings',
         'state',
         'UserRouteState',
