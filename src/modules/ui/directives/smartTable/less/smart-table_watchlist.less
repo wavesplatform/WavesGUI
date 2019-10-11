@@ -5,13 +5,18 @@
 @cell-height: 64px;
 @responsive-cell-height: auto;
 
-.smart-table {
+.smart-table.smart-table {
   &_watchlist {
+    width: calc(100% ~"+ 21px");
+    transform: translateX(-8px);
+
     .smart-table {
       &__row {
         flex-wrap: wrap;
         cursor: pointer;
-        padding: 2px 0;
+        padding: 6px 0;
+        border-radius: @border-radius;
+        width: auto;
 
         &.selected {
           background-color: @dex-selected-item-bg;
@@ -32,19 +37,47 @@
         }
       }
 
+      &__thead {
+        width: auto;
+        margin: 0 13px 0 8px;
+
+        .smart-table__cell {
+          &[data-column-id="favourite"] {
+            margin-left: -8px;
+          }
+
+          &[data-column-id="pair"] {
+            flex-basis: calc(34% ~"- 22px");
+          }
+        }
+      }
+
+      &__tbody {
+        &::-webkit-scrollbar-track {
+          -webkit-box-shadow: none;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          border-radius: @border-radius;
+        }
+
+        .smart-table__row {
+          padding-right: 8px;
+          margin-right: 2px;
+        }
+
+        .smart-table__cell {
+          &[data-column-id="pair"] {
+            flex-basis: calc(34% ~'- 30px');
+          }
+        }
+      }
+
       &__cell {
         padding: 0;
 
         &[data-column-id="favourite"] {
           flex-basis: 30px;
-
-          @media screen and (max-width: 720px) {
-            display: none;
-          }
-        }
-
-        &[data-column-id="pair"] {
-          flex-basis: calc(34% ~'- 30px');
         }
 
         &[data-column-id="price"] {
@@ -73,7 +106,6 @@
         &[data-column-id="volume"] {
           flex-basis: 25%;
           text-align: right;
-          padding-right: 10px;
 
           .volume-subtitle {
             display: none;
@@ -84,7 +116,7 @@
           flex-basis: 100%;
           display: none;
           width: 100%;
-          padding: 5px 20px 10px 30px;
+          padding: 6px 20px 0 30px;
           .caption-3();
 
           .chosen {
@@ -116,29 +148,17 @@
 }
 
 @media screen and (max-width: 720px) {
-  .smart-table_watchlist {
+  .smart-table.smart-table_watchlist {
     .smart-table {
       &__wrapper {
         padding: 4px;
         background: @color-white;
       }
-      
-      &__tbody {
-        &::-webkit-scrollbar-track {
-          -webkit-box-shadow: none;
-        }
-      }
 
       &__thead {
         display: none;
       }
-    }
-  }
-}
 
-@media screen and (max-width: 720px) {
-  .smart-table_watchlist {
-    .smart-table {
       &__row {
         padding: 9px 0;
         border-bottom: 1px solid @color-basic-50;
@@ -156,6 +176,10 @@
 
         &[data-column-id="pair"] {
           font-weight: bold;
+        }
+
+        &[data-column-id="favourite"] {
+          display: none;
         }
 
         &[data-column-id="price"] {

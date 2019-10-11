@@ -10,6 +10,7 @@
   &__wrapper {
     width: 100%;
     height: 100%;
+    padding: 0 16px;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -45,6 +46,7 @@
           min-width: 235px;
           transform: translate(calc(-50% ~'+ 15px'), 16px);
           box-shadow: @shadow-tooltip-confirm;
+          
           @media screen and (max-width: 1024px) {
             transform: translate(calc(-100% ~'+ 30px'), 16px);
           }
@@ -76,7 +78,7 @@
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    height: 40px;
+    height: 42px;
     background-color: @color-white;
     box-sizing: border-box;
     padding: 0;
@@ -85,6 +87,10 @@
 
     &::after {
       display: none;
+    }
+
+    & > .title {
+      margin-right: 20px;
     }
 
     w-select {
@@ -103,23 +109,14 @@
         font-size: @font-size-caption-2;
         color: @color-basic-700;
         font-family: @font-roboto-medium;
-        height: 39px;
+        height: 40px;
         padding-right: 30px;
         border: 1px solid transparent;
-
-        // &::after {
-        //   right: 13px;
-        //   transform: translateY(0);
-        //   top: 13px;
-        //   background-size: 80%;
-        //   background-repeat: no-repeat;
-        //   background-position: center left;
-        // }
       }
 
-      .select &.expanded {
+      .select.expanded {
         .title {
-          border: 1px solid #000;
+          border: 1px solid @color-basic-100;
         }
       }
 
@@ -139,34 +136,17 @@
         border-radius: 0;
         border: 0 none;
 
-        .title {
-          border-left: 1px solid @color-basic-100;
-          border-right: 1px solid @color-basic-100;
-          border-radius: 0;
-
-          &::before {
-            content: '';
-            display: block;
-            width: calc(100% ~'- 2px');
-            height: 2px;
-            background: @color-white;
-            position: absolute;
-            z-index: 1;
-            bottom: -2px;
-            left: 1px;
-          }
-        }
-
         &::after {
           content: '';
           display: block;
-          width: 100%;
+          width: 16px;
           height: 2px;
           background: @color-submit-400;
           position: absolute;
           z-index: 1;
-          top: 0;
-          left: 0;
+          bottom: 0;
+          left: 50%;
+          transform: translateX(-50%);
         }
 
         .select-list {
@@ -178,7 +158,6 @@
         .expanded {
           .title {
             border: 1px solid @color-basic-100;
-            border-bottom: 0 none;
           }
         }
       }
@@ -187,58 +166,30 @@
   }
 
   div.title {
-    font-size: @font-size-caption-2;
+    font-size: @font-size-caption-5;
     color: @color-basic-700;
     font-family: @font-roboto-medium;
-    display: block;
-    box-sizing: border-box;
-    line-height: 40px;
-    padding: 0 16px;
+    line-height: 42px;
     text-transform: uppercase;
     position: relative;
     z-index: 1;
-    margin: 0;
-    border: 1px solid transparent;
-    border-top: 0 none;
-    border-left: 1px solid transparent;
-    border-right: 1px solid transparent;
 
     &:not(.active) {
       cursor: pointer;
     }
 
     &.active {
-      border-bottom: 0 none;
-      position: relative;
-      border-left: 1px solid @color-basic-100;
-      border-right: 1px solid @color-basic-100;
-
       &::after {
         display: block;
         position: absolute;
-        top: 0;
-        left: -1px;
-        width: calc(100% ~'+ 2px');
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 16px;
         height: 2px;
         content: '';
         background: @color-submit-400;
-      }
-
-      &:first-child {
-        border-left: 1px solid transparent;
-      }
-
-      &::before {
-        position: absolute;
-        bottom: -2px;
-        height: 2px;
-        width: 100%;
-        top: auto;
-        left: 0;
-        content: '';
-        display: block;
-        z-index: 1;
-        background: @color-white;
+        border-radius: 1px;
       }
     }
   }
@@ -282,9 +233,6 @@
 @media screen and (min-width: 2400px) {
   .dex-watchlist {
     &__wrapper a.title {
-      .tabs__header {
-        height: 42px;
-      }
       font-size: 13px;
     }
 
@@ -300,10 +248,6 @@
     &__watchlist {
       max-height: calc(100% ~'- 445px');
       width: 360px;
-
-    // .loader {
-    //   top: 60%;
-    // }
     }
 
     &__watchlist-collapsed {
