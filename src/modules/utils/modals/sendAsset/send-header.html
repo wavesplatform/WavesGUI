@@ -11,7 +11,7 @@
             <span class="mobile-ellipsis ellipsis asset__name">&nbsp;{{$ctrl.balance.asset.displayName}}</span>
         </div>
     </div>
-    <w-select class="big"
+    <w-select class="select select_send-modal"
               can-search="::true"
               ng-if="$ctrl.canChooseAsset && $ctrl.choosableMoneyList.length > 1"
               ng-model="$ctrl.state.assetId">

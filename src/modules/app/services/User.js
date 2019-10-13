@@ -4,7 +4,6 @@
 
     const { equals } = require('ramda');
     const { isValidAddress } = require('@waves/signature-adapter');
-    const ds = require('data-service');
 
     /**
      * @param {Storage} storage
