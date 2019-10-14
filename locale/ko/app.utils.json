@@ -193,6 +193,12 @@
             "message": "로그인 또는 신규 계정을 생성하여 거래를 시작하세요",
             "ok": "로그인"
         },
+        "deleteAccount": {
+            "cancel": "Cancel",
+            "delete": "Remove",
+            "description": "{div}[Removing an account will lead to its irretrievable loss if you didn't save a backup phrase (SEED).]\n{div}[Click on the REMOVE button to proceed with account removal, or CANCEL to return to the previous screen.]",
+            "header": "Remove account"
+        },
         "deposit": {
             "coinomatBCH": {
                 "helpDescrText": "트랜잭션이 승인되면 게이트웨이가 귀하의 Waves 계정에서 BCH를 토큰으로 전송하는 작업을 처리할 것입니다.",
@@ -280,9 +286,15 @@
                 "warningText": "Sending any other currency to this address may result in the loss of your deposit.",
                 "warningTitle": "Send only ERGO to this deposit address"
             },
+            "wavesGatewayETH": {
+                "warningMinAmountText": "If you will send less than {{minAmount, BigNumber}} {{assetTicker}}, you will lose that money.",
+                "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}, the maximum amount of deposit is {{maxAmount}} {{assetTicker}}",
+                "warningText": "ETH를 출금하려고 하는 지갑 또는 거래소가 Smart-Contracts를 사용하는지 확인하세요. 당사는 해당 트랜잭션을 수신하지 않으며 환불 또한 불가능합니다. 귀하의 자산을 잃게 됩니다.",
+                "warningTitle": "Smart Contracts에서 ETH를 입금하지 마세요! ERC20 토큰을 입금하지 마세요! Ethereum 입금만 가능합니다."
+            },
             "wavesGatewayVST": {
-                "helpDescrText": "트랜잭션이 승인되면 게이트웨이가 귀하의 Waves 계정에서 Vostok를 토큰으로 전송하는 작업을 처리할 것입니다.",
-                "helpDescrTitle": "이 주소를 Vostok 클라이언트 또는 지갑에 입력하세요",
+                "helpDescrText": "트랜잭션이 승인되면 게이트웨이가 귀하의 Waves 계정에서 VST를 토큰으로 전송하는 작업을 처리할 것입니다.",
+                "helpDescrTitle": "이 주소를 VST 클라이언트 또는 지갑에 입력하세요",
                 "warningMinAmountTitle": "최소 입금액은 {{minAmount, BigNumber}} {{assetTicker}} 이며 최대 입금액은 {{maxAmount}} {{assetTicker}} 입니다."
             }
         },
@@ -339,6 +351,14 @@
             "wavesBetaClientDescription": "Waves Beta 클라이언트에서 계정 불러오기",
             "wavesLiteClient": "Waves Lite 클라이언트",
             "wavesLiteClientDescription": "Waves Lite 클라이언트에서 계정 불러오기"
+        },
+        "matcherChoice": {
+            "customMatcher": "Custom matcher address",
+            "matcher": "Matcher",
+            "matcherTerms": "I agree to the Super DEX Mather Terms of Use.",
+            "terms": "Terms",
+            "title": "Choose matcher",
+            "wavesTerms": "I am over 18 years old, and I agree to the Waves Terms of Use and Waves Privacy Policy."
         },
         "open-main": {
             "dex": {
@@ -455,7 +475,7 @@
             "shareInvoiceLink": "인보이스 링크 복사",
             "verified": "인증 완료",
             "vostok": {
-                "serverError": "Vostok 서비스를 일시적으로 사용할 수 없습니다. 나중에 다시 시도하세요."
+                "serverError": "VST 서비스를 일시적으로 사용할 수 없습니다. 나중에 다시 시도하세요."
             },
             "wtry": {
                 "info": "지불 처리와 관련된 문제가 있을 경우 Digilira 지원팀에 문의하세요 — [support@digilira.com](mailto:support@digilira.com)"
@@ -470,7 +490,8 @@
             "heading": "계정 삭제",
             "remove": "삭제",
             "text": "{div}[백업 구절(SEED)를 저장하지 않고 계정을 삭제하면 해당 계정에 보유된 자산을 절대 찾을 수 없습니다.]\n{div}[삭제 버튼을 클릭하여 계정 삭제 절차를 진행하거나 취소 버튼을 클릭하여 이전 화면으로 돌아가세요.]",
-            "warning": "귀하는 백업 구절을 저장하지 않았습니다"
+            "warning": "귀하는 백업 구절을 저장하지 않았습니다",
+            "warningPlural": "You did not save your Seed phrases"
         },
         "removeKeeperAccount": {
             "heading": "Waves Keeper 계정 삭제",
@@ -532,6 +553,11 @@
             "gateway": {
                 "feeExplanation": "{{assetName}} 주소를 확인하였으며 게이트웨이를 통해 해당 주소로 자산을 송금합니다. 최소 수량은 {{min, BigNumber}} {{assetTicker}} 이며 최대 수량은 {{max, BigNumber}} {{assetTicker}} 입니다."
             },
+            "gatewayTerms": {
+                "accept": "Accept and Continue",
+                "text": "By using Gateway service, you agree to be bound by [Gateway Terms of Service](https://dex.wavesplatform.com/) and [Conduction of Transactions](https://dex.wavesplatform.com/). If you do not agree to these terms, then do not use this Gateway service.",
+                "title": "Gateway service agreement"
+            },
             "icoWarning": "{{assetName}}을 ICO로 인출하지 마십시오. 당사는 귀하의 계정에 해당 판매의 토큰을 입금하지 않습니다.",
             "idNumber": {
                 "helpIcon": {
@@ -583,7 +609,8 @@
             "validationError": {
                 "notEnoughFunds": "수수료를 지불할 충분한 자금이 없습니다. {{fee, money-currency}} 트랜잭션 수수료로 지불해야 합니다.",
                 "notEnoughFundsWithdraw": "수수료를 지불할 충분한 자금이 없습니다. {{fee, money-currency}}를 트랜잭션 수수료와 {{getawayFee, BigNumber}} {{currency}}를 게이트웨이 수수료로 지불해야 합니다. 최수 출금 금액은 {{minGatewayAmount, BigNumber}} {{currency}} 입니다."
-            }
+            },
+            "withdrawTitle": "Withdraw"
         },
         "sepa": {
             "countryList": "이용 가능한 국가 및 ID 목록",
@@ -606,8 +633,17 @@
             "warningHeader": "해당 조치로 인해 자산을 잃을 수 있습니다."
         },
         "settings": {
+            "account": "Account",
             "cancel": "신규 계정 생성",
             "changePass": "Change password",
+            "deleteAccount": "Remove account",
+            "exportAccounts": {
+                "accounts": "Accounts",
+                "export": "Export",
+                "selectAll": "Select all",
+                "title": "Please select account",
+                "unselectAll": "Unselect all"
+            },
             "general": {
                 "auto": "자동",
                 "blockHeight": "현재 블록 Height",
@@ -625,6 +661,7 @@
                 "title": "일반",
                 "white": "밝게"
             },
+            "helperContent": "You can set a password for exported accounts",
             "info": {
                 "legal": "법률 조건",
                 "privacyPolicy": "개인 정보 보호 정책",
@@ -646,6 +683,7 @@
                 "dataProviderInvalid": "제공자의 정보를 가져오는데 실패했습니다. 주소를 확인하고 다시 시도하세요.",
                 "dataProviderName": "{{dataProviderName}}",
                 "dontShowSpamCheckboxDescr": "검증되지 않은 토큰을 표시하지 않습니다",
+                "edit": "Edit",
                 "forDisableClear": "완전히 비활성화하려면 항목을 지우세요",
                 "matcherAddress": "Matcher 주소",
                 "nodeAddress": "Node 주소",
@@ -677,9 +715,13 @@
             "security": {
                 "address": "주소",
                 "backupPhrase": "백업 구절",
+                "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "암호화된 백업 구절",
+                "exportAccount": "Export account to file",
+                "id": "Account ID",
                 "privateKey": "프라이빗 키",
                 "publicKey": "퍼블릭 키",
+                "savejson": "Save as JSON file",
                 "script": "Script",
                 "scriptButton": "Script 설정",
                 "scriptButtonUpdate": "Script 업데이트",
@@ -691,6 +733,7 @@
         },
         "sign": {
             "article": "article",
+            "buy": "Buy",
             "cancel": "취소",
             "cancelOrder": "주문 취소",
             "close": "닫기",
@@ -717,12 +760,15 @@
             "fee": "수수료",
             "matcher": "요청 주문에 서명",
             "openApp": "Waves 앱 실행",
+            "orderType": "Order type",
+            "pair": "Pair",
             "price": "가격",
             "refererTo": "오류가 지속되면 다음을 참고하세요",
             "referTo": "오류가 지속되면 다음을 참고하세요",
             "request": "요청",
             "requestId": "Hash 요청",
             "retry": "다시 시도하세요",
+            "sell": "Sell",
             "signByKeeper": "Waves Keeper의 승인을 기다리는 중입니다…",
             "signByLedger": "Ledger의 승인을 기다리는 중 입니다…",
             "signError": "요청이 승인되지 않았습니다.",
@@ -730,6 +776,8 @@
             "signErrorText": "귀하의 Ledger 디바이스에서 요청을 승인하지 않았습니다.",
             "signErrorTextImportKeeper": "주소 {{address}}로 Waves Keeper에 로그인 하고 계속하기 위해 페이지를 새로고침 하세요.",
             "signErrorTextKeeper": "다시 시도하세요. 오류가 지속된다면 [서포트](https://support.wavesplatform.com/)에 문의하세요.",
+            "signErrorTextKeeperWrongUser": "This account does not match the selected account in your Waves Keeper. Please activate another account in Waves Keeper and try again.",
+            "timestamp": "Timestamp",
             "txId": "TXID"
         },
         "sponsorship_edit": {
@@ -768,7 +816,7 @@
                 "analytics": "Waves 플랫폼을 개선하기 위해 개발자들에게 익명으로 사용 통계를 보냅니다.",
                 "backup": "본 앱을 다른 장치로 이동하거나 삭제하면 나의 Waves 계정은 백업 구절로만 복구될 수 있음을 이해합니다.",
                 "ok": "동의하고 시작",
-                "privacyPolicy": "본 [개인정보 보호정책]을 읽었으며 동의합니다\n(https://wavesplatform.com/files/docs/Privacy Policy_SW.pdf).",
+                "privacyPolicy": "본 [개인정보 보호정책]을 읽었으며 동의합니다\n(https://wavesplatform.com/files/docs/Privacy_Policy_SW.pdf).",
                 "read": "다음 약관을 읽었으며 이해하고 동의합니다.",
                 "readTermsAndConditions": "본 [이용 약관]을 읽었으며 동의합니다\n(https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf).",
                 "security": "나의 자산이 회사가 아닌 현재 사용 중인 장치에서 안전하게 보관된다는 것을 이해합니다.",
@@ -813,6 +861,7 @@
             "step1": {
                 "button": "백업 구절에 대해 확인해야 할 사항",
                 "buttonMobile": "다음",
+                "buttonReadMore": "Read more",
                 "p1": "귀하의 안전을 위해 몇 가지 중요한 사항을 확인해야 합니다. 🙏",
                 "p2": "만약 피싱 사이트를 방문하거나 백업 구절(일명 SEED) 분실 시 당사는 귀하의 자금을 되찾거나 계정을 정지할 수 없습니다.",
                 "p3": "당사의 플랫폼을 이용함에 따라 귀하는 백업 구절(SEED) 분실에 관련된 모든 위험을 감수하는 것에 동의하는 것이며 이는 귀하의 자금 확보 및 처분이 불가능한 경우를 포함하며 이에 국한되지 않습니다. 귀하가 SEED를 분실할 경우 Waves Platform은 이에 따른 부정적인 결과에 어떠한 책임도 없다는 것에 동의하고 승인합니다.",
@@ -913,10 +962,13 @@
                 "1_3_0": "{span.line}[1. 앱 네비게이션 및 시작 페이지 인터페이스 개선.]",
                 "1_3_18": "{span.line}[1. Added login to wallet using a private key.]\n{span.line}[2. The 24 hours price change of a token is now bound to token/WAVES pair.]",
                 "1_3_19": "{span.line}[1. Bancor gateway has been launched.]\n{span.line}[2. User menu interface has been improved.]",
-                "1_3_2": "{span.line}[1. Vostok 게이트웨이 런칭 완료.]\n{span.line}[2. UI 개선 및 기타 버그 픽스.]",
+                "1_3_2": "{span.line}[1. VST 게이트웨이 런칭 완료.]\n{span.line}[2. UI 개선 및 기타 버그 픽스.]",
+                "1_3_20": "{span.line}[1. Improved system for storing and restoring accounts from local storage (Need to update the [desktop application](https://wavesplatform.com/technology/wallet)).]\n{span.line}[2. Fixed rounding of prices in the orderbook.]",
                 "1_3_5": "{span.line}[1. [wsoc.io](https://wsoc.io) 컨테스트 토큰 탭 추가 완료.]\n{span.line}[2. 프랑스어 지원 추가.]\n{span.line}[3. 기타 버그 픽스.]",
                 "1_3_7": "{span.line}[1. Integration with [tokenrating.wavesexplorer.com](https://tokenrating.wavesexplorer.com)과의 통합. 앱에서 토큰을 평가할 수 있습니다.]\n{span.line}[2. 기타 버그 픽스.]",
-                "1_3_9": "{span.line}[1. Improved UI and functionality of Exchange and Wallet sections.]\n{span.line}[2. Additional minor bugs have been fixed.]"
+                "1_3_9": "{span.line}[1. Improved UI and functionality of Exchange and Wallet sections.]\n{span.line}[2. Additional minor bugs have been fixed.]",
+                "1_4_0": "{span.line}[Added ability for easy switching between accounts within one wallet.]",
+                "1_4_4": "{span.line}[Added ability to backup and restore accounts from the keystore-file]"
             },
             "title": "{{version}} 업데이트의 새로운 기능 및 변경 사항"
         }

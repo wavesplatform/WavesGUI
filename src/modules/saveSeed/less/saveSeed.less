@@ -17,7 +17,7 @@ body.saveSeed {
       position: relative;
       flex-shrink: 0;
 
-      w-avatar {
+      .avatar {
         position: absolute;
       }
     }
@@ -37,28 +37,28 @@ body.saveSeed {
       background-position: center;
     }
 
-    w-select {
-      .select-list {
+    .select {
+      .select__list {
         max-height: 300px;
         overflow: auto;
       }
 
-      .title-content .icon-remove-user {
+      .select__title-content .icon-remove-user {
         display: none;
       }
 
-      .title-content, .option {
+      .select__title-content, .option {
         display: flex;
         flex-direction: row;
         align-items: center;
       }
     }
 
-    w-select.one-item {
-      .title-content .icon-remove-user {
+    .select.one-item {
+      .select__title-content .icon-remove-user {
         display: inline-block;
       }
-      .title {
+      .select__title {
         padding: 0 0 0 15px;
       }
     }
@@ -71,7 +71,7 @@ body.saveSeed {
     }
 
     .input-like,
-    w-select {
+    .select {
       .has-name {
         .address {
           color: @color-basic-500;

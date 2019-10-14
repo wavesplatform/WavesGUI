@@ -193,6 +193,12 @@
             "message": "トレードを開始するには、サインインまたはアカウントを作成してください",
             "ok": "サインイン"
         },
+        "deleteAccount": {
+            "cancel": "Cancel",
+            "delete": "Remove",
+            "description": "{div}[Removing an account will lead to its irretrievable loss if you didn't save a backup phrase (SEED).]\n{div}[Click on the REMOVE button to proceed with account removal, or CANCEL to return to the previous screen.]",
+            "header": "Remove account"
+        },
         "deposit": {
             "coinomatBCH": {
                 "helpDescrText": "トランザクションが承認されると、ゲートウェイはBCHの送信を進め、完了するとあなたのWavesアカウントにトークンが反映されます。",
@@ -280,9 +286,15 @@
                 "warningText": "このアドレスに他の通貨を送信した場合、資産の消失につながる可能性があります。",
                 "warningTitle": "このデポジットアドレスにはERGOのみ送信してください"
             },
+            "wavesGatewayETH": {
+                "warningMinAmountText": "If you will send less than {{minAmount, BigNumber}} {{assetTicker}}, you will lose that money.",
+                "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}, the maximum amount of deposit is {{maxAmount}} {{assetTicker}}",
+                "warningText": "あなたのウォレットと取引所がスマートコントラクトを用いて、ETHを引出していないか、確認してください。私たちはそのような形式のトランザクションを受け入れておらず、返金することもできません。あなたはあなたの資金を失います。",
+                "warningTitle": "ETHをスマートコントラクトからデポジットしないでください。また、ERC20トークンもデポジットしないでください。"
+            },
             "wavesGatewayVST": {
-                "helpDescrText": "トランザクションが承認されると、ゲートウェイはVostokの送信を進め、あなたのWavesアカウントにトークンが反映されます。",
-                "helpDescrTitle": "このアドレスをVostokクライアント、またはウォレットに入力してください",
+                "helpDescrText": "トランザクションが承認されると、ゲートウェイはVSTの送信を進め、あなたのWavesアカウントにトークンが反映されます。",
+                "helpDescrTitle": "このアドレスをVSTクライアント、またはウォレットに入力してください",
                 "warningMinAmountTitle": "最小デポジット額は{{minAmount, BigNumber}} {{assetTicker}}、最大デポジット額は{{maxAmount}} {{assetTicker}}です"
             }
         },
@@ -339,6 +351,14 @@
             "wavesBetaClientDescription": "Wavesのベータクライアントからアカウントをインポート",
             "wavesLiteClient": "Waves Lite クライアント",
             "wavesLiteClientDescription": "Wavesのライトクライアントからアカウントをインポート"
+        },
+        "matcherChoice": {
+            "customMatcher": "Custom matcher address",
+            "matcher": "Matcher",
+            "matcherTerms": "I agree to the Super DEX Mather Terms of Use.",
+            "terms": "Terms",
+            "title": "Choose matcher",
+            "wavesTerms": "I am over 18 years old, and I agree to the Waves Terms of Use and Waves Privacy Policy."
         },
         "open-main": {
             "dex": {
@@ -455,7 +475,7 @@
             "shareInvoiceLink": "請求書リンクを共有",
             "verified": "承認済",
             "vostok": {
-                "serverError": "現在、一時的に、Vostokのサービスがご利用いただけません。再度お試しください。"
+                "serverError": "現在、一時的に、VSTのサービスがご利用いただけません。再度お試しください。"
             },
             "wtry": {
                 "info": "送金処理に問題が生じた場合、Digiliraのサポートチームに連絡してください。— [support@digilira.com](mailto:support@digilira.com)"
@@ -470,7 +490,8 @@
             "heading": "アカウントを除去",
             "remove": "除去",
             "text": "{div}[あなたがバックアップフレーズ（SEED）を保存していない場合、アカウントの削除が復元不可能な損失につながります。]\r\n {div}[除去ボタンを押してアカウントの除去に進んでください。または、キャンセルを押して前の画面に戻ってください。]",
-            "warning": "あなたはまだシードを保存していません"
+            "warning": "あなたはまだシードを保存していません",
+            "warningPlural": "You did not save your Seed phrases"
         },
         "removeKeeperAccount": {
             "heading": "Waves Keeperアカウントを除去",
@@ -532,6 +553,11 @@
             "gateway": {
                 "feeExplanation": "私たちは {{assetName}} アドレスを検知しました。ゲートウェイを通じてそのアドレスに送金します。最小数量は {{min, BigNumber}} {{assetTicker}}、最大数量は {{max, BigNumber}} {{assetTicker}}です。"
             },
+            "gatewayTerms": {
+                "accept": "Accept and Continue",
+                "text": "By using Gateway service, you agree to be bound by [Gateway Terms of Service](https://dex.wavesplatform.com/) and [Conduction of Transactions](https://dex.wavesplatform.com/). If you do not agree to these terms, then do not use this Gateway service.",
+                "title": "Gateway service agreement"
+            },
             "icoWarning": "{{assetName}} をICOに向けて引き出さないでください。私たちはそのトークンセールから受け取るトークンをあなたのアカウントに反映しません。",
             "idNumber": {
                 "helpIcon": {
@@ -583,7 +609,8 @@
             "validationError": {
                 "notEnoughFunds": "あなたは必要な手数料を支払う資金を保有していません。 {{fee, money-currency}} をトランザクション手数料として支払う必要があります。",
                 "notEnoughFundsWithdraw": "あなたは必要な手数料を支払う資金を保有していません。トランザクション手数料 {{fee, money-currency}} として、ゲートウェイ手数料{{getawayFee, BigNumber}} {{currency}} を支払う必要があります。最低引出し可能額は {{minGatewayAmount, BigNumber}} {{currency}}です。"
-            }
+            },
+            "withdrawTitle": "Withdraw"
         },
         "sepa": {
             "countryList": "適格な国とIDのリスト",
@@ -606,8 +633,17 @@
             "warningHeader": "アクションが資産の消失に繋がる可能性があります。"
         },
         "settings": {
+            "account": "Account",
             "cancel": "アカウントを作成",
             "changePass": "Change password",
+            "deleteAccount": "Remove account",
+            "exportAccounts": {
+                "accounts": "Accounts",
+                "export": "Export",
+                "selectAll": "Select all",
+                "title": "Please select account",
+                "unselectAll": "Unselect all"
+            },
             "general": {
                 "auto": "自動",
                 "blockHeight": "現在のブロック",
@@ -625,6 +661,7 @@
                 "title": "一般",
                 "white": "ホワイト"
             },
+            "helperContent": "You can set a password for exported accounts",
             "info": {
                 "legal": "リーガル",
                 "privacyPolicy": "プライバシーポリシー",
@@ -646,6 +683,7 @@
                 "dataProviderInvalid": "プロバイダー情報の取得に失敗しました。アドレスを確認して再度お試しください。",
                 "dataProviderName": "{{dataProviderName}}",
                 "dontShowSpamCheckboxDescr": "不審なトークンを表示しない",
+                "edit": "Edit",
                 "forDisableClear": "完全に無効にするには、このフィールドをクリアします。",
                 "matcherAddress": "Matcher アドレス",
                 "nodeAddress": "ノードアドレス",
@@ -677,9 +715,13 @@
             "security": {
                 "address": "アドレス",
                 "backupPhrase": "バックアップフレーズ",
+                "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "エンコードされたシード",
+                "exportAccount": "Export account to file",
+                "id": "Account ID",
                 "privateKey": "秘密鍵",
                 "publicKey": "公開鍵",
+                "savejson": "Save as JSON file",
                 "script": "スクリプト",
                 "scriptButton": "スクリプトを設定",
                 "scriptButtonUpdate": "スクリプトをアップデート",
@@ -691,6 +733,7 @@
         },
         "sign": {
             "article": "記事",
+            "buy": "Buy",
             "cancel": "キャンセル",
             "cancelOrder": "注文をキャンセル",
             "close": "閉じる",
@@ -717,12 +760,15 @@
             "fee": "手数料",
             "matcher": "注文リクエストに署名",
             "openApp": "Waves Appを開く",
+            "orderType": "Order type",
+            "pair": "Pair",
             "price": "価格",
             "refererTo": "エラーを解決できない場合、こちらを参照ください。",
             "referTo": "エラーを解決できない場合、こちらを参照ください。",
             "request": "リクエスト",
             "requestId": "ハッシュをリクエスト",
             "retry": "リトライ",
+            "sell": "Sell",
             "signByKeeper": "Waves Keeperからの承認を待っています",
             "signByLedger": "Ledgerデバイスからの承認を待っています",
             "signError": "リクエストは未承認です。",
@@ -730,6 +776,8 @@
             "signErrorText": "あなたはLedgerデバイスでリクエストを承認しませんでした",
             "signErrorTextImportKeeper": "Waves Keeperに、アドレス : {{address}}でサインインし、\r\nページを再読込みして続ける。",
             "signErrorTextKeeper": "再度お試し下さい。問題が継続する場合、 [サポート](https://support.wavesplatform.com)で、サポートチケットを発行して下さい。",
+            "signErrorTextKeeperWrongUser": "This account does not match the selected account in your Waves Keeper. Please activate another account in Waves Keeper and try again.",
+            "timestamp": "Timestamp",
             "txId": "TXID"
         },
         "sponsorship_edit": {
@@ -768,7 +816,7 @@
                 "analytics": "開発者に匿名の使用統計を送信することで、Wavesプラットフォームの改善に協力します。",
                 "backup": "私は、アプリを他のデバイスに移動するまたは削除した場合、私のWavesはバックアップフレーズのみから復元できることを理解しています。",
                 "ok": "承認して始める",
-                "privacyPolicy": "[プライバシーポリシー](https://wavesplatform.com/files/docs/Privacy Policy_SW.pdf)の内容を確認し、同意します。",
+                "privacyPolicy": "[プライバシーポリシー](https://wavesplatform.com/files/docs/Privacy_Policy_SW.pdf)の内容を確認し、同意します。",
                 "read": "私は規約を読み、十分に理解し、同意します。",
                 "readTermsAndConditions": "私は[利用規則](https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf)を読み、十分に理解し、その内容に同意します。",
                 "security": "私の資金は企業ではなく、デバイス上に安全に保管されていることを理解しています。",
@@ -813,6 +861,7 @@
             "step1": {
                 "button": "あなたがSEEDについて知る必要があること",
                 "buttonMobile": "次へ",
+                "buttonReadMore": "Read more",
                 "p1": "ご自身の安全のため、重要事項を把握してください🙏",
                 "p2": "もし、フィッシングサイトを訪問してしまった場合や、バックアップフレーズ（SEEDフレーズ）を紛失した場合、私たちはあなたの資金を元に戻すことはできません。",
                 "p3": "私たちのプラットフォームを使い続けることで、シードの損失に関わるすべてのリスク（資金を入手し入金することができなくなることを含むが、これに限定されない）を受け入れることにあなたは同意するものとします。あなたがシードを紛失した場合、Wavesプラットフォームはこの結果責任を負わないことに、あなたは同意し承認するものとします。",
@@ -913,10 +962,13 @@
                 "1_3_0": "{span.line} [1. アプリのナビゲーションとスタートページのインターフェースが改善されました。]",
                 "1_3_18": "{span.line}[1. 秘密鍵によるログインが可能になりました。]{span.line}[2. 24時間以内のトークン価格の変化がトークン/WAVESペアに対応しました。]",
                 "1_3_19": "{span.line}[1. Bancor gateway has been launched.]\n{span.line}[2. User menu interface has been improved.]",
-                "1_3_2": "{span.line} [1. Vostokのゲートウェイが追加されました。 \n{span.line} [2. UIの改善と、いくつかのマイナーなバグを修正しました。]",
+                "1_3_2": "{span.line} [1. VSTのゲートウェイが追加されました。 \n{span.line} [2. UIの改善と、いくつかのマイナーなバグを修正しました。]",
+                "1_3_20": "{span.line}[1. Improved system for storing and restoring accounts from local storage (Need to update the [desktop application](https://wavesplatform.com/technology/wallet)).]\n{span.line}[2. Fixed rounding of prices in the orderbook.]",
                 "1_3_5": "{span.line}[1. [wsoc.io](https://wsoc.io) コンテスト用のトークンタブが追加されました。]{span.line}[2. フランス語に対応しました。]{span.line}[3. 一部のマイナーバグを修正しました。]",
                 "1_3_7": "{span.line}[1.[tokenrating.wavesexplorer.com](https://tokenrating.wavesexplorer.com) に対応。アプリから直接トークンのレーティングが可能に。]{span.line}[2. 追加のマイナーバグを修正しました。]",
-                "1_3_9": "{span.line}[1. 交換とウォレットセクションにおけるUIと機能の改善。]\n {span.line}[2. マイナーバグを修正。]"
+                "1_3_9": "{span.line}[1. 交換とウォレットセクションにおけるUIと機能の改善。]\n {span.line}[2. マイナーバグを修正。]",
+                "1_4_0": "{span.line}[Added ability for easy switching between accounts within one wallet.]",
+                "1_4_4": "{span.line}[Added ability to backup and restore accounts from the keystore-file]"
             },
             "title": "このアップデート {{version}} の新機能"
         }

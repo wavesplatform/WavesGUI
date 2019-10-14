@@ -19,6 +19,7 @@
         "candleChart": {
             "error": "{div}[No se puede descargar el gráfico.]{div}[Si quieres usar este gráfico en tu aplicación, por favor envía una petición a [tradingview.com](https://tradingview.com)]"
         },
+        "charts": "charts",
         "createOrder": {
             "1day": "1 día",
             "1hour": "1 hora",
@@ -32,8 +33,12 @@
             "buy": "Comprar",
             "createOrderNotPermitted": "Los pedidos no estàn disponible temporalmente",
             "errors": {
+                "amountMax": "Max Amount - ",
+                "amountMin": "Min Amount - ",
                 "balance": "No hay suficiente {{name}}",
                 "precision": "Excedido el máximo de {{precision}} lugares decimales",
+                "priceMax": "Max Price - ",
+                "priceMin": "Min Price - ",
                 "required": "Se requiere este campo"
             },
             "expiration": "Terminación",
@@ -43,14 +48,14 @@
             "matcherFee": "Fee",
             "notifications": {
                 "error": {
-                    "11536128": "The asset's script of {{assetId}} returned the error: {{scriptError}}",
-                    "11536129": "The asset's script of {{assetId}} is broken, please contact with the owner. The returned error is {{errorName}}, the text is: {{errorText}}",
-                    "11536130": "The asset's script of {{assetId}} rejected the order",
-                    "11536132": "The asset's script of {{assetId}} is broken, please contact with the owner. The returned object is '{{returnedObject}}'",
-                    "3147520": "The account's script of {{address}} returned the error: {{scriptError}}",
+                    "11536128": "El script del activo {{assetId}} devolvió el error: {{scripterror}}",
+                    "11536129": "El script del activo {{assetId}} está roto, por favor contacte con el propietario. El error devuelto es {{errorName}}, el texto es: {{errorText}}",
+                    "11536130": "El script del activo {{assetId}} rechazó la orden",
+                    "11536132": "El script del activo {{assetId}} está roto, por favor contacte al propietario. El objeto devuelto es {{returnedObject}}",
+                    "3147520": "El script de la cuenta {{address}} devolvió el error: {{scriptError}}",
                     "3147521": "El script de la cuenta  {{address}} rechazó la transacción.",
                     "3147522": "El script de la cuenta  {{address}} rechazó la transacción.",
-                    "3147524": "The account's script of {{address}} is broken, please contact with the owner. The returned object is '{{returnedObject}}'",
+                    "3147524": "El script de la cuenta {{address}} es incorrecto, por favor contacte con el propietario. El objeto de respuesta es '{{returnedobject}}'.",
                     "title": "Un mensaje de error"
                 },
                 "isCreated": "La orden se ha creado",
@@ -63,6 +68,8 @@
             "priceField": "Precio límite",
             "sell": "Vender",
             "spread": "diferencial",
+            "stopPriceField": "Stop price",
+            "stopPriceHelp": "This is an automatic buy or sell order at a predetermined price",
             "total": "Total"
         },
         "demo": {
@@ -144,6 +151,7 @@
                 "header": "Algo ha salido mal"
             }
         },
+        "orders": "orders",
         "portfolio": {
             "title": "Portafolio"
         },
@@ -229,10 +237,12 @@
             "all": "Todo",
             "btc": "Btc",
             "eth": "ETH",
+            "history": "history",
             "myBalance": "Mi balance",
             "myTradeHistory": "Mi historial",
             "openOrders": "Mis órdenes abiertas",
             "OrderHistory": "Mi historial de ordenes",
+            "trade": "Trade",
             "tradeHistory": "Historial",
             "waves": "Waves"
         }

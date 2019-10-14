@@ -1,4 +1,5 @@
 {
+    "active": "Activo",
     "all": "Todos",
     "amount": "Cantidad",
     "balanceInput": {
@@ -99,6 +100,7 @@
             "confirmRequestKeeper": {
                 "cancel": "Anular",
                 "errorDescription": "Por favor, inténtelo de nuevo. Si el error persiste, por favor enviar un ticket a [soporte](https://support.wavesplatform.com)",
+                "errorDescriptionSwitchUser": "This account does not match the selected account in your Waves Keeper. Please activate another account in Waves Keeper and try again.",
                 "errorHeader": "No ha confirmado la solicitud utilizando Waves Keeper",
                 "sign": "Reintentar",
                 "waiting": "Esperando confirmación de Waves Keeper..."
@@ -125,6 +127,7 @@
     "errorBlocks": {
         "title": "Algo ha salido mal…"
     },
+    "importSuccess": "Account Importing from the Keystore File was successful",
     "modal": {
         "assetInfo": {
             "gateway_ui": "gateway"
@@ -142,14 +145,14 @@
     },
     "password": {
         "btn": {
-            "confirm": "Confirm"
+            "confirm": "Confirmar"
         },
         "minLength": "debe ser al menos de {{minLength}} caracteres",
         "name": "Nombre de la cuenta",
-        "nameExists": "That name is taken",
-        "newPass": "New password",
-        "old": "Old password",
-        "oldWrong": "Old password is wrong",
+        "nameExists": "Ese nombre esta tomado",
+        "newPass": "Nueva contraseña",
+        "old": "Contraseña antigua",
+        "oldWrong": "La contraseña anterior es incorrecta",
         "repeat": "Confirma la contraseña",
         "secure": "contraseña segura",
         "title": "Protege tu cuenta con una nueva contraseña",

@@ -13,11 +13,8 @@ md-dialog.modal-send {
     color: @color-disabled-900;
 
     .modal-content,
-    .tab-container,
-    .tab-body-wrap,
-    w-tabs,
-    w-tab,
     .step-list,
+    w-tab,
     w-step-by-step,
     w-step,
     w-step > div {
@@ -29,6 +26,10 @@ md-dialog.modal-send {
     w-single-send {
       display: block;
       max-height: calc(90vh ~'- 60px');
+    }
+
+    .error-content {
+      padding: 60px 40px 40px;
     }
 
     w-step.send-form .tab-body-wrap {
@@ -213,8 +214,7 @@ md-dialog.modal-send {
       max-height: 300px;
     }
 
-    w-select {
-
+    .select {
       .asset {
         &__name {
           @media screen and (max-width: 540px) {
@@ -233,21 +233,6 @@ md-dialog.modal-send {
         &__amount {
           max-width: 100px;
         }
-      }
-
-      .title {
-        overflow-x: hidden;
-      }
-
-      .expanded {
-        .select-list {
-          margin-bottom: 40px;
-        }
-      }
-
-      .select-list {
-        max-height: 325px;
-        overflow: auto;
       }
     }
 
@@ -370,7 +355,6 @@ md-dialog.modal-send {
         text-align: right;
       }
     }
-
   }
 
 }
@@ -379,7 +363,7 @@ md-dialog.modal-send {
   md-dialog.modal-send {
     md-dialog-content {
       w-step.send-form{
-        .tab-body-wrap {
+        .tabs__body {
           padding: 20px 20px 0;
           display: block;
         }
@@ -470,7 +454,7 @@ md-dialog.modal-send {
       }
 
       w-balance-input w-input .w-input-wrap input[type="text"].big,
-      w-select .select .title {
+      .select .select__wrap .select__title {
         font-size: @font-size-caption-1;
       }
     }

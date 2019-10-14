@@ -18,6 +18,16 @@
 
         class StartLeasingCtrl extends Base {
 
+            /**
+             * @type {args}
+             */
+            signPending = false;
+            /**
+             * @type {Array}
+             * @private
+             */
+            _listeners = [];
+
             constructor() {
                 super($scope);
                 this.step = 0;
@@ -43,6 +53,17 @@
                     .then((balance) => {
                         this.balance = balance.available;
                     });
+
+                const signPendingListener = $scope.$on('signPendingChange', (event, data) => {
+                    this.signPending = data;
+                });
+
+                this._listeners.push(signPendingListener);
+            }
+
+            $onDestroy() {
+                super.$onDestroy();
+                this._listeners.forEach(listener => listener());
             }
 
             back() {

@@ -1,8 +1,12 @@
 {
-    "keyForm": {
-        "placeholder": "Enter your private key here"
+    "encodedSeedForm": {
+        "placeholder": "Enter your encoded seed"
     },
-    "keyTab": "Private key",
+    "encodedSeedTab": "Encoded seed",
+    "keyForm": {
+        "placeholder": "Ingrese su clave privada aquí"
+    },
+    "keyTab": "Llave privada",
     "password": {
         "error": "¡Contraseña incorrecta!"
     },
@@ -36,12 +40,12 @@
     },
     "seedForm": {
         "address": "Dirección",
-        "addressSaved": "Address saved",
+        "addressSaved": "Dirección guardada",
         "back": "Ve para atrás",
         "continue": "Continuar",
         "create": "crear nueva cuenta",
         "description": "Su SEED son las 15 palabras que guardó al crear su cuenta",
-        "nameExists": "That name is taken",
+        "nameExists": "Este nombre ya ha sido utilizado",
         "or": "or",
         "placeholder": "Tu SEED son las 15 palabras que guardaste cuando creaste la cuenta",
         "saveUserData": "Mantener la sesión iniciada en este ordenador",
@@ -50,12 +54,13 @@
         "tosaved": "ve a una cuenta guardada"
     },
     "seedOrKeyForm": {
-        "description": "Enter your Seed phrase or private key to access your wallet",
-        "keyTitle": "Private key",
-        "seedTitle": "Seed phrase",
-        "title": "Import from seed or key"
+        "description": "Ingrese su frase de semilla o clave privada para acceder a su billetera",
+        "encodedSeed": "Encoded seed",
+        "keyTitle": "Llave privada",
+        "seedTitle": "Frase semilla",
+        "title": "Importar desde semilla o clave"
     },
-    "seedTab": "Seed phrase",
+    "seedTab": "Frase semilla",
     "warningSeed": {
         "message": "Asegúrese de no confundir la frase con una dirección de billetera. Usar una dirección de billetera como una frase SEED puede resultar en la pérdida de fondos. La frase SEED debe constar de 15 palabras con espacios entre cada una de ellas.",
         "title": "La frase SEED ingresada es muy corta."

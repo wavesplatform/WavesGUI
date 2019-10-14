@@ -20,6 +20,12 @@
         }
     },
     "storage": {
+        "backup": {
+            "error": {
+                "body": "Failed to get accounts. Please contact the support service to restore the backup phrase (SEED phrase).",
+                "title": "Something went wrong!"
+            }
+        },
         "read": {
             "error": {
                 "body": "あなたのキーを読み込む途中でエラーが発生しました。あなたのアカウントをバックアップストレージから復元しました。",

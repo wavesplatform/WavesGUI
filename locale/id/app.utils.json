@@ -193,12 +193,18 @@
             "message": "Untuk memulai perdagangan, masuk atau buat akun",
             "ok": "Masuk"
         },
+        "deleteAccount": {
+            "cancel": "Batalkan",
+            "delete": "Hapus",
+            "description": "{div} [Menghapus akun akan menyebabkan kerugian yang tidak dapat diperbaiki jika Anda tidak menyimpan frase cadangan (SEED).]\n{div} [Klik pada tombol REMOVE untuk melanjutkan penghapusan akun, atau BATAL untuk kembali ke layar sebelumnya.]",
+            "header": "Menghapus akun"
+        },
         "deposit": {
             "coinomatBCH": {
                 "helpDescrText": "Setelah transaksi dikonfirmasi, gateway akan memproses transfer BCH ke token di akun Waves Anda.",
                 "helpDescrTitle": "Masukkan alamat ini ke klien atau dompet Bitcoin Cash Anda",
                 "warningMinAmountText": "Jika Anda akan mengirim kurang dari {{minAmount, BigNumber}} {{assetTicker}}, Anda akan kehilangan uang itu.",
-                "warningMinAmountTitle": "Jumlah minimum setoran adalah {{minAmount, BigNumber}} {{assetTicker}}",
+                "warningMinAmountTitle": "Jumlah minimum setoran adalah {{minAmount, BigNumber}} {{assetTicker}} , jumlah setoran maksimum adalah {{maxAmount}} {{assetTicker}}",
                 "warningText": "Mengirimkan mata uang lain ke alamat ini dapat menyebabkan hilangnya deposit Anda.",
                 "warningTitle": "Kirim saja BCH ke alamat setoran ini"
             },
@@ -206,7 +212,7 @@
                 "helpDescrText": "Setelah transaksi dikonfirmasi, gateway akan memproses transfer BSV ke token di akun Waves Anda.",
                 "helpDescrTitle": "Masukkan alamat ini ke dalam klien atau dompet Bitcoin Satoshi Vision Anda",
                 "warningMinAmountText": "Jika Anda akan mengirim kurang dari {{minAmount, BigNumber}} {{assetTicker}}, Anda akan kehilangan uang itu.",
-                "warningMinAmountTitle": "Jumlah minimum setoran adalah {{minAmount, BigNumber}} {{assetTicker}}",
+                "warningMinAmountTitle": "Jumlah minimum setoran adalah {{minAmount, BigNumber}} {{assetTicker}} , jumlah setoran maksimum adalah {{maxAmount}} {{assetTicker}}",
                 "warningText": "Mengirim mata uang lain ke alamat ini dapat menyebabkan hilangnya setoran Anda.",
                 "warningTitle": "Kirim hanya BSV ke alamat setoran ini"
             },
@@ -214,7 +220,7 @@
                 "helpDescrText": "Setelah transaksi dikonfirmasi, gateway akan memproses transfer BTC ke token di akun Waves Anda.",
                 "helpDescrTitle": "Masukkan alamat ini ke dalam klien atau dompet Bitcoin Anda",
                 "warningMinAmountText": "Jika Anda akan mengirim kurang dari {{minAmount, BigNumber}} {{assetTicker}}, Anda akan kehilangan uang itu.",
-                "warningMinAmountTitle": "Jumlah minimum setoran adalah {{minAmount, BigNumber}} {{assetTicker}}",
+                "warningMinAmountTitle": "Jumlah minimum setoran adalah {{minAmount, BigNumber}} {{assetTicker}} , jumlah setoran maksimum adalah {{maxAmount}} {{assetTicker}}",
                 "warningText": "Mengirimkan mata uang lain ke alamat ini dapat menyebabkan hilangnya deposit Anda.",
                 "warningTitle": "Kirim saja BTC ke alamat setoran ini"
             },
@@ -222,7 +228,7 @@
                 "helpDescrText": "Setelah transaksi dikonfirmasi, gateway akan memproses transfer DASH ke token di akun Waves Anda.",
                 "helpDescrTitle": "Masukkan alamat ini ke klien atau dompet DASH Anda",
                 "warningMinAmountText": "Jika Anda akan mengirim kurang dari {{minAmount, BigNumber}} {{assetTicker}}, Anda akan kehilangan uang itu.",
-                "warningMinAmountTitle": "Jumlah minimum setoran adalah {{minAmount, BigNumber}} {{assetTicker}}",
+                "warningMinAmountTitle": "Jumlah minimum setoran adalah {{minAmount, BigNumber}} {{assetTicker}} , jumlah setoran maksimum adalah {{maxAmount}} {{assetTicker}}",
                 "warningText": "Mengirimkan mata uang lain ke alamat ini dapat menyebabkan hilangnya deposit Anda.",
                 "warningTitle": "Kirim hanya DASH ke alamat setoran ini"
             },
@@ -230,7 +236,7 @@
                 "helpDescrText": "Setelah transaksi dikonfirmasi, gateway akan memproses transfer ETH ke token di akun Waves Anda.",
                 "helpDescrTitle": "Masukkan alamat ini ke dalam klien Ethereum atau dompet Anda",
                 "warningMinAmountText": "Jika Anda akan mengirim kurang dari {{minAmount, BigNumber}} {{assetTicker}}, Anda akan kehilangan uang itu.",
-                "warningMinAmountTitle": "Jumlah minimum setoran adalah {{minAmount, BigNumber}} {{assetTicker}}",
+                "warningMinAmountTitle": "Jumlah minimum setoran adalah {{minAmount, BigNumber}} {{assetTicker}} , jumlah setoran maksimum adalah {{maxAmount}} {{assetTicker}}",
                 "warningText": "Periksa apakah dompet atau pertukaran Anda menggunakan kontrak cerdas untuk menarik ETH. Kami tidak menerima transaksi semacam itu dan dapat mengembalikan uang mereka. Anda akan kehilangan uang itu.",
                 "warningTitle": "Tolong jangan depositkan ETH dari kontrak pintar! Jangan setor token ERC20! Hanya Ethereum yang diizinkan."
             },
@@ -238,7 +244,7 @@
                 "helpDescrText": "Setelah transaksi dikonfirmasi, gateway akan memproses transfer LTC ke token di akun Waves Anda.",
                 "helpDescrTitle": "Masukkan alamat ini ke klien atau dompet Litecoin Anda",
                 "warningMinAmountText": "Jika Anda akan mengirim kurang dari {{minAmount, BigNumber}} {{assetTicker}}, Anda akan kehilangan uang itu.",
-                "warningMinAmountTitle": "Jumlah minimum setoran adalah {{minAmount, BigNumber}} {{assetTicker}}",
+                "warningMinAmountTitle": "Jumlah minimum setoran adalah {{minAmount, BigNumber}} {{assetTicker}} , jumlah setoran maksimum adalah {{maxAmount}} {{assetTicker}}",
                 "warningText": "Mengirimkan mata uang lain ke alamat ini dapat menyebabkan hilangnya deposit Anda.",
                 "warningTitle": "Kirim hanya LTC ke alamat setoran ini"
             },
@@ -246,7 +252,7 @@
                 "helpDescrText": "Setelah transaksi dikonfirmasi, gateway akan memproses transfer XMR ke token di akun Waves Anda.",
                 "helpDescrTitle": "Masukkan alamat ini ke dalam klien atau dompet Monero Anda",
                 "warningMinAmountText": "Jika Anda akan mengirim kurang dari {{minAmount, BigNumber}} {{assetTicker}}, Anda akan kehilangan uang itu.",
-                "warningMinAmountTitle": "Jumlah minimum setoran adalah {{minAmount, BigNumber}} {{assetTicker}}",
+                "warningMinAmountTitle": "Jumlah minimum setoran adalah {{minAmount, BigNumber}} {{assetTicker}} , jumlah setoran maksimum adalah {{maxAmount}} {{assetTicker}}",
                 "warningText": "{div}[ID Pembayaran tidak diperlukan.] Mengirim mata uang lainnya ke alamat ini dapat menyebabkan hilangnya deposit Anda.",
                 "warningTitle": "Kirim hanya XMR ke alamat setoran ini"
             },
@@ -254,7 +260,7 @@
                 "helpDescrText": "Setelah transaksi dikonfirmasi, gateway akan memproses transfer ZEC ke token di akun Waves Anda.",
                 "helpDescrTitle": "Masukkan alamat ini ke dalam klien atau dompet Zcash Anda",
                 "warningMinAmountText": "Jika Anda akan mengirim kurang dari {{minAmount, BigNumber}} {{assetTicker}}, Anda akan kehilangan uang itu.",
-                "warningMinAmountTitle": "Jumlah minimum deposit adalah {{minAmount, BigNumber}} {{assetTicker}}",
+                "warningMinAmountTitle": "Jumlah minimum setoran adalah {{minAmount, BigNumber}} {{assetTicker}} , jumlah setoran maksimum adalah {{maxAmount}} {{assetTicker}}",
                 "warningText": "Mengirimkan mata uang lain ke alamat ini dapat menyebabkan hilangnya deposit Anda.",
                 "warningTitle": "Kirim hanya Zcash ke alamat setoran ini"
             },
@@ -265,12 +271,12 @@
             "scanQrCode": "Pindai kode QR",
             "title": "Setoran {{assetName}}",
             "wavesGatewayBNT": {
-                "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of Bancor to a token in your Waves account.",
-                "helpDescrTitle": "Enter this address into your client or wallet",
-                "warningMinAmountText": "If you will send less than {{minAmount, BigNumber}} {{assetTicker}}, you will lose that money.",
-                "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}, the maximum amount of deposit is {{maxAmount}} {{assetTicker}}",
-                "warningText": "Check if your wallet or exchange uses smart-contracts to withdraw Bancor. We do not accept such transactions and can’t refund them. You will lose that money.",
-                "warningTitle": "Please do not deposit BNT from smart contracts! Do not deposit other ERC20 tokens! Only Bancor is allowed."
+                "helpDescrText": "Setelah transaksi dikonfirmasi, gateway akan memproses transfer Bancor ke token di akun Waves Anda.",
+                "helpDescrTitle": "Masukkan alamat ini ke klien atau dompet Anda",
+                "warningMinAmountText": "Jika Anda akan mengirim kurang dari {{minAmount, BigNumber}} {{assetTicker}} , Anda akan kehilangan uang itu.",
+                "warningMinAmountTitle": "Jumlah minimum setoran adalah {{minAmount, BigNumber}} {{assetTicker}} , jumlah setoran maksimum adalah {{maxAmount}} {{assetTicker}}",
+                "warningText": "Periksa apakah dompet atau pertukaran Anda menggunakan kontrak pintar untuk menarik Bancor. Kami tidak menerima transaksi tersebut dan tidak dapat mengembalikannya. Anda akan kehilangan uang itu.",
+                "warningTitle": "Tolong jangan setorkan BNT dari kontrak pintar! Jangan setorkan token ERC20 lainnya! Hanya Bancor yang diizinkan."
             },
             "wavesGatewayERGO": {
                 "helpDescrText": "Setelah transaksi dikonfirmasi, gateway akan memproses transfer ERGO ke token di akun Waves Anda.",
@@ -280,9 +286,15 @@
                 "warningText": "Mengirimkan mata uang lain ke alamat ini dapat menyebabkan hilangnya deposit Anda.",
                 "warningTitle": "Kirim hanya ERGO ke alamat penyetoran ini"
             },
+            "wavesGatewayETH": {
+                "warningMinAmountText": "Jika Anda akan mengirim kurang dari {{minAmount, BigNumber}} {{assetTicker}} , Anda akan kehilangan uang itu.",
+                "warningMinAmountTitle": "Jumlah minimum setoran adalah {{minAmount, BigNumber}} {{assetTicker}} , jumlah setoran maksimum adalah {{maxAmount}} {{assetTicker}}",
+                "warningText": "Periksa apakah dompet atau pertukaran Anda menggunakan kontrak cerdas untuk menarik ETH. Kami tidak menerima transaksi semacam itu dan dapat mengembalikan uang mereka. Anda akan kehilangan uang itu.",
+                "warningTitle": "Tolong jangan depositkan ETH dari kontrak pintar! Jangan setor token ERC20! Hanya Ethereum yang diizinkan."
+            },
             "wavesGatewayVST": {
-                "helpDescrText": "Setelah transaksi dikonfirmasi, gateway akan memproses transfer Vostok ke token di akun Waves Anda.",
-                "helpDescrTitle": "Masukkan alamat ini ke klien atau dompet Vostok Anda",
+                "helpDescrText": "Setelah transaksi dikonfirmasi, gateway akan memproses transfer VST ke token di akun Waves Anda.",
+                "helpDescrTitle": "Masukkan alamat ini ke klien atau dompet VST Anda",
                 "warningMinAmountTitle": "Jumlah minimum deposit adalah {{minAmount, BigNumber}} {{assetTicker}}, jumlah deposit maksimum adalah {{maxAmount}} {{assetTicker}}"
             }
         },
@@ -339,6 +351,14 @@
             "wavesBetaClientDescription": "Mengimpor akun dari Klien Beta Waves",
             "wavesLiteClient": "Klien Lite Waves",
             "wavesLiteClientDescription": "Impor akun dari Klien Lite Waves"
+        },
+        "matcherChoice": {
+            "customMatcher": "Custom matcher address",
+            "matcher": "Matcher",
+            "matcherTerms": "I agree to the Super DEX Mather Terms of Use.",
+            "terms": "Terms",
+            "title": "Choose matcher",
+            "wavesTerms": "I am over 18 years old, and I agree to the Waves Terms of Use and Waves Privacy Policy."
         },
         "open-main": {
             "dex": {
@@ -455,7 +475,7 @@
             "shareInvoiceLink": "Bagikan Tautan ke Faktur",
             "verified": "Terverifikasi",
             "vostok": {
-                "serverError": "Layanan Vostok sementara tidak tersedia. Coba lagi nanti."
+                "serverError": "Layanan VST sementara tidak tersedia. Coba lagi nanti."
             },
             "wtry": {
                 "info": "Jika ada masalah dengan proses pembayaran, silakan hubungi tim dukungan Digilira — [support@digilira.com](mailto:support@digilira.com)"
@@ -470,7 +490,8 @@
             "heading": "Menghapus akun",
             "remove": "Hapus",
             "text": "{div}[Penghapusan akun akan menyebabkan kerugian yang tidak bisa kembalikan jika Anda tidak menyimpan frasa cadangan (SEED).] {div}[Klik tombol HAPUS untuk melanjutkan penghapusan akun, atau BATAL untuk kembali ke layar sebelumnya .]",
-            "warning": "Anda tidak menyimpan SEED Anda"
+            "warning": "Anda tidak menyimpan SEED Anda",
+            "warningPlural": "You did not save your Seed phrases"
         },
         "removeKeeperAccount": {
             "heading": "Hapus akun Waves Keeper",
@@ -532,6 +553,11 @@
             "gateway": {
                 "feeExplanation": "Kami telah mendeteksi alamat {{assetName}} dan akan mengirimkan dana Anda melalui gateway ke alamat ini. Jumlah minimum adalah {{min, BigNumber}} {{assetTicker}}. Jumlah maksimum adalah {{max, BigNumber}} {{assetTicker}}."
             },
+            "gatewayTerms": {
+                "accept": "Accept and Continue",
+                "text": "By using Gateway service, you agree to be bound by [Gateway Terms of Service](https://dex.wavesplatform.com/) and [Conduction of Transactions](https://dex.wavesplatform.com/). If you do not agree to these terms, then do not use this Gateway service.",
+                "title": "Gateway service agreement"
+            },
             "icoWarning": "Jangan menarik {{assetName}} ke ICO. Kami tidak akan mengkredit akun Anda dengan token dari penjualan itu.",
             "idNumber": {
                 "helpIcon": {
@@ -583,7 +609,8 @@
             "validationError": {
                 "notEnoughFunds": "Anda tidak memiliki cukup dana untuk membayar biaya yang diperlukan. Anda harus membayar {{fee, money-currency}} biaya transaksi.",
                 "notEnoughFundsWithdraw": "Anda tidak memiliki cukup dana untuk membayar biaya yang diperlukan. Anda harus membayar {{fee, money-currency}} biaya transaksi dan {{getawayFee, BigNumber}} {{currency}} biaya gateway. Jumlah minimum untuk penarikan adalah {{minGatewayAmount, BigNumber}} {{currency}}."
-            }
+            },
+            "withdrawTitle": "Withdraw"
         },
         "sepa": {
             "countryList": "Daftar negara dan ID yang memenuhi syarat",
@@ -606,8 +633,17 @@
             "warningHeader": "Tindakan dapat menyebabkan hilangnya aset."
         },
         "settings": {
+            "account": "Akun",
             "cancel": "Buat sebuah akun",
-            "changePass": "Change password",
+            "changePass": "Ganti kata sandi",
+            "deleteAccount": "Menghapus akun",
+            "exportAccounts": {
+                "accounts": "Accounts",
+                "export": "Export",
+                "selectAll": "Select all",
+                "title": "Please select account",
+                "unselectAll": "Unselect all"
+            },
             "general": {
                 "auto": "Auto",
                 "blockHeight": "Tinggi saat ini",
@@ -625,6 +661,7 @@
                 "title": "Umum",
                 "white": "putih"
             },
+            "helperContent": "You can set a password for exported accounts",
             "info": {
                 "legal": "Hukum",
                 "privacyPolicy": "Kebijakan Privasi",
@@ -646,6 +683,7 @@
                 "dataProviderInvalid": "Gagal mendapatkan informasi penyedia. Silakan periksa alamatnya dan coba lagi",
                 "dataProviderName": "{{dataProviderName}}",
                 "dontShowSpamCheckboxDescr": "Jangan tampilkan token yang mencurigakan",
+                "edit": "Edit",
                 "forDisableClear": "Untuk sepenuhnya menonaktifkannya, kosongkan bidang.",
                 "matcherAddress": "Alamat pencocok",
                 "nodeAddress": "Alamat node",
@@ -672,14 +710,18 @@
                     "ok": "saya mengerti"
                 }
             },
-            "passChanged": "Password was changed successfully",
-            "password": "Password",
+            "passChanged": "Kata sandi berhasil diubah",
+            "password": "Kata sandi",
             "security": {
                 "address": "Alamat",
                 "backupPhrase": "Frasa cadangan",
+                "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "SEED terenkode",
+                "exportAccount": "Export account to file",
+                "id": "Account ID",
                 "privateKey": "Kunci pribadi",
                 "publicKey": "Kunci Publik",
+                "savejson": "Save as JSON file",
                 "script": "Skrip",
                 "scriptButton": "Setel Skrip",
                 "scriptButtonUpdate": "Perbarui Script",
@@ -691,6 +733,7 @@
         },
         "sign": {
             "article": "artikel",
+            "buy": "Buy",
             "cancel": "Batalkan",
             "cancelOrder": "Batalkan pesanan",
             "close": "Tutup",
@@ -717,12 +760,15 @@
             "fee": "Biaya",
             "matcher": "Tandatangani permintaan pesanan",
             "openApp": "Buka Aplikasi Waves",
+            "orderType": "Order type",
+            "pair": "Pair",
             "price": "Harga",
             "refererTo": "Jika kesalahan berlanjut, silakan merujuk",
             "referTo": "Jika kesalahan berlanjut, silakan merujuk",
             "request": "permintaan",
             "requestId": "Minta hash",
             "retry": "Mencoba kembali",
+            "sell": "Sell",
             "signByKeeper": "Menunggu konfirmasi tentang Waves Keeper...",
             "signByLedger": "Menunggu konfirmasi tentang Ledger...",
             "signError": "Permintaan belum dikonfirmasi.",
@@ -730,6 +776,8 @@
             "signErrorText": "Anda tidak mengonfirmasi permintaan pada Perangkat Ledger Anda",
             "signErrorTextImportKeeper": "Masuk ke Waves Keeper dengan alamat {{address}}, lalu segarkan laman untuk melanjutkan.",
             "signErrorTextKeeper": "Silakan coba lagi. Jika kesalahan berlanjut, silakan buat tiket ke [Dukungan](https://support.wavesplatform.com/)",
+            "signErrorTextKeeperWrongUser": "This account does not match the selected account in your Waves Keeper. Please activate another account in Waves Keeper and try again.",
+            "timestamp": "Timestamp",
             "txId": "TXID"
         },
         "sponsorship_edit": {
@@ -768,7 +816,7 @@
                 "analytics": "Saya ingin membantu meningkatkan platform Waves dengan mengirimkan statistik penggunaan anonim ke para pengembang.",
                 "backup": "Saya memahami bahwa jika aplikasi ini dipindahkan ke perangkat lain atau dihapus, Waves saya hanya dapat dipulihkan dengan frasa cadangan.",
                 "ok": "Konfirmasi dan Mulai",
-                "privacyPolicy": "Saya telah membaca dan menyetujui [Kebijakan Privasi] (https://wavesplatform.com/files/docs/Privacy Policy_SW.pdf).",
+                "privacyPolicy": "Saya telah membaca dan menyetujui [Kebijakan Privasi] (https://wavesplatform.com/files/docs/Privacy_Policy_SW.pdf).",
                 "read": "Saya telah membaca, memahami dan menyetujui",
                 "readTermsAndConditions": "Saya telah membaca dan menyetujui [Syarat dan Ketentuan] (https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf)",
                 "security": "Saya memahami bahwa dana saya disimpan dengan aman di perangkat ini, bukan oleh perusahaan",
@@ -813,6 +861,7 @@
             "step1": {
                 "button": "Apa yang perlu Anda ketahui tentang SEED Anda",
                 "buttonMobile": "Berikutnya",
+                "buttonReadMore": "Read more",
                 "p1": "Harap luangkan waktu untuk memahami beberapa hal penting untuk keselamatan Anda sendiri. 🙏",
                 "p2": "Kami tidak dapat memulihkan dana Anda atau membekukan akun Anda jika Anda mengunjungi situs phising atau kehilangan frasa cadangan (frasa SEED).",
                 "p3": "Dengan terus menggunakan platform kami, Anda setuju untuk menerima semua risiko yang terkait dengan hilangnya SEED Anda, termasuk tetapi tidak terbatas pada ketidakmampuan untuk mendapatkan dana Anda dan membuangnya. Jika Anda kehilangan SEED Anda, Anda setuju dan mengakui bahwa Waves Platform tidak akan bertanggung jawab atas konsekuensi negatif dari ini.",
@@ -912,11 +961,14 @@
                 "1_2_8": "{span.line} [1. Token dan transaksi spam telah disembunyikan di klien.] \n {span.line} [2. UI yang diperbaiki dan bug minor tambahan telah diperbaiki.]",
                 "1_3_0": "{span.line} [1. Navigasi aplikasi yang ditingkatkan dan antarmuka halaman mulai.]",
                 "1_3_18": "{span.line} [1. Menambahkan login ke dompet menggunakan kunci pribadi.] \n{span.line} [2. Perubahan harga 24 jam dari token sekarang terikat ke pasangan token/WAVES.]",
-                "1_3_19": "{span.line}[1. Bancor gateway has been launched.]\n{span.line}[2. User menu interface has been improved.]",
-                "1_3_2": "{span.line} [1. Gateway Vostok telah diluncurkan.] \n{span.line} [2. UI yang diperbaiki dan bug minor tambahan telah diperbaiki.]",
+                "1_3_19": "{span.line} [1. Gerbang Bancor telah diluncurkan.] \n {span.line} [2. Antarmuka menu pengguna telah ditingkatkan.]",
+                "1_3_2": "{span.line} [1. Gateway VST telah diluncurkan.] \n{span.line} [2. UI yang diperbaiki dan bug minor tambahan telah diperbaiki.]",
+                "1_3_20": "{span.line}[1. Improved system for storing and restoring accounts from local storage (Need to update the [desktop application](https://wavesplatform.com/technology/wallet)).]\n{span.line}[2. Fixed rounding of prices in the orderbook.]",
                 "1_3_5": "{span.line} [1. Tab dengan token kontes [wsoc.io] (https://wsoc.io) telah ditambahkan.] \n {span.line} [2. Dukungan bahasa Perancis ditambahkan.] \n {span.line} [3. Bug minor tambahan telah diperbaiki.]",
                 "1_3_7": "{span.line}[1. Integrasi dengan [tokenrating.wavesexplorer.com] (https://tokenrating.wavesexplorer.com) Sekarang Anda dapat menilai token langsung di app.] \n {span.line}[2. Bug minor tambahan telah diperbaiki.]",
-                "1_3_9": "{span.line}[1. UI dan fungsionalitas yang lebih baik dari bagian Exchange dan Dompet.] \n {span.line}[2. Bug minor tambahan telah diperbaiki.]"
+                "1_3_9": "{span.line}[1. UI dan fungsionalitas yang lebih baik dari bagian Exchange dan Dompet.] \n {span.line}[2. Bug minor tambahan telah diperbaiki.]",
+                "1_4_0": "{span.line}[Added ability for easy switching between accounts within one wallet.]",
+                "1_4_4": "{span.line}[Added ability to backup and restore accounts from the keystore-file]"
             },
             "title": "Apa yang baru di pembaruan ini {{version}}"
         }

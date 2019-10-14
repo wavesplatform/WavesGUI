@@ -23,6 +23,7 @@ body.restore {
           .address {
             overflow: hidden;
             text-overflow: ellipsis;
+            font-size: 15px;
 
             &.empty {
               position: relative;
@@ -37,16 +38,6 @@ body.restore {
             margin-right: 10px;
             width: 36px;
             height: 36px;
-
-            .avatar-wrap {
-              width: 100% !important;
-              height: 100% !important;
-            }
-
-            .avatar-img {
-              width: 100%;
-              height: 100%;
-            }
           }
         }
 
@@ -70,12 +61,24 @@ body.restore {
         margin-right: 10px;
       }
     }
+
+    .avatar__wrap {
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    &__checkbox {
+      margin: 20px 0 30px;
+    }
+
+    .restore-selects {
+      display: none;
+    }
   }
 
   .tab {
     display: flex;
     margin: 0 auto 20px;
-    max-width: 320px;
 
     &__item {
       height: 42px;
@@ -140,6 +143,24 @@ body.restore {
         .address-block-info {
           height: 67px;
         }
+      }
+
+      &__checkbox {
+        margin: 15px 0 30px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  body.restore {
+    .restore-content {
+      .restore-tabs {
+        display: none;
+      }
+
+      .restore-selects {
+        display: block;
       }
     }
   }

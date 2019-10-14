@@ -34,19 +34,6 @@ md-dialog.settings-modal {
     display: block;
   }
 
-  w-select {
-    &.with-scroll {
-      .select-list {
-        overflow-y: auto;
-        max-height: 140px;
-      }
-    }
-
-    .select:not(.expanded) .title {
-      border: 1px solid transparent;
-    }
-  }
-
   w-responsive-menu {
     width: 199px;
     height: 100%;
@@ -174,6 +161,10 @@ md-dialog.settings-modal {
         display: inline-block;
         float: right;
       }
+
+      &__checkbox {
+        margin-bottom: 20px;
+      }
     }
   }
 
@@ -182,11 +173,7 @@ md-dialog.settings-modal {
     justify-content: space-between;
     width: 100%;
 
-    &.unit-checkbox {
-      min-height: auto;
-    }
-
-    &:not(.unit-checkbox) {
+    &:not(.checkbox-input) {
       align-items: center;
     }
   }
@@ -200,10 +187,6 @@ md-dialog.settings-modal {
 
     &.solid-border {
       border-bottom: 1px solid @color-basic-200;
-    }
-
-    &.no-border {
-      border: 0 none;
     }
   }
 
@@ -221,7 +204,7 @@ md-dialog.settings-modal {
     height: 12px;
   }
 
-  w-select w-option i {
+  .select w-option i {
     margin-top: -2px;
   }
 
@@ -450,16 +433,6 @@ md-dialog.settings-modal {
         input {
           border-color: @color-error-200;
         }
-      }
-    }
-  }
-
-  .select-setting-wrap,
-  w-change-language {
-    w-select {
-      .select.expanded .title {
-        border: 1px solid @color-basic-200;
-        border-bottom: 1px solid transparent;
       }
     }
   }

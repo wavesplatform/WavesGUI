@@ -1,0 +1,70 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+@import (reference) '../../../app/less/typography';
+
+.toaster-mobiles {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  justify-content: space-between;
+  background: @color-submit-400;
+  padding: 12px 10px;
+  display: none;
+  width: 100%;
+  z-index: 2;
+  transform: translateY(0);
+  transition: transform 0.2s;
+
+  &__link {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__mobile-app-logo {
+    background: #fff @waves-30-icon center no-repeat;
+    background-size: 70%;
+    width: 36px;
+    height: 36px;
+    border-radius: @border-radius;
+    box-shadow: 0 2px 3px 0 rgba(10, 46, 141, 0.2);
+    margin-right: 16px;
+  }
+
+  &__title {
+    font-size: @mobile-mid-fsize;
+    color: @color-white;
+    line-height: 16px;
+    margin-top: 4px;
+  }
+
+  &__sub-title {
+    font-size: 12px;
+    color: @color-submit-200;
+    line-height: 16px;
+  }
+
+  &__close {
+    display: flex;
+    align-items: center;
+
+    &-icon {
+      background: @notification-icon-close center no-repeat;
+      border: 0;
+      width: 14px;
+      height: 14px;
+      opacity: .5;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+  
+  &.hidden-toaster {
+    transform: translateY(100%);
+  }
+
+  @media screen and (max-width: 768px) {
+    display: flex;
+  }
+}

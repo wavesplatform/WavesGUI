@@ -118,7 +118,7 @@
         }
     },
     "userList": {
-        "addNew": "添加一个帐号",
+        "addNew": "新增帐户",
         "back": "返回",
         "create": "创建新的帐号",
         "frombackup": "备份",
@@ -147,6 +147,7 @@
         "controlAssets": "资产控制权是你自己的 - 资金不会留下你的钱包，也不能冻结",
         "copyAddress": "复制地址",
         "copyright": "©2019年波浪幣平台",
+        "copyrightVordex": "©2019 VORDEX",
         "createToken": "创建令牌",
         "currentAccountName": "当前帐户名称",
         "dashboard": "仪表板",
@@ -181,6 +182,7 @@
         "macOs": "苹果系统",
         "macOsDescription": "下载MacOS应用程序",
         "mailto": "support.wavesplatform.com",
+        "mailtoVordex": "support@vordex.com",
         "mainPage": "主页",
         "majorFiatCryptocurrencies": "支持的主要法定货币和加密货币：BTC，LTC，ETH，USD等",
         "markets": "市场",

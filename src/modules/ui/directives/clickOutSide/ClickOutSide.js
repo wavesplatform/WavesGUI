@@ -6,8 +6,9 @@
      * @param {JQuery} $element
      * @param {JQuery} $document
      * @param {$rootScope.Scope} $scope
+     * @param {app.utils} utils
      */
-    const controller = function (Base, $element, $document, $scope) {
+    const controller = function (Base, $element, $document, $scope, utils) {
 
         class ClickOutSide extends Base {
 
@@ -18,7 +19,7 @@
 
                         if ($target.closest($element).length === 0) {
                             this.onClickOutside({ event: e });
-                            $scope.$apply();
+                            utils.safeApply($scope);
                         }
                     });
                 });
@@ -29,7 +30,7 @@
         return new ClickOutSide();
     };
 
-    controller.$inject = ['Base', '$element', '$document', '$scope'];
+    controller.$inject = ['Base', '$element', '$document', '$scope', 'utils'];
 
     angular.module('app.ui').component('wClickOutside', {
         bindings: {

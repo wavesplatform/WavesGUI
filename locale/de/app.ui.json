@@ -1,4 +1,5 @@
 {
+    "active": "Active",
     "all": "Alle",
     "amount": "Menge",
     "balanceInput": {
@@ -99,6 +100,7 @@
             "confirmRequestKeeper": {
                 "cancel": "Abbrechen",
                 "errorDescription": "Bitte versuchen Sie es erneut. Wenn der Fehler weiterhin besteht, senden Sie bitte ein Ticket an [Support](https://support.wavesplatform.com).",
+                "errorDescriptionSwitchUser": "This account does not match the selected account in your Waves Keeper. Please activate another account in Waves Keeper and try again.",
                 "errorHeader": "Sie haben die Anfrage nicht mit Waves Keeper bestätigt",
                 "sign": "Wiederholen",
                 "waiting": "Warten auf Bestätigung von Waves Keeper ..."
@@ -125,6 +127,7 @@
     "errorBlocks": {
         "title": "Etwas ist schief gelaufen…"
     },
+    "importSuccess": "Account Importing from the Keystore File was successful",
     "modal": {
         "assetInfo": {
             "gateway_ui": "Gateway"

@@ -4,7 +4,8 @@
     const GATEWAYS = {
         [WavesApp.defaultAssets.VST]: { waves: 'WVST', gateway: 'VST' },
         [WavesApp.defaultAssets.ERGO]: { waves: 'WERGO', gateway: 'ERGO' },
-        [WavesApp.defaultAssets.BNT]: { waves: 'WBNT', gateway: 'BNT' }
+        [WavesApp.defaultAssets.BNT]: { waves: 'WBNT', gateway: 'BNT' },
+        [WavesApp.defaultAssets.ETH]: { waves: 'ETH', gateway: 'ETH' }
     };
 
     const PATH = `${WavesApp.network.wavesGateway}/api/v1`;
@@ -37,7 +38,7 @@
             }
 
             /**
-             * From Vostok to Waves
+             * From VST to Waves
              * @param {Asset} asset
              * @param {string} wavesAddress
              * @return {Promise}
@@ -64,7 +65,7 @@
             }
 
             /**
-             * From Waves to Vostok
+             * From Waves to VST
              * @param {Asset} asset
              * @param {string} targetAddress
              * @param {string} [paymentId]
@@ -131,7 +132,7 @@
 
             static _assertAsset(assetId) {
                 if (!GATEWAYS[assetId]) {
-                    throw new Error('Asset is not supported by Vostok');
+                    throw new Error('Asset is not supported by VST');
                 }
             }
 

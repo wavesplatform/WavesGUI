@@ -56,12 +56,215 @@
                 user.logoutSignal.on(this.closeModals, this);
             }
 
+            /**
+             * @param {IModalOptions} options
+             * @return {Promise<string>}
+             * @private
+             */
+            static _getTemplate(options) {
+                if (options.template) {
+                    return Promise.resolve(options.template);
+                }
+                if (options.templateUrl) {
+                    return ModalManager._loadTemplate(options.templateUrl);
+                }
+
+                return ModalManager._createTemplate(options);
+            }
+
+            /**
+             * @param {IModalOptions} options
+             * @private
+             */
+            static _getController(options) {
+                if (!options.controller) {
+                    return { controller: ModalManager._wrapController((() => ({}))), controllerAs: null };
+                }
+
+                let controller = null;
+                let controllerAs;
+
+                if (typeof options.controller === 'function') {
+                    controller = ModalManager._wrapController(options.controller);
+                } else {
+                    const parts = options.controller.split(' as ');
+                    controller = ModalManager._wrapController(WavesApp.getController(parts[0]));
+                    controllerAs = parts[1];
+                }
+
+                if (!controllerAs) {
+                    controllerAs = DEFAULT_OPTIONS.controllerAs;
+                }
+
+                return { controller, controllerAs };
+            }
+
+            static _wrapController(controller) {
+
+                const $ctrl = function ($element, $mdDialog, ...args) {
+
+                    $element.on('click', '[w-modal-close]', () => {
+                        $mdDialog.cancel();
+                    });
+
+                    $element.on('click', '[w-modal-hide]', () => {
+                        $mdDialog.hide();
+                    });
+
+                    /**
+                     * Call controller with this of proxy controller
+                     */
+                    return controller.call(this, ...args);
+                };
+                $ctrl.$inject = ['$element', '$mdDialog', ...(controller.$inject || [])];
+
+                return $ctrl;
+            }
+
+            /**
+             * @param {IModalOptions} options
+             * @return {Promise<string>}
+             * @private
+             */
+            static _createTemplate(options) {
+                return Promise.all([
+                    ModalManager._getHeader(options)
+                        .then(ModalManager._wrapTemplate('md-toolbar')),
+                    ModalManager._getContent(options)
+                        .then(ModalManager._wrapTemplate('md-dialog-content')),
+                    ModalManager._getFooter(options)
+                ])
+                    .then((templateParts) => {
+                        const { mod, ns } = options;
+                        const content = templateParts.filter(Boolean)
+                            .join('');
+                        return ModalManager._getWrapTemplate({ ns, mod, content });
+                    });
+            }
+
+            /**
+             * @param {IModalOptions} options
+             * @return {Promise<string>}
+             * @private
+             */
+            static _getHeader(options) {
+                if (options.title) {
+                    const params = options.titleParams ? JSON.stringify(options.titleParams) : '';
+                    const title = `<div class="headline-2" params='${params}' w-i18n="${options.title}"></div>`;
+                    return ModalManager._loadTemplate(DEFAULT_TEMPLATES_URLS.HEADER)
+                        .then((template) => template.replace('{{title}}', title));
+                } else if (options.titleContent || options.titleContentUrl) {
+                    return Promise.all([
+                        ModalManager._getTemplateOption(options, 'titleContent'),
+                        ModalManager._loadTemplate(DEFAULT_TEMPLATES_URLS.HEADER)
+                    ])
+                        .then(([titleContent, header]) => header.replace('{{title}}', titleContent));
+                } else {
+                    return ModalManager._getTemplateOption(options, 'header');
+                }
+            }
+
+            /**
+             * @param {IModalOptions} options
+             * @return {Promise<string>}
+             * @private
+             */
+            static _getContent(options) {
+                return ModalManager._getTemplateOption(options, 'content');
+            }
+
+            /**
+             * @param {IModalOptions} options
+             * @return {Promise<string>}
+             * @private
+             */
+            static _getFooter(options) {
+                return ModalManager._getTemplateOption(options, 'footer');
+            }
+
+            /**
+             * @param {IModalOptions} options
+             * @param {string} name
+             * @return {Promise}
+             * @private
+             */
+            static _getTemplateOption(options, name) {
+                if (options[name]) {
+                    return Promise.resolve(options[name]);
+                } else if (options[`${name}Url`]) {
+                    return ModalManager._loadTemplate(options[`${name}Url`]);
+                } else {
+                    return Promise.resolve(null);
+                }
+            }
+
+            /**
+             * @param {string} tagName
+             * @return {Function}
+             * @private
+             */
+            static _wrapTemplate(tagName) {
+                return function (template) {
+                    if (template) {
+                        template = `<${tagName}>${template}</${tagName}>`;
+                    }
+                    return template;
+                };
+            }
+
+            /**
+             * @param {string} ns
+             * @param {string} mod
+             * @param {string} content
+             * @return {string}
+             * @private
+             */
+            static _getWrapTemplate({ ns, mod, content }) {
+                const namespace = ns ? `w-i18n-ns="${ns}"` : '';
+                const classes = mod ? `class="${mod}"` : '';
+                return `<md-dialog ${namespace} ${classes} aria-label="modal">${content}</md-dialog>`;
+            }
+
+            /**
+             * @param {string} url
+             * @return {Promise<string>}
+             * @private
+             */
+            static _loadTemplate(url) {
+                return $templateRequest(url);
+            }
+
             showScriptModal() {
                 return this._getModal({
                     id: 'script-modal',
                     contentUrl: 'modules/utils/modals/script/script.html',
                     controller: 'ScriptModalCtrl',
                     title: 'modal.script.setScript'
+                });
+            }
+
+            showPasswordModal() {
+                return this._getModal({
+                    id: 'password-modal',
+                    contentUrl: 'modules/utils/modals/password/password.html',
+                    controller: 'PasswordModalCtrl',
+                    title: 'modal.settings.changePass'
+                });
+            }
+
+            showForgotPasswordModal() {
+                return this._getModal({
+                    id: 'forgot-password-modal',
+                    contentUrl: 'modules/utils/modals/forgot-password/forgot-password.html',
+                    controller: 'ForgotPasswordModalCtrl'
+                });
+            }
+
+            showDeleteAccountModal() {
+                return this._getModal({
+                    id: 'delete-account-modal',
+                    contentUrl: 'modules/utils/modals/delete-account/delete-account.html',
+                    controller: 'DeleteAccountModalCtrl'
                 });
             }
 
@@ -78,6 +281,16 @@
                 });
             }
 
+            showExportAccount() {
+                return this._getModal({
+                    id: 'export-account',
+                    title: '',
+                    contentUrl: 'modules/utils/modals/exportAccounts/exportAccounts.html',
+                    controller: 'ExportAccountsCtrl',
+                    mod: 'export-account'
+                });
+            }
+
             showPairingWithMobile() {
                 return this._getModal({
                     id: 'pairing-with-mobile',
@@ -90,14 +303,15 @@
 
             /**
              * @param {Signable} signable
+             * @param anyData
              * @return {Promise<Signable>}
              */
-            showSignByDevice(signable) {
+            showSignByDevice(signable, anyData = null) {
                 return this._getModal({
                     id: 'sign-by-device',
                     contentUrl: 'modules/utils/modals/signByDevice/signByDevice.html',
                     controller: 'SignByDeviceCtrl',
-                    locals: { signable },
+                    locals: { signable, anyData },
                     clickOutsideToClose: false,
                     escapeToClose: false
                 });
@@ -183,30 +397,6 @@
                 });
             }
 
-            showTermsAccept() {
-                /**
-                 * @type {User}
-                 */
-                const user = $injector.get('user');
-
-                analytics.send({
-                    name: 'Create Done Show', params: { hasBackup: user.getSetting('hasBackup') }
-                });
-
-                return this._getModal({
-                    id: 'terms-accept',
-                    templateUrl: 'modules/utils/modals/termsAccept/terms-accept.html',
-                    controller: 'TermsAcceptCtrl',
-                    clickOutsideToClose: false,
-                    escapeToClose: false
-                })
-                    .then(() => {
-                        analytics.send({ name: 'Create Done Confirm and Begin Click' });
-                        storage.save('needReadNewTerms', false);
-                        storage.save('termsAccepted', true);
-                    });
-            }
-
             showAcceptNewTerms() {
                 return this._getModal({
                     id: 'accept-new-terms',
@@ -214,18 +404,21 @@
                     controller: 'AcceptNewTermsCtrl',
                     clickOutsideToClose: false,
                     escapeToClose: false
-                })
-                    .then(() => {
-                        storage.save('needReadNewTerms', false);
-                        storage.save('termsAccepted', true);
-                    });
+                }).then(() => {
+                    storage.save('needReadNewTerms', false);
+                });
             }
 
             showTutorialModals() {
-                return this._getModal({
-                    id: 'tutorial-modals',
-                    templateUrl: 'modules/utils/modals/tutorialModals/tutorialModals.html',
-                    controller: 'TutorialModalsCtrl'
+                return user.getMultiAccountUsers().then(users => {
+                    return this._getModal({
+                        id: 'tutorial-modals',
+                        templateUrl: 'modules/utils/modals/tutorialModals/tutorialModals.html',
+                        controller: 'TutorialModalsCtrl',
+                        locals: {
+                            hasAccounts: users.length > 0
+                        }
+                    });
                 });
             }
 
@@ -584,7 +777,7 @@
                     target.bindToController = true;
                 }
 
-                return ModalManager._getTemplate(target)
+                const modalPromise = ModalManager._getTemplate(target)
                     .then((template) => {
                         const { controller, controllerAs } = ModalManager._getController(options);
                         const changeCounter = () => {
@@ -611,184 +804,10 @@
                         this.openModal.dispatch(modal);
                         return modal;
                     });
-            }
 
-            /**
-             * @param {IModalOptions} options
-             * @return {Promise<string>}
-             * @private
-             */
-            static _getTemplate(options) {
-                if (options.template) {
-                    return Promise.resolve(options.template);
-                }
-                if (options.templateUrl) {
-                    return ModalManager._loadTemplate(options.templateUrl);
-                }
+                modalPromise.catch(e => e);
 
-                return ModalManager._createTemplate(options);
-            }
-
-            /**
-             * @param {IModalOptions} options
-             * @private
-             */
-            static _getController(options) {
-                if (!options.controller) {
-                    return { controller: ModalManager._wrapController((() => ({}))), controllerAs: null };
-                }
-
-                let controller = null;
-                let controllerAs;
-
-                if (typeof options.controller === 'function') {
-                    controller = ModalManager._wrapController(options.controller);
-                } else {
-                    const parts = options.controller.split(' as ');
-                    controller = ModalManager._wrapController(WavesApp.getController(parts[0]));
-                    controllerAs = parts[1];
-                }
-
-                if (!controllerAs) {
-                    controllerAs = DEFAULT_OPTIONS.controllerAs;
-                }
-
-                return { controller, controllerAs };
-            }
-
-            static _wrapController(controller) {
-
-                const $ctrl = function ($element, $mdDialog, ...args) {
-
-                    $element.on('click', '[w-modal-close]', () => {
-                        $mdDialog.cancel();
-                    });
-
-                    $element.on('click', '[w-modal-hide]', () => {
-                        $mdDialog.hide();
-                    });
-
-                    /**
-                     * Call controller with this of proxy controller
-                     */
-                    return controller.call(this, ...args);
-                };
-                $ctrl.$inject = ['$element', '$mdDialog', ...(controller.$inject || [])];
-
-                return $ctrl;
-            }
-
-            /**
-             * @param {IModalOptions} options
-             * @return {Promise<string>}
-             * @private
-             */
-            static _createTemplate(options) {
-                return Promise.all([
-                    ModalManager._getHeader(options)
-                        .then(ModalManager._wrapTemplate('md-toolbar')),
-                    ModalManager._getContent(options)
-                        .then(ModalManager._wrapTemplate('md-dialog-content')),
-                    ModalManager._getFooter(options)
-                ])
-                    .then((templateParts) => {
-                        const { mod, ns } = options;
-                        const content = templateParts.filter(Boolean)
-                            .join('');
-                        return ModalManager._getWrapTemplate({ ns, mod, content });
-                    });
-            }
-
-            /**
-             * @param {IModalOptions} options
-             * @return {Promise<string>}
-             * @private
-             */
-            static _getHeader(options) {
-                if (options.title) {
-                    const params = options.titleParams ? JSON.stringify(options.titleParams) : '';
-                    const title = `<div class="headline-2" params='${params}' w-i18n="${options.title}"></div>`;
-                    return ModalManager._loadTemplate(DEFAULT_TEMPLATES_URLS.HEADER)
-                        .then((template) => template.replace('{{title}}', title));
-                } else if (options.titleContent || options.titleContentUrl) {
-                    return Promise.all([
-                        ModalManager._getTemplateOption(options, 'titleContent'),
-                        ModalManager._loadTemplate(DEFAULT_TEMPLATES_URLS.HEADER)
-                    ])
-                        .then(([titleContent, header]) => header.replace('{{title}}', titleContent));
-                } else {
-                    return ModalManager._getTemplateOption(options, 'header');
-                }
-            }
-
-            /**
-             * @param {IModalOptions} options
-             * @return {Promise<string>}
-             * @private
-             */
-            static _getContent(options) {
-                return ModalManager._getTemplateOption(options, 'content');
-            }
-
-            /**
-             * @param {IModalOptions} options
-             * @return {Promise<string>}
-             * @private
-             */
-            static _getFooter(options) {
-                return ModalManager._getTemplateOption(options, 'footer');
-            }
-
-            /**
-             * @param {IModalOptions} options
-             * @param {string} name
-             * @return {Promise}
-             * @private
-             */
-            static _getTemplateOption(options, name) {
-                if (options[name]) {
-                    return Promise.resolve(options[name]);
-                } else if (options[`${name}Url`]) {
-                    return ModalManager._loadTemplate(options[`${name}Url`]);
-                } else {
-                    return Promise.resolve(null);
-                }
-            }
-
-            /**
-             * @param {string} tagName
-             * @return {Function}
-             * @private
-             */
-            static _wrapTemplate(tagName) {
-                return function (template) {
-                    if (template) {
-                        template = `<${tagName}>${template}</${tagName}>`;
-                    }
-                    return template;
-                };
-            }
-
-            /**
-             * @param {string} ns
-             * @param {string} mod
-             * @param {string} content
-             * @return {string}
-             * @private
-             */
-            static _getWrapTemplate({ ns, mod, content }) {
-                const namespace = ns ? `w-i18n-ns="${ns}"` : '';
-                const classes = mod ? `class="${mod}"` : '';
-                return `<md-dialog ${namespace} ${classes} aria-label="modal">${content}</md-dialog>`;
-            }
-
-            /**
-             * @param {string} url
-             * @return {Promise<string>}
-             * @private
-             */
-            static _loadTemplate(url) {
-                return $templateRequest(url);
+                return modalPromise;
             }
 
         }

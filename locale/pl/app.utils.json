@@ -193,12 +193,18 @@
             "message": "Aby zacząć handlować zaloguj się lub utwórz konto",
             "ok": "Zaloguj się"
         },
+        "deleteAccount": {
+            "cancel": "Anuluj",
+            "delete": "Usuń",
+            "description": "{div} [Usunięcie konta spowoduje jego nieodwracalną utratę, jeśli nie zapiszesz kopii zapasowej (SEED).] \n {div} [Kliknij przycisk USUŃ, aby kontynuować usuwanie konta, lub ANULUJ, aby powrócić do poprzedniego ekranu.]",
+            "header": "Usuń konto"
+        },
         "deposit": {
             "coinomatBCH": {
                 "helpDescrText": "Jeżeli transakcja zostanie potwierdzona, system wymieni BCH na tokeny w waszym koncie Waves.",
                 "helpDescrTitle": "Wprowadź ten adress w swoim kliencie albo portfelu Bitcoin Cash",
                 "warningMinAmountText": "Jeśli wyślesz mniej niż {{minAmount, BigNumber}} {{assetTicker}}, stracisz te pieniądze.",
-                "warningMinAmountTitle": "Minimalna kwota depozytu wynosi {{minAmount, BigNumber}} {{assetTicker}}",
+                "warningMinAmountTitle": "Minimalna kwota depozytu to {{minAmount, BigNumber}} {{assetTicker}} , maksymalna kwota depozytu to {{maxAmount}} {{assetTicker}}",
                 "warningText": "Przesłanie dowolnej innej waluty pod ten adres może spowodować utratę depozytu.",
                 "warningTitle": "Wyślij tylko BCH do tego adresu depozytowego"
             },
@@ -206,7 +212,7 @@
                 "helpDescrText": "Jeżeli transakcja zostanie potwierdzona, system wymieni BSV na tokeny w Twoim koncie Waves.",
                 "helpDescrTitle": "Wprowadź ten adress w swoim kliencie albo portfelu Bitcoin Satoshi Vision",
                 "warningMinAmountText": "Jeśli wyślesz mniej niż {{minAmount, BigNumber}} {{assetTicker}}, stracisz te środki.",
-                "warningMinAmountTitle": "Minimalna kwota depozytu wynosi {{minAmount, BigNumber}} {{assetTicker}}",
+                "warningMinAmountTitle": "Minimalna kwota depozytu to {{minAmount, BigNumber}} {{assetTicker}} , maksymalna kwota depozytu to {{maxAmount}} {{assetTicker}}",
                 "warningText": "Wysłanie innej waluty na ten adres może spowodować utratę takiego depozytu.",
                 "warningTitle": "Wysyłaj tylko BSV na ten adres depozytu"
             },
@@ -214,7 +220,7 @@
                 "helpDescrText": "Jeżeli transakcja zostanie potwierdzona, system wymieni BTC na tokeny w waszym koncie Waves.",
                 "helpDescrTitle": "Wprowadź ten adress w swoim kliencie albo portfelu Bitcoin",
                 "warningMinAmountText": "Jeśli wyślesz mniej niż {{minAmount, BigNumber}} {{assetTicker}}, stracisz te pieniądze.",
-                "warningMinAmountTitle": "Minimalna kwota depozytu wynosi {{minAmount, BigNumber}} {{assetTicker}}",
+                "warningMinAmountTitle": "Minimalna kwota depozytu to {{minAmount, BigNumber}} {{assetTicker}} , maksymalna kwota depozytu to {{maxAmount}} {{assetTicker}}",
                 "warningText": "Przesłanie dowolnej innej waluty pod ten adres może spowodować utratę depozytu.",
                 "warningTitle": "Wyślij tylko BTC do tego adresu depozytowego"
             },
@@ -222,7 +228,7 @@
                 "helpDescrText": "Jeżeli transakcja zostanie potwierdzona, system wymieni DASH na tokeny w waszym koncie Waves.",
                 "helpDescrTitle": "Wprowadź ten adress w swoim kliencie albo portfelu DASH",
                 "warningMinAmountText": "Jeśli wyślesz mniej niż {{minAmount, BigNumber}} {{assetTicker}}, stracisz te pieniądze.",
-                "warningMinAmountTitle": "Minimalna kwota depozytu wynosi {{minAmount, BigNumber}} {{assetTicker}}",
+                "warningMinAmountTitle": "Minimalna kwota depozytu to {{minAmount, BigNumber}} {{assetTicker}} , maksymalna kwota depozytu to {{maxAmount}} {{assetTicker}}",
                 "warningText": "Przesłanie dowolnej innej waluty pod ten adres może spowodować utratę depozytu.",
                 "warningTitle": "Wyślij tylko DASH do tego adresu depozytowego"
             },
@@ -230,7 +236,7 @@
                 "helpDescrText": "Jeżeli transakcja zostanie potwierdzona, system wymieni ETH na tokeny w waszym koncie Waves.",
                 "helpDescrTitle": "Wprowadź ten adress w swoim kliencie albo portfelu ETH",
                 "warningMinAmountText": "Jeśli wyślesz mniej niż {{minAmount, BigNumber}} {{assetTicker}}, stracisz te pieniądze.",
-                "warningMinAmountTitle": "Minimalna kwota depozytu wynosi {{minAmount, BigNumber}} {{assetTicker}}",
+                "warningMinAmountTitle": "Minimalna kwota depozytu to {{minAmount, BigNumber}} {{assetTicker}} , maksymalna kwota depozytu to {{maxAmount}} {{assetTicker}}",
                 "warningText": "Sprawdź czy portfel lub giełda używają inteligentnych kontraktów (smart contracts) do wycofania ETH. Nie akceptujemy takich transakcji i nie możemy ich zwrócić. Stracisz te pieniądze.",
                 "warningTitle": "Proszę nie deponować ETH z inteligentnych kontraktów (smart contracts)! Proszę nie deponować tokenów ERC20! Tylko Ethereum dozwolone."
             },
@@ -238,7 +244,7 @@
                 "helpDescrText": "Jeżeli transakcja zostanie potwierdzona, system wymieni LTC na tokeny w waszym koncie Waves.",
                 "helpDescrTitle": "Wprowadź ten adress w swoim kliencie albo portfelu LTC",
                 "warningMinAmountText": "Jeśli wyślesz mniej niż {{minAmount, BigNumber}} {{assetTicker}}, stracisz te pieniądze.",
-                "warningMinAmountTitle": "Minimalna kwota depozytu wynosi {{minAmount, BigNumber}} {{assetTicker}}",
+                "warningMinAmountTitle": "Minimalna kwota depozytu to {{minAmount, BigNumber}} {{assetTicker}} , maksymalna kwota depozytu to {{maxAmount}} {{assetTicker}}",
                 "warningText": "Przesłanie dowolnej innej waluty pod ten adres może spowodować utratę depozytu.",
                 "warningTitle": "Wyślij tylko LTC do tego adresu depozytowego"
             },
@@ -246,7 +252,7 @@
                 "helpDescrText": "Jeżeli transakcja zostanie potwierdzona, system wymieni XMR na tokeny w waszym koncie Waves.",
                 "helpDescrTitle": "Wprowadź ten adress w swoim kliencie albo portfelu XMR",
                 "warningMinAmountText": "Jeśli wyślesz mniej niż {{minAmount, BigNumber}} {{assetTicker}}, stracisz te pieniądze.",
-                "warningMinAmountTitle": "Minimalna kwota depozytu wynosi {{minAmount, BigNumber}} {{assetTicker}}",
+                "warningMinAmountTitle": "Minimalna kwota depozytu to {{minAmount, BigNumber}} {{assetTicker}} , maksymalna kwota depozytu to {{maxAmount}} {{assetTicker}}",
                 "warningText": "{div}[Payment ID is not required.]Przesłanie dowolnej innej waluty pod ten adres może spowodować utratę depozytu.",
                 "warningTitle": "Wyślij tylko XMR do tego adresu depozytowego"
             },
@@ -254,7 +260,7 @@
                 "helpDescrText": "Jeżeli transakcja zostanie potwierdzona, system wymieni ZEC na tokeny w waszym koncie Waves.",
                 "helpDescrTitle": "Wprowadź ten adress w swoim kliencie albo portfelu ZEC",
                 "warningMinAmountText": "Jeśli wyślesz mniej niż {{minAmount, BigNumber}} {{assetTicker}}, stracisz te pieniądze.",
-                "warningMinAmountTitle": "Minimalna kwota depozytu wynosi {{minAmount, BigNumber}} {{assetTicker}}",
+                "warningMinAmountTitle": "Minimalna kwota depozytu to {{minAmount, BigNumber}} {{assetTicker}} , maksymalna kwota depozytu to {{maxAmount}} {{assetTicker}}",
                 "warningText": "Przesłanie dowolnej innej waluty pod ten adres może spowodować utratę depozytu.",
                 "warningTitle": "Wyślij tylko Zcash do tego adresu depozytowego"
             },
@@ -265,12 +271,12 @@
             "scanQrCode": "Skanuj QR kod",
             "title": "Deponuj {{assetName}}",
             "wavesGatewayBNT": {
-                "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of Bancor to a token in your Waves account.",
-                "helpDescrTitle": "Enter this address into your client or wallet",
-                "warningMinAmountText": "If you will send less than {{minAmount, BigNumber}} {{assetTicker}}, you will lose that money.",
-                "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}, the maximum amount of deposit is {{maxAmount}} {{assetTicker}}",
-                "warningText": "Check if your wallet or exchange uses smart-contracts to withdraw Bancor. We do not accept such transactions and can’t refund them. You will lose that money.",
-                "warningTitle": "Please do not deposit BNT from smart contracts! Do not deposit other ERC20 tokens! Only Bancor is allowed."
+                "helpDescrText": "Jeżeli transakcja zostanie potwierdzona, system wymieni Bancor na tokeny na Twoim koncie Waves.",
+                "helpDescrTitle": "Wpisz ten adres w swoim kliencie lub portfelu",
+                "warningMinAmountText": "Jeśli wyślesz mniej niż {{minAmount, BigNumber}} {{assetTicker}} , stracisz te środki.",
+                "warningMinAmountTitle": "Minimalna kwota depozytu to {{minAmount, BigNumber}} {{assetTicker}} , maksymalna kwota depozytu to {{maxAmount}} {{assetTicker}}",
+                "warningText": "Sprawdź, czy Twój portfel lub giełda wykorzystuje inteligentne kontrakty do wypłaty Bancor. Nie akceptujemy takich transakcji i nie możemy ich zwrócić. Stracisz te środki.",
+                "warningTitle": "Proszę nie deponować BNT z inteligentnych kontraktów (smart contracts)! Proszę nie deponować innych tokenów ERC20! Tylko  Bancor dozwolony."
             },
             "wavesGatewayERGO": {
                 "helpDescrText": "Po potwierdzeniu transakcji bramka przetworzy transfer ERGO na token na Twoim koncie Waves.",
@@ -280,9 +286,15 @@
                 "warningText": "Wysłanie innej waluty na ten adres może spowodować utratę depozytu.",
                 "warningTitle": "Wysyłaj tylko ERGO na ten adres depozytu"
             },
+            "wavesGatewayETH": {
+                "warningMinAmountText": "Jeśli wyślesz mniej niż {{minAmount, BigNumber}} {{assetTicker}} , stracisz te środki.",
+                "warningMinAmountTitle": "Minimalna kwota depozytu to {{minAmount, BigNumber}} {{assetTicker}} , maksymalna kwota depozytu to {{maxAmount}} {{assetTicker}}",
+                "warningText": "Sprawdź czy portfel lub giełda używają inteligentnych kontraktów (smart contracts) do wycofania ETH. Nie akceptujemy takich transakcji i nie możemy ich zwrócić. Stracisz te pieniądze.",
+                "warningTitle": "Proszę nie deponować ETH z inteligentnych kontraktów (smart contracts)! Proszę nie deponować tokenów ERC20! Tylko Ethereum dozwolone."
+            },
             "wavesGatewayVST": {
-                "helpDescrText": "Jeżeli transakcja zostanie potwierdzona, system wymieni Vostok na tokeny w Twoim koncie Waves.",
-                "helpDescrTitle": "Wprowadź ten adres w swoim kliencie albo portfelu Vostok",
+                "helpDescrText": "Jeżeli transakcja zostanie potwierdzona, system wymieni VST na tokeny w Twoim koncie Waves.",
+                "helpDescrTitle": "Wprowadź ten adres w swoim kliencie albo portfelu VST",
                 "warningMinAmountTitle": "Minimalna kwota depozytu to {{minAmount, BigNumber}} {{assetTicker}}, maksymalna kwota depozytu to {{maxAmount}} {{assetTicker}}"
             }
         },
@@ -339,6 +351,14 @@
             "wavesBetaClientDescription": "Import konta z Waves Beta Client",
             "wavesLiteClient": "Waves Lite Client",
             "wavesLiteClientDescription": "Import konta z Waves Lite Client"
+        },
+        "matcherChoice": {
+            "customMatcher": "Custom matcher address",
+            "matcher": "Matcher",
+            "matcherTerms": "I agree to the Super DEX Mather Terms of Use.",
+            "terms": "Terms",
+            "title": "Choose matcher",
+            "wavesTerms": "I am over 18 years old, and I agree to the Waves Terms of Use and Waves Privacy Policy."
         },
         "open-main": {
             "dex": {
@@ -455,7 +475,7 @@
             "shareInvoiceLink": "Udostępnij link do faktury",
             "verified": "Zweryfikowany",
             "vostok": {
-                "serverError": "Usługa Vostok jest tymczasowo niedostępna. Spróbuj ponownie później."
+                "serverError": "Usługa VST jest tymczasowo niedostępna. Spróbuj ponownie później."
             },
             "wtry": {
                 "info": "Na wypadek problemów z procesem płatności, proszę kontaktować się z Digilira support team — [support@digilira.com](mailto:support@digilira.com)"
@@ -470,7 +490,8 @@
             "heading": "Usuń konto",
             "remove": "Usuń",
             "text": "{div}[Usunięcie konta będzie prowadzic do nieodwracalnych strat jeśli nie zapisałeś tajnego wyrażenia 15 fraz (SEED).]\n{div}[Kliknij przycisk USUŃ, aby kontynuować usuwanie konta, lub ANULUJ, aby powrócić do poprzedniego ekranu.]",
-            "warning": "Nie zapisano tajnego wyrażenia 15 fraz (SEED)"
+            "warning": "Nie zapisano tajnego wyrażenia 15 fraz (SEED)",
+            "warningPlural": "You did not save your Seed phrases"
         },
         "removeKeeperAccount": {
             "heading": "Usuń Waves Keeper",
@@ -532,6 +553,11 @@
             "gateway": {
                 "feeExplanation": "Wykryliśmy adres {{assetName}} i wyślemy twoje środki za pośrednictwem bramki na ten adres. Minimalną kwotą jest {{min, BigNumber}} {{assetTicker}}, maksymalną kwotą jest {{max, BigNumber}} {{assetTicker}}."
             },
+            "gatewayTerms": {
+                "accept": "Accept and Continue",
+                "text": "By using Gateway service, you agree to be bound by [Gateway Terms of Service](https://dex.wavesplatform.com/) and [Conduction of Transactions](https://dex.wavesplatform.com/). If you do not agree to these terms, then do not use this Gateway service.",
+                "title": "Gateway service agreement"
+            },
             "icoWarning": "Nie wycofuj {{assetName}} do ICO. Nie obciążymy Twojego konta tokenami z tej sprzedaży.",
             "idNumber": {
                 "helpIcon": {
@@ -583,7 +609,8 @@
             "validationError": {
                 "notEnoughFunds": "Nie ma wystarczających środków aby zapłacić wymagane prowizje. Musisz zapłacić {{fee, money-currency}} opłaty transakcyjnej.",
                 "notEnoughFundsWithdraw": "Nie masz wystarczających środków, aby zapłacić wymagane prowizje. Musisz zapłacić {{fee, money-currency}} {{getawayFee, BigNumber}} {{currency}} opłaty transakcyjnej. Minimalnie do wypłaty jest {{minGatewayAmount, BigNumber}} {{currency}}"
-            }
+            },
+            "withdrawTitle": "Withdraw"
         },
         "sepa": {
             "countryList": "Lista kwalifikujących się krajów",
@@ -606,8 +633,17 @@
             "warningHeader": "Działania mogą prowadzić do utraty aktywów."
         },
         "settings": {
+            "account": "Konto",
             "cancel": "Utwórz konto",
-            "changePass": "Change password",
+            "changePass": "Zmień hasło",
+            "deleteAccount": "Usuń konto",
+            "exportAccounts": {
+                "accounts": "Accounts",
+                "export": "Export",
+                "selectAll": "Select all",
+                "title": "Please select account",
+                "unselectAll": "Unselect all"
+            },
             "general": {
                 "auto": "Auto",
                 "blockHeight": "Aktualny blok",
@@ -625,6 +661,7 @@
                 "title": "Ogólny",
                 "white": "Biały"
             },
+            "helperContent": "You can set a password for exported accounts",
             "info": {
                 "legal": "Prawny",
                 "privacyPolicy": "Polityka prywatności",
@@ -646,6 +683,7 @@
                 "dataProviderInvalid": "Nie udało się pobrać informacji o dostawcy. Sprawdź adres i spróbuj ponownie",
                 "dataProviderName": "{{dataProviderName}}",
                 "dontShowSpamCheckboxDescr": "Nie pokazuj podejrzanych tokenów",
+                "edit": "Edit",
                 "forDisableClear": "Aby całkowicie go wyłączyć, wyczyść pole.",
                 "matcherAddress": "Adres Matchera",
                 "nodeAddress": "Adres Node",
@@ -672,14 +710,18 @@
                     "ok": "Rozumiem"
                 }
             },
-            "passChanged": "Password was changed successfully",
-            "password": "Password",
+            "passChanged": "Hasło zostało pomyślnie zmienione",
+            "password": "Hasło",
             "security": {
                 "address": "Adres",
                 "backupPhrase": "Kopia zapasowa wyrażenia",
+                "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "Zakodowany SEED",
+                "exportAccount": "Export account to file",
+                "id": "Account ID",
                 "privateKey": "Klucz prywatny",
                 "publicKey": "Klucz publiczny",
+                "savejson": "Save as JSON file",
                 "script": "Skrypt",
                 "scriptButton": "Ustaw skrypt",
                 "scriptButtonUpdate": "Zaktualizuj skrypt",
@@ -691,6 +733,7 @@
         },
         "sign": {
             "article": "article",
+            "buy": "Buy",
             "cancel": "Anuluj",
             "cancelOrder": "Anuluj zlecenie",
             "close": "Zamknij",
@@ -717,12 +760,15 @@
             "fee": "Prowizja",
             "matcher": "Podpisywanie zleceń",
             "openApp": "Otwórz aplikację",
+            "orderType": "Typ zlecenia",
+            "pair": "Para",
             "price": "Cena",
             "refererTo": "Jeśli błąd będzie się powtarzał, zapoznaj się z",
             "referTo": "Jeśli błąd będzie się powtarzał, zapoznaj się z",
             "request": "żądanie",
             "requestId": "Wymagana trudność",
             "retry": "Spróbuj ponownie",
+            "sell": "Sell",
             "signByKeeper": "Oczekiwanie na potwierdzenie z Waves Keeper…",
             "signByLedger": "Oczekiwanie na potwierdzenie z Ledger…",
             "signError": "Żądanie nie zostało potwierdzone.",
@@ -730,6 +776,8 @@
             "signErrorText": "Nie potwierdziłeś żądania na swoim urządzeniu Ledger",
             "signErrorTextImportKeeper": "Zaloguj się do Waves Kepper pod adresem {{address}}, a następnie odśwież stronę, aby kontynuować.",
             "signErrorTextKeeper": "Proszę spróbuj ponownie. Jeśli błąd będzie się powtarzał, utwórz zgłoszenie do [Wsparcie](https://support.wavesplatform.com/)",
+            "signErrorTextKeeperWrongUser": "This account does not match the selected account in your Waves Keeper. Please activate another account in Waves Keeper and try again.",
+            "timestamp": "Pieczęć czasowa",
             "txId": "TXID"
         },
         "sponsorship_edit": {
@@ -768,7 +816,7 @@
                 "analytics": "Otwierając aplikację Waves chciałbym pomóc ulepszyć platformę Waves, wysyłając programistom anonimowe statystyki użytkowania.",
                 "backup": "Rozumiem, że jeśli aplikacja zostania przeniesiona do innego urządzenia lub usunięta, dostęp do mojego konta WAVES można odzyskać tylko za pomocą kopii zapasowej fraz.",
                 "ok": "Potwierdzam",
-                "privacyPolicy": "Przeczytałem i zgadzam się z [Polityką prywatności](https://wavesplatform.com/files/docs/Privacy Policy_SW.pdf).",
+                "privacyPolicy": "Przeczytałem i zgadzam się z [Polityką prywatności](https://wavesplatform.com/files/docs/Privacy_Policy_SW.pdf).",
                 "read": "Przeczytałem, zrozumiałem i zgadzam się",
                 "readTermsAndConditions": "Przeczytałem, rozumiem i zgadzam się z [Terms and Conditions](https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf)",
                 "security": "Rozumiem, że moje środki są bezpiecznie przechowywane na tym urządzeniu, a nie przez firmę",
@@ -813,6 +861,7 @@
             "step1": {
                 "button": "Informacje odnośnie SEED",
                 "buttonMobile": "Dalej",
+                "buttonReadMore": "Dowiedz się więcej",
                 "p1": "Poświęć trochę czasu, aby zrozumieć kilka ważnych rzeczy dla własnego bezpieczeństwa. 🙏",
                 "p2": "Nie możemy odzyskać środków ani zamrozić konta, jeśli odwiedzasz witrynę wyłudzającą informacje lub utracisz kopię zapasową (SEED)",
                 "p3": "Kontynuując korzystanie z naszej platformy, akceptujesz wszelkie ryzyka związane z utratą swojego SEED, między innymi utratę możliwości odebrania lub przekazywania swoich funduszy.\nniemożności uzyskania swoich funduszy i ich pozbycia się.\nNa wypadek utraty SEED, zgadzasz się i potwierdzasz, że Platforma Waves nie ponosi odpowiedzialności za negatywne konsekwencje tego.",
@@ -912,11 +961,14 @@
                 "1_2_8": "{span.line} [1. Tokeny ze spamem i transakcje zostały ukryte w kliencie.] \n {span.line} [2. Poprawiony interfejs użytkownika i dodatkowo zostały naprawione drobne błędy.]",
                 "1_3_0": "{span.line}[1. Ulepszona nawigacja aplikacji i interfejs strony startowej.]",
                 "1_3_18": "{span.line} [1. Dodano login do portfela za pomocą klucza prywatnego.] \n {span.line} [2. 24-godzinna zmiana ceny tokena jest teraz powiązana z parą token / WAVES.]",
-                "1_3_19": "{span.line}[1. Bancor gateway has been launched.]\n{span.line}[2. User menu interface has been improved.]",
-                "1_3_2": "{span.line} [1. Uruchomiono bramę (gateway) Vostok.] \n {span.line} [2. Poprawiony interfejs użytkownika i dodatkowo zostały naprawione drobne błędy.]",
+                "1_3_19": "{span.line} [1. Uruchomiono bramę Bancor.] \n {span.line} [2. Interfejs menu użytkownika został ulepszony.]",
+                "1_3_2": "{span.line} [1. Uruchomiono bramę (gateway) VST.] \n {span.line} [2. Poprawiony interfejs użytkownika i dodatkowo zostały naprawione drobne błędy.]",
+                "1_3_20": "{span.line} [1. Ulepszony system przechowywania i przywracania kont z lokalnego magazynu (potrzeba aktualizacji [aplikacji komputerowej] (https://wavesplatform.com/technology/wallet)).] \n {span.line} [2. Naprawiono zaokrąglanie cen w księdze zamówień.]",
                 "1_3_5": "{span.line} [1. Dodano zakładkę z tokenami konkursowymi [wsoc.io] (https://wsoc.io).] \n {span.line} [2. Dodano obsługę języka francuskiego.] \n {span.line} [3. Dodatkowe drobne błędy zostały naprawione.]",
                 "1_3_7": "{span.line} [1. Integracja z [tokenrating.wavesexplorer.com] (https://tokenrating.wavesexplorer.com) Teraz możesz oceniać tokeny bezpośrednio w aplikacji.] \n {span.line} [2. Dodatkowe drobne błędy zostały naprawione.]",
-                "1_3_9": "{span.line} [1. Ulepszony interfejs użytkownika i funkcjonalność sekcji Giełda i Portfel.] \n {span.line} [2. Dodatkowe drobne błędy zostały naprawione.]"
+                "1_3_9": "{span.line} [1. Ulepszony interfejs użytkownika i funkcjonalność sekcji Giełda i Portfel.] \n {span.line} [2. Dodatkowe drobne błędy zostały naprawione.]",
+                "1_4_0": "{span.line}[Added ability for easy switching between accounts within one wallet.]",
+                "1_4_4": "{span.line}[Added ability to backup and restore accounts from the keystore-file]"
             },
             "title": "Co nowego w aktualizacji {{version}}"
         }

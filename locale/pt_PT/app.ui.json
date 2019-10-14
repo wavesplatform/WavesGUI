@@ -1,4 +1,5 @@
 {
+    "active": "Active",
     "all": "All",
     "amount": "Amount",
     "balanceInput": {
@@ -99,6 +100,7 @@
             "confirmRequestKeeper": {
                 "cancel": "Cancel",
                 "errorDescription": "Please try again. If the error persists, please submit a ticket to [support](https://support.wavesplatform.com)",
+                "errorDescriptionSwitchUser": "This account does not match the selected account in your Waves Keeper. Please activate another account in Waves Keeper and try again.",
                 "errorHeader": "You did not confirm the request using Waves Keeper",
                 "sign": "Retry",
                 "waiting": "Waiting for confirmation from Waves Keeper..."
@@ -125,6 +127,7 @@
     "errorBlocks": {
         "title": "Something went wrong…"
     },
+    "importSuccess": "Account Importing from the Keystore File was successful",
     "modal": {
         "assetInfo": {
             "gateway_ui": "GATEWAY"
@@ -194,7 +197,7 @@
             "true": "COMPLETED"
         },
         "headers": {
-            "activeLeasing": "active now",
+            "activeLeasing": "Active now",
             "burn": "{{name}} Token Burning",
             "cancel-leasing": "Canceled Leasing",
             "canceled": "Canceled",

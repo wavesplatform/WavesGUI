@@ -1,0 +1,26 @@
+@import (reference) "../../../../app/less/app-icons";
+@import (reference) '../../../../app/less/typography';
+@import (reference) 'config';
+@import (reference) 'icons';
+
+.select {
+	&_setting-session, &_setting-theme {
+    height: 36px;
+
+    .select {
+      &__wrap:not(.expanded) .select__title {
+        border: 1px solid transparent;
+      }
+
+      &__wrap.expanded .select__title {
+        border: 1px solid @color-basic-200;
+        border-bottom: 1px solid transparent;
+      }
+
+      &__list {
+        overflow-y: auto;
+        max-height: 140px;
+      }
+    }
+  }
+}

@@ -13,7 +13,7 @@
                     </div>
 
                     <w-select
-                        class="big has-fliter"
+                        class="select select_receive-card has-fliter"
                         ng-if="::!$ctrl.isSingleAsset"
                         ng-model="$ctrl.chosenAssetId"
                         one-item="$ctrl.purchasablesByCards.length <= 1"
@@ -66,7 +66,7 @@
                                 required
                             ></w-input>
 
-                            <w-select class="big" ng-model="$ctrl.chosenCurrencyIndex">
+                            <w-select class="select select_receive-card" ng-model="$ctrl.chosenCurrencyIndex">
                                 <w-option
                                     ng-repeat="currency in $ctrl.cardFiatList track by $index"
                                     value="$index"
@@ -101,7 +101,7 @@
                             w-i18n="money-currency"
                             params="{money: $ctrl.approximateAmount}"
                         ></span>
-                        <w-loader ng-if="!$ctrl.approximateAmount"></w-loader>
+                        <w-loader class="loader" ng-if="!$ctrl.approximateAmount"></w-loader>
                     </div>
                 </div>
             </form>

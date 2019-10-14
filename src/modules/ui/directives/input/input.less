@@ -2,7 +2,6 @@
 @import (reference) '../../../app/less/typography';
 
 input[type="checkbox"] {
-  box-shadow: none;
   appearance: none;
   -moz-appearance: none;
   -webkit-appearance: none;
@@ -82,20 +81,20 @@ input[type="checkbox"] {
     display: flex;
     align-items: center;
 
-    w-select {
-      position: absolute;
-      right: 6px;
-      width: calc(50% ~'- 12px');
+    // .select {
+    //   position: absolute;
+    //   right: 6px;
+    //   width: calc(50% ~'- 12px');
 
-      .title-content {
-        display: flex;
-        align-items: center;
-      }
+    //   .select__title-content {
+    //     display: flex;
+    //     align-items: center;
+    //   }
 
-      .title {
-        background-color: @color-white;
-      }
-    }
+    //   .select__title {
+    //     background-color: @color-white;
+    //   }
+    // }
 
     w-input .w-input-wrap {
       width: 50%;
@@ -265,6 +264,51 @@ form.ng-submitted {
   input[type="text"], input[type="password"], input[type="number"], textarea {
     &.ng-touched.ng-invalid:not(:focus):not(.focus):not(.no-validate) {
       border-color: @color-error-200;
+    }
+  }
+}
+
+md-dialog {
+  fieldset.disabled {
+    .input-container w-input .w-input-wrap {
+      input[type="text"],
+      input[type="password"],
+      input[type="number"],
+      textarea {
+          background: @color-basic-50;
+
+          &:not(.no-validate).ng-touched.ng-valid:not(:focus):not(.focus):not(.ng-empty) {
+            border-color: @color-basic-200;
+          }
+      }
+    }
+
+    .input-like {
+      background: @color-basic-50;
+    }
+  }
+}
+
+.modal-send {
+  fieldset.disabled {
+    .select__wrap .select__title {
+      background: @color-basic-50;
+    }
+  }
+}
+
+.change-token {
+  fieldset.disabled {
+    .input-like .select-wrapper .select__wrap .select__title {
+      background: @color-basic-50;
+    }
+  }
+}
+
+.tokens-page {
+  fieldset.disabled {
+    .input-like .select__wrap .select__title {
+      background: @color-basic-50;
     }
   }
 }

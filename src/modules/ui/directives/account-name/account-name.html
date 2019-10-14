@@ -1,0 +1,24 @@
+<form name="$ctrl.form" ng-submit="$ctrl.form.$valid && $ctrl.onSubmit()" w-i18n-ns="app.ui" novalidate>
+    <div class="left body-2 margin-05">
+        <span w-i18n="password.name"></span>
+    </div>
+
+    <w-input-container class="margin-4">
+        <w-input
+            w-autofocus
+            name="accountName"
+            class="big no-icon"
+            type="text"
+            maxlength="24"
+            ng-model="$ctrl.accountName"
+            required
+        ></w-input>
+        <w-input-error ng-class='{hidden: !$ctrl.form.accountName.$error.isUnique}'>
+            <span w-i18n="password.nameExists"></span>
+        </w-input-error>
+    </w-input-container>
+
+    <w-button disabled="$ctrl.form.$invalid" class="submit long big">
+        <div class="full-width" ng-transclude></div>
+    </w-button>
+</form>

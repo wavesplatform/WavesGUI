@@ -1,4 +1,5 @@
 {
+    "active": "Active",
     "all": "सभी",
     "amount": "राशि",
     "balanceInput": {
@@ -99,6 +100,7 @@
             "confirmRequestKeeper": {
                 "cancel": "रद्द करना",
                 "errorDescription": "कृपया पुन: प्रयास करें। यदि एरर बनी रहती है, तो कृपया [सहायता](https://support.wavesplatform.com) पर एक टिकट जमा करें",
+                "errorDescriptionSwitchUser": "This account does not match the selected account in your Waves Keeper. Please activate another account in Waves Keeper and try again.",
                 "errorHeader": "आपने वेव्स कीपर के उपयोग के अनुरोध की पुष्टि नहीं की",
                 "sign": "पुन: प्रयास करें",
                 "waiting": "वेव्स कीपर से पुष्टि के लिए प्रतीक्षा कर रहा है ..."
@@ -125,6 +127,7 @@
     "errorBlocks": {
         "title": "कुछ गलत हुआ..."
     },
+    "importSuccess": "Account Importing from the Keystore File was successful",
     "modal": {
         "assetInfo": {
             "gateway_ui": "गेटवे"

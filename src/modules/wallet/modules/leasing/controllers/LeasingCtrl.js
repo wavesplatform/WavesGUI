@@ -155,7 +155,7 @@
                 const idHash = utils.toHash(txList, 'id');
                 const result = txList.slice();
 
-                if (allActiveLeasing || allActiveLeasing.length) {
+                if (allActiveLeasing && allActiveLeasing.length) {
                     allActiveLeasing.forEach((tx) => {
                         if (!idHash[tx.id]) {
                             result.push(tx);

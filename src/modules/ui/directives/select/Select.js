@@ -103,9 +103,9 @@
             }
 
             $postLink() {
-                this._select = $element.find('.select:first');
-                this._activeNode = this._select.find('.title:first');
-                this._selectList = this._select.find('.select-list:first');
+                this._select = $element.find('.select__wrap:first');
+                this._activeNode = this._select.find('.select__title:first');
+                this._selectList = this._select.find('.select__list:first');
 
                 this._render();
                 this._setHandlers();

@@ -1,5 +1,28 @@
 {
     "back": "Перейти на главную",
+    "backupFile": {
+        "back": "вернитесь назад",
+        "enterPasswordDescription": "Пожалуйста, введите пароль или",
+        "helper": "Вам необходимо ввести пароль, который вы использовали для экспорта учетных записей",
+        "import": {
+            "accounts": "Аккаунты",
+            "emptyList": "В загруженном файле нет аккаунтов для импорта",
+            "importFailed": "Не удалось импортировать keytore файл",
+            "noChosen": "Файл не выбран",
+            "selectAccount": "Выберите аккаунт",
+            "selectAccountDesc": "Пожалуйста, выберите аккаунт или",
+            "selectAll": "Выбрать все",
+            "unselectAll": "Отменить все",
+            "wrongPassword": "Неправильный пароль!"
+        },
+        "importFromFile": "Импорт аккаунтов из Keystore File",
+        "importFromFileDescription": "Выберите файл JSON и нажмите импорт или",
+        "name": "Keystore File",
+        "next": "Продолжить",
+        "password": "Пароль",
+        "selectFileBtn": "Выберите файл"
+    },
+    "backupFileDescription": "Импорт аккаунтов из Keystore File",
     "import": {
         "signIn": "Sign in"
     },
@@ -11,7 +34,9 @@
     "LedgerClient": "Ledger",
     "ledgerDescription": "Импорт аккаунтов с устройства Ledger",
     "or": "ИЛИ",
-    "seedAndKey": "Секретная фраза или приватный ключ",
+    "seedAndKey": {
+        "name": "Секретная фраза или приватный ключ"
+    },
     "seedAndKeyDescription": "Импорт аккаунта из сохраненной фразы или по приватному ключу",
     "selectButton": "Импортировать",
     "wavesClient": "Waves Client",

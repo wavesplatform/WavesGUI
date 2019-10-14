@@ -193,6 +193,12 @@
             "message": "Pour commencer à trader, veuillez vous connecter ou créer un compte.",
             "ok": "S'identifier"
         },
+        "deleteAccount": {
+            "cancel": "Cancel",
+            "delete": "Remove",
+            "description": "{div}[Removing an account will lead to its irretrievable loss if you didn't save a backup phrase (SEED).]\n{div}[Click on the REMOVE button to proceed with account removal, or CANCEL to return to the previous screen.]",
+            "header": "Remove account"
+        },
         "deposit": {
             "coinomatBCH": {
                 "helpDescrText": "Une fois la transaction confirmée, le portail procédera au transfert de BCH à un token dans votre compte Waves.",
@@ -280,9 +286,15 @@
                 "warningText": "L'envoi de toute autre devise à cette adresse peut entraîner la perte de votre dépôt.",
                 "warningTitle": "Envoyez uniquement de l'ERGO à cette adresse de dépôt"
             },
+            "wavesGatewayETH": {
+                "warningMinAmountText": "Si vous envoyez moins de {{minAmount, BigNumber}} {{assetTicker}}, vous perdrez cet argent.",
+                "warningMinAmountTitle": "Le montant minimum du dépôt est de {{minAmount, BigNumber}} {{assetTicker}}, le montant maximum du dépôt est de {{maxAmount}} {{assetTicker}}",
+                "warningText": "Vérifiez si votre portefeuille ou votre plateforme d'échange utilise des smart-contracts pour retirer ETH. Nous n'acceptons pas de telles transactions et ne pouvons pas les rembourser. Vous perdrez cet argent.",
+                "warningTitle": "Ne déposez pas d'ETH à partir de smart-contracts ! Ne déposez pas de tokens ERC20 ! Seul Ethereum est autorisé."
+            },
             "wavesGatewayVST": {
-                "helpDescrText": "Une fois la transaction confirmée, le portail traitera le transfert de Vostok vers un jeton dans votre compte Waves.",
-                "helpDescrTitle": "Entrez cette adresse dans votre client ou portefeuille Vostok",
+                "helpDescrText": "Une fois la transaction confirmée, le portail traitera le transfert de VST vers un jeton dans votre compte Waves.",
+                "helpDescrTitle": "Entrez cette adresse dans votre client ou portefeuille VST",
                 "warningMinAmountTitle": "Le montant minimum du dépôt est de {{minAmount, BigNumber}} {{assetTicker}}, le montant maximum du dépôt est de {{maxAmount}} {{assetTicker}}"
             }
         },
@@ -339,6 +351,14 @@
             "wavesBetaClientDescription": "Importer des comptes depuis le Client Waves Bêta",
             "wavesLiteClient": "Client Waves Lite",
             "wavesLiteClientDescription": "Importer des comptes depuis le Client Waves Lite"
+        },
+        "matcherChoice": {
+            "customMatcher": "Custom matcher address",
+            "matcher": "Matcher",
+            "matcherTerms": "I agree to the Super DEX Mather Terms of Use.",
+            "terms": "Terms",
+            "title": "Choose matcher",
+            "wavesTerms": "I am over 18 years old, and I agree to the Waves Terms of Use and Waves Privacy Policy."
         },
         "open-main": {
             "dex": {
@@ -455,7 +475,7 @@
             "shareInvoiceLink": "Partager un lien vers une facture",
             "verified": "Vérifié",
             "vostok": {
-                "serverError": "Service Vostok temporairement indisponible. Veuillez réessayez plus tard."
+                "serverError": "Service VST temporairement indisponible. Veuillez réessayez plus tard."
             },
             "wtry": {
                 "info": "En cas de problèmes avec le traitement des paiements, veuillez contacter l'équipe de support Digilira - [support@digilira.com](mailto:support@digilira.com)"
@@ -470,7 +490,8 @@
             "heading": "Supprimer le compte",
             "remove": "Supprimer",
             "text": "{div}[La suppression d'un compte entraînera sa perte irrémédiable si vous n'avez pas enregistré une phrase de sauvegarde (SEED)].\n{div}[Cliquez sur le bouton SUPPRIMER pour procéder à la suppression du compte, ou ANNULER pour revenir à l'écran précédent.]",
-            "warning": "Vous n'avez pas enregistré votre SEED"
+            "warning": "Vous n'avez pas enregistré votre SEED",
+            "warningPlural": "You did not save your Seed phrases"
         },
         "removeKeeperAccount": {
             "heading": "Supprimer le compte Waves Keeper",
@@ -532,6 +553,11 @@
             "gateway": {
                 "feeExplanation": "Nous avons détecté une adresse {{assetName}} et nous enverrons les fonds via un portail à cette adresse. Le montant minimum est de {{min, BigNumber}} {{assetTicker}}. Le montant maximum est de {{max, BigNumber}} {{assetTicker}}."
             },
+            "gatewayTerms": {
+                "accept": "Accept and Continue",
+                "text": "By using Gateway service, you agree to be bound by [Gateway Terms of Service](https://dex.wavesplatform.com/) and [Conduction of Transactions](https://dex.wavesplatform.com/). If you do not agree to these terms, then do not use this Gateway service.",
+                "title": "Gateway service agreement"
+            },
             "icoWarning": "Ne pas retirer {{assetName}} vers une ICO. Nous ne créditerons pas votre compte avec des tokens de cette vente.",
             "idNumber": {
                 "helpIcon": {
@@ -583,7 +609,8 @@
             "validationError": {
                 "notEnoughFunds": "Vous n'avez pas assez de fonds pour payer les frais exigés. Vous devez payer {{fee, money-currency}} de frais de transaction.",
                 "notEnoughFundsWithdraw": "Vous n'avez pas assez de fonds pour payer les frais exigés. Vous devez payer {{fee, money-currency}} de frais de transaction et {{getawayFee, BigNumber}}  {{currency}} de frais de portail. Le montant minimum de retrait est {{minGatewayAmount, BigNumber}}  {{currency}}."
-            }
+            },
+            "withdrawTitle": "Withdraw"
         },
         "sepa": {
             "countryList": "Liste des pays et des pièces d'identités éligibles",
@@ -606,8 +633,17 @@
             "warningHeader": "Certains actions peuvent entraîner la perte de l'actif."
         },
         "settings": {
+            "account": "Account",
             "cancel": "Créer un compte",
             "changePass": "Change password",
+            "deleteAccount": "Remove account",
+            "exportAccounts": {
+                "accounts": "Accounts",
+                "export": "Export",
+                "selectAll": "Select all",
+                "title": "Please select account",
+                "unselectAll": "Unselect all"
+            },
             "general": {
                 "auto": "Auto",
                 "blockHeight": "Hauteur actuelle",
@@ -625,6 +661,7 @@
                 "title": "Général",
                 "white": "Blanc"
             },
+            "helperContent": "You can set a password for exported accounts",
             "info": {
                 "legal": "Juridique",
                 "privacyPolicy": "Politique de confidentialité",
@@ -646,6 +683,7 @@
                 "dataProviderInvalid": "Échec de l'obtention d'informations sur le fournisseur. Veuillez vérifier l'adresse et réessayer",
                 "dataProviderName": "{{dataProviderName}}",
                 "dontShowSpamCheckboxDescr": "Ne pas afficher les jetons suspects",
+                "edit": "Edit",
                 "forDisableClear": "Pour le désactiver complètement, effacez le champ.",
                 "matcherAddress": "Adresse du coupleur",
                 "nodeAddress": "Adresse du node",
@@ -677,9 +715,13 @@
             "security": {
                 "address": "Adresse",
                 "backupPhrase": "Phrase de sauvegarde",
+                "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "SEED encodée",
+                "exportAccount": "Export account to file",
+                "id": "Account ID",
                 "privateKey": "Clé privée",
                 "publicKey": "Clé publique",
+                "savejson": "Save as JSON file",
                 "script": "Script",
                 "scriptButton": "Définir le script",
                 "scriptButtonUpdate": "Mettre à jour le script",
@@ -691,6 +733,7 @@
         },
         "sign": {
             "article": "Article",
+            "buy": "Buy",
             "cancel": "Annuler",
             "cancelOrder": "Annuler l'ordre",
             "close": "Fermer",
@@ -717,12 +760,15 @@
             "fee": "Frais",
             "matcher": "Signez les requêtes d'ordres",
             "openApp": "Ouvrir l'application Waves",
+            "orderType": "Order type",
+            "pair": "Pair",
             "price": "Prix",
             "refererTo": "Si l'erreur persiste, veuillez vous référer à",
             "referTo": "Si l'erreur persiste, veuillez vous référer à",
             "request": "Requête",
             "requestId": "Requête de hachage",
             "retry": "Réessayer",
+            "sell": "Sell",
             "signByKeeper": "En attente de la confirmation de Waves Keeper...",
             "signByLedger": "En attente de la confirmation sur l'appareil Ledger",
             "signError": "La requête n'a pas été confirmée.",
@@ -730,6 +776,8 @@
             "signErrorText": "Vous n'avez pas confirmé la requête sur votre appareil Ledger",
             "signErrorTextImportKeeper": "Connectez-vous à Waves Keeper avec l'adresse {{address}}, puis rafraîchissez la page pour continuer.",
             "signErrorTextKeeper": "Veuillez réessayer. Si l'erreur persiste, veuillez créer un ticket pour [le support](https://support.wavesplatform.com/)",
+            "signErrorTextKeeperWrongUser": "This account does not match the selected account in your Waves Keeper. Please activate another account in Waves Keeper and try again.",
+            "timestamp": "Timestamp",
             "txId": "TXID"
         },
         "sponsorship_edit": {
@@ -768,7 +816,7 @@
                 "analytics": "J'aimerais aider à améliorer la plateforme Waves en envoyant des statistiques d'utilisation anonymes aux développeurs.",
                 "backup": "Je comprends que si cette application est déplacée vers un autre appareil ou supprimée, mes Waves ne peuvent être restaurées qu'avec la phrase de sauvegarde.",
                 "ok": "Confirmer et Commencer",
-                "privacyPolicy": "J'ai lu et j'accepte la [Politique de confidentialité](https://wavesplatform.com/files/docs/Privacy Policy_SW.pdf).",
+                "privacyPolicy": "J'ai lu et j'accepte la [Politique de confidentialité](https://wavesplatform.com/files/docs/Privacy_Policy_SW.pdf).",
                 "read": "J'ai lu, compris et j'accepte les",
                 "readTermsAndConditions": "J'ai lu et j'accepte les [Conditions générales](https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf).",
                 "security": "Je comprends que mes fonds sont conservés en toute sécurité sur cet appareil, et non par une entreprise",
@@ -813,6 +861,7 @@
             "step1": {
                 "button": "Ce que vous devez savoir concernant votre SEED",
                 "buttonMobile": "Suivant",
+                "buttonReadMore": "Read more",
                 "p1": "Veuillez prendre le temps de comprendre certaines choses importantes pour votre propre sécurité. 🙏",
                 "p2": "Nous ne pouvons pas récupérer vos fonds ou geler votre compte si vous visitez un site de hameçonage ou perdez votre phrase de sauvegarde (aussi appelée phrase SEED).",
                 "p3": "En continuant à utiliser notre plateforme, vous confirmez accepter tous les risques associés à la perte de votre SEED, y compris mais sans s'y limiter, l'incapacité d'obtenir vos fonds et d'en disposer. En cas de perte de votre SEED, vous acceptez et reconnaissez que la plateforme Waves ne sera pas responsable des conséquences négatives de cette perte.",
@@ -913,10 +962,13 @@
                 "1_3_0": "{span.line}[1. Amélioration de la navigation dans l'application et de l'interface de la page de démarrage.]",
                 "1_3_18": "{span.line}[1. Ajout de la connexion au portefeuille à l'aide d'une clé privée.] \n{span.line}[2. Le changement de prix d'un jeton sur 24 heures est désormais lié à la paire jeton/WAVES.]",
                 "1_3_19": "{span.line}[1. Le portail Bancor a été lancé.] \n{span.line}[2. Interface utilisateur améliorée.]",
-                "1_3_2": "{span.line}[1. Le portail Vostok a été lancé.] \n{span.line}[2. Interface utilisateur améliorée et correction de bugs mineurs supplémentaires.]",
+                "1_3_2": "{span.line} [1. Le portail VST a été lancé.] \n{span.line} [2. Interface utilisateur améliorée et correction de bugs mineurs supplémentaires.]",
+                "1_3_20": "{span.line}[1. Improved system for storing and restoring accounts from local storage (Need to update the [desktop application](https://wavesplatform.com/technology/wallet)).]\n{span.line}[2. Fixed rounding of prices in the orderbook.]",
                 "1_3_5": "{span.line}[1. Un onglet avec les jetons du concours [wsoc.io] (https://wsoc.io) a été ajouté.] \n {span.line}[2. Prise en charge de la langue française ajoutée.] \n {span.line}[3. Des bugs mineurs supplémentaires ont été corrigés.]",
                 "1_3_7": "{span.line}[1. Intégration avec [tokenrating.wavesexplorer.com] (https://tokenrating.wavesexplorer.com) Vous pouvez maintenant noter les jetons directement dans l'application.] \n {span.line}[2. Des bugs mineurs supplémentaires ont été corrigés.]",
-                "1_3_9": "{span.line}[1. Interface utilisateur améliorée et fonctionnalités des sections Échange et Portefeuille.] \n{span.line}[2. Des bugs mineurs supplémentaires ont été corrigés.]"
+                "1_3_9": "{span.line}[1. Interface utilisateur améliorée et fonctionnalités des sections Échange et Portefeuille.] \n{span.line}[2. Des bugs mineurs supplémentaires ont été corrigés.]",
+                "1_4_0": "{span.line}[Added ability for easy switching between accounts within one wallet.]",
+                "1_4_4": "{span.line}[Added ability to backup and restore accounts from the keystore-file]"
             },
             "title": "Quoi de neuf dans cette {{version}}"
         }

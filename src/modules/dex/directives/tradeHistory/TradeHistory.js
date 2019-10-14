@@ -105,7 +105,7 @@
                     _assetIdPair: 'dex.assetIdPair'
                 });
 
-                user.getFilteredUserList().then(list => {
+                user.getMultiAccountUsers().then(list => {
                     this.userList = list;
                 });
             }

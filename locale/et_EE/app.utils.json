@@ -193,6 +193,12 @@
             "message": "Kauplemise alustamiseks logige sisse või looge konto",
             "ok": "Logi sisse"
         },
+        "deleteAccount": {
+            "cancel": "Cancel",
+            "delete": "Remove",
+            "description": "{div}[Removing an account will lead to its irretrievable loss if you didn't save a backup phrase (SEED).]\n{div}[Click on the REMOVE button to proceed with account removal, or CANCEL to return to the previous screen.]",
+            "header": "Remove account"
+        },
         "deposit": {
             "coinomatBCH": {
                 "helpDescrText": "Kui tehing on kinnitatud, töötleb gateway BCH tokeni ülekannet teie Waves kontole.",
@@ -280,9 +286,15 @@
                 "warningText": "Sending any other currency to this address may result in the loss of your deposit.",
                 "warningTitle": "Send only ERGO to this deposit address"
             },
+            "wavesGatewayETH": {
+                "warningMinAmountText": "If you will send less than {{minAmount, BigNumber}} {{assetTicker}}, you will lose that money.",
+                "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}, the maximum amount of deposit is {{maxAmount}} {{assetTicker}}",
+                "warningText": "Kontrollige, kas teie rahakott või börs kasutab ETH-i väljavõtmiseks smart-kontrakte. Me ei aktsepteeri selliseid tehinguid ja ei saa neid tagasi maksta. Te kaotate selle raha.",
+                "warningTitle": "Palun ärge tehke sissemakset ETH smart-kontrakrtidelt! Ärge tehkse sissemakseid ERC20 tokenites! Ainult Ethereum on lubatud."
+            },
             "wavesGatewayVST": {
-                "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of Vostok to a token in your Waves account.",
-                "helpDescrTitle": "Enter this address into your Vostok client or wallet",
+                "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of VST to a token in your Waves account.",
+                "helpDescrTitle": "Enter this address into your VST client or wallet",
                 "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}, the maximum amount of deposit is {{maxAmount}} {{assetTicker}}"
             }
         },
@@ -339,6 +351,14 @@
             "wavesBetaClientDescription": "Importige kontosid Waves Beta kliendist",
             "wavesLiteClient": "Waves Lite klient",
             "wavesLiteClientDescription": "Importige kontosid Waves Lite kliendist"
+        },
+        "matcherChoice": {
+            "customMatcher": "Custom matcher address",
+            "matcher": "Matcher",
+            "matcherTerms": "I agree to the Super DEX Mather Terms of Use.",
+            "terms": "Terms",
+            "title": "Choose matcher",
+            "wavesTerms": "I am over 18 years old, and I agree to the Waves Terms of Use and Waves Privacy Policy."
         },
         "open-main": {
             "dex": {
@@ -455,7 +475,7 @@
             "shareInvoiceLink": "Jaga link arvele",
             "verified": "Verifitseeritud",
             "vostok": {
-                "serverError": "Service Vostok temporarily unavailable. Try again later."
+                "serverError": "Service VST temporarily unavailable. Try again later."
             },
             "wtry": {
                 "info": "Makse töötlemisega seotud probleemide korral palun võtke ühendust Digilira tugimeeskonnaga — [support@digilira.com](mailto:support@digilira.com)"
@@ -470,7 +490,8 @@
             "heading": "Eemalda konto",
             "remove": "Eemalda",
             "text": "{div} [Konto kustutamine toob kaasa pöördumatu kahju, kui te pole salvestanud salafraasi.]\n{div}[Vajutage nupule EEMALDA, et jätkata konto eemaldamist, või TÜHISTA, et naasta eelmisele ekraanile .]",
-            "warning": "Te pole salvestanud oma salafraasi"
+            "warning": "Te pole salvestanud oma salafraasi",
+            "warningPlural": "You did not save your Seed phrases"
         },
         "removeKeeperAccount": {
             "heading": "Eemalda Waves Keeper konto",
@@ -532,6 +553,11 @@
             "gateway": {
                 "feeExplanation": "We have detected a {{assetName}} address and will send your funds via a gateway to this address. The minimum amount is {{min, BigNumber}} {{assetTicker}}. The maximum amount is {{max, BigNumber}} {{assetTicker}}."
             },
+            "gatewayTerms": {
+                "accept": "Accept and Continue",
+                "text": "By using Gateway service, you agree to be bound by [Gateway Terms of Service](https://dex.wavesplatform.com/) and [Conduction of Transactions](https://dex.wavesplatform.com/). If you do not agree to these terms, then do not use this Gateway service.",
+                "title": "Gateway service agreement"
+            },
             "icoWarning": "Ärge saatke {{assetName}} ICO-le Waves rahakotist otse. Me ei saa teie kontole sellelt müügilt tokenid ülekanda.",
             "idNumber": {
                 "helpIcon": {
@@ -583,7 +609,8 @@
             "validationError": {
                 "notEnoughFunds": "Teil ei ole piisavalt vahendeid nõutud tasude maksmiseks. Peate maksma {{fee, money-currency}} tehingutasu.",
                 "notEnoughFundsWithdraw": "Teil ei ole piisavalt vahendeid nõutud tasude maksmiseks. Peate maksma {{fee, money-currency}} tehingutasu ja {{getawayFee, BigNumber}} {{currency}} lüüsi tasu. Minimaalne raha ülekande summa on {{minGatewayAmount, BigNumber}} {{currency}}."
-            }
+            },
+            "withdrawTitle": "Withdraw"
         },
         "sepa": {
             "countryList": "Abikõlblike riikide ja ID-de loend",
@@ -606,8 +633,17 @@
             "warningHeader": "Meetmed võivad põhjustada vara kaotsimineku."
         },
         "settings": {
+            "account": "Account",
             "cancel": "Loo konto",
             "changePass": "Change password",
+            "deleteAccount": "Remove account",
+            "exportAccounts": {
+                "accounts": "Accounts",
+                "export": "Export",
+                "selectAll": "Select all",
+                "title": "Please select account",
+                "unselectAll": "Unselect all"
+            },
             "general": {
                 "auto": "Automaatne",
                 "blockHeight": "Praegune kõrgus",
@@ -625,6 +661,7 @@
                 "title": "Üldine",
                 "white": "Valge"
             },
+            "helperContent": "You can set a password for exported accounts",
             "info": {
                 "legal": "Legal",
                 "privacyPolicy": "Privacy Policy",
@@ -646,6 +683,7 @@
                 "dataProviderInvalid": "Teenusepakkuja teabe hankimine ebaõnnestus. Palun kontrollige aadressi ja proovige uuesti",
                 "dataProviderName": "{{dataProviderName}}",
                 "dontShowSpamCheckboxDescr": "Don't show suspicious tokens",
+                "edit": "Edit",
                 "forDisableClear": "For completely disable it, clear the field.",
                 "matcherAddress": "Matcher'i aadress",
                 "nodeAddress": "Sõlme aadress",
@@ -677,9 +715,13 @@
             "security": {
                 "address": "Aadress",
                 "backupPhrase": "Salafraas",
+                "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "Kodeeritud salafraas",
+                "exportAccount": "Export account to file",
+                "id": "Account ID",
                 "privateKey": "Privaatne võti",
                 "publicKey": "Avalik võti",
+                "savejson": "Save as JSON file",
                 "script": "Skript",
                 "scriptButton": "Loo skript",
                 "scriptButtonUpdate": "Uuenda skripti",
@@ -691,6 +733,7 @@
         },
         "sign": {
             "article": "artikkel",
+            "buy": "Buy",
             "cancel": "Tühista",
             "cancelOrder": "Tühista order",
             "close": "Sulge",
@@ -717,12 +760,15 @@
             "fee": "Tasu",
             "matcher": "Kinnitage orderite päringud",
             "openApp": "Avage Waves rakendus",
+            "orderType": "Order type",
+            "pair": "Pair",
             "price": "Hind",
             "refererTo": "Kui viga püsib, vaadake palun",
             "referTo": "Kui viga püsib, vaadake palun",
             "request": "päring",
             "requestId": "Päringu hash",
             "retry": "Proovi uuesti",
+            "sell": "Sell",
             "signByKeeper": "Waves Keeperilt kinnituse ootel ...",
             "signByLedger": "Waiting for confirmation on Ledger Device…",
             "signError": "Päring ei olnud kinnitatud",
@@ -730,6 +776,8 @@
             "signErrorText": "Te ei kinnitanud päringut teie Ledger Nano S-s",
             "signErrorTextImportKeeper": "Logige sisse Waves Keeperisse aadressiga {{address}} ja seejärel värskendage leht jätkamiseks.",
             "signErrorTextKeeper": "Palun proovi uuesti. Kui viga püsib, looge pilet [kasutajatoele](https://support.wavesplatform.com/)",
+            "signErrorTextKeeperWrongUser": "This account does not match the selected account in your Waves Keeper. Please activate another account in Waves Keeper and try again.",
+            "timestamp": "Timestamp",
             "txId": "TXID"
         },
         "sponsorship_edit": {
@@ -768,7 +816,7 @@
                 "analytics": "Sooviksin parandada Waves platvormi, saates arendajatele anonüümset kasutusstatistikat.",
                 "backup": "Ma saan aru, et kui see rakendus teisaldatakse teise seadmesse või kustutatakse, saab minu Waves rahakottid taastada ainult salafraasiga.",
                 "ok": "Kinnita ja Alusta",
-                "privacyPolicy": "I have read and agree with the [Privacy Policy](https://wavesplatform.com/files/docs/Privacy Policy_SW.pdf).",
+                "privacyPolicy": "I have read and agree with the [Privacy Policy](https://wavesplatform.com/files/docs/Privacy_Policy_SW.pdf).",
                 "read": "Olen lugenud, mõistnud ja nõustunud",
                 "readTermsAndConditions": "I have read and agree with the [Terms and Conditions](https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf).",
                 "security": "Ma saan aru, et minu raha hoitakse turvaliselt selles seadmes, mitte ettevõtte poolt",
@@ -813,6 +861,7 @@
             "step1": {
                 "button": "Mida on vaja teada oma salafraasi kohta",
                 "buttonMobile": "Järgmine",
+                "buttonReadMore": "Read more",
                 "p1": "Palun võtke aega, et mõista teie jaoks olulisi asju. 🙏",
                 "p2": "Me ei saa teie raha tagasi saada ega teie kontot külmutada, kui külastate andmepüügisaite või kaotate varukoopia (salafraas).",
                 "p3": "Jätkates meie platvormi kasutamist, nõustute nõustuma kõigi riskidega, mis on seotud teie salafraasi kadumisega, sealhulgas, kuid mitte ainult, suutmatus teie raha saada ja neid käsutada. Kui te kaotate oma salafraasi, nõustute ja tunnistate, et Waves Platform ei vastuta selle negatiivsete tagajärgede eest.",
@@ -913,10 +962,13 @@
                 "1_3_0": "{span.line}[1. Improved app navigation and start page interface.]",
                 "1_3_18": "{span.line}[1. Added login to wallet using a private key.]\n{span.line}[2. The 24 hours price change of a token is now bound to token/WAVES pair.]",
                 "1_3_19": "{span.line}[1. Bancor gateway has been launched.]\n{span.line}[2. User menu interface has been improved.]",
-                "1_3_2": "{span.line}[1. Vostok gateway has been launched.]\n{span.line}[2. Improved UI and additional minor bugs have been fixed.]",
+                "1_3_2": "{span.line}[1. VST gateway has been launched.]\n{span.line}[2. Improved UI and additional minor bugs have been fixed.]",
+                "1_3_20": "{span.line}[1. Improved system for storing and restoring accounts from local storage (Need to update the [desktop application](https://wavesplatform.com/technology/wallet)).]\n{span.line}[2. Fixed rounding of prices in the orderbook.]",
                 "1_3_5": "{span.line}[1. A tab with [wsoc.io](https://wsoc.io) contest tokens has been added.]\n{span.line}[2. French language support added.]\n{span.line}[3. Additional minor bugs have been fixed.]",
                 "1_3_7": "{span.line}[1. Integration with [tokenrating.wavesexplorer.com](https://tokenrating.wavesexplorer.com) Now you can rate tokens directly in the app.]\n{span.line}[2. Additional minor bugs have been fixed.]",
-                "1_3_9": "{span.line}[1. Improved UI and functionality of Exchange and Wallet sections.]\n{span.line}[2. Additional minor bugs have been fixed.]"
+                "1_3_9": "{span.line}[1. Improved UI and functionality of Exchange and Wallet sections.]\n{span.line}[2. Additional minor bugs have been fixed.]",
+                "1_4_0": "{span.line}[Added ability for easy switching between accounts within one wallet.]",
+                "1_4_4": "{span.line}[Added ability to backup and restore accounts from the keystore-file]"
             },
             "title": "Mis on {{version}} versioonis uut"
         }

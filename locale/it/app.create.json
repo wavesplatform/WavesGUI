@@ -25,17 +25,21 @@
         "avatarUnique": "L'avatar è immodificabile. Non potrai cambiarlo successivamente.",
         "choose": "Scegli l'avatar per il tuo indirizzo",
         "create": "Crea un nuovo account",
-        "createAccount": "Create a new account",
+        "createAccount": "Crea un nuovo account",
         "createDescription": "Veloce e gratuito",
         "createNewAccount": "Scegli il tuo Avatar",
         "description": {
-            "becomePart": "Become part of a fast-growing area of the crypto world. You are the only person who can access your crypto assets",
-            "enterName": "Enter account name or"
+            "becomePart": "Entra nel mondo in forte ascesa delle Crittovalute. Sei l'unica persona che può accedere ai tuoi critto asset",
+            "dex": "Fai trading in modo rapido e sicuro. Operando sul nostro exchange decentralizzato, manterrai sempre il controllo completo sui tuoi fondi",
+            "enterName": "Inserisci il nome dell'account o",
+            "wallet": "Conserva, gestisci e ricava interessi sul tuo bilancio di asset digitali, in massima sicurezza e semplicità"
         },
         "from": "Questo avatar è una rappresentazione visiva, non potrai cambiarlo successivamente",
         "header": {
-            "accountName": "Account name",
-            "withBlockchain": "Get Started with Blockchain"
+            "accountName": "Nome account",
+            "dex": "Exchange decentralizzato",
+            "wallet": "Wallet",
+            "withBlockchain": "Entra nel mondo Blockchain"
         },
         "import": "Importa account",
         "importDescription": "attraverso la frase Seed, Ledger o Keeper",

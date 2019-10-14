@@ -11,6 +11,10 @@
         "avatarUnique": "Questo avatar è immodificabile, non potrà essere cambiato successivamente.",
         "back": "Torna indietro",
         "choose": "Seleziona il tuo account",
+        "help": {
+            "id": "{div}[Imposta manualmente un ID o seleziona un account dalla lista.]\n{div}[Per favore salva l'ID, sarà indispensabile per l'importazione.]"
+        },
+        "id": "ID Account",
         "importAccount": "Importa un account Ledger",
         "ImportOrSignIn": "Importa account oppure",
         "login": "Continua",

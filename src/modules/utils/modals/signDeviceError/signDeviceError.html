@@ -60,6 +60,20 @@
         </div>
     </div>
 
+    <div class="connect-mode" ng-if="$ctrl.mode === 'sign-user-error' && $ctrl.isKeeper">
+        <div class="sign-error-icon ledger-icons"></div>
+        <h3 class="text-center basic-700" w-i18n="modal.sign.signErrorKeeper"></h3>
+        <p class="body-2 basic-500 margin-3" w-i18n="modal.sign.signErrorTextKeeperWrongUser"></p>
+        <div class="buttons-wrapper">
+            <w-button class="big" w-modal-close>
+                <span w-i18n="modal.sign.cancel"></span>
+            </w-button>
+            <w-button class="submit big" w-modal-hide>
+                <span w-i18n="modal.sign.retry"></span>
+            </w-button>
+        </div>
+    </div>
+
     <div class="connect-mode" ng-if="$ctrl.mode === 'load-user-error' && $ctrl.isKeeper">
         <div class="sign-error-icon ledger-icons"></div>
 

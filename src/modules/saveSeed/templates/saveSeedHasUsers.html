@@ -13,13 +13,13 @@
               one-item="$ctrl.userList.length <= 1"
               disabled="$ctrl.userList.length <= 1"
               hide-active="::false"
-              class="big margin-3">
+              class="select big margin-3">
         <w-option ng-repeat="user in $ctrl.userList track by user.address"
                   value="::user.address">
 
             <div class="avatar-container margin-right-1">
                 <w-avatar type="{{user.userType}}"
-                          class="margin-right-1"
+                          class="avatar margin-right-1"
                           address="user.address"
                           size="30"></w-avatar>
             </div>

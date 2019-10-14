@@ -11,42 +11,53 @@
      */
     const factory = function (utils) {
 
+        const { get, set, isEmpty, unset, Signal } = require('ts-utils');
+
         class DefaultSettings {
 
-            constructor(settings) {
+            constructor(settings, commonSettings) {
                 /**
                  * @private
                  */
-                this.settings = settings;
+                this.commonSettings = commonSettings || Object.create(null);
+                /**
+                 * @private
+                 */
+                this.settings = settings || Object.create(null);
                 /**
                  * @type {Signal}
                  */
-                this.change = new tsUtils.Signal();
+                this.change = new Signal();
+                /**
+                 * @private
+                 */
+                this.commonDefaults = {
+                    lng: 'en',
+                    theme: 'default',
+                    advancedMode: false,
+                    lastOpenVersion: '',
+                    whatsNewList: [],
+                    network: WavesApp.network,
+                    oracleWaves: WavesApp.oracles.waves,
+                    dontShowSpam: true,
+                    logoutAfterMin: 5,
+                    termsAccepted: true,
+                    needReadNewTerms: false,
+                    closedNotification: [],
+                    withScam: false,
+                    scamListUrl: WavesApp.network.scamListUrl,
+                    tokensNameListUrl: WavesApp.network.tokensNameListUrl,
+                    tradeWithScriptAssets: false,
+                    baseAssetId: WavesApp.defaultAssets.USD,
+                    events: Object.create(null)
+                };
                 /**
                  * @private
                  */
                 this.defaults = {
-                    advancedMode: false,
-                    network: WavesApp.network,
-                    lastOpenVersion: '',
-                    whatsNewList: [],
-                    closedNotification: [],
-                    dontShowSpam: true,
-                    withScam: false,
-                    scamListUrl: WavesApp.network.scamListUrl,
-                    tokensNameListUrl: WavesApp.network.tokensNameListUrl,
-                    logoutAfterMin: 5,
                     encryptionRounds: 5000,
-                    savePassword: true,
                     hasBackup: true,
-                    termsAccepted: true,
-                    tradeWithScriptAssets: false,
-                    needReadNewTerms: false,
                     lastInterval: WavesApp.dex.defaultResolution,
-                    baseAssetId: WavesApp.defaultAssets.USD,
-                    oracleWaves: WavesApp.oracles.waves,
-                    events: Object.create(null),
-                    lng: 'en',
                     send: {
                         defaultTab: 'singleSend'
                     },
@@ -122,24 +133,64 @@
             }
 
             get(path) {
-                const setting = tsUtils.get(this.settings, path);
-                return tsUtils.isEmpty(setting) ? tsUtils.get(this.defaults, path) : setting;
+                if (this._isCommon(path)) {
+                    const valueCommon = get(this.commonSettings, path);
+                    if (isEmpty(valueCommon)) {
+                        return get(this.commonDefaults, path);
+                    } else {
+                        return valueCommon;
+                    }
+                }
+
+                const value = get(this.settings, path);
+
+                if (isEmpty(value)) {
+                    return get(this.defaults, path);
+                } else {
+                    return value;
+                }
+
             }
 
             set(path, value) {
                 if (utils.isEqual(this.get(path), value)) {
                     return null;
                 }
-                if (utils.isEqual(tsUtils.get(this.defaults, path), value)) {
-                    tsUtils.unset(this.settings, path);
+
+                if (this._isCommon(path)) {
+                    if (utils.isEqual(get(this.commonDefaults, path), value)) {
+                        unset(this.commonSettings, path);
+                    } else {
+                        set(this.commonSettings, path, value);
+                    }
+                } else if (utils.isEqual(get(this.defaults, path), value)) {
+                    unset(this.settings, path);
                 } else {
-                    tsUtils.set(this.settings, path, value);
+                    set(this.settings, path, value);
                 }
+
                 this.change.dispatch(path);
             }
 
+            setCommonSettings(commonSettings) {
+                this.commonSettings = commonSettings;
+            }
+
             getSettings() {
-                return this.settings;
+                return {
+                    common: this.commonSettings,
+                    settings: this.settings
+                };
+            }
+
+            /**
+             * @param {string} path
+             * @returns {boolean}
+             * @private
+             */
+            _isCommon(path) {
+                const [start] = path.split('.');
+                return Object.prototype.hasOwnProperty.call(this.commonDefaults, start);
             }
 
         }
@@ -148,10 +199,11 @@
             /**
              * @name app.defaultSettings#create
              * @param {object} settings
+             * @param {object} commonSettings
              * @return {DefaultSettings}
              */
-            create(settings) {
-                return new DefaultSettings(settings);
+            create(settings, commonSettings) {
+                return new DefaultSettings(settings, commonSettings);
             }
         };
     };

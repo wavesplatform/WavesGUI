@@ -12,7 +12,7 @@
                 </div>
 
                 <w-select
-                    class="big"
+                    class="select select_receive-bank"
                     ng-if="::!$ctrl.isSingleAsset"
                     ng-model="$ctrl.asset"
                 >
@@ -32,8 +32,8 @@
                 class="receive-user-status"
                 ng-class="{pending: $ctrl.pending}"
             >
-                <w-loader ng-if="$ctrl.pending"></w-loader>
-                <w-error-block ng-if="$ctrl.error"></w-error-block>
+                <w-loader class="loader" ng-if="$ctrl.pending"></w-loader>
+                <w-error-block class="error-block" ng-if="$ctrl.error"></w-error-block>
             </div>
 
             <div ng-if="!$ctrl.isLira && !$ctrl.error" class="get-verified">

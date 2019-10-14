@@ -1,5 +1,5 @@
-<w-loader ng-if="!$ctrl.loaded"></w-loader>
-<w-error-block ng-show="$ctrl.loadingError"></w-error-block>
+<w-loader class="loader" ng-if="!$ctrl.loaded"></w-loader>
+<w-error-block class="error-block" ng-show="$ctrl.loadingError"></w-error-block>
 <div class="create-order"
      w-i18n-ns="app.dex"
      ng-if="$ctrl.loaded">
@@ -20,7 +20,7 @@
                      event-target="'ui'"
                      event-params='{Pair: $ctrl.analyticsPair}'
                      class="area buy"
-                     ng-click="$ctrl.expand('buy')">
+                     ng-click="$ctrl.fee && $ctrl.expand('buy')">
                     <div class="name headline-4 basic-700" w-i18n="directives.createOrder.buy"></div>
                 </div>
                 <div w-analytics
@@ -28,7 +28,7 @@
                      event-params='{Pair: $ctrl.analyticsPair}'
                      event-target="'ui'"
                      class="area sell"
-                     ng-click="$ctrl.expand('sell')">
+                     ng-click="$ctrl.fee && $ctrl.expand('sell')">
                     <div class="name headline-4 basic-700" w-i18n="directives.createOrder.sell"></div>
                 </div>
             </div>
@@ -232,7 +232,7 @@
 
                         <div class="expiration__item expiration__item-fee" ng-if="$ctrl.feeList.length">
                             <span class="expiration__label" w-i18n="directives.createOrder.matcherFee"></span>
-                            <w-select class="expiration__select select__no-user-select" ng-model="$ctrl.fee" up-direction="true">
+                            <w-select class="select select_create-order expiration__select select__no-user-select" ng-model="$ctrl.fee" up-direction="true">
                                 <w-option ng-repeat="fee in $ctrl.feeList track by fee.asset.displayName" value="fee">
                                     {{fee.toFormat()}} {{(fee.asset.ticker || fee.asset.displayName)}}
                                 </w-option>
@@ -241,7 +241,7 @@
 
                         <div class="expiration__item expiration__item-acting">
                             <div class="expiration__label" w-i18n="directives.createOrder.expiration"></div>
-                            <w-select class="expiration__select select__no-user-select" ng-model="$ctrl.expiration" up-direction="true">
+                            <w-select class="select select_create-order expiration__select select__no-user-select" ng-model="$ctrl.expiration" up-direction="true">
                                 <w-option ng-repeat="option in $ctrl.expirationValues track by option.name"
                                           value="::option.name"
                                           w-app-class>

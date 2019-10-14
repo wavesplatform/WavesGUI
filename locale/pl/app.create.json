@@ -25,17 +25,21 @@
         "avatarUnique": "Wybrany awatar nie podlega zmianie",
         "choose": "Wybierz swój awatar adresu",
         "create": "Utwórz nowe konto",
-        "createAccount": "Create a new account",
+        "createAccount": "Utwórz nowe konto",
         "createDescription": "Szybko i za darmo",
         "createNewAccount": "Stwórz swój Avatar",
         "description": {
-            "becomePart": "Become part of a fast-growing area of the crypto world. You are the only person who can access your crypto assets",
-            "enterName": "Enter account name or"
+            "becomePart": "Stań się częścią szybko rozwijającego się obszaru świata kryptowalut. Jesteś jedyną osobą, która ma dostęp do Twoich tokenów",
+            "dex": "Handluj szybko i bezpiecznie. Zachowujesz pełną kontrolę nad swoimi środkami, handlując nimi na naszej zdecentralizowanej giełdzie",
+            "enterName": "Wpisz nazwę konta lub",
+            "wallet": "Magazynuj, zarządzaj i otrzymuj odsetki z salda zasobów cyfrowych, łatwo i bezpiecznie"
         },
         "from": "Ten awatar jest wizualną reprezentacją, nie możesz go później zmienić",
         "header": {
-            "accountName": "Account name",
-            "withBlockchain": "Get Started with Blockchain"
+            "accountName": "Nazwa konta",
+            "dex": "Zdecentralizowana Giełda",
+            "wallet": "Portfel",
+            "withBlockchain": "Rozpocznij z Blockchain"
         },
         "import": "Importuj konto",
         "importDescription": "za pośrednictwem frazy Seed, Ledger lub Keeper",

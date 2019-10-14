@@ -4,12 +4,13 @@
             "onePassBtn": "Начнем!",
             "onePassDesc": "Локальное хранение данных, SEED-фразы и шифрование – все это делает WAVES DEX  надежным. Однако мы не стоим на месте. Пришло время перейти на новый уровень безопасности. Войдите в аккаунты и переключайтесь между ними парой кликов.",
             "onePassword": "Несколько аккаунтов – один пароль",
-            "protect": "Защитите свои аккаунты",
-            "protectDesc": "Защитите все свои аккаунты единым паролем",
+            "protect": "Защитите аккаунты",
+            "protectDesc": "Создайте единый пароль для всех своих аккаунтов",
             "protectPass": "Создайте пароль"
         },
         "password": {
             "notMatch": "Пароли не совпадают"
-        }
+        },
+        "termsAgreement": "Я прочел и согласен с [Terms and Conditions](https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf), [Privacy Policy](https://wavesplatform.com/files/docs/Privacy_Policy_SW.pdf)."
     }
 }

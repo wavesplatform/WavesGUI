@@ -4,7 +4,6 @@
     'use strict';
 
     const locationHref = location.href;
-    const tsUtils = require('ts-utils');
     const i18next = require('i18next');
     const ds = require('data-service');
     const { propEq, where, gte, lte, equals, __ } = require('ramda');
@@ -27,13 +26,13 @@
     const allProgress = Object.values(PROGRESS_MAP)
         .reduce((result, item) => result + item, 0);
     if (allProgress !== 100) {
-        throw new Error('Configure loader progress!');
+        throw new Error('Configure preloader progress!');
     }
 
     const LOADER = {
         _current: 0,
-        _root: document.querySelector('.app-loader'),
-        _element: document.querySelector('.app-loader .progress'),
+        _root: document.querySelector('.app-preloader'),
+        _element: document.querySelector('.app-preloader .progress'),
         addProgress(delta) {
             this._current += delta;
             this._current = Math.min(this._current, 100);
@@ -64,14 +63,14 @@
      * @param {Storage} storage
      * @param {INotification} notification
      * @param {app.utils.decorators} decorators
-     * @param {Waves} waves
+     * @param {MultiAccount} multiAccount
      * @param {ModalRouter} ModalRouter
      * @param {ConfigService} configService
      * @param {INotification} userNotification
      * @return {AppRun}
      */
     const run = function ($rootScope, utils, user, $state, $transitions, state, modalManager, storage,
-                          notification, decorators, waves, ModalRouter, configService, userNotification) {
+                          notification, decorators, multiAccount, ModalRouter, configService, userNotification) {
 
         const phone = WavesApp.device.phone();
         const tablet = WavesApp.device.tablet();
@@ -161,7 +160,7 @@
             }
 
             _initTryDesktop() {
-                if (!isDesktop || WavesApp.isDesktop()) {
+                if (multiAccount.isSignedIn || !isDesktop || WavesApp.isDesktop()) {
                     return Promise.resolve(true);
                 }
 
@@ -357,7 +356,10 @@
                             return $state.target(START_STATES[0]);
                         }
 
-                        transition.abort();
+                        if (!multiAccount.isSignedIn) {
+                            user.setInitRouteState(toState.name, params);
+                            return $state.target(START_STATES[0]);
+                        }
                     }
 
                     if (toState.name === 'unavailable' && !this._unavailable) {
@@ -391,7 +393,7 @@
                             if (START_STATES.indexOf(toState.name) === -1) {
                                 $state.go(toState.name, params);
                             } else {
-                                $state.go(user.getActiveState('wallet'));
+                                user.goToActiveState();
                             }
 
                             i18next.changeLanguage(user.getSetting('lng'));
@@ -432,17 +434,11 @@
              * @private
              */
             _initializeTermsAccepted() {
-                return Promise.all([
-                    storage.load('needReadNewTerms'),
-                    storage.load('termsAccepted')
-                ]).then(([needReadNewTerms, termsAccepted]) => {
-
+                return storage.load('needReadNewTerms').then(needReadNewTerms => {
                     if (needReadNewTerms) {
                         return modalManager.showAcceptNewTerms(user);
-
-                    } else if (!termsAccepted) {
-                        return modalManager.showTermsAccept(user);
                     }
+
                     return Promise.resolve();
                 });
             }
@@ -454,10 +450,9 @@
              */
             @decorators.scope({ closeByModal: false })
             _initializeBackupWarning(scope) {
-                if (!user.getSetting('hasBackup')) {
+                const id = '_hasBackupId';
 
-                    const id = tsUtils.uniqueId('n');
-
+                if (!user.getSetting('hasBackup') && !notification.has(id)) {
                     const changeModalsHandler = (modal) => {
 
                         scope.closeByModal = true;
@@ -494,6 +489,9 @@
                         },
                         onClose: () => {
                             analytics.send({ name: 'Create Save Phrase No Click', target: 'ui' });
+
+                            notification.remove(id);
+
                             if (scope.closeByModal || user.getSetting('hasBackup')) {
                                 return null;
                             }
@@ -519,7 +517,8 @@
                 // const sessions = sessionBridge.getSessionsData();
 
                 const states = WavesApp.stateTree.where({ noLogin: true })
-                    .map((item) => WavesApp.stateTree.getPath(item.id).join('.'));
+                    .map((item) => WavesApp.stateTree.getPath(item.id).join('.'))
+                    .concat(multiAccount.isSignedIn ? ['create', 'migrate'] : []);
 
                 if (canChangeState && states.indexOf(currentState.name) === -1) {
                     // if (sessions.length) {
@@ -704,7 +703,7 @@
         'storage',
         'notification',
         'decorators',
-        'waves',
+        'multiAccount',
         'ModalRouter',
         'configService',
         'userNotification',

@@ -1,6 +1,6 @@
-import { readJSONSync } from 'fs-extra';
+import { readJSONSync, readdirSync } from 'fs-extra';
 import { parallel, series, task } from 'gulp';
-import { basename, extname, join, sep } from 'path';
+import { basename, extname, join, resolve, sep } from 'path';
 import { options } from 'yargs';
 import { createBabelTask } from './scripts/babelTask';
 import { createCleanTask } from './scripts/cleanTask';
@@ -166,8 +166,19 @@ task('electron-debug', createElectronDebugTask());
 task('all', series(
     createCleanTask(),
     createDataServicesTask(),
-    createBuildTask({ platform: 'web', env: 'production', config: './configs/mainnet.json' }),
-    createBuildTask({ platform: 'web', env: 'production', config: './configs/testnet.json' }),
-    createBuildTask({ platform: 'desktop', env: 'production', config: './configs/mainnet.json' }),
-    createBuildTask({ platform: 'desktop', env: 'production', config: './configs/testnet.json' })
+    parallel(
+        readdirSync('configs').reduce((all, conf) => [
+            ...all,
+            createBuildTask({
+                platform: 'web',
+                env: 'production',
+                config: resolve('configs', conf)
+            }),
+            createBuildTask({
+                platform: 'desktop',
+                env: 'production',
+                config: resolve('configs', conf)
+            })
+        ], [])
+    )
 ));

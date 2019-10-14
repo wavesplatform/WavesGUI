@@ -11,7 +11,7 @@
             </div>
 
             <w-select
-                class="big"
+                class="select select_receive-invoice"
                 can-search="::true"
                 ng-if="::!$ctrl.isSingleAsset"
                 ng-model="$ctrl.chosenAssetId"
@@ -37,7 +37,7 @@
         <div class="row margin-2">
             <div class="body-2 basic-900 margin-05" w-i18n="modal.receive.addressOrAlias"></div>
 
-            <w-select class="big" ng-model="$ctrl.chosenAlias">
+            <w-select class="select select_receive-invoice" ng-model="$ctrl.chosenAlias">
                 <w-option ng-repeat="alias in ::$ctrl.addressAndAliases track by $index" value="::alias">
                     {{::alias}}
                 </w-option>
@@ -66,14 +66,14 @@
             <div class="body-2 basic-900 margin-05" w-i18n="modal.receive.shareInvoiceLink"></div>
 
             <w-copy-wrap
-                class="overflow body-1 basic-900 mobile-low-fsize"
+                class="copy-wrap copy-wrap_receive body-1"
                 info="$ctrl.sendLink"
             >
                 <span>{{$ctrl.sendLink}}</span>
             </w-copy-wrap>
         </div>
 
-        <div class="or" w-i18n="modal.send.or"></div>
+        <div class="get-started-link__or or" w-i18n="modal.send.or"></div>
 
         <div class="qr-wrapper center" w-toggle-class-container>
             <div class="margin-2 body-2 basic-900" w-i18n="modal.qr.scanQrCode"></div>

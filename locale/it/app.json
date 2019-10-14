@@ -35,6 +35,12 @@
             "Dic"
         ]
     },
+    "error": {
+        "updateClient": {
+            "body": "Lavoriamo costantemente per rendere il Waves DEX migliore e più utile. Aggiorna la tua app per continuare. Scarica l'applicazione dal [sito ufficiale](https://wavesplatform.com/technology/wallet)!",
+            "title": "E' ora di aggiornare la tua app!"
+        }
+    },
     "EXK2jJo1PbL9CUNr5FSedw6cueZH5MUCDXNhR1WQEZa4": {
         "description": "Aloha funky coin, for any good&evil purposes ;)"
     },

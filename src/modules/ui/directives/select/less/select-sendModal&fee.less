@@ -1,0 +1,32 @@
+@import (reference) "../../../../app/less/app-icons";
+@import (reference) '../../../../app/less/typography';
+@import (reference) 'config';
+@import (reference) 'icons';
+
+.select {
+	&_send-modal, &_fee {
+    height: 54px;
+
+    @media screen and (max-width: 768px) {
+      height: 42px;
+    }
+
+    .select {
+      &__list {
+        max-height: 325px;
+        overflow: auto;
+      }
+
+      &__title {
+        overflow: hidden;
+      }
+
+    }
+    
+    .expanded {
+      .select__list {
+        margin-bottom: 40px;
+      }
+    }
+  }
+}

@@ -1,4 +1,4 @@
-<w-site-header></w-site-header>
+<w-main-header class="main-header"></w-main-header>
 <div class="main-container movable" w-i18n-ns="app.desktop">
 
     <div class="main-container-wrapper">
@@ -13,9 +13,9 @@
                 <div class="desktop-page__message body-2 basic-500 margin-3"
                      w-i18n="message"></div>
 
-                <div class="desktop-page__checkbox flex get-started-checkbox-save basic-500">
-                    <w-checkbox-submit id="openLinkViaDesktop" ng-model="$ctrl.openLinkViaDesktop"></w-checkbox-submit>
-                    <label class="body-2 margin-05" for="openLinkViaDesktop" w-i18n-ns="app.welcome" w-i18n="openViaDesktop"></label>
+                <div class="checkbox-input desktop-page__checkbox basic-500">
+                    <w-checkbox-submit class="checkbox-submit" id="openLinkViaDesktop" ng-model="$ctrl.openLinkViaDesktop"></w-checkbox-submit>
+                    <label class="checkbox-input__label body-2 margin-05" for="openLinkViaDesktop" w-i18n-ns="app.welcome" w-i18n="openViaDesktop"></label>
                 </div>
 
                 <w-button on-click="$ctrl.openMainPage()"
@@ -26,5 +26,5 @@
         </div>
     </div>
 </div>
-<w-footer></w-footer>
+<w-footer class="footer"></w-footer>
 

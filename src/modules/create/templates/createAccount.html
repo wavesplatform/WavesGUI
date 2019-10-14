@@ -1,46 +1,82 @@
-<div class="get-started-content create-account movable">
+<div class="get-started-content create-account movable" w-i18n-ns="app.create">
+    <w-step-by-step active-step="$ctrl.invitationStep">
+        <w-step>
+            <div class="text-center">
+                <w-slider interval="2000" class="margin-3">
+                    <div>
+                        <div class="icon-started-blockchain margin-auto margin-1"></div>
+                        <div class="headline-1 margin-1">
+                            <span w-i18n="createAccount.header.withBlockchain"></span>
+                        </div>
+                        <div class="body-2 basic-500">
+                            <span w-i18n="createAccount.description.becomePart"></span>
+                        </div>
+                    </div>
 
-    <div class="text-center">
-        <div class="headline-1 margin-4">
-            <span w-i18n="createAccount.createNewAccount"></span>
-        </div>
+                    <div>
+                        <div class="icon-started-wallet margin-auto margin-1"></div>
+                        <div class="headline-1 margin-1">
+                            <span w-i18n="createAccount.header.wallet"></span>
+                        </div>
 
-        <div class="body-2 margin-top-2 basic-500">
-            <span w-i18n="createAccount.from"></span>
-        </div>
+                        <div class="body-2 basic-500">
+                            <span w-i18n="createAccount.description.wallet"></span>
+                        </div>
+                    </div>
 
-    </div>
+                    <div>
+                        <div class="icon-started-token margin-auto margin-1"></div>
+                        <div class="headline-1 margin-1">
+                            <span w-i18n="createAccount.header.dex"></span>
+                        </div>
 
-    <div class="avatars-list flex margin-2 margin-top-2">
-        <div class="avatar-wrapper"
-             ng-repeat="seed in $ctrl.seedList track by seed.address"
-             ng-class="{active: seed.active}"
-             ng-click="$ctrl.setActiveSeed(seed)">
-            <w-avatar address="seed.address"></w-avatar>
-        </div>
-    </div>
+                        <div class="body-2 basic-500">
+                            <span w-i18n="createAccount.description.dex"></span>
+                        </div>
+                    </div>
+                </w-slider>
 
-    <div class="body-2 basic-900 margin-05" w-i18n="createAccount.address"></div>
+                <w-button class="submit long big" on-click="$ctrl.nextInvitationStep()">
+                    <div class="full-width" w-i18n="createAccount.createAccount"></div>
+                </w-button>
+            </div>
+        </w-step>
 
-    <w-copy-wrap class="body-2 margin-2"
-         info="$ctrl.address">{{$ctrl.address}}
-        <w-loader ng-if="!$ctrl.address"></w-loader>
-    </w-copy-wrap>
+        <w-step>
+            <div class="text-center">
+                <div class="headline-1 margin-1">
+                    <span w-i18n="createAccount.createNewAccount"></span>
+                </div>
 
-    <div class="flex get-started-checkbox-save">
-        <w-checkbox-submit ng-model="$ctrl.saveUserData" id="save-user-data"></w-checkbox-submit>
-        <label for="save-user-data" class="footnote-1">
-            <span class="basic-500" w-i18n="createAccount.saveUserData"></span>
-        </label>
-    </div>
+                <div class="body-2 basic-500">
+                    <span w-i18n="createAccount.from"></span>
+                </div>
 
-    <w-button
-        on-click="$ctrl.next($ctrl.stepIndex + $ctrl.saveUserData ? 1 : 2)"
-        class="submit long big">
-        <span w-i18n="button.continue"></span>
-    </w-button>
+            </div>
 
-    <w-get-started-link has-sign-in="::true" has-import="::true"></w-get-started-link>
+            <div class="avatars-list flex margin-1 margin-top-1">
+                <div class="avatar__wrapper"
+                     ng-repeat="seed in $ctrl.seedList track by seed.address"
+                     ng-click="$ctrl.setActiveSeed(seed)">
+                    <w-avatar address="seed.address" class="avatar avatar_create" ng-class="{'avatar_active': seed.active}"></w-avatar>
+                </div>
+            </div>
 
+            <div class="body-2 basic-900 margin-05" w-i18n="createAccount.address"></div>
+
+            <w-copy-wrap class="copy-wrap body-2 margin-2"
+                         info="$ctrl.address">{{$ctrl.address}}
+                <w-loader class="loader" ng-if="!$ctrl.address"></w-loader>
+            </w-copy-wrap>
+            <w-analytics event="'Create New Continue Click'" event-params="{ guestMode: !this.saveUserData }">
+                <w-button
+                        on-click="$ctrl.next($ctrl.stepIndex + $ctrl.saveUserData ? 1 : 2)"
+                        class="submit long big">
+                    <span w-i18n="button.continue"></span>
+                </w-button>
+            </w-analytics>
+        </w-step>
+    </w-step-by-step>
+
+    <w-get-started-link class="get-started-link" has-import="::true"></w-get-started-link>
 </div>
-

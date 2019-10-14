@@ -22,24 +22,27 @@ html body.stand {
     }
   }
 
-  w-change-language w-select {
+  w-change-language .select {
     position: relative;
     top: 0;
     right: 0;
   }
 
-  w-select img {
+  .select img {
     width: 30px;
     height: 30px;
     display: block;
     margin-right: 10px;
   }
 
-  w-checkbox-submit {
+  .checkbox-submit {
     margin-right: @padding-main-layout;
+    &__wrap {
+      width: 300px !important;
+    }
   }
 
-  w-error-block {
+  .error-block {
      margin-top: 130px;
   }
 
@@ -50,7 +53,7 @@ html body.stand {
     min-width: 1200px;
   }
 
-  .select-list {
+  .select__list {
     margin-bottom: 40px;
   }
 
@@ -75,10 +78,6 @@ html body.stand {
     }
   }
 
-  .unit-checkbox {
-    width: 300px !important;
-  }
-
   .qr-wrapper,
   .relative-wrapper {
     background: @color-white;
@@ -93,15 +92,7 @@ html body.stand {
     display: block !important;
   }
 
-  w-tabs {
-    box-shadow: 0 0 3px #ccc;
-    max-height: 190px;
-    h4 {
-
-    }
-    .tab-body-wrap {
-    }
-
+  .tabs {
     .tab-content {
       display: flex;
       align-items: center;

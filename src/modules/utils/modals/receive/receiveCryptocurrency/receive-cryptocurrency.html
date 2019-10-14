@@ -12,7 +12,7 @@
         </div>
 
         <w-select
-            class="big"
+            class="select select_receive-crypt"
             can-search="::true"
             ng-if="::!$ctrl.isSingleAsset"
             ng-model="$ctrl.chosenAssetId"
@@ -35,7 +35,7 @@
         </w-select>
     </div>
 
-    <div class="plate-warning margin-1" ng-if="!$ctrl.gatewayServerError && !$ctrl.isVostok">
+    <div class="plate-warning margin-1" ng-if="!$ctrl.gatewayServerError && !$ctrl.isVST">
         <div class="body-2 warning-500" w-i18n="modal.deposit.{{$ctrl.assetKeyName}}.warningTitle"></div>
         <div class="footnote-1 basic-500" w-i18n="modal.deposit.{{$ctrl.assetKeyName}}.warningText"></div>
     </div>
@@ -48,7 +48,7 @@
                         maxAmount: $ctrl.maxAmount.getTokens().toFormat()  }"
         ></div>
         <div class="footnote-1 basic-500"
-             ng-if="!$ctrl.isVostok" w-i18n="modal.deposit.{{$ctrl.assetKeyName}}.warningMinAmountText"
+             ng-if="!$ctrl.isVST" w-i18n="modal.deposit.{{$ctrl.assetKeyName}}.warningMinAmountText"
              params="{minAmount: $ctrl.minAmount.getTokens(), assetTicker: $ctrl.asset.displayName}"
         ></div>
     </div>
@@ -69,16 +69,16 @@
     </div>
 
     <w-copy-wrap
-        class="overflow body-1 basic-900 mobile-low-fsize"
+        class="copy-wrap copy-wrap_receive body-1"
         info="$ctrl.gatewayAddress"
         ng-if="!$ctrl.gatewayServerError"
     >
         {{$ctrl.gatewayAddress}}
-        <w-loader ng-if="!$ctrl.gatewayAddress"></w-loader>
+        <w-loader class="loader" ng-if="!$ctrl.gatewayAddress"></w-loader>
     </w-copy-wrap>
 
-    <div class="or" ng-if="!$ctrl.gatewayServerError">
-        <span w-i18n="modal.deposit.or"></span>
+    <div class="det-started-link__or or" ng-if="!$ctrl.gatewayServerError">
+        <span class="get-started-link__or-content" w-i18n="modal.deposit.or"></span>
     </div>
 
     <div class="qr-wrapper center margin-2" ng-if="!$ctrl.gatewayServerError" w-toggle-class-container>
@@ -90,7 +90,7 @@
             w-toggle-class="zoomed-in"
             w-i18n-ns="app.ui"
             w-i18n="directives.transactionExport.qrZoomBtn"></div>
-        <w-loader ng-if="!$ctrl.gatewayAddress"></w-loader>
+        <w-loader class="loader" ng-if="!$ctrl.gatewayAddress"></w-loader>
     </div>
 
     <div class="plate-warning server-error" ng-if="$ctrl.gatewayServerError">

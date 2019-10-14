@@ -20,6 +20,12 @@
         }
     },
     "storage": {
+        "backup": {
+            "error": {
+                "body": "Impossibile ottenere gli account. Contattare il servizio di supporto per ripristinare la frase di backup (frase SEED).",
+                "title": "Qualcosa è andato storto!"
+            }
+        },
         "read": {
             "error": {
                 "body": "Errore durante il caricamento delle tue chiavi. Abbiamo ripristinato i tuoi account dallo storage di backup.",
