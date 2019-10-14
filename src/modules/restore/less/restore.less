@@ -70,6 +70,10 @@ body.restore {
     &__checkbox {
       margin: 20px 0 30px;
     }
+
+    .restore-selects {
+      display: none;
+    }
   }
 
   .tab {
@@ -143,6 +147,20 @@ body.restore {
 
       &__checkbox {
         margin: 15px 0 30px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  body.restore {
+    .restore-content {
+      .restore-tabs {
+        display: none;
+      }
+
+      .restore-selects {
+        display: block;
       }
     }
   }
