@@ -1,0 +1,113 @@
+@import (reference) "../../../../app/less/app-icons";
+@import (reference) '../../../../app/less/typography';
+@import (reference) 'config';
+@import (reference) 'icons';
+
+.select_change-lang {
+	width: 142px;
+	height: 36px;
+
+	.select {
+		&__title {
+			border: 1px solid transparent;
+		}
+
+		&__wrap.expanded .select__title {
+			border: 1px solid @color-basic-200;
+			border-bottom: 1px solid transparent;
+		}
+
+		&__list {
+			max-height: 171px;
+			overflow: auto;
+		}
+	}
+
+	.lng-item {
+		text-transform: capitalize;
+		font-size: 13px;
+		white-space: nowrap;
+		width: 100%;
+
+		&::before {
+			content: '';
+			width: 18px;
+			height: 18px;
+			display: inline-block;
+			margin-right: 6px;
+			vertical-align: top;
+			background-position: center center;
+		}
+	}
+
+	.lng-ru::before {
+		background: url(/img/icons/flags/ru.svg) no-repeat center;
+	}
+
+	.lng-en::before {
+		background: url(/img/icons/flags/en.svg) no-repeat center;
+	}
+
+	.lng-ko::before {
+		background: url(/img/icons/flags/ko.svg) no-repeat center;
+	}
+
+	.lng-tr::before {
+		background: url(/img/icons/flags/tr.svg) no-repeat center;
+	}
+
+	.lng-zh_CN::before {
+		background: url(/img/icons/flags/zh-Hans-CN.svg) no-repeat center;
+	}
+
+	.lng-ja::before,
+	.lng-ja-JP::before {
+		background: url(/img/icons/flags/jp.svg) no-repeat center;
+	}
+
+	.lng-nl::before,
+	.lng-nl_NL::before {
+		background: url(/img/icons/flags/nl.svg) no-repeat center;
+	}
+
+	.lng-hi_IN::before {
+		background: url(/img/icons/flags/hi.svg) no-repeat center;
+	}
+
+	.lng-es::before {
+		background: url(/img/icons/flags/es.svg) no-repeat center;
+	}
+
+	.lng-pt_BR::before {
+		background: url(/img/icons/flags/br.svg) no-repeat center;
+	}
+
+	.lng-pl::before {
+		background: url(/img/icons/flags/pl.svg) no-repeat center;
+	}
+
+	.lng-de::before {
+		background: url(/img/icons/flags/de.svg) no-repeat center;
+	}
+
+	.lng-et_EE::before {
+		background: url(/img/icons/flags/est.svg) no-repeat center;
+	}
+
+	.lng-fr::before {
+		background: url(/img/icons/flags/fr.svg) no-repeat center;
+	}
+
+	.lng-id::before {
+		background: url(/img/icons/flags/id.svg) no-repeat center;
+	}
+
+	.lng-it::before {
+		background: url(/img/icons/flags/it.svg) no-repeat center;
+	}
+
+	.lng-content {
+		display: inline-block;
+		min-width: 18px;
+	}
+}

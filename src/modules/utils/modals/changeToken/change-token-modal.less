@@ -24,7 +24,7 @@ md-dialog.change-token {
       }
     }
 
-    .select-wrap {
+    .select-wrapper {
       position: relative;
       height: 100%;
       width: 50%;
@@ -32,21 +32,9 @@ md-dialog.change-token {
       border-top-right-radius: @border-radius;
       border-bottom-right-radius: @border-radius;
 
-      .issue-select {
-        width: 216px;
-        height: 30px;
-        position: absolute;
-        right: 6px;
+      .select {
+        width: calc(100% ~"- 12px");
         top: 6px;
-
-        .title-content {
-          display: flex;
-          align-items: center;
-        }
-
-        .title {
-          background-color: @color-white;
-        }
       }
     }
   }

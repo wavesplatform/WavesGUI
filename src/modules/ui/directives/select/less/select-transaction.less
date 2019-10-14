@@ -1,0 +1,65 @@
+@import (reference) "../../../../app/less/app-icons";
+@import (reference) '../../../../app/less/typography';
+@import (reference) 'config';
+@import (reference) 'icons';
+
+.select_transaction, .select_transaction_mobile {
+	height: 42px;
+	margin-right: 10px;
+	flex-grow: 0;
+	white-space: nowrap;
+
+	&:hover {
+		border-radius: @border-radius @border-radius 0 0;
+		color: @color-basic-700;
+
+		.select__title {
+			box-shadow: @shadow-buttons-hover;
+			transition: all 0.3s;
+			color: @color-basic-700;
+		}
+
+		.select__wrap:not(.expanded) {
+			border-radius: 0 0 @border-radius @border-radius;
+		}
+	}
+
+	.select {
+		&__title {
+			border-color: @color-white;
+			color: @color-basic-700;
+			box-shadow: @shadow-buttons-default;
+			width: 100%;
+			font-size: 15px;
+		}
+		
+		&__wrap.expanded {
+			.select__title {
+				border-top: 1px solid @color-basic-200;
+				border-left: 1px solid @color-basic-200;
+				border-right: 1px solid @color-basic-200;
+				border-bottom: 1px solid @color-white;
+				border-radius: @border-radius @border-radius 0 0;
+			}
+		}
+	}
+
+	&[disabled],
+	&.disabled {
+		&:hover {
+			.select__wrap .select__title {
+				box-shadow: @shadow-buttons-default; //@color-basic-50;
+				color: @color-basic-500;
+			}
+		}
+	}
+}
+
+.select.select_transaction_mobile {
+	width: 100%;
+	margin-right: 10px;
+	
+	@media screen and (min-width: 1025px) {
+		display: none;
+	}
+}

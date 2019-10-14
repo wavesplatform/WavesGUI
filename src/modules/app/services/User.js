@@ -4,7 +4,6 @@
 
     const { equals } = require('ramda');
     const { isValidAddress } = require('@waves/signature-adapter');
-    const ds = require('data-service');
 
     /**
      * @param {Storage} storage
@@ -143,6 +142,10 @@
 
             get address() {
                 return this.currentUser ? this.currentUser.address : null;
+            }
+
+            get id() {
+                return this.currentUser ? this.currentUser.id : null;
             }
 
             get name() {
