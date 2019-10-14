@@ -470,13 +470,12 @@
                     ds.api.assets.get(WavesApp.defaultAssets.USD),
                     ds.api.matchers.getRates(matcher.currentMatcherAddress, pairs)
                 ]).then(([usdAsset, rates]) => {
-                    let usd = new Money(0, usdAsset);
+                    const usd = rates.data.reduce((acc, rate) => {
+                        const amountAsset = balance[rate.amountAsset];
+                        const amountAssetInUsd = amountAsset.convertTo(usdAsset, rate.data.rate);
 
-                    rates.data.forEach(rate => {
-                        const x = balance[rate.amountAsset].convertTo(usdAsset, rate.data.rate);
-
-                        usd = usd.add(x);
-                    });
+                        return acc.add(amountAssetInUsd);
+                    }, new Money(0, usdAsset));
 
                     if (usd.gte(usd.cloneWithTokens(100))) {
                         modalManager.showTutorialModals();
