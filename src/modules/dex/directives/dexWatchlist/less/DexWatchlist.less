@@ -13,7 +13,10 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    padding: 0 12px;
+
+    @media screen and (min-width: 721px) {
+      padding: 0 12px;
+    }
 
     @media screen and (min-width: 1280px) {
       padding: 0 16px;
@@ -25,7 +28,8 @@
     display: inline-block;
     width: 100%;
     z-index: 4;
-    height: 35px;
+    height: 32px;
+    min-height: 32px;
 
     @media screen and (max-width: 720px) {
       height: 40px;
@@ -108,7 +112,7 @@
         color: @color-basic-700;
       }
 
-      .title {
+      .selec__title {
         background: @color-white;
         font-size: @font-size-caption-2;
         color: @color-basic-700;
@@ -118,8 +122,8 @@
         border: 1px solid transparent;
       }
 
-      .select.expanded {
-        .title {
+      .select__wrap.expanded {
+        .select__title {
           border: 1px solid @color-basic-100;
         }
       }
@@ -135,7 +139,7 @@
           color: @color-basic-700;
         }
       }
-
+      
       &.active {
         border-radius: 0;
         border: 0 none;
@@ -167,7 +171,6 @@
           }
         }
       }
-
     }
   }
 
@@ -243,7 +246,7 @@
     }
 
     .wrapper {
-      .tabs__header .select a.title {
+      .tabs__header .select__wrap a.select__title {
         font-size: 13px;
       }
     }

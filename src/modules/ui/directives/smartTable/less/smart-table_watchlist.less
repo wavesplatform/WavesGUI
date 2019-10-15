@@ -7,8 +7,10 @@
 
 .smart-table.smart-table {
   &_watchlist {
-    width: calc(100% ~"+ 17px");
-    transform: translateX(-6px);
+    @media screen and (min-width: 721px) {
+      width: calc(100% ~"+ 17px");
+      transform: translateX(-6px);
+    }
 
     @media screen and (min-width: 1280px) {
       width: calc(100% ~"+ 21px");

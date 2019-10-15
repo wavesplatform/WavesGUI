@@ -27,7 +27,6 @@ w-create-order {
 
   .plate-note {
     padding: 6px 14px;
-    font-family: 'Roboto-Medium', sans-serif;
   }
 
   .split-half {
@@ -237,7 +236,7 @@ w-create-order {
           }
 
           &__select {
-            .title {
+            .select__title {
               border: none;
               white-space: nowrap;
               font-family: 'Roboto-Medium', sans-serif;
@@ -270,8 +269,8 @@ w-create-order {
               }
             }
 
-            .select.expanded {
-              .title::after {
+            .select__wrap.expanded {
+              .select__title::after {
                 background-image: @dex-arrow-down-icon;
                 transform: translateY(-50%) rotate(180deg);
               }
@@ -444,8 +443,8 @@ w-create-order {
               width: 50%;
               padding: 6px 11px;
               background-color: @color-basic-50;
-              border-top-right-radius: @border-radius;
-              border-bottom-right-radius: @border-radius;
+              border-top-right-radius: @border-radius / 2;
+              border-bottom-right-radius: @border-radius / 2;
               text-align: right;
             }
           }

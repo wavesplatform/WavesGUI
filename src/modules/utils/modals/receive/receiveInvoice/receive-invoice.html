@@ -11,7 +11,7 @@
             </div>
 
             <w-select
-                class="big"
+                class="select select_receive-invoice"
                 can-search="::true"
                 ng-if="::!$ctrl.isSingleAsset"
                 ng-model="$ctrl.chosenAssetId"
@@ -37,7 +37,7 @@
         <div class="row margin-2">
             <div class="body-2 basic-900 margin-05" w-i18n="modal.receive.addressOrAlias"></div>
 
-            <w-select class="big" ng-model="$ctrl.chosenAlias">
+            <w-select class="select select_receive-invoice" ng-model="$ctrl.chosenAlias">
                 <w-option ng-repeat="alias in ::$ctrl.addressAndAliases track by $index" value="::alias">
                     {{::alias}}
                 </w-option>

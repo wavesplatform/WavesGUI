@@ -84,6 +84,7 @@
 .m-dialog_asset-info {
   md-dialog-content {
     overflow-y: hidden;
+    padding: 0;
 
     &::after {
       display: none;
@@ -118,7 +119,7 @@
   }
 
   .padding-content .tab-tem {
-    padding: 40px 0;
+    padding: 40px;
 
     .line {
       display: flex;
@@ -303,11 +304,12 @@
 }
 
 @media screen and (max-width: 540px) {
-  .m-dialog_asset-info {
+  .m-dialog.m-dialog_asset-info {
     padding-bottom: 0;
 
     md-dialog-content {
       overflow-y: auto;
+      padding: 0;
     }
 
     w-tabs.inner {

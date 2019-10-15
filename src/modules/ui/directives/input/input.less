@@ -81,20 +81,20 @@ input[type="checkbox"] {
     display: flex;
     align-items: center;
 
-    w-select {
-      position: absolute;
-      right: 6px;
-      width: calc(50% ~'- 12px');
+    // .select {
+    //   position: absolute;
+    //   right: 6px;
+    //   width: calc(50% ~'- 12px');
 
-      .title-content {
-        display: flex;
-        align-items: center;
-      }
+    //   .select__title-content {
+    //     display: flex;
+    //     align-items: center;
+    //   }
 
-      .title {
-        background-color: @color-white;
-      }
-    }
+    //   .select__title {
+    //     background-color: @color-white;
+    //   }
+    // }
 
     w-input .w-input-wrap {
       width: 50%;
@@ -291,7 +291,7 @@ md-dialog {
 
 .modal-send {
   fieldset.disabled {
-    .select .title {
+    .select__wrap .select__title {
       background: @color-basic-50;
     }
   }
@@ -299,7 +299,7 @@ md-dialog {
 
 .change-token {
   fieldset.disabled {
-    .input-like .select-wrap .select .title {
+    .input-like .select-wrapper .select__wrap .select__title {
       background: @color-basic-50;
     }
   }
@@ -307,7 +307,7 @@ md-dialog {
 
 .tokens-page {
   fieldset.disabled {
-    .input-like .select .title {
+    .input-like .select__wrap .select__title {
       background: @color-basic-50;
     }
   }
