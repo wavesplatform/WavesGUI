@@ -13,8 +13,9 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    padding: 0 12px;
 
-    @media screen and (min-width: 721px) {
+    @media screen and (min-width: 1280px) {
       padding: 0 16px;
     }
   }
@@ -139,7 +140,7 @@
         border-radius: 0;
         border: 0 none;
 
-        &::after {
+        &::before {
           content: '';
           display: block;
           width: 16px;
@@ -147,13 +148,15 @@
           background: @color-submit-400;
           position: absolute;
           z-index: 1;
-          bottom: 0;
+          bottom: -1px;
           left: 50%;
+          border-radius: 1px;
           transform: translateX(-50%);
         }
 
         .select-list {
           border-radius: 0;
+          z-index: 1;
         }
       }
 
@@ -185,7 +188,7 @@
       &::after {
         display: block;
         position: absolute;
-        bottom: 0;
+        bottom: -1px;
         left: 50%;
         transform: translateX(-50%);
         width: 16px;

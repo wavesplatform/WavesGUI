@@ -89,13 +89,34 @@ w-confirm-transaction {
   .tabs {
     &__body {
       height: calc(100% ~'- 39px');
+      margin: 0 3px 10px 8px;
+
+      @media screen and (max-width: 1280px) {
+        margin-left: 4px;
+      }
+
+      @media screen and (max-width: 1024px) {
+        margin: 0 6px;
+      }
     }
 
     &__header {
       overflow-y: hidden;
       overflow-x: auto;
       height: 39px;
+      margin: 0 16px;
       padding: 0;
+      width: auto;
+      display: flex;
+      position: relative;
+      @media screen and (max-width: 1280px) {
+        margin: 0 12px;
+      }
+
+      @media screen and (max-width: 1024px) {
+        margin: 0;
+        padding: 0 12px;
+      }
   
       &::before {
         display: none;
@@ -117,18 +138,16 @@ w-confirm-transaction {
       color: @color-basic-700;
       height: 38px;
       font-size: 13px;
-      margin: 0;
-      padding: 0 20px;
+      min-height: 38px;
+      margin: 0 24px 0 0;
+      padding: 0;
       line-height: 40px;
-      border: 0 none;
-      font-family: @font-roboto-medium;
-      position: relative;
-      border-left: 1px solid transparent;
-      border-right: 1px solid transparent;
       white-space: nowrap;
-  
-      &:first-child {
-        border-left: 1px solid @color-white;
+
+      &:last-child {
+        @media screen and (max-width: 1024px) {
+          padding-right: 12px;
+        }
       }
     }
   }

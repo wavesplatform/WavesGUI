@@ -178,6 +178,10 @@ w-create-order {
           background: @color-white;
           height: 42px;
 
+          @media screen and (max-width: 1280px) {
+            padding-left: 12px;
+          }
+
           &-choice {
             display: flex;
           }
@@ -239,8 +243,16 @@ w-create-order {
               font-family: 'Roboto-Medium', sans-serif;
               color: @color-basic-700;
 
+              @media screen and (max-width: 1280px) {
+                padding-right: 30px;
+              }
+
               &::after {
                 transition: .3s;
+
+                @media screen and (max-width: 1280px) {
+                  right: 10px;
+                }
               }
             }
 
@@ -270,6 +282,10 @@ w-create-order {
         .fields {
           padding: 0 16px 17px;
           background: @color-white;
+
+          @media screen and (max-width: 1280px) {
+            padding: 0 12px 17px;
+          }
 
           .field-label {
             margin-top: 12px;

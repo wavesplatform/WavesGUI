@@ -23,10 +23,22 @@
       }
     }
 
+    .dex-block {
+      .block-title {
+        margin: 0 14px 0 12px;
+        padding: 0;
+
+        @media screen and (max-width: 1280px) {
+          margin: 0 8px;
+        }
+      }
+    }
+
     .dex-layout {
       &__block[data-block="orderbook"] {
         transition: .3s;
         height: calc(100% ~'- 200px');
+        padding: 0 4px;
 
         .block-wrapper,
         .scroll-box {
@@ -42,7 +54,12 @@
         z-index: 6;
 
         .block-title {
-          border-top: 1px solid @color-basic-100;
+          padding: 0 18px 0 16px;
+          margin: 0;
+
+          @media screen and (max-width: 1280px) {
+            padding: 0 12px;
+          }
         }
 
         .dex-block-top-btn:last-child {
@@ -51,10 +68,16 @@
       }
     }
 
-    .table__row {
-      &:hover {
-        .tooltip-dex.active {
-          display: flex;
+    .dex-block-top-btn {
+      transform: translateX(6px);
+    }
+
+    .table {
+      &__row {
+        &:hover {
+          .tooltip-dex.active {
+            display: flex;
+          }
         }
       }
     }

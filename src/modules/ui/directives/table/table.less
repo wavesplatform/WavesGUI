@@ -15,20 +15,21 @@
   }
 
   &__thead {
+    padding: 0 14px 0 12px;
     display: block;
     color: @color-basic-600;
-    border-bottom: 1px solid @color-disabled-100;
+
+    @media screen and (max-width: 1280px) {
+      padding: 0 8px;
+    }
 
     .table__row {
-      padding: 0 14px 0 5px;
       background: @color-white;
       height: 28px;
       width: 100%;
-      border-bottom: 1px solid @color-basic-100;
 
       &:hover {
         background: @color-white;
-        border-bottom: 1px solid @color-basic-100;
       }
     }
 
@@ -49,7 +50,6 @@
 
   &__row {
     display: block;
-    padding: 0 10px 0 5px;
     position: relative;
     height: 22px;
     line-height: 23px;
@@ -88,6 +88,8 @@
 
   &__asks ,
   &__bids {
+    overflow: hidden;
+    
     .table__row {
       &[data-price] {
         cursor: pointer;
@@ -134,6 +136,24 @@
     z-index: 2;
     display: block;
     height: 100%;
+
+    &-wrap {
+      text-align: left;
+    }
+
+    &:last-child {
+      .table__cell-wrap {
+        text-align: right;
+      }
+    }
+
+    &:nth-child(3) {
+      @media screen and (max-width: 720px) {
+        .table__cell-wrap {
+          text-align: right;
+        }
+      }
+    }
   }
 
   &__tbody {
@@ -148,6 +168,11 @@
     background: none transparent;
     display: block;
     overflow: auto;
+    padding: 0 14px 0 12px;
+
+    @media screen and (max-width: 1280px) {
+      padding: 0 8px;
+    }
 
     .dex-layout__line-graph {
       height: 100%;
@@ -175,6 +200,16 @@
     }
   }
 
+  .table__scroll-box {
+    &::-webkit-scrollbar-track {
+      -webkit-box-shadow: none;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: @border-radius;
+    }
+  }
+
   &__info {
     border-top: 1px solid @color-basic-100;
     border-bottom: 1px solid @color-basic-100;
@@ -185,11 +220,14 @@
     font-size: 9px;
     width: 100%;
     min-height: 43px;
-    padding-right: 10px;
     text-transform: uppercase;
 
     &-title {
       flex: 1;
+
+      &:nth-child(1) {
+        text-align: left;
+      }
     }
     
     .spread {

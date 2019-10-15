@@ -31,33 +31,23 @@
 
 .dex-layout__column_tradehistory {
   .tabs .tabs__title_active {
-    background: @color-white;
-    border-bottom: 1px solid @color-white;
-    border-right: 1px solid @color-disabled-200;
-    border-left: 1px solid @color-disabled-200;
-    min-height: 38px;
   
     &::before {
       display: block;
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 66px;
       content: '';
       height: 2px;
+      z-index: 1;
+      border-radius: @border-radius;
       background: @color-submit-400;
     }
-  
-    &:after {
-      position: absolute;
-      bottom: -2px;
-      height: 2px;
-      width: 100%;
-      left: 0;
-      content: '';
-      display: block;
-      z-index: 1;
-      background: @color-white;
+
+    &::after {
+      display: none;
     }
   }
 }

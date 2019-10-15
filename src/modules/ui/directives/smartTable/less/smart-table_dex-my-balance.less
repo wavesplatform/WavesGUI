@@ -8,8 +8,28 @@
 .smart-table {
   &_dex-my-balance {
     .smart-table {
-      &__row {
-        padding: 6px 14px;
+      &__thead {
+        border-bottom: none;
+
+        .smart-table__row {
+          padding: 0 13px 0 0;
+        }
+      }
+
+      &__tbody {
+        .smart-table__row {
+          padding: 0 8px;
+          margin-right: 2px;
+          border-radius: @border-radius;
+        }
+
+        &::-webkit-scrollbar-track {
+          box-shadow: none;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          border-radius: @border-radius;
+        }
       }
 
       &__cell[data-column-id="asset"] {
