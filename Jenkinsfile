@@ -116,7 +116,7 @@ stage('Build info'){
     if (action.contains('Electron')){
         items['electron'].buildTask = true
     }
-    else if (action.contains('Build')){
+    if (action.contains('Build')){
         items.each{
             if (it.key != 'electron'){
                 item = it.value
@@ -125,12 +125,12 @@ stage('Build info'){
             }
         }
     }
-    else if (action.contains('Deploy')){
+    if (action.contains('Deploy')){
         items.each{
             item = it.value
             if (!action.contains('Build'))
                 item.dockerTag = source
-            if (it.key != 'electron' && (item.niceName == image || image == "both"))
+            if (it.key != 'electron' && (item.niceName == params.image || params.image == "both"))
                 item.deployTask = true
         }
     }
@@ -310,7 +310,6 @@ timeout(time:25, unit:'MINUTES') {
                                             item.buildArtifacts = it.key + '-dockerBuildArtifacts'
                                             stash includes: 'nginx/default.conf,Dockerfile,info.html', allowEmpty: true, name: item.buildArtifacts
 
-                                            sh 'ls -la'
                                             imageIt(
                                                 imageName: 'waves/' + item.niceName,
                                                 dockerTag: item.dockerTag,
