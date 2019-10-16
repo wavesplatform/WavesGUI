@@ -116,7 +116,7 @@ stage('Build info'){
     if (action.contains('Electron')){
         items['electron'].buildTask = true
     }
-    if (action.contains('Build')){
+    else if (action.contains('Build')){
         items.each{
             if (it.key != 'electron'){
                 item = it.value
