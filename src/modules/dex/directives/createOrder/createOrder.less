@@ -51,6 +51,10 @@ w-create-order {
     }
   }
 
+  .select__list {
+    border: none;
+  }
+
   .underline {
     cursor: pointer;
 
@@ -199,7 +203,7 @@ w-create-order {
               content: "";
               display: none;
               position: absolute;
-              bottom: -14px;
+              bottom: -12px;
               left: 50%;
               transform: translateX(-50%);
               height: 2px;
@@ -255,10 +259,9 @@ w-create-order {
               }
             }
 
-            .select-list {
+            .select__list {
               border-radius: @border-radius;
               top: calc(100% ~"+ 2px");
-              border: none;
               box-shadow: 0 2px 14px 0 rgba(31, 39, 61, 0.15);
 
               .option {
@@ -385,7 +388,7 @@ w-create-order {
                 }
 
                 &-icon {
-                  fill: #7F8FA4;
+                  fill: @color-basic-600;
                 }
               }
 

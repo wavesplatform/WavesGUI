@@ -66,10 +66,10 @@
               color: @color-submit-400;
 
               .progress-bar {
-                background: @color-submit-50;
+                background: @color-bluebar-400;
 
                 .progress-fill {
-                  background: @color-submit-400;
+                  background: @color-bluebar-1000;
                 }
               }
             }
@@ -91,10 +91,10 @@
               color: @color-error-500;
 
               .progress-bar {
-                background: @color-error-100;
+                background: @color-redbar-400;
 
                 .progress-fill {
-                  background: @color-error-500;
+                  background: @color-redbar-1000;
                 }
               }
             }
@@ -243,6 +243,7 @@
               text-transform: capitalize;
               display: block;
               text-align: right;
+              cursor: pointer;
             }
 
             w-confirm-action {
@@ -324,14 +325,6 @@
               height: 30px;
               margin-right: 5px;
               width: auto;
-            }
-
-            &.can-expand {
-              .smart-table {
-                &__cell[data-column-id="status"] {
-                  cursor: pointer;
-                }
-              }
             }
 
             &.sell {
