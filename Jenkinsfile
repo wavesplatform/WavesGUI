@@ -116,7 +116,7 @@ stage('Build info'){
     if (action.contains('Electron')){
         items['electron'].buildTask = true
     }
-    else if (action == 'Build'){
+    else if (action.contains('Build')){
         items.each{
             if (it.key != 'electron'){
                 item = it.value
@@ -128,7 +128,8 @@ stage('Build info'){
     else if (action.contains('Deploy')){
         items.each{
             item = it.value
-            item.dockerTag = source
+            if (!action.contains('Build'))
+                item.dockerTag = source
             if (it.key != 'electron' && (item.niceName == image || image == "both"))
                 item.deployTask = true
         }
