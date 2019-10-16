@@ -21,10 +21,7 @@ win:
     arch: x64
 
 mac:
-  hardenedRuntime: true
   gatekeeperAssess: false
-  entitlements: "electron/entitlements.mac.plist"
-  entitlementsInherit: "electron/entitlements.mac.plist"
   category: "public.app-category.finance"
   target: dmg
   icon: "electron/icons/icon.icns"
@@ -48,7 +45,6 @@ deb:
     # --- Default END
 
 nsis:
-  artifactName: "waves-client[${env.WAVES_CONFIGURATION}]-setup-${version}.${ext}"
   include: "electron/installer.nsh"
   installerIcon: "electron/icons/icon.ico"
   uninstallerIcon: "electron/icons/icon.ico"
