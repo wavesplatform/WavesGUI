@@ -1,12 +1,11 @@
 productName: "Waves DEX"
-appId: "com.wavesplatform.client.lite"
+appId: "com.wavesplatform.client"
 copyright: "Waves Platform"
 
 compression: normal
-npmRebuild: true
 artifactName: "${productName}[${env.WAVES_CONFIGURATION}]-${version}-${os}-${arch}.${ext}"
 asar: true
-
+# afterSign: "electron/notarize.js"
 directories:
   buildResources: electron/
   output: "release/${env.WAVES_CONFIGURATION}"
@@ -21,7 +20,11 @@ win:
     arch: x64
 
 mac:
+  identity: "Apple Distribution: WAVES PLATFORM LTD (96SW78M3KJ)",
+  hardenedRuntime: true
   gatekeeperAssess: false
+  entitlements: "electron/entitlements.plist"
+  entitlementsInherit: "electron/entitlements.plist"
   category: "public.app-category.finance"
   target: dmg
   icon: "electron/icons/icon.icns"
@@ -54,3 +57,4 @@ nsis:
 dmg:
   icon: "electron/icons/icon.icns"
   background: "electron/icons/macos-installer-bg.tiff"
+  sign: false
