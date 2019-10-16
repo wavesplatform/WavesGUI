@@ -186,12 +186,14 @@
       "license"
     ],
     "defaults": {
+      "homepage": "https://wavesplatform.com",
       "main": "main.js",
       "devDependencies": {
-        "electron-builder": "20.5.1",
-        "electron": "2.0.5",
+        "electron": "2.0.13",
+        "electron-builder": "^21.2.0",
+        "electron-notarize": "^0.1.1",
         "electron-rebuild": "^1.8.2"
-      },
+    },
       "dependencies": {
         "@ledgerhq/hw-transport-node-hid": "4.22.0",
         "babel-runtime": "^6.26.0",
