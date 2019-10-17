@@ -150,7 +150,4 @@
       "eslint"
     ]
   },
-  "build": {
-  "afterSign": "scripts/notarize.js"
-  }
 }
