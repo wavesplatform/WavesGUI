@@ -185,6 +185,7 @@
       "description",
       "license"
     ],
+    "homepage": "https://wavesplatform.com",
     "defaults": {
       "main": "main.js",
       "devDependencies": {
