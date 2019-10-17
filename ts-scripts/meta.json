@@ -188,10 +188,10 @@
     "defaults": {
       "main": "main.js",
       "devDependencies": {
-        "electron": "2.0.13",
-        "electron-builder": "^21.2.0",
         "electron-notarize": "^0.1.1",
-        "electron-rebuild": "^1.8.6"
+        "electron-builder": "20.5.1",
+        "electron": "2.0.5",
+        "electron-rebuild": "^1.8.2"
     },
       "dependencies": {
         "@ledgerhq/hw-transport-node-hid": "4.22.0",
