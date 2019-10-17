@@ -9,7 +9,7 @@ exports.default = async function notarizing(context) {
   const appName = context.packager.appInfo.productFilename;
   return await notarize({
     appBundleId: 'com.wavesplatform.client',
-    appPath: 'release/mainnet/Waves DEX[mainnet]-1.4.5-mac.dmg',
+    appPath: 'release/mainnet/mac/Waves DEX.app',
     appleId: '${appleIdUsername}',
     appleIdPassword: '${appleIdPassword}',
   });
