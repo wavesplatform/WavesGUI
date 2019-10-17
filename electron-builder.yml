@@ -21,7 +21,6 @@ win:
     arch: x64
 
 mac:
-  identity: "Apple Distribution: WAVES PLATFORM LTD (96SW78M3KJ)"
   hardenedRuntime: true
   gatekeeperAssess: false
   entitlements: "electron/entitlements.plist"
