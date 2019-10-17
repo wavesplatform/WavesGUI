@@ -189,7 +189,7 @@
       "homepage": "https://wavesplatform.com",
       "main": "main.js",
       "devDependencies": {
-        "electron": "2.0.13",
+        "electron": "2.0.5",
         "electron-builder": "^21.2.0",
         "electron-notarize": "^0.1.1",
         "electron-rebuild": "^1.8.2"
