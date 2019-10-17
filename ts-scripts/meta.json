@@ -185,8 +185,8 @@
       "description",
       "license"
     ],
-    "homepage": "https://wavesplatform.com",
     "defaults": {
+      "homepage": "https://wavesplatform.com",
       "main": "main.js",
       "devDependencies": {
         "electron": "2.0.13",
