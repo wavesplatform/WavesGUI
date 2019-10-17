@@ -275,7 +275,7 @@ timeout(time:25, unit:'MINUTES') {
                                                                             template: './electron/notarize.ts'
                                                                         )
                                                                     }
-                                                                    sh "PATH=/usr/local/opt/node@10/bin:${PATH} ./jenkinsBuildElectronScript.sh mac"
+                                                                    sh "PATH=/usr/local/opt/node@10/bin:${PATH} DEBUG=electron-* ./jenkinsBuildElectronScript.sh mac"
                                                                 }
                                                             }
                                                             finally{
@@ -409,9 +409,9 @@ timeout(time:25, unit:'MINUTES') {
                                             unstash name: item.buildArtifacts + os    
                                         }
                                     }
-                                    dir("winOnLinux"){
-                                        unstash name: 'win'
-                                    }
+                                    // dir("winOnLinux"){
+                                    //     unstash name: 'win'
+                                    // }
                                 } else{
                                     unstash name: item.buildArtifacts    
                                 }
