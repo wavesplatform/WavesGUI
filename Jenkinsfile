@@ -267,14 +267,16 @@ timeout(time:25, unit:'MINUTES') {
                                                         dir('mac'){
                                                             try{
                                                                 unstash name: 'repo'
-                                                                withCredentials([usernamePassword(credentialsId: 'appleid-specific-password-for-electron-notarization', usernameVariable: 'appleIdUsername', passwordVariable: 'appleIdPassword')]) {
-                                                                    def macNotarizeMap = [appleIdUsername: appleIdUsername, appleIdPassword: appleIdPassword]
-                                                                    cookThisTemplate(
-                                                                        templateMap: macNotarizeMap,
-                                                                        template: './electron/notarize.ts'
-                                                                    )
+                                                                dir('WavesGUI'){
+                                                                    withCredentials([usernamePassword(credentialsId: 'appleid-specific-password-for-electron-notarization', usernameVariable: 'appleIdUsername', passwordVariable: 'appleIdPassword')]) {
+                                                                        def macNotarizeMap = [appleIdUsername: appleIdUsername, appleIdPassword: appleIdPassword]
+                                                                        cookThisTemplate(
+                                                                            templateMap: macNotarizeMap,
+                                                                            template: './electron/notarize.ts'
+                                                                        )
+                                                                    }
+                                                                    sh "PATH=/usr/local/opt/node@10/bin:${PATH} ./jenkinsBuildElectronScript.sh mac"
                                                                 }
-                                                                sh "cd WavesGUI && PATH=/usr/local/opt/node@10/bin:${PATH} ./jenkinsBuildElectronScript.sh mac"
                                                             }
                                                             finally{
                                                                 stash includes: '**/Waves*.dmg', name: item.buildArtifacts + 'mac', allowEmpty: true
