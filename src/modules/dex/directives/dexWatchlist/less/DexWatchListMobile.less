@@ -2,7 +2,8 @@
 @import (reference) "../../../../app/less/typography";
 @import (reference) 'icons';
 
-@media screen and (max-width: 720px) {
+
+@media screen and (max-width: 1024px) {
 	.dex .mobile-layout__watchlist {
 		&-bg {
 			z-index: 7;
@@ -87,6 +88,32 @@
 						display: none;
 					}
 				}
+			}
+		}
+	}
+}
+
+@media screen and (min-width: 721px) and (max-width: 1024px) {
+	.dex .mobile-layout__watchlist {
+		&-bg {
+			&_active {
+				width: calc(100vw ~'- 10px');
+				height: calc(100vh ~'- 70px');
+
+				.mobile-watchlist-header,
+				.mobile-layout__watchlist-wrapper {
+					width: calc(100% ~'- 305px');
+				}
+			}
+		}
+	}
+}
+
+@media screen and (min-width: 721px) and (max-width: 860px) {
+	.dex .mobile-layout__watchlist {
+		&-bg {
+			&_active {
+				height: calc(100vh ~'- 60px');
 			}
 		}
 	}

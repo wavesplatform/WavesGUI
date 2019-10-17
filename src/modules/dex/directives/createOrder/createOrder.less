@@ -576,22 +576,6 @@ w-create-order {
   }
 }
 
-@media screen and (min-width: 721px) and (max-width: 1024px) {
-  w-create-order .create-order {
-    .head {
-      display: flex;
-    }
-    
-    .body {
-      .making-order {
-        .areas {
-          display: none;
-        }
-      }
-    }
-  }
-}
-
 @media screen and (max-width: 1024px) {
   w-create-order {
     height: 100%;
@@ -600,16 +584,6 @@ w-create-order {
     .create-order {
       .body {
         .making-order {
-          .choice {
-            display: flex;
-
-            .price {
-              span {
-                color: @white-only;
-              }
-            }
-          }
-
           w-button > *.micro {
             padding: 6px 19px;
           }

@@ -164,6 +164,78 @@
 
 @media screen and (max-width: 720px) {
   .smart-table.smart-table_watchlist {
+    .smart-table__row {
+      &.selected .smart-table__cell[data-column-id="info"] {
+        display: none;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 721px) and (max-width: 1024px) {
+  .smart-table.smart-table_watchlist {
+    .smart-table__tbody {
+      .smart-table__row {
+        flex-direction: column;
+        align-items: flex-end;
+        flex-wrap: wrap;
+        max-height: 65px;
+      }
+
+      .smart-table__cell {
+        min-height: 18px;
+
+        &[data-column-id="pair"] {
+          min-width: 190px;
+          margin-right: auto;
+          width: 50%;
+        }
+
+        &[data-column-id="price"] {
+          order: 4;
+          position: relative;
+          min-width: 85px;
+        }
+
+        &[data-column-id="change"] {
+          order: 5;
+          min-width: auto;
+        }
+
+        &[data-column-id="volume"] {
+          order: 3;
+          height: 35px;
+          display: flex;
+          flex-direction: column-reverse;
+          align-items: flex-end;
+          min-width: auto;
+
+          .volume-subtitle:nth-child(2) {
+            display: none;
+          }
+        }
+
+        &[data-column-id="info"] {
+          max-height: 18px;
+          order: 2;
+          width: 190px;
+          padding: 0;
+          height: 18px;
+          margin-right: auto;
+          display: block;
+
+          .chosen__info {
+            display: inline-block;
+            margin: 2px 0 0 0;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .smart-table.smart-table_watchlist {
     .smart-table {
       &__thead {
         display: none;
@@ -172,16 +244,16 @@
       &__row {
         padding: 9px 0;
         border-bottom: 1px solid @color-basic-50;
-
-        &.selected .smart-table__cell[data-column-id="info"] {
-          display: none;
-        }
       }
 
       &__cell {
-        &[data-column-id="pair"],
+        &[data-column-id="pair"] {
+          min-width: 50%;
+        }
+
         &[data-column-id="change"] {
           min-width: 50%;
+          order: 4;
         }
 
         &[data-column-id="pair"] {
@@ -194,7 +266,6 @@
 
         &[data-column-id="price"] {
           min-width: 50%;
-          order: 4;
           position: relative;
 
           span {

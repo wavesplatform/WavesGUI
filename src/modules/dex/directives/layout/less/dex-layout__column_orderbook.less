@@ -130,19 +130,12 @@
 @media screen and (min-width: 660px) and (max-width: 1024px) {
   .dex-layout {
     &__column_orderbook {
-      width: calc(50% ~' - 2px');
-      min-width: 320px;
-      min-height: calc(50% ~'- 40px');
-      max-height: calc(50% ~'- 40px');
-      height: calc(50% ~'- 40px');
-      right: 0;
-      bottom: 80px;
+      width: 300px;
+      max-height: calc(100% ~'- 345px');
       transform: translate(0);
-      padding-left: 19px;
 
       .dex-layout {
         &__sidebar-toggle-left {
-          display: block;
           border-radius: 2px 0 0 2px;
 
           div::after {
@@ -177,29 +170,7 @@
       .dex-layout {
         &__column_orderbook {
           background: none transparent;
-          min-width: 20px;
-          width: 20px;
-          right: 19px;
-
-          .dex-layout-side-bar-toggle {
-            position: absolute;
-            height: 100%;
-            width: 19px;
-            left: 0;
-            background: #fff;
-            border-radius: 0 2px 2px 0;
-
-            .dex-layout {
-              &__sidebar-toggle {
-                border-right: 0 none;
-                border-left: 1px solid @color-basic-100;
-                left: 0;
-                div::after {
-                  transform: rotate(-270deg);
-                }
-              }
-            }
-          }
+          right: -5px;
 
           .dex-layout {
             &__block {
@@ -207,11 +178,6 @@
               display: none;
             }
           }
-        }
-
-        &__column_tradehistory {
-          border-radius: 2px 0 0 2px;
-          width: calc(100% ~' - 19px');
         }
 
         &__block-orderbook-bottom-collapsed {
@@ -225,7 +191,7 @@
         }
 
         &__column_candlechart {
-          width: calc(50% ~'- 3px')
+          width: 100%;
         }
       }
     }

@@ -100,10 +100,11 @@ w-confirm-transaction {
       }
     }
 
-    &__header {
+    .tabs__header {
       overflow-y: hidden;
       overflow-x: auto;
-      height: 39px;
+      height: 42px;
+      min-height: 42px;
       margin: 0 16px;
       padding: 0;
       width: auto;
@@ -115,8 +116,7 @@ w-confirm-transaction {
       }
 
       @media screen and (max-width: 1024px) {
-        margin: 0;
-        padding: 0 12px;
+        box-shadow: none;
       }
   
       &::before {
@@ -126,9 +126,9 @@ w-confirm-transaction {
   
     &__title {
       color: @color-basic-700;
-      height: 37px;
+      height: 41px;
       font-size: 13px;
-      min-height: 37px;
+      min-height: 41px;
       margin: 0 24px 0 0;
       padding: 0;
       line-height: 40px;
