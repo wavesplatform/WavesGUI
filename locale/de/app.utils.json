@@ -888,6 +888,7 @@
                 "cell6": "Greifen sie nicht auf ihre Wallet zu, wenn Sie öffentliches WLAN oder ein anderes Gerät verwenden.",
                 "nextButton": "Ich verstehe",
                 "p1": "Eine der häufigsten Formen des Betrugs ist Phishing, bei dem Betrüger falsche Gemeinschaften auf Facebook oder anderen Websites erstellen, die den authentischen ähneln.",
+                "saveSeedButton": "Save your SEED phrase",
                 "title": "Wie man sich vor Phishing schützt"
             }
         }

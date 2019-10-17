@@ -1,8 +1,7 @@
 {
     "backupSeed": {
         "copySeed": "Copia frase seed",
-        "warn": "Poichè soltanto tu hai il controllo sui tuoi fondi, sarà bene copiare questa frase di backup in caso quest'app venisse rimossa oppure",
-        "yourSeed": "La tua frase Seed"
+        "warn": "Poichè soltanto tu hai il controllo sui tuoi fondi, sarà bene copiare questa frase di backup in caso quest'app venisse rimossa oppure"
     },
     "createAccount": {
         "from": "creaAccount"
@@ -148,6 +147,7 @@
         "copyAddress": "Copia indirizzo",
         "copyright": "© 2019 Waves Platform",
         "copyrightVordex": "© 2019 VORDEX",
+        "createAccount": "Crea account",
         "createToken": "Crea token",
         "currentAccountName": "Nome account corrente",
         "dashboard": "Cruscotto",

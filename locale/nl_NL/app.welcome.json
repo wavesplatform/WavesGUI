@@ -1,8 +1,7 @@
 {
     "backupSeed": {
         "copySeed": "Kopieer backup regel",
-        "warn": "Omdat alleen u uw geld beheert, moet u uw back-up regel bewaren voor het geval deze app wordt verwijderd of",
-        "yourSeed": "Uw backup regel"
+        "warn": "Omdat alleen u uw geld beheert, moet u uw back-up regel bewaren voor het geval deze app wordt verwijderd of"
     },
     "createAccount": {
         "from": "Maak een account aan"
@@ -148,6 +147,7 @@
         "copyAddress": "Kopieer adres",
         "copyright": "© 2019 Waves Platform",
         "copyrightVordex": "© 2019 VORDEX",
+        "createAccount": "Create account",
         "createToken": "Token maken",
         "currentAccountName": "Huidige accountnaam",
         "dashboard": "Dashboard",
