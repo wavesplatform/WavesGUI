@@ -1,0 +1,59 @@
+.dex-watchlist-select {
+    &__watchlist-header {
+
+    }
+
+    &__watchlist-bg {
+        z-index: 7;
+        position: relative;
+
+        &_active {
+            height: 100%;
+        }
+    }
+
+    &__backdrop {
+        position: absolute;
+        top: -5px;
+        left: -5px;
+        z-index: -1;
+        display: block;
+        height: calc(100% ~'+ 10px');
+        width: calc(100% ~'+ 10px');
+        background: rgba(23, 30, 40, 0.5);
+    }
+}
+
+@media screen and (min-width: 721px) and (max-width: 1024px) {
+    .dex .dex-watchlist-select__watchlist {
+        &-bg {
+            &_active {
+                width: calc(100vw ~'- 10px');
+                height: calc(100vh ~'- 70px');
+
+                .mobile-watchlist-header,
+                .dex-watchlist-select__watchlist-wrapper {
+                    width: calc(100% ~'- 305px');
+                }
+            }
+        }
+    }
+}
+
+@media screen and (min-width: 721px) and (max-width: 860px) {
+    .dex .dex-watchlist-select__watchlist {
+        &-bg {
+            &_active {
+                height: calc(100vh ~'- 60px');
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 720px) and (max-height: 400px) {
+    .dex .dex-watchlist-select__watchlist {
+        &-bg {
+            max-height: calc(100vh ~'- 50px');
+        }
+    }
+}
