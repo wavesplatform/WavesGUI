@@ -6,7 +6,8 @@ compression: normal
 npmRebuild: true
 artifactName: "${productName}[${env.WAVES_CONFIGURATION}]-${version}-${os}-${arch}.${ext}"
 asar: true
-afterSign: "electron/notarize.js"
+build:
+  afterSign: "electron/notarize.js"
 directories:
   buildResources: electron/
   output: "release/${env.WAVES_CONFIGURATION}"
