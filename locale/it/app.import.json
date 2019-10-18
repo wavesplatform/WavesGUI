@@ -37,7 +37,7 @@
     "seedAndKey": {
         "name": "Seed o chiave"
     },
-    "seedAndKeyDescription": "Importa account da un SEED di backup o da una chiave privata",
+    "seedAndKeyDescription": "Importa account da un SEED o chiave privata",
     "selectButton": "Seleziona",
     "wavesClient": "Client Waves",
     "wavesClientDescription": "Importa account da un client Waves",

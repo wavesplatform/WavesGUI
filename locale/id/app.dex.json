@@ -45,6 +45,8 @@
             "fee": "Biaya {{fee}} WAVES",
             "hasScript": "Batalkan [skrip](https://docs.wavesplatform.com/en/waves-client/advanced_features/script_transaction.html) untuk pertukaran",
             "last": "Terakhir",
+            "limit": "Limit Order",
+            "market": "Market Order",
             "matcherFee": "Biaya",
             "notifications": {
                 "error": {

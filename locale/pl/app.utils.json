@@ -888,6 +888,7 @@
                 "cell6": "Nie wchodź na swój portfel korzystając z publicznego Wi-FI lub innego obcego urządzenia.",
                 "nextButton": "Rozumiem",
                 "p1": "Jedną z najczęstszych form oszustw jest phishing, czyli oszuści tworzą fałszywe społeczności na Facebooku lub innych stronach, które wyglądają podobnie do autentycznych.",
+                "saveSeedButton": "Save your SEED phrase",
                 "title": "Jak uchronić się przed phishingiem"
             }
         }

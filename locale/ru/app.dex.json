@@ -45,6 +45,8 @@
             "fee": "Комис. {{fee}} WAVES",
             "hasScript": "Отмените [скрипт](https://docs.wavesplatform.com/en/waves-client/advanced_features/script_transaction.html) чтобы торговать",
             "last": "Last",
+            "limit": "Лимит Ордер",
+            "market": "Маркет Ордер",
             "matcherFee": "Комис.",
             "notifications": {
                 "error": {

@@ -2,12 +2,15 @@
     "backupSeed": {
         "back": "返回",
         "copySeed": "复制",
+        "description": "请小心，切勿将SEED输入其他站点，因为您的帐户将被盗用，并且您将损失所有资金。",
         "needConfirm": "您需要在下一个页面确认备份短语（助记词）",
         "ok": "我已经写下短语",
         "or": "或",
         "saveSecret": "储存备份短语",
+        "seedPhrase": "种子短语",
         "warn": "唯一能够掌控资产的是您，您需要储蓄备份短语（助记词）以防该应用钱包丢失 或",
-        "writeSeed": "请仔细的写下这15个短语"
+        "writeSeed": "请仔细的写下这15个短语",
+        "yourSeed": "你的种子短语"
     },
     "confirmBackup": {
         "again": "并且再次点击",
@@ -74,5 +77,9 @@
         "or": "或",
         "skip": "稍后再做",
         "title": "没有备份，数字资产将会丢失"
+    },
+    "seed": {
+        "copyToClipboard": "复制到剪贴板",
+        "saveToFile": "保存到文件"
     }
 }

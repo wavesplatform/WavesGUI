@@ -888,6 +888,7 @@
                 "cell6": "Ärge avage oma rahakotti, kui kasutate avalikku Wi-Fi't või kellegi teise seadet",
                 "nextButton": "Ma saan aru",
                 "p1": "Üks levinumaid pettuse vorme on andmepüük, mis on siis, kui petturid loovad Facebookis võltsitud kogukonnad või muud autentsete lehekülgedega sarnased veebilehed.",
+                "saveSeedButton": "Save your SEED phrase",
                 "title": "Kuidas Kaitsta End Andmepüüdjate Eest"
             }
         }

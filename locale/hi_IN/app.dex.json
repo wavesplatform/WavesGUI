@@ -45,6 +45,8 @@
             "fee": "फीस {{fee}} WAVES",
             "hasScript": "रद्द करें [स्क्रिप्ट](https://docs.wavesplatform.com/en/waves-client/advanced_features/script_transaction.html) व्यापार करने के लिए",
             "last": "अंतिम",
+            "limit": "Limit Order",
+            "market": "Market Order",
             "matcherFee": "Fee",
             "notifications": {
                 "error": {
