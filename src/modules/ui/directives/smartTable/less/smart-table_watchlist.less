@@ -7,7 +7,7 @@
 
 .smart-table.smart-table {
   &_watchlist {
-    @media screen and (min-width: 721px) {
+    @media screen and (min-width: 1025px) {
       width: calc(100% ~"+ 17px");
       transform: translateX(-6px);
     }
@@ -30,7 +30,7 @@
 
           .smart-table {
             &__cell[data-column-id="info"] {
-              display: block;
+              display: flex;
             }
           }
         }
@@ -68,7 +68,7 @@
           border-radius: @border-radius;
         }
 
-        @media screen and (min-width: 721px) {
+        @media screen and (min-width: 1025px) {
           .smart-table__row {
             padding-right: 8px;
             margin-right: 2px;
@@ -133,15 +133,12 @@
           width: 100%;
           padding: 6px 20px 0 30px;
           .caption-3();
+          flex-wrap: wrap;
 
           .chosen {
             &__info {
-              margin-bottom: 2px;
-            }
-
-            &__link {
               position: relative;
-              display: inline-block;
+              margin-bottom: 2px;
 
               &:hover {
                 &::after {
@@ -154,6 +151,19 @@
                   border-bottom: 1px dashed @color-disabled-400;
                 }
               }
+
+              &-slash {
+                display: inline-block;
+                margin: 0 2px;
+              }
+            }
+
+            &__link {
+              position: relative;
+
+              &_mobile {
+                display: none;
+              }
             }
           }
         }
@@ -165,21 +175,31 @@
 @media screen and (max-width: 720px) {
   .smart-table.smart-table_watchlist {
     .smart-table__row {
+      padding: 14px 16px;
+      
       &.selected .smart-table__cell[data-column-id="info"] {
         display: none;
       }
+    }
+
+    .smart-table__tbody {
+      padding: 0;
     }
   }
 }
 
 @media screen and (min-width: 721px) and (max-width: 1024px) {
   .smart-table.smart-table_watchlist {
+    padding-right: 2px;
+
     .smart-table__tbody {
       .smart-table__row {
         flex-direction: column;
         align-items: flex-end;
         flex-wrap: wrap;
-        max-height: 65px;
+        height: 65px;
+        padding: 14px 12px;
+        border-radius: 0;
       }
 
       .smart-table__cell {
@@ -204,7 +224,7 @@
 
         &[data-column-id="volume"] {
           order: 3;
-          height: 35px;
+          min-height: 35px;
           display: flex;
           flex-direction: column-reverse;
           align-items: flex-end;
@@ -218,15 +238,19 @@
         &[data-column-id="info"] {
           max-height: 18px;
           order: 2;
-          width: 190px;
+          max-width: 230px;
           padding: 0;
           height: 18px;
           margin-right: auto;
-          display: block;
+          display: flex;
+          font-size: 11px;
 
           .chosen__info {
-            display: inline-block;
-            margin: 2px 0 0 0;
+            margin-top: 5px;
+
+            &-slash {
+              margin-top: 5px;
+            }
           }
         }
       }
@@ -242,7 +266,6 @@
       }
 
       &__row {
-        padding: 9px 0;
         border-bottom: 1px solid @color-basic-50;
       }
 
@@ -301,6 +324,20 @@
 
           .volume-subtitle {
             display: inline;
+          }
+        }
+
+        &[data-column-id="info"] {
+          .chosen__link {
+            color: @color-basic-500;
+
+            &_desktop {
+              display: none;
+            }
+
+            &_mobile {
+              display: block;
+            }
           }
         }
       }

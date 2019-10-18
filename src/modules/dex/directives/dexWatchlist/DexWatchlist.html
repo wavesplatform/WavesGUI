@@ -98,11 +98,18 @@
                 <div class="chosen__info">
                     <a href="#"
                        ng-click="$ctrl.showAssetInfo($event, pair.amountAsset)"
-                       class="chosen__link basic-700">{{::pair.amountAsset.id}}</a> <span>/</span>
+                       class="chosen__link chosen__link_desktop basic-700">{{::pair.amountAsset.id}}</a>
+                    <a href="#"
+                       class="chosen__link chosen__link_mobile basic-700">{{$ctrl.getShortId(pair.amountAsset.id)}}</a>
                 </div>
-                <a href="#"
-                   ng-click="$ctrl.showAssetInfo($event, pair.priceAsset)"
-                   class="chosen__link basic-700">{{::pair.priceAsset.id}}</a>
+                <span class="chosen__info-slash">/</span>
+                <div class="chosen__info">
+                    <a href="#"
+                       ng-click="$ctrl.showAssetInfo($event, pair.amountAsset)"
+                       class="chosen__link chosen__link_desktop basic-700">{{::pair.priceAsset.id}}</a>
+                    <a href="#"
+                       class="chosen__link chosen__link_mobile basic-700">{{$ctrl.getShortId(pair.priceAsset.id)}}</a>
+                </div>
             </w-table-cell>
             <div class="tooltip-dex tooltip-row center"
                  ng-if="$ctrl.isLockedPair(pair.amountAsset.id, pair.priceAsset.id)"

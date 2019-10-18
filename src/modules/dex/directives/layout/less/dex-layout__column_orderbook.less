@@ -102,26 +102,31 @@
   }
 }
 
+@media screen and (min-width: 1920px) {
+  .dex-layout {
+    &__column_orderbook {
+      width: 370px;
+    }
+
+    &_orderbook-collapsed {
+      .dex-layout {
+        &__column_candlechart {
+          width: calc(100% ~'- 355px');
+        }
+      }
+    }
+  }
+}
+
 @media screen and (min-width: 2400px) {
   .dex-layout {
     &__column_orderbook {
-      width: 360px;
-      max-height: calc(100% ~'- 445px') !important;
-
       .row {
         font-size: 12px;
       }
 
       .info {
         font-size: 11px;
-      }
-    }
-
-    &__orderbook-collapsed {
-      .dex-layout {
-        &__candlechart {
-          width: calc(100% ~'- 365px');
-        }
       }
     }
   }

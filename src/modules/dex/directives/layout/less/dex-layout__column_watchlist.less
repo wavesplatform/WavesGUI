@@ -35,7 +35,7 @@
 
       &__column_candlechart {
         transform: translateX(0);
-        width: calc(~'100%' - (@dexLayoutWatchlist + @dexLayoutGap));
+        width: calc(~'100%' - (@dexLayoutOrderBook + @dexLayoutGap));
 
         .dex-layout {
           &__sidebar-toggle-left div::after {
@@ -103,11 +103,16 @@
   }
 }
 
-@media screen and (min-width: 2400px) {
+@media screen and (min-width: 1920px) {
   .dex-layout {
     &__column_watchlist {
-      max-height: calc(100% ~ '- 445px');      
-      width: 360px;
+      width: 350px;
+    }
+
+    &_watchlist-collapsed {
+      .dex-layout__column_candlechart {
+        width: calc(100% ~"- 375px");
+      }
     }
   }
 }
