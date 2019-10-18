@@ -1,8 +1,7 @@
 {
     "backupSeed": {
         "copySeed": "Anahtar Kelimeleri Kopyala",
-        "warn": "Hesabınızı sadece siz kontrol edersiniz. Uygulamanın silinmesi durumuna karşı Anahtar kelimelerinizi mutlaka kaydedin.",
-        "yourSeed": "Anahtar kelimeleriniz"
+        "warn": "Hesabınızı sadece siz kontrol edersiniz. Uygulamanın silinmesi durumuna karşı Anahtar kelimelerinizi mutlaka kaydedin."
     },
     "createAccount": {
         "from": "Hesap Oluştur"
@@ -148,6 +147,7 @@
         "copyAddress": "Adresi kopyala",
         "copyright": "© 2019 Waves Platform",
         "copyrightVordex": "© 2019 VORDEX",
+        "createAccount": "Create account",
         "createToken": "Kripto para oluştur",
         "currentAccountName": "Şu anki hesap adı",
         "dashboard": "Panel",

@@ -45,6 +45,8 @@
             "fee": "수수료 {{fee}} WAVES",
             "hasScript": "거래하기 위해 [Script](https://docs.wavesplatform.com/en/waves-client/advanced_features/script_transaction.html)를 취소하세요",
             "last": "체결가",
+            "limit": "Limit Order",
+            "market": "Market Order",
             "matcherFee": "수수료",
             "notifications": {
                 "error": {

@@ -1,8 +1,7 @@
 {
     "backupSeed": {
         "copySeed": "Salin frasa SEED",
-        "warn": "Karena hanya Anda yang mengendalikan uang Anda, Anda harus menyimpan frase SEED Anda jika aplikasi ini dihapus atau",
-        "yourSeed": "Frasa SEED Anda"
+        "warn": "Karena hanya Anda yang mengendalikan uang Anda, Anda harus menyimpan frase SEED Anda jika aplikasi ini dihapus atau"
     },
     "createAccount": {
         "from": "createAccount"
@@ -148,6 +147,7 @@
         "copyAddress": "Salin alamat",
         "copyright": "© 2019 Waves Platform",
         "copyrightVordex": "© 2019 VORDEX",
+        "createAccount": "Create account",
         "createToken": "Buat token",
         "currentAccountName": "Nama akun saat ini",
         "dashboard": "Dasbor",

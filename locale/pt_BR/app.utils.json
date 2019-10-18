@@ -717,7 +717,7 @@
                 "backupPhrase": "Frase de Backup",
                 "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "Seed codificado",
-                "exportAccount": "Export account",
+                "exportAccount": "Export account to file",
                 "id": "Account ID",
                 "privateKey": "Chave Privada",
                 "publicKey": "Chave Pública",
@@ -888,6 +888,7 @@
                 "cell6": "Não acesse sua carteira ao usar Wi-Fi público ou o dispositivo de outras pessoas.",
                 "nextButton": "Eu Entendi",
                 "p1": "Uma das formas mais comuns de golpes é o phishing, que é quando os golpistas criam comunidades falsas no Facebook ou sites semelhantes aos oficiais.",
+                "saveSeedButton": "Save your SEED phrase",
                 "title": "Como se proteger de Phishers"
             }
         }

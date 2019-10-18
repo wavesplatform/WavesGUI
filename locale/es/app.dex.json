@@ -45,6 +45,8 @@
             "fee": "Comisión de {{fee}} WAVES",
             "hasScript": "Cancele[script](https://docs.wavesplatform.com/en/waves-client/advanced_features/script_transaction.html) por operar",
             "last": "Última",
+            "limit": "Limit Order",
+            "market": "Market Order",
             "matcherFee": "Fee",
             "notifications": {
                 "error": {

@@ -194,10 +194,10 @@
             "ok": "Accedi"
         },
         "deleteAccount": {
-            "cancel": "Cancel",
-            "delete": "Remove",
-            "description": "{div}[Removing an account will lead to its irretrievable loss if you didn't save a backup phrase (SEED).]\n{div}[Click on the REMOVE button to proceed with account removal, or CANCEL to return to the previous screen.]",
-            "header": "Remove account"
+            "cancel": "Annulla",
+            "delete": "Elimina",
+            "description": "{div} [La rimozione di un account comporterà la sua perdita irrecuperabile se non si salva una frase di backup (SEED).] \n {div} [Fare clic sul pulsante RIMUOVI per procedere con la rimozione dell'account o ANNULLA per tornare alla schermata precedente.]",
+            "header": "Rimuovi account"
         },
         "deposit": {
             "coinomatBCH": {
@@ -355,7 +355,7 @@
         "matcherChoice": {
             "customMatcher": "Indirizzo Matcher personalizzato",
             "matcher": "Matcher",
-            "matcherTerms": "I agree to the Super DEX Mather Terms of Use.",
+            "matcherTerms": "Accetto i Termini di utilizzo di Super DEX Mather.",
             "terms": "Termini e condizioni",
             "title": "Seleziona il Matcher",
             "wavesTerms": "Ho più di 18 anni e accetto le Condizioni d'uso di Waves e l'Informativa sulla privacy di Waves."
@@ -636,7 +636,7 @@
             "account": "Account",
             "cancel": "Crea un account",
             "changePass": "Cambia password",
-            "deleteAccount": "Remove account",
+            "deleteAccount": "Rimuovi account",
             "exportAccounts": {
                 "accounts": "Account",
                 "export": "Esportazione",
@@ -683,7 +683,7 @@
                 "dataProviderInvalid": "Informazioni del provider non acquisite. Controllare il link e riprovare più tardi",
                 "dataProviderName": "{{dataProviderName}}",
                 "dontShowSpamCheckboxDescr": "Nascondi token sospetti",
-                "edit": "Edit",
+                "edit": "Modifica",
                 "forDisableClear": "Per disabilitarlo completamente, lascia vuoto il campo.",
                 "matcherAddress": "Indirizzo Matcher",
                 "nodeAddress": "Indirizzo Nodo",
@@ -695,7 +695,7 @@
             },
             "ok": "Accedi",
             "pairing": {
-                "devicePairing": "Esporta account",
+                "devicePairing": "Esporta account in app",
                 "header": "Scansione Codice Accoppiamento",
                 "showCodeLink": "Mostra Codice Accoppiamento",
                 "unavailable": {
@@ -717,7 +717,7 @@
                 "backupPhrase": "Frase di Backup",
                 "base58Seed": "Frase di backup codificata",
                 "encodedSeed": "Seed codificato",
-                "exportAccount": "Esporta account",
+                "exportAccount": "Esporta account su file",
                 "id": "ID Account",
                 "privateKey": "Chiave Privata",
                 "publicKey": "Chiave Pubblica",
@@ -888,6 +888,7 @@
                 "cell6": "Non accedere al tuo wallet utilizzando accessi Wi-Fi pubblici o dispositivi di altre persone.",
                 "nextButton": "Ho capito",
                 "p1": "Una delle forme di truffa più diffuse è il phishing, messo in atto da truffatori che creano false community su Facebook o veri e propri siti che ricordano molto i progetti autentici cui mirano.",
+                "saveSeedButton": "Salva la tua frase SEED",
                 "title": "Come proteggersi dai Phishers"
             }
         }
@@ -968,7 +969,7 @@
                 "1_3_7": "{span.line} [1. Integrazione con [tokenrating.wavesexplorer.com] (https://tokenrating.wavesexplorer.com) Ora puoi valutare i token direttamente nell'app.] \n {span.line} [2. Sono stati corretti altri bug minori.]",
                 "1_3_9": "{span.line} [1. Miglioramento Interfaccia utente e funzionalità delle sezioni di Exchange e Wallet.] \n {span.line} [2. Correzione di altri bug minori.]",
                 "1_4_0": "{span.line}[Aggiunta la possibilità di passare da un account all'altro nello stesso wallet.]",
-                "1_4_4": "{span.line}[Added ability to backup and restore accounts from the keystore-file]"
+                "1_4_4": "{span.line} [Aggiunta la possibilità di eseguire il backup e il ripristino degli account dal file keystore]"
             },
             "title": "Le novità della versione {{version}}"
         }

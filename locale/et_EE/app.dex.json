@@ -45,6 +45,8 @@
             "fee": "Tasu {{fee}} WAVES",
             "hasScript": "Kauplemiseks tühista [script](https://docs.wavesplatform.com/en/waves-client/advanced_features/script_transaction.html)",
             "last": "Viimane",
+            "limit": "Limit Order",
+            "market": "Market Order",
             "matcherFee": "Fee",
             "notifications": {
                 "error": {

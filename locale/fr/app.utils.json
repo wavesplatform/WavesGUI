@@ -717,7 +717,7 @@
                 "backupPhrase": "Phrase de sauvegarde",
                 "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "SEED encodée",
-                "exportAccount": "Export account",
+                "exportAccount": "Export account to file",
                 "id": "Account ID",
                 "privateKey": "Clé privée",
                 "publicKey": "Clé publique",
@@ -888,6 +888,7 @@
                 "cell6": "N'accédez pas à votre portefeuille lorsque vous utilisez le Wi-Fi public ou l'appareil de quelqu'un d'autre.",
                 "nextButton": "Je comprends",
                 "p1": "L'une des formes les plus courantes d'escroquerie est l'hameçonnage, qui consiste à créer de fausses communautés sur Facebook ou d'autres sites Web qui ressemblent à des sites authentiques.",
+                "saveSeedButton": "Save your SEED phrase",
                 "title": "Comment vous protéger des escrocs"
             }
         }

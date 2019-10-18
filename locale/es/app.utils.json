@@ -717,7 +717,7 @@
                 "backupPhrase": "Frase de Recuperación",
                 "base58Seed": "Frase de seguridad (SEED) codificada",
                 "encodedSeed": "Semilla codificada",
-                "exportAccount": "Export account",
+                "exportAccount": "Export account to file",
                 "id": "Account ID",
                 "privateKey": "Clave privada",
                 "publicKey": "Clave pública",
@@ -888,6 +888,7 @@
                 "cell6": "No accedas a tu cartera (Wallet) cuando uses un acceso público Wi-Fi o el dispositivo de alguien.",
                 "nextButton": "Lo entiendo",
                 "p1": "Una de las formas más comunes de estafa es la suplantación de identidad, en el que estafadores crean falsas comunidades de Facebook u otros websites que se parecen a los auténticos.",
+                "saveSeedButton": "Save your SEED phrase",
                 "title": "¿Cómo protegerte de los estafadores?"
             }
         }

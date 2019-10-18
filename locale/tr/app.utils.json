@@ -717,7 +717,7 @@
                 "backupPhrase": "Anahtar (Yedek) kelimeler",
                 "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "Encoded Anahtar kelimeler",
-                "exportAccount": "Export account",
+                "exportAccount": "Export account to file",
                 "id": "Account ID",
                 "privateKey": "Özel Anahtar",
                 "publicKey": "Açık Anahtar",
@@ -888,6 +888,7 @@
                 "cell6": "Başka birisinin cihazından veya halka açık alanlardaki Wİ-Fİ hizmetlerinden cüzdanınıza erişim sağlamayın.",
                 "nextButton": "Anladım",
                 "p1": "En sık karşılaşılan dolandırıcılık yöntemi Waves Platform'a benzeyen sahte web siteleri, Facebook sayfaları olarak karşımıza çıkmaktadır.",
+                "saveSeedButton": "Save your SEED phrase",
                 "title": "Kendinizi nasıl koruyacaksınız?"
             }
         }
