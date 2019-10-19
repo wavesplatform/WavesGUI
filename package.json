@@ -80,8 +80,7 @@
     "serve-static": "1.13.1",
     "ts-node": "8.3.0",
     "typescript": "^3.5.3",
-    "yargs": "13.2.4",
-    "u2f": "*"
+    "yargs": "13.2.4"
   },
   "scripts": {
     "start": "ts-node server.ts startSimple openUrl",
