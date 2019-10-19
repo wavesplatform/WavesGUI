@@ -255,7 +255,6 @@ timeout(time:25, unit:'MINUTES') {
                                                                     sh 'touch WavesGUI/electron.log && tail -f WavesGUI/electron.log || true'
                                                                 }
                                                                 parallel winElectronBuildTasks
-                                                                
                                                             }
                                                             finally{
                                                                 stash includes: '**/waves*.exe,**/Waves*.exe', name: item.buildArtifacts + 'win', allowEmpty: true, excludes: '**/Waves DEX.exe'
@@ -275,7 +274,7 @@ timeout(time:25, unit:'MINUTES') {
                                                                             template: './electron/notarize.ts'
                                                                         )
                                                                     }
-                                                                    sh "PATH=/usr/local/opt/node@10/bin:${PATH} DEBUG=electron-notarize ./jenkinsBuildElectronScript.sh mac"
+                                                                    sh "PATH=/usr/local/opt/node@10/bin:${PATH} DEBUG=electron* ./jenkinsBuildElectronScript.sh mac"
                                                                 }
                                                             }
                                                             finally{
@@ -413,7 +412,7 @@ timeout(time:25, unit:'MINUTES') {
                                     //     unstash name: 'win'
                                     // }
                                 } else{
-                                    unstash name: item.buildArtifacts    
+                                    unstash name: item.buildArtifacts
                                 }
                             }
                             if(item.deployArtifacts)
