@@ -19,7 +19,7 @@ import {
 } from './utils';
 import { homedir } from 'os';
 import { execSync } from 'child_process';
-import { ARGV_FLAGS, PROTOCOL, MIN_SIZE, FIRST_OPEN_SIZES, META_NAME, GET_MENU_LIST, CONTEXT_MENU } from './constansts';
+import { ARGV_FLAGS, PROTOCOL, MIN_SIZE, FIRST_OPEN_SIZES, META_NAME, GET_MENU_LIST } from './constansts';
 import { get } from 'https';
 
 import BrowserWindowConstructorOptions = Electron.BrowserWindowConstructorOptions;
