@@ -50,15 +50,3 @@ export const GET_MENU_LIST = (app, t, hasDevTools) => [
         ]
     } : null
 ].filter(Boolean) as MenuItemConstructorOptions[];
-
-export const CONTEXT_MENU = t => [
-    { label: t('menu.cut'), accelerator: 'CmdOrCtrl+X', role: 'cut' },
-    { label: t('menu.copy'), accelerator: 'CmdOrCtrl+C', role: 'copy' },
-    { label: t('menu.paste'), accelerator: 'CmdOrCtrl+V', role: 'paste' }
-];
-
-// export const CONTEXT_MENU = t => [
-//     { role: 'cut' },
-//     { role: 'copy' },
-//     { role: 'paste' }
-// ];
