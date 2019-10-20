@@ -239,29 +239,29 @@ timeout(time:25, unit:'MINUTES') {
                                                 }
                                             }
                                             electronGlobalTasks['mac']={
-                                                node('testNode'){
+                                                node('electron'){
                                                     step([$class: 'WsCleanup'])
-                                                    // electronMacTasks['windowsVagrant'] = {
-                                                    //     dir('windowsVagrant'){
-                                                    //         try{
-                                                    //             wallet.removeElectronBuilderVM()
-                                                    //             unstash name: 'repo'
-                                                    //             writeFile file: 'Vagrantfile', text: wallet.wavesElectronVagrantfile()
-                                                    //             winElectronBuildTasks['windowsVagrant'] = {
-                                                    //                 sh 'vagrant up && pkill -f tail'
-                                                    //             }
-                                                    //             winElectronBuildTasks['windowsVagrantLog'] = {
-                                                    //                 sleep 20
-                                                    //                 sh 'touch WavesGUI/electron.log && tail -f WavesGUI/electron.log || true'
-                                                    //             }
-                                                    //             parallel winElectronBuildTasks
-                                                    //         }
-                                                    //         finally{
-                                                    //             stash includes: '**/waves*.exe,**/Waves*.exe', name: item.buildArtifacts + 'win', allowEmpty: true, excludes: '**/Waves DEX.exe'
-                                                    //             wallet.removeElectronBuilderVM()
-                                                    //         }
-                                                    //     }
-                                                    // }
+                                                    electronMacTasks['windowsVagrant'] = {
+                                                        dir('windowsVagrant'){
+                                                            try{
+                                                                wallet.removeElectronBuilderVM()
+                                                                unstash name: 'repo'
+                                                                writeFile file: 'Vagrantfile', text: wallet.wavesElectronVagrantfile()
+                                                                winElectronBuildTasks['windowsVagrant'] = {
+                                                                    sh 'vagrant up && pkill -f tail'
+                                                                }
+                                                                winElectronBuildTasks['windowsVagrantLog'] = {
+                                                                    sleep 20
+                                                                    sh 'touch WavesGUI/electron.log && tail -f WavesGUI/electron.log || true'
+                                                                }
+                                                                parallel winElectronBuildTasks
+                                                            }
+                                                            finally{
+                                                                stash includes: '**/waves*.exe,**/Waves*.exe', name: item.buildArtifacts + 'win', allowEmpty: true, excludes: '**/Waves DEX.exe'
+                                                                wallet.removeElectronBuilderVM()
+                                                            }
+                                                        }
+                                                    }
                                                     electronMacTasks['mac'] = {
                                                         dir('mac'){
                                                             try{

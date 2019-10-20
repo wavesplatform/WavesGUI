@@ -90,14 +90,15 @@ class Main implements IMain {
     }
 
     private makeSingleInstance() {
-        const gotTheLock = electron_1.app.requestSingleInstanceLock(() => {
-            const link = argv.find(hasProtocol) || '';
+        const gotTheLock = app.requestSingleInstanceLock();
+        //  => {
+        //     const link = argv.find(hasProtocol) || '';
 
-            this.openProtocolIn(link);
-        });
+        //     this.openProtocolIn(link);
+        // });
         
         if (!gotTheLock) {
-            electron_1.app.quit();
+            app.quit();
         }
         return gotTheLock;
    }
@@ -209,13 +210,28 @@ class Main implements IMain {
         Menu.setApplicationMenu(this.menu);
     }
 
+    // window.webContents.on('context-menu', (_: Electron.Event, props: Electron.ContextMenuParams) => {
+    //     const {selectionText, isEditable} = props
+    //     if (isEditable) {
+    //         inputMenu.popup({window})
+    //     } else if (selectionText && selectionText.trim() !== '') {
+    //         selectionMenu.popup({window})
+    //     }
+    // })
+
+
     private createCtxMenu(locale) {
         const onContextMenu = (menu: Menu): () => void => () => menu.popup({});
         if (this.ctxMenuList.length > 0) {
             this.mainWindow.webContents.removeAllListeners('context-menu');
         }
-        const ctxMenuTemplate = CONTEXT_MENU(locale);
-        const ctxMenu = Menu.buildFromTemplate(ctxMenuTemplate);
+        const ctxMenu = Electron.Menu.buildFromTemplate([
+            new Electron.MenuItem({ label: locale('menu.cut'), accelerator: 'CmdOrCtrl+X', role: 'cut' }),
+            new Electron.MenuItem({ label: locale('menu.copy'), accelerator: 'CmdOrCtrl+C', role: 'copy' }),
+            new Electron.MenuItem({ label: locale('menu.paste'), accelerator: 'CmdOrCtrl+V', role: 'paste' })
+        ])
+        // const ctxMenuTemplate = CONTEXT_MENU(locale);
+        // const ctxMenu = Menu.buildFromTemplate(ctxMenuTemplate);
         this.ctxMenuList.push(ctxMenu);
         this.mainWindow.webContents.on('context-menu', onContextMenu(ctxMenu));
     }

@@ -56,3 +56,9 @@ export const CONTEXT_MENU = t => [
     { label: t('menu.copy'), accelerator: 'CmdOrCtrl+C', role: 'copy' },
     { label: t('menu.paste'), accelerator: 'CmdOrCtrl+V', role: 'paste' }
 ];
+
+// export const CONTEXT_MENU = t => [
+//     { role: 'cut' },
+//     { role: 'copy' },
+//     { role: 'paste' }
+// ];
