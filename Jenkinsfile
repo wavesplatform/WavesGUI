@@ -222,20 +222,20 @@ timeout(time:25, unit:'MINUTES') {
                                                             }
                                                         }
                                                     }
-                                                    electronContainerTasks['windows'] = {
-                                                        dir('windows'){
-                                                            try{
-                                                                docker.image('electronuserland/builder:wine').inside("-u 0"){
-                                                                    unstash name: 'repo'
-                                                                    wallet.launchElectronContainerBuild('win')
-                                                                }
-                                                            }
-                                                            finally{
-                                                                sh 'sudo chmod -R 777 ./'
-                                                                stash includes: '**/waves*.exe,**/Waves*.exe', name: 'win', allowEmpty: true, excludes: '**/Waves DEX.exe'
-                                                            }
-                                                        }
-                                                    }
+                                                    // electronContainerTasks['windows'] = {
+                                                    //     dir('windows'){
+                                                    //         try{
+                                                    //             docker.image('electronuserland/builder:wine').inside("-u 0"){
+                                                    //                 unstash name: 'repo'
+                                                    //                 wallet.launchElectronContainerBuild('win')
+                                                    //             }
+                                                    //         }
+                                                    //         finally{
+                                                    //             sh 'sudo chmod -R 777 ./'
+                                                    //             stash includes: '**/waves*.exe,**/Waves*.exe', name: 'win', allowEmpty: true, excludes: '**/Waves DEX.exe'
+                                                    //         }
+                                                    //     }
+                                                    // }
                                                     parallel electronContainerTasks
                                                 }
                                             }
@@ -409,9 +409,9 @@ timeout(time:25, unit:'MINUTES') {
                                             unstash name: item.buildArtifacts + os    
                                         }
                                     }
-                                    dir("winOnLinux"){
-                                        unstash name: 'win'
-                                    }
+                                    // dir("winOnLinux"){
+                                    //     unstash name: 'win'
+                                    // }
                                 } else{
                                     unstash name: item.buildArtifacts
                                 }
