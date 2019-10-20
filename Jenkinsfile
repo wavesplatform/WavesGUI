@@ -33,6 +33,7 @@ def electronContainerTasks = [:]
 def electronMacTasks = [:]
 def electronGlobalTasks = [:]
 def winElectronBuildTasks = [:]
+def macElectronBuildTasks = [:]
 def source = false
 def action = false
 def repoUrl = 'https://github.com/wavesplatform/WavesGUI.git'
