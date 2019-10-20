@@ -268,21 +268,14 @@ timeout(time:25, unit:'MINUTES') {
                                                             try{
                                                                 unstash name: 'repo'
                                                                 dir('WavesGUI'){
-                                                                    macElectronBuildTasks['mac'] ={
-                                                                        withCredentials([usernamePassword(credentialsId: 'appleid-specific-password-for-electron-notarization', usernameVariable: 'appleIdUsername', passwordVariable: 'appleIdPassword')]) {
-                                                                            def macNotarizeMap = [appleIdUsername: appleIdUsername, appleIdPassword: appleIdPassword]
-                                                                            cookThisTemplate(
-                                                                                templateMap: macNotarizeMap,
-                                                                                template: './electron/notarize.ts'
-                                                                            )
-                                                                        }
-                                                                        sh "PATH=/usr/local/opt/node@10/bin:${PATH} DEBUG=electron* ./jenkinsBuildElectronScript.sh mac"
+                                                                    withCredentials([usernamePassword(credentialsId: 'appleid-specific-password-for-electron-notarization', usernameVariable: 'appleIdUsername', passwordVariable: 'appleIdPassword')]) {
+                                                                        def macNotarizeMap = [appleIdUsername: appleIdUsername, appleIdPassword: appleIdPassword]
+                                                                        cookThisTemplate(
+                                                                            templateMap: macNotarizeMap,
+                                                                            template: './electron/notarize.ts'
+                                                                        )
                                                                     }
-                                                                    macElectronBuildTasks['macLogs'] ={
-                                                                        sleep 20
-                                                                        sh 'touch ./out.log && tail -f out.log || true'
-                                                                    }
-                                                                    parallel macElectronBuildTasks
+                                                                    sh "PATH=/usr/local/opt/node@10/bin:${PATH} DEBUG=electron* ./jenkinsBuildElectronScript.sh mac"
                                                                 }
                                                             }
                                                             finally{
