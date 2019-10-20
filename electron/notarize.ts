@@ -15,9 +15,9 @@ async function notarizeAppInfo() {
     { xcrun altool --notarization-info \$(cat out.log | grep 'checking notarization status' | cut -d\: -f2 | cut -d' ' -f2 | \
         tail -1) -u '${appleIdUsername}' -p '${appleIdPassword}' || true ;} && \
     { xcrun stapler staple -v './release/mainnet/mac/Waves DEX.app' || true ;}");
-    console.log(`${stdout}`);
+    console.log(`\${stdout}`);
     if (stderr) {
-        console.error("error: ${stderr}");
+        console.error("error: \${stderr}");
     }
 }
 
