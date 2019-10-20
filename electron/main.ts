@@ -89,19 +89,18 @@ class Main implements IMain {
         this.addContextMenu();
     }
 
-    private makeSingleInstance(): boolean {
-        const isOpenClient = app.makeSingleInstance((argv) => {
+    private makeSingleInstance() {
+        const gotTheLock = electron_1.app.requestSingleInstanceLock(() => {
             const link = argv.find(hasProtocol) || '';
 
             this.openProtocolIn(link);
         });
-
-        if (isOpenClient) {
-            app.quit();
+        
+        if (!gotTheLock) {
+            electron_1.app.quit();
         }
-
-        return !isOpenClient;
-    }
+        return gotTheLock;
+   }
 
     private openProtocolIn(browserLink) {
         if (!browserLink || !hasProtocol(browserLink)) {

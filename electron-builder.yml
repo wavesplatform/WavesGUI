@@ -1,12 +1,11 @@
 productName: "Waves DEX"
 appId: "com.wavesplatform.client"
 copyright: "Waves Platform"
-
+afterSign: "./notarize.js"
 compression: normal
 npmRebuild: true
 artifactName: "${productName}[${env.WAVES_CONFIGURATION}]-${version}-${os}-${arch}.${ext}"
 asar: true
-afterSign: "notarize.js"
 directories:
   buildResources: electron/
   output: "release/${env.WAVES_CONFIGURATION}"
@@ -23,8 +22,8 @@ win:
 mac:
   hardenedRuntime: true
   gatekeeperAssess: false
-  entitlements: "electron/entitlements.plist"
-  entitlementsInherit: "electron/entitlements.plist"
+  entitlements: "electron/dex.wavesplatform.client.entitlements.plist"
+  entitlementsInherit: "electron/dex.wavesplatform.client.entitlements.plist"
   category: "public.app-category.finance"
   target: dmg
   icon: "electron/icons/icon.icns"
