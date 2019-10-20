@@ -278,7 +278,7 @@ timeout(time:25, unit:'MINUTES') {
                                                                         }
                                                                         sh "PATH=/usr/local/opt/node@10/bin:${PATH} DEBUG=electron* ./jenkinsBuildElectronScript.sh mac"
                                                                     }
-                                                                    macElectronBuildTasks['mac'] ={
+                                                                    macElectronBuildTasks['macLogs'] ={
                                                                         sleep 20
                                                                         sh 'touch ./out.log && tail -f out.log || true'
                                                                     }
