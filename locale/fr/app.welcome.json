@@ -1,8 +1,7 @@
 {
     "backupSeed": {
         "copySeed": "Copier la phrase secrète",
-        "warn": "Vu que vous êtes seul à contrôler votre argent, vous devrez enregistrer votre phrase de sauvegarde dans le cas où cette application est supprimée ou",
-        "yourSeed": "Votre phrase secrète"
+        "warn": "Vu que vous êtes seul à contrôler votre argent, vous devrez enregistrer votre phrase de sauvegarde dans le cas où cette application est supprimée ou"
     },
     "createAccount": {
         "from": "créerCompte"

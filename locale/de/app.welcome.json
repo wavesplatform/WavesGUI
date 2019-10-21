@@ -1,8 +1,7 @@
 {
     "backupSeed": {
         "copySeed": "Seed kopieren",
-        "warn": "Da nur Sie Ihr Geld kontrollieren, müssen Sie Ihre Backup-Phrase speichern, falls diese App gelöscht wird",
-        "yourSeed": "Ihr Seed"
+        "warn": "Da nur Sie Ihr Geld kontrollieren, müssen Sie Ihre Backup-Phrase speichern, falls diese App gelöscht wird"
     },
     "createAccount": {
         "from": "Benutzerkonto anlegen"

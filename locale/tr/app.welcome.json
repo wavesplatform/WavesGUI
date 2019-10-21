@@ -1,8 +1,7 @@
 {
     "backupSeed": {
         "copySeed": "Anahtar Kelimeleri Kopyala",
-        "warn": "Hesabınızı sadece siz kontrol edersiniz. Uygulamanın silinmesi durumuna karşı Anahtar kelimelerinizi mutlaka kaydedin.",
-        "yourSeed": "Anahtar kelimeleriniz"
+        "warn": "Hesabınızı sadece siz kontrol edersiniz. Uygulamanın silinmesi durumuna karşı Anahtar kelimelerinizi mutlaka kaydedin."
     },
     "createAccount": {
         "from": "Hesap Oluştur"

@@ -45,8 +45,8 @@
             "fee": "费用 {{fee}} WAVES",
             "hasScript": "取消[脚本]（https://docs.wavesplatform.com/en/waves-client/advanced_features/script_transaction.html）进行交易",
             "last": "最新交易价",
-            "limit": "Limit Order",
-            "market": "Market Order",
+            "limit": "限价单",
+            "market": "市场订单",
             "matcherFee": "费用",
             "notifications": {
                 "error": {
