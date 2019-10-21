@@ -17,14 +17,14 @@ import {
 import * as matchersApi from './matchers/matchers'
 import * as addressModule from './address';
 import { getLastPrice } from './matcher/getLastPrice';
-import { getAddressByAlias, getAliasesByAddress } from './aliases/aliases';
+import { getAddressByAlias, getAliasesByAddress, getAliasesByIdList } from './aliases/aliases';
 import { getFeeRates, getSettings } from './matcher/getSettings';
 import * as pairsModule from './pairs/pairs';
 import * as ratingModule from './rating/rating';
 import * as dataModule from './data';
 
 
-export const aliases = { getAliasesByAddress, getAddressByAlias };
+export const aliases = { getAliasesByAddress, getAddressByAlias, getAliasesByIdList };
 
 export const node = { height };
 
