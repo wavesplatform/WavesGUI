@@ -7,32 +7,6 @@
 
 .smart-table.smart-table {
   &_dex-trade-history {
-    @media screen and (max-width: 1024px) {
-      overflow-x: auto;
-
-      &::-webkit-scrollbar {
-        height: 4px;
-
-        &-track {
-          box-shadow: none;
-        }
-
-        &-thumb {
-          border-radius: @border-radius;
-        }
-      }
-
-      &:hover {
-        &::-webkit-scrollbar {
-          height: 4px;
-        }
-      }
-
-      .smart-table__wrapper {
-        min-width: 600px;
-      }
-    }
-
     .smart-table {
       &__thead {
         border-bottom: none;
@@ -75,13 +49,6 @@
 
       &__cell {
         flex-basis: calc(20% ~' - 20px');
-
-        @media screen and (max-width: 860px) {
-          .cell {
-            width: auto;
-            max-width: none;
-          }
-        }
       }
 
       &__cell[data-column-id="type"] {
@@ -105,8 +72,31 @@
 }
 
 @media screen and (max-width: 1024px) {
-  .smart-table_dex-trade-history {
+  .smart-table.smart-table_dex-trade-history {
     min-width: 100%;
+    overflow-x: auto;
+
+    &::-webkit-scrollbar {
+      height: 4px;
+
+      &-track {
+        box-shadow: none;
+      }
+
+      &-thumb {
+        border-radius: @border-radius;
+      }
+    }
+
+    &:hover {
+      &::-webkit-scrollbar {
+        height: 4px;
+      }
+    }
+
+    .smart-table__wrapper {
+      min-width: 700px;
+    }
 
     .smart-table {
       &__thead {
@@ -143,8 +133,23 @@
   }
 }
 
+@media screen and (max-width: 860px) {
+  .smart-table.smart-table_dex-trade-history {
+    .smart-table__cell {
+      .cell {
+        width: auto;
+        max-width: none;
+      }
+    }
+  }
+}
+
 @media screen and (max-width: 720px) {
-  .smart-table_dex-trade-history {
+  .smart-table.smart-table_dex-trade-history {
+    .smart-table__wrapper {
+      min-width: auto;
+    }
+
     .smart-table {
       &__thead {
         display: none;
@@ -153,11 +158,11 @@
       &__tbody {
         &::-webkit-scrollbar-track {
 					-webkit-box-shadow: none;
-				}
-      }
-
-      &__row {
-        padding: 6px 0;
+        }
+        
+        .smart-table__row {
+          padding: 6px 0;
+        }
       }
 
       &__cell[data-column-id="type"] {

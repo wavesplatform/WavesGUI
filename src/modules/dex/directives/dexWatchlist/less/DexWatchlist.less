@@ -13,14 +13,6 @@
     position: relative;
     display: flex;
     flex-direction: column;
-
-    @media screen and (min-width: 1025px) {
-      padding: 0 12px;
-    }
-
-    @media screen and (min-width: 1441px) {
-      padding: 0 16px;
-    }
   }
 
   .input-container {
@@ -31,20 +23,12 @@
     height: 32px;
     min-height: 32px;
 
-    @media screen and (max-width: 720px) {
-      height: 40px;
-    }
-
     w-help-icon {
       position: absolute;
       top: 50%;
       right: 10px;
       z-index: 10;
       transform: translate(0, -50%);
-
-      @media screen and (max-width: 720px) {
-        display: none;
-      }
 
       .help-icon {
         &__content {
@@ -54,10 +38,6 @@
           min-width: 235px;
           transform: translate(calc(-50% ~'+ 15px'), 16px);
           box-shadow: @shadow-tooltip-confirm;
-
-          @media screen and (max-width: 1024px) {
-            transform: translate(calc(-100% ~'+ 30px'), 16px);
-          }
         }
       }
     }
@@ -89,12 +69,17 @@
     height: 42px;
     background-color: @color-white;
     box-sizing: border-box;
-    padding: 0;
+    padding: 0 0 2px 0;
     position: relative;
-    border-bottom: 1px solid @color-basic-100;
 
     &::after {
-      display: none;
+      content: "";
+      display: block;
+      height: 1px;
+      width: 100%;
+      position: absolute;
+      bottom: 2px;
+      background: @color-basic-100;
     }
 
     & > .title {
@@ -152,7 +137,7 @@
           background: @color-submit-400;
           position: absolute;
           z-index: 1;
-          bottom: -1px;
+          bottom: -0.5px;
           left: 50%;
           border-radius: 1px;
           transform: translateX(-50%);
@@ -189,11 +174,11 @@
 
     &.active {
       color: @color-basic-900;
-      
+
       &::after {
         display: block;
         position: absolute;
-        bottom: -1px;
+        bottom: -0.5px;
         left: 50%;
         transform: translateX(-50%);
         width: 16px;
@@ -225,10 +210,6 @@
     float: right;
     margin-right: 3px;
 
-    @media screen and (min-width: 1024px) and (max-width: 1440px) {
-      margin-right: 0;
-    }
-
     &.active {
       background: @dex-star-active-icon center no-repeat;
     }
@@ -245,30 +226,52 @@
   }
 }
 
-@media screen and (min-width: 2400px) {
+@media screen and (min-width: 1024px) and (max-width: 1440px) {
   .dex-watchlist {
-    &__wrapper a.title {
-      font-size: 13px;
+    i.icon-fav {
+      margin-right: 0;
     }
+  }
+}
 
-    .wrapper {
-      .tabs__header .select__wrap a.select__title {
-        font-size: 13px;
+@media screen and (min-width: 1025px) {
+  .dex-watchlist__wrapper {
+    padding: 0 12px;
+  }
+}
+
+@media screen and (min-width: 1441px) {
+  .dex-watchlist__wrapper {
+    padding: 0 16px;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .dex-watchlist__wrapper {
+    .input-container {
+      w-help-icon {
+        .help-icon__content {
+          transform: translate(calc(-100% ~'+ 30px'), 16px);
+        }
       }
     }
   }
+}
 
+@media screen and (max-width: 720px) {
+  .dex-watchlist {
+    .input-container {
+      height: 40px;
 
-  .dex-layout {
-    &__watchlist {
-      max-height: calc(100% ~'- 445px');
-      width: 360px;
+      w-help-icon {
+        display: none;
+      }
     }
 
-    &__watchlist-collapsed {
-      .dex-layout {
-        &__candlechart {
-          width: calc(100% ~'- 365px');
+    .tabs__header {
+      w-select {
+        &.active::before {
+          bottom: 1px;
         }
       }
     }

@@ -67,16 +67,6 @@
   }
 }
 
-.modal-send {
-  .send-form {
-    .tabs__body {
-      @media screen and (min-width: 541px) {
-        padding: 40px 40px 0;
-      }
-    }
-  }
-}
-
 w-confirm-transaction {
   .tabs__header {
     margin: 0 -40px 40px;
@@ -90,14 +80,6 @@ w-confirm-transaction {
     &__body {
       height: calc(100% ~'- 39px');
       margin: 0 3px 10px 8px;
-
-      @media screen and (max-width: 1280px) {
-        margin-left: 4px;
-      }
-
-      @media screen and (max-width: 1024px) {
-        margin: 0 6px;
-      }
     }
 
     .tabs__header {
@@ -106,17 +88,24 @@ w-confirm-transaction {
       height: 42px;
       min-height: 42px;
       margin: 0 16px;
-      padding: 0;
+      padding: 0 0 2px 0;
       width: auto;
       display: flex;
       position: relative;
-      border-bottom: 1px solid @color-basic-100;
-      @media screen and (max-width: 1280px) {
-        margin: 0 12px;
+      box-sizing: content-box;
+
+      &::after {
+        content: "";
+        display: block;
+        height: 1px;
+        width: 100%;
+        position: absolute;
+        bottom: 2px;
+        background: @color-basic-100;
       }
 
-      @media screen and (max-width: 1024px) {
-        box-shadow: none;
+      @media screen and (max-width: 1280px) {
+        margin: 0 12px;
       }
   
       &::before {
@@ -133,12 +122,6 @@ w-confirm-transaction {
       padding: 0;
       line-height: 40px;
       white-space: nowrap;
-
-      &:last-child {
-        @media screen and (max-width: 1024px) {
-          padding-right: 12px;
-        }
-      }
     }
   }
 }
@@ -159,6 +142,52 @@ w-confirm-transaction {
 
       &__title::after {
         height: 1px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .dex-layout__column_tradehistory {
+    .tabs {
+      &__body {
+        margin: 0 6px;
+
+        .tabs__header {
+          &::after {
+            width: 1000px;
+          }
+        }
+      }
+
+      .tabs__header {
+        box-shadow: none;
+      }
+
+      &__title {
+        &:last-child {
+          padding-right: 12px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  .dex-layout__column_tradehistory {
+    .tabs {
+      &__body {
+        margin-left: 4px;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 541px) {
+  .modal-send {
+    .send-form {
+      .tabs__body {
+        padding: 40px 40px 0;
       }
     }
   }
@@ -207,7 +236,6 @@ w-confirm-transaction {
 }
 
 @media screen and (max-width: 540px) {
-
   .asset-info-modal {
     .tabs {
       margin: 0;

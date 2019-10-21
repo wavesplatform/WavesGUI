@@ -7,16 +7,6 @@
 
 .smart-table.smart-table {
   &_watchlist {
-    @media screen and (min-width: 1025px) {
-      width: calc(100% ~"+ 17px");
-      transform: translateX(-6px);
-    }
-
-    @media screen and (min-width: 1280px) {
-      width: calc(100% ~"+ 21px");
-      transform: translateX(-8px);
-    }
-
     .smart-table {
       &__row {
         flex-wrap: wrap;
@@ -55,10 +45,6 @@
 
           &[data-column-id="pair"] {
             flex-basis: calc(34% ~"- 22px");
-
-            @media screen and (min-width: 1024px) and (max-width: 1440px) {
-              flex-basis: calc(42% ~"- 17px");
-            }
           }
         }
       }
@@ -72,21 +58,10 @@
           border-radius: @border-radius;
         }
 
-        @media screen and (min-width: 1025px) {
-          .smart-table__row {
-            padding-right: 8px;
-            margin-right: 2px;
-          }
-        }
-
         .smart-table__cell {
           &[data-column-id="pair"] {
             flex-basis: calc(34% ~'- 30px');
             font-family: @font-roboto-medium;
-
-            @media screen and (min-width: 1024px) and (max-width: 1440px) {
-              flex-basis: calc(42% ~"- 25px");
-            }
           }
         }
       }
@@ -96,30 +71,17 @@
 
         &[data-column-id="favourite"] {
           flex-basis: 30px;
-
-          @media screen and (min-width: 1024px) and (max-width: 1440px) {
-            flex-basis: 25px;
-          }
         }
 
         &[data-column-id="price"] {
           flex-basis: 24%;
           max-width: 24%;
           text-align: right;
-
-          @media screen and (min-width: 1024px) and (max-width: 1440px) {
-            flex-basis: 35%;
-            min-width: 35%;
-          }
         }
 
         &[data-column-id="change"] {
           flex-basis: 17%;
           text-align: right;
-
-          @media screen and (min-width: 1024px) and (max-width: 1440px) {
-            flex-basis: 23%;
-          }
 
           &.plus {
             color: @color-submit-400;
@@ -137,10 +99,6 @@
         &[data-column-id="volume"] {
           flex-basis: 25%;
           text-align: right;
-
-          @media screen and (min-width: 1024px) and (max-width: 1440px) {
-            display: none;
-          }
 
           .volume-subtitle {
             display: none;
@@ -160,10 +118,6 @@
           padding: 6px 20px 0 30px;
           .caption-3();
           flex-wrap: wrap;
-
-          @media screen and (min-width: 1024px) and (max-width: 1440px) {
-            padding: 6px 0 0 24px;
-          }
 
           .chosen {
             &__info {
@@ -204,22 +158,6 @@
           }
         }
       }
-    }
-  }
-}
-
-@media screen and (max-width: 720px) {
-  .smart-table.smart-table_watchlist {
-    .smart-table__row {
-      padding: 14px 16px;
-      
-      &.selected .smart-table__cell[data-column-id="info"] {
-        display: none;
-      }
-    }
-
-    .smart-table__tbody {
-      padding: 0;
     }
   }
 }
@@ -381,6 +319,90 @@
           }
         }
       }
+    }
+  }
+}
+
+@media screen and (min-width: 1025px) {
+  .smart-table.smart-table_watchlist {
+    width: calc(100% ~"+ 17px");
+    transform: translateX(-6px);
+
+    .smart-table__tbody {
+      .smart-table__row {
+        padding-right: 8px;
+        margin-right: 2px;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .smart-table.smart-table {
+    &_watchlist {
+      width: calc(100% ~"+ 21px");
+      transform: translateX(-8px);
+    }
+  }
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1440px) {
+  .smart-table.smart-table_watchlist {
+    .smart-table {
+      &__thead {
+        .smart-table__cell {
+          &[data-column-id="pair"] {
+            flex-basis: calc(42% ~"- 17px");
+          }
+        }
+      }
+
+      &__tbody {
+        .smart-table__cell {
+          &[data-column-id="pair"] {
+            flex-basis: calc(42% ~"- 25px");
+          }
+        }
+      }
+
+      &__cell {
+        &[data-column-id="favourite"] {
+          flex-basis: 25px;
+        }
+
+        &[data-column-id="price"] {
+          flex-basis: 35%;
+          min-width: 35%;
+        }
+
+        &[data-column-id="change"] {
+          flex-basis: 23%;
+        }
+
+        &[data-column-id="volume"] {
+          display: none;
+        }
+
+        &[data-column-id="info"] {
+          padding: 6px 0 0 24px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .smart-table.smart-table_watchlist {
+    .smart-table__row {
+      padding: 14px 16px;
+      
+      &.selected .smart-table__cell[data-column-id="info"] {
+        display: none;
+      }
+    }
+
+    .smart-table__tbody {
+      padding: 0;
     }
   }
 }

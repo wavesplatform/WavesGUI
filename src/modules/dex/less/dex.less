@@ -12,10 +12,6 @@ body.dex-demo {
   .main-content {
     min-height: 520px;
 
-    @media screen and (max-width: 720px) {
-      min-height: 500px;
-    }
-
     .content {
       max-width: 100%;
       padding: 5px;
@@ -127,20 +123,8 @@ body.dex-demo {
   .dex-demo {
     .dex-watchlist {
       .tabs__header {
-        height: 42px;
-
         .select__wrap {
-          .select__list {
-            height: 42px;
-            font-size: 13px;
-          }
-
           .option {
-            font-size: 13px;
-          }
-
-          .select__title {
-            height: 41px;
             font-size: 13px;
           }
         }
@@ -238,9 +222,13 @@ body.dex-demo {
 @media screen and (max-width: 720px) {
   body.dex,
   body.dex-demo {
-    .main-content .content {
-      overflow: hidden;
-    }
+    .main-content {
+      min-height: 500px;
+
+      .content {
+        overflow: hidden;
+      }
+    } 
 
     .tabs {
       .tabs__body {
@@ -315,20 +303,9 @@ body.dex-demo {
   }
 }
 
-@media screen and (max-width: 659px) {
+@media screen and (max-width: 720px) {
   body.dex,
   body.dex-demo {
-    min-width: 100%;
-
-    .main-content .content {
-      width: 100%;
-      padding: 5px;
-      right: 0;
-      bottom: 0;
-      height: 100%;
-    }
-
-
     .tabs {
       w-scroll-box {
         height: 100%;

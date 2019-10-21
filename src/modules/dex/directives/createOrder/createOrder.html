@@ -42,25 +42,6 @@
                 </w-select>
             </div>
 
-            <div class="choice">
-                <div class="choose buy" ng-click="$ctrl.expand('buy')">
-                    <div class="name" w-i18n="directives.createOrder.buy"></div>
-                    <div class="price"
-                         w-nice-number="$ctrl.ask.price"
-                         precision="$ctrl.priceBalance.asset.precision"></div>
-                </div>
-                <div class="middle caption-3 disabled-900">
-                    <div w-i18n="directives.createOrder.spread"></div>
-                    <div>{{$ctrl.spreadPercent}}%</div>
-                </div>
-                <div class="choose sell" ng-click="$ctrl.expand('sell')">
-                    <div class="name" w-i18n="directives.createOrder.sell"></div>
-                    <div class="price"
-                         w-nice-number="$ctrl.bid.price"
-                         precision="$ctrl.priceBalance.asset.precision"></div>
-                </div>
-            </div>
-
             <div class="create-order-notification js-order-notification">
                 <div ng-if="$ctrl.createOrderFailed">
                     <i class="icon"></i><span w-i18n="create.order.failed"></span>

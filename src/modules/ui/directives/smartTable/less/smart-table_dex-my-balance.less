@@ -67,54 +67,6 @@
       cursor: default;
     }
 
-    w-copy-wrap {
-      border: 0 none;
-      border-radius: 0;
-      height: 18px;
-      background-color: transparent;
-      width: 75%;
-
-      .container {
-        padding: 0;
-        cursor: pointer;
-        font-size: @font-size-caption-2;
-        line-height: inherit;
-        display: inline-block;
-        width: auto;
-        text-overflow: ellipsis;
-        overflow: hidden;
-
-        @media screen and (min-width: 1025px) and (max-width: 1550px) {
-          max-width: 250px;
-        }
-
-        @media screen and (max-width: 400px) {
-          max-width: 300px;
-        }
-
-        @media screen and (min-width: 660px) and (max-width: 820px) {
-          max-width: 220px;
-        }
-
-        span {
-          text-overflow: ellipsis;
-          overflow: hidden;
-          max-width: 300px;
-          display: block;
-          width: 100%;
-        }
-      }
-
-      .copy-icon {
-        border-left: 0 none;
-        flex-basis: 24px;
-        position: relative;
-        height: 18px;
-        margin-top: -4px;
-        background: @dex-copybalance-icon no-repeat right center;
-      }
-    }
-
     .search-input {
       background-position: 4px center;
       padding-left: 24px;
@@ -143,7 +95,6 @@
         .smart-table {
           &__row {
             height: 37px;
-            border-top: 1px solid @color-basic-100;
             padding: 0 10px;
 
             &:hover {

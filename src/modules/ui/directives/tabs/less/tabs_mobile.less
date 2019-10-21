@@ -71,10 +71,20 @@
 				position: relative;
 				bottom: auto;
 				right: auto;
-				padding: 0 16px;
-				border-bottom: 1px solid @color-basic-100;
+				padding: 0 16px 2px;
+				// border-bottom: 1px solid @color-basic-100;
 				background: @color-white;
 				box-shadow: none;
+
+				&::after {
+					content: "";
+					display: block;
+					height: 1px;
+					width: 100%;
+					position: absolute;
+					bottom: 2px;
+					background: @color-basic-100;
+				}
 	
 				.tabs__title {
 					margin: 0;

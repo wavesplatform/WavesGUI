@@ -269,22 +269,6 @@
 //hi-res
 @media screen and (min-width: 2400px) {
   .dex-layout {
-    &__row {
-      font-size: 12px;
-    }
-
-    .dex-block .block-title {
-      height: 42px;
-    }
-
-    .tabs .tabs__header {
-      height: 42px;
-
-      a.title {
-        height: 42px;
-      }
-    }
-
     .caption-2 {
       font-size: 12px;
     }
@@ -300,36 +284,12 @@
 }
 
 // responsive
-@media screen and (min-width: 660px) and (max-width: 1024px) {
+@media screen and (min-width: 721px) and (max-width: 1024px) {
   .dex-layout {
     overflow: visible;
 
     .dex-layout-side-bar-toggle {
       display: none;
-    }
-  }
-}
-
-@media screen and (max-width: 659px) {
-  .dex-layout {
-    overflow: visible;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-
-    &__column {
-      position: relative;
-    }
-
-    &_tradevolume-collapsed {
-      .dex-layout {
-        &__column_orderbook {
-          w-scroll-box {
-            min-height: 293px;
-          }
-        }
-      }
     }
   }
 }
