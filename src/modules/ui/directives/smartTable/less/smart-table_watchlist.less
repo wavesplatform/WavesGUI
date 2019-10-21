@@ -21,7 +21,7 @@
       &__row {
         flex-wrap: wrap;
         cursor: pointer;
-        padding: 6px 0;
+        padding: 2px 0;
         border-radius: @border-radius;
         width: auto;
 
@@ -55,6 +55,10 @@
 
           &[data-column-id="pair"] {
             flex-basis: calc(34% ~"- 22px");
+
+            @media screen and (min-width: 1024px) and (max-width: 1440px) {
+              flex-basis: calc(42% ~"- 17px");
+            }
           }
         }
       }
@@ -78,6 +82,11 @@
         .smart-table__cell {
           &[data-column-id="pair"] {
             flex-basis: calc(34% ~'- 30px');
+            font-family: @font-roboto-medium;
+
+            @media screen and (min-width: 1024px) and (max-width: 1440px) {
+              flex-basis: calc(42% ~"- 25px");
+            }
           }
         }
       }
@@ -87,17 +96,30 @@
 
         &[data-column-id="favourite"] {
           flex-basis: 30px;
+
+          @media screen and (min-width: 1024px) and (max-width: 1440px) {
+            flex-basis: 25px;
+          }
         }
 
         &[data-column-id="price"] {
           flex-basis: 24%;
           max-width: 24%;
           text-align: right;
+
+          @media screen and (min-width: 1024px) and (max-width: 1440px) {
+            flex-basis: 35%;
+            min-width: 35%;
+          }
         }
 
         &[data-column-id="change"] {
           flex-basis: 17%;
           text-align: right;
+
+          @media screen and (min-width: 1024px) and (max-width: 1440px) {
+            flex-basis: 23%;
+          }
 
           &.plus {
             color: @color-submit-400;
@@ -115,6 +137,10 @@
         &[data-column-id="volume"] {
           flex-basis: 25%;
           text-align: right;
+
+          @media screen and (min-width: 1024px) and (max-width: 1440px) {
+            display: none;
+          }
 
           .volume-subtitle {
             display: none;
@@ -135,10 +161,20 @@
           .caption-3();
           flex-wrap: wrap;
 
+          @media screen and (min-width: 1024px) and (max-width: 1440px) {
+            padding: 6px 0 0 24px;
+          }
+
           .chosen {
             &__info {
               position: relative;
               margin-bottom: 2px;
+
+              &:last-child {
+                width: 100%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+              }
 
               &:hover {
                 &::after {
@@ -328,6 +364,10 @@
         }
 
         &[data-column-id="info"] {
+          .chosen__info:last-child {
+            width: auto;
+          }
+
           .chosen__link {
             color: @color-basic-500;
 

@@ -18,7 +18,7 @@
       padding: 0 12px;
     }
 
-    @media screen and (min-width: 1280px) {
+    @media screen and (min-width: 1441px) {
       padding: 0 16px;
     }
   }
@@ -188,6 +188,8 @@
     }
 
     &.active {
+      color: @color-basic-900;
+      
       &::after {
         display: block;
         position: absolute;
@@ -222,6 +224,10 @@
     height: 24px;
     float: right;
     margin-right: 3px;
+
+    @media screen and (min-width: 1024px) and (max-width: 1440px) {
+      margin-right: 0;
+    }
 
     &.active {
       background: @dex-star-active-icon center no-repeat;

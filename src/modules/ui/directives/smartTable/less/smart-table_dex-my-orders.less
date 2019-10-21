@@ -38,10 +38,10 @@
 
       &__thead {
         .smart-table__row {
-          padding: 0 13px 0 0;
+          padding: 0 13px 0 8px;
 
-          .smart-table__cell[data-column-id="type"] {
-            text-align: center;
+          .smart-table__cell[data-column-id="pair"] {
+            transform: translateX(-10px);
           }
         }
       }
@@ -66,10 +66,10 @@
               color: @color-submit-400;
 
               .progress-bar {
-                background: @color-bluebar-400;
+                background: @buy-status-progress-bar;
 
                 .progress-fill {
-                  background: @color-bluebar-1000;
+                  background: @buy-status-progress-fill;
                 }
               }
             }
@@ -91,10 +91,10 @@
               color: @color-error-500;
 
               .progress-bar {
-                background: @color-redbar-400;
+                background: @sell-status-progress-bar;
 
                 .progress-fill {
-                  background: @color-redbar-1000;
+                  background: @sell-status-progress-fill;
                 }
               }
             }
@@ -160,6 +160,7 @@
 
       &__cell {
         flex-basis: 100px;
+        font-family: @font-roboto-medium;
 
         .decimal-muted {
           color: @color-basic-500;
@@ -190,13 +191,8 @@
           }
         }
 
-        &[data-column-id="fee"] {
-          flex-basis: 120px;
-        }
-
         &[data-column-id="pair"] {
           padding-left: 0;
-          flex-basis: 160px;
 
           span {
             display: block;
@@ -409,7 +405,7 @@
       background-image: url(/img/icons/order_cancel.svg);
       background-size: 12px 12px;
       background-repeat: no-repeat;
-      background-position: 10px center;
+      background-position: 9px 2px;
       min-height: 8px;
       min-width: 8px;
       display: inline-block;
@@ -428,7 +424,18 @@
     }
   }
 }
-
+@media screen and (max-width: 1440px) {
+  .smart-table.smart-table_dex-my-orders {
+    .smart-table {
+      &__cell {
+        &[data-column-id="filled"],
+        &[data-column-id="average"] {
+          display: none;
+        }
+      }
+    }
+  }
+}
 @media screen and (max-width: 1024px) {
   .smart-table.smart-table_dex-my-orders {
     min-width: 100%;
@@ -477,7 +484,6 @@
       &__cell[data-column-id="pair"] {
         order: 0;
         margin-bottom: 5px;
-        font-family: @font-roboto-medium;
 
         span {
           max-width: none;
@@ -498,9 +504,7 @@
       }
 
       &__cell[data-column-id="type"],
-      &__cell[data-column-id="total"],
-      &__cell[data-column-id="filled"],
-      &__cell[data-column-id="average"] {
+      &__cell[data-column-id="total"] {
         display: none;
       }
 
