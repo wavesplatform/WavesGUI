@@ -228,7 +228,7 @@ body.dex-demo {
       .content {
         overflow: hidden;
       }
-    } 
+    }
 
     .tabs {
       .tabs__body {
@@ -239,6 +239,14 @@ body.dex-demo {
         @media screen and (max-height: 400px) {
           height: calc(100vh ~'- 165px');
           overflow: auto;
+        }
+
+        w-scroll-box {
+          height: 100%;
+          max-height: none;
+          width: 100%;
+          overflow-y: auto;
+          overflow-x: hidden;
         }
       }
 
@@ -288,7 +296,7 @@ body.dex-demo {
   }
 }
 
-@media screen and (min-width: 660px) and (max-width: 1024px) {
+@media screen and (min-width: 721px) and (max-width: 1024px) {
   .dex,
   .dex-demo {
     min-width: 645px;
@@ -299,21 +307,6 @@ body.dex-demo {
       position: relative;
       margin-top: 0;
       overflow: auto;
-    }
-  }
-}
-
-@media screen and (max-width: 720px) {
-  body.dex,
-  body.dex-demo {
-    .tabs {
-      w-scroll-box {
-        height: 100%;
-        max-height: none;
-        width: 100%;
-        overflow-y: auto;
-        overflow-x: hidden;
-      }
     }
   }
 }

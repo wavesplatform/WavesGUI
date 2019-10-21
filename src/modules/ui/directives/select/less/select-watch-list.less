@@ -11,20 +11,6 @@
 		border-radius: 0;
 		border: 0 none;
 
-		.select__title {
-			&::before {
-				content: '';
-				display: block;
-				width: calc(100% ~'- 2px');
-				height: 2px;
-				background: @color-white;
-				position: absolute;
-				z-index: 1;
-				bottom: -2px;
-				left: 1px;
-			}
-		}
-
 		.select__list {
 			border-radius: 0;
 		}
@@ -43,7 +29,7 @@
 		&__title {
 			background: @color-white;
 			font-size: @font-size-caption-5;
-			color: @color-basic-700;
+			color: @default-tab-color;
 			font-family: @font-roboto-medium;
 			height: 39px;
 			padding-right: 30px;
