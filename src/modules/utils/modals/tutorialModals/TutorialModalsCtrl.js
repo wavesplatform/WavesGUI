@@ -1,26 +1,29 @@
 (function () {
     'use strict';
 
-    const controller = function (Base, $scope) {
+    const controller = function (Base, $scope, modalManager) {
 
         const analytics = require('@waves/event-sender');
 
         class TutorialModalsCtrl extends Base {
 
-            constructor({ hasAccounts }) {
+            constructor() {
                 super($scope);
                 this.isDesktop = WavesApp.isDesktop();
                 this.isWeb = WavesApp.isWeb();
-                this.hasAccounts = hasAccounts;
                 analytics.send({ name: 'Onboarding SEED Popup Show', target: 'ui' });
+            }
+
+            showSeedBackupModal() {
+                modalManager.showSeedBackupModal();
             }
 
         }
 
-        return new TutorialModalsCtrl(this.locals);
+        return new TutorialModalsCtrl();
     };
 
-    controller.$inject = ['Base', '$scope'];
+    controller.$inject = ['Base', '$scope', 'modalManager'];
 
     angular.module('app.utils').controller('TutorialModalsCtrl', controller);
 })();
