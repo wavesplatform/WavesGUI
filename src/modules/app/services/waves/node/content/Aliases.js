@@ -30,6 +30,15 @@
                 return ds.dataManager.getLastAliases();
             }
 
+            /**
+             * Get aliases by name from list
+             * @param {Array<string>} list
+             * @return {Promise<Array<string>>}
+             */
+            getByIdList(list) {
+                return ds.api.aliases.getAliasesByIdList(list);
+            }
+
             validate(alias) {
                 return alias.length >= 4 &&
                     alias.length <= WavesApp.maxAliasLength &&

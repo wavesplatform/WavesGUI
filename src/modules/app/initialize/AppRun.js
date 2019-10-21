@@ -3,6 +3,8 @@
 (function () {
     'use strict';
 
+    const { Money } = require('@waves/data-entities');
+
     const locationHref = location.href;
     const i18next = require('i18next');
     const ds = require('data-service');
@@ -61,6 +63,8 @@
      * @param {State} state
      * @param {ModalManager} modalManager
      * @param {Storage} storage
+     * @param {BalanceWatcher} balanceWatcher
+     * @param {Matcher} matcher
      * @param {INotification} notification
      * @param {app.utils.decorators} decorators
      * @param {MultiAccount} multiAccount
@@ -69,8 +73,25 @@
      * @param {INotification} userNotification
      * @return {AppRun}
      */
-    const run = function ($rootScope, utils, user, $state, $transitions, state, modalManager, storage,
-                          notification, decorators, multiAccount, ModalRouter, configService, userNotification) {
+    // eslint-disable-next-line max-params
+    const run = function (
+        $rootScope,
+        utils,
+        user,
+        $state,
+        $transitions,
+        state,
+        modalManager,
+        storage,
+        balanceWatcher,
+        matcher,
+        notification,
+        decorators,
+        multiAccount,
+        ModalRouter,
+        configService,
+        userNotification
+    ) {
 
         const phone = WavesApp.device.phone();
         const tablet = WavesApp.device.tablet();
@@ -337,6 +358,8 @@
                         clearInterval(this._notifyTimer);
                         this._notifyTimer = setInterval(() => this._updateUserNotifications(), 10000);
                     });
+
+                    balanceWatcher.change.once(this._onBalanceChange, this);
                 });
             }
 
@@ -398,13 +421,9 @@
 
                             i18next.changeLanguage(user.getSetting('lng'));
 
-                            this._initializeTermsAccepted()
-                                .then(() => {
-                                    this._initializeBackupWarning();
-                                })
-                                .then(() => {
-                                    this._modalRouter.initialize();
-                                });
+                            this._initializeTermsAccepted().then(() => {
+                                this._modalRouter.initialize();
+                            });
 
                             const offInnerTransitions = this._onInnerTransitions(START_STATES);
 
@@ -425,6 +444,47 @@
                         return false;
                     } else {
                         state.signals.changeRouterStateStart.dispatch(transition);
+                    }
+                });
+            }
+
+            _onBalanceChange() {
+                if (user.getSetting('hasBackup')) {
+                    return;
+                }
+
+                const balance = balanceWatcher.getBalance();
+                const pairs = Object.entries(balance).reduce((acc, [assetId, asset]) => {
+                    if (asset.toTokens() !== '0') {
+                        acc.push([assetId, WavesApp.defaultAssets.USD]);
+                    }
+
+                    return acc;
+                }, []);
+
+                if (pairs.length === 0) {
+                    return;
+                }
+
+                Promise.all([
+                    ds.api.assets.get(WavesApp.defaultAssets.USD),
+                    ds.api.matchers.getRates(matcher.currentMatcherAddress, pairs)
+                ]).then(([usdAsset, rates]) => {
+                    const usd = rates.data.reduce((acc, rate) => {
+                        const amountAsset = balance[rate.amountAsset];
+                        const amountAssetInUsd = amountAsset.convertTo(usdAsset, rate.data.rate);
+
+                        return acc.add(amountAssetInUsd);
+                    }, new Money(0, usdAsset));
+
+                    if (usd.gte(usd.cloneWithTokens(100))) {
+                        modalManager.showTutorialModals();
+
+                        return;
+                    }
+
+                    if (usd.gte(usd.cloneWithTokens(1))) {
+                        this._initializeBackupWarning();
                     }
                 });
             }
@@ -452,9 +512,8 @@
             _initializeBackupWarning(scope) {
                 const id = '_hasBackupId';
 
-                if (!user.getSetting('hasBackup') && !notification.has(id)) {
+                if (!notification.has(id)) {
                     const changeModalsHandler = (modal) => {
-
                         scope.closeByModal = true;
                         notification.remove(id);
                         scope.closeByModal = false;
@@ -701,6 +760,8 @@
         'state',
         'modalManager',
         'storage',
+        'balanceWatcher',
+        'matcher',
         'notification',
         'decorators',
         'multiAccount',

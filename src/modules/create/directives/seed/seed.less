@@ -1,19 +1,14 @@
 @import (reference) 'config';
 @import (reference) '../../../app/less/typography';
+@import (reference) 'icons';
 
 w-seed-read, w-seed-write {
   display: block;
 
   .seed-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    padding: 15px 10px;
-    border: 1px dashed @color-disabled-200;
+    border: 1px solid @color-basic-200;
     border-radius: @border-radius;
-    background-color: @color-white;
+    background-color: @color-basic-50;
     box-sizing: border-box;
     user-select: none;
 
@@ -24,10 +19,37 @@ w-seed-read, w-seed-write {
     }
   }
 
-  &[type="read"] {
-    .seed-container {
-      padding: 25px 12px;
+  .seed-phrase {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 15px 10px;
+  }
+
+  .seed-buttons {
+    border-top: 1px solid @color-basic-200;
+  }
+
+  .seed-button {
+    height: 50px;
+
+    & + .seed-button {
+      border-left: 1px solid @color-basic-200;
     }
+  }
+
+  .seed-copy-button {
+    background: @copy-icon center no-repeat;
+  }
+
+  .seed-save-button {
+    background: @copy-icon center no-repeat;
+  }
+
+  &[type="read"] {
+
 
     .seed-item {
       line-height: 1;
