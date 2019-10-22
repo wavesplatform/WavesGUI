@@ -183,3 +183,5 @@ export function getTransferFeeList() {
         .filter(item => item.balance.getTokens().gt(1.005) || item.isMy)
         .map(item => item.fee);
 }
+
+export const delay = (timeout: number) => new Promise(resolve => setTimeout(resolve, timeout));
