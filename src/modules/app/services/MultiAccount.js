@@ -8,10 +8,13 @@
         decryptSeed,
         base58Encode,
         base58Decode,
+        base64Encode,
         blake2b,
         stringToBytes,
         address: buildAddress,
-        publicKey: buildPublicKey
+        publicKey: buildPublicKey,
+        sharedKey,
+        messageEncrypt
     } = libs.crypto;
 
     let _password;
@@ -146,9 +149,28 @@
 
         /**
          * @param {string} str
+         * @returns {string}
          */
         hash(str) {
             return base58Encode(blake2b(base58Decode(str)));
+        }
+
+        /**
+         * @param {string} privateKeyFrom
+         * @param {string} publicKeyTo
+         * @param {Object} storageData
+         * @returns {string}
+         */
+        export(privateKeyFrom, publicKeyTo, storageData) {
+            return base64Encode(
+                messageEncrypt(
+                    sharedKey(privateKeyFrom, publicKeyTo, 'waves_migration_token'),
+                    JSON.stringify({
+                        password: _password,
+                        storageData
+                    })
+                )
+            );
         }
 
     }

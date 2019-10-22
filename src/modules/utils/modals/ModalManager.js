@@ -708,6 +708,14 @@
                 });
             }
 
+            showMigrateModal() {
+                return this._getModal({
+                    id: 'migrate-modal',
+                    controller: 'MigrateModalCtrl',
+                    contentUrl: 'modules/utils/modals/migrateModal/migrateModal.html'
+                });
+            }
+
             /**
              * @param {IDialogOptions} options
              * @return {Promise}
