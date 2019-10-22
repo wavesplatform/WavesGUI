@@ -110,6 +110,7 @@
       .select__wrap.expanded {
         .select__title {
           border: 1px solid @color-basic-100;
+          background: @color-white;
         }
       }
 
@@ -141,6 +142,10 @@
           left: 50%;
           border-radius: 1px;
           transform: translateX(-50%);
+        }
+
+        .select__title {
+          color: @color-basic-900;
         }
 
         .select-list {
@@ -247,12 +252,24 @@
 }
 
 @media screen and (max-width: 1024px) {
-  .dex-watchlist__wrapper {
-    .input-container {
-      w-help-icon {
-        .help-icon__content {
-          transform: translate(calc(-100% ~'+ 30px'), 16px);
+  .dex-watchlist {
+    &__wrapper {
+      .input-container {
+        w-help-icon {
+          .help-icon__content {
+            transform: translate(calc(-100% ~'+ 30px'), 16px);
+          }
         }
+      }
+    }
+
+    div.title.active::after {
+      bottom: 1.5px;
+    }
+
+    .tabs__header {
+      w-select.active::before {
+        bottom: 1.5px;
       }
     }
   }
