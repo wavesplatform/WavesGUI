@@ -17,6 +17,8 @@ import * as signatureAdapters from '@waves/signature-adapter';
 import { SIGN_TYPE, isValidAddress as utilsIsValidAddress } from '@waves/signature-adapter';
 import { TTimeType } from './utils/utils';
 import { IUserData } from './sign';
+import { HttpConnectProvider } from './connect/HttpConnectProvider';
+import { PostMessageConnectProvider } from './connect/PostMessageConnectProvider';
 
 export { getAdapterByType, getAvailableList } from '@waves/signature-adapter';
 export { Seed } from './classes/Seed';
@@ -32,6 +34,10 @@ export const config = { ...configApi };
 export const utils = { ...utilsModule };
 export const signature = {
     ...sign
+};
+export const connect = {
+    HttpConnectProvider,
+    PostMessageConnectProvider
 };
 
 export const signAdapters = signatureAdapters;
