@@ -71,6 +71,24 @@
   }
 }
 
+@media screen and (min-width: 721px) and (max-width: 1024px) {
+  .tab_tradeHistory {
+    .smart-table.smart-table_dex-trade-history {
+      .smart-table__wrapper {
+        min-width: 450px;
+      }
+    }
+  }
+
+  .tab_myTradeHistory {
+    .smart-table.smart-table_dex-trade-history {
+      .smart-table__wrapper {
+        min-width: 700px;
+      }
+    }
+  }
+}
+
 @media screen and (max-width: 1024px) {
   .smart-table.smart-table_dex-trade-history {
     min-width: 100%;
@@ -92,10 +110,6 @@
       &::-webkit-scrollbar {
         height: 4px;
       }
-    }
-
-    .smart-table__wrapper {
-      min-width: 700px;
     }
 
     .smart-table {
@@ -146,10 +160,6 @@
 
 @media screen and (max-width: 720px) {
   .smart-table.smart-table_dex-trade-history {
-    .smart-table__wrapper {
-      min-width: auto;
-    }
-
     .smart-table {
       &__thead {
         display: none;
