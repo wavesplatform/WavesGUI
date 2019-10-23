@@ -535,6 +535,9 @@
              * @public
              */
             decreaseField(field, value) {
+                if (!this[field]) {
+                    return null;
+                }
                 const newValue = this[field].minus(value);
                 this._changeField(field, newValue);
             }
@@ -545,6 +548,9 @@
              * @public
              */
             increaseField(field, value) {
+                if (!this[field]) {
+                    return null;
+                }
                 const newValue = this[field].plus(value);
                 this._changeField(field, newValue);
             }
