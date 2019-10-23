@@ -1,4 +1,4 @@
-<button class="step-button-inner"
+<button class="step-button-inner {{$ctrl.isDisabled ? 'disabled' : ''}}"
         ng-transclude
         type="button"
-        ng-click="$ctrl.onStepClick()"></button>
+        ng-click="!$ctrl.isDisabled && $ctrl.onStepClick()"></button>
