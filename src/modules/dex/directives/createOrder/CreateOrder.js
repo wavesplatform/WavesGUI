@@ -941,7 +941,9 @@
                                     );
                                 });
 
-                            const filteredFeeList = feeList.filter((fee, i) => fee.lte(balances[i]));
+                            const filteredFeeList = feeList.filter((fee, i) => {
+                                return fee.lte(balances[i]) || fee.asset.id === WavesApp.defaultAssets.WAVES;
+                            });
 
                             if (!filteredFeeList.length) {
                                 this.fee = feeList[0];
