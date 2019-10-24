@@ -4,11 +4,9 @@
 
 .dex-layout {
   &__column_createorder {
-    max-height: 320px;
     min-height: 320px;
     bottom: 0;
     right: 0;
-    width: @dexLayoutCreateOrder;
     background-color: transparent;
     border-radius: @border-radius / 2;
 
@@ -37,7 +35,19 @@
   }
 }
 
-@media screen and (min-width: 1025px) and (max-width: 1440px) {
+@media screen and (min-width: 1024px) {
+  .dex-layout__column_createorder {
+    max-height: 320px;
+  }
+}
+
+@media screen and (min-width: 1360px) and (max-width: 1919px) {
+  .dex-layout__column_createorder {
+    width: @dexLayoutCreateOrder;
+  }
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1360px) {
   .dex-layout {
     &__column_createorder {
       width: 280px;
@@ -45,7 +55,7 @@
   }
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1023px) {
   .dex-layout {
     &__column_createorder {
       width: 300px;

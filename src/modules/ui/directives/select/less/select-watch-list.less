@@ -3,7 +3,7 @@
 @import (reference) 'config';
 @import (reference) 'icons';
 
-.select_watch-list {
+.select.select_watch-list {
 	position: relative;
 	z-index: 6;
 	
@@ -13,6 +13,14 @@
 
 		.select__list {
 			border-radius: 0;
+		}
+
+		@media screen and (max-width: 1024px) {
+			.select__wrap {
+				.select__title {
+					color: @color-submit-400;
+				}
+			}
 		}
 	}
 
@@ -27,11 +35,10 @@
 
 	.select {
 		&__title {
-			background: @color-white;
+			background: transparent;
 			font-size: @font-size-caption-5;
 			color: @default-tab-color;
 			font-family: @font-roboto-medium;
-			height: 39px;
 			padding-right: 30px;
 			border: 1px solid transparent;
 

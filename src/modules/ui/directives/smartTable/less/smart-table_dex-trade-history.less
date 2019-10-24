@@ -68,10 +68,32 @@
     &__cell[data-column-id="pair"] {
       font-family: @font-roboto-medium;
     }
+
+    .search-wrapper {
+      padding-right: 20px;
+    }
   }
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (min-width: 721px) and (max-width: 1023px) {
+  .tab_tradeHistory {
+    .smart-table.smart-table_dex-trade-history {
+      .smart-table__wrapper {
+        min-width: 450px;
+      }
+    }
+  }
+
+  .tab_myTradeHistory {
+    .smart-table.smart-table_dex-trade-history {
+      .smart-table__wrapper {
+        min-width: 700px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1023px) {
   .smart-table.smart-table_dex-trade-history {
     min-width: 100%;
     overflow-x: auto;
@@ -92,10 +114,6 @@
       &::-webkit-scrollbar {
         height: 4px;
       }
-    }
-
-    .smart-table__wrapper {
-      min-width: 700px;
     }
 
     .smart-table {
@@ -146,10 +164,6 @@
 
 @media screen and (max-width: 720px) {
   .smart-table.smart-table_dex-trade-history {
-    .smart-table__wrapper {
-      min-width: auto;
-    }
-
     .smart-table {
       &__thead {
         display: none;

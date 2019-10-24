@@ -123,11 +123,15 @@
             &__info {
               position: relative;
               margin-bottom: 2px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+
+              &:first-child {
+                max-width: 95%;
+              }
 
               &:last-child {
                 width: 100%;
-                overflow: hidden;
-                text-overflow: ellipsis;
               }
 
               &:hover {
@@ -162,7 +166,7 @@
   }
 }
 
-@media screen and (min-width: 721px) and (max-width: 1024px) {
+@media screen and (min-width: 721px) and (max-width: 1023px) {
   .smart-table.smart-table_watchlist {
     padding-right: 2px;
 
@@ -232,7 +236,7 @@
   }
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1023px) {
   .smart-table.smart-table_watchlist {
     .smart-table {
       &__thead {
@@ -323,7 +327,7 @@
   }
 }
 
-@media screen and (min-width: 1025px) {
+@media screen and (min-width: 1024px) {
   .smart-table.smart-table_watchlist {
     width: calc(100% ~"+ 17px");
     transform: translateX(-6px);
@@ -346,7 +350,14 @@
   }
 }
 
-@media screen and (min-width: 1024px) and (max-width: 1440px) {
+@media screen and (min-width: 1280px) and (max-width: 1919px) {
+  .smart-table.smart-table_watchlist {
+    .smart-table__tbody {
+      margin-right: 5px;
+    }
+  }
+}
+@media screen and (min-width: 1024px) and (max-width: 1360px) {
   .smart-table.smart-table_watchlist {
     .smart-table {
       &__thead {

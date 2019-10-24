@@ -14,9 +14,11 @@
         <div class="mobile-watchlist-header__right">
             <div class="mobile-watchlist-header__info" ng-class="{'opened': $ctrl.watchListVisible}">
                 <div class="mobile-watchlist-header__last-price mobile-watchlist-header__last-price_{{$ctrl.pairInfo.change24.gt(0) ? 'blue' : 'red'}}">
+                        <span class="basic-500 title" w-i18n="directives.watchlist.price"></span><span class="basic-500 title">:&nbsp;</span>
                     <w-balance money="$ctrl.pairInfo.lastPrice"></w-balance>
                 </div>
                 <div class="mobile-watchlist-header__change24 mobile-watchlist-header__change24_{{$ctrl.pairInfo.change24.gt(0) ? 'blue' : 'red'}}">
+                    <span class="basic-500 title" w-i18n="directives.watchlist.change"></span><span class="basic-500 title">:&nbsp;</span>
                     <span>{{$ctrl.pairInfo.change24.gt(0) ? '+' :  ''}}{{$ctrl.pairInfo.change24}}%</span>
                 </div>
             </div>
