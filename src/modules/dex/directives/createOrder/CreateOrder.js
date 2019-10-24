@@ -551,8 +551,16 @@
                 if (!this[field]) {
                     return null;
                 }
-                const newValue = this[field].plus(value);
-                this._changeField(field, newValue);
+                let newValue;
+
+                if (this[field].getTokens().eq(0)) {
+                    const minTotal = this.priceBalance.cloneWithTokens('0').plus(this.minPriceStep).getTokens();
+                    const price = this._validPrice();
+                    this.amount = this.amountBalance.cloneWithTokens(minTotal.div(price)).plus(value);
+                } else {
+                    newValue = this[field].plus(value);
+                    this._changeField(field, newValue);
+                }
             }
 
             /**
