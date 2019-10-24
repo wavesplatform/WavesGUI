@@ -114,6 +114,7 @@
         'app.keeper',
         'app.fromBackup',
         'app.import',
+        'app.importAccount',
         'app.wallet',
         'app.dex',
         'app.tokens',

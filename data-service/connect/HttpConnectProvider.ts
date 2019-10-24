@@ -14,7 +14,7 @@ interface SendOptions {
     attempts?: number;
 }
 
-type SimpleConnectCallback = (url: URL, data: any, headers: IncomingHttpHeaders) => Promise<any>;
+type SimpleConnectCallback = (data: any, url: URL, headers: IncomingHttpHeaders) => Promise<any>;
 
 export class HttpConnectProvider implements ConnectProvider {
     private active = true;

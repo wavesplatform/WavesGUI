@@ -1,0 +1,48 @@
+<w-main-header class="main-header"></w-main-header>
+
+<div w-i18n-ns="app" class="main-container movable">
+    <div class="main-container-wrapper">
+        <div class="get-started-content">
+            <div>
+                <h3>Import account</h3>
+            </div>
+
+            <div ng-if="$ctrl.status === 'idle'">
+                <div w-i18n-ns="app.signIn">
+                    <div class="text-center body-2 basic-500 margin-3">
+                        <span w-i18n="signIn.enterPass"></span>
+                    </div>
+
+                    <w-sign-in-form
+                        on-success="$ctrl.onSignIn()"
+                        on-reset-password="$ctrl.onResetPassword()"
+                    ></w-sign-in-form>
+                </div>
+            </div>
+
+            <div ng-if="$ctrl.status === 'progress'">
+                <w-loader class="loader"></w-loader>
+            </div>
+
+            <div ng-if="$ctrl.status === 'ready'">
+                <w-button class="submit big long" on-click="$ctrl.importAccount()">
+                    <span>Import</span>
+                </w-button>
+            </div>
+
+            <div ng-if="$ctrl.status === 'success'">
+                Success
+                <w-button class="submit big long" on-click="$ctrl.login()">
+                    <span>Go to account</span>
+                </w-button>
+            </div>
+
+            <div ng-if="$ctrl.status === 'error'">
+                Error
+                <w-button class="submit big long" on-click="$ctrl.importAccount()">
+                    <span>Retry</span>
+                </w-button>
+            </div>
+        </div>
+    </div>
+</div>
