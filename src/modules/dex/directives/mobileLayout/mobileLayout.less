@@ -68,7 +68,7 @@
   
     &__change24 {
       display: flex;
-      
+
       &_blue {
         color: @color-submit-400;
       }
@@ -121,29 +121,34 @@
     }
   }
 }
-@media screen and (min-width: 860px) and (max-width: 1024px) {
+@media screen and (min-width: 768px) and (max-width: 1024px) {
   .mobile-watchlist-header {
     &__left {
-      width: 40%;
+      width: 47%;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
     &__right {
-      width: 50%;
+      width: 52%;
     }
 
     &__info {
       width: 100%;
       display: flex;
-      justify-content: space-around;
+      justify-content: flex-start;
       align-items: center;
       flex-direction: row-reverse;
+      font-size: 12px;
 
       .title {
         display: block;
       }
+    }
+
+    &__change24 {
+      margin: 0 auto;
     }
   }
 }

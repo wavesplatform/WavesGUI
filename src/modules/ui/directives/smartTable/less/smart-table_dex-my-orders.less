@@ -385,7 +385,7 @@
   }
 }
 
-@media screen and (min-width: 1025px) {
+@media screen and (min-width: 1024px) {
   .smart-table.smart-table {
     &_dex-my-orders {
       overflow-x: auto;
@@ -449,7 +449,7 @@
   }
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1023px) {
   .smart-table.smart-table_dex-my-orders {
     min-width: 100%;
 
@@ -627,8 +627,10 @@
   } 
 
   .tab_order-history {
-    .smart-table__tbody .smart-table__row {
-      padding-right: 0;
+    .smart-table.smart-table_dex-my-orders {
+      .smart-table__tbody .smart-table__row {
+        padding-right: 0;
+      }
     }
   }
 
