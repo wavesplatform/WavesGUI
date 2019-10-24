@@ -49,13 +49,6 @@
             }
 
             /**
-             * @return {boolean}
-             */
-            get buyWaves() {
-                return this.type === 'buy' && this.amount.asset.id === WavesApp.defaultAssets.WAVES;
-            }
-
-            /**
              * Max amount (with fee)
              * @type {Money}
              */
@@ -306,8 +299,6 @@
                     }
                     $scope.$apply();
                 });
-
-                this.observe(['amount', 'type'], this._updateFeeList);
             }
 
             /**
@@ -951,10 +942,7 @@
                                 });
 
                             const filteredFeeList = feeList.filter((fee, i) => {
-                                const buyWavesGtWavesFee = fee.asset.id === WavesApp.defaultAssets.WAVES &&
-                                    this.buyWaves &&
-                                    this.amount.getTokens().gt(fee.getTokens());
-                                return fee.lte(balances[i]) || buyWavesGtWavesFee;
+                                return fee.lte(balances[i]) || fee.asset.id === WavesApp.defaultAssets.WAVES;
                             });
 
                             if (!filteredFeeList.length) {
