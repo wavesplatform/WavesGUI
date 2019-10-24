@@ -278,6 +278,12 @@
                 "warningText": "Check if your wallet or exchange uses smart-contracts to withdraw Bancor. We do not accept such transactions and can’t refund them. You will lose that money.",
                 "warningTitle": "Please do not deposit BNT from smart contracts! Do not deposit other ERC20 tokens! Only Bancor is allowed."
             },
+            "wavesGatewayBTC": {
+                "warningMinAmountText": "यदि आप {{minAmount, BigNumber}} {{assetTicker}} से कम राशि भेजेंगे तो आप उस धन को खो देंगे।",
+                "warningMinAmountTitle": "न्यूनतम जमा राशि {{minAmount, BigNumber}} {{assetTicker}} है।",
+                "warningText": "इस पते पर कोई और करेंसी भेजने से आपकी जमा राशि की हानि हो सकती है।",
+                "warningTitle": "इस जमा पते पर केवल BTC ही भेजें"
+            },
             "wavesGatewayERGO": {
                 "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of ERGO to a token in your Waves account.",
                 "helpDescrTitle": "Enter this address into your ERGO client or wallet",
@@ -888,7 +894,7 @@
                 "cell6": "सार्वजनिक वाई-फाई या किसी और की डिवाइस का उपयोग करते समय अपने वॉलेट को एक्सेस ना करें।",
                 "nextButton": "मैं समझा",
                 "p1": "अपनी खुद की सुरक्षा के लिए कुछ महत्वपूर्ण चीजों को समझने के लिए कृपया कुछ समय निकालें।",
-                "saveSeedButton": "Save your SEED phrase",
+                "saveSeedButton": "Save the SEED phrase",
                 "title": "फिशर्स से खुद की सुरक्षा कैसे करें"
             }
         }
