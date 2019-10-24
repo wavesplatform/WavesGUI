@@ -333,8 +333,6 @@
     transform: translateX(-6px);
 
     .smart-table__tbody {
-      margin-right: 5px;
-      
       .smart-table__row {
         padding-right: 8px;
         margin-right: 2px;
@@ -352,6 +350,13 @@
   }
 }
 
+@media screen and (min-width: 1280px) and (max-width: 1919px) {
+  .smart-table.smart-table_watchlist {
+    .smart-table__tbody {
+      margin-right: 5px;
+    }
+  }
+}
 @media screen and (min-width: 1024px) and (max-width: 1360px) {
   .smart-table.smart-table_watchlist {
     .smart-table {
