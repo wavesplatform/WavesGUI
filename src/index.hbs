@@ -319,6 +319,8 @@
              */
             var WavesApp = {
                 name: 'Waves DEX',
+                platform: config.platform(),
+                electronVersion: config.electronVersion,
                 version: config.pack.version,
                 type: !config.isWeb() ? 'desktop' : 'web',
                 matcherPriorityList: config.network.matcherPriorityList,
