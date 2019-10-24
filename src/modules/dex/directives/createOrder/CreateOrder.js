@@ -1076,11 +1076,13 @@
                             const { id } = balance.asset;
                             const rate = new BigNumber(list[id]);
                             return balance.cloneWithCoins(
-                                rate.mul(basedCustomFee[id])
+                                rate.mul(basedCustomFee[id]).roundTo(0, 2)
                             );
                         });
 
-                        const filteredFeeList = feeList.filter((fee, i) => fee.lte(balances[i]));
+                        const filteredFeeList = feeList.filter((fee, i) => {
+                            return fee.lte(balances[i]) || fee.asset.id === WavesApp.defaultAssets.WAVES;
+                        });
 
                         if (!filteredFeeList.length) {
                             this.fee = feeList[0];

@@ -2,7 +2,7 @@
     "backupSeed": {
         "back": "Geri git",
         "copySeed": "kelimeleri kopyalayın",
-        "description": "Please be careful and never input your SEED into other sites, because your account will be compromised and you will lose all of your funds.",
+        "description": "Please be careful and never input your SEED into other clients, because your account will be compromised and you will lose all of your funds. You should only use the official Waves clients.",
         "needConfirm": "Bu kelimeleri bir sonraki ekranda doğrulayacaksınız",
         "ok": "Hepsini bir kenera yazdım",
         "or": "veya",
@@ -80,6 +80,6 @@
     },
     "seed": {
         "copyToClipboard": "Copy to clipboard",
-        "saveToFile": "Save to file"
+        "saveToFile": "Save as file"
     }
 }
