@@ -937,7 +937,7 @@
                                     const { id } = balance.asset;
                                     const rate = new BigNumber(list[id]);
                                     return balance.cloneWithCoins(
-                                        rate.mul(basedCustomFee[id])
+                                        rate.mul(basedCustomFee[id]).roundTo(0, 2)
                                     );
                                 });
 
