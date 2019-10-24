@@ -71,7 +71,7 @@
          * @returns {Promise<void>}
          */
         async import(data) {
-            const multiAccountData = await this.storage.load('multiAccountData');
+            const multiAccountData = await this.user.getMultiAccountData();
 
             if (!multiAccountData) {
                 const signUpResult = await this.multiAccount.signUp(
@@ -82,15 +82,7 @@
                 await this.user.saveMultiAccount(signUpResult);
             }
 
-            if (this.multiAccount.isSignedIn) {
-                await this._importData(data);
-                this._loginToFirstUser(data.password);
-            } else {
-                this.user.loginSignal.once(async () => {
-                    await this._importData(data);
-                    this._loginToFirstUser(data.password);
-                });
-            }
+            await this._importData(data);
         }
 
         /**
@@ -98,12 +90,13 @@
          * @param {Object} data
          * @param {string} data.password
          * @param {Object} data.storageData
-         * @returns {Promise<void>}
+         * @returns {Promise<string>}
          */
         async _importData(data) {
-            const { multiAccountData, multiAccountUsers, ...rest } = data.storageData;
+            const { multiAccountData, multiAccountUsers, multiAccountSettings, ...rest } = data.storageData;
 
             await this._importMultiAccountUsers(multiAccountData, multiAccountUsers, data.password);
+            await this._importMultiAccountSettings(multiAccountSettings);
 
             for (const [key, value] of Object.entries(rest)) {
                 try {
@@ -113,10 +106,6 @@
                     this.$log.error(e);
                 }
             }
-
-            const multiAccountSettings = await this.user.getMultiAccountSettings();
-
-            this.user.setMultiAccountSettings(multiAccountSettings);
         }
 
         /**
@@ -163,7 +152,7 @@
                     }
                 }
 
-                await this.storage.save('multiAccountUsers', currentMultiAccountUsers);
+                await this.user.saveMultiAccountUsers(currentMultiAccountUsers);
             } catch (e) {
                 this.$log.error(e);
 
@@ -173,28 +162,22 @@
 
         /**
          * @private
-         * @param {string} password
+         * @param {Object} multiAccountSettings
+         * @returns {Promise<void>}
          */
-        async _loginToFirstUser(password) {
-            const multiAccountData = await this.user.getMultiAccountData();
-            const multiAccountHash = await this.user.getMultiAccountHash();
+        async _importMultiAccountSettings(multiAccountSettings) {
+            delete multiAccountSettings.lastOpenVersion;
+            delete multiAccountSettings.termsAccepted;
 
-            await this.multiAccount.signIn(
-                multiAccountData,
-                password,
-                this.user.getSetting('encryptionRounds'),
-                multiAccountHash
-            );
+            const currentMultiAccountSettings = await this.user.getMultiAccountSettings();
+            const mergedSettings = {
+                ...multiAccountSettings,
+                ...currentMultiAccountSettings
+            };
 
-            const [firstUser] = await this.user.getMultiAccountUsers();
+            await this.user.saveMultiAccountSettings(mergedSettings);
 
-            if (firstUser) {
-                this.user.logout('switch', true);
-                await this.user.login(firstUser);
-                this.user.goToActiveState();
-            } else {
-                this.$state.go('create');
-            }
+            this.user.setMultiAccountSettings(mergedSettings);
         }
 
     }

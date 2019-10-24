@@ -273,6 +273,7 @@
                             });
                     })
                     .catch(() => {
+                        this.pendingRestore = false;
                         storage.save('accountImportComplete', true);
                     });
             }

@@ -1,18 +1,17 @@
 // @ts-check
 
-(function () {
+(() => {
     'use strict';
 
     const ds = require('data-service');
     const { libs, seedUtils } = require('@waves/waves-transactions');
-    const { keyPair, sharedKey, messageDecrypt, base64Decode } = libs.crypto;
+    const { keyPair } = libs.crypto;
 
     /**
-     * @param {typeof Base} Base
+     * @param {*} Base
      * @param {ng.ILogService} $log
-     * @param {$mdDialog} $mdDialog
-     * @param {StorageImporter} storageImporter
-     * @returns {ExportModalCtrl}
+     * @param {*} $mdDialog
+     * @param {*} storageImporter
      */
     const controller = function (Base, $log, $mdDialog, storageImporter) {
         const SEED_LENGTH = 20;
@@ -37,10 +36,6 @@
                         mode: this.mode
                     });
                 }
-
-                if (this.mode === 'import') {
-                    this._listen();
-                }
             }
 
             export() {
@@ -55,7 +50,7 @@
                     }
 
                     const publicKeyTo = result.payload;
-                    const { publicKey, privateKey } = this._generateSharedKeyPair(SEED_LENGTH);
+                    const { publicKey, privateKey } = keyPair(seedUtils.generateNewSeed(SEED_LENGTH));
 
                     return storageImporter.export(
                         privateKey,
@@ -79,78 +74,6 @@
                 }).catch((e) => {
                     $log.error(e);
                 });
-            }
-
-            _listen() {
-                let privateKeyTo = null;
-
-                this.connectProvider.listen((message) => {
-                    return new Promise((resolve, reject) => {
-                        if (!message) {
-                            return reject();
-                        }
-
-                        switch (message.event) {
-                            case 'connect': {
-                                const { publicKey, privateKey } = this._generateSharedKeyPair(SEED_LENGTH);
-
-                                privateKeyTo = privateKey;
-
-                                return resolve(JSON.stringify({
-                                    event: 'connect',
-                                    payload: publicKey
-                                }));
-                            }
-                            case 'data': {
-                                const encryptedData = base64Decode(message.payload.data);
-                                const publicKeyFrom = message.payload.publicKey;
-
-                                if (!privateKeyTo) {
-                                    return reject('Key pair does not exist');
-                                }
-
-                                try {
-                                    const data = JSON.parse(
-                                        messageDecrypt(
-                                            sharedKey(
-                                                privateKeyTo,
-                                                publicKeyFrom,
-                                                'waves_migration_token'
-                                            ),
-                                            encryptedData
-                                        )
-                                    );
-
-                                    return storageImporter.import(data).then(() => {
-                                        return resolve(JSON.stringify({
-                                            event: 'data',
-                                            payload: 'ok'
-                                        }));
-                                    }).catch((e) => {
-                                        return reject(String(e));
-                                    }).then(() => {
-                                        this.connectProvider.destroy();
-                                    });
-                                } catch (e) {
-                                    return reject(String(e));
-                                } finally {
-                                    privateKeyTo = null;
-                                }
-                            }
-                            default: return reject('Invalid message');
-                        }
-                    });
-                });
-            }
-
-            /**
-             * @param {number} seedLength
-             * @returns {TKeyPair<string>}
-             */
-            _generateSharedKeyPair(seedLength) {
-                const seed = seedUtils.generateNewSeed(seedLength);
-
-                return keyPair(seed);
             }
 
         }
