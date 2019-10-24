@@ -4,13 +4,9 @@
 
 .dex-layout {
   &__column_candlechart {
-    width: calc(~'100%' - (@dexLayoutWatchlist + @dexLayoutOrderBook + @dexLayoutGap * 2));
-    max-height: calc(100% ~'- 325px');
-    position: absolute;
     border-radius: @border-radius / 2;
     display: flex;
     transition: .3s;
-    transform: translateX((@dexLayoutWatchlist + @dexLayoutGap));
 
     .block-title {
       display: none;
@@ -27,7 +23,20 @@
   }
 }
 
-@media screen and (min-width: 1024px) and (max-width: 1440px) {
+@media screen and (min-width: 1360px) and (max-width: 1919px) {
+  .dex-layout__column_candlechart {
+    width: calc(~'100%' - (@dexLayoutWatchlist + @dexLayoutOrderBook + @dexLayoutGap * 2));
+    transform: translateX((@dexLayoutWatchlist + @dexLayoutGap));
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .dex-layout__column_candlechart {
+    max-height: calc(100% ~'- 325px');
+  }
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1360px) {
   .dex-layout {
     &__column_candlechart {
       width: calc(100% ~"- 550px");

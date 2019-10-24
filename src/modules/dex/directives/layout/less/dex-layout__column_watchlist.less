@@ -5,8 +5,6 @@
 .dex-layout {
   &__column_watchlist {
     transition: .3s;
-    width: @dexLayoutWatchlist;
-    max-height: calc(100% ~'- 325px');
     border-radius: @border-radius / 2;
     overflow: visible;
 
@@ -69,7 +67,7 @@
   }
 }
 
-@media screen and (min-width: 1024px) and (max-width: 1440px) {
+@media screen and (min-width: 1024px) and (max-width: 1360px) {
   .dex-layout {
     &__column_watchlist {
       width: 260px;
@@ -128,5 +126,17 @@
         width: calc(100% ~"- 375px");
       }
     }
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .dex-layout__column_watchlist {
+    max-height: calc(100% ~'- 325px');
+  }
+}
+
+@media screen and (min-width: 1360px) and (max-width: 1919px) {
+  .dex-layout__column_watchlist {
+    width: @dexLayoutWatchlist;
   }
 }

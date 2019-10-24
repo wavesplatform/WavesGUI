@@ -123,11 +123,15 @@
             &__info {
               position: relative;
               margin-bottom: 2px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+
+              &:first-child {
+                max-width: 95%;
+              }
 
               &:last-child {
                 width: 100%;
-                overflow: hidden;
-                text-overflow: ellipsis;
               }
 
               &:hover {
@@ -329,6 +333,8 @@
     transform: translateX(-6px);
 
     .smart-table__tbody {
+      margin-right: 5px;
+      
       .smart-table__row {
         padding-right: 8px;
         margin-right: 2px;
@@ -346,7 +352,7 @@
   }
 }
 
-@media screen and (min-width: 1024px) and (max-width: 1440px) {
+@media screen and (min-width: 1024px) and (max-width: 1360px) {
   .smart-table.smart-table_watchlist {
     .smart-table {
       &__thead {

@@ -4,13 +4,10 @@
 
 .dex-layout {
   &__column_orderbook {
-    width: @dexLayoutOrderBook;
-    max-height: calc(100% ~'- 325px');
     right: 0;
     transition: .3s;
     margin-left: 5px;
     border-radius: @border-radius / 2;
-    background: @color-white;
     display: flex;
     flex-shrink: 0;
 
@@ -94,6 +91,18 @@
   }
 }
 
+@media screen and (min-width: 2400px) {
+  .dex-layout__column_orderbook {
+    .table__row {
+      font-size: 12px;
+    }
+
+    .table__info {
+      font-size: 11px;
+    }
+  }
+}
+
 @media screen and (min-width: 1920px) {
   .dex-layout {
     &__column_orderbook {
@@ -110,18 +119,18 @@
   }
 }
 
-@media screen and (min-width: 2400px) {
-  .dex-layout {
-    &__column_orderbook {
-      .table {
-        &__row {
-          font-size: 12px;
-        }
-  
-        &__info {
-          font-size: 11px;
-        }
-      }
+@media screen and (min-width: 1360px) and (max-width: 1919px) {
+  .dex-layout__column_orderbook {
+    width: @dexLayoutOrderBook;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .dex-layout__column_orderbook {
+    max-height: calc(100% ~'- 325px');
+    
+    .dex-layout-side-bar-toggle[side="left"] {
+      width: 0;
     }
   }
 }
@@ -141,7 +150,7 @@
     }
   }
 }
-@media screen and (min-width: 1024px) and (max-width: 1440px) {
+@media screen and (min-width: 1024px) and (max-width: 1360px) {
   .dex-layout {
     &__column_orderbook {
       width: 280px;
@@ -221,14 +230,6 @@
           width: 100%;
         }
       }
-    }
-  }
-}
-
-@media screen and (min-width: 1024px) {
-  .dex-layout__column_orderbook {
-    .dex-layout-side-bar-toggle[side="left"] {
-      width: 0;
     }
   }
 }
