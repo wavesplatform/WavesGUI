@@ -278,6 +278,12 @@
                 "warningText": "检查您的钱包或交易所是否使用智能合约撤回Bancor。我们不接受此类交易，也不能退款。你会失去那笔钱。",
                 "warningTitle": "请不要从智能合约中存入BNT！不要存入其他ERC20代币！只允许Bancor。"
             },
+            "wavesGatewayBTC": {
+                "warningMinAmountText": "如果您发送的费用低于{{minAmount, BigNumber}} {{assetTicker}}，您将失去这笔钱。",
+                "warningMinAmountTitle": "最低存款金额为{{minAmount，BigNumber}} {{assetTicker}} ，最高存款金额为{{maxAmount}} {{assetTicker}}",
+                "warningText": "如通过该地址发送任何其他代币，您的代币将失去。",
+                "warningTitle": "通过该存款地址只能发送BTC"
+            },
             "wavesGatewayERGO": {
                 "helpDescrText": "确认交易后，网关将处理将ERGO转移到Waves帐户中的代币。",
                 "helpDescrTitle": "在ERGO客户端或钱包中输入此地址",
@@ -888,7 +894,7 @@
                 "cell6": "使用公共Wi-Fi或其他人的设备时请勿访问您的钱包。",
                 "nextButton": "我了解",
                 "p1": "诈骗最常见的攻击方式之一是网络钓鱼，一般钓鱼者在Facebook或其他类似于真实的网站上创建假社群。",
-                "saveSeedButton": "保存您的SEED短语",
+                "saveSeedButton": "保存SEED短语",
                 "title": "如何防止网络钓鱼攻击"
             }
         }

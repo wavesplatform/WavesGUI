@@ -278,6 +278,12 @@
                 "warningText": "Controleer of uw wallet of exchange smart-contracts gebruikt om Bancor op te nemen. Wij accepteren zulke transacties niet en kunnen dit niet terug betalen. U raakt op deze manier uw geld kwijt.",
                 "warningTitle": "Stort BNT niet via smart contracts! Stort geen andere ERC20-tokens! Alleen Bancor is toegestaan."
             },
+            "wavesGatewayBTC": {
+                "warningMinAmountText": "Als u minder dan {{minAmount, BigNumber}} {{assetTicker}} verstuurd raakt u dit geld kwijt.",
+                "warningMinAmountTitle": "Het minimale stortingsbedrag is {{minAmount, BigNumber}} {{assetTicker}}, het maximale stortingsbedrag is {{maxAmount}} {{assetTicker}}",
+                "warningText": "Het versturen van elke andere currency naar dit adres kan resulteren in het verlies van uw storting.",
+                "warningTitle": "Verstuur enkel BTC naar dit deposit adres"
+            },
             "wavesGatewayERGO": {
                 "helpDescrText": "Zodra de transactie is bevestigd, verwerkt de gateway de overdracht van ERGO naar een token in uw Waves-account.",
                 "helpDescrTitle": "Voer dit adres in uw ERGO-client of portemonnee in",
