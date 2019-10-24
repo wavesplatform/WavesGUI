@@ -5,8 +5,6 @@
 .dex-layout {
   &__column_watchlist {
     transition: .3s;
-    width: @dexLayoutWatchlist;
-    max-height: calc(100% ~'- 325px');
     border-radius: @border-radius / 2;
     overflow: visible;
 
@@ -35,7 +33,7 @@
 
       &__column_candlechart {
         transform: translateX(0);
-        width: calc(~'100%' - (@dexLayoutWatchlist + @dexLayoutGap));
+        width: calc(~'100%' - (@dexLayoutOrderBook + @dexLayoutGap));
 
         .dex-layout {
           &__sidebar-toggle-left div::after {
@@ -69,12 +67,30 @@
   }
 }
 
-@media screen and (min-width: 660px) and (max-width: 1024px) {
+@media screen and (min-width: 1024px) and (max-width: 1360px) {
   .dex-layout {
     &__column_watchlist {
-      width: calc(50% ~' - 3px');
-      min-width: 320px;
-      max-height: calc(50% ~ '- 45px');
+      width: 260px;
+    }
+
+    &_watchlist-collapsed {
+      .dex-layout__column_candlechart {
+        width: calc(100% ~"- 285px");
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 721px) and (max-width: 1023px) {
+  .dex-layout {
+    &__column_watchlist {
+      width: calc(100% ~'- 305px');
+      max-height: calc(100% ~'- 5px');
+      background: transparent;
+
+      .dex-layout__block {
+        display: none;
+      }
     }
 
     &_watchlist-collapsed {
@@ -99,45 +115,28 @@
   }
 }
 
-@media screen and (min-width: 2400px) {
+@media screen and (min-width: 1920px) {
   .dex-layout {
     &__column_watchlist {
-      max-height: calc(100% ~ '- 445px');      
-      width: 360px;
+      width: 350px;
+    }
+
+    &_watchlist-collapsed {
+      .dex-layout__column_candlechart {
+        width: calc(100% ~"- 375px");
+      }
     }
   }
 }
 
-@media screen and (max-width: 659px) {
-  .dex-layout {
-    &__column_watchlist {
-      width: 100%;
-      max-height: 320px;
-      min-height: 320px;
-      margin-bottom: 5px;
-      order: 0;
-    }
+@media screen and (min-width: 1024px) {
+  .dex-layout__column_watchlist {
+    max-height: calc(100% ~'- 325px');
+  }
+}
 
-    &_watchlist-collapsed {
-      .dex-layout {
-        &__column_watchlist {
-          transform: translateX(0);
-          left: 0;
-        }
-      }
-    }
-
-    &_watchlist-collapsed.dex-layout_orderbook-collapsed {
-      .dex-layout {
-        &__column_watchlist {
-          transform: translateX(0);
-          left: 0;
-        }
-
-        &__column_orderbook {
-          transform: translateX(0);
-        }
-      }
-    }
+@media screen and (min-width: 1360px) and (max-width: 1919px) {
+  .dex-layout__column_watchlist {
+    width: @dexLayoutWatchlist;
   }
 }

@@ -1,5 +1,6 @@
-<w-layout ng-if="$ctrl.ready" w-i18n-ns="app.dex">
+<w-mobile-layout ng-if="$ctrl.ready && $ctrl.isMobile"></w-mobile-layout>
 
+<w-layout ng-if="$ctrl.ready && !$ctrl.isMobile" w-i18n-ns="app.dex">
     <w-dex-block block="watchlist">
         <w-dex-watchlist></w-dex-watchlist>
     </w-dex-block>
@@ -44,5 +45,4 @@
     <w-dex-block block="createorder">
         <w-create-order></w-create-order>
     </w-dex-block>
-
 </w-layout>

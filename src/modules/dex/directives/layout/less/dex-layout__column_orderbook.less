@@ -4,13 +4,10 @@
 
 .dex-layout {
   &__column_orderbook {
-    width: @dexLayoutOrderBook;
-    max-height: calc(100% ~'- 325px');
     right: 0;
     transition: .3s;
     margin-left: 5px;
     border-radius: @border-radius / 2;
-    background: @color-white;
     display: flex;
     flex-shrink: 0;
 
@@ -23,10 +20,18 @@
       }
     }
 
+    .dex-block {
+      .block-title {
+        margin: 0 14px 0 12px;
+        padding: 0;
+      }
+    }
+
     .dex-layout {
       &__block[data-block="orderbook"] {
         transition: .3s;
         height: calc(100% ~'- 200px');
+        padding: 0 4px;
 
         .block-wrapper,
         .scroll-box {
@@ -42,7 +47,8 @@
         z-index: 6;
 
         .block-title {
-          border-top: 1px solid @color-basic-100;
+          padding: 0 18px 0 16px;
+          margin: 0;
         }
 
         .dex-block-top-btn:last-child {
@@ -51,10 +57,16 @@
       }
     }
 
-    .table__row {
-      &:hover {
-        .tooltip-dex.active {
-          display: flex;
+    .dex-block-top-btn {
+      transform: translateX(6px);
+    }
+
+    .table {
+      &__row {
+        &:hover {
+          .tooltip-dex.active {
+            display: flex;
+          }
         }
       }
     }
@@ -80,46 +92,87 @@
 }
 
 @media screen and (min-width: 2400px) {
-  .dex-layout {
-    &__column_orderbook {
-      width: 360px;
-      max-height: calc(100% ~'- 445px') !important;
-
-      .row {
-        font-size: 12px;
-      }
-
-      .info {
-        font-size: 11px;
-      }
+  .dex-layout__column_orderbook {
+    .table__row {
+      font-size: 12px;
     }
 
-    &__orderbook-collapsed {
+    .table__info {
+      font-size: 11px;
+    }
+  }
+}
+
+@media screen and (min-width: 1920px) {
+  .dex-layout {
+    &__column_orderbook {
+      width: 370px;
+    }
+
+    &_orderbook-collapsed {
       .dex-layout {
-        &__candlechart {
-          width: calc(100% ~'- 365px');
+        &__column_candlechart {
+          width: calc(100% ~'- 355px');
         }
       }
     }
   }
 }
 
-@media screen and (min-width: 660px) and (max-width: 1024px) {
+@media screen and (min-width: 1360px) and (max-width: 1919px) {
+  .dex-layout__column_orderbook {
+    width: @dexLayoutOrderBook;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .dex-layout__column_orderbook {
+    max-height: calc(100% ~'- 325px');
+    
+    .dex-layout-side-bar-toggle[side="left"] {
+      width: 0;
+    }
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  .dex-layout__column_orderbook {
+    .dex-block {
+      .block-title {
+        margin: 0 8px;
+      }
+    }
+
+    .dex-layout__block[data-block="tradevolume"] {
+      .block-title {
+        padding: 0 12px;
+      }
+    }
+  }
+}
+@media screen and (min-width: 1024px) and (max-width: 1360px) {
   .dex-layout {
     &__column_orderbook {
-      width: calc(50% ~' - 2px');
-      min-width: 320px;
-      min-height: calc(50% ~'- 40px');
-      max-height: calc(50% ~'- 40px');
-      height: calc(50% ~'- 40px');
-      right: 0;
-      bottom: 80px;
+      width: 280px;
+    }
+
+    &_orderbook-collapsed {
+      .dex-layout__column_candlechart {
+        width: calc(100% ~"- 265px");
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 721px) and (max-width: 1023px) {
+  .dex-layout {
+    &__column_orderbook {
+      width: 300px;
+      max-height: calc(100% ~'- 345px');
       transform: translate(0);
-      padding-left: 19px;
 
       .dex-layout {
         &__sidebar-toggle-left {
-          display: block;
           border-radius: 2px 0 0 2px;
 
           div::after {
@@ -136,7 +189,6 @@
         }
 
         &__block[data-block="tradevolume"] {
-          width: calc(100% ~'- 21px');
           height: 211px;
         }
       }
@@ -154,29 +206,7 @@
       .dex-layout {
         &__column_orderbook {
           background: none transparent;
-          min-width: 20px;
-          width: 20px;
-          right: 19px;
-
-          .dex-layout-side-bar-toggle {
-            position: absolute;
-            height: 100%;
-            width: 19px;
-            left: 0;
-            background: #fff;
-            border-radius: 0 2px 2px 0;
-
-            .dex-layout {
-              &__sidebar-toggle {
-                border-right: 0 none;
-                border-left: 1px solid @color-basic-100;
-                left: 0;
-                div::after {
-                  transform: rotate(-270deg);
-                }
-              }
-            }
-          }
+          right: -5px;
 
           .dex-layout {
             &__block {
@@ -184,11 +214,6 @@
               display: none;
             }
           }
-        }
-
-        &__column_tradehistory {
-          border-radius: 2px 0 0 2px;
-          width: calc(100% ~' - 19px');
         }
 
         &__block-orderbook-bottom-collapsed {
@@ -202,41 +227,7 @@
         }
 
         &__column_candlechart {
-          width: calc(50% ~'- 3px')
-        }
-      }
-    }
-  }
-}
-
-@media screen and (min-width: 1024px) {
-  .dex-layout__column_orderbook {
-    .dex-layout-side-bar-toggle[side="left"] {
-      width: 0;
-    }
-  }
-}
-
-@media screen and (max-width: 659px) {
-  .dex-layout {
-    &__column_orderbook {
-      width: 100%;
-      max-height: 420px;
-      margin-left: 0;
-      order: 2;
-      margin-bottom: 5px;
-
-      .dex-layout {
-        &__block[data-block="tradevolume"] {
-          height: 176px;
-        }
-      }
-    }
-
-    &_orderbook-collapsed {
-      .dex-layout {
-        &__column_orderbook {
-          transform: translate(0px);
+          width: 100%;
         }
       }
     }

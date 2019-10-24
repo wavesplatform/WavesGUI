@@ -4,13 +4,9 @@
 
 .dex-layout {
   &__column_candlechart {
-    width: calc(~'100%' - (@dexLayoutWatchlist + @dexLayoutOrderBook + @dexLayoutGap * 2));
-    max-height: calc(100% ~'- 325px');
-    position: absolute;
     border-radius: @border-radius / 2;
     display: flex;
     transition: .3s;
-    transform: translateX((@dexLayoutWatchlist + @dexLayoutGap));
 
     .block-title {
       display: none;
@@ -18,58 +14,47 @@
   }
 }
 
-@media screen and (min-width: 2400px) {
+@media screen and (min-width: 1920px) {
   .dex-layout {
     &__column_candlechart {
-      max-height: calc(100% ~'- 445px');
-      width: calc(100% ~'- 730px');
-      transform: translateX(365px);
+      width: calc(100% ~"- 730px");
+      transform: translateX(355px);
     }
   }
 }
 
-@media screen and (min-width: 660px) and (max-width: 1024px) {
+@media screen and (min-width: 1360px) and (max-width: 1919px) {
+  .dex-layout__column_candlechart {
+    width: calc(~'100%' - (@dexLayoutWatchlist + @dexLayoutOrderBook + @dexLayoutGap * 2));
+    transform: translateX((@dexLayoutWatchlist + @dexLayoutGap));
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .dex-layout__column_candlechart {
+    max-height: calc(100% ~'- 325px');
+  }
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1360px) {
   .dex-layout {
     &__column_candlechart {
-      width: calc(50% ~' - 2px');
-      min-width: 320px;
-      max-height: calc(50% ~ '- 45px');
+      width: calc(100% ~"- 550px");
+      transform: translateX(265px);
+    }
+  }
+}
+
+@media screen and (min-width: 721px) and (max-width: 1023px) {
+  .dex-layout {
+    &__column_candlechart {
+      width: calc(100% ~'- 305px');
+      max-height: calc(100% ~ '- 402px');
       transform: translate(0);
-      right: 0px;
+      top: 57px;
 
       .dex-layout {
-        &__sidebar-toggle-right {
-          display: none;
-        }
-      }
-
-      .dex-layout-side-bar-toggle[side="right"] {
-        display: none;
-      }
-    }
-  }
-}
-
-@media screen and (max-width: 659px) {
-  .dex-layout {
-    &__column_candlechart {
-      min-width: 100%;
-      max-height: 320px;
-      min-height: 320px;
-      height: 320px;
-      transform: translateX(0);
-      margin-bottom: 5px;
-      order: 1;
-      border-radius: @border-radius/2;
-      position: relative;
-
-      .dex-layout {
-
-        &__block {
-          border: 0 none;
-        }
-
-        &__sidebar-toggle {
+        &__sidebar-toggle-left {
           display: none;
         }
       }

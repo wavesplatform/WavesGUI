@@ -1,0 +1,131 @@
+@import (reference) 'config';
+@import (reference) '../../../../app/less/typography';
+
+@media screen and (max-width: 720px) {
+	body.dex,
+	body.dex-demo {
+		.tabs_mobile {
+			.tabs__header {
+				position: fixed;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				display: flex;
+				background: transparent;
+				padding: 0;
+				
+				.tabs__title {
+					.footnote-1();
+					text-transform: capitalize;
+					flex: 1;
+					background: @color-white;
+					margin-right: 1px;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					color: @color-basic-700;
+					border-top: 2px solid transparent;
+					font-weight: bold;
+					padding: 0;
+					min-height: 0;
+		
+					&:last-child {
+						margin-right: 0;
+					}
+				}
+			}
+
+			.tab-tem {
+				padding-top: 0;
+			}
+
+			.tabs_mobile-orders {
+				.tabs__header .tabs__title:last-child {
+					padding-right: 16px;
+
+					&::before {
+						width: calc(100% ~'- 16px');
+					}
+				}
+			}
+			
+			.table {
+				&__thead {
+					display: none;
+				}
+				
+				&__tbody {
+					padding: 4px;
+					background: @color-white;
+		
+					w-scroll-box {
+						padding: 0 12px;
+		
+						&::-webkit-scrollbar-track {
+							-webkit-box-shadow: none;
+						}
+					}
+				}
+			}
+		
+			&-orders, &-history {
+				.tabs__header {
+					position: relative;
+					bottom: auto;
+					right: auto;
+					padding: 0 16px 2px;
+					background: @color-white;
+					box-shadow: none;
+
+					&::after {
+						content: "";
+						display: block;
+						height: 1px;
+						width: 100%;
+						position: absolute;
+						bottom: 2px;
+						background: @color-basic-100;
+					}
+		
+					.tabs__title {
+						margin: 0;
+						border-top: 0;
+						margin-right: 20px;
+						height: 100%;
+						position: relative;
+						flex: inherit;
+						white-space: nowrap;
+					}
+				}
+		
+				::-webkit-scrollbar {
+					height: 0;
+				}
+		
+				:hover::-webkit-scrollbar {
+					height: 0;
+				}
+		
+				::-webkit-scrollbar-thumb {
+					height: 0;
+				}
+		
+				::-webkit-scrollbar-thumb:window-inactive {
+					height: 0;
+				}
+			}
+		
+			&-history .tabs__header {
+				.tabs__title {
+					margin-right: 30px;
+				}
+			}
+		
+			&-orders {
+				.tabs__header {
+					overflow-x: auto;
+				}
+			}
+		}
+	}
+}

@@ -3,7 +3,7 @@
 @import (reference) 'config';
 @import (reference) 'icons';
 
-.select_watch-list {
+.select.select_watch-list {
 	position: relative;
 	z-index: 6;
 	
@@ -11,38 +11,16 @@
 		border-radius: 0;
 		border: 0 none;
 
-		.select__title {
-			border-left: 1px solid @color-basic-100;
-			border-right: 1px solid @color-basic-100;
-			border-radius: 0;
-
-			&::before {
-				content: '';
-				display: block;
-				width: calc(100% ~'- 2px');
-				height: 2px;
-				background: @color-white;
-				position: absolute;
-				z-index: 1;
-				bottom: -2px;
-				left: 1px;
-			}
-		}
-
-		&::after {
-			content: '';
-			display: block;
-			width: 100%;
-			height: 2px;
-			background: @color-submit-400;
-			position: absolute;
-			z-index: 1;
-			top: 0;
-			left: 0;
-		}
-
 		.select__list {
 			border-radius: 0;
+		}
+
+		@media screen and (max-width: 1024px) {
+			.select__wrap {
+				.select__title {
+					color: @color-submit-400;
+				}
+			}
 		}
 	}
 
@@ -57,11 +35,10 @@
 
 	.select {
 		&__title {
-			background: @color-white;
-			font-size: @font-size-caption-2;
-			color: @color-basic-700;
+			background: transparent;
+			font-size: @font-size-caption-5;
+			color: @default-tab-color;
 			font-family: @font-roboto-medium;
-			height: 39px;
 			padding-right: 30px;
 			border: 1px solid transparent;
 

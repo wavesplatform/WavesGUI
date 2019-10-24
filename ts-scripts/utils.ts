@@ -852,7 +852,6 @@ export function loadLocales(path: string, options?: object): Promise<void> {
                         get(url, (res) => {
                             res.pipe(file);
                             res.on('end', () => {
-                                console.log(zipPath)
                                 extract(zipPath, { dir: `${path}/` }, error => {
                                     if (error) {
                                         reject(error);

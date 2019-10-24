@@ -31,7 +31,7 @@
     position: relative;
     width: 100%;
     padding: 0 40px;
-    z-index: 10;
+    z-index: 6;
     height: 60px;
     background: @color-white;
     margin: 0;
@@ -67,16 +67,6 @@
   }
 }
 
-.modal-send {
-  .send-form {
-    .tabs__body {
-      @media screen and (min-width: 541px) {
-        padding: 40px 40px 0;
-      }
-    }
-  }
-}
-
 w-confirm-transaction {
   .tabs__header {
     margin: 0 -40px 40px;
@@ -89,13 +79,34 @@ w-confirm-transaction {
   .tabs {
     &__body {
       height: calc(100% ~'- 39px');
+      margin: 0 3px 10px 8px;
     }
 
-    &__header {
+    .tabs__header {
       overflow-y: hidden;
       overflow-x: auto;
-      height: 39px;
-      padding: 0;
+      height: 42px;
+      min-height: 42px;
+      margin: 0 16px;
+      padding: 0 0 2px 0;
+      width: auto;
+      display: flex;
+      position: relative;
+      box-sizing: content-box;
+
+      &::after {
+        content: "";
+        display: block;
+        height: 1px;
+        width: 100%;
+        position: absolute;
+        bottom: 2px;
+        background: @color-basic-100;
+      }
+
+      @media screen and (max-width: 1280px) {
+        margin: 0 12px;
+      }
   
       &::before {
         display: none;
@@ -103,33 +114,14 @@ w-confirm-transaction {
     }
   
     &__title {
-      color: @color-basic-700;
-      height: 38px;
+      color: @default-tab-color;
+      height: 41px;
       font-size: 13px;
-      margin: 0;
-      padding: 0 20px;
+      min-height: 41px;
+      margin: 0 24px 0 0;
+      padding: 0;
       line-height: 40px;
-      border: 0 none;
-      font-family: @font-roboto-medium;
-      position: relative;
-      border-left: 1px solid transparent;
-      border-right: 1px solid transparent;
       white-space: nowrap;
-      min-height: 38px;
-  
-      &:first-child {
-        border-left: 1px solid @color-white;
-      }
-
-      &:after {
-        content: '';
-        display: block;
-        position: absolute;
-        width: 101%;
-        left: 0;
-        bottom: 0;
-        background: @color-basic-100;
-      }
     }
   }
 }
@@ -138,14 +130,6 @@ w-confirm-transaction {
   .tabs {
     margin: -1px 0 0 -40px;
     width: calc(100% ~'+ 80px');
-  }
-}
-
-@media screen and (min-width: 2400px) {
-  .dex-layout__tradehistory {
-    .tabs__header {
-      height: 42px;
-    }
   }
 }
 
@@ -163,7 +147,51 @@ w-confirm-transaction {
   }
 }
 
+@media screen and (max-width: 1280px) {
+  .dex-layout__column_tradehistory {
+    .tabs {
+      &__body {
+        margin-left: 4px;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 541px) {
+  .modal-send {
+    .send-form {
+      .tabs__body {
+        padding: 40px 40px 0;
+      }
+    }
+  }
+}
+
 @media screen and (max-width: 1024px) {
+  .dex-layout__column_tradehistory {
+    .tabs {
+      &__body {
+        margin: 0 6px;
+
+        .tabs__header {
+          &::after {
+            width: 1000px;
+          }
+        }
+      }
+
+      .tabs__header {
+        box-shadow: none;
+      }
+
+      &__title {
+        &:last-child {
+          padding-right: 12px;
+        }
+      }
+    }
+  }
+  
   .dex-layout__tradehistory {
     .tabs {
       ::-webkit-scrollbar {
@@ -206,7 +234,6 @@ w-confirm-transaction {
 }
 
 @media screen and (max-width: 540px) {
-
   .asset-info-modal {
     .tabs {
       margin: 0;

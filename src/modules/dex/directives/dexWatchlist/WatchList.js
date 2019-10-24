@@ -253,6 +253,10 @@
                     this._assetIdPair.price === pairData.priceAsset.id;
             }
 
+            getShortId(id) {
+                return id.length > 8 ? `${id.slice(0, 8)}...${id.slice(-8)}` : id;
+            }
+
             isLockedPair(amountAssetId, priceAssetId) {
                 return utils.isLockedInDex(amountAssetId, priceAssetId);
             }

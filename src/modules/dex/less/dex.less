@@ -98,11 +98,6 @@ body.dex-demo {
   }
 }
 
-.dex-trade-graph {
-  height: 100%;
-  max-height: 100%;
-}
-
 .dex-loader,
 .loading {
   opacity: 0;
@@ -127,47 +122,18 @@ body.dex-demo {
   .dex,
   .dex-demo {
     .dex-watchlist {
-      .titles-wrap {
-        height: 42px;
-
+      .tabs__header {
         .select__wrap {
-          .select__list {
-            height: 42px;
-            font-size: 13px;
-          }
-
           .option {
             font-size: 13px;
           }
-
-          .select__title {
-            height: 41px;
-            font-size: 13px;
-          }
-        }
-
-        .title {
-          height: 42px;
-          font-size: 13px;
-
-          &.active {
-            background: @color-white;
-          }
-        }
-      }
-    }
-
-    .create-order {
-      .create-order {
-        .body .making-order .areas .area .name {
-          line-height: 36px;
         }
       }
     }
 
     .dex-layout {
       &__tradehistory .tabs {
-        .titles-wrap {
+        .tabs__header {
           height: 42px;
 
           .title {
@@ -190,11 +156,6 @@ body.dex-demo {
         }
       }
     }
-  }
-
-  w-dex-trade-graph {
-    height: 100%;
-    max-height: 100%;
   }
 
   .candle-chart-wrapper.error {
@@ -240,74 +201,10 @@ body.dex-demo {
     }
 
     .tabs {
-      .tab-body-wrap {
-        height: calc(100% ~'- 48px');
-      }
-
-      .titles-wrap {
-        height: 48px;
+      .tabs__header {
         box-shadow: @shadow-menu-top;
         position: relative;
         z-index: 6;
-
-        &::after {
-          display: none;
-        }
-
-        .title {
-          height: 48px;
-          line-height: 48px;
-
-          &.active {
-            border: 0 none;
-            border-bottom: 1px solid @color-submit-400;
-
-      // .tabs {
-      //   .smart-table {
-      //     &__w-tbody {
-      //       .smart-table {
-      //         &__row {
-      //           position: relative;
-
-      //           &:hover {
-      //             .underline:after {
-      //               display: none;
-      //             }
-      //           }
-
-      //           .status-mobile {
-      //             display: inline-block;
-      //           }
-
-      //           &.active {
-      //             .dropdown {
-      //               transform: rotate(180deg);
-      //             }
-
-      //             & + .active::before {
-      //               background: @color-basic-100;
-      //               height: 1px;
-      //               width: calc(100% ~'- 20px');
-      //               position: absolute;
-      //               top: 0;
-      //               left: 10px;
-      //               display: block;
-      //               content: '';
-      //             }
-      //           }
-      //         }
-      //       }
-      //     }
-
-      //     &__cell {
-      //       padding: 0;
-
-            &::after,
-            &::before {
-              display: none;
-            }
-          }
-        }
       }
     }
 
@@ -322,7 +219,84 @@ body.dex-demo {
   }
 }
 
-@media screen and (min-width: 660px) and (max-width: 1024px) {
+@media screen and (max-width: 720px) {
+  body.dex,
+  body.dex-demo {
+    .main-content {
+      min-height: 500px;
+
+      .content {
+        overflow: hidden;
+      }
+    }
+
+    .tabs {
+      .tabs__body {
+        height: calc(100% ~'- 53px');
+        overflow: hidden;
+        border-radius: 2px;
+
+        @media screen and (max-height: 400px) {
+          height: calc(100vh ~'- 165px');
+          overflow: auto;
+        }
+
+        w-scroll-box {
+          height: 100%;
+          max-height: none;
+          width: 100%;
+          overflow-y: auto;
+          overflow-x: hidden;
+        }
+      }
+
+      .mobile-tab {
+        &_orders,
+        &_trade,
+        &_charts,
+        &_history {
+          .tabs__body {
+            height: calc(100% ~'- 50px');
+          }
+
+          .tabs__header .title {
+            height: 100%;
+            line-height: 48px;
+    
+            &.active {
+              border: 0 none;
+
+              &::after,
+              &::before {
+                display: none;
+              }
+            }
+          }
+        }
+      }
+
+      .tabs__header {
+        height: 48px;
+
+        &::after {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 720px) and (max-height: 400px) {
+  body.dex,
+  body.dex-demo {
+    .tabs .tabs__body {
+      height: calc(100vh ~'- 165px');
+      overflow: auto;
+    }
+  }
+}
+
+@media screen and (min-width: 721px) and (max-width: 1024px) {
   .dex,
   .dex-demo {
     min-width: 645px;
@@ -333,85 +307,6 @@ body.dex-demo {
       position: relative;
       margin-top: 0;
       overflow: auto;
-    }
-  }
-}
-
-@media screen and (max-width: 659px) {
-  .dex,
-  .dex-demo {
-    min-width: 100%;
-
-    .content {
-      width: 100%;
-      padding: 5px;
-      right: 0;
-      bottom: 0;
-      height: 100%;
-      max-height: calc(100% ~' - 80px');
-      overflow: auto;
-    }
-
-
-    .tabs {
-      w-scroll-box {
-        height: 392px;
-        width: 100%;
-        overflow-y: auto;
-        overflow-x: hidden;
-
-      // .dex-layout {
-      //   &__tradehistory {
-
-      //     w-dex-my-balance {
-      //       .smart-table {
-      //         &__w-tbody {
-      //           max-height: 217px;
-      //         }
-      //       }
-      //     }
-
-      //     .tabs__body .tab-tem {
-      //       padding: 0;
-      //     }
-
-      //     w-dex-trade-history {
-      //       .smart-table {
-      //         &__w-tbody {
-      //           max-height: 243px;
-      //         }
-
-      //         &.my-trade-history {
-      //           .smart-table {
-      //             &__w-tbody {
-      //               max-height: 255px;
-      //             }
-      //           }
-      //         }
-      //       }
-      //     }
-
-      //     w-dex-my-orders {
-      //       .smart-table {
-      //         &__w-tbody {
-      //           max-height: 254px;
-      //         }
-      //       }
-      //     }
-
-      //   }
-      // }
-
-      // .dex-wrapper {
-      //   .tabs {
-      //     w-scroll-box {
-      //       height: 392px;
-      //       width: 100%;
-      //       overflow-y: auto;
-      //       overflow-x: hidden;
-      //     }
-      //   }
-      }
     }
   }
 }

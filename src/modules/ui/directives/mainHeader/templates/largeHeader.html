@@ -124,7 +124,7 @@
 </w-web-only>
 
 <w-click-outside on-click-outside="$ctrl.closeDropdown()" ng-if="$ctrl.isLogined">
-    <div class="main-header__user {{SELECTORS.MAIN_HEADER_USER}}">
+    <div class="main-header__user {{SELECTORS.MAIN_HEADER_USER}}" ng-class="{'main-header__dropdown_open': $ctrl.isMenuOpen}">
 
         <div class="dropdown-toggler dropdown-toggler_right" ng-click="$ctrl.toggleDropdown()">
             <div class="dropdown-toggler__avatar dropdown-toggler__avatar_has-helper">
@@ -152,7 +152,7 @@
         </div>
 
 
-        <div class="main-header__dropdown main-header__dropdown_user dropdown" ng-class="{'main-header__dropdown_open': $ctrl.isMenuOpen}">
+        <div class="main-header__dropdown main-header__dropdown_user dropdown">
             <div class="main-header__dropdown-menu-wrapper">
                 <div class="main-header__dropdown-menu" ng-class="{'main-header__dropdown-menu_open': $ctrl.isMenuOpen}">
                     <div>

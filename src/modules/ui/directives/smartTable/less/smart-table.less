@@ -85,7 +85,6 @@
     width: 100%;
     z-index: 1;
     color: @color-basic-600;
-    border-bottom: 1px solid @color-basic-100;
 
     .smart-table {
       &__search-container {
@@ -196,7 +195,7 @@
   }
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1023px) {
   .smart-table {
     &__tbody {
       .smart-table {
@@ -243,4 +242,26 @@
   }
 }
 
+@media screen and (max-width: 720px) {
+  .smart-table {
+    .smart-table {
+      &__wrapper {
+        padding: 4px;
+        background: @color-white;
+      }
+  
+      &__tbody {
+        padding: 0 12px;
+  
+        &::-webkit-scrollbar-track {
+          -webkit-box-shadow: none;
+        }
+      }
 
+      &__row {
+        margin: 0;
+        padding-right: 0;
+      }
+    }
+  }
+}

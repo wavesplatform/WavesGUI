@@ -1,0 +1,40 @@
+<div w-i18n-ns="app.dex" class="mobile-layout">
+    <w-dex-watchlist-select></w-dex-watchlist-select>
+
+    <w-tabs class="tabs_mobile" ng-model="$ctrl.mobileTab">
+        <w-tab title-name="::'directives.charts'" id="::'Charts'" class="mobile-tab_charts">
+            <w-dex-candle-chart></w-dex-candle-chart>
+            <w-dex-trade-graph></w-dex-trade-graph>
+        </w-tab>
+        <w-tab title-name="::'tabs.title.trade'" id="::'Trade'" class="mobile-tab_trade">
+            <w-create-order></w-create-order>
+        </w-tab>
+        <w-tab title-name="::'directives.orders'" id="::'Orders'" class="mobile-tab_orders">
+            <w-tabs class="tabs_mobile-orders" ng-model="$ctrl.mobileOrdersTab">
+                <w-tab title-name="::'tabs.title.openOrders'" id="::'myOpenOrders'" class="tab_open-orders">
+                    <w-dex-my-orders is-active-orders="::true"></w-dex-my-orders>
+                </w-tab>
+                <w-tab title-name="::'tabs.title.OrderHistory'" id="::'myOrderHistory'" class="tab_order-history">
+                    <w-dex-my-orders is-active-orders="::false"></w-dex-my-orders>
+                </w-tab>
+                <w-tab title-name="::'tabs.title.myTradeHistory'" id="::'myTradeHistory'"
+                       class="tab_trade-history">
+                    <w-dex-trade-history is-my="::true"></w-dex-trade-history>
+                </w-tab>
+                <w-tab title-name="::'tabs.title.myBalance'" id="::'myBalance'" class="tab_balance">
+                    <w-dex-my-balance></w-dex-my-balance>
+                </w-tab>
+            </w-tabs>
+        </w-tab>
+        <w-tab title-name="::'tabs.title.history'" id="::'History'" class="mobile-tab_history">
+            <w-tabs class="tabs_mobile-history" ng-model="$ctrl.mobileHistoryTab">
+                <w-tab title-name="::'directives.orderBook.title'" id="::'orderBook'" class="tab_orderbook">
+                    <w-dex-order-book is-scrolled="false"/>
+                </w-tab>
+                <w-tab title-name="::'tabs.title.tradeHistory'" id="::'tradeHistory'" class="tab_tradeHistory">
+                    <w-dex-trade-history is-my="::false"></w-dex-trade-history>
+                </w-tab>
+            </w-tabs>
+        </w-tab>
+    </w-tabs>
+</div>

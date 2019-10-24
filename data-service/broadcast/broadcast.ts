@@ -42,6 +42,29 @@ export function createOrderSend(txData) {
         .then(addOrderToStore);
 }
 
+export function createMarketOrder(txData) {
+    return request({
+        url: `${get('matcher')}/orderbook/market`,
+        fetchOptions: {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json;charset=UTF-8'
+            },
+            body: stringifyJSON(txData)
+        }
+    })
+    .then((data: any) => {
+        return parse([{
+            ...data.message,
+            type: data.message.orderType,
+            status: 'Accepted',
+            filled: 0
+        }]);
+    })
+    .then(addOrderToStore);
+}
+
 export function cancelOrderSend(txData, amountId, priceId, type: 'cancel' | 'delete' = 'cancel') {
     return request({
         url: `${get('matcher')}/orderbook/${amountId}/${priceId}/${type}`,

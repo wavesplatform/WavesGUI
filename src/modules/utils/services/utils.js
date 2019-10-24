@@ -1744,9 +1744,10 @@
             /**
              * @name app.utils#createOrder
              * @param {app.utils.IOrderData} data
+             * @param {string} orderType
              * @return {Promise}
              */
-            createOrder(data) {
+            createOrder(data, orderType) {
                 const timestamp = ds.utils.normalizeTime(Date.now());
                 /**
                  * @type {INotification}
@@ -1809,7 +1810,10 @@
                     .then(signable => {
                         return utils.signMatcher(signable)
                             .then(signable => signable.getDataForApi())
-                            .then(ds.createOrder)
+                            .then(data => orderType === 'market' ?
+                                ds.createMarketOrder(data) :
+                                ds.createOrder(data)
+                            )
                             .catch(data => {
                                 const isScriptError = this.checkIsScriptError(data.error);
 
@@ -1817,12 +1821,15 @@
                                     return Promise.reject({ ...data, isScriptError });
                                 }
 
-                                return modalManager.showConfirmTx(signable, false)
-                                    .then(ds.createOrder, () => null);
+                                return modalManager.showConfirmTx(signable, false).then(
+                                    data => orderType === 'market' ?
+                                        ds.createMarketOrder(data) :
+                                        ds.createOrder(data),
+                                    () => null
+                                );
                             });
                     })
                     .catch(onError);
-
             },
 
             /**

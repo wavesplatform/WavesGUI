@@ -160,7 +160,6 @@
              * @private
              */
             _initializeSelected() {
-
                 if (!this._options.length) {
                     return null;
                 }

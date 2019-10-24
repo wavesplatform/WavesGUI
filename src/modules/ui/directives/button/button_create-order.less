@@ -1,0 +1,35 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+@import (reference) '../../../app/less/app';
+
+w-button.button_create-order {
+	font-size: 11px;
+	line-height: 13px;
+	margin-right: 12px;
+	background: transparent;
+	color: @color-basic-600;
+
+	&:last-child {
+		margin-right: 0;
+	}
+
+	.button__content {
+		color: @color-basic-600;
+		transition: all .3s;
+		cursor: pointer;
+
+		&:hover {
+			color: @color-basic-700;
+		}
+	}
+
+	&.active {
+		.button__content {
+			color: @color-submit-300;
+
+			&:hover {
+				color: @color-submit-300;
+			}
+		}
+	}
+}

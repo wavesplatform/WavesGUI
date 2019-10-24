@@ -1,6 +1,6 @@
 <div class="dex-watchlist__wrapper">
 
-    <div class="titles-wrap">
+    <div class="tabs__header">
         <div ng-repeat="tab in $ctrl.tabs track by tab.value"
              class="title"
              ng-class="{'active': $ctrl.activeTab === tab.value}"
@@ -76,13 +76,15 @@
                 <span>{{::pair.pairNames}}</span>
                 <!--div class="tooltip-dex left">{{::pair.pairNames || '—'}}</div-->
             </w-table-cell>
-            <w-table-cell>
+            <w-table-cell ng-class="{'plus': pair.change24.gt(0),'minus': pair.change24.lt(0)}">
                 <span>{{pair.lastPrice.toFormat() || '—'}}</span>
             </w-table-cell>
             <w-table-cell ng-class="{'plus': pair.change24.gt(0),'minus': pair.change24.lt(0)}">
                 <span>{{ pair.change24.toFormat() }}</span>{{ pair.change24 ? '%' : '—' }}
             </w-table-cell>
             <w-table-cell>
+                <span class="volume-subtitle basic-500" w-i18n="directives.watchlist.volume"></span>
+                <span class="volume-subtitle basic-500">:</span>
                 <span ng-if="pair.volume"
                       w-nice-number="pair.currentVolume"
                       short-mode="::true"></span>
@@ -92,15 +94,22 @@
                     {{$ctrl.volumeAsset.displayName}}
                 </div>
             </w-table-cell>
-            <w-table-cell ng-if="$ctrl.isChosen(pair)" class="chosen">
+            <w-table-cell class="chosen">
                 <div class="chosen__info">
                     <a href="#"
                        ng-click="$ctrl.showAssetInfo($event, pair.amountAsset)"
-                       class="chosen__link basic-700">{{::pair.amountAsset.id}}</a> <span>/</span>
+                       class="chosen__link chosen__link_desktop basic-700">{{::pair.amountAsset.id}}</a>
+                    <a href="#"
+                       class="chosen__link chosen__link_mobile basic-700">{{$ctrl.getShortId(pair.amountAsset.id)}}</a>
                 </div>
-                <a href="#"
-                   ng-click="$ctrl.showAssetInfo($event, pair.priceAsset)"
-                   class="chosen__link basic-700">{{::pair.priceAsset.id}}</a>
+                <span class="chosen__info-slash">/</span>
+                <div class="chosen__info">
+                    <a href="#"
+                       ng-click="$ctrl.showAssetInfo($event, pair.amountAsset)"
+                       class="chosen__link chosen__link_desktop basic-700">{{::pair.priceAsset.id}}</a>
+                    <a href="#"
+                       class="chosen__link chosen__link_mobile basic-700">{{$ctrl.getShortId(pair.priceAsset.id)}}</a>
+                </div>
             </w-table-cell>
             <div class="tooltip-dex tooltip-row center"
                  ng-if="$ctrl.isLockedPair(pair.amountAsset.id, pair.priceAsset.id)"

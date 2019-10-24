@@ -1,0 +1,270 @@
+<div>
+    <div class="price">
+        <div class="field-label">
+            <div class="basic-500" w-i18n="directives.createOrder.priceField"></div>
+            <div ng-if="$ctrl.type === 'buy'" ng-click="$ctrl.setAskPrice()" class="best-price">Best Ask</div>
+            <div ng-if="$ctrl.type === 'sell'" ng-click="$ctrl.setBidPrice()" class="best-price">Best Bid</div>
+        </div>
+
+        <div class="input-wrapper" ng-class="{'invalid': $ctrl.isPriceInvalid()}">
+            <w-step-button
+                on-step-click="$ctrl.decreaseField('price', $ctrl.minPriceStep)"
+                is-disabled="$ctrl.order.price.$viewValue <= 0"
+            >
+                <div class="step-btn-content">
+                    <svg class="step-btn-content-icon" width="14px" height="14px" viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <g id="minus" stroke="none" stroke-width="1" fill-rule="evenodd">
+                            <rect id="Rectangle-5" x="1" y="6" width="12.3555556" height="1.5" rx="0.75"></rect>
+                        </g>
+                    </svg>
+                </div>
+            </w-step-button>
+            <div class="tricky-input__wrapper">
+                <div class="hidden-input">
+                    <span class="hidden-input__transparent-value">
+                        {{$ctrl.order.price.$viewValue}}
+                    </span>
+                    <span class="caption-1 basic-500">{{$ctrl.priceDisplayName}}</span>
+                </div>
+                <w-input-container>
+                    <div class="input-like tiny tricky-input">
+                        <w-input
+                            class="tiny no-validate-icons"
+                            tabindex="2"
+                            type="text"
+                            ng-blur="$ctrl.setChangedInput('price')"
+                            w-validate
+                            w-validate-length="24"
+                            w-validator-asset="{{$ctrl.priceBalance.asset}}"
+                            w-validator-gt="0"
+                            name="price"
+                            ng-model="$ctrl.price"
+                            autocomplete="off"
+                            required>
+                        </w-input>
+                        <div class="asset-name-wrap transparent">
+                            <div class="caption-1 basic-500">{{$ctrl.priceDisplayName}}</div>
+                        </div>
+                    </div>
+
+                    <w-input-error message="precision" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
+                        <span w-i18n="directives.createOrder.errors.precision"
+                            params="{precision: $ctrl.priceBalance.asset.precision}"></span>
+                    </w-input-error>
+                    <w-input-error message="gt" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
+                        <span w-i18n="directives.createOrder.errors.required"></span>
+                    </w-input-error>
+                    <w-input-error message="required" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
+                        <span w-i18n="directives.createOrder.errors.required"></span>
+                    </w-input-error>
+                </w-input-container>
+            </div>
+            <w-step-button
+                on-step-click="$ctrl.increaseField('price', $ctrl.minPriceStep)"
+                is-disabled="false"
+            >
+                <div class="step-btn-content">
+                    <svg class="step-btn-content-icon" width="14px" height="14px" viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <g id="plus" stroke="none" stroke-width="1" fill-rule="evenodd">
+                            <path d="M7.17777778,1 C7.60426433,1 7.95,1.34573567 7.95,1.77222222 L7.949,6.25 L12.6055556,6.25 C13.0197691,6.25 13.3555556,6.58578644 13.3555556,7 C13.3555556,7.41421356 13.0197691,7.75 12.6055556,7.75 L7.949,7.75 L7.95,12.2277778 C7.95,12.6542643 7.60426433,13 7.17777778,13 C6.75129122,13 6.40555556,12.6542643 6.40555556,12.2277778 L6.405,7.75 L1.75,7.75 C1.33578644,7.75 1,7.41421356 1,7 C1,6.58578644 1.33578644,6.25 1.75,6.25 L6.405,6.25 L6.40555556,1.77222222 C6.40555556,1.34573567 6.75129122,1 7.17777778,1 Z" id="Combined-Shape"></path>
+                        </g>
+                    </svg>
+                </div>
+            </w-step-button>
+        </div>
+    </div>
+
+    <div class="amount">
+        <div class="field-label">
+            <div class="caption-2" w-i18n="directives.createOrder.amountField"></div>
+            <div class="field-buttons">
+                <w-button
+                    ng-class="{active: $ctrl.isActiveBalanceButton(0.25)}"
+                    on-click="$ctrl.setAmountByBalance(0.25)"
+                    class="button_create-order"
+                    disabled="!$ctrl.hasBalance()"
+                >
+                    <span class="button">25%</span>
+                </w-button>
+                <w-button
+                    ng-class="{active: $ctrl.isActiveBalanceButton(0.5)}"
+                    on-click="$ctrl.setAmountByBalance(0.5)"
+                    class="button_create-order"
+                    disabled="!$ctrl.hasBalance()"
+                >
+                    <span class="button">50%</span>
+                </w-button>
+                <w-button
+                    ng-class="{active: $ctrl.isActiveBalanceButton(0.75)}"
+                    on-click="$ctrl.setAmountByBalance(0.75)"
+                    class="button_create-order"
+                    disabled="!$ctrl.hasBalance()"
+                >
+                    <span class="button">75%</span>
+                </w-button>
+                <w-button
+                    ng-class="{active: $ctrl.isActiveBalanceButton(1)}"
+                    on-click="$ctrl.setAmountByBalance(1)"
+                    class="button_create-order"
+                    disabled="!$ctrl.hasBalance()"
+                >
+                    <span class="button">100%</span>
+                </w-button>
+            </div>
+        </div>
+
+        <div class="input-wrapper" ng-class="{'invalid': $ctrl.isAmountInvalid()}">
+            <w-step-button
+                on-step-click="$ctrl.decreaseField('amount', $ctrl.minAmountStep)"
+                is-disabled="$ctrl.order.amount.$viewValue <= 0"
+            >
+                <div class="step-btn-content">
+                    <svg class="step-btn-content-icon" width="14px" height="14px" viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <g id="minus" stroke="none" stroke-width="1" fill-rule="evenodd">
+                            <rect id="Rectangle-5" x="1" y="6" width="12.3555556" height="1.5" rx="0.75"></rect>
+                        </g>
+                    </svg>
+                </div>
+            </w-step-button>
+            <div class="tricky-input__wrapper">
+                <div class="hidden-input">
+                    <span class="hidden-input__transparent-value">
+                        {{$ctrl.order.amount.$viewValue}}
+                    </span>
+                    <span class="caption-1 basic-500">{{$ctrl.amountDisplayName}}</span>
+                </div>
+                <w-input-container>
+                    <div class="input-like tiny tricky-input">
+                        <w-input
+                            tabindex="1"
+                            class="tiny no-validate-icons"
+                            type="text"
+                            ng-blur="$ctrl.setChangedInput('amount')"
+                            w-validate
+                            w-validator-asset="{{$ctrl.amountBalance.asset}}"
+                            w-validator-lte="{{$ctrl.maxAmountBalance}}"
+                            w-validator-gt="0"
+                            name="amount"
+                            ng-model="$ctrl.amount"
+                            autocomplete="off"
+                            required>
+                        </w-input>
+                        <div class="asset-name-wrap transparent">
+                            <div class="caption-1 basic-500">{{$ctrl.amountDisplayName}}</div>
+                        </div>
+                    </div>
+
+                    <w-input-error message="required" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
+                        <span w-i18n="directives.createOrder.errors.required"></span>
+                    </w-input-error>
+                    <w-input-error message="gt" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
+                        <span w-i18n="directives.createOrder.errors.required"></span>
+                    </w-input-error>
+                    <w-input-error message="precision" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
+                    <span w-i18n="directives.createOrder.errors.precision"
+                        params="{precision: $ctrl.amountBalance.asset.precision}"></span>
+                    </w-input-error>
+                    <w-input-error message="lte" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
+                    <span w-i18n="directives.createOrder.errors.balance"
+                        params="{name: $ctrl.amountBalance.asset.displayName}"></span>
+                    </w-input-error>
+                </w-input-container>
+            </div>
+
+            <w-step-button
+                on-step-click="$ctrl.increaseField('amount', $ctrl.minAmountStep)"
+                is-disabled="false"
+            >
+                <div class="step-btn-content">
+                    <svg class="step-btn-content-icon" width="14px" height="14px" viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <g id="plus" stroke="none" stroke-width="1" fill-rule="evenodd">
+                            <path d="M7.17777778,1 C7.60426433,1 7.95,1.34573567 7.95,1.77222222 L7.949,6.25 L12.6055556,6.25 C13.0197691,6.25 13.3555556,6.58578644 13.3555556,7 C13.3555556,7.41421356 13.0197691,7.75 12.6055556,7.75 L7.949,7.75 L7.95,12.2277778 C7.95,12.6542643 7.60426433,13 7.17777778,13 C6.75129122,13 6.40555556,12.6542643 6.40555556,12.2277778 L6.405,7.75 L1.75,7.75 C1.33578644,7.75 1,7.41421356 1,7 C1,6.58578644 1.33578644,6.25 1.75,6.25 L6.405,6.25 L6.40555556,1.77222222 C6.40555556,1.34573567 6.75129122,1 7.17777778,1 Z" id="Combined-Shape"></path>
+                        </g>
+                    </svg>
+                </div>
+            </w-step-button>
+        </div>
+    </div>
+
+    <div class="total">
+        <div class="split-half field-label">
+            <div class="caption-2" w-i18n="directives.createOrder.total"></div>
+            <div ng-if="$ctrl.type === 'buy'"
+                ng-click="$ctrl.setMaxPrice()"
+                class="caption-2 disabled-900 underline-dashed"
+            >
+                <span class="basic-700" w-i18n="money-currency" params="{money: $ctrl.maxPriceBalance}"></span>
+            </div>
+            <div ng-if="$ctrl.type === 'sell'"
+                ng-click="$ctrl.setMaxAmount()"
+                class="caption-2 disabled-900 underline-dashed"
+            >
+                <span w-i18n="money-currency" params="{money: $ctrl.maxAmountBalance}"></span>
+            </div>
+        </div>
+        <div class="input-wrapper" ng-class="{ 'invalid': $ctrl.isTotalInvalid() }">
+            <div class="tricky-input__wrapper">
+                <div class="hidden-input">
+                    <span class="hidden-input__transparent-value">
+                        {{$ctrl.total.getTokens().toFormat()}}
+                    </span>
+                    <span class="caption-1 basic-500">{{$ctrl.priceDisplayName}}</span>
+                </div>
+                <w-input-container>
+                    <div class="input-like tiny tricky-input">
+                        <w-input
+                            class="tiny no-validate-icons"
+                            tabindex="3"
+                            type="text"
+                            name="total"
+                            ng-model="$ctrl.total"
+                            w-validate
+                            ng-blur="$ctrl.setChangedInput('total')"
+                            w-validator-asset="{{$ctrl.priceBalance.asset}}"
+                            w-validator-custom="{{$ctrl.canBuyOrder}}"
+                            w-validator-gt="0"
+                            autocomplete="off"
+                            required>
+                        </w-input>
+                        <div class="asset-name-wrap transparent">
+                            <div class="caption-1 basic-500">{{$ctrl.priceDisplayName}}</div>
+                        </div>
+                    </div>
+                    <w-input-error message="custom" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
+                        <span w-i18n="directives.createOrder.errors.balance"
+                            params="{name: $ctrl.priceBalance.asset.displayName}"></span>
+                    </w-input-error>
+                </w-input-container>
+            </div>
+        </div>
+    </div>
+
+    <div class="expiration">
+        <div class="expiration__item" ng-if="!$ctrl.feeList.length">
+            <span class="expiration__label" w-i18n="directives.createOrder.matcherFee"></span>
+            <span class="expiration__value">{{$ctrl.fee.toFormat()}} {{($ctrl.fee.asset.ticker || $ctrl.fee.asset.displayName)}}</span>
+        </div>
+
+        <div class="expiration__item expiration__item-fee" ng-if="$ctrl.feeList.length">
+            <span class="expiration__label" w-i18n="directives.createOrder.matcherFee"></span>
+            <w-select class="select select_create-order expiration__select select__no-user-select" ng-model="$ctrl.fee" up-direction="true">
+                <w-option ng-repeat="fee in $ctrl.feeList track by fee.asset.displayName" value="fee">
+                    {{fee.toFormat()}} {{(fee.asset.ticker || fee.asset.displayName)}}
+                </w-option>
+            </w-select>
+        </div>
+
+        <div class="expiration__item expiration__item-acting">
+            <div class="expiration__label" w-i18n="directives.createOrder.expiration"></div>
+            <w-select class="select select_create-order expiration__select select__no-user-select" ng-model="$ctrl.expiration" up-direction="true">
+                <w-option
+                    ng-repeat="option in $ctrl.expirationValues track by option.name"
+                    value="::option.name"
+                    w-app-class
+                >
+                    <span w-i18n="directives.createOrder.{{::option.name}}" w-i18n-ns="app.dex"></span>
+                </w-option>
+            </w-select>
+        </div>
+    </div>
+</div>

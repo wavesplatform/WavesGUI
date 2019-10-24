@@ -200,7 +200,32 @@
       right: 10px;
     }
   }
+  
+  .orderbook-table .row:hover,
+  .smart-table__cell[data-column-id="volume"]:hover {
+    .tooltip-dex.active {
+      display: flex;
+    }
+  }
 
+  .orderbook-table,
+  .smart-table {
+    .row:last-child,
+    &__row:last-child {
+      .tooltip-dex {
+        bottom: 100%;
+        top: auto;
+        &::before {
+          top: auto;
+          bottom: -6px;
+          transform: rotate(180deg);
+        }
+      }
+    }
+  }
+}
+
+.dex-layout, .mobile-layout {
   .order-permission-error,
   .create-order-notification {
     will-change: transform;
@@ -244,30 +269,6 @@
 //hi-res
 @media screen and (min-width: 2400px) {
   .dex-layout {
-    &__column {
-      min-width: 360px;
-    }
-
-    &__block {
-      min-width: 360px;
-    }
-
-    &__row {
-      font-size: 12px;
-    }
-
-    .dex-block .block-title {
-      height: 42px;
-    }
-
-    .tabs .titles-wrap {
-      height: 42px;
-
-      a.title {
-        height: 42px;
-      }
-    }
-
     .caption-2 {
       font-size: 12px;
     }
@@ -283,37 +284,12 @@
 }
 
 // responsive
-@media screen and (min-width: 660px) and (max-width: 1024px) {
+@media screen and (min-width: 721px) and (max-width: 1023px) {
   .dex-layout {
     overflow: visible;
-  }
-}
-
-@media screen and (max-width: 659px) {
-  .dex-layout {
-    overflow: visible;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-
-    &__column {
-      position: relative;
-    }
 
     .dex-layout-side-bar-toggle {
       display: none;
     }
-
-    &_tradevolume-collapsed {
-      .dex-layout {
-        &__column_orderbook {
-          w-scroll-box {
-            min-height: 293px;
-          }
-        }
-      }
-    }
   }
 }
-

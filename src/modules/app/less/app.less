@@ -217,6 +217,10 @@ fieldset {
   height: calc(~'100%' - 60px);
   max-height: 100%;
 
+  @media screen and (max-width: 860px) {
+    height: calc(~'100%' - 50px);
+  }
+
   .content {
     height: 100%;
     padding: 10px 80px;
@@ -254,7 +258,7 @@ fieldset {
   }
 }
 
-@media screen and (max-width: 660px) {
+@media screen and (max-width: 720px) {
   .dex {
     .ui-view_main {
       overflow: hidden;

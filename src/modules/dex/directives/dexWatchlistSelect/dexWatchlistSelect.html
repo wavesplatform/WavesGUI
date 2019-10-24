@@ -1,0 +1,34 @@
+<div class="dex-watchlist-select__watchlist-bg" ng-class="{'dex-watchlist-select__watchlist-bg_active': $ctrl.watchListVisible}">
+    <div class="dex-watchlist-select__watchlist-header mobile-watchlist-header"
+        ng-click="$ctrl.watchListVisible = !$ctrl.watchListVisible"
+    >
+        <div class="mobile-watchlist-header__left">
+            <div class="mobile-watchlist-header__pair-tickers">
+                {{$ctrl.pairInfo.amountAsset.displayName}} / {{$ctrl.pairInfo.priceAsset.displayName}}
+            </div>
+            <div class="mobile-watchlist-header__volume">
+                <span class="basic-500" w-i18n="directives.watchlist.volume"></span>: <span w-nice-number="$ctrl.pairInfo.volumeBigNum"
+                    precision="3"></span>
+            </div>
+        </div>
+        <div class="mobile-watchlist-header__right">
+            <div class="mobile-watchlist-header__info" ng-class="{'opened': $ctrl.watchListVisible}">
+                <div class="mobile-watchlist-header__last-price mobile-watchlist-header__last-price_{{$ctrl.pairInfo.change24.gt(0) ? 'blue' : 'red'}}">
+                        <span class="basic-500 title" w-i18n="directives.watchlist.price"></span><span class="basic-500 title">:&nbsp;</span>
+                    <w-balance money="$ctrl.pairInfo.lastPrice"></w-balance>
+                </div>
+                <div class="mobile-watchlist-header__change24 mobile-watchlist-header__change24_{{$ctrl.pairInfo.change24.gt(0) ? 'blue' : 'red'}}">
+                    <span class="basic-500 title" w-i18n="directives.watchlist.change"></span><span class="basic-500 title">:&nbsp;</span>
+                    <span>{{$ctrl.pairInfo.change24.gt(0) ? '+' :  ''}}{{$ctrl.pairInfo.change24}}%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="dex-watchlist-select__watchlist-wrapper">
+        <w-dex-watchlist ng-if="$ctrl.watchListVisible" class="dex-watchlist-select__watch-list"></w-dex-watchlist>
+    </div>
+    <div class="dex-watchlist-select__backdrop"
+        ng-if="$ctrl.watchListVisible"
+        ng-click="$ctrl.watchListVisible = false"
+    ></div>
+</div>
