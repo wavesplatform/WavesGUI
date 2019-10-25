@@ -285,6 +285,10 @@
                 modalManager.showDeleteAccountModal();
             }
 
+            onBlurSetting(prop) {
+                this[prop] = this[prop] ? this[prop] : undefined;
+            }
+
         }
 
         return new SettingsCtrl();
