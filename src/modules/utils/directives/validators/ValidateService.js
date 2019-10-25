@@ -122,7 +122,7 @@
                 const aliases = data.filter(item => !item.isAddress || item.isValidAlis);
                 return fetchAliases(aliases.map(item => item.alias)).then(result => {
                     aliases.forEach((item , index) => {
-                        if (result[index]) {
+                        if (result[index] && result[index].address) {
                             item.address = result[index].address;
                             item.isValidAlis = true;
                         } else {
