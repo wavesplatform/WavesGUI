@@ -106,6 +106,10 @@
                  * @public
                  */
                 this.isScrolled = false;
+                /**
+                 * @type {TPairRestrictions | null}
+                 */
+                this.pairRestrictions = null;
 
                 this.receive(dexDataService.showSpread, () => {
                     this._dom.$box.stop().animate({ scrollTop: this._getSpreadScrollPosition() }, 300);
@@ -192,6 +196,11 @@
                         this.priceAsset = priceAsset;
                         this.amountAsset = amountAsset;
                         this.pair = new AssetPair(amountAsset, priceAsset);
+                        return this.pair;
+                    })
+                    .then(ds.api.matcher.getPairRestrictions)
+                    .then((data) => {
+                        this.pairRestrictions = data;
                     });
             }
 
@@ -225,7 +234,7 @@
                 ])
                     .then(([orderbook, orders, lastPrice]) => {
                         this.loadingError = false;
-                        return this._remapOrderBook(orderbook, orders, lastPrice);
+                        return this._remapOrderBook(orderbook, orders, lastPrice, this.pairRestrictions.restrictions);
                     })
                     .catch(() => {
                         this.loadingError = true;
@@ -280,8 +289,8 @@
                 }, Object.create(null));
 
                 const lastTrade = lastPrice;
-                const bids = OrderBook._sumAllOrders(dataBids, 'sell');
-                const asks = OrderBook._sumAllOrders(dataAsks, 'buy').reverse();
+                const bids = OrderBook._sumAllOrders(dataBids, 'sell', this.pairRestrictions.restrictions);
+                const asks = OrderBook._sumAllOrders(dataAsks, 'buy', this.pairRestrictions.restrictions).reverse();
 
                 const maxAmount = OrderBook._getMaxAmount(bids, asks, crop);
 
@@ -333,8 +342,17 @@
                 };
 
                 const length = OrderList.ROWS_COUNT;
-                this._asks.render(toLength(data.asks, length), data.crop, data.priceHash, data.maxAmount, pair);
-                this._bids.render(data.bids, data.crop, data.priceHash, data.maxAmount, pair);
+                const stepPrecision = this.pairRestrictions && this.pairRestrictions.restrictions ?
+                    {
+                        amount: (new BigNumber(this.pairRestrictions.restrictions.stepAmount)).getDecimalsCount(),
+                        price: (new BigNumber(this.pairRestrictions.restrictions.stepPrice)).getDecimalsCount()
+                    } :
+                    null;
+
+                this._asks.render(
+                    toLength(data.asks, length), data.crop, data.priceHash, data.maxAmount, pair, stepPrecision
+                );
+                this._bids.render(data.bids, data.crop, data.priceHash, data.maxAmount, pair, stepPrecision);
 
                 if (this._showSpread) {
                     this._showSpread = false;
@@ -356,20 +374,27 @@
             /**
              * @param {Array<Matcher.IOrder>} list
              * @param {'buy'|'sell'} type
+             * @param {TRestrictions | null} restrictions
              * @return Array<OrderBook.IOrder>
              * @private
              */
-            static _sumAllOrders(list, type) {
+            static _sumAllOrders(list, type, restrictions) {
                 let total = new BigNumber(0);
                 let amountTotal = new BigNumber(0);
 
                 return list.map((item) => {
                     total = total.add(item.total);
                     amountTotal = amountTotal.add(item.amount);
+                    const amount = this._roundToStep(
+                        item.amount, restrictions && restrictions.stepAmount ? restrictions.stepAmount : undefined
+                    );
+                    const price = this._roundToStep(
+                        item.price, restrictions && restrictions.stepPrice ? restrictions.stepPrice : undefined
+                    );
                     return {
                         type,
-                        amount: new BigNumber(item.amount),
-                        price: new BigNumber(item.price),
+                        amount,
+                        price,
                         total,
                         totalAmount: amountTotal
                     };
@@ -405,6 +430,20 @@
              */
             static _cropFilterOrders(list, crop) {
                 return list.filter((o) => o.price.gte(crop.min) && o.price.lte(crop.max));
+            }
+
+            /**
+             * @param {string | number} value
+             * @param {string | number} step?
+             * @private
+             */
+            static _roundToStep(value, step) {
+                if (!step) {
+                    return new BigNumber(value);
+                }
+                return new BigNumber(value).roundTo(
+                    (new BigNumber(step).getDecimalsCount())
+                );
             }
 
         }
@@ -463,3 +502,20 @@
  * @property {{price: Money, lastSide: string}} lastTrade
  * @property {BigNumber} spread
  */
+
+/**
+ * @typedef {object} TPairRestrictions
+ * @property {TRestrictions | null} restrictions
+ * @property {tickSize: string} matchingRules
+ */
+
+/**
+ * @typedef {object} TRestrictions
+ * @property {string} maxAmount
+ * @property {string} maxPrice
+ * @property {string} stepPrice
+ * @property {string} stepAmount
+ * @property {string} minPrice
+ * @property {string} minAmount
+ */
+

@@ -114,6 +114,15 @@
             }
 
             /**
+             * @param {AssetPair} pair
+             * @return {Promise<Object>}
+             */
+            @decorators.cachable(0.5)
+            getPairRestrictions(pair) {
+                return ds.api.matcher.getPairRestrictions(pair);
+            }
+
+            /**
              * @param {string} address
              * @return {Promise<IScriptInfo<Money>>}
              */
