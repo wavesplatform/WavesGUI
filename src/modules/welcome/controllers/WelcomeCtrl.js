@@ -38,7 +38,7 @@
 
         const PAIRS_IN_SLIDER = [
             {
-                amount: WavesApp.defaultAssets.VST,
+                amount: WavesApp.defaultAssets.WE,
                 price: 'WAVES'
             },
             {

@@ -75,7 +75,7 @@
                         WavesApp.defaultAssets.TRY,
                         WavesApp.defaultAssets.DASH,
                         WavesApp.defaultAssets.XMR,
-                        WavesApp.defaultAssets.VST,
+                        WavesApp.defaultAssets.WE,
                         WavesApp.defaultAssets.ERGO,
                         WavesApp.defaultAssets.BNT
                     ],

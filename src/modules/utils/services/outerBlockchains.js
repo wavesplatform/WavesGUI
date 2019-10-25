@@ -12,8 +12,8 @@
             [WavesApp.defaultAssets.BSV]: /^([13][a-km-zA-HJ-NP-Z1-9]{25,34}|[qp][a-zA-Z0-9]{41})$/,
             [WavesApp.defaultAssets.DASH]: /^X[a-km-zA-HJ-NP-Z1-9]{25,34}$/,
             [WavesApp.defaultAssets.XMR]: /^([a-km-zA-HJ-NP-Z1-9]{95}|[a-km-zA-HJ-NP-Z1-9]{106})$/,
-            [WavesApp.defaultAssets.VST]: address => {
-                return waves.node.isValidAddressWithNetworkByte(address, WavesApp.network.VSTNetworkByte);
+            [WavesApp.defaultAssets.WE]: address => {
+                return waves.node.isValidAddressWithNetworkByte(address, WavesApp.network.WENetworkByte);
             },
             [WavesApp.defaultAssets.ERGO]: /^9[a-km-zA-HJ-NP-Z1-9]{5,}$/,
             [WavesApp.defaultAssets.BNT]: /^0x[0-9a-f]{40}$/i

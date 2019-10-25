@@ -85,7 +85,7 @@ export class DataManager {
             [WavesApp.defaultAssets.BSV]: true,
             [WavesApp.defaultAssets.DASH]: true,
             [WavesApp.defaultAssets.XMR]: true,
-            [WavesApp.defaultAssets.VST]: true,
+            [WavesApp.defaultAssets.WE]: true,
             [WavesApp.defaultAssets.ERGO]: true,
             [WavesApp.defaultAssets.BNT]: true,
         };
