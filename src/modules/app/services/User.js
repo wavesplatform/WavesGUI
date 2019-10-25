@@ -565,7 +565,8 @@
                     storage.save('multiAccountData', ''),
                     storage.save('multiAccountHash', ''),
                     storage.save('multiAccountUsers', ''),
-                    storage.save('userList', '')
+                    storage.save('userList', ''),
+                    storage.save('termsAccepted', false)
                 ]);
             }
 
