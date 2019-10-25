@@ -130,7 +130,7 @@
                         }
                     });
 
-                    return data.map(item => ({ state: item.isValidAlis || item.isValidAddress, ...item }));
+                    return data.map(item => ({ state: item.isValidAlis || item.isAddress, ...item }));
                 });
 
             }
