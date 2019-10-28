@@ -16,10 +16,11 @@
      * @param {ModalManager} modalManager
      * @param {BalanceWatcher} balanceWatcher
      * @param {Transactions} transactions
+     * @param {Matcher} matcher
      * @return {CreateOrder}
      */
     const controller = function (Base, waves, user, utils, createPoll, $scope, $element, notification,
-                                 dexDataService, ease, $state, modalManager, balanceWatcher, transactions) {
+                                 dexDataService, ease, $state, modalManager, balanceWatcher, transactions, matcher) {
 
         const { without, keys, last } = require('ramda');
         const { Money } = require('@waves/data-entities');
@@ -221,15 +222,13 @@
                  */
                 const spreadPoll = createPoll(this, this._getData, this._setData, 1000);
 
-                this.receive(balanceWatcher.change, this._updateBalances, this);
-                this._updateBalances().then(() => this._setPairRestrictions());
-
                 const onChangeBalanceWatcher = () => {
                     this._updateBalances();
                     if (this.matcherSettings.mode === 'dynamic') {
                         this._updateFeeList();
                     }
                 };
+
                 this.receive(balanceWatcher.change, onChangeBalanceWatcher, this);
                 this._updateBalances();
 
@@ -257,7 +256,6 @@
                 this.isValidPricePrecision = this._validatePricePrecision();
 
                 this.observe(['amountBalance', 'type', 'fee', 'priceBalance'], this._updateMaxAmountOrPriceBalance);
-                this.observe(['maxAmountBalance', 'amountBalance', 'priceBalance', 'fee'], this._setPairRestrictions);
 
                 this.observe('_assetIdPair', () => {
                     this.amount = null;
@@ -344,6 +342,9 @@
                     }
                     $scope.$apply();
                 });
+
+                this.receive(utils.observe(matcher, 'pairRestrictions'), this._onChangeMatcherPairRestrictions, this);
+                this.observe(['maxAmountBalance'], this._onChangeMatcherPairRestrictions);
             }
 
             /**
@@ -385,9 +386,7 @@
             expand(type) {
                 this.type = type;
                 if (!this.price || this.price.getTokens().eq('0')) {
-                    this._setPairRestrictions().then(() => {
-                        this.price = this._getCurrentPrice();
-                    });
+                    this.price = this._getCurrentPrice();
                 }
 
                 // todo: refactor after getting rid of Layout-DEX coupling.
@@ -1155,53 +1154,67 @@
             }
 
             /**
-             * @return {Promise<void>|Promise<T | never>}
+             * @return {void}
              * @private
              */
-            _setPairRestrictions() {
-                if (!this.loaded) {
-                    return Promise.resolve();
-                }
-
+            _onChangeMatcherPairRestrictions() {
                 this.pairRestrictions = {};
                 const defaultPairRestriction = this._getDefaultPairRestriction();
-                return ds.api.matcher
-                    .getPairRestrictions({
-                        amountAsset: this.amountBalance.asset,
-                        priceAsset: this.priceBalance.asset
-                    })
-                    .then(data => {
-                        const { maxAmount, maxPrice, stepPrice, stepAmount, minPrice, minAmount } = data.restrictions;
-                        const restMaxAmount = maxAmount ? new BigNumber(maxAmount) : defaultPairRestriction.maxAmount;
-                        const pricePrecision = stepPrice ?
-                            Math.min(
-                                new BigNumber(stepPrice).getDecimalsCount(), defaultPairRestriction.pricePrecision
-                            ) :
-                            defaultPairRestriction.pricePrecision;
-                        const amountPrecision = stepAmount ?
-                            Math.min(
-                                new BigNumber(stepAmount).getDecimalsCount(), defaultPairRestriction.amountPrecision
-                            ) :
-                            defaultPairRestriction.amountPrecision;
+                const matcherSettings = matcher.pairRestrictions;
 
-                        this.pairRestrictions = {
-                            maxPrice: maxPrice ? new BigNumber(maxPrice) : defaultPairRestriction.maxPrice,
-                            maxAmount: this.maxAmountBalance ?
-                                BigNumber.min(this.maxAmountBalance.getTokens(), restMaxAmount) :
-                                restMaxAmount,
-                            minPrice: minPrice ?
-                                BigNumber.max(new BigNumber(minPrice), defaultPairRestriction.minPrice) :
-                                defaultPairRestriction.minPrice,
-                            minAmount: minAmount ?
-                                BigNumber.max(new BigNumber(minAmount), defaultPairRestriction.minAmount) :
-                                defaultPairRestriction.minAmount,
-                            pricePrecision,
-                            amountPrecision
-                        };
-                    })
-                    .catch(() => {
-                        this.pairRestrictions = defaultPairRestriction;
-                    });
+                if (!matcherSettings) {
+                    this.pairRestrictions = defaultPairRestriction;
+                    return;
+                }
+
+                const restrictions = matcherSettings.restrictions;
+                const matchingRules = matcherSettings.matchingRules;
+
+                if (!restrictions && !matchingRules) {
+                    this.pairRestrictions = defaultPairRestriction;
+                    return;
+                }
+
+                if (!restrictions && matchingRules && matchingRules.tickSize) {
+                    this.pairRestrictions = {
+                        ...defaultPairRestriction,
+                        pricePrecision: new BigNumber(matchingRules.tickSize).getDecimalsCount()
+                    };
+                    return;
+                }
+
+                const { maxAmount, maxPrice, stepPrice, stepAmount, minPrice, minAmount } = restrictions;
+                const restMaxAmount = maxAmount ? new BigNumber(maxAmount) : defaultPairRestriction.maxAmount;
+
+                const priceSizes = [defaultPairRestriction.pricePrecision];
+                if (stepPrice) {
+                    priceSizes.push(new BigNumber(stepPrice).getDecimalsCount());
+                }
+                if (matchingRules && matchingRules.tickSize) {
+                    priceSizes.push(new BigNumber(matchingRules.tickSize).getDecimalsCount());
+                }
+                const pricePrecision = Math.min(...priceSizes);
+
+                const amountPrecision = stepAmount ?
+                    Math.min(
+                        new BigNumber(stepAmount).getDecimalsCount(), defaultPairRestriction.amountPrecision
+                    ) :
+                    defaultPairRestriction.amountPrecision;
+
+                this.pairRestrictions = {
+                    maxPrice: maxPrice ? new BigNumber(maxPrice) : defaultPairRestriction.maxPrice,
+                    maxAmount: this.maxAmountBalance ?
+                        BigNumber.min(this.maxAmountBalance.getTokens(), restMaxAmount) :
+                        restMaxAmount,
+                    minPrice: minPrice ?
+                        BigNumber.max(new BigNumber(minPrice), defaultPairRestriction.minPrice) :
+                        defaultPairRestriction.minPrice,
+                    minAmount: minAmount ?
+                        BigNumber.max(new BigNumber(minAmount), defaultPairRestriction.minAmount) :
+                        defaultPairRestriction.minAmount,
+                    pricePrecision,
+                    amountPrecision
+                };
             }
 
             /**
@@ -1290,7 +1303,8 @@
         '$state',
         'modalManager',
         'balanceWatcher',
-        'transactions'
+        'transactions',
+        'matcher'
     ];
 
     angular.module('app.dex').component('wCreateOrder', {
