@@ -27,7 +27,8 @@
                 return saveUsersWithUniqueName(storage)
                     .then(data => addNewGateway(data, WavesApp.defaultAssets.BNT));
             },
-            '1.4.0': storage => migrateCommonSettings(storage)
+            '1.4.0': storage => migrateCommonSettings(storage),
+            '1.4.6': storage => fixMigrateCommonSettings(storage)
         };
 
         function newTerms(storage) {
@@ -90,6 +91,84 @@
                 }, (usersInStorage || []));
 
                 return storage.save('userList', users).then(() => storage);
+            });
+        }
+
+        function fixSettings(user) {
+            const newDefaultSettings = defaultSettings.create();
+            const pinnedList = newDefaultSettings.get('pinnedAssetIdList');
+
+            if (!user || typeof user.settings !== 'object') {
+                return {};
+            }
+
+            const settings = { ...user.settings };
+
+            if (settings.pinnedAssetIdList && settings.pinnedAssetIdList.length) {
+                const list = [ ...settings.pinnedAssetIdList ];
+
+                for (let assetIndex = list.length; assetIndex--; ) {
+                    if (list[assetIndex] == null) {
+                        list[assetIndex] = pinnedList[assetIndex];
+                    }
+                }
+
+                settings.pinnedAssetIdList = list;
+            }
+
+            if (settings.dex && settings.dex.watchlist && settings.dex.watchlist.favourite) {
+                const dexSettings = { ... settings.dex };
+                dexSettings.watchlist = { ...dexSettings.watchlist };
+
+                if (!Array.isArray(dexSettings.watchlist.favourite)) {
+                    dexSettings.watchlist.favourite = [];
+                }
+
+                const favourite = dexSettings.watchlist.favourite
+                    .map(pair => {
+                        if (!pair || pair.length === 0) {
+                            return null;
+                        }
+
+                        if (!pair[0] || !pair[1]) {
+                            return null;
+                        }
+
+                        return pair;
+                    })
+                    .filter(Boolean);
+
+                dexSettings.watchlist.favourite = favourite;
+                settings.dex = dexSettings;
+            }
+
+            return settings;
+        }
+
+        function fixMigrateCommonSettings(storage) {
+            return Promise.all([storage.load('userList'), storage.load('multiAccountUsers')]).then(([userList, multiAccountUsers]) => {
+                try {
+                    if (userList && userList.length) {
+                        userList = userList.map(user => ({ ...user, settings: fixSettings(user) }));
+                    }
+
+                    if (multiAccountUsers && typeof multiAccountUsers === 'object') {
+                        const users = Object.entries(multiAccountUsers);
+                        multiAccountUsers = users.reduce((acc, [key, user]) => {
+                            user = { ...user, settings: fixSettings(user) };
+                            acc[key] = user;
+                            return acc;
+                        }, Object.create(null));
+                    }
+                } catch (e) {
+
+                }
+
+                return Promise.all([
+                    storage.save('multiAccountUsers', multiAccountUsers),
+                    storage.save('userList', userList)
+                ]);
+
             });
         }
 
