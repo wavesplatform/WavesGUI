@@ -88,15 +88,13 @@
 
                         <w-input-container ng-class="{'invalid': $ctrl.isPriceInvalid()}">
                             <div class="input-like tiny">
-                                <w-input class="tiny embed no-validate-icons"
-                                         tabindex="1"
+                                <w-input class="tiny no-validate-icons"
+                                         tabindex="2"
                                          type="text"
                                          ng-blur="$ctrl.setChangedInput('price')"
                                          w-validate
                                          w-validator-asset="{{$ctrl.priceBalance.asset}}"
-                                         w-validator-lte="{{$ctrl.pairRestrictions.maxPrice}}"
-                                         w-validator-gte="{{$ctrl.pairRestrictions.minPrice}}"
-                                         w-validator-custom="{{$ctrl.isValidPricePrecision}}"
+                                         w-validator-gt="0"
                                          name="price"
                                          ng-model="$ctrl.price"
                                          autocomplete="off"
@@ -105,25 +103,15 @@
                                     <div class="caption-1 basic-500">{{$ctrl.priceDisplayName}}</div>
                                 </div>
                             </div>
-                            <w-input-error message="lte" hide-within="$ctrl.ERROR_CLICKABLE_DISPLAY_INTERVAL">
-                                <span w-i18n="directives.createOrder.errors.priceMax"></span>
-                                <span class="clickable-value" ng-click="$ctrl.setPrice($ctrl.pairRestrictions.maxPrice)">
-                                    {{$ctrl.pairRestrictions.maxPrice.toFormat()}}
-                                </span>
+                            <w-input-error message="precision" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
+                                <span w-i18n="directives.createOrder.errors.precision"
+                                      params="{precision: $ctrl.priceBalance.asset.precision}"></span>
                             </w-input-error>
-                            <w-input-error message="gte" hide-within="$ctrl.ERROR_CLICKABLE_DISPLAY_INTERVAL">
-                                <span w-i18n="directives.createOrder.errors.priceMin"></span>
-                                <span class="clickable-value" ng-click="$ctrl.setPrice($ctrl.pairRestrictions.minPrice)">
-                                    {{$ctrl.pairRestrictions.minPrice.toFormat()}}
-                                </span>
+                            <w-input-error message="gt" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
+                                <span w-i18n="directives.createOrder.errors.required"></span>
                             </w-input-error>
                             <w-input-error message="required" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
                                 <span w-i18n="directives.createOrder.errors.required"></span>
-                            </w-input-error>
-                            <w-input-error message="custom" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
-                                <span w-i18n="directives.createOrder.errors.precision"
-                                      params="{precision: $ctrl.pairRestrictions.pricePrecision}">
-                                </span>
                             </w-input-error>
                         </w-input-container>
                     </div>
@@ -146,15 +134,14 @@
 
                         <w-input-container ng-class="{'invalid': $ctrl.isAmountInvalid()}">
                             <div class="input-like tiny">
-                                <w-input tabindex="2"
-                                         class="tiny embed no-validate-icons"
+                                <w-input tabindex="1"
+                                         class="tiny no-validate-icons"
                                          type="text"
                                          ng-blur="$ctrl.setChangedInput('amount')"
                                          w-validate
-                                         w-validator-asset="{{$ctrl.amountBalance.asset}}"
-                                         w-validator-lte="{{$ctrl.maxAmountBalance ? $ctrl.maxAmountBalance : $ctrl.pairRestrictions.maxAmount}}"
-                                         w-validator-gte="{{$ctrl.pairRestrictions.minAmount}}"
-                                         w-validator-custom="{{$ctrl.isValidAmountPrecision}}"
+                                         w-validator-asset="{{$ctrl.amountBalance.asset}}" amount
+                                         w-validator-lte="{{$ctrl.maxAmountBalance}}"
+                                         w-validator-gt="0"
                                          name="amount"
                                          ng-model="$ctrl.amount"
                                          autocomplete="off"
@@ -164,32 +151,19 @@
                                 </div>
                             </div>
 
-                            <w-input-error message="gte" hide-within="$ctrl.ERROR_CLICKABLE_DISPLAY_INTERVAL">
-                                <span w-i18n="directives.createOrder.errors.amountMin"></span>
-                                <span class="clickable-value"
-                                      ng-click="$ctrl.setAmount($ctrl.pairRestrictions.minAmount)">
-                                        {{$ctrl.pairRestrictions.minAmount.toFormat()}}
-                                </span>
-                            </w-input-error>
-                            <w-input-error message="lte" hide-within="$ctrl.ERROR_CLICKABLE_DISPLAY_INTERVAL">
-                                <span ng-if="$ctrl.maxAmountBalance"
-                                      w-i18n="directives.createOrder.errors.balance"
-                                      params="{name: $ctrl.amountBalance.asset.displayName}"></span>
-                                <span ng-if="!$ctrl.maxAmountBalance">
-                                    <span w-i18n="directives.createOrder.errors.amountMax"></span>
-                                    <span class="clickable-value"
-                                          ng-click="$ctrl.setAmount($ctrl.pairRestrictions.maxAmount)">
-                                            {{$ctrl.pairRestrictions.maxAmount.toFormat()}}
-                                    </span>
-                                </span>
-                            </w-input-error>
                             <w-input-error message="required" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
                                 <span w-i18n="directives.createOrder.errors.required"></span>
                             </w-input-error>
-                            <w-input-error message="custom" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
+                            <w-input-error message="gt" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
+                                <span w-i18n="directives.createOrder.errors.required"></span>
+                            </w-input-error>
+                            <w-input-error message="precision" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
                                 <span w-i18n="directives.createOrder.errors.precision"
-                                      params="{precision: $ctrl.pairRestrictions.amountPrecision}">
-                                </span>
+                                      params="{precision: $ctrl.amountBalance.asset.precision}"></span>
+                            </w-input-error>
+                            <w-input-error message="lte" hide-within="$ctrl.ERROR_DISPLAY_INTERVAL">
+                                <span w-i18n="directives.createOrder.errors.balance"
+                                      params="{name: $ctrl.amountBalance.asset.displayName}"></span>
                             </w-input-error>
                         </w-input-container>
 

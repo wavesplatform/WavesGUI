@@ -337,7 +337,7 @@
 
                         this.errors = errors;
                         $scope.$digest();
-                    });
+                    })
             }
 
             /**
@@ -437,7 +437,7 @@
             }
 
             static _isValidRecipients(recipientList) {
-                return validateService.wavesAddresses(recipientList);
+                return validateService.wavesAddresses(recipientList)
             }
 
             /**
