@@ -48,7 +48,7 @@
                     this.ticker = asset.ticker;
                     const { hasLabel, isGateway } = utils.getDataFromOracles(asset.id);
                     this.hasLabel = hasLabel;
-                    this.isGatewayOrWaves = isGateway;
+                    this.isGatewayOrWaves = this.assetId === WavesApp.defaultAssets.WAVES || isGateway;
                     $scope.$apply();
                 });
 
