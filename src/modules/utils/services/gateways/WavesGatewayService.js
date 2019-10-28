@@ -5,7 +5,8 @@
         [WavesApp.defaultAssets.VST]: { waves: 'WVST', gateway: 'VST' },
         [WavesApp.defaultAssets.ERGO]: { waves: 'WERGO', gateway: 'ERGO' },
         [WavesApp.defaultAssets.BNT]: { waves: 'WBNT', gateway: 'BNT' },
-        [WavesApp.defaultAssets.ETH]: { waves: 'ETH', gateway: 'ETH' }
+        [WavesApp.defaultAssets.ETH]: { waves: 'ETH', gateway: 'ETH' },
+        [WavesApp.defaultAssets.BTC]: { waves: 'WBTC', gateway: 'BTC' }
     };
 
     const PATH = `${WavesApp.network.wavesGateway}/api/v1`;
@@ -30,7 +31,7 @@
                 if (GATEWAYS[asset.id]) {
                     return {
                         deposit: true,
-                        withdraw: true,
+                        withdraw: asset.id !== WavesApp.defaultAssets.BTC,
                         errorAddressMessage: true,
                         wrongAddressMessage: true
                     };

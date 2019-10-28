@@ -319,6 +319,8 @@
              */
             var WavesApp = {
                 name: 'Waves DEX',
+                platform: config.platform(),
+                electronVersion: config.electronVersion,
                 version: config.pack.version,
                 type: !config.isWeb() ? 'desktop' : 'web',
                 matcherPriorityList: config.network.matcherPriorityList,
@@ -346,7 +348,9 @@
                     explorer: config.network.explorer,
                     featuresConfigUrl: config.network.featuresConfigUrl,
                     feeConfigUrl: config.feeConfigUrl,
-                    tokenrating: config.network.tokenrating
+                    tokenrating: config.network.tokenrating,
+                    featuresConfig: config.network.featuresConfig,
+                    feeConfig: config.network.feeConfig
                 },
                 defaultAssets: {
                     WAVES: 'WAVES',
