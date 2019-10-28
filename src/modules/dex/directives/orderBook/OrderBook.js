@@ -13,6 +13,7 @@
      * @param {app.i18n} i18n
      * @param {typeof OrderList} OrderList
      * @param {Transactions} transactions
+     * @param {Matcher} matcher
      * @return {OrderBook}
      */
     const controller = function (Base,
@@ -24,7 +25,8 @@
                                  $scope,
                                  i18n,
                                  OrderList,
-                                 transactions) {
+                                 transactions,
+                                 matcher) {
 
         const SECTIONS = {
             ASKS: '.table__asks',
@@ -107,7 +109,7 @@
                  */
                 this.isScrolled = false;
                 /**
-                 * @type {TPairRestrictions | null}
+                 * @type {TRestrictions | null}
                  */
                 this.pairRestrictions = null;
 
@@ -124,6 +126,8 @@
 
                 this._onChangeVisibleElements();
                 this._updateAssetData();
+
+                this.receive(utils.observe(matcher, 'pairRestrictions'), this._onChangeMatcherPairRestrictions, this);
             }
 
             $postLink() {
@@ -197,24 +201,6 @@
                         this.amountAsset = amountAsset;
                         this.pair = new AssetPair(amountAsset, priceAsset);
                         return this.pair;
-                    })
-                    .then(ds.api.matcher.getPairRestrictions)
-                    .then((data) => {
-                        if (data.restrictions && data.matchingRules) {
-                            const stepPrice = +data.matchingRules.tickSize > +data.restrictions.stepPrice ?
-                                data.matchingRules.tickSize :
-                                data.restrictions.stepPrice;
-                            this.pairRestrictions = {
-                                ...data.restrictions,
-                                stepPrice
-                            };
-                        } else if (data.matchingRules) {
-                            this.pairRestrictions = {
-                                stepPrice: data.matchingRules.tickSize
-                            };
-                        } else {
-                            this.pairRestrictions = null;
-                        }
                     });
             }
 
@@ -386,9 +372,32 @@
             }
 
             /**
+             * @private
+             */
+            _onChangeMatcherPairRestrictions() {
+                const restrictions = matcher.pairRestrictions && matcher.pairRestrictions.restrictions;
+                const matchingRules = matcher.pairRestrictions && matcher.pairRestrictions.matchingRules;
+                if (restrictions && matchingRules) {
+                    const stepPrice = +matchingRules.tickSize > +restrictions.stepPrice ?
+                        matchingRules.tickSize :
+                        restrictions.stepPrice;
+                    this.pairRestrictions = {
+                        ...restrictions,
+                        stepPrice
+                    };
+                } else if (matchingRules) {
+                    this.pairRestrictions = {
+                        stepPrice: matchingRules.tickSize
+                    };
+                } else {
+                    this.pairRestrictions = null;
+                }
+            }
+
+            /**
              * @param {Array<Matcher.IOrder>} list
              * @param {'buy'|'sell'} type
-             * @param {TPairRestrictions | null} restrictions
+             * @param {TRestrictions | null} restrictions
              * @return Array<OrderBook.IOrder>
              * @private
              */
@@ -475,7 +484,8 @@
         '$scope',
         'i18n',
         'OrderList',
-        'transactions'
+        'transactions',
+        'matcher'
     ];
 
     angular.module('app.dex').component('wDexOrderBook', {
@@ -515,15 +525,5 @@
  * @property {Record<string, boolean>} priceHash
  * @property {{price: Money, lastSide: string}} lastTrade
  * @property {BigNumber} spread
- */
-
-/**
- * @typedef {object} TPairRestrictions
- * @property {string} maxAmount?
- * @property {string} maxPrice?
- * @property {string} stepPrice
- * @property {string} stepAmount?
- * @property {string} minPrice?
- * @property {string} minAmount?
  */
 

@@ -28,6 +28,11 @@
              */
             currentMatcherAddress = '';
 
+            /**
+             * @type {TPairRestrictions | null}
+             */
+            pairRestrictions = null;
+
             constructor() {
                 this._orderBookCacheHash = Object.create(null);
 
@@ -115,11 +120,15 @@
 
             /**
              * @param {AssetPair} pair
-             * @return {Promise<Object>}
+             * @return {Promise<TPairRestrictions>}
              */
             @decorators.cachable(0.5)
             getPairRestrictions(pair) {
-                return ds.api.matcher.getPairRestrictions(pair);
+                return ds.api.matcher.getPairRestrictions(pair)
+                    .then((restrictions) => {
+                        this.pairRestrictions = restrictions;
+                        return restrictions;
+                    });
             }
 
             /**
@@ -464,4 +473,20 @@
 /**
  * @typedef {object} Matcher#IFeeMap
  * @property {number}
+ */
+
+/**
+ * @typedef {object} TPairRestrictions
+ * @param {TRestrictions} restrictions
+ * @param {{tickSize: string}} matchingRules
+ */
+
+/**
+ * @typedef {object} TRestrictions
+ * @property {string} maxAmount
+ * @property {string} maxPrice
+ * @property {string} stepPrice
+ * @property {string} stepAmount
+ * @property {string} minPrice
+ * @property {string} minAmount
  */
