@@ -88,6 +88,8 @@
                     } else {
                         $state.go('create');
                     }
+                }).catch(() => {
+                    return null;
                 });
             }
 
