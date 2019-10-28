@@ -47,6 +47,7 @@
             "last": "Dernier",
             "limit": "Limit Order",
             "market": "Market Order",
+            "marketPriceField": "Price",
             "matcherFee": "Frais",
             "notifications": {
                 "error": {

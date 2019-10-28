@@ -47,6 +47,7 @@
             "last": "Ultimi",
             "limit": "Ordine limite",
             "market": "Ordine di mercato",
+            "marketPriceField": "Price",
             "matcherFee": "Spese",
             "notifications": {
                 "error": {

@@ -278,6 +278,12 @@
                 "warningText": "Check if your wallet or exchange uses smart-contracts to withdraw Bancor. We do not accept such transactions and can’t refund them. You will lose that money.",
                 "warningTitle": "Please do not deposit BNT from smart contracts! Do not deposit other ERC20 tokens! Only Bancor is allowed."
             },
+            "wavesGatewayBTC": {
+                "warningMinAmountText": "Wenn sie weniger als {{minAmount, BigNumber}} {{assetTicker}} senden, werden sie dieses Geld verlieren.",
+                "warningMinAmountTitle": "Die Mindesteinzahlung beträgt {{minAmount, BigNumber}} {{assetTicker}}",
+                "warningText": "Das Senden einer anderen Währung an diese Adresse kann zum Verlust ihrer Einzahlung führen.",
+                "warningTitle": "Senden sie nur BTC an diese Depotadresse"
+            },
             "wavesGatewayERGO": {
                 "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of ERGO to a token in your Waves account.",
                 "helpDescrTitle": "Enter this address into your ERGO client or wallet",
@@ -296,7 +302,15 @@
                 "helpDescrText": "Sobald die Transaktion bestätigt ist, verarbeitet das Gateway die Übertragung der VST Token zu einem Token in ihrem Waves Account.",
                 "helpDescrTitle": "Geben Sie diese Adresse in Ihren VST-Kunden oder Ihr Wallet ein.",
                 "warningMinAmountTitle": "Der Mindesteinzahlungsbetrag beträgt {{minAmount, BigNumber}} {{assetTicker}}, der Höchsteinzahlungsbetrag beträgt {{maxAmount}} {{assetTicker}}"
-            }
+            },
+            "wavesGatewayWE": {
+                "helpDescrText": "Sobald die Transaktion bestätigt ist, verarbeitet das Gateway die Übertragung der WE Token zu einem Token in ihrem Waves Account.",
+                "helpDescrText_copy": "Sobald die Transaktion bestätigt ist, verarbeitet das Gateway die Übertragung der WE Token zu einem Token in ihrem Waves Account.",
+                "helpDescrTitle": "Geben Sie diese Adresse in Ihren WE-Kunden oder Ihr Wallet ein.",
+                "helpDescrTitle_copy": "Geben Sie diese Adresse in Ihren WE-Kunden oder Ihr Wallet ein.",
+                "warningMinAmountTitle": "Der Mindesteinzahlungsbetrag beträgt {{minAmount, BigNumber}} {{assetTicker}}, der Höchsteinzahlungsbetrag beträgt {{maxAmount}} {{assetTicker}}"
+            },
+            "wavesGatewayWE:warningMinAmountTitle_copy": "Der Mindesteinzahlungsbetrag beträgt {{minAmount, BigNumber}} {{assetTicker}}, der Höchsteinzahlungsbetrag beträgt {{maxAmount}} {{assetTicker}}"
         },
         "dexScriptedPair": {
             "body": "Smart Assets sind Assets, die ein Skript enthalten, in dem die Bedingungen für die Verbreitung des Tokens festgelegt sind.{div}[Wir empfehlen nicht, Vorgänge mit Smart Assets durchzuführen, wenn Sie ein unerfahrener Benutzer sind. Bevor Sie eine Transaktion tätigen, lesen Sie bitte die Informationen zum Asset und dessen Skript sorgfältig durch.]",
@@ -476,6 +490,9 @@
             "verified": "Geprüft",
             "vostok": {
                 "serverError": "Der VST Service ist vorübergehend nicht verfügbar. Versuchen sie es später noch einmal."
+            },
+            "wavesEnterprise": {
+                "serverError_copy": "Der WE Service ist vorübergehend nicht verfügbar. Versuchen sie es später noch einmal."
             },
             "wtry": {
                 "info": "Bei Problemen mit der Zahlungsabwicklung wenden sie sich bitte an das Support-Team von Digilira - [support@digilira.com](mailto:support@digilira.com)"
@@ -963,7 +980,7 @@
                 "1_3_0": "{span.line}[1. Verbesserte App-Navigation und Startseitenoberfläche.]",
                 "1_3_18": "{span.line}[1. Added login to wallet using a private key.]\n{span.line}[2. The 24 hours price change of a token is now bound to token/WAVES pair.]",
                 "1_3_19": "{span.line}[1. Bancor gateway has been launched.]\n{span.line}[2. User menu interface has been improved.]",
-                "1_3_2": "{span.line}[1. Das VST-Gateway wurde gestartet.] \n {span.line}[2. Verbesserte Benutzeroberfläche und zusätzliche kleinere Fehler wurden behoben.]",
+                "1_3_2": "{span.line}[1. Das WE-Gateway wurde gestartet.] \n {span.line}[2. Verbesserte Benutzeroberfläche und zusätzliche kleinere Fehler wurden behoben.]",
                 "1_3_20": "{span.line}[1. Improved system for storing and restoring accounts from local storage (Need to update the [desktop application](https://wavesplatform.com/technology/wallet)).]\n{span.line}[2. Fixed rounding of prices in the orderbook.]",
                 "1_3_5": "{span.line}[1. A tab with [wsoc.io](https://wsoc.io) contest tokens has been added.]\n{span.line}[2. French language support added.]\n{span.line}[3. Additional minor bugs have been fixed.]",
                 "1_3_7": "{span.line}[1. Integration with [tokenrating.wavesexplorer.com](https://tokenrating.wavesexplorer.com) Now you can rate tokens directly in the app.]\n{span.line}[2. Additional minor bugs have been fixed.]",

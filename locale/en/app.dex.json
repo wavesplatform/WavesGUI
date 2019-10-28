@@ -47,6 +47,7 @@
             "last": "Last",
             "limit": "Limit Order",
             "market": "Market Order",
+            "marketPriceField": "Price",
             "matcherFee": "Fee",
             "notifications": {
                 "error": {

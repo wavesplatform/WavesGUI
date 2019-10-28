@@ -47,6 +47,7 @@
             "last": "Ostatni",
             "limit": "Limit Order",
             "market": "Market Order",
+            "marketPriceField": "Price",
             "matcherFee": "Prowizja",
             "notifications": {
                 "error": {

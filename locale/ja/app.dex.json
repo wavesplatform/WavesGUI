@@ -47,6 +47,7 @@
             "last": "最終",
             "limit": "Limit Order",
             "market": "Market Order",
+            "marketPriceField": "Price",
             "matcherFee": "手数料",
             "notifications": {
                 "error": {

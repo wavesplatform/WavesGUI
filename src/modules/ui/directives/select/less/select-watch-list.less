@@ -12,7 +12,17 @@
 		border: 0 none;
 
 		.select__list {
-			border-radius: 0;
+			border-radius: 4px;
+			top: 80%;
+			box-shadow: @dropdown-shadow;
+
+			&::-webkit-scrollbar-thumb {
+				border-radius: @border-radius;
+			}
+
+			&::-webkit-scrollbar-track {
+				box-shadow: none;
+			}
 		}
 
 		@media screen and (max-width: 1024px) {
@@ -39,11 +49,11 @@
 			font-size: @font-size-caption-5;
 			color: @default-tab-color;
 			font-family: @font-roboto-medium;
-			padding-right: 30px;
+			padding-right: 15px;
 			border: 1px solid transparent;
 
 			&::after {
-				right: 13px;
+				right: -3px;
 				transform: translateY(0);
 				top: 13px;
 				background-size: 80%;
@@ -61,7 +71,7 @@
 		&__list {
 			max-height: 155px;
 			overflow: auto;
-			border-color: @color-basic-100;
+			border: none;
 			color: @color-basic-700;
 		}
 	}

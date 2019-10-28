@@ -47,6 +47,7 @@
             "last": "체결가",
             "limit": "Limit Order",
             "market": "Market Order",
+            "marketPriceField": "Price",
             "matcherFee": "수수료",
             "notifications": {
                 "error": {

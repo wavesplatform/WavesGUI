@@ -121,52 +121,6 @@ w-create-order {
     }
 
     .body {
-      .choice {
-        display: none;
-        flex-direction: row;
-        position: relative;
-        z-index: 2;
-        text-transform: uppercase;
-        background-color: @color-white;
-
-        .choose {
-          width: 50%;
-          flex-grow: 1;
-          height: 50px;
-          padding-top: 8px;
-          text-align: center;
-          cursor: pointer;
-          color: @white-only;
-
-          .name {
-            font-size: @font-size-caption-2;
-            text-transform: uppercase;
-          }
-
-          .price {
-            .footnote-2();
-          }
-
-          &.sell {
-            background: @color-error-400;
-          }
-
-          &.buy {
-            background: @color-submit-400;
-          }
-
-          &.inactive {
-            background: black;
-          }
-        }
-
-        .middle {
-          width: 70px;
-          padding-top: 15px;
-          text-align: center;
-        }
-      }
-
       .making-order {
         .create-order-notification {
           z-index: 1;
@@ -209,6 +163,11 @@ w-create-order {
               height: 2px;
               border-radius: 1px;
               width: 16px;
+            }
+
+            .name {
+              font-family: @font-roboto-medium;
+              font-size: 13px;
             }
 
             &.sell {
@@ -262,7 +221,7 @@ w-create-order {
             .select__list {
               border-radius: @border-radius;
               top: calc(100% ~"+ 2px");
-              box-shadow: 0 2px 14px 0 rgba(31, 39, 61, 0.15);
+              box-shadow: @dropdown-shadow;
 
               .option {
                 padding: 12px 16px;
@@ -551,6 +510,11 @@ w-create-order {
             color: @color-submit-300;
             cursor: pointer;
           }
+
+          &__market {
+            font-family: @font-roboto-medium;
+            color: @color-basic-700;
+          }
         }
 
         .total {
@@ -559,6 +523,11 @@ w-create-order {
             &::after {
               display: none;
             }
+          }
+
+          &__market {
+            font-family: @font-roboto-medium;
+            color: @color-basic-700;
           }
         }
       }

@@ -47,6 +47,7 @@
             "last": "Last",
             "limit": "Лимит Ордер",
             "market": "Маркет Ордер",
+            "marketPriceField": "Цена",
             "matcherFee": "Комис.",
             "notifications": {
                 "error": {

@@ -278,6 +278,12 @@
                 "warningText": "Check if your wallet or exchange uses smart-contracts to withdraw Bancor. We do not accept such transactions and can’t refund them. You will lose that money.",
                 "warningTitle": "Please do not deposit BNT from smart contracts! Do not deposit other ERC20 tokens! Only Bancor is allowed."
             },
+            "wavesGatewayBTC": {
+                "warningMinAmountText": "{{minAmount, BigNumber}} {{assetTicker}}'nin altında gönderim yaparsanız paranızı kaybedersiniz.",
+                "warningMinAmountTitle": "Minimum yatırma tutarı {{minAmount, BigNumber}} {{assetTicker}}'dir",
+                "warningText": "Bu adrese başka bir kripto para gönderilmesi kayıplara yol açabilir.",
+                "warningTitle": "Bu adrese sadece BTC gönderin"
+            },
             "wavesGatewayERGO": {
                 "helpDescrText": "İşlemler onaylandıktan sonra ERGO geçidi tarafından Waves adresinize transfer gerçekleştirilecektir.",
                 "helpDescrTitle": "Bu adresi ERGO cüzdanınıza girin",
@@ -296,7 +302,15 @@
                 "helpDescrText": "İşlem onaylandıktan sonra VSTlar Waves adresinize geçit tarafından gönderilir.",
                 "helpDescrTitle": "Bu adresi VST cüzdanına ya da uygulamasına giriniz.",
                 "warningMinAmountTitle": "Minimum yatırma tutarı {{minAmount, BigNumber}} {{assetTicker}}'dir. Maksimum yatırma tutarı ise {{maxAmount}} {{assetTicker}}'dir."
-            }
+            },
+            "wavesGatewayWE": {
+                "helpDescrText": "İşlem onaylandıktan sonra WElar Waves adresinize geçit tarafından gönderilir.",
+                "helpDescrText_copy": "İşlem onaylandıktan sonra WElar Waves adresinize geçit tarafından gönderilir.",
+                "helpDescrTitle": "Bu adresi WE cüzdanına ya da uygulamasına giriniz.",
+                "helpDescrTitle_copy": "Bu adresi WE cüzdanına ya da uygulamasına giriniz.",
+                "warningMinAmountTitle": "Minimum yatırma tutarı {{minAmount, BigNumber}} {{assetTicker}}'dir. Maksimum yatırma tutarı ise {{maxAmount}} {{assetTicker}}'dir."
+            },
+            "wavesGatewayWE:warningMinAmountTitle_copy": "Minimum yatırma tutarı {{minAmount, BigNumber}} {{assetTicker}}'dir. Maksimum yatırma tutarı ise {{maxAmount}} {{assetTicker}}'dir."
         },
         "dexScriptedPair": {
             "body": "Akıllı kripto paralar, kripto paraların dolaşım standartlarını belirleryen scriptlerden oluşur. {div}[Deneyimsiz bir kullanıcı iseniz akıllı kripto paralar ile işlem yapmanızı önermiyoruz. Bir işlem yapmadan önce akıllı kripto paralar ve Script'ler ile ilgili bilgileri dikkatlice okuyunuz.]",
@@ -476,6 +490,9 @@
             "verified": "Doğrulandı",
             "vostok": {
                 "serverError": "VST geçici olarak hizmet dışıdır. Daha sonra tekrar deneyiniz."
+            },
+            "wavesEnterprise": {
+                "serverError_copy": "WE geçici olarak hizmet dışıdır. Daha sonra tekrar deneyiniz."
             },
             "wtry": {
                 "info": "Ödemeler konusunda herhangi bir problem yaşarsanız — [destek@digilira.com](mailto:destek@digilira.com) 'a e-posta gönderebilirsiniz."
@@ -963,7 +980,7 @@
                 "1_3_0": "{span.line}[1. Açılış sayfası güncellendi ve sayfalar arası dolaşım geliştirildi.]",
                 "1_3_18": "{span.line}[1. Özel anahtar ile giriş eklendi]\n{span.line}[2. Bir token'in 24 saatlik değişimi token/WAVES olarak ayarlandı.]",
                 "1_3_19": "{span.line}[1. Bancor gateway has been launched.]\n{span.line}[2. User menu interface has been improved.]",
-                "1_3_2": "{span.line}[1. VST geçidi faaliyete alındı.]\n{span.line}[2. Görsel tasarım geliştirildi ve ufak hatalar giderildi.]",
+                "1_3_2": "{span.line}[1. WE geçidi faaliyete alındı.]\n{span.line}[2. Görsel tasarım geliştirildi ve ufak hatalar giderildi.]",
                 "1_3_20": "{span.line}[1. Improved system for storing and restoring accounts from local storage (Need to update the [desktop application](https://wavesplatform.com/technology/wallet)).]\n{span.line}[2. Fixed rounding of prices in the orderbook.]",
                 "1_3_5": "{span.line}[1. [wsoc.io](https://wsoc.io) Yarışma kripto paraları eklendi.]\n{span.line}[2. Fransızca desteği eklendi.]\n{span.line}[3. Ufak hatalar giderildi.]",
                 "1_3_7": "{span.line}[1. [tokenrating.wavesexplorer.com] entegrasyonu (https://tokenrating.wavesexplorer.com) Artık uygulamadan kripto paralar için derecelendirme puanı verebilirsiniz.]\n{span.line}[2. Ufak hatalar giderildi.]",

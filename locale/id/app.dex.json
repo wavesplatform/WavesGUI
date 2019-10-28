@@ -47,6 +47,7 @@
             "last": "Terakhir",
             "limit": "Limit Order",
             "market": "Market Order",
+            "marketPriceField": "Price",
             "matcherFee": "Biaya",
             "notifications": {
                 "error": {
