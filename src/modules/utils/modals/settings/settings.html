@@ -209,7 +209,7 @@
                         <a class="settings-copy" w-copy="$ctrl.node" w-i18n="modal.settings.network.copy"></a>
                     </div>
                     <div class="data-field">
-                        <w-input ng-model="$ctrl.node"></w-input>
+                        <w-input ng-model="$ctrl.node" ng-blur="$ctrl.onBlurSetting('node')"></w-input>
                     </div>
                 </div>
 
@@ -219,7 +219,7 @@
                         <a class="settings-copy" w-copy="$ctrl.matcher" w-i18n="modal.settings.network.copy"></a>
                     </div>
                     <div class="data-field">
-                        <w-input ng-model="$ctrl.matcher"></w-input>
+                        <w-input ng-model="$ctrl.matcher" ng-blur="$ctrl.onBlurSetting('matcher')"></w-input>
                     </div>
                 </div>
 
@@ -288,7 +288,7 @@
                         <a class="settings-copy" w-copy="$ctrl.api" w-i18n="modal.settings.network.copy"></a>
                     </div>
                     <div class="data-field has-helper">
-                        <w-input ng-model="$ctrl.api"></w-input>
+                        <w-input ng-model="$ctrl.api" ng-blur="$ctrl.onBlurSetting('api')"></w-input>
                         <w-help-icon>
                             <div class="help-icon__row headline-3" w-i18n="modal.settings.network.apiAddressHelp"></div>
                         </w-help-icon>
