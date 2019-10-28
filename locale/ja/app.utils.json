@@ -278,6 +278,12 @@
                 "warningText": "Check if your wallet or exchange uses smart-contracts to withdraw Bancor. We do not accept such transactions and can’t refund them. You will lose that money.",
                 "warningTitle": "Please do not deposit BNT from smart contracts! Do not deposit other ERC20 tokens! Only Bancor is allowed."
             },
+            "wavesGatewayBTC": {
+                "warningMinAmountText": "{{minAmount, BigNumber}}以下の {{assetTicker}}を送金した場合、資産を紛失します。",
+                "warningMinAmountTitle": "最小デポジットは {{minAmount, BigNumber}} {{assetTicker}}です",
+                "warningText": "このアドレスに他の通貨を送信した場合、資産の消失につながる可能性があります。",
+                "warningTitle": "このデポジットアドレスにはBTCのみ送信してください"
+            },
             "wavesGatewayERGO": {
                 "helpDescrText": "トランザクションが承認されると、ゲートウェイはERGOの送信を進め、完了するとあなたのWavesアカウントにトークンが反映されます。",
                 "helpDescrTitle": "このアドレスをERGOクライアント、またはウォレットに入力してください",
@@ -717,7 +723,7 @@
                 "backupPhrase": "バックアップフレーズ",
                 "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "エンコードされたシード",
-                "exportAccount": "Export account",
+                "exportAccount": "Export account to file",
                 "id": "Account ID",
                 "privateKey": "秘密鍵",
                 "publicKey": "公開鍵",
@@ -888,6 +894,7 @@
                 "cell6": "公共のWi-Fiに接続している時、または自分以外のデバイスを使用する際、あなたのウォレットにはアクセスしないでください。",
                 "nextButton": "理解しました",
                 "p1": "最も一般的な詐欺の方法の一つがフィッシングです。Facebookやウェブサイト上で公式に似たページを偽造するケースが多いです。",
+                "saveSeedButton": "Save the SEED phrase",
                 "title": "あなたを詐欺師から守る方法"
             }
         }

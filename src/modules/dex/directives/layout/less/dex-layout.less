@@ -36,7 +36,8 @@
           }
 
           &__block[data-block="tradevolume"] {
-            height: 38px;
+            height: 37px;
+            overflow: hidden;
 
             .block-title i {
               transform: rotate(-180deg);
@@ -200,29 +201,6 @@
     }
   }
 
-  .orderbook-table .row:hover,
-  .smart-table__cell[data-column-id="volume"]:hover {
-    .tooltip-dex.active {
-      display: flex;
-    }
-  }
-
-  .orderbook-table,
-  .smart-table {
-    .row:last-child,
-    &__row:last-child {
-      .tooltip-dex {
-        bottom: 100%;
-        top: auto;
-        &::before {
-          top: auto;
-          bottom: -6px;
-          transform: rotate(180deg);
-        }
-      }
-    }
-  }
-
   .order-permission-error,
   .create-order-notification {
     will-change: transform;
@@ -269,7 +247,7 @@
     &__column {
       min-width: 360px;
     }
-    
+
     &__block {
       min-width: 360px;
     }
@@ -292,6 +270,14 @@
 
     .caption-2 {
       font-size: 12px;
+    }
+
+    &_tradevolume-collapsed {
+      .dex-layout__column_orderbook {
+        .dex-layout__block[data-block="tradevolume"] {
+          height: 41px;
+        }
+      }
     }
   }
 }

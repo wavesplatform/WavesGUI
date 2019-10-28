@@ -1,8 +1,7 @@
 {
     "backupSeed": {
         "copySeed": "Copier la phrase secrète",
-        "warn": "Vu que vous êtes seul à contrôler votre argent, vous devrez enregistrer votre phrase de sauvegarde dans le cas où cette application est supprimée ou",
-        "yourSeed": "Votre phrase secrète"
+        "warn": "Vu que vous êtes seul à contrôler votre argent, vous devrez enregistrer votre phrase de sauvegarde dans le cas où cette application est supprimée ou"
     },
     "createAccount": {
         "from": "créerCompte"
@@ -148,6 +147,7 @@
         "copyAddress": "Copier l'adresse",
         "copyright": "© 2019 Waves Platform",
         "copyrightVordex": "© 2019 VORDEX",
+        "createAccount": "Create account",
         "createToken": "Créer un jeton",
         "currentAccountName": "Nom actuel du compte",
         "dashboard": "Tableau de bord",

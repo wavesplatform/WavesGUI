@@ -52,7 +52,7 @@ export function setConfig(props: Partial<IConfigParams>): void {
     });
 }
 
-export function getDataService(): DataServiceClient<any> {
+export function getDataService(): DataServiceClient {
     return dataService;
 }
 

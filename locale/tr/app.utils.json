@@ -278,6 +278,12 @@
                 "warningText": "Check if your wallet or exchange uses smart-contracts to withdraw Bancor. We do not accept such transactions and can’t refund them. You will lose that money.",
                 "warningTitle": "Please do not deposit BNT from smart contracts! Do not deposit other ERC20 tokens! Only Bancor is allowed."
             },
+            "wavesGatewayBTC": {
+                "warningMinAmountText": "{{minAmount, BigNumber}} {{assetTicker}}'nin altında gönderim yaparsanız paranızı kaybedersiniz.",
+                "warningMinAmountTitle": "Minimum yatırma tutarı {{minAmount, BigNumber}} {{assetTicker}}'dir",
+                "warningText": "Bu adrese başka bir kripto para gönderilmesi kayıplara yol açabilir.",
+                "warningTitle": "Bu adrese sadece BTC gönderin"
+            },
             "wavesGatewayERGO": {
                 "helpDescrText": "İşlemler onaylandıktan sonra ERGO geçidi tarafından Waves adresinize transfer gerçekleştirilecektir.",
                 "helpDescrTitle": "Bu adresi ERGO cüzdanınıza girin",
@@ -717,7 +723,7 @@
                 "backupPhrase": "Anahtar (Yedek) kelimeler",
                 "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "Encoded Anahtar kelimeler",
-                "exportAccount": "Export account",
+                "exportAccount": "Export account to file",
                 "id": "Account ID",
                 "privateKey": "Özel Anahtar",
                 "publicKey": "Açık Anahtar",
@@ -888,6 +894,7 @@
                 "cell6": "Başka birisinin cihazından veya halka açık alanlardaki Wİ-Fİ hizmetlerinden cüzdanınıza erişim sağlamayın.",
                 "nextButton": "Anladım",
                 "p1": "En sık karşılaşılan dolandırıcılık yöntemi Waves Platform'a benzeyen sahte web siteleri, Facebook sayfaları olarak karşımıza çıkmaktadır.",
+                "saveSeedButton": "Save the SEED phrase",
                 "title": "Kendinizi nasıl koruyacaksınız?"
             }
         }

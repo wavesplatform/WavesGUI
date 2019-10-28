@@ -278,6 +278,12 @@
                 "warningText": "Check if your wallet or exchange uses smart-contracts to withdraw Bancor. We do not accept such transactions and can’t refund them. You will lose that money.",
                 "warningTitle": "Please do not deposit BNT from smart contracts! Do not deposit other ERC20 tokens! Only Bancor is allowed."
             },
+            "wavesGatewayBTC": {
+                "warningMinAmountText": "Wenn sie weniger als {{minAmount, BigNumber}} {{assetTicker}} senden, werden sie dieses Geld verlieren.",
+                "warningMinAmountTitle": "Die Mindesteinzahlung beträgt {{minAmount, BigNumber}} {{assetTicker}}",
+                "warningText": "Das Senden einer anderen Währung an diese Adresse kann zum Verlust ihrer Einzahlung führen.",
+                "warningTitle": "Senden sie nur BTC an diese Depotadresse"
+            },
             "wavesGatewayERGO": {
                 "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of ERGO to a token in your Waves account.",
                 "helpDescrTitle": "Enter this address into your ERGO client or wallet",
@@ -717,7 +723,7 @@
                 "backupPhrase": "Backup Phrase",
                 "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "Codierter Seed",
-                "exportAccount": "Export account",
+                "exportAccount": "Export account to file",
                 "id": "Account ID",
                 "privateKey": "Privat Schlüssel",
                 "publicKey": "Öffentlicher Schlüssel",
@@ -888,6 +894,7 @@
                 "cell6": "Greifen sie nicht auf ihre Wallet zu, wenn Sie öffentliches WLAN oder ein anderes Gerät verwenden.",
                 "nextButton": "Ich verstehe",
                 "p1": "Eine der häufigsten Formen des Betrugs ist Phishing, bei dem Betrüger falsche Gemeinschaften auf Facebook oder anderen Websites erstellen, die den authentischen ähneln.",
+                "saveSeedButton": "Save the SEED phrase",
                 "title": "Wie man sich vor Phishing schützt"
             }
         }

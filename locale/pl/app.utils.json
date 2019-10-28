@@ -278,6 +278,12 @@
                 "warningText": "Sprawdź, czy Twój portfel lub giełda wykorzystuje inteligentne kontrakty do wypłaty Bancor. Nie akceptujemy takich transakcji i nie możemy ich zwrócić. Stracisz te środki.",
                 "warningTitle": "Proszę nie deponować BNT z inteligentnych kontraktów (smart contracts)! Proszę nie deponować innych tokenów ERC20! Tylko  Bancor dozwolony."
             },
+            "wavesGatewayBTC": {
+                "warningMinAmountText": "Jeśli wyślesz mniej niż {{minAmount, BigNumber}} {{assetTicker}}, stracisz te pieniądze.",
+                "warningMinAmountTitle": "Minimalna kwota depozytu to {{minAmount, BigNumber}} {{assetTicker}} , maksymalna kwota depozytu to {{maxAmount}} {{assetTicker}}",
+                "warningText": "Przesłanie dowolnej innej waluty pod ten adres może spowodować utratę depozytu.",
+                "warningTitle": "Wyślij tylko BTC do tego adresu depozytowego"
+            },
             "wavesGatewayERGO": {
                 "helpDescrText": "Po potwierdzeniu transakcji bramka przetworzy transfer ERGO na token na Twoim koncie Waves.",
                 "helpDescrTitle": "Wpisz ten adres do swojego klienta lub portfela ERGO",
@@ -717,7 +723,7 @@
                 "backupPhrase": "Kopia zapasowa wyrażenia",
                 "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "Zakodowany SEED",
-                "exportAccount": "Export account",
+                "exportAccount": "Export account to file",
                 "id": "Account ID",
                 "privateKey": "Klucz prywatny",
                 "publicKey": "Klucz publiczny",
@@ -888,6 +894,7 @@
                 "cell6": "Nie wchodź na swój portfel korzystając z publicznego Wi-FI lub innego obcego urządzenia.",
                 "nextButton": "Rozumiem",
                 "p1": "Jedną z najczęstszych form oszustw jest phishing, czyli oszuści tworzą fałszywe społeczności na Facebooku lub innych stronach, które wyglądają podobnie do autentycznych.",
+                "saveSeedButton": "Save the SEED phrase",
                 "title": "Jak uchronić się przed phishingiem"
             }
         }

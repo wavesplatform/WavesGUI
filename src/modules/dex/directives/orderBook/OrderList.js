@@ -54,14 +54,15 @@
              * @param {OrderBook.ICrop} crop
              * @param {Record<string, boolean>} priceHash
              * @param {BigNumber} maxAmount
+             * @param {TStepPrecision | null} stepPrecision
              * @param {AssetPair} pair
              */
-            render(data, crop, priceHash, maxAmount, pair) {
+            render(data, crop, priceHash, maxAmount, pair, stepPrecision) {
                 const widthList = [];
 
                 this._rows.forEach((row, index) => {
                     const item = data[index];
-                    row.render(item, crop, priceHash, pair);
+                    row.render(item, crop, priceHash, pair, stepPrecision);
                     widthList[index] = item && item.amount.div(maxAmount).mul(100).toFixed(2);
                 });
 

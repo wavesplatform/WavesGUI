@@ -35,22 +35,6 @@
     display: flex;
     flex-direction: row;
     margin-bottom: 10px;
-
-    w-select {
-      width: 100%;
-      max-width: 250px;
-      position: absolute;
-      right: 0;
-      top: 0;
-      z-index: 3;
-
-      .title {
-        display: flex;
-        padding-left: 40px;
-        .icon-filter();
-        background-position: 15px center;
-      }
-    }
   }
 
   .btn-icon {
@@ -121,52 +105,6 @@
 
     .toolbar {
       width: calc(100% ~'- 10px');
-
-      w-select {
-        width: 50px;
-        height: 42px;
-
-        .title {
-          padding: 0;
-          position: relative;
-          font-size: 0;
-          .icon-filter();
-          box-shadow: @shadow-buttons-default;
-          border: none;
-
-          &::after {
-            display: none;
-          }
-
-          .title-content {
-            & > span {
-              font-size: 0;
-              right: 5px;
-              top: 5px;
-              position: absolute;
-            }
-          }
-
-          span {
-            font-size: 9px;
-            display: inline-block;
-            padding: 1px 2px;
-            background: @color-submit-400;
-            color: @white-only;
-            border-radius: @border-radius / 2;
-            line-height: 1em;
-          }
-        }
-
-        .select-list {
-          left: auto;
-          right: 0;
-          min-width: 156px;
-          margin-top: -1px;
-          border-top: 1px solid @color-accent-50;
-          border-radius: @border-radius 0 @border-radius @border-radius;
-        }
-      }
     }
   }
 }

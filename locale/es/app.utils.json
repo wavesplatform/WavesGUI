@@ -278,6 +278,12 @@
                 "warningText": "Verifique si su billetera o intercambio utiliza contratos inteligentes para retirar Bancor. No aceptamos tales transacciones y no podemos reembolsarlas. Perderá ese dinero.",
                 "warningTitle": "Por favor, no deposite BNT desde contratos inteligentes! No deposite otros tokens ERC20! Sólo se permite Bancor."
             },
+            "wavesGatewayBTC": {
+                "warningMinAmountText": "Si mandas menos de {{minAmount, BigNumber}} {{assetTicker}} perderás tu dinero.",
+                "warningMinAmountTitle": "La cantidad mínima a depositar es de {{minAmount, BigNumber}} {{assetTicker}}",
+                "warningText": "Enviar otro tipo de moneda a esta dirección puede ocasionar la pérdida de tu depósito.",
+                "warningTitle": "Envía solo BTC a esta dirección de depósito"
+            },
             "wavesGatewayERGO": {
                 "helpDescrText": "Una vez se confirme la transacción, la puerta de enlace procesará la transferencia de ERGO en forma de token a su cuenta de Waves.",
                 "helpDescrTitle": "Introduzca esta dirección en su cliente ERGO o billetera",
@@ -717,7 +723,7 @@
                 "backupPhrase": "Frase de Recuperación",
                 "base58Seed": "Frase de seguridad (SEED) codificada",
                 "encodedSeed": "Semilla codificada",
-                "exportAccount": "Export account",
+                "exportAccount": "Export account to file",
                 "id": "Account ID",
                 "privateKey": "Clave privada",
                 "publicKey": "Clave pública",
@@ -888,6 +894,7 @@
                 "cell6": "No accedas a tu cartera (Wallet) cuando uses un acceso público Wi-Fi o el dispositivo de alguien.",
                 "nextButton": "Lo entiendo",
                 "p1": "Una de las formas más comunes de estafa es la suplantación de identidad, en el que estafadores crean falsas comunidades de Facebook u otros websites que se parecen a los auténticos.",
+                "saveSeedButton": "Save the SEED phrase",
                 "title": "¿Cómo protegerte de los estafadores?"
             }
         }

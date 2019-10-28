@@ -1,8 +1,7 @@
 {
     "backupSeed": {
         "copySeed": "复制种子短语",
-        "warn": "由于只有你控制你的钱，你需要保存您的种子短语，以防该应用程序被删除或",
-        "yourSeed": "你的种子短语"
+        "warn": "由于只有你控制你的钱，你需要保存您的种子短语，以防该应用程序被删除或"
     },
     "createAccount": {
         "from": "创建帐号"
@@ -148,6 +147,7 @@
         "copyAddress": "复制地址",
         "copyright": "©2019年波浪幣平台",
         "copyrightVordex": "©2019 VORDEX",
+        "createAccount": "创建帐号",
         "createToken": "创建令牌",
         "currentAccountName": "当前帐户名称",
         "dashboard": "仪表板",

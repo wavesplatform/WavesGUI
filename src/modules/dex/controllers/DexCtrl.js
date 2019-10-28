@@ -14,6 +14,7 @@
      * @param {Waves} waves
      * @param {utils} utils
      * @param {ModalManager} modalManager
+     * @param {Matcher} matcher
      * @return {DexCtrl}
      */
     const controller = function (
@@ -26,7 +27,8 @@
         createPoll,
         waves,
         utils,
-        modalManager) {
+        modalManager,
+        matcher) {
 
         const analytics = require('@waves/event-sender');
 
@@ -122,6 +124,7 @@
                     return this._showModalAndRedirect(userAssetIdPair.amount, userAssetIdPair.price);
                 }
                 const pair = await this._getPair();
+                matcher.getPairRestrictions(pair);
                 $location.search('assetId2', pair.amountAsset.id);
                 $location.search('assetId1', pair.priceAsset.id);
             }
@@ -278,7 +281,8 @@
         'createPoll',
         'waves',
         'utils',
-        'modalManager'
+        'modalManager',
+        'matcher'
     ];
 
     angular.module('app.dex')

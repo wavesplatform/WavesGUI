@@ -323,8 +323,8 @@
             @decorators.async()
             _validateRecipients() {
 
-                Promise.all(this.transfers.map((item) => MassSend._isValidRecipient(item.recipient)))
-                    .then((list) => {
+                MassSend._isValidRecipients(this.transfers.map((item) => item.recipient))
+                    .then((list = []) => {
                         const errors = [];
 
                         list.forEach((response, index) => {
@@ -434,6 +434,10 @@
             @decorators.cachable(60)
             static _isValidRecipient(recipient) {
                 return utils.resolve(validateService.wavesAddress(recipient));
+            }
+
+            static _isValidRecipients(recipientList) {
+                return validateService.wavesAddresses(recipientList);
             }
 
             /**

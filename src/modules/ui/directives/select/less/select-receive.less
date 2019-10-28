@@ -1,0 +1,18 @@
+@import (reference) "../../../../app/less/app-icons";
+@import (reference) '../../../../app/less/typography';
+@import (reference) 'config';
+@import (reference) 'icons';
+
+.select {
+	&_receive-invoice, &_receive-crypt, &_receive-card, &_receive-bank {
+		height: @height-control-big;
+
+    @media screen and (max-width: 768px) {
+      height: 42px;
+    }
+  }
+
+  &_receive-card {
+		flex-basis: 48%;
+  }
+}

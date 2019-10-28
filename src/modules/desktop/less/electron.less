@@ -48,6 +48,9 @@ body.desktop:not(.web) {
 
     &-wrapper {
       min-height: auto;
+      @media screen and (max-height: 768px) {
+        min-height: 700px;
+      }
     }
   }
 
@@ -110,7 +113,15 @@ body.desktop:not(.web) {
       }
     }
 
-    w-select .select .title {
+    &-copyright {
+      white-space: nowrap;
+      .footnote-1();
+      color: @color-basic-500;
+      margin-left: 15px;
+      margin-bottom: 0;
+    }
+
+    .select .select__wrap .select__title {
       background: transparent;
 
       &:after {

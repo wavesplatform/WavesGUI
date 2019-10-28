@@ -278,6 +278,12 @@
                 "warningText": "Check if your wallet or exchange uses smart-contracts to withdraw Bancor. We do not accept such transactions and can’t refund them. You will lose that money.",
                 "warningTitle": "Please do not deposit BNT from smart contracts! Do not deposit other ERC20 tokens! Only Bancor is allowed."
             },
+            "wavesGatewayBTC": {
+                "warningMinAmountText": "{{minAmount, BigNumber}} 미만의  {{assetTicker}}를 입금할 경우 귀하의 자산을 잃게 됩니다.",
+                "warningMinAmountTitle": "최소 입금액은 {{minAmount, BigNumber}} {{assetTicker}} 입니다",
+                "warningText": "이 주소로 다른 암호화폐를 전송할 경우 귀하의 자산을 잃게 됩니다.",
+                "warningTitle": "본 입금 주소로 BTC만 전송하세요"
+            },
             "wavesGatewayERGO": {
                 "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of ERGO to a token in your Waves account.",
                 "helpDescrTitle": "Enter this address into your ERGO client or wallet",
@@ -717,7 +723,7 @@
                 "backupPhrase": "백업 구절",
                 "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "암호화된 백업 구절",
-                "exportAccount": "Export account",
+                "exportAccount": "Export account to file",
                 "id": "Account ID",
                 "privateKey": "프라이빗 키",
                 "publicKey": "퍼블릭 키",
@@ -888,6 +894,7 @@
                 "cell6": "공용 Wi-Fi 또는 타인의 장치를 사용하여 지갑에 액세스하지 마세요.",
                 "nextButton": "모두 이해했습니다",
                 "p1": "가장 일반적인 형태의 사기 중 하나는 피싱입니다. 이는 사기꾼들이 Facebook이나 다른 웹사이트에서 실제의 것과 아주 흡사한 가짜 커뮤니티를 만드는 것입니다.",
+                "saveSeedButton": "Save the SEED phrase",
                 "title": "피싱으로부터 자신을 보호하는 방법"
             }
         }

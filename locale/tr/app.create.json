@@ -2,12 +2,15 @@
     "backupSeed": {
         "back": "Geri git",
         "copySeed": "kelimeleri kopyalayın",
+        "description": "Please be careful and never input your SEED into other clients, because your account will be compromised and you will lose all of your funds. You should only use the official Waves clients.",
         "needConfirm": "Bu kelimeleri bir sonraki ekranda doğrulayacaksınız",
         "ok": "Hepsini bir kenera yazdım",
         "or": "veya",
         "saveSecret": "Geri yükleme kelimelerini kaydedin",
+        "seedPhrase": "Seed Phrase",
         "warn": "Kripto paralarınızın kontrolü sizdedir. Uygulamanın silinmesi durumunda geri yükleme kelimelerine ihtiyaç duyacaksınız.",
-        "writeSeed": "15 kelimeyi eksiksiz ve hatasız olarak saklayın"
+        "writeSeed": "15 kelimeyi eksiksiz ve hatasız olarak saklayın",
+        "yourSeed": "Anahtar kelimeleriniz"
     },
     "confirmBackup": {
         "again": "ve tekrar basın",
@@ -74,5 +77,9 @@
         "or": "veya",
         "skip": "Daha sonra yapacağım",
         "title": "Yedek yoksa cüzdan da yok!"
+    },
+    "seed": {
+        "copyToClipboard": "Copy to clipboard",
+        "saveToFile": "Save as file"
     }
 }

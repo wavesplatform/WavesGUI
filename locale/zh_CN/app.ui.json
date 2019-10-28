@@ -127,7 +127,7 @@
     "errorBlocks": {
         "title": "出了些问题…"
     },
-    "importSuccess": "Account Importing from the Keystore File was successful",
+    "importSuccess": "从密钥库文件导入帐户成功",
     "modal": {
         "assetInfo": {
             "gateway_ui": "出入口"
@@ -197,7 +197,7 @@
             "true": "完成"
         },
         "headers": {
-            "activeLeasing": "现在是有效的",
+            "activeLeasing": "现在激活",
             "burn": "{{name}}代币消除",
             "cancel-leasing": "取消的租赁",
             "canceled": "取消",

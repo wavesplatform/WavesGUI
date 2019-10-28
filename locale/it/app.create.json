@@ -2,12 +2,15 @@
     "backupSeed": {
         "back": "torna indietro",
         "copySeed": "copiali",
+        "description": "Fai attenzione e non inserire mai il tuo SEED in altri siti, perché il tuo account sarà compromesso e perderai tutti i tuoi fondi.",
         "needConfirm": "Potrai confermare questa frase nella prossima schermata.",
         "ok": "L'ho scritta",
         "or": "oppure",
         "saveSecret": "Salva frase di backup",
+        "seedPhrase": "Frase Seed",
         "warn": "Poichè soltanto tu hai il controllo sui tuoi fondi, sarà bene copiare questa frase di backup in caso quest'app venisse rimossa oppure",
-        "writeSeed": "Per favore, scrivi attentamente queste 15 parole"
+        "writeSeed": "Per favore, scrivi attentamente queste 15 parole",
+        "yourSeed": "La tua frase Seed"
     },
     "confirmBackup": {
         "again": "e seleziona nuovamente",
@@ -74,5 +77,9 @@
         "or": "oppure",
         "skip": "Lo faccio dopo",
         "title": "Niente Backup, Niente Soldi"
+    },
+    "seed": {
+        "copyToClipboard": "Copia negli appunti",
+        "saveToFile": "Salva su file"
     }
 }

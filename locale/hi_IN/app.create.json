@@ -2,12 +2,15 @@
     "backupSeed": {
         "back": "वापस जाएं",
         "copySeed": "इनको कॉपी करें",
+        "description": "Please be careful and never input your SEED into other clients, because your account will be compromised and you will lose all of your funds. You should only use the official Waves clients.",
         "needConfirm": "आप इस वाक्य की पुष्टि अगले स्क्रीन पर करेंगे ",
         "ok": "मैने इनको लिख लिया है",
         "or": "या",
         "saveSecret": "बैकअप वाक्य सहेंजें",
+        "seedPhrase": "Seed Phrase",
         "warn": "क्योंकि केवल आप अपना धन नियंत्रित करते हैं इसलिए इस ऐप के हटाएं जाने की स्थिति में आपको अपना बैकअप वाक्य सहेजना चाहिए या",
-        "writeSeed": "कृपया इन 15 शब्दों को सावधानीपूर्वक लिखें"
+        "writeSeed": "कृपया इन 15 शब्दों को सावधानीपूर्वक लिखें",
+        "yourSeed": "Your Seed phrase"
     },
     "confirmBackup": {
         "again": "और पुनः टैप करें",
@@ -74,5 +77,9 @@
         "or": "या",
         "skip": "इसे बाद में करें",
         "title": "कोई बैकअप नहीं, कोई धन नहीं"
+    },
+    "seed": {
+        "copyToClipboard": "Copy to clipboard",
+        "saveToFile": "Save as file"
     }
 }

@@ -142,13 +142,15 @@
                 try {
                     this._hidePasswordError();
 
-                    const { id, publicKey, address } = this.userToMigrate;
+                    const { id, publicKey, address, settings = {} } = this.userToMigrate;
+                    const encryptionRounds = settings.encryptionRounds || 5000;
                     const userType = userType || 'seed';
                     const networkByte = base58Decode(address)[1];
                     const seed = userType === 'seed' ?
                         ds.Seed.decryptSeedPhrase(
                             this.userToMigrate.encryptedSeed,
-                            this.migratePassword
+                            this.migratePassword,
+                            encryptionRounds
                         ) :
                         undefined;
                     const privateKey = userType === 'privateKey' ?

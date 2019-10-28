@@ -278,6 +278,12 @@
                 "warningText": "Controleer of uw wallet of exchange smart-contracts gebruikt om Bancor op te nemen. Wij accepteren zulke transacties niet en kunnen dit niet terug betalen. U raakt op deze manier uw geld kwijt.",
                 "warningTitle": "Stort BNT niet via smart contracts! Stort geen andere ERC20-tokens! Alleen Bancor is toegestaan."
             },
+            "wavesGatewayBTC": {
+                "warningMinAmountText": "Als u minder dan {{minAmount, BigNumber}} {{assetTicker}} verstuurd raakt u dit geld kwijt.",
+                "warningMinAmountTitle": "Het minimale stortingsbedrag is {{minAmount, BigNumber}} {{assetTicker}}, het maximale stortingsbedrag is {{maxAmount}} {{assetTicker}}",
+                "warningText": "Het versturen van elke andere currency naar dit adres kan resulteren in het verlies van uw storting.",
+                "warningTitle": "Verstuur enkel BTC naar dit deposit adres"
+            },
             "wavesGatewayERGO": {
                 "helpDescrText": "Zodra de transactie is bevestigd, verwerkt de gateway de overdracht van ERGO naar een token in uw Waves-account.",
                 "helpDescrTitle": "Voer dit adres in uw ERGO-client of portemonnee in",
@@ -717,7 +723,7 @@
                 "backupPhrase": "Backup regel",
                 "base58Seed": "Gecodeerde back-upzin",
                 "encodedSeed": "Gecodeerde seed",
-                "exportAccount": "Export account",
+                "exportAccount": "Export account to file",
                 "id": "Account ID",
                 "privateKey": "Privésleutel",
                 "publicKey": "Publieke sleutel",
@@ -888,6 +894,7 @@
                 "cell6": "Gebruik uw Waves wallet niet terwijl u een publiek Wi-Fi netwerk of een apparaat van iemand anders gebruikt.",
                 "nextButton": "Ik begrijp het",
                 "p1": "De meest gebruikte manier van oplichting is phishing. Phishing houdt onder andere in dat oplichters neppe communities op Facebook of andere websites en platformen maken welke erg op de originele lijken.",
+                "saveSeedButton": "Save the SEED phrase",
                 "title": "Hoe u zichzelf tegen phishing kunt beschermen"
             }
         }

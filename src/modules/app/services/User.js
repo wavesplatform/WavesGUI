@@ -10,7 +10,6 @@
      * @param {*} $state
      * @param {app.defaultSettings} defaultSettings
      * @param {State} state
-     * @param {ng.auto.IInjectorService} $injector
      * @param {UserRouteState} UserRouteState
      * @param {Poll} Poll
      * @param {TimeLine} timeLine
@@ -22,7 +21,6 @@
     const factory = function (
         storage,
         $state,
-        $injector,
         defaultSettings,
         state,
         UserRouteState,
@@ -125,8 +123,6 @@
 
             constructor() {
                 this._resetFields();
-                this._settings = defaultSettings.create();
-                this._settings.change.on(() => this._onChangeSettings());
 
                 Mousetrap.bind(['ctrl+shift+k'], () => this.switchNextTheme());
             }
@@ -144,6 +140,10 @@
 
             get address() {
                 return this.currentUser ? this.currentUser.address : null;
+            }
+
+            get id() {
+                return this.currentUser ? this.currentUser.id : null;
             }
 
             get name() {
@@ -330,6 +330,10 @@
              * @return {Promise}
              */
             saveMultiAccountUser(user, userHash) {
+                if (user.settings) {
+                    user.settings = { ...user.settings, encryptionRounds: undefined };
+                }
+
                 return storage.load('multiAccountUsers')
                     .then(users => this.saveMultiAccountUsers({
                         ...users,
@@ -726,6 +730,23 @@
                 this._hasScript = false;
                 this._scriptInfoPoll = null;
                 this._scriptInfoPollTimeoutId = null;
+
+                if (this._settings) {
+                    this._settings.change.off();
+                }
+
+                let commonSettings;
+
+                if (this._settings) {
+                    commonSettings = this._settings.getSettings().common;
+
+                    this._settings.change.off();
+                }
+
+                this._settings = defaultSettings.create({}, commonSettings);
+                this._settings.change.on(() => this._onChangeSettings());
+
+                ds.dataManager.dropAddress();
             }
 
             /**
@@ -855,30 +876,12 @@
                 Object.defineProperty(target, key, {
                     get: () => this.__props[key],
                     set: (value) => {
-                        if (value !== this.__props[key]) {
+                        if (!equals(value, this.__props[key])) {
                             this.__props[key] = value;
                             this._onChangePropsForSave();
                         }
                     }
                 });
-            }
-
-            /**
-             * @param {Adapter} adapter
-             * @returns {boolean}
-             * @private
-             */
-            _isSeedAdapter(adapter) {
-                return adapter.type && adapter.type === 'seed';
-            }
-
-            /**
-             * @param {Adapter} adapter
-             * @returns {boolean}
-             * @private
-             */
-            _isPrivateKeyAdapter(adapter) {
-                return adapter.type && adapter.type === 'privateKey';
             }
 
         }
@@ -905,7 +908,6 @@
     factory.$inject = [
         'storage',
         '$state',
-        '$injector',
         'defaultSettings',
         'state',
         'UserRouteState',

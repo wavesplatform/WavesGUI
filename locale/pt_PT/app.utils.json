@@ -278,6 +278,12 @@
                 "warningText": "Check if your wallet or exchange uses smart-contracts to withdraw Bancor. We do not accept such transactions and can’t refund them. You will lose that money.",
                 "warningTitle": "Please do not deposit BNT from smart contracts! Do not deposit other ERC20 tokens! Only Bancor is allowed."
             },
+            "wavesGatewayBTC": {
+                "warningMinAmountText": "If you will send less than {{minAmount, BigNumber}} {{assetTicker}}, you will lose that money.",
+                "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}, the maximum amount of deposit is {{maxAmount}} {{assetTicker}}",
+                "warningText": "Sending any other currency to this address may result in the loss of your deposit.",
+                "warningTitle": "Send only BTC to this deposit address"
+            },
             "wavesGatewayERGO": {
                 "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of ERGO to a token in your Waves account.",
                 "helpDescrTitle": "Enter this address into your ERGO client or wallet",
@@ -695,7 +701,7 @@
             },
             "ok": "Sign in",
             "pairing": {
-                "devicePairing": "Export account",
+                "devicePairing": "Export account to app",
                 "header": "Scan Pairing Code",
                 "showCodeLink": "Show Pairing Code",
                 "unavailable": {
@@ -717,7 +723,7 @@
                 "backupPhrase": "Backup phrase",
                 "base58Seed": "Encoded backup phrase",
                 "encodedSeed": "Encoded seed",
-                "exportAccount": "Export account",
+                "exportAccount": "Export account to file",
                 "id": "Account ID",
                 "privateKey": "Private key",
                 "publicKey": "Public Key",
@@ -888,6 +894,7 @@
                 "cell6": "Do not access your wallet when using public Wi-Fi or someone else’s device.",
                 "nextButton": "I Understand",
                 "p1": "One of the most common forms of scamming is phishing, which is when scammers create fake communities on Facebook or other websites that look similar to the authentic ones.",
+                "saveSeedButton": "Save the SEED phrase",
                 "title": "How To Protect Yourself from Phishers"
             }
         }
