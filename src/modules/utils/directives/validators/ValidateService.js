@@ -116,12 +116,12 @@
                         index: i,
                         isAddress: this.address(item, value),
                         isValidAlis: this.isValidAlias(item)
-                    };
+                    }
                 });
 
                 const aliases = data.filter(item => !item.isAddress || item.isValidAlis);
                 return fetchAliases(aliases.map(item => item.alias)).then(result => {
-                    aliases.forEach((item, index) => {
+                    aliases.forEach((item , index) => {
                         if (result[index] && result[index].address) {
                             item.address = result[index].address;
                             item.isValidAlis = true;
@@ -156,7 +156,7 @@
             isValidAlias(alias) {
                 return waves.node.aliases.validate(alias || '');
             }
-
+            
             /**
              * @param {string} address
              * @param {'no-self'} [value]

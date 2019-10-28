@@ -13,7 +13,6 @@
      * @param {app.i18n} i18n
      * @param {typeof OrderList} OrderList
      * @param {Transactions} transactions
-     * @param {Matcher} matcher
      * @return {OrderBook}
      */
     const controller = function (Base,
@@ -25,8 +24,7 @@
                                  $scope,
                                  i18n,
                                  OrderList,
-                                 transactions,
-                                 matcher) {
+                                 transactions) {
 
         const SECTIONS = {
             ASKS: '.table__asks',
@@ -108,10 +106,6 @@
                  * @public
                  */
                 this.isScrolled = false;
-                /**
-                 * @type {TRestrictions | null}
-                 */
-                this.pairRestrictions = null;
 
                 this.receive(dexDataService.showSpread, () => {
                     this._dom.$box.stop().animate({ scrollTop: this._getSpreadScrollPosition() }, 300);
@@ -126,8 +120,6 @@
 
                 this._onChangeVisibleElements();
                 this._updateAssetData();
-
-                this.receive(utils.observe(matcher, 'pairRestrictions'), this._onChangeMatcherPairRestrictions, this);
             }
 
             $postLink() {
@@ -200,7 +192,6 @@
                         this.priceAsset = priceAsset;
                         this.amountAsset = amountAsset;
                         this.pair = new AssetPair(amountAsset, priceAsset);
-                        return this.pair;
                     });
             }
 
@@ -289,8 +280,8 @@
                 }, Object.create(null));
 
                 const lastTrade = lastPrice;
-                const bids = OrderBook._sumAllOrders(dataBids, 'sell', this.pairRestrictions);
-                const asks = OrderBook._sumAllOrders(dataAsks, 'buy', this.pairRestrictions).reverse();
+                const bids = OrderBook._sumAllOrders(dataBids, 'sell');
+                const asks = OrderBook._sumAllOrders(dataAsks, 'buy').reverse();
 
                 const maxAmount = OrderBook._getMaxAmount(bids, asks, crop);
 
@@ -342,17 +333,8 @@
                 };
 
                 const length = OrderList.ROWS_COUNT;
-                const stepPrecision = this.pairRestrictions ?
-                    {
-                        amount: (new BigNumber(this.pairRestrictions.stepAmount)).getDecimalsCount(),
-                        price: (new BigNumber(this.pairRestrictions.stepPrice)).getDecimalsCount()
-                    } :
-                    null;
-
-                this._asks.render(
-                    toLength(data.asks, length), data.crop, data.priceHash, data.maxAmount, pair, stepPrecision
-                );
-                this._bids.render(data.bids, data.crop, data.priceHash, data.maxAmount, pair, stepPrecision);
+                this._asks.render(toLength(data.asks, length), data.crop, data.priceHash, data.maxAmount, pair);
+                this._bids.render(data.bids, data.crop, data.priceHash, data.maxAmount, pair);
 
                 if (this._showSpread) {
                     this._showSpread = false;
@@ -372,52 +354,22 @@
             }
 
             /**
-             * @private
-             */
-            _onChangeMatcherPairRestrictions() {
-                const restrictions = matcher.pairRestrictions && matcher.pairRestrictions.restrictions;
-                const matchingRules = matcher.pairRestrictions && matcher.pairRestrictions.matchingRules;
-                if (restrictions && matchingRules) {
-                    const stepPrice = (new BigNumber(matchingRules.tickSize)).gt(restrictions.stepPrice) ?
-                        matchingRules.tickSize :
-                        restrictions.stepPrice;
-                    this.pairRestrictions = {
-                        ...restrictions,
-                        stepPrice
-                    };
-                } else if (matchingRules) {
-                    this.pairRestrictions = {
-                        stepPrice: matchingRules.tickSize
-                    };
-                } else {
-                    this.pairRestrictions = null;
-                }
-            }
-
-            /**
              * @param {Array<Matcher.IOrder>} list
              * @param {'buy'|'sell'} type
-             * @param {TRestrictions | null} restrictions
              * @return Array<OrderBook.IOrder>
              * @private
              */
-            static _sumAllOrders(list, type, restrictions) {
+            static _sumAllOrders(list, type) {
                 let total = new BigNumber(0);
                 let amountTotal = new BigNumber(0);
 
                 return list.map((item) => {
                     total = total.add(item.total);
                     amountTotal = amountTotal.add(item.amount);
-                    const amount = this._roundToStep(
-                        item.amount, restrictions && restrictions.stepAmount ? restrictions.stepAmount : undefined
-                    );
-                    const price = this._roundToStep(
-                        item.price, restrictions && restrictions.stepPrice ? restrictions.stepPrice : undefined
-                    );
                     return {
                         type,
-                        amount,
-                        price,
+                        amount: new BigNumber(item.amount),
+                        price: new BigNumber(item.price),
                         total,
                         totalAmount: amountTotal
                     };
@@ -455,20 +407,6 @@
                 return list.filter((o) => o.price.gte(crop.min) && o.price.lte(crop.max));
             }
 
-            /**
-             * @param {string | number} value
-             * @param {string | number} step?
-             * @private
-             */
-            static _roundToStep(value, step) {
-                if (!step) {
-                    return new BigNumber(value);
-                }
-                return new BigNumber(value).roundTo(
-                    (new BigNumber(step).getDecimalsCount())
-                );
-            }
-
         }
 
         return new OrderBook();
@@ -484,8 +422,7 @@
         '$scope',
         'i18n',
         'OrderList',
-        'transactions',
-        'matcher'
+        'transactions'
     ];
 
     angular.module('app.dex').component('wDexOrderBook', {
@@ -526,4 +463,3 @@
  * @property {{price: Money, lastSide: string}} lastTrade
  * @property {BigNumber} spread
  */
-

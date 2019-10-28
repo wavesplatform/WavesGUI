@@ -82,17 +82,16 @@
              * @param {OrderBook.IOrder} data
              * @param {OrderBook.ICrop} crop
              * @param {Record<string, boolean>} priceHash
-             * @param {TStepPrecision | null} stepPrecision
              * @param {AssetPair} pair
              */
-            render(data, crop, priceHash, pair, stepPrecision) {
+            render(data, crop, priceHash, pair) {
                 if (OrderListItem._isEqual(this._data, data)) {
                     return null;
                 }
 
                 this._pair = pair;
                 this._data = data;
-                this._draw(crop, priceHash, pair, stepPrecision);
+                this._draw(crop, priceHash, pair);
             }
 
             /**
@@ -106,25 +105,14 @@
              * @param {OrderBook.ICrop} [crop]
              * @param {Record<string, boolean>} [priceHash]
              * @param {AssetPair} [pair]
-             * @param {TStepPrecision | null} [stepPrecision]
              * @private
              */
-            _draw(crop, priceHash, pair, stepPrecision) {
+            _draw(crop, priceHash, pair) {
                 if (this._data) {
-                    const amountPrecision = stepPrecision && stepPrecision.amount ?
-                        Math.min(pair.amountAsset.precision, stepPrecision.amount) :
-                        pair.amountAsset.precision;
-
-                    const pricePrecision = stepPrecision && stepPrecision.price ?
-                        Math.min(pair.priceAsset.precision, stepPrecision.price) :
-                        pair.priceAsset.precision;
-
-                    this._amountNode.innerHTML = utils.getNiceNumberTemplate(
-                        this._data.amount, amountPrecision, true
-                    );
-                    this._priceNode.innerHTML = utils.getNiceNumberTemplate(
-                        this._data.price, pricePrecision, 100000
-                    );
+                    this._amountNode.innerHTML =
+                        utils.getNiceNumberTemplate(this._data.amount, pair.amountAsset.precision, true);
+                    this._priceNode.innerHTML =
+                        utils.getNiceNumberTemplate(this._data.price, pair.priceAsset.precision, 100000);
                     this._totalNode.innerHTML =
                         utils.getNiceNumberTemplate(this._data.total, pair.priceAsset.precision, true);
 
@@ -266,10 +254,4 @@
 
 /**
  * @name OrderListItem
- */
-
-/**
- * @typedef {object} TStepPrecision
- * @property {number} price
- * @property {number} amount
  */
