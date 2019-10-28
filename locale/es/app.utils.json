@@ -278,6 +278,12 @@
                 "warningText": "Verifique si su billetera o intercambio utiliza contratos inteligentes para retirar Bancor. No aceptamos tales transacciones y no podemos reembolsarlas. Perderá ese dinero.",
                 "warningTitle": "Por favor, no deposite BNT desde contratos inteligentes! No deposite otros tokens ERC20! Sólo se permite Bancor."
             },
+            "wavesGatewayBTC": {
+                "warningMinAmountText": "Si mandas menos de {{minAmount, BigNumber}} {{assetTicker}} perderás tu dinero.",
+                "warningMinAmountTitle": "La cantidad mínima a depositar es de {{minAmount, BigNumber}} {{assetTicker}}",
+                "warningText": "Enviar otro tipo de moneda a esta dirección puede ocasionar la pérdida de tu depósito.",
+                "warningTitle": "Envía solo BTC a esta dirección de depósito"
+            },
             "wavesGatewayERGO": {
                 "helpDescrText": "Una vez se confirme la transacción, la puerta de enlace procesará la transferencia de ERGO en forma de token a su cuenta de Waves.",
                 "helpDescrTitle": "Introduzca esta dirección en su cliente ERGO o billetera",

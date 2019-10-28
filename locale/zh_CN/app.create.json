@@ -2,7 +2,7 @@
     "backupSeed": {
         "back": "返回",
         "copySeed": "复制",
-        "description": "请小心，切勿将SEED输入其他站点，因为您的帐户将被盗用，并且您将损失所有资金。",
+        "description": "请小心，切勿将SEED输入其他客户，因为您的帐户将被盗用，并且您将损失所有资金。您只应使用Waves的官方客户端。",
         "needConfirm": "您需要在下一个页面确认备份短语（助记词）",
         "ok": "我已经写下短语",
         "or": "或",
@@ -80,6 +80,6 @@
     },
     "seed": {
         "copyToClipboard": "复制到剪贴板",
-        "saveToFile": "保存到文件"
+        "saveToFile": "另存为文件"
     }
 }

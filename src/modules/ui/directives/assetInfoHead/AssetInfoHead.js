@@ -27,6 +27,11 @@
              */
             tokenratingLink;
 
+            /**
+             * @type {number | null}
+             */
+            rating = null;
+
             $postLink() {
                 this._getAssetInfo();
                 this._setLink();
@@ -43,11 +48,7 @@
                     this.ticker = asset.ticker;
                     const { hasLabel, isGateway } = utils.getDataFromOracles(asset.id);
                     this.hasLabel = hasLabel;
-                    this.isGatewayOrWaves = this.assetId === WavesApp.defaultAssets.WAVES ||
-                        isGateway &&
-                        this.assetId !== WavesApp.defaultAssets.VST &&
-                        this.assetId !== WavesApp.defaultAssets.ERGO &&
-                        this.assetId !== WavesApp.defaultAssets.BNT;
+                    this.isGatewayOrWaves = this.assetId === WavesApp.defaultAssets.WAVES || isGateway;
                     $scope.$apply();
                 });
 
@@ -71,7 +72,7 @@
                     this.ratingError = true;
                     return null;
                 }
-                if (!assetList[0]) {
+                if (assetList.length === 0) {
                     return null;
                 }
 
