@@ -82,6 +82,8 @@
         }
 
         function handleLogin() {
+            notification.destroyAll();
+
             const notShownUpdates = user.getSetting('whatsNewList')
                 .filter(version => {
                     if (migration.gt(version, WavesApp.version)) {
