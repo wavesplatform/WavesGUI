@@ -278,6 +278,12 @@
                 "warningText": "Periksa apakah dompet atau pertukaran Anda menggunakan kontrak pintar untuk menarik Bancor. Kami tidak menerima transaksi tersebut dan tidak dapat mengembalikannya. Anda akan kehilangan uang itu.",
                 "warningTitle": "Tolong jangan setorkan BNT dari kontrak pintar! Jangan setorkan token ERC20 lainnya! Hanya Bancor yang diizinkan."
             },
+            "wavesGatewayBTC": {
+                "warningMinAmountText": "Jika Anda akan mengirim kurang dari {{minAmount, BigNumber}} {{assetTicker}}, Anda akan kehilangan uang itu.",
+                "warningMinAmountTitle": "Jumlah minimum setoran adalah {{minAmount, BigNumber}} {{assetTicker}} , jumlah setoran maksimum adalah {{maxAmount}} {{assetTicker}}",
+                "warningText": "Mengirimkan mata uang lain ke alamat ini dapat menyebabkan hilangnya deposit Anda.",
+                "warningTitle": "Kirim saja BTC ke alamat setoran ini"
+            },
             "wavesGatewayERGO": {
                 "helpDescrText": "Setelah transaksi dikonfirmasi, gateway akan memproses transfer ERGO ke token di akun Waves Anda.",
                 "helpDescrTitle": "Masukkan alamat ini ke klien atau dompet ERGO Anda",

@@ -278,6 +278,12 @@
                 "warningText": "Check if your wallet or exchange uses smart-contracts to withdraw Bancor. We do not accept such transactions and can’t refund them. You will lose that money.",
                 "warningTitle": "Please do not deposit BNT from smart contracts! Do not deposit other ERC20 tokens! Only Bancor is allowed."
             },
+            "wavesGatewayBTC": {
+                "warningMinAmountText": "{{minAmount, BigNumber}}以下の {{assetTicker}}を送金した場合、資産を紛失します。",
+                "warningMinAmountTitle": "最小デポジットは {{minAmount, BigNumber}} {{assetTicker}}です",
+                "warningText": "このアドレスに他の通貨を送信した場合、資産の消失につながる可能性があります。",
+                "warningTitle": "このデポジットアドレスにはBTCのみ送信してください"
+            },
             "wavesGatewayERGO": {
                 "helpDescrText": "トランザクションが承認されると、ゲートウェイはERGOの送信を進め、完了するとあなたのWavesアカウントにトークンが反映されます。",
                 "helpDescrTitle": "このアドレスをERGOクライアント、またはウォレットに入力してください",
