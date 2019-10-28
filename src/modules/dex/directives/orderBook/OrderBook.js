@@ -378,7 +378,7 @@
                 const restrictions = matcher.pairRestrictions && matcher.pairRestrictions.restrictions;
                 const matchingRules = matcher.pairRestrictions && matcher.pairRestrictions.matchingRules;
                 if (restrictions && matchingRules) {
-                    const stepPrice = +matchingRules.tickSize > +restrictions.stepPrice ?
+                    const stepPrice = (new BigNumber(matchingRules.tickSize)).gt(restrictions.stepPrice) ?
                         matchingRules.tickSize :
                         restrictions.stepPrice;
                     this.pairRestrictions = {
