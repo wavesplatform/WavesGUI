@@ -10,9 +10,11 @@
      * @param {typeof SeedBase} SeedBase
      * @param {ISeedService} seedService
      * @param {JQuery} $element
+     * @param {User} user
+     * @param {app.utils} utils
      * @return {Seed}
      */
-    const controller = function (SeedBase, seedService, $element) {
+    const controller = function (SeedBase, seedService, $element, user, utils) {
 
         class Seed extends SeedBase {
 
@@ -32,6 +34,9 @@
                 this._initialize();
             }
 
+            downloadSeed() {
+                utils.downloadFile(`${user.name}.txt`, this.seed);
+            }
 
             /**
              * @private
@@ -104,7 +109,7 @@
 
     };
 
-    controller.$inject = ['SeedBase', 'seedService', '$element'];
+    controller.$inject = ['SeedBase', 'seedService', '$element', 'user', 'utils'];
 
     angular.module('app.create').component('wSeedRead', {
         bindings: {

@@ -14,6 +14,13 @@
      */
     const factory = function (waves, $q, outerBlockchains, utils, user) {
 
+        const fetchAliases = utils.cache(
+            {},
+            waves.node.aliases.getByIdList,
+            (item) => item,
+            1000,
+            item => result => result.find(res => res && res.alias === item));
+
         class ValidateService {
 
             @toBigNumberArgs
@@ -95,6 +102,39 @@
                 });
             }
 
+            /**
+             * @param {string[]} addressList
+             * @param {'no-self'} [value]
+             * @return {Promise<boolean>}
+             */
+            wavesAddresses(addressList, value) {
+
+                const data = addressList.map((item, i) => {
+                    return {
+                        alias: item,
+                        address: item,
+                        index: i,
+                        isAddress: this.address(item, value),
+                        isValidAlis: this.isValidAlias(item)
+                    }
+                });
+
+                const aliases = data.filter(item => !item.isAddress || item.isValidAlis);
+                return fetchAliases(aliases.map(item => item.alias)).then(result => {
+                    aliases.forEach((item , index) => {
+                        if (result[index] && result[index].address) {
+                            item.address = result[index].address;
+                            item.isValidAlis = true;
+                        } else {
+                            item.isValidAlis = false;
+                        }
+                    });
+
+                    return data.map(item => ({ state: item.isValidAlis || item.isAddress, ...item }));
+                });
+
+            }
+
             outerBlockchains(address, assetId) {
                 if (!address || !assetId) {
                     return true;
@@ -109,6 +149,14 @@
                 return outerChain.isValidAddress(address);
             }
 
+            /**
+             * @param {string} alias
+             * @return {boolean}
+             */
+            isValidAlias(alias) {
+                return waves.node.aliases.validate(alias || '');
+            }
+            
             /**
              * @param {string} address
              * @param {'no-self'} [value]

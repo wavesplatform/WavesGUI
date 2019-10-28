@@ -278,6 +278,12 @@
                 "warningText": "Controlla se il tuo wallet o exchange utilizza smart contract per trasferire Bancor. Non accettiamo questo tipo di transazioni e non ci sarà possibile rimborsarle. L'importo trasferito andrà perduto.",
                 "warningTitle": "Per favore, non inviare BNT da smart contracts! Non inviare token ERC20! Accettiamo esclusivamente Bancor."
             },
+            "wavesGatewayBTC": {
+                "warningMinAmountText": "Inviando meno di {{minAmount, BigNumber}} {{assetTicker}}, l'importo trasferito andrà perduto.",
+                "warningMinAmountTitle": "Il deposito minimo è di {{minAmount, BigNumber}} {{assetTicker}}, il deposito massimo è di {{maxAmount}} {{assetTicker}}",
+                "warningText": "Inviare qualunque altra valuta a questo indirizzo potrebbe risultare in una perdita di quanto inviato.",
+                "warningTitle": "Invia esclusivamente BTC a questo indirizzo"
+            },
             "wavesGatewayERGO": {
                 "helpDescrText": "Una volta che la transazione sarà confermata, il gateway processerà il trasferimento di ERGO come token nel tuo account Waves.",
                 "helpDescrTitle": "Inserisci questo indirizzo nel client ERGO o nel tuo wallet",

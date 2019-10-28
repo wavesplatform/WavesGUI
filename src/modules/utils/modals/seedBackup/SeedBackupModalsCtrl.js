@@ -27,7 +27,7 @@
                 /**
                  * @type {number}
                  */
-                this.step = null;
+                this.step = 0;
                 /**
                  * @type {Seed}
                  */
@@ -42,14 +42,6 @@
                 this.seedIsValid = false;
 
                 this.observe('step', this._onChangeStep);
-
-                this.step = 0;
-
-                this.observe('step', () => {
-                    if (this.step === 2) {
-                        analytics.send({ name: 'Create Save Phrase Success Show', target: 'ui' });
-                    }
-                });
             }
 
             onSeedConfirmFulfilled(isValid) {
@@ -74,8 +66,10 @@
                 this.seedIsValid = false;
                 this.seedConfirmWasFilled = false;
                 this.titleLiteral = `title_${this.step}`;
-                if (this.step === 2) {
+
+                if (this.step === 1) {
                     user.setSetting('hasBackup', true);
+                    analytics.send({ name: 'Create Save Phrase Success Show', target: 'ui' });
                 }
             }
 

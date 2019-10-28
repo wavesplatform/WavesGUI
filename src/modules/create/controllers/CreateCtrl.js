@@ -17,10 +17,7 @@
         const PATH = 'modules/create/templates';
         const ORDER_LIST = [
             'createAccount',
-            'createAccountData',
-            'noBackupNoMoney',
-            'backupSeed',
-            'confirmBackup'
+            'createAccountData'
         ];
 
         const STATE_HASH = {
@@ -47,12 +44,6 @@
                 this.saveUserData = true;
 
                 this.resetAddress();
-
-                this.showTutorialModals();
-            }
-
-            showTutorialModals() {
-                return modalManager.showTutorialModals();
             }
 
             onSeedConfirmFulfilled(isValid) {

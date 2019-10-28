@@ -410,15 +410,10 @@
             }
 
             showTutorialModals() {
-                return user.getMultiAccountUsers().then(users => {
-                    return this._getModal({
-                        id: 'tutorial-modals',
-                        templateUrl: 'modules/utils/modals/tutorialModals/tutorialModals.html',
-                        controller: 'TutorialModalsCtrl',
-                        locals: {
-                            hasAccounts: users.length > 0
-                        }
-                    });
+                return this._getModal({
+                    id: 'tutorial-modals',
+                    templateUrl: 'modules/utils/modals/tutorialModals/tutorialModals.html',
+                    controller: 'TutorialModalsCtrl'
                 });
             }
 
@@ -430,7 +425,7 @@
                         const seed = new ds.Seed(phrase, window.WavesApp.network.code);
                         return this._getModal({
                             id: 'seed-backup',
-                            title: 'modal.backup.title.{{$ctrl.titleLiteral}}',
+                            // title: 'modal.backup.title.{{$ctrl.titleLiteral}}',
                             contentUrl: 'modules/utils/modals/seedBackup/seedBackupModals.html',
                             controller: 'SeedBackupModalsCtrl',
                             locals: { seed }
