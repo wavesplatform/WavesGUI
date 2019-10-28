@@ -253,6 +253,7 @@
                 this.scamListUrl = WavesApp.network.scamListUrl;
                 this.tokensNameListUrl = WavesApp.network.tokensNameListUrl;
                 this.oracleWaves = WavesApp.oracles.waves;
+                this.assetsOracleTmp = this.oracleWaves;
                 this.api = WavesApp.network.api;
             }
 
