@@ -200,7 +200,21 @@
                     })
                     .then(ds.api.matcher.getPairRestrictions)
                     .then((data) => {
-                        this.pairRestrictions = data;
+                        if (data.restrictions && data.matchingRules) {
+                            const stepPrice = +data.matchingRules.tickSize > +data.restrictions.stepPrice ?
+                                data.matchingRules.tickSize :
+                                data.restrictions.stepPrice;
+                            this.pairRestrictions = {
+                                ...data.restrictions,
+                                stepPrice
+                            };
+                        } else if (data.matchingRules) {
+                            this.pairRestrictions = {
+                                stepPrice: data.matchingRules.tickSize
+                            };
+                        } else {
+                            this.pairRestrictions = null;
+                        }
                     });
             }
 
@@ -234,7 +248,7 @@
                 ])
                     .then(([orderbook, orders, lastPrice]) => {
                         this.loadingError = false;
-                        return this._remapOrderBook(orderbook, orders, lastPrice, this.pairRestrictions.restrictions);
+                        return this._remapOrderBook(orderbook, orders, lastPrice);
                     })
                     .catch(() => {
                         this.loadingError = true;
@@ -289,8 +303,8 @@
                 }, Object.create(null));
 
                 const lastTrade = lastPrice;
-                const bids = OrderBook._sumAllOrders(dataBids, 'sell', this.pairRestrictions.restrictions);
-                const asks = OrderBook._sumAllOrders(dataAsks, 'buy', this.pairRestrictions.restrictions).reverse();
+                const bids = OrderBook._sumAllOrders(dataBids, 'sell', this.pairRestrictions);
+                const asks = OrderBook._sumAllOrders(dataAsks, 'buy', this.pairRestrictions).reverse();
 
                 const maxAmount = OrderBook._getMaxAmount(bids, asks, crop);
 
@@ -342,10 +356,10 @@
                 };
 
                 const length = OrderList.ROWS_COUNT;
-                const stepPrecision = this.pairRestrictions && this.pairRestrictions.restrictions ?
+                const stepPrecision = this.pairRestrictions ?
                     {
-                        amount: (new BigNumber(this.pairRestrictions.restrictions.stepAmount)).getDecimalsCount(),
-                        price: (new BigNumber(this.pairRestrictions.restrictions.stepPrice)).getDecimalsCount()
+                        amount: (new BigNumber(this.pairRestrictions.stepAmount)).getDecimalsCount(),
+                        price: (new BigNumber(this.pairRestrictions.stepPrice)).getDecimalsCount()
                     } :
                     null;
 
@@ -374,7 +388,7 @@
             /**
              * @param {Array<Matcher.IOrder>} list
              * @param {'buy'|'sell'} type
-             * @param {TRestrictions | null} restrictions
+             * @param {TPairRestrictions | null} restrictions
              * @return Array<OrderBook.IOrder>
              * @private
              */
@@ -505,17 +519,11 @@
 
 /**
  * @typedef {object} TPairRestrictions
- * @property {TRestrictions | null} restrictions
- * @property {tickSize: string} matchingRules
- */
-
-/**
- * @typedef {object} TRestrictions
- * @property {string} maxAmount
- * @property {string} maxPrice
+ * @property {string} maxAmount?
+ * @property {string} maxPrice?
  * @property {string} stepPrice
- * @property {string} stepAmount
- * @property {string} minPrice
- * @property {string} minAmount
+ * @property {string} stepAmount?
+ * @property {string} minPrice?
+ * @property {string} minAmount?
  */
 
