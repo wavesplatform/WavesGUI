@@ -190,7 +190,7 @@
                     } = utils.getDataFromOracles(this.balance.asset.id);
 
                     this.isVST = this.balance.asset.id === WavesApp.defaultAssets.VST;
-
+                    this.isGateway = isGateway;
                     this.isVerifiedOrGateway = isVerified || isGateway;
 
                     const html = template({
@@ -361,7 +361,9 @@
                         );
                     }).catch(() => null);
 
-                    if (typeof balance.rating === 'number') {
+                    const hasRate = balance.rating !== null;
+
+                    if (hasRate && !this.isGateway && balance.asset.id !== WavesApp.defaultAssets.WAVES) {
                         new RatingStarsFactory({
                             $container: this.$node.find(`.${SELECTORS.STARS_CONTAINER}`),
                             rating: balance.rating,
