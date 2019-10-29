@@ -346,18 +346,12 @@
 
                 Promise.all([
                     this._addRating(balanceList),
-                    ...splitEvery(20, assetList).map(list => waves.utils.getRateList(list, baseAssetId)),
-                    ...splitEvery(20, assetList).map(list => waves.utils.getRateList(list, baseAssetId, lastDayDate))
+                    waves.utils.getRateList(assetList, baseAssetId),
+                    waves.utils.getRateList(assetList, baseAssetId, lastDayDate)
                     // ...waves.utils.getRateListPost(assetList, baseAssetId)
-                ]).then(([balanceListWithRating, ...rateData]) => {
-                    const currentRateData = rateData.filter((data, i) => i < rateData.length / 2);
-                    const lastRateData = rateData.filter((data, i) => i >= rateData.length / 2);
-
-                    const flattenCurrentRateData = flatten(currentRateData.map(item => item.data));
-                    const currentRates = flattenCurrentRateData.map(item => new BigNumber(item.data.current));
-
-                    const flattenLastRateData = flatten(lastRateData.map(item => item.data));
-                    const lastRates = flattenLastRateData.map(item => new BigNumber(item.data.current));
+                ]).then(([balanceListWithRating, currentRateData, lastRateData]) => {
+                    const currentRates = currentRateData.data.map(item => new BigNumber(item.data.rate));
+                    const lastRates = lastRateData.data.map(item => new BigNumber(item.data.rate));
 
                     this.details = balanceListWithRating
                         .map((item, idx) => {
