@@ -408,9 +408,7 @@
                 return list.map((item) => {
                     total = total.add(item.total);
                     amountTotal = amountTotal.add(item.amount);
-                    const amount = this._roundToStep(
-                        item.amount, restrictions && restrictions.stepAmount ? restrictions.stepAmount : undefined
-                    );
+                    const amount = new BigNumber(item.amount);
                     const price = this._roundToStep(
                         item.price, restrictions && restrictions.stepPrice ? restrictions.stepPrice : undefined
                     );

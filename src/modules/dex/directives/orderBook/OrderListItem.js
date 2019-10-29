@@ -111,16 +111,12 @@
              */
             _draw(crop, priceHash, pair, stepPrecision) {
                 if (this._data) {
-                    const amountPrecision = stepPrecision && stepPrecision.amount ?
-                        Math.min(pair.amountAsset.precision, stepPrecision.amount) :
-                        pair.amountAsset.precision;
-
                     const pricePrecision = stepPrecision && stepPrecision.price ?
                         Math.min(pair.priceAsset.precision, stepPrecision.price) :
                         pair.priceAsset.precision;
 
                     this._amountNode.innerHTML = utils.getNiceNumberTemplate(
-                        this._data.amount, amountPrecision, true
+                        this._data.amount, pair.amountAsset.precision, true
                     );
                     this._priceNode.innerHTML = utils.getNiceNumberTemplate(
                         this._data.price, pricePrecision, 100000
