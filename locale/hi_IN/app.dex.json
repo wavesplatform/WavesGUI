@@ -75,6 +75,9 @@
             "stopPriceHelp": "This is an automatic buy or sell order at a predetermined price",
             "total": "कुल योग"
         },
+        "createorder": {
+            "yourBalance": "Your balance"
+        },
         "demo": {
             "createAccount": "एक नया खाता बनाएं",
             "or": "या",

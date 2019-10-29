@@ -75,6 +75,9 @@
             "stopPriceHelp": "This is an automatic buy or sell order at a predetermined price",
             "total": "총금액"
         },
+        "createorder": {
+            "yourBalance": "Your balance"
+        },
         "demo": {
             "createAccount": "신규 계정을 생성하여",
             "or": "또는",

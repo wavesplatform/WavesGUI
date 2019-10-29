@@ -75,6 +75,9 @@
             "stopPriceHelp": "Si tratta di un ordine automatico di acquisto o di vendita ad un prezzo predeterminato.",
             "total": "Totale"
         },
+        "createorder": {
+            "yourBalance": "Your balance"
+        },
         "demo": {
             "createAccount": "crea un nuovo account",
             "or": "oppure",

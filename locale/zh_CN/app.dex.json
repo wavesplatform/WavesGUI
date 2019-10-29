@@ -75,6 +75,9 @@
             "stopPriceHelp": "这是一个以预定价格自动买卖的订单",
             "total": "总额"
         },
+        "createorder": {
+            "yourBalance": "Your balance"
+        },
         "demo": {
             "createAccount": "创建新账户",
             "or": "或",

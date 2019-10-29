@@ -191,9 +191,12 @@
             <div class="caption-2" w-i18n="directives.createOrder.total"></div>
             <div ng-if="$ctrl.type === 'buy'"
                 ng-click="$ctrl.setMaxPrice()"
-                class="caption-2 disabled-900 underline-dashed"
+                class="caption-2 disabled-900 underline-dashed tooltip-active"
             >
                 <span class="basic-700" w-i18n="money-currency" params="{money: $ctrl.maxPriceBalance}"></span>
+                <div class="tooltip tooltip_create-order">
+                    <div class="tooltip__content" w-i18n="directives.createorder.yourBalance"></div>
+                </div>
             </div>
             <div ng-if="$ctrl.type === 'sell'"
                 ng-click="$ctrl.setMaxAmount()"
