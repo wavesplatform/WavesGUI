@@ -22,16 +22,18 @@ export function get<K extends keyof IConfigParams>(key: K): IConfigParams[K] {
 export function set<K extends keyof IConfigParams>(key: K, value: IConfigParams[K]): void {
     config[key] = value;
     if (key === 'node') {
-        time().then(serverTime => {
-            const now = Date.now();
-            const dif = now - serverTime.getTime();
+        time()
+            .then(serverTime => {
+                const now = Date.now();
+                const dif = now - serverTime.getTime();
 
-            if (Math.abs(dif) > 1000 * 30) {
-                timeDiff = dif;
-            } else {
-                timeDiff = 0;
-            }
-        });
+                if (Math.abs(dif) > 1000 * 30) {
+                    timeDiff = dif;
+                } else {
+                    timeDiff = 0;
+                }
+            })
+            .catch(() => null);
     }
     if (key === 'matcher') {
         matcherSettingsPromise = request<any>({

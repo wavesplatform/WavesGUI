@@ -347,7 +347,8 @@
                             const baseAssetBalance = balance.available.getTokens().mul(rate).toFormat(2);
                             this.node.querySelector(`.${SELECTORS.EXCHANGE_RATE}`).innerHTML = rate.toFixed(2);
                             this.node.querySelector(`.${SELECTORS.BASE_ASSET_BALANCE}`).innerHTML = baseAssetBalance;
-                        });
+                        })
+                        .catch(() => null);
 
                     const startDate = this.utils.moment().add().day(-7);
                     this.waves.utils.getRateHistory(balance.asset.id, baseAssetId, startDate).then(values => {
