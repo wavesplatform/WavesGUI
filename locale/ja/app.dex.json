@@ -47,6 +47,7 @@
             "last": "最終",
             "limit": "Limit Order",
             "market": "Market Order",
+            "marketPriceField": "Price",
             "matcherFee": "手数料",
             "notifications": {
                 "error": {
@@ -73,6 +74,9 @@
             "stopPriceField": "Stop price",
             "stopPriceHelp": "This is an automatic buy or sell order at a predetermined price",
             "total": "合計"
+        },
+        "createorder": {
+            "yourBalance": "Your balance"
         },
         "demo": {
             "createAccount": "新しいアカウントを作成",

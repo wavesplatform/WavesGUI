@@ -278,6 +278,14 @@
                 "warningText": "Verifique si su billetera o intercambio utiliza contratos inteligentes para retirar Bancor. No aceptamos tales transacciones y no podemos reembolsarlas. Perderá ese dinero.",
                 "warningTitle": "Por favor, no deposite BNT desde contratos inteligentes! No deposite otros tokens ERC20! Sólo se permite Bancor."
             },
+            "wavesGatewayBTC": {
+                "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of BTC to a token in your Waves account.",
+                "helpDescrTitle": "Ingrese esta dirección en su cartera o cliente BTC",
+                "warningMinAmountText": "Si mandas menos de {{minAmount, BigNumber}} {{assetTicker}} perderás tu dinero.",
+                "warningMinAmountTitle": "La cantidad mínima a depositar es de {{minAmount, BigNumber}} {{assetTicker}}",
+                "warningText": "Enviar otro tipo de moneda a esta dirección puede ocasionar la pérdida de tu depósito.",
+                "warningTitle": "Envía solo BTC a esta dirección de depósito"
+            },
             "wavesGatewayERGO": {
                 "helpDescrText": "Una vez se confirme la transacción, la puerta de enlace procesará la transferencia de ERGO en forma de token a su cuenta de Waves.",
                 "helpDescrTitle": "Introduzca esta dirección en su cliente ERGO o billetera",
@@ -287,6 +295,8 @@
                 "warningTitle": "Enviar solo ERGO a esta dirección de depósito"
             },
             "wavesGatewayETH": {
+                "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of ETH to a token in your Waves account.",
+                "helpDescrTitle": "Enter this address into your ETH client or wallet",
                 "warningMinAmountText": "Si mandas menos de {{minAmount, BigNumber}} {{assetTicker}} perderás tu dinero.",
                 "warningMinAmountTitle": "La cantidad mínima de depósito es {{minAmount, BigNumber}} {{assetTicker}}, la cantidad máxima de depósito es {{maxAmount}} {{assetTicker}}",
                 "warningText": "Comprueba si tu monedero o tu exchange utiliza Smart-contracts para retirar ETH. No aceptamos ese tipo de transacción y no podemos devolverlo. Perderás ese dinero.",
@@ -296,7 +306,15 @@
                 "helpDescrText": "Una vez que se confirma la transacción, la puerta de enlace procesará la transferencia de VST en forma de token a su cuenta Waves.",
                 "helpDescrTitle": "Ingrese esta dirección en su cartera o cliente VST",
                 "warningMinAmountTitle": "La cantidad mínima de depósito es {{minAmount, BigNumber}} {{assetTicker}}, la cantidad máxima de depósito es {{maxAmount}} {{assetTicker}}"
-            }
+            },
+            "wavesGatewayWEST": {
+                "helpDescrText": "Una vez que se confirma la transacción, la puerta de enlace procesará la transferencia de WEST en forma de token a su cuenta Waves.",
+                "helpDescrText_copy": "Una vez que se confirma la transacción, la puerta de enlace procesará la transferencia de WEST en forma de token a su cuenta Waves.",
+                "helpDescrTitle": "Ingrese esta dirección en su cartera o cliente WEST",
+                "helpDescrTitle_copy": "Ingrese esta dirección en su cartera o cliente WEST",
+                "warningMinAmountTitle": "La cantidad mínima de depósito es {{minAmount, BigNumber}} {{assetTicker}}, la cantidad máxima de depósito es {{maxAmount}} {{assetTicker}}"
+            },
+            "wavesGatewayWEST:warningMinAmountTitle_copy": "La cantidad mínima de depósito es {{minAmount, BigNumber}} {{assetTicker}}, la cantidad máxima de depósito es {{maxAmount}} {{assetTicker}}"
         },
         "dexScriptedPair": {
             "body": "Los Smart Assets son activos que incluyen un script que establece las condiciones para la circulación del token.{div}[Le recomendamos que no realice operaciones con Smart Assets si es un usuario sin la experiencia suficiente. Antes de realizar una transacción, lea atentamente la información sobre el activo y su script.]",
@@ -476,6 +494,9 @@
             "verified": "Verificado",
             "vostok": {
                 "serverError": "Servicio VST temporalmente no disponible. Inténtalo de nuevo más tarde."
+            },
+            "wavesEnterprise": {
+                "serverError_copy": "Servicio WEST temporalmente no disponible. Inténtalo de nuevo más tarde."
             },
             "wtry": {
                 "info": "Si tuvieras problemas con el proceso de pago, por favor, contacta con el equipo de soporte de Digilira - [support@digilira.com](mailto:support@digilira.com)"
@@ -963,7 +984,7 @@
                 "1_3_0": "\"span.line\" [1. Se ha mejorado la navegación de la aplicación y la interfaz de la página de inicio.]",
                 "1_3_18": "{span.line} [1. Inicio de sesión agregado a la billetera con clave privada.] \n {span.line} [2. El cambio de precio de 24 horas de un token ahora está vinculado al par de tokens / WAVES.]",
                 "1_3_19": "{span.line}[1. Se ha puesto en marcha la puerta de enlace Bancor.]\n{span.line}[2. Se ha corregido la interfaz de usuario y algunos errores menores.]",
-                "1_3_2": "\"span.line\" [1. Se ha puesto en marcha la puerta de enlace VST.]\n\"span.line\" [2. Se ha corregido la interfaz de usuario y algunos errores menores.]",
+                "1_3_2": "\"span.line\" [1. Se ha puesto en marcha la puerta de enlace WEST.]\n\"span.line\" [2. Se ha corregido la interfaz de usuario y algunos errores menores.]",
                 "1_3_20": "{span.line} [1. Sistema mejorado para almacenar y restaurar cuentas desde el almacenamiento local (es necesario actualizar la [aplicación de escritorio] (https://wavesplatform.com/technology/wallet)).] \n {span.line} [2. Se corrigió el redondeo de precios en el libro de pedidos.]",
                 "1_3_5": "\"span.line\" [1. Se ha añadido una pestaña con tokens de concurso [wsoc.io](https://wsoc.io).\n\"span.line\" [2. Se ha añadido compatibilidad con el idioma francés.]\n\"span.line\" [3. Se han corregido errores menores adicionales.]",
                 "1_3_7": "\"span.line\" [1. Integración con [tokenrating.wavesexplorer.com](https://tokenrating.wavesexplorer.com) Ahora puede calificar tokens directamente en la aplicación.]\n\"span.line\" [2. Se han corregido errores menores.]",

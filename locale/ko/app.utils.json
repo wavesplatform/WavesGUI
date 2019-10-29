@@ -278,6 +278,14 @@
                 "warningText": "Check if your wallet or exchange uses smart-contracts to withdraw Bancor. We do not accept such transactions and can’t refund them. You will lose that money.",
                 "warningTitle": "Please do not deposit BNT from smart contracts! Do not deposit other ERC20 tokens! Only Bancor is allowed."
             },
+            "wavesGatewayBTC": {
+                "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of BTC to a token in your Waves account.",
+                "helpDescrTitle": "이 주소를 BTC 클라이언트 또는 지갑에 입력하세요",
+                "warningMinAmountText": "{{minAmount, BigNumber}} 미만의  {{assetTicker}}를 입금할 경우 귀하의 자산을 잃게 됩니다.",
+                "warningMinAmountTitle": "최소 입금액은 {{minAmount, BigNumber}} {{assetTicker}} 입니다",
+                "warningText": "이 주소로 다른 암호화폐를 전송할 경우 귀하의 자산을 잃게 됩니다.",
+                "warningTitle": "본 입금 주소로 BTC만 전송하세요"
+            },
             "wavesGatewayERGO": {
                 "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of ERGO to a token in your Waves account.",
                 "helpDescrTitle": "Enter this address into your ERGO client or wallet",
@@ -287,6 +295,8 @@
                 "warningTitle": "Send only ERGO to this deposit address"
             },
             "wavesGatewayETH": {
+                "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of ETH to a token in your Waves account.",
+                "helpDescrTitle": "Enter this address into your ETH client or wallet",
                 "warningMinAmountText": "If you will send less than {{minAmount, BigNumber}} {{assetTicker}}, you will lose that money.",
                 "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}, the maximum amount of deposit is {{maxAmount}} {{assetTicker}}",
                 "warningText": "ETH를 출금하려고 하는 지갑 또는 거래소가 Smart-Contracts를 사용하는지 확인하세요. 당사는 해당 트랜잭션을 수신하지 않으며 환불 또한 불가능합니다. 귀하의 자산을 잃게 됩니다.",
@@ -296,7 +306,15 @@
                 "helpDescrText": "트랜잭션이 승인되면 게이트웨이가 귀하의 Waves 계정에서 VST를 토큰으로 전송하는 작업을 처리할 것입니다.",
                 "helpDescrTitle": "이 주소를 VST 클라이언트 또는 지갑에 입력하세요",
                 "warningMinAmountTitle": "최소 입금액은 {{minAmount, BigNumber}} {{assetTicker}} 이며 최대 입금액은 {{maxAmount}} {{assetTicker}} 입니다."
-            }
+            },
+            "wavesGatewayWEST": {
+                "helpDescrText": "트랜잭션이 승인되면 게이트웨이가 귀하의 Waves 계정에서 WEST를 토큰으로 전송하는 작업을 처리할 것입니다.",
+                "helpDescrText_copy": "트랜잭션이 승인되면 게이트웨이가 귀하의 Waves 계정에서 WEST를 토큰으로 전송하는 작업을 처리할 것입니다.",
+                "helpDescrTitle": "이 주소를 WEST 클라이언트 또는 지갑에 입력하세요",
+                "helpDescrTitle_copy": "이 주소를 WEST 클라이언트 또는 지갑에 입력하세요",
+                "warningMinAmountTitle": "최소 입금액은 {{minAmount, BigNumber}} {{assetTicker}} 이며 최대 입금액은 {{maxAmount}} {{assetTicker}} 입니다."
+            },
+            "wavesGatewayWEST:warningMinAmountTitle_copy": "최소 입금액은 {{minAmount, BigNumber}} {{assetTicker}} 이며 최대 입금액은 {{maxAmount}} {{assetTicker}} 입니다."
         },
         "dexScriptedPair": {
             "body": "스마트 자산은 토큰의 순한을 위한 조건을 설정하는 스크립트가 포함된 자산입니다.{div}[숙련된 사용자가 아니라면 스마트 자산을 사용하는 작업을 수행하는 것을 권장하지 않습니다. 트랜잭션 전 해당 자산과 스크립트에 대한 정보를 반드시 확인하시기 바랍니다.]",
@@ -476,6 +494,9 @@
             "verified": "인증 완료",
             "vostok": {
                 "serverError": "VST 서비스를 일시적으로 사용할 수 없습니다. 나중에 다시 시도하세요."
+            },
+            "wavesEnterprise": {
+                "serverError_copy": "WEST를 서비스를 일시적으로 사용할 수 없습니다. 나중에 다시 시도하세요."
             },
             "wtry": {
                 "info": "지불 처리와 관련된 문제가 있을 경우 Digilira 지원팀에 문의하세요 — [support@digilira.com](mailto:support@digilira.com)"
@@ -963,7 +984,7 @@
                 "1_3_0": "{span.line}[1. 앱 네비게이션 및 시작 페이지 인터페이스 개선.]",
                 "1_3_18": "{span.line}[1. Added login to wallet using a private key.]\n{span.line}[2. The 24 hours price change of a token is now bound to token/WAVES pair.]",
                 "1_3_19": "{span.line}[1. Bancor gateway has been launched.]\n{span.line}[2. User menu interface has been improved.]",
-                "1_3_2": "{span.line}[1. VST 게이트웨이 런칭 완료.]\n{span.line}[2. UI 개선 및 기타 버그 픽스.]",
+                "1_3_2": "{span.line}[1. WEST 게이트웨이 런칭 완료.]\n{span.line}[2. UI 개선 및 기타 버그 픽스.]",
                 "1_3_20": "{span.line}[1. Improved system for storing and restoring accounts from local storage (Need to update the [desktop application](https://wavesplatform.com/technology/wallet)).]\n{span.line}[2. Fixed rounding of prices in the orderbook.]",
                 "1_3_5": "{span.line}[1. [wsoc.io](https://wsoc.io) 컨테스트 토큰 탭 추가 완료.]\n{span.line}[2. 프랑스어 지원 추가.]\n{span.line}[3. 기타 버그 픽스.]",
                 "1_3_7": "{span.line}[1. Integration with [tokenrating.wavesexplorer.com](https://tokenrating.wavesexplorer.com)과의 통합. 앱에서 토큰을 평가할 수 있습니다.]\n{span.line}[2. 기타 버그 픽스.]",

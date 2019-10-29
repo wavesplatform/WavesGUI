@@ -278,6 +278,14 @@
                 "warningText": "Controleer of uw wallet of exchange smart-contracts gebruikt om Bancor op te nemen. Wij accepteren zulke transacties niet en kunnen dit niet terug betalen. U raakt op deze manier uw geld kwijt.",
                 "warningTitle": "Stort BNT niet via smart contracts! Stort geen andere ERC20-tokens! Alleen Bancor is toegestaan."
             },
+            "wavesGatewayBTC": {
+                "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of BTC to a token in your Waves account.",
+                "helpDescrTitle": "Dit adres invoeren in uw BTC-client of wallet",
+                "warningMinAmountText": "Als u minder dan {{minAmount, BigNumber}} {{assetTicker}} verstuurd raakt u dit geld kwijt.",
+                "warningMinAmountTitle": "Het minimale stortingsbedrag is {{minAmount, BigNumber}} {{assetTicker}}, het maximale stortingsbedrag is {{maxAmount}} {{assetTicker}}",
+                "warningText": "Het versturen van elke andere currency naar dit adres kan resulteren in het verlies van uw storting.",
+                "warningTitle": "Verstuur enkel BTC naar dit deposit adres"
+            },
             "wavesGatewayERGO": {
                 "helpDescrText": "Zodra de transactie is bevestigd, verwerkt de gateway de overdracht van ERGO naar een token in uw Waves-account.",
                 "helpDescrTitle": "Voer dit adres in uw ERGO-client of portemonnee in",
@@ -287,6 +295,8 @@
                 "warningTitle": "Stuur alleen ERGO naar dit stortingsadres"
             },
             "wavesGatewayETH": {
+                "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of ETH to a token in your Waves account.",
+                "helpDescrTitle": "Enter this address into your ETH client or wallet",
                 "warningMinAmountText": "Als u minder dan {{minAmount, BigNumber}} {{assetTicker}} verstuurt, verliest u dat geld.",
                 "warningMinAmountTitle": "Het minimale stortingsbedrag is {{minAmount, BigNumber}} {{assetTicker}}, het maximale stortingsbedrag is {{maxAmount}} {{assetTicker}}",
                 "warningText": "Controleer of uw wallet of exchange smart-contracts gebruikt om ETH the withdrawen. Wij accepteren zulke transacties niet en kunnen dit niet terug betalen. U raakt op deze manier uw geld kwijt.",
@@ -296,7 +306,15 @@
                 "helpDescrText": "Zodra de transactie bevestigd is zal de gateway de transactie behandelen en dit omzetten naar een VST token in uw Waves account.",
                 "helpDescrTitle": "Dit adres invoeren in uw VST-client of wallet",
                 "warningMinAmountTitle": "Het minimale stortingsbedrag is {{minAmount, BigNumber}} {{assetTicker}}, het maximale stortingsbedrag is {{maxAmount}} {{assetTicker}}"
-            }
+            },
+            "wavesGatewayWEST": {
+                "helpDescrText": "Zodra de transactie bevestigd is zal de gateway de transactie behandelen en dit omzetten naar een WEST token in uw Waves account.",
+                "helpDescrText_copy": "Zodra de transactie bevestigd is zal de gateway de transactie behandelen en dit omzetten naar een WEST token in uw Waves account.",
+                "helpDescrTitle": "Dit adres invoeren in uw WEST-client of wallet",
+                "helpDescrTitle_copy": "Dit adres invoeren in uw WEST-client of wallet",
+                "warningMinAmountTitle": "Het minimale stortingsbedrag is {{minAmount, BigNumber}} {{assetTicker}}, het maximale stortingsbedrag is {{maxAmount}} {{assetTicker}}"
+            },
+            "wavesGatewayWEST:warningMinAmountTitle_copy": "Het minimale stortingsbedrag is {{minAmount, BigNumber}} {{assetTicker}}, het maximale stortingsbedrag is {{maxAmount}} {{assetTicker}}"
         },
         "dexScriptedPair": {
             "body": "Smart assets zijn assets die een script bevatten dat die voorwaarden van het token bepalen.{div}[We raden u niet aan om smart assets te gebruiken als u een onervaren gebruiker bent. Lees de informatie over het asset en het script zorgvuldig voordat u een transactie uitvoert.]",
@@ -476,6 +494,9 @@
             "verified": "Geverifieerd",
             "vostok": {
                 "serverError": "Service VST tijdelijk niet beschikbaar. Probeer het later opnieuw."
+            },
+            "wavesEnterprise": {
+                "serverError_copy": "Service WEST tijdelijk niet beschikbaar. Probeer het later opnieuw."
             },
             "wtry": {
                 "info": "Neem in geval van problemen met de betalingsverwerking contact op met het Digilira-ondersteuningsteam - [support@digilira.com](mailto:support@digilira.com)"
@@ -963,7 +984,7 @@
                 "1_3_0": "{span.line}[1. Spam tokens and transactions have been hidden in client.]\n{span.line}[2. Improved UI and additional minor bugs have been fixed.]",
                 "1_3_18": "{span.line}[1. Added login to wallet using a private key.]\n{span.line}[2. The 24 hours price change of a token is now bound to token/WAVES pair.]",
                 "1_3_19": "{span.line}[1. Bancor gateway has been launched.]\n{span.line}[2. User menu interface has been improved.]",
-                "1_3_2": "{span.line}[1. VST gateway has been launched.]\n{span.line}[2. Improved UI and additional minor bugs have been fixed.]",
+                "1_3_2": "{span.line}[1. WEST gateway has been launched.]\n{span.line}[2. Improved UI and additional minor bugs have been fixed.]",
                 "1_3_20": "{span.line}[1. Improved system for storing and restoring accounts from local storage (Need to update the [desktop application](https://wavesplatform.com/technology/wallet)).]\n{span.line}[2. Fixed rounding of prices in the orderbook.]",
                 "1_3_5": "{span.line}[1. A tab with [wsoc.io](https://wsoc.io) contest tokens has been added.]\n{span.line}[2. French language support added.]\n{span.line}[3. Additional minor bugs have been fixed.]",
                 "1_3_7": "{span.line}[1. Integration with [tokenrating.wavesexplorer.com](https://tokenrating.wavesexplorer.com) Now you can rate tokens directly in the app.]\n{span.line}[2. Additional minor bugs have been fixed.]",
