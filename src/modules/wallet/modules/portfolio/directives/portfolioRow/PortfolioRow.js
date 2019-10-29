@@ -189,7 +189,7 @@
                         isTokenomica, logo, isGatewaySoon
                     } = utils.getDataFromOracles(this.balance.asset.id);
 
-                    this.isWE = this.balance.asset.id === WavesApp.defaultAssets.WE;
+                    this.isWEST = this.balance.asset.id === WavesApp.defaultAssets.WEST;
 
                     this.isVerifiedOrGateway = isVerified || isGateway;
 
@@ -199,7 +199,7 @@
                         isVerified: this.isVerified,
                         isGateway: isGateway,
                         isTokenomica: isTokenomica,
-                        isWE: this.isWE,
+                        isWEST: this.isWEST,
                         isGatewaySoon: isGatewaySoon,
                         assetIconPath: logo ||
                             this.utils.getAssetLogo(this.balance.asset.id),

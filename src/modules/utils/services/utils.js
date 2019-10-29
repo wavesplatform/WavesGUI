@@ -66,7 +66,7 @@
         [WavesApp.defaultAssets.BSV]: '/img/assets/bitcoin-cash-sv.svg',
         [WavesApp.defaultAssets.TRY]: '/img/assets/try.svg',
         [WavesApp.defaultAssets.XMR]: '/img/assets/xmr.svg',
-        [WavesApp.defaultAssets.WE]: '/img/assets/we.svg',
+        [WavesApp.defaultAssets.WEST]: '/img/assets/west.svg',
         [WavesApp.defaultAssets.ERGO]: '/img/assets/ergo.svg',
         [WavesApp.defaultAssets.BNT]: '/img/assets/bnt.svg',
         [WavesApp.otherAssetsWithIcons.EFYT]: '/img/assets/efyt.svg',

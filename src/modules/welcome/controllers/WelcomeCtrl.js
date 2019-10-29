@@ -38,7 +38,7 @@
 
         const PAIRS_IN_SLIDER = [
             {
-                amount: WavesApp.defaultAssets.WE,
+                amount: WavesApp.defaultAssets.WEST,
                 price: 'WAVES'
             },
             {
