@@ -1177,6 +1177,24 @@
                     });
             }
 
+            /**
+             * @private
+             * @return {boolean}
+             */
+            _isBestBid() {
+                const bestBidPrice = this.priceBalance.cloneWithTokens(String(this.bid.price));
+                return this.price.eq(bestBidPrice);
+            }
+
+            /**
+             * @private
+             * @return {boolean}
+             */
+            _isBestAsk() {
+                const bestAskPrice = this.priceBalance.cloneWithTokens(String(this.ask.price));
+                return this.price.eq(bestAskPrice);
+            }
+
         }
 
         return new CreateOrder();

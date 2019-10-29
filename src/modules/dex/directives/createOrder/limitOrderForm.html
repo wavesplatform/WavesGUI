@@ -2,8 +2,8 @@
     <div class="price">
         <div class="field-label">
             <div class="basic-500" w-i18n="directives.createOrder.priceField"></div>
-            <div ng-if="$ctrl.type === 'buy'" ng-click="$ctrl.setAskPrice()" class="best-price">Best Ask</div>
-            <div ng-if="$ctrl.type === 'sell'" ng-click="$ctrl.setBidPrice()" class="best-price">Best Bid</div>
+            <div ng-if="$ctrl.type === 'buy'" ng-click="$ctrl.setAskPrice()" ng-class="{'is-best-price': $ctrl._isBestAsk()}" class="best-price">Best Ask</div>
+            <div ng-if="$ctrl.type === 'sell'" ng-click="$ctrl.setBidPrice()" ng-class="{'is-best-price': $ctrl._isBestBid()}" class="best-price">Best Bid</div>
         </div>
 
         <div class="input-wrapper" ng-class="{'invalid': $ctrl.isPriceInvalid()}">

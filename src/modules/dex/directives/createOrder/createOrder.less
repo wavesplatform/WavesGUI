@@ -507,8 +507,12 @@ w-create-order {
           }
 
           .best-price {
-            color: @color-submit-300;
+            color: @color-basic-500;
             cursor: pointer;
+
+            &.is-best-price {
+              color: @color-submit-300;
+            }
           }
 
           &__market {
