@@ -1,5 +1,3 @@
-// @ts-check
-
 (() => {
     'use strict';
 
@@ -11,17 +9,12 @@
      * @param {*} Base
      * @param {ng.ILogService} $log
      * @param {*} $mdDialog
-     * @param {*} storageImporter
+     * @param {*} storageExporter
      */
-    const controller = function (Base, $log, $mdDialog, storageImporter) {
+    const controller = function (Base, $log, $mdDialog, storageExporter) {
         const SEED_LENGTH = 20;
 
         class MigrateModalCtrl extends Base {
-
-            /**
-             * @todo separate it for new and old client
-             */
-            mode = window.opener ? 'import' : 'export';
 
             constructor() {
                 super();
@@ -33,7 +26,7 @@
                     });
                 } else {
                     this.connectProvider = new ds.connect.PostMessageConnectProvider({
-                        mode: this.mode
+                        mode: 'export'
                     });
                 }
             }
@@ -52,7 +45,7 @@
                     const publicKeyTo = result.payload;
                     const { publicKey, privateKey } = keyPair(seedUtils.generateNewSeed(SEED_LENGTH));
 
-                    return storageImporter.export(
+                    return storageExporter.export(
                         privateKey,
                         publicKeyTo
                     ).then((data) => {
@@ -81,7 +74,7 @@
         return new MigrateModalCtrl();
     };
 
-    controller.$inject = ['Base', '$log', '$mdDialog', 'storageImporter'];
+    controller.$inject = ['Base', '$log', '$mdDialog', 'storageExporter'];
 
     angular.module('app.utils').controller('MigrateModalCtrl', controller);
 })();
