@@ -47,6 +47,7 @@
             "last": "체결가",
             "limit": "Limit Order",
             "market": "Market Order",
+            "marketPriceField": "Price",
             "matcherFee": "수수료",
             "notifications": {
                 "error": {
@@ -73,6 +74,9 @@
             "stopPriceField": "Stop price",
             "stopPriceHelp": "This is an automatic buy or sell order at a predetermined price",
             "total": "총금액"
+        },
+        "createorder": {
+            "yourBalance": "Your balance"
         },
         "demo": {
             "createAccount": "신규 계정을 생성하여",
