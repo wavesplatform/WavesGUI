@@ -15,7 +15,7 @@
         const entities = require('@waves/data-entities');
         const { BigNumber } = require('@waves/bignumber');
         const {
-            flatten, pipe, map,
+            flatten, pipe, map, pathOr,
             where, prop, gte, allPass,
             lte, filter, length, equals,
             __
@@ -72,55 +72,48 @@
             /**
              * Looks for cached results for list of pairs
              * @param {string[]} pairs
-             * @param {string} baseAssetId
              * @param {Date|number|Moment} [date] timestamp or Date
              * @return {IRateList}
              */
-            _selectCachedRateList(pairs, baseAssetId, date) {
+            _selectCachedRateList(pairs, date) {
                 this._invalidateRateListCache();
 
-                const cacheCandidates = this.rateListCache
-                    .filter((cache) => {
-                        return cache.pairs.length >= pairs.length &&
-                            cache.baseAssetId === baseAssetId &&
-                            cache.date === date;
-                    });
+                const foundCaches = pairs
+                    .map(
+                        (pair) => pathOr(undefined, [pair, String(date), 'rate'], this.rateListCache)
+                    )
+                    .filter(Boolean);
 
-                const cache = cacheCandidates.find(
-                    // cache should contain each pair's rate
-                    (cacheCandidate) => pairs.every((pair) => Boolean(cacheCandidate.result[pair]))
-                );
-
-                if (cache) {
-                    return {
-                        data: pairs.map((pair) => cache.result[pair])
-                    };
-                } else {
-                    return undefined;
-                }
+                return foundCaches.length === pairs.length ? { data: foundCaches } : undefined;
             }
 
             /**
              * Invalidates rate list cache
              */
             _invalidateRateListCache() {
-                this.rateListCache = this.rateListCache.filter(
-                    (cache) => cache.timestamp >= Date.now() - this.rateListCacheMaxAge
-                );
+                Object.keys(this.rateListCache).forEach((pair) => {
+                    Object.keys(this.rateListCache[pair]).forEach((date) => {
+                        if (this.rateListCache[pair][date].timestamp < Date.now() - this.rateListCacheMaxAge) {
+                            delete this.rateListCache[pair][date];
+                        }
+                    });
+                });
             }
             /**
              * Saves rate list to cache
              */
-            _cacheRateListRequest({ result, pairs, ...rest }) {
-                this.rateListCache.push({
-                    pairs,
-                    // results are stored as { [pair]: rate } for faster cache lookup
-                    result: result.data.reduce((acc, rate, index) => {
-                        acc[pairs[index]] = rate;
+            _cacheRateListRequest({ pairs, date, rates, timestamp }) {
+                // cache entry format: { [pair]: { [date]: { rate, timestamp } } }
+                rates.data.forEach((rate, index) => {
+                    const pair = pairs[index];
+                    const cacheEntry = pathOr({}, [pair], this.rateListCache);
 
-                        return acc;
-                    }, {}),
-                    ...rest
+                    cacheEntry[String(date)] = Object.assign(Object.create(null), {
+                        rate,
+                        timestamp
+                    });
+
+                    this.rateListCache[pair] = cacheEntry;
                 });
             }
             /**
@@ -134,7 +127,7 @@
 
                 // request takes up to 2seconds for the server to respond, standard cache decorator doesn't work
                 // so custom cache is built for this particular request
-                const cachedResult = this._selectCachedRateList(pairs, baseAssetId, date);
+                const cachedResult = this._selectCachedRateList(pairs, date);
 
                 if (cachedResult) {
                     return Promise.resolve(cachedResult);
@@ -152,16 +145,15 @@
                             headers: { 'Content-Type': 'application/json; charset=utf8' },
                             body: JSON.stringify(requestBody)
                         })
-                        .then((rateList) => {
+                        .then((rates) => {
                             this._cacheRateListRequest({
                                 pairs,
-                                baseAssetId,
                                 date,
-                                result: rateList,
+                                rates,
                                 timestamp: Date.now()
                             });
 
-                            return rateList;
+                            return rates;
                         });
                 }
 

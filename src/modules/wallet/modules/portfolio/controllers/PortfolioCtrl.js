@@ -353,11 +353,39 @@
                     const currentRates = currentRateData.data.map(item => new BigNumber(item.data.rate));
                     const lastRates = lastRateData.data.map(item => new BigNumber(item.data.rate));
 
+                    // searches for match between balance item <-> rate, needed because
+                    // when rates are retrieved from cache their order may be different from balance list
+                    const getMatchingRates = (balanceItem) => {
+                        const predicate = (rate) => {
+                            const assetId = typeof balanceItem.asset === 'string' ?
+                                balanceItem.asset :
+                                balanceItem.asset.id;
+
+                            return rate.amountAsset === assetId && rate.priceAsset === baseAssetId;
+                        };
+
+                        const indexCurrent = currentRateData.data.findIndex(predicate);
+
+                        // performance tweak
+                        // most likely currentRateData cache items will match lastRateData cache items
+                        if (
+                            currentRateData.data[indexCurrent].amountAsset ===
+                            lastRateData.data[indexCurrent].amountAsset
+                        ) {
+                            return [currentRates[indexCurrent], lastRates[indexCurrent]];
+                        } else {
+                            const indexLast = lastRateData.data.findIndex(predicate);
+
+                            return [currentRates[indexCurrent], lastRates[indexLast]];
+                        }
+                    };
+
                     this.details = balanceListWithRating
-                        .map((item, idx) => {
+                        .map((item) => {
                             const isPinned = this._isPinned(item.asset.id);
                             const isSpam = this._isSpam(item.asset.id);
                             const isOnScamList = user.scam[item.asset.id];
+                            const [currentRate, lastRate] = getMatchingRates(item);
                             return {
                                 available: item.available,
                                 asset: item.asset,
@@ -369,9 +397,9 @@
                                 minSponsoredAssetFee: item.asset.minSponsoredAssetFee,
                                 sponsorBalance: item.asset.sponsorBalance,
                                 leasedOut: item.leasedOut,
-                                change24: this._getChange24(currentRates[idx], lastRates[idx]),
-                                rate: currentRates[idx],
-                                amount: (new BigNumber(currentRates[idx].roundTo(2))).mul(item.available.getTokens())
+                                change24: this._getChange24(currentRate, lastRate),
+                                rate: currentRate,
+                                amount: (new BigNumber(currentRate.roundTo(2))).mul(item.available.getTokens())
                             };
                         })
                         .reduce((acc, item) => {
