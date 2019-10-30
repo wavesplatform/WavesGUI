@@ -303,8 +303,8 @@
                 "warningTitle": "Verstuur geen ETH vanuit smart contracts naar dit adres. Stort geen ERC20 tokens! Alleen Ethereum is toegestaan."
             },
             "wavesGatewayVST": {
-                "helpDescrText": "Zodra de transactie bevestigd is zal de gateway de transactie behandelen en dit omzetten naar een VST token in uw Waves account.",
-                "helpDescrTitle": "Dit adres invoeren in uw VST-client of wallet",
+                "helpDescrText": "Zodra de transactie bevestigd is zal de gateway de transactie behandelen en dit omzetten naar een WEST token in uw Waves account.",
+                "helpDescrTitle": "Dit adres invoeren in uw WEST-client of wallet",
                 "warningMinAmountTitle": "Het minimale stortingsbedrag is {{minAmount, BigNumber}} {{assetTicker}}, het maximale stortingsbedrag is {{maxAmount}} {{assetTicker}}"
             },
             "wavesGatewayWEST": {
@@ -493,7 +493,7 @@
             "shareInvoiceLink": "Deel een link naar een factuur",
             "verified": "Geverifieerd",
             "vostok": {
-                "serverError": "Service VST tijdelijk niet beschikbaar. Probeer het later opnieuw."
+                "serverError": "Service WEST tijdelijk niet beschikbaar. Probeer het later opnieuw."
             },
             "wavesEnterprise": {
                 "serverError_copy": "Service WEST tijdelijk niet beschikbaar. Probeer het later opnieuw."

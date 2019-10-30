@@ -303,8 +303,8 @@
                 "warningTitle": "ETH akıllı kontratlarından yatırma işlemi yapmayınız. ERC20 tokenleri yatırmayınız! Sadece Ethereum transferleri kabul edilir."
             },
             "wavesGatewayVST": {
-                "helpDescrText": "İşlem onaylandıktan sonra VSTlar Waves adresinize geçit tarafından gönderilir.",
-                "helpDescrTitle": "Bu adresi VST cüzdanına ya da uygulamasına giriniz.",
+                "helpDescrText": "İşlem onaylandıktan sonra WESTlar Waves adresinize geçit tarafından gönderilir.",
+                "helpDescrTitle": "Bu adresi WEST cüzdanına ya da uygulamasına giriniz.",
                 "warningMinAmountTitle": "Minimum yatırma tutarı {{minAmount, BigNumber}} {{assetTicker}}'dir. Maksimum yatırma tutarı ise {{maxAmount}} {{assetTicker}}'dir."
             },
             "wavesGatewayWEST": {
@@ -493,7 +493,7 @@
             "shareInvoiceLink": "Faturanın bir kopyasını paylaş",
             "verified": "Doğrulandı",
             "vostok": {
-                "serverError": "VST geçici olarak hizmet dışıdır. Daha sonra tekrar deneyiniz."
+                "serverError": "WEST geçici olarak hizmet dışıdır. Daha sonra tekrar deneyiniz."
             },
             "wavesEnterprise": {
                 "serverError_copy": "WEST geçici olarak hizmet dışıdır. Daha sonra tekrar deneyiniz."
