@@ -189,8 +189,9 @@
                         isTokenomica, logo, isGatewaySoon
                     } = utils.getDataFromOracles(this.balance.asset.id);
 
-                    this.isVST = this.balance.asset.id === WavesApp.defaultAssets.VST;
                     this.isGateway = isGateway;
+                    this.isWEST = this.balance.asset.id === WavesApp.defaultAssets.WEST;
+
                     this.isVerifiedOrGateway = isVerified || isGateway;
 
                     const html = template({
@@ -199,7 +200,7 @@
                         isVerified: this.isVerified,
                         isGateway: isGateway,
                         isTokenomica: isTokenomica,
-                        isVST: this.isVST,
+                        isWEST: this.isWEST,
                         isGatewaySoon: isGatewaySoon,
                         assetIconPath: logo ||
                             this.utils.getAssetLogo(this.balance.asset.id),

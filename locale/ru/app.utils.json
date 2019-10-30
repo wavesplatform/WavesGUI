@@ -303,8 +303,8 @@
                 "warningTitle": "Не отправляйте ETH со смарт-контрактов! Не отправляйте ERC20-токены! Только Ethereum."
             },
             "wavesGatewayVST": {
-                "helpDescrText": "Как только транзакция будет подтверждена, шлюз отправит VST-токен на ваш аккаунт Waves.",
-                "helpDescrTitle": "Введите этот адрес в ваш VST клиент или кошелёк.",
+                "helpDescrText": "Как только транзакция будет подтверждена, шлюз отправит WEST-токен на ваш аккаунт Waves.",
+                "helpDescrTitle": "Введите этот адрес в ваш WEST клиент или кошелёк.",
                 "warningMinAmountTitle": "Минимальная сумма депозита {{minAmount, BigNumber}} {{assetTicker}}, максимальная сумма депозита {{maxAmount}} {{assetTicker}}"
             },
             "wavesGatewayWEST": {
@@ -493,7 +493,7 @@
             "shareInvoiceLink": "Ссылка на выставленный счет",
             "verified": "Проверенный",
             "vostok": {
-                "serverError": "Сервис VST временно недоступен. Попробуйте, пожалуйста, позже."
+                "serverError": "Сервис WEST временно недоступен. Попробуйте, пожалуйста, позже."
             },
             "wavesEnterprise": {
                 "serverError_copy": "Сервис WEST временно недоступен. Попробуйте, пожалуйста, позже."

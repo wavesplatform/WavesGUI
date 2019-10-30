@@ -303,8 +303,8 @@
                 "warningTitle": "Bitte hinterlegen sie ETH nicht von Smart Contracts! Hinterlegen sie keine ERC20 Tokens! Nur Ethereum ist erlaubt."
             },
             "wavesGatewayVST": {
-                "helpDescrText": "Sobald die Transaktion bestätigt ist, verarbeitet das Gateway die Übertragung der VST Token zu einem Token in ihrem Waves Account.",
-                "helpDescrTitle": "Geben Sie diese Adresse in Ihren VST-Kunden oder Ihr Wallet ein.",
+                "helpDescrText": "Sobald die Transaktion bestätigt ist, verarbeitet das Gateway die Übertragung der WEST Token zu einem Token in ihrem Waves Account.",
+                "helpDescrTitle": "Geben Sie diese Adresse in Ihren WEST-Kunden oder Ihr Wallet ein.",
                 "warningMinAmountTitle": "Der Mindesteinzahlungsbetrag beträgt {{minAmount, BigNumber}} {{assetTicker}}, der Höchsteinzahlungsbetrag beträgt {{maxAmount}} {{assetTicker}}"
             },
             "wavesGatewayWEST": {
@@ -493,7 +493,7 @@
             "shareInvoiceLink": "Teilen sie einen Link zu einer Rechnung",
             "verified": "Geprüft",
             "vostok": {
-                "serverError": "Der VST Service ist vorübergehend nicht verfügbar. Versuchen sie es später noch einmal."
+                "serverError": "Der WEST Service ist vorübergehend nicht verfügbar. Versuchen sie es später noch einmal."
             },
             "wavesEnterprise": {
                 "serverError_copy": "Der WEST Service ist vorübergehend nicht verfügbar. Versuchen sie es später noch einmal."

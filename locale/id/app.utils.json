@@ -303,8 +303,8 @@
                 "warningTitle": "Tolong jangan depositkan ETH dari kontrak pintar! Jangan setor token ERC20! Hanya Ethereum yang diizinkan."
             },
             "wavesGatewayVST": {
-                "helpDescrText": "Setelah transaksi dikonfirmasi, gateway akan memproses transfer VST ke token di akun Waves Anda.",
-                "helpDescrTitle": "Masukkan alamat ini ke klien atau dompet VST Anda",
+                "helpDescrText": "Setelah transaksi dikonfirmasi, gateway akan memproses transfer WEST ke token di akun Waves Anda.",
+                "helpDescrTitle": "Masukkan alamat ini ke klien atau dompet WEST Anda",
                 "warningMinAmountTitle": "Jumlah minimum deposit adalah {{minAmount, BigNumber}} {{assetTicker}}, jumlah deposit maksimum adalah {{maxAmount}} {{assetTicker}}"
             },
             "wavesGatewayWEST": {
@@ -493,7 +493,7 @@
             "shareInvoiceLink": "Bagikan Tautan ke Faktur",
             "verified": "Terverifikasi",
             "vostok": {
-                "serverError": "Layanan VST sementara tidak tersedia. Coba lagi nanti."
+                "serverError": "Layanan WEST sementara tidak tersedia. Coba lagi nanti."
             },
             "wavesEnterprise": {
                 "serverError_copy": "Layanan WEST sementara tidak tersedia. Coba lagi nanti."
