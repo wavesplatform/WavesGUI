@@ -45,6 +45,9 @@
             "fee": "Biaya {{fee}} WAVES",
             "hasScript": "Batalkan [skrip](https://docs.wavesplatform.com/en/waves-client/advanced_features/script_transaction.html) untuk pertukaran",
             "last": "Terakhir",
+            "limit": "Limit Order",
+            "market": "Market Order",
+            "marketPriceField": "Price",
             "matcherFee": "Biaya",
             "notifications": {
                 "error": {
@@ -71,6 +74,9 @@
             "stopPriceField": "Stop price",
             "stopPriceHelp": "This is an automatic buy or sell order at a predetermined price",
             "total": "Total"
+        },
+        "createorder": {
+            "yourBalance": "Your balance"
         },
         "demo": {
             "createAccount": "Buat akun baru",

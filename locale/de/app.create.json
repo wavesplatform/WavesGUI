@@ -2,12 +2,15 @@
     "backupSeed": {
         "back": "Zurück",
         "copySeed": "kopieren",
+        "description": "Please be careful and never input your SEED into other clients, because your account will be compromised and you will lose all of your funds. You should only use the official Waves clients.",
         "needConfirm": "Sie müssen die Phrase auf dem nächsten Bildschirm bestätigen.",
         "ok": "Ich habe es aufgeschrieben.",
         "or": "oder",
         "saveSecret": "Backup Phrase sichern",
+        "seedPhrase": "Seed Phrase",
         "warn": "Da nur Sie Ihr Geld kontrollieren, müssen Sie Ihre Backup-Phrase speichern, falls diese App gelöscht wird",
-        "writeSeed": "Bitte diese 15 Worte sorgfältig aufschreiben."
+        "writeSeed": "Bitte diese 15 Worte sorgfältig aufschreiben.",
+        "yourSeed": "Ihr Seed"
     },
     "confirmBackup": {
         "again": "und wieder drücken",
@@ -74,5 +77,9 @@
         "or": "oder",
         "skip": "Später",
         "title": "Keine Sicherung (Backup), kein Geld"
+    },
+    "seed": {
+        "copyToClipboard": "Copy to clipboard",
+        "saveToFile": "Save as file"
     }
 }

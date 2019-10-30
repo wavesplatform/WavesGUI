@@ -1,68 +1,41 @@
+<div class="btn icon-close" w-modal-close></div>
+
 <w-step-by-step w-i18n-ns="app.create" active-step="$ctrl.step">
     <w-step>
-
-        <div class="backup-seed text-center">
-
-            <div class="body-2 margin-05">
-                <span w-i18n="backupSeed.writeSeed"></span>
-                <span>&nbsp;<span w-i18n="backupSeed.or"></span>&nbsp;<a w-copy="::$ctrl.seed.phrase" w-i18n="backupSeed.copySeed"></a></span>
+        <div class="backup-seed">
+            <div class="text-center margin-2 backup-seed__icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80">
+                    <g fill="none" fill-rule="evenodd">
+                        <path fill="currentColor" d="M50 0l20 20v27.68a11.94 11.94 0 00-3-.64V23H54a6 6 0 01-6-5.78V3H12a3 3 0 00-3 2.82V74a3 3 0 002.82 3H53.6a12.05 12.05 0 002.46 3H12a6 6 0 01-6-5.78V6a6 6 0 015.78-6H50zm2 64v3H17.5a1.5 1.5 0 010-3H52zm1.6-11a11.93 11.93 0 00-1.22 3H17.5a1.5 1.5 0 010-3zm4.9-11a1.5 1.5 0 010 3h-41a1.5 1.5 0 010-3h41zm0-11a1.5 1.5 0 010 3h-41a1.5 1.5 0 010-3h41zm-17-11a1.5 1.5 0 010 3h-24a1.5 1.5 0 010-3h24zM51 5.23V17a3 3 0 002.82 3h.17l11.73-.04L50.99 5.23z"/>
+                        <path fill="#5A81EA" d="M65 50a7.7 7.7 0 017.7 7.7v5.91A9.96 9.96 0 0175 70a10 10 0 11-20 0 9.96 9.96 0 012.3-6.39v-5.92A7.7 7.7 0 0165 50zm0 13a7 7 0 100 14 7 7 0 000-14zm0 4.7a1.92 1.92 0 011.16 3.45v1.54a1.15 1.15 0 01-2.31 0v-1.54A1.92 1.92 0 0165 67.7zM65 53a4.7 4.7 0 00-4.7 4.7v3.47A9.96 9.96 0 0165 60c1.7 0 3.3.42 4.7 1.17v-3.48C69.7 55.1 67.58 53 65 53z"/>
+                    </g>
+                </svg>
             </div>
 
-            <w-seed-read type="read"
-                         seed="{{::$ctrl.seed.phrase}}"></w-seed-read>
+            <h3 class="basic-700 margin-2 text-center" w-i18n="backupSeed.seedPhrase"></h3>
 
-            <div class="body-2 basic-900 margin-2">
-                <span w-i18n="backupSeed.needConfirm"></span>
+            <div class="body-2 basic-500 margin-2">
+                <span w-i18n="backupSeed.description"></span>
+            </div>
+
+            <div class="body-2 basic-900 margin-05">
+                <span w-i18n="backupSeed.yourSeed"></span>
+            </div>
+
+            <div class="margin-2">
+                <w-seed-read
+                    type="read"
+                    seed="{{::$ctrl.seed.phrase}}"
+                ></w-seed-read>
             </div>
 
             <w-button class="submit big long" w-step-next>
                 <span w-i18n="backupSeed.ok"></span>
             </w-button>
         </div>
-
     </w-step>
+
     <w-step>
-
-        <div class="confirm-backup text-center">
-
-            <div class="body-2 margin-05">
-                <span w-i18n="modal.confirmBackupDescription"></span>
-            </div>
-
-            <w-seed-write class="margin-4"
-                          on-fulfilled="$ctrl.onSeedConfirmFulfilled(isValid)"
-                          on-touch="$ctrl.seedOnTouch()"
-                          seed="{{::$ctrl.seed.phrase}}"></w-seed-write>
-
-            <div class="body-2 basic-900 margin-05">
-                <span w-i18n="confirmBackup.enterCorrect"></span>
-            </div>
-
-            <w-seed-read class="margin-4" type="random" seed="{{::$ctrl.seed.phrase}}"></w-seed-read>
-
-            <div class="error-500 body-2 margin-05"
-                 ng-if="$ctrl.seedConfirmWasFilled && !$ctrl.seedIsValid"
-                 w-i18n="confirmBackup.error"></div>
-
-            <w-delegate class="body-2 margin-3" selector="'span.clear'" handler="$ctrl.clear()"
-                ng-if="$ctrl.seedConfirmWasFilled && !$ctrl.seedIsValid">
-                <span w-i18n="modal.backup.clearSeed" w-i18n-ns="app.utils"></span>
-            </w-delegate>
-
-            <div class="buttons-wrapper">
-                <w-button class="big long" w-step-prev>
-                    <span w-i18n="modal.prev"></span>
-                </w-button>
-                <w-button disabled="!$ctrl.seedIsValid" class="big long submit" w-step-next>
-                    <span w-i18n="modal.next"></span>
-                </w-button>
-            </div>
-
-        </div>
-
-    </w-step>
-    <w-step>
-
         <div class="text-center overflow-h">
             <div class="icon-tx-success"></div>
             <h2 class="basic-700" w-i18n="modal.successHeadline"></h2>
@@ -72,6 +45,5 @@
                 <span w-i18n="modal.understand"></span>
             </w-button>
         </div>
-
     </w-step>
 </w-step-by-step>

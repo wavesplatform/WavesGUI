@@ -45,6 +45,9 @@
             "fee": "फीस {{fee}} WAVES",
             "hasScript": "रद्द करें [स्क्रिप्ट](https://docs.wavesplatform.com/en/waves-client/advanced_features/script_transaction.html) व्यापार करने के लिए",
             "last": "अंतिम",
+            "limit": "Limit Order",
+            "market": "Market Order",
+            "marketPriceField": "Price",
             "matcherFee": "Fee",
             "notifications": {
                 "error": {
@@ -71,6 +74,9 @@
             "stopPriceField": "Stop price",
             "stopPriceHelp": "This is an automatic buy or sell order at a predetermined price",
             "total": "कुल योग"
+        },
+        "createorder": {
+            "yourBalance": "Your balance"
         },
         "demo": {
             "createAccount": "एक नया खाता बनाएं",

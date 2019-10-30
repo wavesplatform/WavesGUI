@@ -278,6 +278,14 @@
                 "warningText": "Check if your wallet or exchange uses smart-contracts to withdraw Bancor. We do not accept such transactions and can’t refund them. You will lose that money.",
                 "warningTitle": "Please do not deposit BNT from smart contracts! Do not deposit other ERC20 tokens! Only Bancor is allowed."
             },
+            "wavesGatewayBTC": {
+                "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of BTC to a token in your Waves account.",
+                "helpDescrTitle": "このアドレスをBTCクライアント、またはウォレットに入力してください",
+                "warningMinAmountText": "{{minAmount, BigNumber}}以下の {{assetTicker}}を送金した場合、資産を紛失します。",
+                "warningMinAmountTitle": "最小デポジットは {{minAmount, BigNumber}} {{assetTicker}}です",
+                "warningText": "このアドレスに他の通貨を送信した場合、資産の消失につながる可能性があります。",
+                "warningTitle": "このデポジットアドレスにはBTCのみ送信してください"
+            },
             "wavesGatewayERGO": {
                 "helpDescrText": "トランザクションが承認されると、ゲートウェイはERGOの送信を進め、完了するとあなたのWavesアカウントにトークンが反映されます。",
                 "helpDescrTitle": "このアドレスをERGOクライアント、またはウォレットに入力してください",
@@ -287,16 +295,26 @@
                 "warningTitle": "このデポジットアドレスにはERGOのみ送信してください"
             },
             "wavesGatewayETH": {
+                "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of ETH to a token in your Waves account.",
+                "helpDescrTitle": "Enter this address into your ETH client or wallet",
                 "warningMinAmountText": "If you will send less than {{minAmount, BigNumber}} {{assetTicker}}, you will lose that money.",
                 "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}, the maximum amount of deposit is {{maxAmount}} {{assetTicker}}",
                 "warningText": "あなたのウォレットと取引所がスマートコントラクトを用いて、ETHを引出していないか、確認してください。私たちはそのような形式のトランザクションを受け入れておらず、返金することもできません。あなたはあなたの資金を失います。",
                 "warningTitle": "ETHをスマートコントラクトからデポジットしないでください。また、ERC20トークンもデポジットしないでください。"
             },
             "wavesGatewayVST": {
-                "helpDescrText": "トランザクションが承認されると、ゲートウェイはVSTの送信を進め、あなたのWavesアカウントにトークンが反映されます。",
-                "helpDescrTitle": "このアドレスをVSTクライアント、またはウォレットに入力してください",
+                "helpDescrText": "トランザクションが承認されると、ゲートウェイはWESTの送信を進め、あなたのWavesアカウントにトークンが反映されます。",
+                "helpDescrTitle": "このアドレスをWESTクライアント、またはウォレットに入力してください",
                 "warningMinAmountTitle": "最小デポジット額は{{minAmount, BigNumber}} {{assetTicker}}、最大デポジット額は{{maxAmount}} {{assetTicker}}です"
-            }
+            },
+            "wavesGatewayWEST": {
+                "helpDescrText": "トランザクションが承認されると、ゲートウェイはWESTの送信を進め、あなたのWavesアカウントにトークンが反映されます。",
+                "helpDescrText_copy": "トランザクションが承認されると、ゲートウェイはWESTの送信を進め、あなたのWavesアカウントにトークンが反映されます。",
+                "helpDescrTitle": "このアドレスをWESTクライアント、またはウォレットに入力してください",
+                "helpDescrTitle_copy": "このアドレスをWESTクライアント、またはウォレットに入力してください",
+                "warningMinAmountTitle": "最小デポジット額は{{minAmount, BigNumber}} {{assetTicker}}、最大デポジット額は{{maxAmount}} {{assetTicker}}です"
+            },
+            "wavesGatewayWEST:warningMinAmountTitle_copy": "最小デポジット額は{{minAmount, BigNumber}} {{assetTicker}}、最大デポジット額は{{maxAmount}} {{assetTicker}}です"
         },
         "dexScriptedPair": {
             "body": "スマートアセットはトークンの流通に対して条件を設定できるスクリプトを含むアセットです。{div}[もし、あなたが十分な知識を有していない場合、スマートアセットを利用することは推奨しません。トランザクションを作成する前に、アセットとスクリプトに関する情報を慎重に読んでください。]",
@@ -475,7 +493,10 @@
             "shareInvoiceLink": "請求書リンクを共有",
             "verified": "承認済",
             "vostok": {
-                "serverError": "現在、一時的に、VSTのサービスがご利用いただけません。再度お試しください。"
+                "serverError": "現在、一時的に、WESTのサービスがご利用いただけません。再度お試しください。"
+            },
+            "wavesEnterprise": {
+                "serverError_copy": "現在、一時的に、WESTのサービスがご利用いただけません。再度お試しください。"
             },
             "wtry": {
                 "info": "送金処理に問題が生じた場合、Digiliraのサポートチームに連絡してください。— [support@digilira.com](mailto:support@digilira.com)"
@@ -888,6 +909,7 @@
                 "cell6": "公共のWi-Fiに接続している時、または自分以外のデバイスを使用する際、あなたのウォレットにはアクセスしないでください。",
                 "nextButton": "理解しました",
                 "p1": "最も一般的な詐欺の方法の一つがフィッシングです。Facebookやウェブサイト上で公式に似たページを偽造するケースが多いです。",
+                "saveSeedButton": "Save the SEED phrase",
                 "title": "あなたを詐欺師から守る方法"
             }
         }
@@ -962,7 +984,7 @@
                 "1_3_0": "{span.line} [1. アプリのナビゲーションとスタートページのインターフェースが改善されました。]",
                 "1_3_18": "{span.line}[1. 秘密鍵によるログインが可能になりました。]{span.line}[2. 24時間以内のトークン価格の変化がトークン/WAVESペアに対応しました。]",
                 "1_3_19": "{span.line}[1. Bancor gateway has been launched.]\n{span.line}[2. User menu interface has been improved.]",
-                "1_3_2": "{span.line} [1. VSTのゲートウェイが追加されました。 \n{span.line} [2. UIの改善と、いくつかのマイナーなバグを修正しました。]",
+                "1_3_2": "{span.line} [1. WESTのゲートウェイが追加されました。 \n{span.line} [2. UIの改善と、いくつかのマイナーなバグを修正しました。]",
                 "1_3_20": "{span.line}[1. Improved system for storing and restoring accounts from local storage (Need to update the [desktop application](https://wavesplatform.com/technology/wallet)).]\n{span.line}[2. Fixed rounding of prices in the orderbook.]",
                 "1_3_5": "{span.line}[1. [wsoc.io](https://wsoc.io) コンテスト用のトークンタブが追加されました。]{span.line}[2. フランス語に対応しました。]{span.line}[3. 一部のマイナーバグを修正しました。]",
                 "1_3_7": "{span.line}[1.[tokenrating.wavesexplorer.com](https://tokenrating.wavesexplorer.com) に対応。アプリから直接トークンのレーティングが可能に。]{span.line}[2. 追加のマイナーバグを修正しました。]",

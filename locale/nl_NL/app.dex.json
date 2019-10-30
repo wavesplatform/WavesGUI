@@ -45,6 +45,9 @@
             "fee": "Tarief {{fee}} WAVES",
             "hasScript": "Annuleer [script](https://docs.wavesplatform.com/en/waves-client/advanced_features/script_transaction.html) om te handelen",
             "last": "Laatste",
+            "limit": "Limit Order",
+            "market": "Market Order",
+            "marketPriceField": "Price",
             "matcherFee": "Transactiekosten",
             "notifications": {
                 "error": {
@@ -71,6 +74,9 @@
             "stopPriceField": "Stop price",
             "stopPriceHelp": "This is an automatic buy or sell order at a predetermined price",
             "total": "Totaal"
+        },
+        "createorder": {
+            "yourBalance": "Your balance"
         },
         "demo": {
             "createAccount": "Maak een nieuw account aan",

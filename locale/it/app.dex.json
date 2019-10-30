@@ -19,7 +19,7 @@
         "candleChart": {
             "error": "{div}[Non è stato possibile scaricare il listino.]{div}[Se vuoi usare questo listino nella tua applicazione, invia una richiesta a [tradingview.com](https://tradingview.com)]"
         },
-        "charts": "charts",
+        "charts": "grafici",
         "createOrder": {
             "1day": "1 giorno",
             "1hour": "1 ora",
@@ -37,14 +37,17 @@
                 "amountMin": "Importo minimo -",
                 "balance": "{{name}} insufficienti",
                 "precision": "Superamento del massimo di {{precision}} posizioni decimali",
-                "priceMax": "Max Price - ",
-                "priceMin": "Min Price - ",
+                "priceMax": "Prezzo mas -",
+                "priceMin": "Prezzo min - ",
                 "required": "Questo campo è obbligatorio"
             },
             "expiration": "Scadenza",
             "fee": "Spese {{fee}} WAVES",
             "hasScript": "Cancella [script](https://docs.wavesplatform.com/en/waves-client/advanced_features/script_transaction.html) da scambiare",
             "last": "Ultimi",
+            "limit": "Ordine limite",
+            "market": "Ordine di mercato",
+            "marketPriceField": "Price",
             "matcherFee": "Spese",
             "notifications": {
                 "error": {
@@ -68,9 +71,12 @@
             "priceField": "Prezzo Limite",
             "sell": "Vendi",
             "spread": "spread",
-            "stopPriceField": "Stop price",
-            "stopPriceHelp": "This is an automatic buy or sell order at a predetermined price",
+            "stopPriceField": "Prezzo stop",
+            "stopPriceHelp": "Si tratta di un ordine automatico di acquisto o di vendita ad un prezzo predeterminato.",
             "total": "Totale"
+        },
+        "createorder": {
+            "yourBalance": "Your balance"
         },
         "demo": {
             "createAccount": "crea un nuovo account",
@@ -151,7 +157,7 @@
                 "header": "Qualcosa non ha funzionato"
             }
         },
-        "orders": "orders",
+        "orders": "ordini",
         "portfolio": {
             "title": "Portafoglio"
         },
@@ -237,12 +243,12 @@
             "all": "Tutto",
             "btc": "Btc",
             "eth": "ETH",
-            "history": "history",
+            "history": "cronologia",
             "myBalance": "Il mio bilancio",
             "myTradeHistory": "Il mio storico ordini",
             "openOrders": "I miei ordini pendenti",
             "OrderHistory": "Storico Ordini",
-            "trade": "Trade",
+            "trade": "Commercio",
             "tradeHistory": "Storico Ordini",
             "waves": "Waves"
         }

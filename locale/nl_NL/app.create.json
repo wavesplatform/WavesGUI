@@ -2,12 +2,15 @@
     "backupSeed": {
         "back": "terug",
         "copySeed": "kopieer ze",
+        "description": "Please be careful and never input your SEED into other clients, because your account will be compromised and you will lose all of your funds. You should only use the official Waves clients.",
         "needConfirm": "U bevestigt deze zin op het volgende scherm.",
         "ok": "Ik heb het opgeschreven",
         "or": "of",
         "saveSecret": "Bewaar back-up regel",
+        "seedPhrase": "Seed Phrase",
         "warn": "Omdat alleen u uw geld beheert, moet u uw back-up regel bewaren voor het geval deze app wordt verwijderd of",
-        "writeSeed": "Noteer deze 15 woorden zorgvuldig"
+        "writeSeed": "Noteer deze 15 woorden zorgvuldig",
+        "yourSeed": "Uw backup regel"
     },
     "confirmBackup": {
         "again": "en tik opnieuw",
@@ -74,5 +77,9 @@
         "or": "of",
         "skip": "Doe het later",
         "title": "Geen Backup, Geen Geld"
+    },
+    "seed": {
+        "copyToClipboard": "Copy to clipboard",
+        "saveToFile": "Save as file"
     }
 }

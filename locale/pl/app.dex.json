@@ -45,6 +45,9 @@
             "fee": "prowizja {{fee}} WAVES",
             "hasScript": "Anuluj  [script](https://docs.wavesplatform.com/en/waves-client/advanced_features/script_transaction.html) by handlować",
             "last": "Ostatni",
+            "limit": "Limit Order",
+            "market": "Market Order",
+            "marketPriceField": "Price",
             "matcherFee": "Prowizja",
             "notifications": {
                 "error": {
@@ -71,6 +74,9 @@
             "stopPriceField": "Stop price",
             "stopPriceHelp": "This is an automatic buy or sell order at a predetermined price",
             "total": "Ogółem"
+        },
+        "createorder": {
+            "yourBalance": "Your balance"
         },
         "demo": {
             "createAccount": "utwórz nowe konto",

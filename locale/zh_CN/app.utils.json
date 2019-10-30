@@ -278,6 +278,14 @@
                 "warningText": "检查您的钱包或交易所是否使用智能合约撤回Bancor。我们不接受此类交易，也不能退款。你会失去那笔钱。",
                 "warningTitle": "请不要从智能合约中存入BNT！不要存入其他ERC20代币！只允许Bancor。"
             },
+            "wavesGatewayBTC": {
+                "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of BTC to a token in your Waves account.",
+                "helpDescrTitle": "在您的BTC客户端或钱包中输入此地址",
+                "warningMinAmountText": "如果您发送的费用低于{{minAmount, BigNumber}} {{assetTicker}}，您将失去这笔钱。",
+                "warningMinAmountTitle": "最低存款金额为{{minAmount，BigNumber}} {{assetTicker}} ，最高存款金额为{{maxAmount}} {{assetTicker}}",
+                "warningText": "如通过该地址发送任何其他代币，您的代币将失去。",
+                "warningTitle": "通过该存款地址只能发送BTC"
+            },
             "wavesGatewayERGO": {
                 "helpDescrText": "确认交易后，网关将处理将ERGO转移到Waves帐户中的代币。",
                 "helpDescrTitle": "在ERGO客户端或钱包中输入此地址",
@@ -287,16 +295,26 @@
                 "warningTitle": "仅将ERGO发送至此存款地址"
             },
             "wavesGatewayETH": {
+                "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of ETH to a token in your Waves account.",
+                "helpDescrTitle": "Enter this address into your ETH client or wallet",
                 "warningMinAmountText": "如果你发送少于{{minAmount, BigNumber}} {{assetTicker}}，你将失去这笔钱。",
                 "warningMinAmountTitle": "最低存款金额为{{minAmount，BigNumber}} {{assetTicker}} ，最高存款金额为{{maxAmount}} {{assetTicker}}",
                 "warningText": "检查您的钱包或交易所是否为收回ETH使用智能合约。我们不接受这种交易，也不能退款。您将会失去这笔钱。",
                 "warningTitle": "请不要从智能合约中交存ETH！别交存ERC20代币！您只能交存以太坊Ethereum。"
             },
             "wavesGatewayVST": {
-                "helpDescrText": "确认交易后，网关将处理将VST转移到Waves帐户中的代币。",
-                "helpDescrTitle": "在您的VST客户端或钱包中输入此地址",
+                "helpDescrText": "确认交易后，网关将处理将WEST转移到Waves帐户中的代币。",
+                "helpDescrTitle": "在您的WEST客户端或钱包中输入此地址",
                 "warningMinAmountTitle": "最低存款金额为{{minAmount, BigNumber}} {{assetTicker}}，最高存款金额为{{maxAmount}} {{assetTicker}}"
-            }
+            },
+            "wavesGatewayWEST": {
+                "helpDescrText": "确认交易后，网关将处理将WEST转移到Waves帐户中的代币。",
+                "helpDescrText_copy": "确认交易后，网关将处理将WEST转移到Waves帐户中的代币。",
+                "helpDescrTitle": "在您的WEST客户端或钱包中输入此地址",
+                "helpDescrTitle_copy": "在您的WEST客户端或钱包中输入此地址",
+                "warningMinAmountTitle": "最低存款金额为{{minAmount, BigNumber}} {{assetTicker}}，最高存款金额为{{maxAmount}} {{assetTicker}}"
+            },
+            "wavesGatewayWEST:warningMinAmountTitle_copy": "最低存款金额为{{minAmount, BigNumber}} {{assetTicker}}，最高存款金额为{{maxAmount}} {{assetTicker}}"
         },
         "dexScriptedPair": {
             "body": "智能资产是包含脚本的资产，该脚本设置令牌流通的条件。 {div}[如果您是没有经验的用户，我们不建议您使用智能资产执行操作。在进行交易之前，请仔细阅读有关资产及其脚本的信息。]",
@@ -475,7 +493,10 @@
             "shareInvoiceLink": "分享单据链接",
             "verified": "验证",
             "vostok": {
-                "serverError": "VST服务暂时无法使用。稍后再试。"
+                "serverError": "WEST服务暂时无法使用。稍后再试。"
+            },
+            "wavesEnterprise": {
+                "serverError_copy": "WEST服务暂时无法使用。稍后再试。"
             },
             "wtry": {
                 "info": "如果付款处理出了问题，请联系Digilira支持团队 — [support@digilira.com](mailto:support@digilira.com)"
@@ -638,11 +659,11 @@
             "changePass": "更改密码",
             "deleteAccount": "删除帐号",
             "exportAccounts": {
-                "accounts": "Accounts",
-                "export": "Export",
-                "selectAll": "Select all",
-                "title": "Please select account",
-                "unselectAll": "Unselect all"
+                "accounts": "帐户",
+                "export": "输出",
+                "selectAll": "全选",
+                "title": "请选择帐号",
+                "unselectAll": "全部取消选择"
             },
             "general": {
                 "auto": "Auto",
@@ -661,7 +682,7 @@
                 "title": "常规设置",
                 "white": "白色"
             },
-            "helperContent": "You can set a password for exported accounts",
+            "helperContent": "您可以为导出的帐户设置密码",
             "info": {
                 "legal": "法律",
                 "privacyPolicy": "隐私政策",
@@ -695,7 +716,7 @@
             },
             "ok": "登录",
             "pairing": {
-                "devicePairing": "导出帐户",
+                "devicePairing": "将帐户导出到应用",
                 "header": "扫描配对码",
                 "showCodeLink": "显示配对码",
                 "unavailable": {
@@ -717,11 +738,11 @@
                 "backupPhrase": "备份短语",
                 "base58Seed": "编码备份短语",
                 "encodedSeed": "编码的SEED",
-                "exportAccount": "Export account to file",
+                "exportAccount": "将帐户导出到文件",
                 "id": "帐户ID",
                 "privateKey": "私钥",
                 "publicKey": "公钥",
-                "savejson": "Save as JSON file",
+                "savejson": "另存为JSON文件",
                 "script": "脚本",
                 "scriptButton": "设置脚本",
                 "scriptButtonUpdate": "更新脚本",
@@ -816,7 +837,7 @@
                 "analytics": "我想向开发者发送匿名统计信息来帮助改善Waves平台。",
                 "backup": "我了解如果此应用移至其他设备或已删除，我的Waves账户只能通过备份短语（助记词）进行恢复。",
                 "ok": "确认并开始",
-                "privacyPolicy": "我已阅读并同意[隐私政策](https://wavesplatform.com/files/docs/Privacy_Policy_SW.pdf)。",
+                "privacyPolicy": "我已阅读并同意[隐私权政策]（https://wavesplatform.com/files/docs/Privacy_Policy_SW.pdf）。",
                 "read": "我已阅读、理解并同意",
                 "readTermsAndConditions": "我已阅读，理解并同意[条款和细则]（https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf）",
                 "security": "我了解我的资产安全地存放在此设备上，而不是存放于公司",
@@ -888,6 +909,7 @@
                 "cell6": "使用公共Wi-Fi或其他人的设备时请勿访问您的钱包。",
                 "nextButton": "我了解",
                 "p1": "诈骗最常见的攻击方式之一是网络钓鱼，一般钓鱼者在Facebook或其他类似于真实的网站上创建假社群。",
+                "saveSeedButton": "保存SEED短语",
                 "title": "如何防止网络钓鱼攻击"
             }
         }
@@ -962,13 +984,13 @@
                 "1_3_0": "{span.line}[1。改进了应用程序导航和起始页面界面。]",
                 "1_3_18": "{span.line} [1。使用私钥添加了对钱包的登录。] \n {span.line} [2。令牌的24小时价格变化现在绑定到代币/ WAVES对。]",
                 "1_3_19": "{span.line} [1。 Bancor网关已经推出。] \n {span.line} [2。用户菜单界面已得到改进。]",
-                "1_3_2": "{span.line} [1。 VST网关已经推出。] \n {span.line} [2。改进的用户界面和其他小错误已得到修复。]",
+                "1_3_2": "{span.line} [1。 WEST网关已经推出。] \n {span.line} [2。改进的用户界面和其他小错误已得到修复。]",
                 "1_3_20": "{span.line} [1。改进了从本地存储中存储和恢复帐户的系统（需要更新[桌面应用程序]（https://wavesplatform.com/technology/wallet））。 \n {span.line} [2。修正了订单中价格的四舍五入。]",
                 "1_3_5": "{span.line} [1。已添加包含[wsoc.io]（https://wsoc.io）竞赛代币的标签。 \n {span.line} [2。增加了法语支持。] \n {span.line} [3。其他小错误已得到修复。]",
                 "1_3_7": "{span.line} [1。与[tokenrating.wavesexplorer.com]集成（https://tokenrating.wavesexplorer.com）现在您可以直接在应用程序中对令牌进行评分。 \n {span.line} [2。其他小错误已得到修复。]",
                 "1_3_9": "{span.line} [1。改进了Exchange和电子钱包部分的UI和功能。] \n {span.line} [2。其他小错误已得到修复。]",
                 "1_4_0": "{span.line} [增加了在一个钱包内轻松切换帐户的功能。]",
-                "1_4_4": "{span.line}[Added ability to backup and restore accounts from the keystore-file]"
+                "1_4_4": "{span.line} [增加了从密钥库文件备份和还原帐户的功能]"
             },
             "title": "此更新 {{version}}中的新功能"
         }

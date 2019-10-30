@@ -45,6 +45,9 @@
             "fee": "Gebühr {{fee}} WAVES",
             "hasScript": "Brechen Sie [script](https://docs.wavesplatform.com/de/waves-client/advanced_features/script_transaction.html) ab, um den Handel zu tätigen",
             "last": "Letzte",
+            "limit": "Limit Order",
+            "market": "Market Order",
+            "marketPriceField": "Price",
             "matcherFee": "Fee",
             "notifications": {
                 "error": {
@@ -71,6 +74,9 @@
             "stopPriceField": "Stop price",
             "stopPriceHelp": "This is an automatic buy or sell order at a predetermined price",
             "total": "Gesamt"
+        },
+        "createorder": {
+            "yourBalance": "Your balance"
         },
         "demo": {
             "createAccount": "Ein neues Konto erstellen",

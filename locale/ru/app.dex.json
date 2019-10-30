@@ -45,6 +45,9 @@
             "fee": "Комис. {{fee}} WAVES",
             "hasScript": "Отмените [скрипт](https://docs.wavesplatform.com/en/waves-client/advanced_features/script_transaction.html) чтобы торговать",
             "last": "Last",
+            "limit": "Лимит Ордер",
+            "market": "Маркет Ордер",
+            "marketPriceField": "Цена",
             "matcherFee": "Комис.",
             "notifications": {
                 "error": {
@@ -71,6 +74,9 @@
             "stopPriceField": "Стоп-цена",
             "stopPriceHelp": "Это автоматически действующий ордер на покупку или продажу по заранее установленной цене",
             "total": "Сумма"
+        },
+        "createorder": {
+            "yourBalance": "Ваш баланс"
         },
         "demo": {
             "createAccount": "создайте новый аккаунт",
