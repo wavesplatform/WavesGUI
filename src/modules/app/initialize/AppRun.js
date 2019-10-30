@@ -600,7 +600,6 @@
                 const toState = transition.to();
                 const fromState = transition.from();
                 const from = fromState.name || document.referrer;
-
                 if (toState.name !== fromState.name) {
                     switch (toState.name) {
                         case 'create':
@@ -673,6 +672,8 @@
 
                 user.applyState(toState);
                 state.signals.changeRouterStateSuccess.dispatch(toState);
+                analytics.send({ name: 'history_state', params: { url: toState.url } });
+                analytics.send({ name: 'route', params: { from: fromState.url, to: toState.url } });
             }
 
             /**
