@@ -983,7 +983,8 @@
                     waves.matcher.getCreateOrderSettings(pair, matcherPublicKey)
                         .then(data => {
                             this.matcherSettings = data;
-                        });
+                        })
+                        .catch(() => null);
                 });
             }
 
