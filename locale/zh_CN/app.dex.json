@@ -47,6 +47,7 @@
             "last": "最新交易价",
             "limit": "限价单",
             "market": "市场订单",
+            "marketPriceField": "Price",
             "matcherFee": "费用",
             "notifications": {
                 "error": {
@@ -73,6 +74,9 @@
             "stopPriceField": "止损价",
             "stopPriceHelp": "这是一个以预定价格自动买卖的订单",
             "total": "总额"
+        },
+        "createorder": {
+            "yourBalance": "Your balance"
         },
         "demo": {
             "createAccount": "创建新账户",
