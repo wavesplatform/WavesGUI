@@ -156,7 +156,6 @@
 
                     headerDataList.forEach((data) => {
                         const descriptorHash = Object.create(null);
-
                         if (data.sort) {
                             data.$element.on('click', '.sort-by', this._getClickHeaderHandler(data));
                             Object.assign(descriptorHash, {

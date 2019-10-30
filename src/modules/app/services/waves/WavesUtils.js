@@ -15,13 +15,22 @@
         const entities = require('@waves/data-entities');
         const { BigNumber } = require('@waves/bignumber');
         const {
-            flatten, pipe, map,
+            flatten, pipe, map, pathOr,
             where, prop, gte, allPass,
             lte, filter, length, equals,
             __
         } = require('ramda');
 
         class WavesUtils {
+
+
+            constructor() {
+                /**
+                 * @type {Array.<CacheEntry>}
+                 */
+                this.rateListCache = [];
+                this.rateListCacheMaxAge = 3.5 * 60 * 1000; // 3.5min
+            }
 
             @decorators.cachable(5)
             searchAsset(userInput) {
@@ -58,6 +67,96 @@
                             return rateTo.eq(0) ? rateTo : rateFrom.div(rateTo);
                         });
                 }
+            }
+
+            /**
+             * Looks for cached results for list of pairs
+             * @param {string[]} pairs
+             * @param {Date|number|Moment} [date] timestamp or Date
+             * @return {IRateList}
+             */
+            _selectCachedRateList(pairs, date) {
+                this._invalidateRateListCache();
+
+                const foundCaches = pairs
+                    .map(
+                        (pair) => pathOr(undefined, [pair, String(date), 'rate'], this.rateListCache)
+                    )
+                    .filter(Boolean);
+
+                return foundCaches.length === pairs.length ? { data: foundCaches } : undefined;
+            }
+
+            /**
+             * Invalidates rate list cache
+             */
+            _invalidateRateListCache() {
+                Object.keys(this.rateListCache).forEach((pair) => {
+                    Object.keys(this.rateListCache[pair]).forEach((date) => {
+                        if (this.rateListCache[pair][date].timestamp < Date.now() - this.rateListCacheMaxAge) {
+                            delete this.rateListCache[pair][date];
+                        }
+                    });
+                });
+            }
+            /**
+             * Saves rate list to cache
+             */
+            _cacheRateListRequest({ pairs, date, rates, timestamp }) {
+                // cache entry format: { [pair]: { [date]: { rate, timestamp } } }
+                rates.data.forEach((rate, index) => {
+                    const pair = pairs[index];
+                    const cacheEntry = pathOr({}, [pair], this.rateListCache);
+
+                    cacheEntry[String(date)] = Object.assign(Object.create(null), {
+                        rate,
+                        timestamp
+                    });
+
+                    this.rateListCache[pair] = cacheEntry;
+                });
+            }
+            /**
+             * @param {Asset[]} assetList
+             * @param {string} baseAssetId
+             * @param {number} date
+             * @return {Promise<IRateList>}
+             */
+            getRateList(assetList, baseAssetId, date) {
+                const pairs = assetList.map((asset => `${WavesUtils.toId(asset)}/${baseAssetId}`));
+
+                // request takes up to 2seconds for the server to respond, standard cache decorator doesn't work
+                // so custom cache is built for this particular request
+                const cachedResult = this._selectCachedRateList(pairs, date);
+
+                if (cachedResult) {
+                    return Promise.resolve(cachedResult);
+                } else {
+                    const requestBody = {
+                        pairs,
+                        timestamp: date
+                    };
+                    const version = WavesApp.network.apiVersion;
+                    const api = `${WavesApp.network.api}/${version}`;
+
+                    return ds
+                        .fetch(`${api}/matchers/${matcher.currentMatcherAddress}/rates`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json; charset=utf8' },
+                            body: JSON.stringify(requestBody)
+                        })
+                        .then((rates) => {
+                            this._cacheRateListRequest({
+                                pairs,
+                                date,
+                                rates,
+                                timestamp: Date.now()
+                            });
+
+                            return rates;
+                        });
+                }
+
             }
 
             /**
@@ -341,4 +440,33 @@
 
 /**
  * @name WavesUtils.rateApi
+ */
+
+/**
+ * @typedef {object} IRateList
+ * @property {string} __type
+ * @property {IRateListData[]} data
+ */
+
+/**
+ * @typedef {object} IRateListData
+ * @property {string} __type
+ * @property {IRateData} data
+ */
+
+/**
+ * @typedef {object} IRateData
+ * @property {string} __type
+ * @property {string} amountAsset
+ * @property {string} priceAsset
+ * @property {number} current
+ */
+
+/**
+ * @typedef {Object} CacheEntry
+ * @property {Array.<string>} pairs - List of cached pairs
+ * @property {string} baseAssetId - request baseAssetId parameter
+ * @property {number} timestamp - cache created timestamp
+ * @property {Date|number|Moment} date - request date parameter
+ * @property {Object} result
  */

@@ -6,7 +6,6 @@
     const { path } = require('ramda');
     const { SIGN_TYPE } = require('@waves/signature-adapter');
     const analytics = require('@waves/event-sender');
-    const { BigNumber } = require('@waves/bignumber');
 
     const TEMPLATE_PATH = 'modules/wallet/modules/portfolio/directives/portfolioRow/row.hbs';
     const SELECTORS = {
@@ -299,55 +298,58 @@
                 this._initSpamState();
 
                 const balance = this.balance;
+                const baseAssetId = this.user.getSetting('baseAssetId');
+                const change24Node = this.node.querySelector(`.${SELECTORS.CHANGE_24}`);
+                const baseAssetBalanceNode = this.node.querySelector(`.${SELECTORS.BASE_ASSET_BALANCE}`);
+                const exchangeRateNode = this.node.querySelector(`.${SELECTORS.EXCHANGE_RATE}`);
+                const suspiciousLabelNode = this.node.querySelector(`.${SELECTORS.SUSPICIOUS_LABEL}`);
 
                 if (balance.isOnScamList) {
-                    this.node.querySelector(`.${SELECTORS.CHANGE_24}`).innerHTML = '—';
-                    this.node.querySelector(`.${SELECTORS.BASE_ASSET_BALANCE}`).innerHTML = '—';
-                    this.node.querySelector(`.${SELECTORS.EXCHANGE_RATE}`).innerHTML = '—';
-                    this.node.querySelector(`.${SELECTORS.SUSPICIOUS_LABEL}`).classList.remove('hidden');
+                    change24Node.innerHTML = '—';
+                    baseAssetBalanceNode.innerHTML = '—';
+                    exchangeRateNode.innerHTML = '—';
+                    suspiciousLabelNode.classList.remove('hidden');
 
                     return null;
                 }
 
-                const suspiciousSelector = this.node.querySelector(`.${SELECTORS.SUSPICIOUS_LABEL}`);
-                if (suspiciousSelector) {
-                    suspiciousSelector.classList.add('hidden');
+                if (suspiciousLabelNode) {
+                    suspiciousLabelNode.classList.add('hidden');
                 }
-
-                const baseAssetId = this.user.getSetting('baseAssetId');
-                const change24Node = this.node.querySelector(`.${SELECTORS.CHANGE_24}`);
 
                 if (baseAssetId === balance.asset.id) {
                     change24Node.innerHTML = '—';
                     change24Node.classList.remove('minus');
                     change24Node.classList.remove('plus');
                 } else {
-                    const baseChange24AssetId = WavesApp.defaultAssets.WAVES === balance.asset.id ?
-                        baseAssetId :
-                        WavesApp.defaultAssets.WAVES;
-                    this.waves.utils.getChange(balance.asset.id, baseChange24AssetId)
-                        .then(change24 => {
-                            const change24BN = new BigNumber(change24);
-                            const isMoreZero = change24BN.gt(0);
-                            const isLessZero = change24BN.lt(0);
-                            change24Node.classList.toggle('minus', isLessZero);
-                            change24Node.classList.toggle('plus', isMoreZero);
-                            change24Node.innerHTML = `${change24.toFixed(2)}%`;
-                        }, () => {
-                            change24Node.innerHTML = '0.00%';
-                        });
+                    const change24BN = this.balance.change24;
+                    const isMoreZero = change24BN.gt(0);
+                    const isLessZero = change24BN.lt(0);
+                    change24Node.classList.toggle('minus', isLessZero);
+                    change24Node.classList.toggle('plus', isMoreZero);
+                    change24Node.innerHTML = `${this.balance.change24.toFormat(2)}%`;
+                    // const baseChange24AssetId = WavesApp.defaultAssets.WAVES === balance.asset.id ?
+                    //     baseAssetId :
+                    //     WavesApp.defaultAssets.WAVES;
+                    // this.waves.utils.getChange(balance.asset.id, baseChange24AssetId)
+                    //     .then(change24 => {
+                    //         const change24BN = new BigNumber(change24);
+                    //         const isMoreZero = change24BN.gt(0);
+                    //         const isLessZero = change24BN.lt(0);
+                    //         change24Node.classList.toggle('minus', isLessZero);
+                    //         change24Node.classList.toggle('plus', isMoreZero);
+                    //         change24Node.innerHTML = `${change24.toFixed(2)}%`;
+                    //     }, () => {
+                    //         change24Node.innerHTML = '0.00%';
+                    //     });
                 }
 
                 if (baseAssetId === balance.asset.id) {
-                    this.node.querySelector(`.${SELECTORS.EXCHANGE_RATE}`).innerHTML = '—';
-                    this.node.querySelector(`.${SELECTORS.BASE_ASSET_BALANCE}`).innerHTML = '—';
+                    exchangeRateNode.innerHTML = '—';
+                    baseAssetBalanceNode.innerHTML = '—';
                 } else {
-                    this.waves.utils.getRate(balance.asset.id, baseAssetId)
-                        .then(rate => {
-                            const baseAssetBalance = balance.available.getTokens().mul(rate).toFormat(2);
-                            this.node.querySelector(`.${SELECTORS.EXCHANGE_RATE}`).innerHTML = rate.toFixed(2);
-                            this.node.querySelector(`.${SELECTORS.BASE_ASSET_BALANCE}`).innerHTML = baseAssetBalance;
-                        });
+                    exchangeRateNode.innerHTML = this.balance.rate.toFormat(2);
+                    baseAssetBalanceNode.innerHTML = this.balance.amount.toFormat(2);
 
                     const startDate = this.utils.moment().add().day(-7);
                     this.waves.utils.getRateHistory(balance.asset.id, baseAssetId, startDate).then(values => {
