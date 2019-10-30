@@ -101,8 +101,9 @@
 }
 
 // account type helper tooltip
-.avatar-container.has-helper {
-  w-help-icon {
+.avatar-container.has-helper,
+.dropdown-toggler__avatar.dropdown-toggler__avatar_has-helper {
+  .help-icon {
     position: absolute;
     right: 0;
     bottom: 0;
@@ -114,7 +115,6 @@
         text-align: center;
         background: @color-white;
         margin: 0;
-        overflow: hidden;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -135,18 +135,13 @@
           font-size: 11px;
           content: '+';
           color: @color-black;
-          background-color: @color-white;
         }
       }
 
       &__content {
-        width: 150px;
-        left: 0;
-        top: 100%;
         padding: 11px;
         line-height: 1em;
         font-size: 11px;
-        transform: translate(-50%, 5px);
       }
 
       &__row {
@@ -187,6 +182,42 @@
           }
         }
       }
+    }
+  }
+}
+
+.avatar-container.has-helper {
+  .help-icon {
+    &__icon {
+      overflow: hidden;
+    }
+
+    &__content {
+      width: 150px;
+      left: 0;
+      top: 100%;
+      transform: translate(-50%, 5px);
+    }
+  }
+}
+
+.dropdown-toggler__avatar.dropdown-toggler__avatar_has-helper {
+  z-index: 11;
+
+  .help-icon {
+    .help-icon__icon::after {
+      top: 23px;
+    }
+
+    .help-icon__row {
+      white-space: nowrap;
+    }
+
+    .help-icon__content {
+      width: auto;
+      left: auto;
+      right: -35px;
+      top: -3px;
     }
   }
 }

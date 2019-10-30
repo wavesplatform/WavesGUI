@@ -91,7 +91,7 @@
             getSupportMap(asset) {
                 if (GATEWAYS[asset.id]) {
                     return {
-                        deposit: true,
+                        deposit: asset.id !== WavesApp.defaultAssets.BTC,
                         withdraw: true,
                         errorAddressMessage: true
                     };

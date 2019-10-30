@@ -476,6 +476,26 @@ export async function getInitScript(
                 }
             };
 
+
+            config.platform = function() {
+                const userAgent = navigator.userAgent;
+                const platform = navigator.platform;
+                const macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'];
+                const windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'];
+                const iosPlatforms = ['iPhone', 'iPad', 'iPod'];
+
+                switch (true) {
+                    case (macosPlatforms.indexOf(platform) !== -1): return 'mac';
+                    case (iosPlatforms.indexOf(platform) !== -1): return 'ios';
+                    case (windowsPlatforms.indexOf(platform) !== -1): return 'win';
+                    case (/Android/.test(userAgent)): return 'android';
+                    case (/Linux/.test(platform)): return 'linux';
+                    default: return 'linux';
+                }
+            };
+
+            config.electronVersion = config.isDesktop() ? navigator.userAgent.replace(/.*?waves-(client|dex)\/(\d+\.\d+\.\d+).*/g, '$2') : '';
+
             config.remappedAssetNames = {};
             config.remappedAssetNames[config.network.assets.EUR] = 'Euro';
             config.remappedAssetNames[config.network.assets.USD] = 'US Dollar';
