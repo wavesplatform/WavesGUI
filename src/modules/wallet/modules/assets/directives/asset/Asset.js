@@ -25,7 +25,9 @@
                 this.isVerified = isVerified;
                 this.isGateway = isGateway;
                 this.isTokenomica = isTokenomica;
-                createPoll(this, this._getTokenRating, this._setTokenRating, 60 * 1000);
+                if (!this.isGateway) {
+                    createPoll(this, this._getTokenRating, this._setTokenRating, 60 * 1000);
+                }
             }
 
             isUnpinned() {
@@ -39,7 +41,7 @@
             }
 
             _setTokenRating(assetList) {
-                if (!assetList || !assetList[0]) {
+                if (!assetList || assetList.length === 0) {
                     return null;
                 }
 

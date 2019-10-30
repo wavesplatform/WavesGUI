@@ -189,6 +189,7 @@
                         isTokenomica, logo, isGatewaySoon
                     } = utils.getDataFromOracles(this.balance.asset.id);
 
+                    this.isGateway = isGateway;
                     this.isWEST = this.balance.asset.id === WavesApp.defaultAssets.WEST;
 
                     this.isVerifiedOrGateway = isVerified || isGateway;
@@ -361,7 +362,9 @@
                         );
                     }).catch(() => null);
 
-                    if (typeof balance.rating === 'number') {
+                    const hasRate = balance.rating !== null;
+
+                    if (hasRate && !this.isGateway && balance.asset.id !== WavesApp.defaultAssets.WAVES) {
                         new RatingStarsFactory({
                             $container: this.$node.find(`.${SELECTORS.STARS_CONTAINER}`),
                             rating: balance.rating,
