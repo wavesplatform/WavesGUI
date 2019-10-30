@@ -19,21 +19,48 @@ To set up pipeline in Jenkins: New Item > Pipeline > name it > OK > Scroll to Pi
 Note: this pipeline uses a private repository as well as private shared library which is not available externally.
 */
 
-@Library('jenkins-shared-lib')
+
+@Library('jenkins-shared-lib') _
 import devops.waves.*
 ut = new utils()
 scripts = new scripts()
+wallet = new wallet()
+
 def buildTasks = [:]
-def deployTasks = [:]
-def remote_destination = [:]
-def artifactsDir = 'out'
-def container_info = [:]
 buildTasks.failFast = true
-def repo_url = 'https://github.com/wavesplatform/WavesGUI.git'
+def deployTasks = [:]
+def electronContainerTasks = [:]
+def electronMacTasks = [:]
+def electronGlobalTasks = [:]
+def winElectronBuildTasks = [:]
+def macElectronBuildTasks = [:]
+def source = false
+def action = false
+def repoUrl = 'https://github.com/wavesplatform/WavesGUI.git'
 def deploymentFile = "./kubernetes/waves-wallet-stage-io/deployment.yaml"
-def pipeline_tasks = ['build': false, 'deploy': false, 'electron': false]
-def pipeline_status = [:]
-def pipeline_trigger_token = 'wavesGuiGithubToken'
+def pipelineTriggerToken = 'wavesGuiGithubToken'
+def gitDescribeTag = false
+def windowsSingCertName = 'WavesPlatformLTD.pfx'
+def macSingCertName = 'mac_app.p12'
+def itemTemplate = [niceName: false, platform: false, dockerTag: false, containerInfo: false, buildTask: false, buildSuccess: false, buildArtifacts: false, deployTask: false, deploySuccess: false, deployArtifacts: false, remoteDestination: false]
+def items = [wallet: itemTemplate.clone(), walletElectron: itemTemplate.clone(), electron: itemTemplate.clone()]
+def slackChannelBuild = 'docker_builds'
+def slackChannelDeploy = "waves-deploy-alerts"
+items['wallet'].platform = 'web'
+items['wallet'].niceName = 'wallet'
+items['electron'].niceName = 'electron'
+items['walletElectron'].platform = 'desktop'
+items['walletElectron'].niceName = 'wallet-electron'
+
+def branchesOrTagsScript(String imageName, String repoUrl){
+    return """
+        if (binding.variables.get('action') == 'Deploy to stage' || binding.variables.get('action').contains('PROD')) {
+            ${getDockerTagsScript(imageName, Constants.WAVES_DOCKER_REGISTRY_CREDS, 'Waves')}
+        } else {
+            ${getGitBranchesScript(repoUrl)}
+        }
+    """
+}
 
 properties([
 
@@ -41,23 +68,23 @@ properties([
 
     parameters([
             // action - choose if you want to deploy or build or both
-            ut.choiceParameterObject('action', scripts.getActions()),
+            ut.choiceParameterObject('action', "return ['Build', 'Build and Deploy to stage', 'Deploy to stage', 'Deploy PROD mainnet', 'Deploy PROD testnet', 'Deploy PROD stagenet', 'Build Electron']"),
 
             // source depends on choice parameter above and dynamically
             // loads either Git repo branches for building or Docker Registry tags for deploy
-            ut.cascadeChoiceParameterObject('source', scripts.getBranchesOrTags('waves/wallet', 'Waves', repo_url), 'action', 'PARAMETER_TYPE_SINGLE_SELECT', true),
+            ut.cascadeChoiceParameterObject('source', branchesOrTagsScript('waves/wallet', repoUrl), 'action', 'PARAMETER_TYPE_SINGLE_SELECT', true),
 
             // image to deploy from - depends on choice parameter above and used if deploying is specified.
-            ut.cascadeChoiceParameterObject('image', scripts.getImages(), 'action'),
+            ut.cascadeChoiceParameterObject('image', wallet.getImages(), 'action'),
 
             // network is either mainnet, testnet or stagenet - depends on choice parameter above and used if deploying is specified.
-            ut.cascadeChoiceParameterObject('network', scripts.getNetworks(), 'action'),
+            ut.cascadeChoiceParameterObject('network', wallet.getNetworks(), 'action'),
 
             // destination is a remote server to deploy to - depends on choice parameter above and used if deploying is specified.
-            ut.cascadeChoiceParameterObject('destination', scripts.getDestinations(Constants.WAVES_WALLET_PROD_DOMAIN_NAMES, Constants.WAVES_WALLET_STAGE_SERVERS, true), 'action,image'),
+            ut.cascadeChoiceParameterObject('destination', wallet.getDestinations(wallet.wavesWalletProdDomainNames(), wallet.wavesWalletStageServers(), true), 'action,image'),
 
             // confirm is an extra check before we deploy to prod
-            ut.cascadeChoiceParameterObject('confirm', scripts.getConfirms(), 'action', 'PARAMETER_TYPE_CHECK_BOX'),
+            ut.cascadeChoiceParameterObject('confirm', wallet.getConfirms(), 'action', 'PARAMETER_TYPE_CHECK_BOX'),
         ]),
 
     // this is a trigger to run a build when hooks from GitHub received
@@ -71,45 +98,49 @@ properties([
         causeString: "Triggered by GitHub Webhook",
         printContributedVariables: true,
         printPostContent: true,
-        token: pipeline_trigger_token ]
+        token: pipelineTriggerToken ]
     ])
 ])
 
-stage('Aborting this build'){
-    // On the first launch pipeline doesn't have any parameters configured and must skip all the steps
-    if (env.BUILD_NUMBER == '1'){
-        echo "This is the first run of the pipeline! It is now should be configured and ready to go!"
+stage('Build info'){
+    echo "Parameters specified: ${params}"
+    action = params.action
+    if ((params.action.contains('PROD') && ! params.confirm) || ! params.source || ! params.source.length() || params.source.contains('Please select parameter')){
+        if (params.action.contains('PROD'))
+            echo "Aborting this build. Deploy to PROD ${params.network} was not confirmed."
+        else
+            echo "Aborting this build. Variable 'source' not defined."
         currentBuild.result = Constants.PIPELINE_ABORTED
         return
     }
-
-    if (! source ) {
-        echo "Aborting this build. Please run it again with the required parameters specified."
-        currentBuild.result = Constants.PIPELINE_ABORTED
-        return
+    source = params.source
+    if (action.contains('Electron')){
+        items['electron'].buildTask = true
     }
-    if (( action.contains('PROD') ) && ! confirm){
-        echo "Aborting this build. Deploy to PROD ${network} was not confirmed."
-        currentBuild.result = Constants.PIPELINE_ABORTED
-        return
+    else if (action.contains('Build')){
+        items.each{
+            if (it.key != 'electron'){
+                item = it.value
+                item.buildTask = true
+                item.dockerTag = source + '.latest'
+            }
+        }
     }
-    else
-        echo "Parameters are specified:\n" +
-        "action: ${action}\n" +
-        "source: ${source}\n" +
-        "image: ${image}\n" +
-        "destination: ${destination}\n" +
-        "network: ${network}"
-        if (action.contains('Deploy')) pipeline_tasks['deploy'] = true
-        if (action.contains('Build') && ! action.contains('Electron')) pipeline_tasks['build'] = true
-        if (action.contains('Electron')) pipeline_tasks['electron'] = true
+    if (action.contains('Deploy')){
+        items.each{
+            item = it.value
+            if (!action.contains('Build'))
+                item.dockerTag = source
+            if (it.key != 'electron' && (item.niceName == params.image || params.image == "both"))
+                item.deployTask = true
+        }
+    }
 }
-
 if (currentBuild.result == Constants.PIPELINE_ABORTED){
     return
 }
-
-timeout(time:20, unit:'MINUTES') {
+println items
+timeout(time:40, unit:'MINUTES') {
     node('buildagent'){
         currentBuild.result = Constants.PIPELINE_SUCCESS
         timestamps {
@@ -121,168 +152,226 @@ timeout(time:20, unit:'MINUTES') {
                         sh 'env'
                         step([$class: 'WsCleanup'])
                         if (action.contains('Build')) {
-                            ut.checkoutRelative(source, repo_url, 'WavesGUI', '')
+                            gitCheckout(branch: source, url: repoUrl, relativeTargetDir: 'WavesGUI')
 
-                            sh """
-                            mkdir ${artifactsDir}
-                            cp -R ./WavesGUI/build-wallet/ ./WavesGUI/build-wallet-desktop/
-                            cp -R ./WavesGUI/ ./WavesGUI_tmp/
-                            cp -R ./WavesGUI_tmp/ ./WavesGUI/build-wallet/WavesGUI/
-                            mv ./WavesGUI_tmp/ ./WavesGUI/build-wallet-desktop/WavesGUI/
-                            """
+
+                            dir ('WavesGUI'){
+                                gitDescribeTag = ut.shWithOutput("git describe --tags")
+                            }
+
                             if (action.contains('Electron')) {
-                                withCredentials([file(credentialsId: 'electron-signing-cert', variable: 'signingCert'),
-                                    file(credentialsId: 'electron-mac-signing-cert', variable: 'signingCertMac')]) {
-                                    sh "cp '${signingCert}' 'WavesGUI/WavesPlatformLTD.pfx'"
-                                    sh "cp '${signingCertMac}' 'WavesGUI/mac_app.p12'"
-                                    stash includes: '**', name: 'repo', useDefaultExcludes: false
+                                dir ('WavesGUI'){
+                                    withCredentials([
+                                            file(credentialsId: 'electron-signing-cert', variable: 'signingCert'),
+                                            file(credentialsId: 'electron-mac-signing-cert', variable: 'signingCertMac'),
+                                            string(credentialsId: 'electron-signing-cert-passphrase', variable: 'winCertPass'),
+                                            string(credentialsId: 'electron-mac-signing-cert-passphrase', variable: 'macCertPass')
+                                    ]){
+                                        sh "cp '${signingCert}' '${windowsSingCertName}'"
+                                        sh "cp '${signingCertMac}' '${macSingCertName}'"
+                                        writeFile file: './jenkinsBuildElectronScript.sh', text: wallet.wavesElectronInstallScript(windowsSingCertName, winCertPass, macSingCertName, macCertPass)
+                                        sh "chmod 700 '${windowsSingCertName}' '${macSingCertName}' 'jenkinsBuildElectronScript.sh'"
+                                    }
+
                                 }
                             }
-                            source += '.latest'
+
+                            stash includes: 'WavesGUI/**,', name: 'repo'
+
+                            // this two lines are for compatibility with the branches that already exist
+                            // after 'build-wallet' files are replaced in all branches in the repo - these checks can be removed
+                            // and commented code should be uncommented
+                            //  once 'newApproach' is merged to dev/master - rename the branch in the string below:
+                            gitCheckout(branch: 'newApproach', url: repoUrl, relativeTargetDir: 'newTemplate')
+
+                            dir('newTemplate/build-wallet'){
+                                stash includes: '**', name: 'docker', useDefaultExcludes: false
+                            }
+
+                            // dir('WavesGUI/build-wallet'){
+                            //     stash includes: '**', name: 'docker', useDefaultExcludes: false
+                            // }
                         }
                         if (action.contains('Deploy')) {
-                            ut.checkoutRelative('master', Constants.KUBERNETES_REPO, 'kubernetes', Constants.KUBERNETES_REPO_CREDS)
+                            gitCheckout(url: Constants.KUBERNETES_REPO, relativeTargetDir: 'kubernetes', repoCreds: Constants.KUBERNETES_REPO_CREDS)
                         }
+
                     }
+                    items.each{
+                        def item = it.value
+                        buildTasks["Building " + item.niceName] = {
+                            stage("Building " + item.niceName) {
+                                dir(it.key){
+                                    if (item.buildTask) {
+                                        if (it.key == 'electron'){
+                                            item.buildArtifacts = it.key + '-electronArtifacts-'
+                                            electronGlobalTasks['container']={
+                                                node("wavesnode||vostok"){
+                                                    step([$class: 'WsCleanup'])
+                                                    electronContainerTasks['linux'] = { 
+                                                        dir('linux'){
+                                                            try{
+                                                                docker.image('node').inside("-u 0"){
+                                                                    unstash name: 'repo'
+                                                                    wallet.launchElectronContainerBuild('linux')
+                                                                }
+                                                            }
+                                                            finally{
+                                                                sh 'sudo chmod -R 777 ./'
+                                                                stash includes: '**/Waves*.deb', name: item.buildArtifacts + 'linux', allowEmpty: true
+                                                            }
+                                                        }
+                                                    }
+                                                    // electronContainerTasks['windows'] = {
+                                                    //     dir('windows'){
+                                                    //         try{
+                                                    //             docker.image('electronuserland/builder:wine').inside("-u 0"){
+                                                    //                 unstash name: 'repo'
+                                                    //                 wallet.launchElectronContainerBuild('win')
+                                                    //             }
+                                                    //         }
+                                                    //         finally{
+                                                    //             sh 'sudo chmod -R 777 ./'
+                                                    //             stash includes: '**/waves*.exe,**/Waves*.exe', name: 'win', allowEmpty: true, excludes: '**/Waves DEX.exe'
+                                                    //         }
+                                                    //     }
+                                                    // }
+                                                    parallel electronContainerTasks
+                                                }
+                                            }
+                                            electronGlobalTasks['mac']={
+                                                node('electron'){
+                                                    step([$class: 'WsCleanup'])
+                                                    electronMacTasks['windowsVagrant'] = {
+                                                        dir('windowsVagrant'){
+                                                            try{
+                                                                wallet.removeElectronBuilderVM()
+                                                                unstash name: 'repo'
+                                                                writeFile file: 'Vagrantfile', text: wallet.wavesElectronVagrantfile()
+                                                                winElectronBuildTasks['windowsVagrant'] = {
+                                                                    sh 'vagrant up && pkill -f tail'
+                                                                }
+                                                                winElectronBuildTasks['windowsVagrantLog'] = {
+                                                                    sleep 20
+                                                                    sh 'touch WavesGUI/electron.log && tail -f WavesGUI/electron.log || true'
+                                                                }
+                                                                parallel winElectronBuildTasks
+                                                            }
+                                                            finally{
+                                                                stash includes: '**/waves*.exe,**/Waves*.exe', name: item.buildArtifacts + 'win', allowEmpty: true, excludes: '**/Waves DEX.exe'
+                                                                wallet.removeElectronBuilderVM()
+                                                            }
+                                                        }
+                                                    }
+                                                    electronMacTasks['mac'] = {
+                                                        dir('mac'){
+                                                            try{
+                                                                unstash name: 'repo'
+                                                                dir('WavesGUI'){
+                                                                    withCredentials([usernamePassword(credentialsId: 'appleid-specific-password-for-electron-notarization', usernameVariable: 'appleIdUsername', passwordVariable: 'appleIdPassword')]) {
+                                                                        def macNotarizeMap = [appleIdUsername: appleIdUsername, appleIdPassword: appleIdPassword]
+                                                                        cookThisTemplate(
+                                                                            templateMap: macNotarizeMap,
+                                                                            template: './electron/notarize.ts'
+                                                                        )
+                                                                    }
+                                                                    sh "PATH=/usr/local/opt/node@10/bin:${PATH} DEBUG=electron* ./jenkinsBuildElectronScript.sh mac"
+                                                                }
+                                                            }
+                                                            finally{
+                                                                stash includes: '**/Waves*.dmg', name: item.buildArtifacts + 'mac', allowEmpty: true
+                                                            }
+                                                        }
+                                                    }
+                                                    parallel electronMacTasks
+                                                }
+                                            }
+                                            parallel electronGlobalTasks
+                                            item.buildSuccess = true
+                                            slackIt(channel: slackChannelBuild, message: "Built electron images. <${env.BUILD_URL}/|`Click me to download!`>")
+                                        }
+                                        else{
+                                            step([$class: 'WsCleanup'])
+                                            unstash name: 'repo'
+                                            unstash name: 'docker'
 
-                    ['wallet', 'wallet-electron'].each{ serviceName ->
-                        buildTasks["Building " + serviceName] = {
-                            dir(Constants.DOCKERFILE_LOCATION_MAP[serviceName]) {
-                                stage("Building " + serviceName) {
-                                    pipeline_status["built-${serviceName}"] = false
-                                    if (pipeline_tasks['build']) {
-                                        def platform = (serviceName == 'wallet') ? 'web' : 'desktop'
+                                            // configure nginx template
+                                            def wavesWalletNginxMap = wallet.wavesWalletNginxMap().clone()
+                                            wavesWalletNginxMap.nginxPlatform = item.platform
+                                            cookThisTemplate(
+                                                templateMap: wavesWalletNginxMap,
+                                                template: './nginx/default.conf'
+                                            )
 
-                                        // configure nginx template
-                                        def waves_wallet_nginx_map = Constants.WAVES_WALLET_NGINX_MAP.clone()
-                                        waves_wallet_nginx_map.nginx_platform = "${platform}"
-                                        String nginxConfFileContent = ut.replaceTemplateVars('./nginx/default_template.conf', waves_wallet_nginx_map)
-                                        writeFile file: './nginx/default.conf', text: nginxConfFileContent
+                                            // configure Dockerfile template
+                                            def wavesWalletDockerfileMap = [jenkinsPlatform: item.platform]
+                                            cookThisTemplate(
+                                                templateMap: wavesWalletDockerfileMap,
+                                                template: './Dockerfile'
+                                            )
 
-                                        // configure Dockerfile template
-                                        def waves_wallet_dockerfile_map = [jenkins_platform: platform, trading_view_token: '$trading_view_token']
-                                        String dockerfileConfFileContent = ut.replaceTemplateVars('./Dockerfile_template', waves_wallet_dockerfile_map)
-                                        writeFile file: './Dockerfile', text: dockerfileConfFileContent
+                                            // configure a page with container_info which
+                                            // contains all info about Jenkins build and git parameters
+                                            item.containerInfo = wallet.wavesWalletContainerInfo(gitDescribeTag, item.niceName, item.dockerTag)
+                                            writeFile file: './info.html', text: item.containerInfo
 
-                                        // configure a page with container_info which
-                                        // contains all info about Jenkins build and git parameters
-                                        container_info["${serviceName}"] = ""           +
-                                            "<p>Job name:       ${env.JOB_NAME}</p>"    +
-                                            "<p>Job build tag:  ${env.BUILD_TAG}</p>"   +
-                                            "<p>Docker image:   ${Constants.DOCKER_REGISTRY}/waves/${serviceName}:${source}</p>" +
-                                            "<p>Web environment: \${WEB_ENVIRONMENT}</p>"
+                                            // copy all the generated text files
+                                            item.buildArtifacts = it.key + '-dockerBuildArtifacts'
+                                            stash includes: 'nginx/default.conf,Dockerfile,info.html', allowEmpty: true, name: item.buildArtifacts
 
-                                        writeFile file: './info.html', text: container_info["${serviceName}"]
-
-                                        // copy all the generated text files
-                                         sh """
-                                            cp ./nginx/default.conf "${env.WORKSPACE}/${artifactsDir}/default.conf-${serviceName}"
-                                            cp ./Dockerfile "${env.WORKSPACE}/${artifactsDir}/Dockerfile-${serviceName}"
-                                            cp ./info.html "${env.WORKSPACE}/${artifactsDir}/info.html-${serviceName}"
-                                            """
-
-                                        // run build
-                                        ut.buildDockerImage('waves/' + serviceName, source.split("\\.")[0], "--build-arg trading_view_token=${Constants.WAVES_WALLET_TRADING_VIEW_TOKEN} --build-arg platform=${platform}")
-                                        pipeline_status["built-${serviceName}"] = true
-                                        ut.notifySlack("docker_builds",
-                                            currentBuild.result,
-                                            "Built image: ${Constants.DOCKER_REGISTRY}/waves/${serviceName}:${source}")
+                                            imageIt(
+                                                imageName: 'waves/' + item.niceName,
+                                                dockerTag: item.dockerTag,
+                                                args: " --build-arg trading_view_token=${wallet.wavesWalletTradingViewToken()}" +
+                                                      " --build-arg platform=${item.platform}" +
+                                                      " --no-cache"
+                                            )
+                                            item.buildSuccess = true
+                                            slackIt(channel: slackChannelBuild, message: "Built image: ${Constants.DOCKER_REGISTRY}/waves/${item.niceName}:${item.dockerTag}")
+                                        }
                                     }
                                     else{
-                                        org.jenkinsci.plugins.pipeline.modeldefinition.Utils.markStageSkippedForConditional("Building " + serviceName)
+                                        org.jenkinsci.plugins.pipeline.modeldefinition.Utils.markStageSkippedForConditional("Building " + item.niceName)
                                     }
                                 }
                             }
                         }
                     }
                     parallel buildTasks
-                    stage("Building Electron") {
-                        if (pipeline_tasks['electron']) {
-                            node('mobile'){
-                                step([$class: 'WsCleanup'])
-                                unstash name: "repo"
-                                withCredentials([string(credentialsId: 'electron-signing-cert-passphrase', variable: 'signingCertPassphrase'), string(credentialsId: 'electron-mac-signing-cert-passphrase', variable: 'signingMacCertPassphrase')]) {
-                                    dir('WavesGUI'){
-                                        pipeline_status["built-electron"] = false
-                                        sh """
-                                        export DEBUG=electron-builder
-                                        npm cache --force clean
-                                        npm ci --unsafe-perm
-                                        node_modules/.bin/gulp build --platform desktop --config ./configs/mainnet.json
-                                        cd ./dist/desktop/mainnet && npm i --unsafe-perm && cd ../../../
-                                        WIN_CSC_LINK=WavesPlatformLTD.pfx \
-                                        WIN_CSC_KEY_PASSWORD=${signingCertPassphrase} \
-                                        CSC_LINK=mac_app.p12 \
-                                        CSC_KEY_PASSWORD=${signingMacCertPassphrase} \
-                                        WAVES_CONFIGURATION=mainnet \
-                                        ./node_modules/.bin/build -mwl -p never \
-                                            --config.directories.app=dist/desktop/mainnet
-                                        """
-                                        stash includes: '**/mainnet/*.deb, **/mainnet/*.dmg, **/mainnet/*.exe', name: 'electron-clients'
-                                        pipeline_status["built-electron"] = true
-                                        ut.notifySlack("docker_builds", currentBuild.result, "Built Electron clients")
-                                    }
-                                }
-                            }
+                    items.findAll{ it.key !='electron' }.collect{ 
+                        println it
+                        def item = it.value
+                        item.remoteDestination = destination
+                        deployTasks["Deploying " + item.niceName] = {
+                            stage("Deploying " + item.niceName) {
+                                if (item.deployTask){
 
-                            ['wallet', 'wallet-electron'].each{ serviceName ->
-                                org.jenkinsci.plugins.pipeline.modeldefinition.Utils.markStageSkippedForConditional("Building " + serviceName)
-                            }
-                        }else{
-                            org.jenkinsci.plugins.pipeline.modeldefinition.Utils.markStageSkippedForConditional("Building Electron")
-                        }
-                    }
-                    ['wallet', 'wallet-electron'].each{ serviceName ->
-                        remote_destination[serviceName] = destination
-                        deployTasks["Deploying " + serviceName] = {
-                            stage("Deploying " + serviceName) {
-                                pipeline_status["deployed-${serviceName}"] = false
-                                if (action.contains('Deploy')) {
-                                    if (image == serviceName || image =="both" ) {
-                                        def waves_wallet_deployment_map = [
-                                            domain_name: remote_destination[serviceName].replaceAll("\\.","-"),
-                                            network: network,
-                                            tag: source,
-                                            image: serviceName,
-                                            current_date: "'${ut.shWithOutput('date +%s')}'"
-                                        ]
+                                    def wavesWalletDeploymentMap = [
+                                        domainName: item.remoteDestination.replaceAll("\\.","-"),
+                                        network: network,
+                                        tag: item.dockerTag,
+                                        imageName: item.niceName
+                                    ]
 
-                                        if (action.contains('PROD')) {
-                                            remote_destination[serviceName] = Constants.WAVES_WALLET_PROD_DOMAIN_NAMES[network + '-' + serviceName]
-                                            deploymentFile = "./kubernetes/waves-wallet-${network}/deployment.yaml"
-                                            waves_wallet_deployment_map.domain_name = Constants.WAVES_WALLET_PROD_DOMAIN_NAMES[network + '-' + serviceName].replaceAll("\\.","-")
-                                        }
-
-                                        // configure deployment template
-                                        String deploymentConfFileContent = ut.replaceTemplateVars(deploymentFile, waves_wallet_deployment_map)
-                                        def deployment_config = "./${artifactsDir}/${serviceName}-deployment.yaml"
-                                        writeFile file: "./${artifactsDir}/${serviceName}/${serviceName}-deployment.yaml", text: deploymentConfFileContent
-
-                                        // deploy container to kuber
-                                        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: Constants.AWS_KUBERNETES_KEY, secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-                                            sh """
-                                                docker run -i --rm \
-                                                    -v "${env.WORKSPACE}/${artifactsDir}/${serviceName}":/root/app \
-                                                    -e AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}" \
-                                                    -e AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}" \
-                                                    -e KUBE_CLUSTER_NAME="${Constants.AWS_KUBERNETES_KUBE_CLUSTER_NAME}" \
-                                                    -e AWS_REGION="${Constants.AWS_KUBERNETES_AWS_REGION}" \
-                                                    -e CONFIG_PATH="${serviceName}-deployment.yaml" \
-                                                    "${Constants.DOCKER_KUBERNETES_EXECUTOR_IMAGE}"
-                                                """
-                                        }
-                                        pipeline_status["deployed-${serviceName}"] = true
-                                        ut.notifySlack("waves-deploy-alerts",
-                                            currentBuild.result,
-                                            "Deployed image:\n${Constants.DOCKER_REGISTRY}/waves/${serviceName}:${source} ${network} to ${remote_destination[serviceName]}")
-
-                                    } else {
-                                        org.jenkinsci.plugins.pipeline.modeldefinition.Utils.markStageSkippedForConditional("Deploying " + serviceName)
+                                    if (action.contains('PROD')) {
+                                        item.remoteDestination = wallet.wavesWalletProdDomainNames()[network + '-' + item.niceName]
+                                        deploymentFile = "./kubernetes/waves-wallet-${network}/deployment.yaml"
+                                        wavesWalletDeploymentMap.domainName = wallet.wavesWalletProdDomainNames()[network + '-' + item.niceName].replaceAll("\\.","-")
                                     }
 
+                                    def deploymentFileOutput = kubeIt(
+                                        deploymentTemplate: deploymentFile,
+                                        deploymentMap: wavesWalletDeploymentMap
+                                    )
+                                    item.deployArtifacts = item.niceName + '-kubeDeployArtifacts'
+                                    stash includes: 'kubeItOut/**', allowEmpty: true, name: item.deployArtifacts
+
+
+                                    item.deploySuccess = true
+                                    slackIt(channel: slackChannelDeploy, message: "Deployed image:\n${Constants.DOCKER_REGISTRY}/waves/${item.niceName}:${item.dockerTag} ${network} to ${item.remoteDestination}")
                                 }
                                 else {
-                                    org.jenkinsci.plugins.pipeline.modeldefinition.Utils.markStageSkippedForConditional("Deploying " + serviceName)
+                                    org.jenkinsci.plugins.pipeline.modeldefinition.Utils.markStageSkippedForConditional("Deploying " + item.niceName)
                                 }
                             }
                         }
@@ -301,30 +390,42 @@ timeout(time:20, unit:'MINUTES') {
                     println(err.toString())
                  }
                 finally{
-                    ['wallet', 'wallet-electron'].each{ serviceName ->
-                        if (pipeline_tasks['build'] && ! pipeline_status["built-${serviceName}"])
-                            ut.notifySlack("docker_builds",
-                                currentBuild.result,
-                                "Failed to build image: ${Constants.DOCKER_REGISTRY}/waves/${serviceName}:${source}")
+                    items.each{
+                        def item = it.value
+                        if (item.buildTask && !item.buildSuccess)
+                            if (item.niceName == 'electron')
+                                slackIt(channel: slackChannelBuild, buildStatus: currentBuild.result, message: "Failed to build electron images in branch ${source}")
+                            else
+                                slackIt(channel: slackChannelBuild, buildStatus: currentBuild.result, message: "Failed to build image: ${Constants.DOCKER_REGISTRY}/waves/${item.niceName}:${item.dockerTag}")
 
-                        if (pipeline_tasks['deploy'] && !pipeline_status["deployed-${serviceName}"])
-                        if (image == serviceName || image =="both" ) {
-                            ut.notifySlack("waves-deploy-alerts",
-                                    currentBuild.result,
-                                    "Failed to deploy image:\n${Constants.DOCKER_REGISTRY}/waves/${serviceName}:${source} ${network} to ${remote_destination[serviceName]}")
-                        }
-                    }
-                    if (pipeline_tasks['electron']) {
-                        if (! pipeline_status["built-electron"]){
-                            ut.notifySlack("docker_builds", currentBuild.result, "Failed to build Electron clients")
-                        } else{
-                            dir("${artifactsDir}") {
-                                unstash "electron-clients"
+                        if (item.deployTask && !item.deploySuccess)
+                            slackIt(channel: slackChannelBuild, buildStatus: currentBuild.result, message: "Failed to deploy image:\n${Constants.DOCKER_REGISTRY}/waves/${item.niceName}:${item.dockerTag} ${network} to ${item.remoteDestination}")
+
+                        dir("out/${item.niceName}"){
+                            if(item.buildArtifacts){
+                                if (it.key == 'electron'){
+                                    ['linux','mac','win'].each{ os ->
+                                        dir(os){
+                                            unstash name: item.buildArtifacts + os    
+                                        }
+                                    }
+                                    // dir("winOnLinux"){
+                                    //     unstash name: 'win'
+                                    // }
+                                } else{
+                                    unstash name: item.buildArtifacts
+                                }
                             }
+                            if(item.deployArtifacts)
+                                unstash name: item.deployArtifacts
                         }
+
                     }
-                    sh "tar -czvf artifacts.tar.gz -C ./${artifactsDir} ."
-                    archiveArtifacts artifacts: 'artifacts.tar.gz'
+                    dir("out"){
+                        def isNotEmpty = ut.shWithOutput('ls')
+                        if (isNotEmpty)
+                        archiveArtifacts artifacts: "**/**"
+                    }
                 }
             }
         }
