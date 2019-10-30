@@ -140,7 +140,7 @@ if (currentBuild.result == Constants.PIPELINE_ABORTED){
     return
 }
 println items
-timeout(time:25, unit:'MINUTES') {
+timeout(time:40, unit:'MINUTES') {
     node('buildagent'){
         currentBuild.result = Constants.PIPELINE_SUCCESS
         timestamps {
