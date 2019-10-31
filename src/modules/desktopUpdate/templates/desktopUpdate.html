@@ -1,0 +1,35 @@
+<w-main-header class="main-header"></w-main-header>
+
+<div class="main-container movable">
+    <div class="main-container-wrapper">
+        <div class="get-started-content">
+            <w-step-by-step active-step="$ctrl.step">
+                <w-step>
+                    <div class="text-center">
+                        <h3>Update App</h3>
+
+                        <div ng-if="$ctrl.progress && $ctrl.progress < 100">{{$ctrl.progress}} %</div>
+                        <div ng-if="$ctrl.error" class="error">{{$ctrl.error}}</div>
+
+                        <w-button
+                            class="big submit"
+                            on-click="$ctrl.download()"
+                        >
+                            <span w-i18n="download"></span>
+                        </w-button>
+                    </div>
+                </w-step>
+
+                <w-step>
+                    <div class="text-center">
+                        <h3>Install App</h3>
+
+                        <div>Then we'll continue</div>
+                    </div>
+                </w-step>
+            </w-step-by-step>
+        </div>
+    </div>
+</div>
+
+<w-footer class="footer"></w-footer>
