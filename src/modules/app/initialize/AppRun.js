@@ -368,11 +368,23 @@
                 const START_STATES = WavesApp.stateTree.where({ noLogin: true })
                     .map((item) => WavesApp.stateTree.getPath(item.id).join('.'));
 
+                const DEXW_LOCKED_STATES = WavesApp.stateTree.toArray()
+                    .filter((state) =>
+                        state.id === 'migration' || state.id === 'signIn'
+                    )
+                    .map((state) => state.id);
+
                 const offInitialTransitions = $transitions.onStart({}, transition => {
+                    const DEXW_LOCKED = configService.get('DEXW_LOCKED');
+
                     const toState = transition.to();
                     const fromState = transition.from();
                     const params = transition.params();
                     let tryDesktop;
+
+                    if (DEXW_LOCKED && DEXW_LOCKED_STATES.indexOf(toState.name) === -1) {
+                        return $state.target(DEXW_LOCKED_STATES[0]);
+                    }
 
                     if (START_STATES.indexOf(toState.name) === -1) {
                         if (fromState.name === 'unavailable') {
@@ -425,7 +437,7 @@
                                 this._modalRouter.initialize();
                             });
 
-                            const offInnerTransitions = this._onInnerTransitions(START_STATES);
+                            const offInnerTransitions = this._onInnerTransitions(START_STATES, DEXW_LOCKED_STATES);
 
                             user.logoutSignal.once(() => {
                                 offInnerTransitions();
@@ -435,10 +447,15 @@
                 });
             }
 
-            _onInnerTransitions(START_STATES) {
+            _onInnerTransitions(START_STATES, DEXW_LOCKED_STATES) {
                 return $transitions.onStart({}, transition => {
                     const toState = transition.to();
                     const { custom } = transition.options();
+                    const DEXW_LOCKED = configService.get('DEXW_LOCKED');
+
+                    if (DEXW_LOCKED && DEXW_LOCKED_STATES.indexOf(toState.name) === -1) {
+                        return $state.target(DEXW_LOCKED_STATES[1]);
+                    }
 
                     if (START_STATES.indexOf(toState.name) !== -1 && !custom.logout) {
                         return false;

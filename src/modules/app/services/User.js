@@ -28,7 +28,8 @@
         timeLine,
         utils,
         themes,
-        multiAccount
+        multiAccount,
+        $injector
     ) {
 
         const tsUtils = require('ts-utils');
@@ -426,8 +427,14 @@
             }
 
             goToActiveState() {
+                const configService = $injector.get('configService');
+                const DEXW_LOCKED = configService.get('DEXW_LOCKED');
                 if (!this.initRouteState) {
-                    $state.go(this.getActiveState('wallet'));
+                    if (DEXW_LOCKED) {
+                        $state.go(this.getActiveState('migration'));
+                    } else {
+                        $state.go(this.getActiveState('wallet'));
+                    }
                 }
             }
 
@@ -921,7 +928,8 @@
         'timeLine',
         'utils',
         'themes',
-        'multiAccount'
+        'multiAccount',
+        '$injector'
     ];
 
     angular.module('app').factory('user', factory);
