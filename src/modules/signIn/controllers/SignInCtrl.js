@@ -8,9 +8,11 @@
      * @param {ng.IScope} $scope
      * @param {*} $state
      * @param {User} user
+     * @param {ModalManager} modalManager
+     * @param {ConfigService} configService
      * @returns {SignInCtrl}
      */
-    const controller = function (Base, $scope, $state, user) {
+    const controller = function (Base, $scope, $state, user, modalManager, configService) {
 
         class SignInCtrl extends Base {
 
@@ -63,12 +65,41 @@
                 $state.go('signUp');
             }
 
+            showForgotPasswordModal() {
+                modalManager.showForgotPasswordModal().then(() => {
+                    $state.go('signUp');
+                });
+            }
+
+            _login(userData) {
+                user.login(userData).then(() => {
+                    const DEXW_LOCKED = configService.get('DEXW_LOCKED');
+
+                    if (DEXW_LOCKED) {
+                        $state.go('migration');
+                    } else {
+                        user.goToActiveState();
+                    }
+                });
+            }
+
+            _showPasswordError() {
+                this.password = '';
+                this.showPasswordError = true;
+            }
+
+            _updatePassword() {
+                if (this.password) {
+                    this.showPasswordError = false;
+                }
+            }
+
         }
 
         return new SignInCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', '$state', 'user', 'multiAccount', 'modalManager'];
+    controller.$inject = ['Base', '$scope', '$state', 'user', 'modalManager', 'configService'];
 
     angular.module('app.signIn').controller('SignInCtrl', controller);
 })();

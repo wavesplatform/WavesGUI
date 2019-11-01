@@ -29,7 +29,6 @@
         utils,
         themes,
         multiAccount,
-        $injector
     ) {
 
         const tsUtils = require('ts-utils');
@@ -312,6 +311,15 @@
             /**
              * @return {Promise}
              */
+            getMultiAccountUsersCount() {
+                return storage.load('multiAccountUsers').then(users => {
+                    return Object.keys(users).length;
+                });
+            }
+
+            /**
+             * @return {Promise}
+             */
             saveMultiAccount(data) {
                 return Promise.all([
                     storage.save('multiAccountData', data.multiAccountData),
@@ -427,14 +435,8 @@
             }
 
             goToActiveState() {
-                const configService = $injector.get('configService');
-                const DEXW_LOCKED = configService.get('DEXW_LOCKED');
                 if (!this.initRouteState) {
-                    if (DEXW_LOCKED) {
-                        $state.go(this.getActiveState('migration'));
-                    } else {
-                        $state.go(this.getActiveState('wallet'));
-                    }
+                    $state.go(this.getActiveState('wallet'));
                 }
             }
 
@@ -928,8 +930,7 @@
         'timeLine',
         'utils',
         'themes',
-        'multiAccount',
-        '$injector'
+        'multiAccount'
     ];
 
     angular.module('app').factory('user', factory);

@@ -127,56 +127,64 @@
             _unavailable = false;
 
             constructor() {
-                const identityImg = require('identity-img');
+                configService.configReadyPromise.then(() => {
+                    const identityImg = require('identity-img');
 
-                LOADER.addProgress(PROGRESS_MAP.APP_RUN);
+                    LOADER.addProgress(PROGRESS_MAP.APP_RUN);
 
-                /**
-                 * List of css class on body (from current state)
-                 * @type {Array<string>}
-                 */
-                this.activeClasses = [];
-                /**
-                 * @type {ModalRouter}
-                 * @private
-                 */
-                this._modalRouter = new ModalRouter();
+                    /**
+                     * List of css class on body (from current state)
+                     * @type {Array<string>}
+                     */
+                    this.activeClasses = [];
+                    /**
+                     * @type {ModalRouter}
+                     * @private
+                     */
+                    this._modalRouter = new ModalRouter();
 
-                /**
-                 * Configure library generation avatar by address
-                 */
-                identityImg.config({ rows: 8, cells: 8 });
+                    /**
+                     * Configure library generation avatar by address
+                     */
+                    identityImg.config({ rows: 8, cells: 8 });
 
-                this._setHandlers();
-                this._stopLoader();
-                this._initializeLogin();
-                this._initializeOutLinks();
+                    this._setHandlers();
+                    this._stopLoader();
+                    this._initializeLogin();
+                    this._initializeOutLinks();
 
-                if (WavesApp.isDesktop()) {
-                    window.listenMainProcessEvent((type, url) => {
-                        const parts = utils.parseElectronUrl(url);
-                        const path = parts.path.replace(/\/$/, '') || parts.path;
+                    if (WavesApp.isDesktop()) {
+                        window.listenMainProcessEvent((type, url) => {
+                            const parts = utils.parseElectronUrl(url);
+                            const path = parts.path.replace(/\/$/, '') || parts.path;
 
-                        if (path) {
-                            const noLogin = path === '/' || WavesApp.stateTree.where({ noLogin: true })
-                                .some(item => {
-                                    const url = item.get('url') || item.id;
-                                    return path === url;
-                                });
+                            if (path) {
+                                const noLogin = path === '/' || WavesApp.stateTree.where({ noLogin: true })
+                                    .some(item => {
+                                        const url = item.get('url') || item.id;
+                                        return path === url;
+                                    });
 
-                            if (noLogin) {
-                                location.hash = `#!${path}${parts.search}`;
-                            } else {
-                                user.onLogin().then(() => {
-                                    setTimeout(() => {
-                                        location.hash = `#!${path}${parts.search}`;
-                                    }, 1000);
-                                });
+                                if (noLogin) {
+                                    location.hash = `#!${path}${parts.search}`;
+                                } else {
+                                    user.onLogin().then(() => {
+                                        setTimeout(() => {
+                                            location.hash = `#!${path}${parts.search}`;
+                                        }, 1000);
+                                    });
+                                }
                             }
-                        }
-                    });
-                }
+                        });
+                    }
 
+                    if (configService.get('DEXW_LOCKED') && $state.current.name !== 'migration') {
+                        $state.go('migration');
+                    } else {
+                        $state.go('signIn');
+                    }
+
+                });
                 $rootScope.WavesApp = WavesApp;
             }
 
@@ -368,11 +376,7 @@
                 const START_STATES = WavesApp.stateTree.where({ noLogin: true })
                     .map((item) => WavesApp.stateTree.getPath(item.id).join('.'));
 
-                const DEXW_LOCKED_STATES = WavesApp.stateTree.toArray()
-                    .filter((state) =>
-                        state.id === 'migration' || state.id === 'signIn'
-                    )
-                    .map((state) => state.id);
+                const DEXW_LOCKED_STATES = ['migration', 'signIn'];
 
                 const offInitialTransitions = $transitions.onStart({}, transition => {
                     const DEXW_LOCKED = configService.get('DEXW_LOCKED');
@@ -383,7 +387,7 @@
                     let tryDesktop;
 
                     if (DEXW_LOCKED && DEXW_LOCKED_STATES.indexOf(toState.name) === -1) {
-                        return $state.target(DEXW_LOCKED_STATES[0]);
+                        return $state.target('migration');
                     }
 
                     if (START_STATES.indexOf(toState.name) === -1) {
@@ -454,10 +458,10 @@
                     const DEXW_LOCKED = configService.get('DEXW_LOCKED');
 
                     if (DEXW_LOCKED && DEXW_LOCKED_STATES.indexOf(toState.name) === -1) {
-                        return $state.target(DEXW_LOCKED_STATES[1]);
+                        return $state.target('migration');
                     }
 
-                    if (START_STATES.indexOf(toState.name) !== -1 && !custom.logout) {
+                    if (START_STATES.indexOf(toState.name) !== -1 && !custom.logout && !DEXW_LOCKED) {
                         return false;
                     } else {
                         state.signals.changeRouterStateStart.dispatch(transition);
