@@ -13,6 +13,8 @@
 
                         <w-button
                             class="big submit"
+                            ng-class="{pending: $ctrl.isDownloading}"
+                            disabled="$ctrl.isDownloading"
                             on-click="$ctrl.download()"
                         >
                             <span w-i18n="download"></span>

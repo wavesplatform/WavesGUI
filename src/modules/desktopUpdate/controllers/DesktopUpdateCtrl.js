@@ -14,6 +14,7 @@
             step = 0;
             progress = 0;
             error = null;
+            isDownloading = false;
 
             constructor() {
                 if (!WavesApp.isDesktop()) {
@@ -25,6 +26,8 @@
                 const url = this._getDistUrl();
                 const [fileName] = url.pathname.split('/').slice(-1);
 
+                this.isDownloading = true;
+
                 ds.utils.downloadFile(url, (progress) => {
                     this.progress = Math.ceil(progress);
                     $scope.$digest();
@@ -34,6 +37,7 @@
                         fileContent: content
                     }).then(() => {
                         this._nextStep();
+                        this.isDownloading = false;
                         $scope.$digest();
                     }).catch((e) => {
                         if (e.message === 'Cancel') {
@@ -42,6 +46,7 @@
                             this.error = String(e);
                         }
 
+                        this.isDownloading = false;
                         $scope.$digest();
                     });
                 }).catch((e) => {
