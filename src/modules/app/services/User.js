@@ -28,7 +28,7 @@
         timeLine,
         utils,
         themes,
-        multiAccount,
+        multiAccount
     ) {
 
         const tsUtils = require('ts-utils');
