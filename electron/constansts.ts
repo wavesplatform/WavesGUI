@@ -1,4 +1,4 @@
-import MenuItemConstructorOptions = Electron.MenuItemConstructorOptions;
+import { MenuItemConstructorOptions, MenuItem } from 'electron';
 
 
 export const META_NAME = 'meta.json';
@@ -51,8 +51,8 @@ export const GET_MENU_LIST = (app, t, hasDevTools) => [
     } : null
 ].filter(Boolean) as MenuItemConstructorOptions[];
 
-export const CONTEXT_MENU = t => [
-    { label: t('menu.cut'), accelerator: 'CmdOrCtrl+X', role: 'cut' },
-    { label: t('menu.copy'), accelerator: 'CmdOrCtrl+C', role: 'copy' },
-    { label: t('menu.paste'), accelerator: 'CmdOrCtrl+V', role: 'paste' }
+export const CONTEXT_MENU = locale => [
+    new MenuItem({ label: locale('menu.cut'), accelerator: 'CmdOrCtrl+X', role: 'cut' }),
+    new MenuItem({ label: locale('menu.copy'), accelerator: 'CmdOrCtrl+C', role: 'copy' }),
+    new MenuItem({ label: locale('menu.paste'), accelerator: 'CmdOrCtrl+V', role: 'paste' }),
 ];

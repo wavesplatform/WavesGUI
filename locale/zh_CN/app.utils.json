@@ -303,8 +303,8 @@
                 "warningTitle": "请不要从智能合约中交存ETH！别交存ERC20代币！您只能交存以太坊Ethereum。"
             },
             "wavesGatewayVST": {
-                "helpDescrText": "确认交易后，网关将处理将VST转移到Waves帐户中的代币。",
-                "helpDescrTitle": "在您的VST客户端或钱包中输入此地址",
+                "helpDescrText": "确认交易后，网关将处理将WEST转移到Waves帐户中的代币。",
+                "helpDescrTitle": "在您的WEST客户端或钱包中输入此地址",
                 "warningMinAmountTitle": "最低存款金额为{{minAmount, BigNumber}} {{assetTicker}}，最高存款金额为{{maxAmount}} {{assetTicker}}"
             },
             "wavesGatewayWEST": {
@@ -493,7 +493,7 @@
             "shareInvoiceLink": "分享单据链接",
             "verified": "验证",
             "vostok": {
-                "serverError": "VST服务暂时无法使用。稍后再试。"
+                "serverError": "WEST服务暂时无法使用。稍后再试。"
             },
             "wavesEnterprise": {
                 "serverError_copy": "WEST服务暂时无法使用。稍后再试。"

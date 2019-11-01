@@ -303,8 +303,8 @@
                 "warningTitle": "Smart Contracts에서 ETH를 입금하지 마세요! ERC20 토큰을 입금하지 마세요! Ethereum 입금만 가능합니다."
             },
             "wavesGatewayVST": {
-                "helpDescrText": "트랜잭션이 승인되면 게이트웨이가 귀하의 Waves 계정에서 VST를 토큰으로 전송하는 작업을 처리할 것입니다.",
-                "helpDescrTitle": "이 주소를 VST 클라이언트 또는 지갑에 입력하세요",
+                "helpDescrText": "트랜잭션이 승인되면 게이트웨이가 귀하의 Waves 계정에서 WEST를 토큰으로 전송하는 작업을 처리할 것입니다.",
+                "helpDescrTitle": "이 주소를 WEST 클라이언트 또는 지갑에 입력하세요",
                 "warningMinAmountTitle": "최소 입금액은 {{minAmount, BigNumber}} {{assetTicker}} 이며 최대 입금액은 {{maxAmount}} {{assetTicker}} 입니다."
             },
             "wavesGatewayWEST": {
@@ -493,7 +493,7 @@
             "shareInvoiceLink": "인보이스 링크 복사",
             "verified": "인증 완료",
             "vostok": {
-                "serverError": "VST 서비스를 일시적으로 사용할 수 없습니다. 나중에 다시 시도하세요."
+                "serverError": "WEST 서비스를 일시적으로 사용할 수 없습니다. 나중에 다시 시도하세요."
             },
             "wavesEnterprise": {
                 "serverError_copy": "WEST를 서비스를 일시적으로 사용할 수 없습니다. 나중에 다시 시도하세요."

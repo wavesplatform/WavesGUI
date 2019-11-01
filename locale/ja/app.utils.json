@@ -303,8 +303,8 @@
                 "warningTitle": "ETHをスマートコントラクトからデポジットしないでください。また、ERC20トークンもデポジットしないでください。"
             },
             "wavesGatewayVST": {
-                "helpDescrText": "トランザクションが承認されると、ゲートウェイはVSTの送信を進め、あなたのWavesアカウントにトークンが反映されます。",
-                "helpDescrTitle": "このアドレスをVSTクライアント、またはウォレットに入力してください",
+                "helpDescrText": "トランザクションが承認されると、ゲートウェイはWESTの送信を進め、あなたのWavesアカウントにトークンが反映されます。",
+                "helpDescrTitle": "このアドレスをWESTクライアント、またはウォレットに入力してください",
                 "warningMinAmountTitle": "最小デポジット額は{{minAmount, BigNumber}} {{assetTicker}}、最大デポジット額は{{maxAmount}} {{assetTicker}}です"
             },
             "wavesGatewayWEST": {
@@ -493,7 +493,7 @@
             "shareInvoiceLink": "請求書リンクを共有",
             "verified": "承認済",
             "vostok": {
-                "serverError": "現在、一時的に、VSTのサービスがご利用いただけません。再度お試しください。"
+                "serverError": "現在、一時的に、WESTのサービスがご利用いただけません。再度お試しください。"
             },
             "wavesEnterprise": {
                 "serverError_copy": "現在、一時的に、WESTのサービスがご利用いただけません。再度お試しください。"

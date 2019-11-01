@@ -303,8 +303,8 @@
                 "warningTitle": "Please do not deposit ETH from smart contracts! Do not deposit ERC20 tokens! Only Ethereum is allowed."
             },
             "wavesGatewayVST": {
-                "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of VST to a token in your Waves account.",
-                "helpDescrTitle": "Enter this address into your VST client or wallet",
+                "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of WEST to a token in your Waves account.",
+                "helpDescrTitle": "Enter this address into your WEST client or wallet",
                 "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}, the maximum amount of deposit is {{maxAmount}} {{assetTicker}}"
             },
             "wavesGatewayWEST": {
@@ -493,7 +493,7 @@
             "shareInvoiceLink": "Share a Link to an Invoice",
             "verified": "Verified",
             "vostok": {
-                "serverError": "Service VST temporarily unavailable. Try again later."
+                "serverError": "Service WEST temporarily unavailable. Try again later."
             },
             "wavesEnterprise": {
                 "serverError_copy": "Service WEST temporarily unavailable. Try again later."

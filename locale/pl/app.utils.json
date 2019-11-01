@@ -303,8 +303,8 @@
                 "warningTitle": "Proszę nie deponować ETH z inteligentnych kontraktów (smart contracts)! Proszę nie deponować tokenów ERC20! Tylko Ethereum dozwolone."
             },
             "wavesGatewayVST": {
-                "helpDescrText": "Jeżeli transakcja zostanie potwierdzona, system wymieni VST na tokeny w Twoim koncie Waves.",
-                "helpDescrTitle": "Wprowadź ten adres w swoim kliencie albo portfelu VST",
+                "helpDescrText": "Jeżeli transakcja zostanie potwierdzona, system wymieni WEST na tokeny w Twoim koncie Waves.",
+                "helpDescrTitle": "Wprowadź ten adres w swoim kliencie albo portfelu WEST",
                 "warningMinAmountTitle": "Minimalna kwota depozytu to {{minAmount, BigNumber}} {{assetTicker}}, maksymalna kwota depozytu to {{maxAmount}} {{assetTicker}}"
             },
             "wavesGatewayWEST": {
@@ -493,7 +493,7 @@
             "shareInvoiceLink": "Udostępnij link do faktury",
             "verified": "Zweryfikowany",
             "vostok": {
-                "serverError": "Usługa VST jest tymczasowo niedostępna. Spróbuj ponownie później."
+                "serverError": "Usługa WEST jest tymczasowo niedostępna. Spróbuj ponownie później."
             },
             "wavesEnterprise": {
                 "serverError_copy": "Usługa WEST jest tymczasowo niedostępna. Spróbuj ponownie później."

@@ -26,7 +26,7 @@
   "origin": "https://testnet.wavesplatform.com",
   "featuresConfigUrl": "https://raw.githubusercontent.com/wavesplatform/waves-client-config/master/testnet.config.json",
   "feeConfigUrl": "https://raw.githubusercontent.com/wavesplatform/waves-client-config/master/fee.json",
-  "VSTNetworkByte": "S",
+  "WESTNetworkByte": "S",
   "tokenrating": "https://dev.voting.wavesplatform.com",
   "assets": {
     "EUR": "EqZfxiqYKkByP42hqNsvuPdXxVYMHaQDwfKgFnAz5D1x",
@@ -42,7 +42,7 @@
     "EFYT": "8BNkw4U8sp2cUT1DLxP3BrzEqKjXaZ91G5t6VyrZHxKV",
     "WNET": "21xsghi8ASyz5RdCmGSpZFZ5A7f3se5bM5QrCzzMBmLs",
     "XMR": "DChAQFaggQJpyj1DWwfuuxLXoxeCs9R3kdaGfyHPn3PE",
-    "VST": "4TokpX1hU9YVS8ivZxpSJRWQssaGtYUprQgBXfipxmAZ",
+    "WEST": "4TokpX1hU9YVS8ivZxpSJRWQssaGtYUprQgBXfipxmAZ",
     "ERGO": "ERCyLzH7vgqZQkQUsLBBqy3EHqHTxMqzKMe5z8hQR6uL",
     "WCT": "8AJ4g47qF7rVpYL1hi1FZaKWnQy5cxXsrpqiTgoy1SkZ",
     "BNT": "5oS1vs1x3pa6k9XrKuSoQHVs5zyQNakhHjXZAFUxYMS9"

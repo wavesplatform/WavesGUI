@@ -50,13 +50,16 @@ export class Bridge implements IBridge {
             const path = app.getPath('downloads');
             const options = { defaultPath: join(path, data.fileName) };
 
-            dialog.showSaveDialog(this.main.mainWindow, options, function (filename) {
-                if (filename) {
-                    return write(filename, data.fileContent).then(resolve, reject);
-                } else {
-                    return reject(new Error('Cancel'));
+            return dialog.showSaveDialog(this.main.mainWindow, options).then(
+                function (saveDialogValue) {
+                    if (saveDialogValue.filePath) {
+                        return write(saveDialogValue.filePath, data.fileContent).then(resolve, reject);
+                    } else {
+                        return reject(new Error('Cancel'));
+                    }
                 }
-            });
+            );
+
         });
     }
 
