@@ -3,6 +3,7 @@ import { delay } from '../utils/utils';
 import { ConnectProvider } from './ConnectProvider';
 
 interface PostMessageConnectProviderOptioins {
+    win?: Window;
     mode?: 'export' | 'import';
     origins?: string[];
 }
@@ -21,23 +22,9 @@ export class PostMessageConnectProvider implements ConnectProvider {
 
     constructor(options: PostMessageConnectProviderOptioins = {}) {
         this.adapter = new WindowAdapter(
-            [new WindowProtocol(
-                options.mode === 'import' ?
-                    (window.opener || window.parent) :
-                    window,
-                'listen'
-            )],
-            [new WindowProtocol(
-                options.mode === 'import' ?
-                    (window.opener || window.parent) :
-                    window,
-                'dispatch'
-            )],
-            {
-                origins: options.origins,
-                chanelId: `postMessageConnectProvider${options.mode === 'export' ? 'Client' : 'Server'}`,
-                availableChanelId: `postMessageConnectProvider${options.mode !== 'export' ? 'Client' : 'Server'}`,
-            }
+            [new WindowProtocol(window, WindowProtocol.PROTOCOL_TYPES.LISTEN)],
+            [new WindowProtocol(options.win, WindowProtocol.PROTOCOL_TYPES.DISPATCH)],
+            { origins: options.origins }
         );
         this.bus = new Bus(this.adapter);
         this.active = true;
