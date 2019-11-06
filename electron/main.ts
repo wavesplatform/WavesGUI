@@ -89,19 +89,17 @@ class Main implements IMain {
         this.addContextMenu();
     }
 
-    private makeSingleInstance(): boolean {
-        const isOpenClient = app.makeSingleInstance((argv) => {
-            const link = argv.find(hasProtocol) || '';
-
-            this.openProtocolIn(link);
-        });
-
-        if (isOpenClient) {
+    private makeSingleInstance() {
+        const gotTheLock = app.requestSingleInstanceLock();
+        const argv = process.argv;
+        const link = argv.find(hasProtocol) || '';
+        this.openProtocolIn(link);
+        
+        if (!gotTheLock) {
             app.quit();
         }
-
-        return !isOpenClient;
-    }
+        return gotTheLock;
+   }
 
     private openProtocolIn(browserLink) {
         if (!browserLink || !hasProtocol(browserLink)) {
@@ -211,10 +209,14 @@ class Main implements IMain {
     }
 
     private createCtxMenu(locale) {
-        const onContextMenu = (menu: Menu): () => void => () => menu.popup({});
+        const onContextMenu = (menu: Menu) => () => {
+            menu.popup({});
+        };
+
         if (this.ctxMenuList.length > 0) {
             this.mainWindow.webContents.removeAllListeners('context-menu');
         }
+
         const ctxMenuTemplate = CONTEXT_MENU(locale);
         const ctxMenu = Menu.buildFromTemplate(ctxMenuTemplate);
         this.ctxMenuList.push(ctxMenu);

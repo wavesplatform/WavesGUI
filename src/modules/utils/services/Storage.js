@@ -105,9 +105,9 @@
             const settings = { ...user.settings };
 
             if (settings.pinnedAssetIdList && settings.pinnedAssetIdList.length) {
-                const list = [ ...settings.pinnedAssetIdList ];
+                const list = [...settings.pinnedAssetIdList];
 
-                for (let assetIndex = list.length; assetIndex--; ) {
+                for (let assetIndex = list.length; assetIndex--;) {
                     if (list[assetIndex] == null) {
                         list[assetIndex] = pinnedList[assetIndex];
                     }
@@ -117,7 +117,7 @@
             }
 
             if (settings.dex && settings.dex.watchlist && settings.dex.watchlist.favourite) {
-                const dexSettings = { ... settings.dex };
+                const dexSettings = { ...settings.dex };
                 dexSettings.watchlist = { ...dexSettings.watchlist };
 
                 if (!Array.isArray(dexSettings.watchlist.favourite)) {
@@ -146,7 +146,10 @@
         }
 
         function fixMigrateCommonSettings(storage) {
-            return Promise.all([storage.load('userList'), storage.load('multiAccountUsers')]).then(([userList, multiAccountUsers]) => {
+            return Promise.all([
+                storage.load('userList'),
+                storage.load('multiAccountUsers')
+            ]).then(([userList, multiAccountUsers]) => {
                 try {
                     if (userList && userList.length) {
                         userList = userList.map(user => ({ ...user, settings: fixSettings(user) }));
@@ -161,7 +164,7 @@
                         }, Object.create(null));
                     }
                 } catch (e) {
-
+                    return null;
                 }
 
                 return Promise.all([

@@ -607,7 +607,12 @@
             getUserList() {
                 return storage.onReady()
                     .then(() => storage.load('userList'))
-                    .then(list => (list || []).sort((a, b) => b.lastLogin - a.lastLogin));
+                    .then(list => {
+                        if (Array.isArray(list)) {
+                            return list.sort((a, b) => b.lastLogin - a.lastLogin);
+                        }
+                        return [];
+                    });
             }
 
             /**

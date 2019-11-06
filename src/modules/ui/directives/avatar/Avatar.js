@@ -1,8 +1,6 @@
 (function () {
     'use strict';
 
-    const ds = require('data-service');
-
     /**
      * @param {typeof Base} Base
      * @param $q
@@ -48,16 +46,12 @@
                     this.size = 67;
                 }
                 if (this.address) {
-                    ds.fetch(`${ds.config.get('node')}/addresses/scriptInfo/${this.address}`)
+                    waves.node.scriptInfo(this.address)
                         .then(data => {
                             this.hasScript = !!data.script;
                             $scope.$apply();
-                        });
-
-                    waves.node.scriptInfo(this.address).then(data => {
-                        this.hasScript = !!data.script;
-                        $scope.$apply();
-                    });
+                        })
+                        .catch(() => null);
 
                     $q((resolve) => {
                         resolve(identityImg.create(this.address, { size: this.size * 3 }));

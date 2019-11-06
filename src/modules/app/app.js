@@ -110,6 +110,7 @@
         'app.restore',
         'app.saveSeed',
         'app.desktop',
+        'app.desktopUpdate',
         'app.ledger',
         'app.keeper',
         'app.fromBackup',

@@ -47,6 +47,7 @@
             "last": "Ultimi",
             "limit": "Ordine limite",
             "market": "Ordine di mercato",
+            "marketPriceField": "Price",
             "matcherFee": "Spese",
             "notifications": {
                 "error": {
@@ -73,6 +74,9 @@
             "stopPriceField": "Prezzo stop",
             "stopPriceHelp": "Si tratta di un ordine automatico di acquisto o di vendita ad un prezzo predeterminato.",
             "total": "Totale"
+        },
+        "createorder": {
+            "yourBalance": "Your balance"
         },
         "demo": {
             "createAccount": "crea un nuovo account",

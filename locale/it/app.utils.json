@@ -279,6 +279,8 @@
                 "warningTitle": "Per favore, non inviare BNT da smart contracts! Non inviare token ERC20! Accettiamo esclusivamente Bancor."
             },
             "wavesGatewayBTC": {
+                "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of BTC to a token in your Waves account.",
+                "helpDescrTitle": "Inserisci questo indirizzo nel tuo client BTC o nel tuo wallet",
                 "warningMinAmountText": "Inviando meno di {{minAmount, BigNumber}} {{assetTicker}}, l'importo trasferito andrà perduto.",
                 "warningMinAmountTitle": "Il deposito minimo è di {{minAmount, BigNumber}} {{assetTicker}}, il deposito massimo è di {{maxAmount}} {{assetTicker}}",
                 "warningText": "Inviare qualunque altra valuta a questo indirizzo potrebbe risultare in una perdita di quanto inviato.",
@@ -293,16 +295,26 @@
                 "warningTitle": "Invia esclusivamente ERGO a questo indirizzo"
             },
             "wavesGatewayETH": {
+                "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of ETH to a token in your Waves account.",
+                "helpDescrTitle": "Enter this address into your ETH client or wallet",
                 "warningMinAmountText": "Inviando meno di {{minAmount, BigNumber}} {{assetTicker}}, l'importo trasferito andrà perduto.",
                 "warningMinAmountTitle": "L'importo minimo di deposito è di {{minAmount, BigNumber}} {{assetTicker}}, l'importo massimo di deposito è di {{maxAmount}} {{assetTicker}}",
                 "warningText": "Controlla se il tuo wallet o exchange utilizza smart contract per trasferire ETH. Non accettiamo questo tipo di transazioni e non ci sarà possibile rimborsarle. L'importo trasferito andrà perduto.",
                 "warningTitle": "Per favore, non inviare ETH da smart contracts! Non inviare token ERC20! Accettiamo esclusivamente Ethereum."
             },
             "wavesGatewayVST": {
-                "helpDescrText": "Una volta che la transazione sarà confermata, il gateway processerà il trasferimento di VST in favore di un token nel tuo account Waves.",
-                "helpDescrTitle": "Inserisci questo indirizzo nel tuo client VST o nel tuo wallet",
+                "helpDescrText": "Una volta che la transazione sarà confermata, il gateway processerà il trasferimento di WEST in favore di un token nel tuo account Waves.",
+                "helpDescrTitle": "Inserisci questo indirizzo nel tuo client WEST o nel tuo wallet",
                 "warningMinAmountTitle": "L'importo minimo di deposito è di {{minAmount, BigNumber}} {{assetTicker}}, l'importo massimo di deposito è di {{maxAmount}} {{assetTicker}}"
-            }
+            },
+            "wavesGatewayWEST": {
+                "helpDescrText": "Una volta che la transazione sarà confermata, il gateway processerà il trasferimento di WEST in favore di un token nel tuo account Waves.",
+                "helpDescrText_copy": "Una volta che la transazione sarà confermata, il gateway processerà il trasferimento di WEST in favore di un token nel tuo account Waves.",
+                "helpDescrTitle": "Inserisci questo indirizzo nel tuo client WEST o nel tuo wallet",
+                "helpDescrTitle_copy": "Inserisci questo indirizzo nel tuo client WEST o nel tuo wallet",
+                "warningMinAmountTitle": "L'importo minimo di deposito è di {{minAmount, BigNumber}} {{assetTicker}}, l'importo massimo di deposito è di {{maxAmount}} {{assetTicker}}"
+            },
+            "wavesGatewayWEST:warningMinAmountTitle_copy": "L'importo minimo di deposito è di {{minAmount, BigNumber}} {{assetTicker}}, l'importo massimo di deposito è di {{maxAmount}} {{assetTicker}}"
         },
         "dexScriptedPair": {
             "body": "Gli smart asset sono risorse che includono uno script in grado di definire le condizioni relative alla circolazione di un token.{div}[Si sconsiglia di eseguire operazioni con smart asset a meno di essere utenti esperti. Prima di effettuare una transazione, leggere attentamente le informazioni sull'asset e sul relativo script.]",
@@ -481,7 +493,10 @@
             "shareInvoiceLink": "Condividi il link ad una fattura",
             "verified": "Verificato",
             "vostok": {
-                "serverError": "Servizio VST temporaneamente non disponibile. Riprova più tardi."
+                "serverError": "Servizio WEST temporaneamente non disponibile. Riprova più tardi."
+            },
+            "wavesEnterprise": {
+                "serverError_copy": "Servizio WEST temporaneamente non disponibile. Riprova più tardi."
             },
             "wtry": {
                 "info": "In caso di problema con la procedura di pagamento, per favore contattare il team di supporto di Digilira — [support@digilira.com](mailto:support@digilira.com)"
@@ -969,7 +984,7 @@
                 "1_3_0": "{span.line}[1. Miglioramento dell'interfaccia do navigazione della pagina iniziale.]",
                 "1_3_18": "{span.line} [1. Aggiunto login al wallet utilizzando una chiave privata.]\n{span.line} [2. La modifica del prezzo di 24 ore di un token è ora associata alla coppia token/WAVES.]",
                 "1_3_19": "{span.line} [1. Lancio del gateway Bancor.] \n{span.line} [2.Miglioramento dell'interfaccia del menu utente.]",
-                "1_3_2": "{span.line} [1. Lancio del gateway VST.] \n{span.line} [2. Miglioramento dell'interfaccia utente e risoluzione di altri bug minori.]",
+                "1_3_2": "{span.line} [1. Lancio del gateway WEST.] \n{span.line} [2. Miglioramento dell'interfaccia utente e risoluzione di altri bug minori.]",
                 "1_3_20": "{span.line} [1. Miglioramento del sistema di archiviazione e ripristino di account da dispositivi di archiviazione locali (è necessario aggiornare [l'applicazione desktop](https://wavesplatform.com/technology/wallet)).] \n {span.line} [2. Risolto il problema relativo all'arrotondamento dei prezzi nel registro ordini.]",
                 "1_3_5": "{span.line}[1. Aggiunto il tab al concorso [wsoc.io](https://wsoc.io) tokens.]\n{span.line}[2. Aggiunto il supporto alla lingua Francese.]\n{span.line}[3. Risoluzione di bug minori.]",
                 "1_3_7": "{span.line} [1. Integrazione con [tokenrating.wavesexplorer.com] (https://tokenrating.wavesexplorer.com) Ora puoi valutare i token direttamente nell'app.] \n {span.line} [2. Sono stati corretti altri bug minori.]",

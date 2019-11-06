@@ -279,6 +279,8 @@
                 "warningTitle": "请不要从智能合约中存入BNT！不要存入其他ERC20代币！只允许Bancor。"
             },
             "wavesGatewayBTC": {
+                "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of BTC to a token in your Waves account.",
+                "helpDescrTitle": "在您的BTC客户端或钱包中输入此地址",
                 "warningMinAmountText": "如果您发送的费用低于{{minAmount, BigNumber}} {{assetTicker}}，您将失去这笔钱。",
                 "warningMinAmountTitle": "最低存款金额为{{minAmount，BigNumber}} {{assetTicker}} ，最高存款金额为{{maxAmount}} {{assetTicker}}",
                 "warningText": "如通过该地址发送任何其他代币，您的代币将失去。",
@@ -293,16 +295,26 @@
                 "warningTitle": "仅将ERGO发送至此存款地址"
             },
             "wavesGatewayETH": {
+                "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of ETH to a token in your Waves account.",
+                "helpDescrTitle": "Enter this address into your ETH client or wallet",
                 "warningMinAmountText": "如果你发送少于{{minAmount, BigNumber}} {{assetTicker}}，你将失去这笔钱。",
                 "warningMinAmountTitle": "最低存款金额为{{minAmount，BigNumber}} {{assetTicker}} ，最高存款金额为{{maxAmount}} {{assetTicker}}",
                 "warningText": "检查您的钱包或交易所是否为收回ETH使用智能合约。我们不接受这种交易，也不能退款。您将会失去这笔钱。",
                 "warningTitle": "请不要从智能合约中交存ETH！别交存ERC20代币！您只能交存以太坊Ethereum。"
             },
             "wavesGatewayVST": {
-                "helpDescrText": "确认交易后，网关将处理将VST转移到Waves帐户中的代币。",
-                "helpDescrTitle": "在您的VST客户端或钱包中输入此地址",
+                "helpDescrText": "确认交易后，网关将处理将WEST转移到Waves帐户中的代币。",
+                "helpDescrTitle": "在您的WEST客户端或钱包中输入此地址",
                 "warningMinAmountTitle": "最低存款金额为{{minAmount, BigNumber}} {{assetTicker}}，最高存款金额为{{maxAmount}} {{assetTicker}}"
-            }
+            },
+            "wavesGatewayWEST": {
+                "helpDescrText": "确认交易后，网关将处理将WEST转移到Waves帐户中的代币。",
+                "helpDescrText_copy": "确认交易后，网关将处理将WEST转移到Waves帐户中的代币。",
+                "helpDescrTitle": "在您的WEST客户端或钱包中输入此地址",
+                "helpDescrTitle_copy": "在您的WEST客户端或钱包中输入此地址",
+                "warningMinAmountTitle": "最低存款金额为{{minAmount, BigNumber}} {{assetTicker}}，最高存款金额为{{maxAmount}} {{assetTicker}}"
+            },
+            "wavesGatewayWEST:warningMinAmountTitle_copy": "最低存款金额为{{minAmount, BigNumber}} {{assetTicker}}，最高存款金额为{{maxAmount}} {{assetTicker}}"
         },
         "dexScriptedPair": {
             "body": "智能资产是包含脚本的资产，该脚本设置令牌流通的条件。 {div}[如果您是没有经验的用户，我们不建议您使用智能资产执行操作。在进行交易之前，请仔细阅读有关资产及其脚本的信息。]",
@@ -481,7 +493,10 @@
             "shareInvoiceLink": "分享单据链接",
             "verified": "验证",
             "vostok": {
-                "serverError": "VST服务暂时无法使用。稍后再试。"
+                "serverError": "WEST服务暂时无法使用。稍后再试。"
+            },
+            "wavesEnterprise": {
+                "serverError_copy": "WEST服务暂时无法使用。稍后再试。"
             },
             "wtry": {
                 "info": "如果付款处理出了问题，请联系Digilira支持团队 — [support@digilira.com](mailto:support@digilira.com)"
@@ -969,7 +984,7 @@
                 "1_3_0": "{span.line}[1。改进了应用程序导航和起始页面界面。]",
                 "1_3_18": "{span.line} [1。使用私钥添加了对钱包的登录。] \n {span.line} [2。令牌的24小时价格变化现在绑定到代币/ WAVES对。]",
                 "1_3_19": "{span.line} [1。 Bancor网关已经推出。] \n {span.line} [2。用户菜单界面已得到改进。]",
-                "1_3_2": "{span.line} [1。 VST网关已经推出。] \n {span.line} [2。改进的用户界面和其他小错误已得到修复。]",
+                "1_3_2": "{span.line} [1。 WEST网关已经推出。] \n {span.line} [2。改进的用户界面和其他小错误已得到修复。]",
                 "1_3_20": "{span.line} [1。改进了从本地存储中存储和恢复帐户的系统（需要更新[桌面应用程序]（https://wavesplatform.com/technology/wallet））。 \n {span.line} [2。修正了订单中价格的四舍五入。]",
                 "1_3_5": "{span.line} [1。已添加包含[wsoc.io]（https://wsoc.io）竞赛代币的标签。 \n {span.line} [2。增加了法语支持。] \n {span.line} [3。其他小错误已得到修复。]",
                 "1_3_7": "{span.line} [1。与[tokenrating.wavesexplorer.com]集成（https://tokenrating.wavesexplorer.com）现在您可以直接在应用程序中对令牌进行评分。 \n {span.line} [2。其他小错误已得到修复。]",

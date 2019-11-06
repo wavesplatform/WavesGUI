@@ -279,6 +279,8 @@
                 "warningTitle": "Veuillez ne pas déposer BNT depuis un smart-contract! Ne déposez pas d'autres jetons ERC20! Seul Bancor est autorisé."
             },
             "wavesGatewayBTC": {
+                "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of BTC to a token in your Waves account.",
+                "helpDescrTitle": "Entrez cette adresse dans votre client ou portefeuille BTC",
                 "warningMinAmountText": "Si vous envoyez moins de {{minAmount, BigNumber}} {{assetTicker}}, vous perdrez cet argent.",
                 "warningMinAmountTitle": "Le montant minimum de dépôt est {{minAmount, BigNumber}} {{assetTicker}}",
                 "warningText": "L'envoi de toute autre devise à cette adresse peut entraîner la perte de votre dépôt.",
@@ -293,16 +295,26 @@
                 "warningTitle": "Envoyez uniquement de l'ERGO à cette adresse de dépôt"
             },
             "wavesGatewayETH": {
+                "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of ETH to a token in your Waves account.",
+                "helpDescrTitle": "Enter this address into your ETH client or wallet",
                 "warningMinAmountText": "Si vous envoyez moins de {{minAmount, BigNumber}} {{assetTicker}}, vous perdrez cet argent.",
                 "warningMinAmountTitle": "Le montant minimum du dépôt est de {{minAmount, BigNumber}} {{assetTicker}}, le montant maximum du dépôt est de {{maxAmount}} {{assetTicker}}",
                 "warningText": "Vérifiez si votre portefeuille ou votre plateforme d'échange utilise des smart-contracts pour retirer ETH. Nous n'acceptons pas de telles transactions et ne pouvons pas les rembourser. Vous perdrez cet argent.",
                 "warningTitle": "Ne déposez pas d'ETH à partir de smart-contracts ! Ne déposez pas de tokens ERC20 ! Seul Ethereum est autorisé."
             },
             "wavesGatewayVST": {
-                "helpDescrText": "Une fois la transaction confirmée, le portail traitera le transfert de VST vers un jeton dans votre compte Waves.",
-                "helpDescrTitle": "Entrez cette adresse dans votre client ou portefeuille VST",
+                "helpDescrText": "Une fois la transaction confirmée, le portail traitera le transfert de WEST vers un jeton dans votre compte Waves.",
+                "helpDescrTitle": "Entrez cette adresse dans votre client ou portefeuille WEST",
                 "warningMinAmountTitle": "Le montant minimum du dépôt est de {{minAmount, BigNumber}} {{assetTicker}}, le montant maximum du dépôt est de {{maxAmount}} {{assetTicker}}"
-            }
+            },
+            "wavesGatewayWEST": {
+                "helpDescrText": "Une fois la transaction confirmée, le portail traitera le transfert de WEST vers un jeton dans votre compte Waves.",
+                "helpDescrText_copy": "Une fois la transaction confirmée, le portail traitera le transfert de WEST vers un jeton dans votre compte Waves.",
+                "helpDescrTitle": "Entrez cette adresse dans votre client ou portefeuille WEST",
+                "helpDescrTitle_copy": "Entrez cette adresse dans votre client ou portefeuille WEST",
+                "warningMinAmountTitle": "Le montant minimum du dépôt est de {{minAmount, BigNumber}} {{assetTicker}}, le montant maximum du dépôt est de {{maxAmount}} {{assetTicker}}"
+            },
+            "wavesGatewayWEST:warningMinAmountTitle_copy": "Le montant minimum du dépôt est de {{minAmount, BigNumber}} {{assetTicker}}, le montant maximum du dépôt est de {{maxAmount}} {{assetTicker}}"
         },
         "dexScriptedPair": {
             "body": "Les actifs intelligents sont des actifs qui incluent un script qui définit les conditions de la circulation du jeton. {div}[Nous vous déconseillons d'effectuer des opérations avec des actifs intelligents si vous êtes un utilisateur inexpérimenté. Avant d'effectuer une transaction, veuillez lire attentivement les informations sur l'actif et son script.]",
@@ -481,7 +493,10 @@
             "shareInvoiceLink": "Partager un lien vers une facture",
             "verified": "Vérifié",
             "vostok": {
-                "serverError": "Service VST temporairement indisponible. Veuillez réessayez plus tard."
+                "serverError": "Service WEST temporairement indisponible. Veuillez réessayez plus tard."
+            },
+            "wavesEnterprise": {
+                "serverError_copy": "Service WEST temporairement indisponible. Veuillez réessayez plus tard."
             },
             "wtry": {
                 "info": "En cas de problèmes avec le traitement des paiements, veuillez contacter l'équipe de support Digilira - [support@digilira.com](mailto:support@digilira.com)"
@@ -969,7 +984,7 @@
                 "1_3_0": "{span.line}[1. Amélioration de la navigation dans l'application et de l'interface de la page de démarrage.]",
                 "1_3_18": "{span.line}[1. Ajout de la connexion au portefeuille à l'aide d'une clé privée.] \n{span.line}[2. Le changement de prix d'un jeton sur 24 heures est désormais lié à la paire jeton/WAVES.]",
                 "1_3_19": "{span.line}[1. Le portail Bancor a été lancé.] \n{span.line}[2. Interface utilisateur améliorée.]",
-                "1_3_2": "{span.line} [1. Le portail VST a été lancé.] \n{span.line} [2. Interface utilisateur améliorée et correction de bugs mineurs supplémentaires.]",
+                "1_3_2": "{span.line} [1. Le portail WEST a été lancé.] \n{span.line} [2. Interface utilisateur améliorée et correction de bugs mineurs supplémentaires.]",
                 "1_3_20": "{span.line}[1. Improved system for storing and restoring accounts from local storage (Need to update the [desktop application](https://wavesplatform.com/technology/wallet)).]\n{span.line}[2. Fixed rounding of prices in the orderbook.]",
                 "1_3_5": "{span.line}[1. Un onglet avec les jetons du concours [wsoc.io] (https://wsoc.io) a été ajouté.] \n {span.line}[2. Prise en charge de la langue française ajoutée.] \n {span.line}[3. Des bugs mineurs supplémentaires ont été corrigés.]",
                 "1_3_7": "{span.line}[1. Intégration avec [tokenrating.wavesexplorer.com] (https://tokenrating.wavesexplorer.com) Vous pouvez maintenant noter les jetons directement dans l'application.] \n {span.line}[2. Des bugs mineurs supplémentaires ont été corrigés.]",

@@ -279,6 +279,8 @@
                 "warningTitle": "Tolong jangan setorkan BNT dari kontrak pintar! Jangan setorkan token ERC20 lainnya! Hanya Bancor yang diizinkan."
             },
             "wavesGatewayBTC": {
+                "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of BTC to a token in your Waves account.",
+                "helpDescrTitle": "Masukkan alamat ini ke klien atau dompet BTC Anda",
                 "warningMinAmountText": "Jika Anda akan mengirim kurang dari {{minAmount, BigNumber}} {{assetTicker}}, Anda akan kehilangan uang itu.",
                 "warningMinAmountTitle": "Jumlah minimum setoran adalah {{minAmount, BigNumber}} {{assetTicker}} , jumlah setoran maksimum adalah {{maxAmount}} {{assetTicker}}",
                 "warningText": "Mengirimkan mata uang lain ke alamat ini dapat menyebabkan hilangnya deposit Anda.",
@@ -293,16 +295,26 @@
                 "warningTitle": "Kirim hanya ERGO ke alamat penyetoran ini"
             },
             "wavesGatewayETH": {
+                "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of ETH to a token in your Waves account.",
+                "helpDescrTitle": "Enter this address into your ETH client or wallet",
                 "warningMinAmountText": "Jika Anda akan mengirim kurang dari {{minAmount, BigNumber}} {{assetTicker}} , Anda akan kehilangan uang itu.",
                 "warningMinAmountTitle": "Jumlah minimum setoran adalah {{minAmount, BigNumber}} {{assetTicker}} , jumlah setoran maksimum adalah {{maxAmount}} {{assetTicker}}",
                 "warningText": "Periksa apakah dompet atau pertukaran Anda menggunakan kontrak cerdas untuk menarik ETH. Kami tidak menerima transaksi semacam itu dan dapat mengembalikan uang mereka. Anda akan kehilangan uang itu.",
                 "warningTitle": "Tolong jangan depositkan ETH dari kontrak pintar! Jangan setor token ERC20! Hanya Ethereum yang diizinkan."
             },
             "wavesGatewayVST": {
-                "helpDescrText": "Setelah transaksi dikonfirmasi, gateway akan memproses transfer VST ke token di akun Waves Anda.",
-                "helpDescrTitle": "Masukkan alamat ini ke klien atau dompet VST Anda",
+                "helpDescrText": "Setelah transaksi dikonfirmasi, gateway akan memproses transfer WEST ke token di akun Waves Anda.",
+                "helpDescrTitle": "Masukkan alamat ini ke klien atau dompet WEST Anda",
                 "warningMinAmountTitle": "Jumlah minimum deposit adalah {{minAmount, BigNumber}} {{assetTicker}}, jumlah deposit maksimum adalah {{maxAmount}} {{assetTicker}}"
-            }
+            },
+            "wavesGatewayWEST": {
+                "helpDescrText": "Setelah transaksi dikonfirmasi, gateway akan memproses transfer WEST ke token di akun Waves Anda.",
+                "helpDescrText_copy": "Setelah transaksi dikonfirmasi, gateway akan memproses transfer WEST ke token di akun Waves Anda.",
+                "helpDescrTitle": "Masukkan alamat ini ke klien atau dompet WEST Anda",
+                "helpDescrTitle_copy": "Masukkan alamat ini ke klien atau dompet WEST Anda",
+                "warningMinAmountTitle": "Jumlah minimum deposit adalah {{minAmount, BigNumber}} {{assetTicker}}, jumlah deposit maksimum adalah {{maxAmount}} {{assetTicker}}"
+            },
+            "wavesGatewayWEST:warningMinAmountTitle_copy": "Jumlah minimum deposit adalah {{minAmount, BigNumber}} {{assetTicker}}, jumlah deposit maksimum adalah {{maxAmount}} {{assetTicker}}"
         },
         "dexScriptedPair": {
             "body": "Aset pintar adalah aset yang menyertakan skrip yang menetapkan kondisi untuk sirkulasi token. {div} [Kami tidak menyarankan Anda melakukan operasi dengan aset pintar jika Anda adalah pengguna yang tidak berpengalaman. Sebelum melakukan transaksi, harap baca informasi tentang aset dan skripnya dengan cermat.]",
@@ -481,7 +493,10 @@
             "shareInvoiceLink": "Bagikan Tautan ke Faktur",
             "verified": "Terverifikasi",
             "vostok": {
-                "serverError": "Layanan VST sementara tidak tersedia. Coba lagi nanti."
+                "serverError": "Layanan WEST sementara tidak tersedia. Coba lagi nanti."
+            },
+            "wavesEnterprise": {
+                "serverError_copy": "Layanan WEST sementara tidak tersedia. Coba lagi nanti."
             },
             "wtry": {
                 "info": "Jika ada masalah dengan proses pembayaran, silakan hubungi tim dukungan Digilira — [support@digilira.com](mailto:support@digilira.com)"
@@ -969,7 +984,7 @@
                 "1_3_0": "{span.line} [1. Navigasi aplikasi yang ditingkatkan dan antarmuka halaman mulai.]",
                 "1_3_18": "{span.line} [1. Menambahkan login ke dompet menggunakan kunci pribadi.] \n{span.line} [2. Perubahan harga 24 jam dari token sekarang terikat ke pasangan token/WAVES.]",
                 "1_3_19": "{span.line} [1. Gerbang Bancor telah diluncurkan.] \n {span.line} [2. Antarmuka menu pengguna telah ditingkatkan.]",
-                "1_3_2": "{span.line} [1. Gateway VST telah diluncurkan.] \n{span.line} [2. UI yang diperbaiki dan bug minor tambahan telah diperbaiki.]",
+                "1_3_2": "{span.line} [1. Gateway WEST telah diluncurkan.] \n{span.line} [2. UI yang diperbaiki dan bug minor tambahan telah diperbaiki.]",
                 "1_3_20": "{span.line}[1. Improved system for storing and restoring accounts from local storage (Need to update the [desktop application](https://wavesplatform.com/technology/wallet)).]\n{span.line}[2. Fixed rounding of prices in the orderbook.]",
                 "1_3_5": "{span.line} [1. Tab dengan token kontes [wsoc.io] (https://wsoc.io) telah ditambahkan.] \n {span.line} [2. Dukungan bahasa Perancis ditambahkan.] \n {span.line} [3. Bug minor tambahan telah diperbaiki.]",
                 "1_3_7": "{span.line}[1. Integrasi dengan [tokenrating.wavesexplorer.com] (https://tokenrating.wavesexplorer.com) Sekarang Anda dapat menilai token langsung di app.] \n {span.line}[2. Bug minor tambahan telah diperbaiki.]",

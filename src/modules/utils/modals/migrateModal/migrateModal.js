@@ -16,27 +16,14 @@
 
         class MigrateModalCtrl extends Base {
 
-            constructor() {
-                super();
-
-                if (WavesApp.isDesktop()) {
-                    this.connectProvider = new ds.connect.HttpConnectProvider({
-                        port: 8888,
-                        url: 'http://localhost:8888/connect'
-                    });
-                } else {
-                    this.connectProvider = new ds.connect.PostMessageConnectProvider({
-                        mode: 'export'
-                    });
-                }
-            }
-
             export() {
+                const connectProvider = this._getConnectProvider();
                 const message = JSON.stringify({ event: 'connect' });
 
-                this.connectProvider.send(message, {
+                connectProvider.send(message, {
                     event: 'data',
-                    attempts: 3
+                    attempts: 3,
+                    timeout: 10000
                 }).then((result) => {
                     if (!result || result.event !== 'connect') {
                         throw new Error(`Message event is not valid: ${result.event}`);
@@ -49,7 +36,7 @@
                         privateKey,
                         publicKeyTo
                     ).then((data) => {
-                        return this.connectProvider.send(JSON.stringify({
+                        return connectProvider.send(JSON.stringify({
                             event: 'data',
                             payload: {
                                 publicKey,
@@ -60,13 +47,37 @@
                 }).then((result) => {
                     if (result.payload === 'ok') {
                         $log.log('done');
-                        this.connectProvider.destroy();
                     } else {
                         $log.log('fail', result);
                     }
                 }).catch((e) => {
                     $log.error(e);
                 });
+            }
+
+            /**
+             * @returns {ConnectProvider}
+             */
+            _getConnectProvider() {
+                const origins = WavesApp.isProduction() ?
+                    WavesApp.network.migrationOrigins :
+                    '*';
+
+                if (WavesApp.isDesktop()) {
+                    return new ds.connect.HttpConnectProvider({
+                        port: 8888,
+                        url: 'http://localhost:8888/connect',
+                        origins
+                    });
+                } else {
+                    const childWindow = window.open('https://localhost:8080/migration');
+
+                    return new ds.connect.PostMessageConnectProvider({
+                        win: childWindow,
+                        mode: 'export',
+                        origins
+                    });
+                }
             }
 
         }

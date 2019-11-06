@@ -189,8 +189,9 @@
                         isTokenomica, logo, isGatewaySoon
                     } = utils.getDataFromOracles(this.balance.asset.id);
 
-                    this.isVST = this.balance.asset.id === WavesApp.defaultAssets.VST;
                     this.isGateway = isGateway;
+                    this.isWEST = this.balance.asset.id === WavesApp.defaultAssets.WEST;
+
                     this.isVerifiedOrGateway = isVerified || isGateway;
 
                     const html = template({
@@ -199,7 +200,7 @@
                         isVerified: this.isVerified,
                         isGateway: isGateway,
                         isTokenomica: isTokenomica,
-                        isVST: this.isVST,
+                        isWEST: this.isWEST,
                         isGatewaySoon: isGatewaySoon,
                         assetIconPath: logo ||
                             this.utils.getAssetLogo(this.balance.asset.id),
@@ -347,7 +348,8 @@
                             const baseAssetBalance = balance.available.getTokens().mul(rate).toFormat(2);
                             this.node.querySelector(`.${SELECTORS.EXCHANGE_RATE}`).innerHTML = rate.toFixed(2);
                             this.node.querySelector(`.${SELECTORS.BASE_ASSET_BALANCE}`).innerHTML = baseAssetBalance;
-                        });
+                        })
+                        .catch(() => null);
 
                     const startDate = this.utils.moment().add().day(-7);
                     this.waves.utils.getRateHistory(balance.asset.id, baseAssetId, startDate).then(values => {

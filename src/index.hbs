@@ -338,7 +338,7 @@
                     api: config.network.api,
                     coinomat: config.network.coinomat,
                     wavesGateway: config.network.wavesGateway,
-                    VSTNetworkByte: config.network.VSTNetworkByte,
+                    WESTNetworkByte: config.network.WESTNetworkByte,
                     support: config.network.support,
                     termsAndConditions: config.network.termsAndConditions,
                     privacyPolicy: config.network.privacyPolicy,
@@ -365,14 +365,14 @@
                     DASH: config.network.assets.DASH,
                     TRY: config.network.assets.TRY,
                     XMR: config.network.assets.XMR,
-                    VST: config.network.assets.VST,
+                    WEST: config.network.assets.WEST,
                     ERGO: config.network.assets.ERGO,
                     BNT: config.network.assets.BNT
                 },
                 rewriteAssets: [{
-                    id: config.network.assets.VST,
-                    name: 'VST',
-                    description: 'Waves Enterprise Platform System Token'
+                    id: config.network.assets.WEST,
+                    name: 'WEST',
+                    description: 'Waves Enterprise System Token'
                 }],
                 tradingPairs: config.tradingPairs,
                 ALWAYS_PINNED_ASSETS: ['WAVES'],
@@ -720,6 +720,14 @@
                 {
                     id: 'desktop',
                     data: {
+                        noLogin: true,
+                        views: [{ name: 'main' }]
+                    }
+                },
+                {
+                    id: 'desktopUpdate',
+                    data: {
+                        url: '/desktop-update',
                         noLogin: true,
                         views: [{ name: 'main' }]
                     }
