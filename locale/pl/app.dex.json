@@ -200,6 +200,7 @@
                 "noMarkets": "Brak rynków spełniającyh wymagania"
             },
             "price": "Cena",
+            "vol": "Vol",
             "volume": "Wolumen"
         }
     },

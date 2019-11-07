@@ -302,6 +302,12 @@
                 "warningText": "Проверьте, не использует ли ваш кошелёк или биржа смарт-контракты для отправки ETH. Мы не принимаем такие переводы и не можем возместить их. Вы потеряете эти деньги.",
                 "warningTitle": "Не отправляйте ETH со смарт-контрактов! Не отправляйте ERC20-токены! Только Ethereum."
             },
+            "wavesGatewayUSDT": {
+                "warningMinAmountText": "Если вы отправите меньше чем {{minAmount, BigNumber}} {{assetTicker}}, вы потеряете деньги.",
+                "warningMinAmountTitle": "Минимальная сумма депозита {{minAmount, BigNumber}} {{assetTicker}}, максимальная сумма депозита {{maxAmount}} {{assetTicker}}",
+                "warningText": "Check if your wallet or exchange uses smart-contracts to withdraw Tether USD. We do not accept such transactions and can’t refund them. You will lose that money",
+                "warningTitle": "This is ERC20 USDT deposit address. Send only USDT to this deposit address. Sending any other coin or token to this address may result in the loss of your deposit. Please do not deposit USDT from smart contracts!"
+            },
             "wavesGatewayVST": {
                 "helpDescrText": "Как только транзакция будет подтверждена, шлюз отправит WEST-токен на ваш аккаунт Waves.",
                 "helpDescrTitle": "Введите этот адрес в ваш WEST клиент или кошелёк.",
@@ -999,5 +1005,8 @@
         "byte": {
             "help": "Осталось байт: {{bytes}}"
         }
+    },
+    "warningPlate": {
+        "startMoving": "Start moving"
     }
 }

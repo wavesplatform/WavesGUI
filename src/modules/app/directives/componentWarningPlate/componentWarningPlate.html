@@ -1,4 +1,4 @@
-<div class="warning-plate-content">
+<div class="warning-plate-content" w-i18n-ns="app.utils">
     <div class="warning-plate-timer">
         <div>
             <span>{{$ctrl.days}}</span>
@@ -14,8 +14,8 @@
         </div>
     </div>
 
-    <div w-i18n="warningPlate.notification"></div>
+    <div class="warning-plate-text" w-i18n="warningPlate.notification"></div>
 
-    <div class="warning-plate-button" ng-click="$ctrl.showMovingModal()" w-i18n="warningPlate.start"></div>
+    <div class="warning-plate-button" ng-click="$ctrl.showMovingModal()" w-i18n="warningPlate.startMoving"></div>
 </div>
 

@@ -200,6 +200,7 @@
                 "noMarkets": "Filtrelerinize uygun bir pazar bulunamadı"
             },
             "price": "Fiyat",
+            "vol": "Vol",
             "volume": "Hacim"
         }
     },
