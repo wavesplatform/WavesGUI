@@ -200,6 +200,7 @@
                 "noMarkets": "Geen markten die overeenkomen met uw filters"
             },
             "price": "Prijs",
+            "vol": "Vol",
             "volume": "Volume"
         }
     },

@@ -200,6 +200,7 @@
                 "noMarkets": "검색 결과가 없습니다"
             },
             "price": "가격",
+            "vol": "Vol",
             "volume": "거래량"
         }
     },

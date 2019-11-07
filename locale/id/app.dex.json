@@ -200,6 +200,7 @@
                 "noMarkets": "Tidak ada pasar yang cocok dengan filter Anda"
             },
             "price": "Harga",
+            "vol": "Vol",
             "volume": "Volume"
         }
     },

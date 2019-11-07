@@ -200,6 +200,7 @@
                 "noMarkets": "No hay mercados en base a sus filtros"
             },
             "price": "Precio",
+            "vol": "Vol",
             "volume": "Volumen"
         }
     },
