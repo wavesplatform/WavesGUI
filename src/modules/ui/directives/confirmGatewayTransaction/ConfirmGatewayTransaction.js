@@ -8,7 +8,8 @@
         WavesApp.defaultAssets.WEST,
         WavesApp.defaultAssets.ERGO,
         WavesApp.defaultAssets.BNT,
-        WavesApp.defaultAssets.ETH
+        WavesApp.defaultAssets.ETH,
+        WavesApp.defaultAssets.BTC
     ];
 
     /**
