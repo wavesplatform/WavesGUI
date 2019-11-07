@@ -152,6 +152,7 @@
                     this._stopLoader();
                     this._initializeLogin();
                     this._initializeOutLinks();
+                    this._openMigrationModal();
 
                     if (WavesApp.isDesktop()) {
                         window.listenMainProcessEvent((type, url) => {
@@ -725,6 +726,21 @@
                         LOADER.addProgress(PROGRESS_MAP.LOCALIZE_READY);
                         resolve();
                     });
+                });
+            }
+
+            /**
+             * @private
+             */
+            _openMigrationModal() {
+                Promise.all([
+                    user.getMultiAccountData(),
+                    user.getFilteredUserList(),
+                    storage.load('notAutoOpenMigrationModal')
+                ]).then(([multiAccountData, userList, notAutoOpenMigrationModal]) => {
+                    if (!notAutoOpenMigrationModal && !multiAccountData && userList && userList.length) {
+                        modalManager.showMigrateModal();
+                    }
                 });
             }
 

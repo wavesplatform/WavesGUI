@@ -10,9 +10,10 @@
      * @param {User} user
      * @param {ModalManager} modalManager
      * @param {ConfigService} configService
+     * @param {Storage} storage
      * @returns {SignInCtrl}
      */
-    const controller = function (Base, $scope, $state, user, modalManager, configService) {
+    const controller = function (Base, $scope, $state, user, modalManager, configService, storage) {
 
         class SignInCtrl extends Base {
 
@@ -35,6 +36,14 @@
                     } else {
                         this.legacyUserList = userList;
                     }
+                });
+
+                user.onLogin().then(() => {
+                    storage.load('notAutoOpenMigrationModal').then((notAutoOpenMigrationModal) => {
+                        if (!notAutoOpenMigrationModal) {
+                            modalManager.showMigrateModal();
+                        }
+                    });
                 });
             }
 
@@ -99,7 +108,7 @@
         return new SignInCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', '$state', 'user', 'modalManager', 'configService'];
+    controller.$inject = ['Base', '$scope', '$state', 'user', 'modalManager', 'configService', 'storage'];
 
     angular.module('app.signIn').controller('SignInCtrl', controller);
 })();
