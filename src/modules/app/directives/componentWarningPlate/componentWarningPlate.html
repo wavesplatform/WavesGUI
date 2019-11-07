@@ -1,21 +1,21 @@
-<div class="warning-plate-content" w-i18n-ns="app.utils">
-    <div class="warning-plate-timer">
+<div class="warning-plate__content" w-i18n-ns="app.utils">
+    <div class="warning-plate__timer">
         <div>
-            <span>{{$ctrl.days}}</span>
-            <span> d: </span>
+            <span class="warning-plate__timer-value">{{$ctrl.days}}</span>
+            <span> d : </span>
         </div>
         <div>
-            <span>{{$ctrl.hours}}</span>
-            <span> h: </span>
+            <span class="warning-plate__timer-value">{{$ctrl.hours}}</span>
+            <span> h : </span>
         </div>
         <div>
-            <span>{{$ctrl.minutes}}</span>
+            <span class="warning-plate__timer-value">{{$ctrl.minutes}}</span>
             <span> m </span>
         </div>
     </div>
 
-    <div class="warning-plate-text" w-i18n="warningPlate.notification"></div>
+    <div class="warning-plate__text" w-i18n="warningPlate.notification"></div>
 
-    <div class="warning-plate-button" ng-click="$ctrl.showMovingModal()" w-i18n="warningPlate.startMoving"></div>
+    <div class="warning-plate__button" ng-click="$ctrl.showMovingModal()" w-i18n="warningPlate.startMoving"></div>
 </div>
 

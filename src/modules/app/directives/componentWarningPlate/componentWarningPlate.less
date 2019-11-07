@@ -3,8 +3,7 @@
 
 w-warning-plate {
   .warning-plate {
-
-    &-content {
+    &__content {
       display: flex;
       flex-direction: row;
       background: @color-warning-600;
@@ -16,7 +15,7 @@ w-warning-plate {
       padding: 9px;
     }
 
-    &-button {
+    &__button {
       cursor: pointer;
       border-radius: 4px;
       background-color: #fff;
@@ -31,11 +30,11 @@ w-warning-plate {
       height: 22px;
     }
 
-    &-text {
+    &__text {
       margin: 0 15px 0 20px;
     }
 
-    &-timer {
+    &__timer {
       display: flex;
       flex-direction: row;
       padding-left: 20px;
@@ -54,6 +53,10 @@ w-warning-plate {
         left: 0;
         background: @timer-icon;
       }
+
+      &-value {
+        margin-left: 3px;
+      }
     }
   }
 }
@@ -69,7 +72,7 @@ w-warning-plate {
 @media screen and (max-width: 860px) {
   w-warning-plate {
     .warning-plate {
-      &-content {
+      &__content {
         height: 56px;
         justify-content: space-between;
         padding: 10px 12px;
@@ -77,7 +80,7 @@ w-warning-plate {
         transition: all .2s;
       }
 
-      &-text {
+      &__text {
         text-align: left;
         margin-right: 0;
         font-size: 13px;
@@ -88,7 +91,7 @@ w-warning-plate {
   }
 
   .menu-is-shown {
-    .warning-plate-content {
+    .warning-plate__content {
       transform: translateX(-261px);
     }
   }
