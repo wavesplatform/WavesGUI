@@ -28,7 +28,7 @@
             }
 
             showMovingModal() {
-                modalManager.showExportAccount();
+                modalManager.showMigrateModal();
             }
 
             _setTime(last) {
