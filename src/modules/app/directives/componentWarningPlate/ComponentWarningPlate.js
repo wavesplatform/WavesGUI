@@ -24,7 +24,7 @@
             minutes = 0;
 
             constructor() {
-                utils.startTimer({ year: 2019, month: 12, day: 2, hours: 15 }, this._setTime.bind(this));
+                utils.startTimer({ year: 2019, month: 12, day: 2, hours: 15 }, this._setTime.bind(this), 1000);
             }
 
             showMovingModal() {

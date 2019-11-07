@@ -1984,12 +1984,17 @@
             /**
              * @param {TTimerOptions} options
              * @param cb
+             * @param {number} timeout
              */
-            startTimer(options, cb) {
+            startTimer(options, cb, timeout) {
                 const getLastTime = _time.bind(null, options);
                 let lastTime = {};
+                let timer;
 
                 function loop() {
+                    if (timer) {
+                        clearTimeout(timer);
+                    }
                     const currentTime = getLastTime();
                     if (lastTime.minutes !== currentTime.minutes || lastTime.seconds !== currentTime.seconds) {
                         cb(currentTime);
@@ -1997,7 +2002,7 @@
                     }
 
                     if ((currentTime.seconds + currentTime.hours + currentTime.minutes + currentTime.days) > 0) {
-                        requestAnimationFrame(loop);
+                        timer = setTimeout(loop, timeout);
                     }
                 }
 
