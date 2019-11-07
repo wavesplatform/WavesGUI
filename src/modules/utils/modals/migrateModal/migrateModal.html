@@ -1,5 +1,19 @@
 <div>
-    <w-button class="submit big long" on-click="$ctrl.export()">
-        <span>Export</span>
-    </w-button>
+    <div class="btn icon-close" w-modal-close></div>
+    <w-step-by-step active-step="$ctrl.step">
+
+        <w-step>
+            <w-button class="submit big long" on-click="$ctrl.cancel()">
+                <span>Cancel</span>
+            </w-button>
+            <w-button class="submit big long" on-click="$ctrl.export()">
+                <span>Start moving</span>
+            </w-button>
+        </w-step>
+
+        <w-step>
+            You have been redirected to waves.exchange
+        </w-step>
+
+    </w-step-by-step>
 </div>
