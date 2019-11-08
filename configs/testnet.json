@@ -53,5 +53,6 @@
     { "ticker": "USD", "id": "HyFJ3rrq5m7FxdkWtQXkZrDat1F7LjVVGfpSkUuEXQHj"},
     { "ticker": "EUR", "id": "2xnE3EdpqXtFgCP156qt1AbyjpqdZ5jGjWo3CwTawcux"},
     { "ticker": "CNY", "id": "6pmDivReTLikwYqQtJTv6dTcE59knriaodB3AK8T9cF8"}
-  ]
+  ],
+  "wavesExchangeLink": "https://waves.exchange"
 }

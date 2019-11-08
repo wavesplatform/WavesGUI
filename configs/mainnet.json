@@ -60,5 +60,6 @@
     { "ticker": "DASH", "id": "B3uGHFRpSUuGEDWjqB9LWWxafQj8VTvpMucEyoxzws5H"},
     { "ticker": "Monero", "id": "5WvPKSJXzVE2orvbkJ8wsQmmQKqTv9sGBPksV4adViw3"},
     { "ticker": "ZEC", "id": "BrjUWjndUanm5VsJkbUip8VRYy6LWJePtxya3FNv4TQa"}
-  ]
+  ],
+  "wavesExchangeLink": "https://waves.exchange"
 }
