@@ -22,7 +22,7 @@
          w-i18n="warningPlate.startMoving"></div>
 </div>
 
-<div ng-if="!$ctrl.hasAccounts" class="warning-plate__content info" w-i18n-ns="app.utils">
+<div ng-if="!$ctrl.hasAccounts" class="warning-plate__content warning-plate__content_no-user info" w-i18n-ns="app.utils">
     <div class="warning-plate__timer">
         <div>
             <span class="warning-plate__timer-value">{{$ctrl.days}}</span>
@@ -38,9 +38,6 @@
         </div>
     </div>
 
-    <div class="warning-plate__text" w-i18n="warningPlate.dexMoves"></div>
-
-    <a target="_blank" rel="noopener noreferrer" href="{{::$ctrl.newDexLink}}" class="warning-plate__button info"
-       w-i18n="warningPlate.dexMoving"></a>
+    <div class="warning-plate__text"><span w-i18n="warningPlate.dexMoves"></span><a target="_blank" rel="noopener noreferrer" href="{{::$ctrl.newDexLink}}">waves.exchange</a></div>
 </div>
 
