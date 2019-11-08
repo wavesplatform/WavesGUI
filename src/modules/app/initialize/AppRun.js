@@ -205,9 +205,10 @@
                         case 'web':
                             return Promise.resolve(true);
                         default:
-                            return modalManager.showTryDesktopModal()
-                                .then(() => this._runDesktop())
-                                .catch(() => true);
+                            return Promise.resolve(true);
+                            // return modalManager.showTryDesktopModal()
+                            //     .then(() => this._runDesktop())
+                            //     .catch(() => true);
                     }
                 });
             }
