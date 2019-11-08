@@ -200,6 +200,7 @@
                 "noMarkets": "Teie filtritele vastavaid turge ei leitud"
             },
             "price": "Hind",
+            "vol": "Vol",
             "volume": "Maht"
         }
     },
