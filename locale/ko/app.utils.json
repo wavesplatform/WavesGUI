@@ -302,6 +302,12 @@
                 "warningText": "ETH를 출금하려고 하는 지갑 또는 거래소가 Smart-Contracts를 사용하는지 확인하세요. 당사는 해당 트랜잭션을 수신하지 않으며 환불 또한 불가능합니다. 귀하의 자산을 잃게 됩니다.",
                 "warningTitle": "Smart Contracts에서 ETH를 입금하지 마세요! ERC20 토큰을 입금하지 마세요! Ethereum 입금만 가능합니다."
             },
+            "wavesGatewayUSDT": {
+                "warningMinAmountText": "If you will send less than {{minAmount, BigNumber}} {{assetTicker}}, you will lose that money.",
+                "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}, the maximum amount of deposit is {{maxAmount}} {{assetTicker}}",
+                "warningText": "Check if your wallet or exchange uses smart-contracts to withdraw Tether USD. We do not accept such transactions and can’t refund them. You will lose that money",
+                "warningTitle": "This is ERC20 USDT deposit address. Send only USDT to this deposit address. Sending any other coin or token to this address may result in the loss of your deposit. Please do not deposit USDT from smart contracts!"
+            },
             "wavesGatewayVST": {
                 "helpDescrText": "트랜잭션이 승인되면 게이트웨이가 귀하의 Waves 계정에서 WEST를 토큰으로 전송하는 작업을 처리할 것입니다.",
                 "helpDescrTitle": "이 주소를 WEST 클라이언트 또는 지갑에 입력하세요",
@@ -999,5 +1005,8 @@
         "byte": {
             "help": "사용 가능 Bytes: {{bytes}}"
         }
+    },
+    "warningPlate": {
+        "startMoving": "Start moving"
     }
 }

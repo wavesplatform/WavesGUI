@@ -350,7 +350,8 @@
                     feeConfigUrl: config.feeConfigUrl,
                     tokenrating: config.network.tokenrating,
                     featuresConfig: config.network.featuresConfig,
-                    feeConfig: config.network.feeConfig
+                    feeConfig: config.network.feeConfig,
+                    wavesExchangeLink: config.network.wavesExchangeLink
                 },
                 defaultAssets: {
                     WAVES: 'WAVES',
@@ -520,6 +521,10 @@
 
 <div class="notifications notifications-top">
     <w-container-alert-notification type="userNotification"></w-container-alert-notification>
+</div>
+
+<div class="warning-timer">
+    <w-warning-plate></w-warning-plate>
 </div>
 
 <div class="app-preloader">
@@ -729,6 +734,14 @@
                     data: {
                         url: '/desktop-update',
                         noLogin: true,
+                        views: [{ name: 'main' }]
+                    }
+                },
+                {
+                    id: 'migration',
+                    data: {
+                        noLogin: true,
+                        url: '/migration',
                         views: [{ name: 'main' }]
                     }
                 },

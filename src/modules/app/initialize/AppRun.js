@@ -127,56 +127,65 @@
             _unavailable = false;
 
             constructor() {
-                const identityImg = require('identity-img');
+                configService.configReadyPromise.then(() => {
+                    const identityImg = require('identity-img');
 
-                LOADER.addProgress(PROGRESS_MAP.APP_RUN);
+                    LOADER.addProgress(PROGRESS_MAP.APP_RUN);
 
-                /**
-                 * List of css class on body (from current state)
-                 * @type {Array<string>}
-                 */
-                this.activeClasses = [];
-                /**
-                 * @type {ModalRouter}
-                 * @private
-                 */
-                this._modalRouter = new ModalRouter();
+                    /**
+                     * List of css class on body (from current state)
+                     * @type {Array<string>}
+                     */
+                    this.activeClasses = [];
+                    /**
+                     * @type {ModalRouter}
+                     * @private
+                     */
+                    this._modalRouter = new ModalRouter();
 
-                /**
-                 * Configure library generation avatar by address
-                 */
-                identityImg.config({ rows: 8, cells: 8 });
+                    /**
+                     * Configure library generation avatar by address
+                     */
+                    identityImg.config({ rows: 8, cells: 8 });
 
-                this._setHandlers();
-                this._stopLoader();
-                this._initializeLogin();
-                this._initializeOutLinks();
+                    this._setHandlers();
+                    this._stopLoader();
+                    this._initializeLogin();
+                    this._initializeOutLinks();
+                    this._openMigrationModal();
 
-                if (WavesApp.isDesktop()) {
-                    window.listenMainProcessEvent((type, url) => {
-                        const parts = utils.parseElectronUrl(url);
-                        const path = parts.path.replace(/\/$/, '') || parts.path;
+                    if (WavesApp.isDesktop()) {
+                        window.listenMainProcessEvent((type, url) => {
+                            const parts = utils.parseElectronUrl(url);
+                            const path = parts.path.replace(/\/$/, '') || parts.path;
 
-                        if (path) {
-                            const noLogin = path === '/' || WavesApp.stateTree.where({ noLogin: true })
-                                .some(item => {
-                                    const url = item.get('url') || item.id;
-                                    return path === url;
-                                });
+                            if (path) {
+                                const noLogin = path === '/' || WavesApp.stateTree.where({ noLogin: true })
+                                    .some(item => {
+                                        const url = item.get('url') || item.id;
+                                        return path === url;
+                                    });
 
-                            if (noLogin) {
-                                location.hash = `#!${path}${parts.search}`;
-                            } else {
-                                user.onLogin().then(() => {
-                                    setTimeout(() => {
-                                        location.hash = `#!${path}${parts.search}`;
-                                    }, 1000);
-                                });
+                                if (noLogin) {
+                                    location.hash = `#!${path}${parts.search}`;
+                                } else {
+                                    user.onLogin().then(() => {
+                                        setTimeout(() => {
+                                            location.hash = `#!${path}${parts.search}`;
+                                        }, 1000);
+                                    });
+                                }
                             }
-                        }
-                    });
-                }
+                        });
+                    }
 
+                    if (configService.get('DEXW_LOCKED') && $state.current.name !== 'migration') {
+                        $state.go('migration');
+                    } else {
+                        $state.go('signIn');
+                    }
+
+                });
                 $rootScope.WavesApp = WavesApp;
             }
 
@@ -196,9 +205,10 @@
                         case 'web':
                             return Promise.resolve(true);
                         default:
-                            return modalManager.showTryDesktopModal()
-                                .then(() => this._runDesktop())
-                                .catch(() => true);
+                            return Promise.resolve(true);
+                            // return modalManager.showTryDesktopModal()
+                            //     .then(() => this._runDesktop())
+                            //     .catch(() => true);
                     }
                 });
             }
@@ -368,11 +378,19 @@
                 const START_STATES = WavesApp.stateTree.where({ noLogin: true })
                     .map((item) => WavesApp.stateTree.getPath(item.id).join('.'));
 
+                const DEXW_LOCKED_STATES = ['migration', 'signIn'];
+
                 const offInitialTransitions = $transitions.onStart({}, transition => {
+                    const DEXW_LOCKED = configService.get('DEXW_LOCKED');
+
                     const toState = transition.to();
                     const fromState = transition.from();
                     const params = transition.params();
                     let tryDesktop;
+
+                    if (DEXW_LOCKED && DEXW_LOCKED_STATES.indexOf(toState.name) === -1) {
+                        return $state.target('migration');
+                    }
 
                     if (START_STATES.indexOf(toState.name) === -1) {
                         if (fromState.name === 'unavailable') {
@@ -425,7 +443,7 @@
                                 this._modalRouter.initialize();
                             });
 
-                            const offInnerTransitions = this._onInnerTransitions(START_STATES);
+                            const offInnerTransitions = this._onInnerTransitions(START_STATES, DEXW_LOCKED_STATES);
 
                             user.logoutSignal.once(() => {
                                 offInnerTransitions();
@@ -435,12 +453,17 @@
                 });
             }
 
-            _onInnerTransitions(START_STATES) {
+            _onInnerTransitions(START_STATES, DEXW_LOCKED_STATES) {
                 return $transitions.onStart({}, transition => {
                     const toState = transition.to();
                     const { custom } = transition.options();
+                    const DEXW_LOCKED = configService.get('DEXW_LOCKED');
 
-                    if (START_STATES.indexOf(toState.name) !== -1 && !custom.logout) {
+                    if (DEXW_LOCKED && DEXW_LOCKED_STATES.indexOf(toState.name) === -1) {
+                        return $state.target('migration');
+                    }
+
+                    if (START_STATES.indexOf(toState.name) !== -1 && !custom.logout && !DEXW_LOCKED) {
                         return false;
                     } else {
                         state.signals.changeRouterStateStart.dispatch(transition);
@@ -704,6 +727,21 @@
                         LOADER.addProgress(PROGRESS_MAP.LOCALIZE_READY);
                         resolve();
                     });
+                });
+            }
+
+            /**
+             * @private
+             */
+            _openMigrationModal() {
+                Promise.all([
+                    user.getMultiAccountData(),
+                    user.getFilteredUserList(),
+                    storage.load('notAutoOpenMigrationModal')
+                ]).then(([multiAccountData, userList, notAutoOpenMigrationModal]) => {
+                    if (!notAutoOpenMigrationModal && !multiAccountData && userList && userList.length) {
+                        modalManager.showMigrateModal();
+                    }
                 });
             }
 

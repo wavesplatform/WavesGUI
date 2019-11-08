@@ -183,6 +183,14 @@
         ledger: 2
     };
 
+    const MS_IN_SEC = 1000;
+    const SEC_IN_MINUTE = 60;
+    const MINUTES_IN_HOUR = 60;
+    const HOURS_IN_DAY = 24;
+    const MS_IN_MINUTE = MS_IN_SEC * SEC_IN_MINUTE;
+    const MS_IN_HOUR = MS_IN_MINUTE * MINUTES_IN_HOUR;
+    const MS_IN_DAY = MS_IN_HOUR * HOURS_IN_DAY;
+
     class BigNumberPart extends tsApiValidator.BasePart {
 
         getValue(data) {
@@ -1971,6 +1979,34 @@
                 } else {
                     pom.click();
                 }
+            },
+
+            /**
+             * @param {TTimerOptions} options
+             * @param cb
+             * @param {number} timeout
+             */
+            startTimer(options, cb, timeout) {
+                const getLastTime = _time.bind(null, options);
+                let lastTime = {};
+                let timer;
+
+                function loop() {
+                    if (timer) {
+                        clearTimeout(timer);
+                    }
+                    const currentTime = getLastTime();
+                    if (lastTime.minutes !== currentTime.minutes || lastTime.seconds !== currentTime.seconds) {
+                        cb(currentTime);
+                        lastTime = currentTime;
+                    }
+
+                    if ((currentTime.seconds + currentTime.hours + currentTime.minutes + currentTime.days) > 0) {
+                        timer = setTimeout(loop, timeout);
+                    }
+                }
+
+                loop();
             }
         };
 
@@ -2170,6 +2206,38 @@
             return _getSignal(observer, keys);
         }
 
+        /**
+         * @param {TTimerOptions} date
+         * @return {{hours: number, seconds: number, minutes: number, days: number}}
+         * @private
+         */
+        function _time(date) {
+            const year = date.year;
+            const day = date.day;
+            const month = date.month - 1;
+            const hours = date.hours || 0;
+            const minutes = date.minutes || 0;
+            const seconds = date.seconds || 0;
+
+            const UTC3 = 10800000;
+            const offset = (new Date()).getTimezoneOffset() * 60000;
+            const msToday = Date.now();
+            const msDate = (new Date(year, month, day, hours, minutes, seconds)).getTime() - offset - UTC3;
+            const delta = (msDate - msToday) < 0 ? 0 : (msDate - msToday);
+
+            const daysLast = Math.floor(delta / MS_IN_DAY);
+            const hoursLast = Math.floor(delta / MS_IN_HOUR) % HOURS_IN_DAY;
+            const minuteslast = Math.floor(delta / MS_IN_MINUTE) % MINUTES_IN_HOUR;
+            const secondslast = Math.floor(delta / MS_IN_SEC) % SEC_IN_MINUTE;
+
+            return {
+                days: daysLast,
+                hours: hoursLast,
+                minutes: minuteslast,
+                seconds: secondslast
+            };
+        }
+
         return utils;
     };
 
@@ -2187,5 +2255,14 @@
  * @property {Money} matcherFee
  * @property {string} matcherPublicKey
  * @property {number} expiration
+ */
+
+/**
+ * @typedef {object} TTimerOptions
+ * @property {number} year
+ * @property {number} month
+ * @property {number} day
+ * @property {number} hours
+ * @property {number} seconds?
  */
 

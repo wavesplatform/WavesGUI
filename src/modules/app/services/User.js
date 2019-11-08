@@ -311,6 +311,15 @@
             /**
              * @return {Promise}
              */
+            getMultiAccountUsersCount() {
+                return storage.load('multiAccountUsers').then(users => {
+                    return Object.keys(users).length;
+                });
+            }
+
+            /**
+             * @return {Promise}
+             */
             saveMultiAccount(data) {
                 return Promise.all([
                     storage.save('multiAccountData', data.multiAccountData),

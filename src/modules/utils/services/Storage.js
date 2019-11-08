@@ -31,6 +31,8 @@
             '1.4.6': storage => fixMigrateCommonSettings(storage)
         };
 
+        const { Signal } = require('ts-utils');
+
         function newTerms(storage) {
             return storage.load('userList').then(users => {
                 const needShowNewTerms = (users || []).some((user) => {
@@ -206,6 +208,11 @@
 
         class Storage {
 
+            /**
+             * @type {Signal<string>}
+             */
+            change = new Signal();
+
             constructor() {
                 usedStorage.init();
                 this._isNewDefer = $q.defer();
@@ -253,7 +260,12 @@
 
             save(key, value) {
                 return this._canWrite.promise.then(() => {
-                    this._activeWrite = this._activeWrite.then(() => utils.when(usedStorage.write(key, value)));
+                    this._activeWrite = this._activeWrite
+                        .then(() => utils.when(usedStorage.write(key, value)))
+                        .then((data) => {
+                            this.change.dispatch();
+                            return data;
+                        });
                     return this._activeWrite;
                 });
             }

@@ -1,0 +1,127 @@
+@import (reference) 'config';
+@import (reference) "icons";
+
+w-warning-plate {
+  .warning-plate {
+    &__content {
+      display: flex;
+      flex-direction: row;
+      background: @color-warning-600;
+      height: 40px;
+      justify-content: center;
+      color: #fff;
+      font-size: 15px;
+      line-height: 20px;
+      padding: 9px;
+
+      &.info {
+        background: @color-submit-300;
+      }
+    }
+
+    &__button {
+      cursor: pointer;
+      border-radius: 4px;
+      background-color: #fff;
+      color: @color-warning-600;
+      padding: 5px;
+      font-size: 11px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      line-height: 13px;
+      width: 82px;
+      height: 22px;
+
+      &.info {
+        color: @color-submit-300;
+      }
+    }
+
+    &__text {
+      margin: 0 15px 0 20px;
+
+      a {
+        color: #fff;
+        text-decoration: underline;
+        margin-left: 3px;
+      }
+    }
+
+    &__timer {
+      display: flex;
+      flex-direction: row;
+      padding-left: 20px;
+      position: relative;
+      align-items: center;
+      height: 22px;
+      font-family: @font-roboto-medium;
+
+      &::before {
+        content: "";
+        display: block;
+        height: 14px;
+        width: 14px;
+        position: absolute;
+        top: 4px;
+        left: 0;
+        background: @timer-icon;
+      }
+
+      &-value {
+        margin-left: 3px;
+      }
+    }
+  }
+}
+
+.warning-timer {
+  position: relative;
+  z-index: 11;
+  &+ .ui-view {
+    height: calc(100% ~"- 40px");
+  }
+}
+
+@media screen and (max-width: 860px) {
+  w-warning-plate {
+    .warning-plate {
+      &__content {
+        height: 56px;
+        justify-content: space-between;
+        padding: 10px 12px;
+        flex-wrap: wrap;
+        transition: all .2s;
+        
+        &_no-user {
+          justify-content: flex-start;
+  
+          .warning-plate__text {
+            width: auto;
+          }
+        }
+      }
+
+
+      &__text {
+        text-align: left;
+        margin-right: 0;
+        font-size: 13px;
+        order: 3;
+        width: 100%;
+      }
+    }
+  }
+
+  .menu-is-shown {
+    .warning-plate__content {
+      transform: translateX(-261px);
+    }
+  }
+
+  .warning-timer {
+    &+ .ui-view {
+      height: calc(100% ~"- 56px");
+    }
+  }
+}

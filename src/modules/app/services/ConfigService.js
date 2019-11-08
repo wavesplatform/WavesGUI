@@ -29,10 +29,17 @@
              * @type Promise<IConfig>
              */
             configReady;
+            /**
+             * @type Promise<void>
+             */
+            configReadyPromise;
 
 
             constructor() {
                 super();
+                this.configReadyPromise = new Promise((resolve) => {
+                    this._resolve = resolve;
+                });
                 this.configReady = createPoll(this, this._getConfig, this._setConfig, 30000);
                 createPoll(this, this._getFeeConfig, this._setFeeConfig, 30000);
             }
@@ -90,6 +97,7 @@
              * @private
              */
             _setConfig(config) {
+                this._resolve();
                 const myConfig = this._config;
                 this._config = config;
 

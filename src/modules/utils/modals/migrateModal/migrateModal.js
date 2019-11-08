@@ -11,10 +11,15 @@
      * @param {*} $mdDialog
      * @param {*} storageExporter
      */
-    const controller = function (Base, $log, $mdDialog, storageExporter) {
+    const controller = function (Base, $log, $mdDialog, storageExporter, $scope) {
         const SEED_LENGTH = 20;
 
         class MigrateModalCtrl extends Base {
+
+            /**
+             * @type {number}
+             */
+            step = 0;
 
             export() {
                 const connectProvider = this._getConnectProvider();
@@ -47,12 +52,18 @@
                 }).then((result) => {
                     if (result.payload === 'ok') {
                         $log.log('done');
+                        this.step++;
+                        $scope.$apply();
                     } else {
                         $log.log('fail', result);
                     }
                 }).catch((e) => {
                     $log.error(e);
                 });
+            }
+
+            cancel() {
+                $mdDialog.cancel();
             }
 
             /**
@@ -85,7 +96,7 @@
         return new MigrateModalCtrl();
     };
 
-    controller.$inject = ['Base', '$log', '$mdDialog', 'storageExporter'];
+    controller.$inject = ['Base', '$log', '$mdDialog', 'storageExporter', '$scope'];
 
     angular.module('app.utils').controller('MigrateModalCtrl', controller);
 })();
