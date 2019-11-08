@@ -260,7 +260,12 @@
 
             save(key, value) {
                 return this._canWrite.promise.then(() => {
-                    this._activeWrite = this._activeWrite.then(() => utils.when(usedStorage.write(key, value)));
+                    this._activeWrite = this._activeWrite
+                        .then(() => utils.when(usedStorage.write(key, value)))
+                        .then((data) => {
+                            this.change.dispatch();
+                            return data;
+                        });
                     return this._activeWrite;
                 });
             }

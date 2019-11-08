@@ -42,8 +42,10 @@
                 this._initHasAccounts();
                 this._initMigrationSuccess();
 
-                user.loginSignal.on(this._initHasAccounts, this);
-                storage.change.on(this._initMigrationSuccess, this);
+                storage.change.on(() => {
+                    this._initMigrationSuccess();
+                    this._initHasAccounts();
+                });
 
                 utils.startTimer({ year: 2019, month: 12, day: 2, hours: 15 }, this._setTime.bind(this), 1000);
             }

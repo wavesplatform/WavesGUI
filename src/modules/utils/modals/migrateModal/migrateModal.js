@@ -63,8 +63,6 @@
 
                         return storage.save('migrationSuccess', false);
                     }
-                }).then(() => {
-                    storage.change.dispatch('migrationSuccess');
                 }).catch((e) => {
                     $log.error(e);
                 });
