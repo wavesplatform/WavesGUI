@@ -10,8 +10,9 @@
      * @param {ng.ILogService} $log
      * @param {*} $mdDialog
      * @param {*} storageExporter
+     * @param {*} storage
      */
-    const controller = function (Base, $log, $mdDialog, storageExporter, $scope) {
+    const controller = function (Base, $log, $mdDialog, storageExporter, $scope, storage) {
         const SEED_LENGTH = 20;
 
         class MigrateModalCtrl extends Base {
@@ -52,11 +53,18 @@
                 }).then((result) => {
                     if (result.payload === 'ok') {
                         $log.log('done');
+
                         this.step++;
                         $scope.$apply();
+
+                        return storage.save('migrationSuccess', true);
                     } else {
                         $log.log('fail', result);
+
+                        return storage.save('migrationSuccess', false);
                     }
+                }).then(() => {
+                    storage.change.dispatch('migrationSuccess');
                 }).catch((e) => {
                     $log.error(e);
                 });
@@ -64,6 +72,7 @@
 
             cancel() {
                 $mdDialog.cancel();
+                storage.save('notAutoOpenMigrationModal', true);
             }
 
             /**
@@ -96,7 +105,7 @@
         return new MigrateModalCtrl();
     };
 
-    controller.$inject = ['Base', '$log', '$mdDialog', 'storageExporter', '$scope'];
+    controller.$inject = ['Base', '$log', '$mdDialog', 'storageExporter', '$scope', 'storage'];
 
     angular.module('app.utils').controller('MigrateModalCtrl', controller);
 })();

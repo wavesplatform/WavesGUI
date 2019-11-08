@@ -1,4 +1,5 @@
-<div class="warning-plate__content" w-i18n-ns="app.utils">
+<div ng-if="$ctrl.hasAccounts" class="warning-plate__content" ng-class="{'info': $ctrl.migrationSuccess}"
+     w-i18n-ns="app.utils">
     <div class="warning-plate__timer">
         <div>
             <span class="warning-plate__timer-value">{{$ctrl.days}}</span>
@@ -16,6 +17,7 @@
 
     <div class="warning-plate__text" w-i18n="warningPlate.notification"></div>
 
-    <div class="warning-plate__button" ng-click="$ctrl.showMovingModal()" w-i18n="warningPlate.startMoving"></div>
+    <div class="warning-plate__button" ng-class="{'info': $ctrl.migrationSuccess}" ng-click="$ctrl.showMovingModal()"
+         w-i18n="warningPlate.startMoving"></div>
 </div>
 
