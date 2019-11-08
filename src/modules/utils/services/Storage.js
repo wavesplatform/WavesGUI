@@ -31,6 +31,8 @@
             '1.4.6': storage => fixMigrateCommonSettings(storage)
         };
 
+        const { Signal } = require('ts-utils');
+
         function newTerms(storage) {
             return storage.load('userList').then(users => {
                 const needShowNewTerms = (users || []).some((user) => {
@@ -205,6 +207,11 @@
         }
 
         class Storage {
+
+            /**
+             * @type {Signal<string>}
+             */
+            change = new Signal();
 
             constructor() {
                 usedStorage.init();

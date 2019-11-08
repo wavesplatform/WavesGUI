@@ -53,6 +53,7 @@
                 }).then((result) => {
                     if (result.payload === 'ok') {
                         $log.log('done');
+
                         this.step++;
                         $scope.$apply();
 
@@ -62,6 +63,8 @@
 
                         return storage.save('migrationSuccess', false);
                     }
+                }).then(() => {
+                    storage.change.dispatch('migrationSuccess');
                 }).catch((e) => {
                     $log.error(e);
                 });
