@@ -4,6 +4,7 @@
     const { SIGN_TYPE } = require('@waves/signature-adapter');
     const { filter, whereEq, uniqBy, prop, where, gt, pick, __, map } = require('ramda');
     const ds = require('data-service');
+    const analytics = require('@waves/event-sender');
     const { BigNumber } = require('@waves/bignumber');
     const MAX_EXCHANGE_COUNT = 2000;
     const { Money } = require('@waves/data-entities');
@@ -214,6 +215,8 @@
                     signature: user.matcherSign.signature
                 })
                     .then(() => {
+                        analytics.send({ name: 'Cancel All Orders', target: 'all' });
+
                         notification.info({
                             ns: 'app.dex',
                             title: { literal: 'directives.myOrders.notifications.canceledAll' }
@@ -298,6 +301,8 @@
                 dataPromise
                     .then((signedTxData) => ds.cancelOrder(signedTxData, order.amount.asset.id, order.price.asset.id))
                     .then(() => {
+                        analytics.send({ name: 'Cancel Order', target: 'all' });
+
                         classNameToOrder('force-leave');
                         const canceledOrder = this.orders.find(whereEq({ id: order.id }));
                         canceledOrder.state = 'Canceled';
