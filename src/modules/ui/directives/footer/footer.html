@@ -113,4 +113,22 @@
             </div>
         </div>
     </w-web-only>
+
+    <div class="toaster-tokenomica">
+        <a href="#" class="toaster-tokenomica__link">
+            <div class="toaster-tokenomica__logo"></div>
+            <div class="toaster-tokenomica__text-wrapper">
+                <div class="toaster-tokenomica__text" w-i18n="welcome.tokenomicaToasterText"></div>
+                <div class="toaster-tokenomica__button">
+                    <w-button class="submit big">
+                        <span w-i18n="welcome.tokenomicaToasterButton"></span>
+                    </w-button>
+                </div>
+            </div>
+        </a>
+        <div class="toaster-tokenomica__close">
+            <button class="toaster-tokenomica__close-icon" ng-click="$ctrl.hideToaster()"></button>
+        </div>
+    </div>
+
 </footer>
