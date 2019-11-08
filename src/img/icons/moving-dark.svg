@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="90px" height="90px" viewBox="0 0 90 90" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 59.1 (86144) - https://sketch.com -->
+    <title>Style/Icons/Other/90/Moving-Dark</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Style/Icons/Other/90/Moving-Dark" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M61.5,65 L5.02941176,65 C3.08823529,65 1.5,63.47 1.5,61.6 L1.5,17.4 C1.5,15.53 3.08823529,14 5.02941176,14 L57.9705882,14 C59.9117647,14 61.5,15.53 61.5,17.4 L61.5,65 Z" id="Path" fill="#BCBCBC" fill-rule="nonzero"></path>
+        <rect id="Rectangle" fill="#999999" x="10.5" y="30.5" width="42" height="15" rx="1"></rect>
+        <rect id="Rectangle" fill="#999999" x="10.5" y="48.5" width="12" height="9" rx="1"></rect>
+        <rect id="Rectangle" fill="#999999" x="25.5" y="48.5" width="12" height="9" rx="1"></rect>
+        <rect id="Rectangle" fill="#999999" x="40.5" y="48.5" width="12" height="9" rx="1"></rect>
+        <path d="M3.5,14 L59.5,14 C60.6045695,14 61.5,14.8954305 61.5,16 L61.5,24.5 L61.5,24.5 L1.5,24.5 L1.5,16 C1.5,14.8954305 2.3954305,14 3.5,14 Z" id="Rectangle" fill="#5A81EA"></path>
+        <circle id="Oval" fill="#CCDAFF" cx="7.125" cy="19.25" r="1.875"></circle>
+        <circle id="Oval" fill="#CCDAFF" opacity="0.5" cx="13.125" cy="19.25" r="1.875"></circle>
+        <circle id="Oval" fill="#CCDAFF" opacity="0.1" cx="19.125" cy="19.25" r="1.875"></circle>
+        <path d="M61.5,35 L68.7857143,35 C78.8035714,35 87,42.5 87,51.6666667 L87,65 L61.5,65 L61.5,35 Z" id="Path" fill="#7C9FFF" fill-rule="nonzero"></path>
+        <path d="M67.5,53.8076923 L67.5,39.9615385 L69.2307692,39.9615385 C75.9807692,39.9615385 81.3461538,45.3269231 81.3461538,52.0769231 L81.3461538,53.8076923 L67.5,53.8076923 Z" id="Path" fill="#2D2D2D" fill-rule="nonzero"></path>
+        <path d="M87.4038462,70 L2.59615385,70 C1.21153846,70 0,68.8333333 0,67.5 L0,67.5 C0,66.1666667 1.21153846,65 2.59615385,65 L87.4038462,65 C88.7884615,65 90,66.1666667 90,67.5 L90,67.5 C90,68.8333333 88.7884615,70 87.4038462,70 Z" id="Path" fill="#5A81EA" fill-rule="nonzero" opacity="0.9"></path>
+        <path d="M83,57 L87,57 L87,57 L87,62 L83,62 C82.4477153,62 82,61.5522847 82,61 L82,58 C82,57.4477153 82.4477153,57 83,57 Z" id="Rectangle" fill="#5A81EA" fill-rule="nonzero"></path>
+        <circle id="Oval" fill="#5A81EA" cx="72.5" cy="67.5" r="8.5"></circle>
+        <circle id="Oval" fill="#2D2D2D" opacity="0.8" cx="72.5" cy="67.5" r="3.5"></circle>
+        <circle id="Oval" fill="#5A81EA" cx="19.5" cy="67.5" r="8.5"></circle>
+        <circle id="Oval" fill="#2D2D2D" opacity="0.8" cx="19.5" cy="67.5" r="3.5"></circle>
+    </g>
+</svg>
