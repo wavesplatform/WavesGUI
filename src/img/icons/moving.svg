@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="90" height="90" viewBox="0 0 90 90">
+    <g fill="none" fill-rule="evenodd">
+        <path fill="#DFE8FF" fill-rule="nonzero" d="M61.5 65H5.03c-1.942 0-3.53-1.53-3.53-3.4V17.4c0-1.87 1.588-3.4 3.53-3.4h52.94c1.942 0 3.53 1.53 3.53 3.4V65z"/>
+        <rect width="42" height="15" x="10.5" y="30.5" fill="#CAD9FF" rx="1"/>
+        <rect width="12" height="9" x="10.5" y="48.5" fill="#CAD9FF" rx="1"/>
+        <rect width="12" height="9" x="25.5" y="48.5" fill="#CAD9FF" rx="1"/>
+        <rect width="12" height="9" x="40.5" y="48.5" fill="#CAD9FF" rx="1"/>
+        <path fill="#1F5AF6" d="M3.5 14h56a2 2 0 0 1 2 2v8.5h-60V16a2 2 0 0 1 2-2z"/>
+        <circle cx="7.125" cy="19.25" r="1.875" fill="#CCDAFF"/>
+        <circle cx="13.125" cy="19.25" r="1.875" fill="#CCDAFF" opacity=".5"/>
+        <circle cx="19.125" cy="19.25" r="1.875" fill="#CCDAFF" opacity=".1"/>
+        <path fill="#3E73FF" fill-rule="nonzero" d="M61.5 35h7.286C78.804 35 87 42.5 87 51.667V65H61.5V35z"/>
+        <path fill="#FFF" fill-rule="nonzero" d="M67.5 53.808V39.962h1.73c6.75 0 12.116 5.365 12.116 12.115v1.73H67.5z"/>
+        <path fill="#094DFF" fill-rule="nonzero" d="M87.404 70H2.596C1.212 70 0 68.833 0 67.5S1.212 65 2.596 65h84.808C88.788 65 90 66.167 90 67.5S88.788 70 87.404 70zM83 57h4v5h-4a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1z"/>
+        <circle cx="72.5" cy="67.5" r="8.5" fill="#094DFF"/>
+        <circle cx="72.5" cy="67.5" r="3.5" fill="#FFF"/>
+        <circle cx="19.5" cy="67.5" r="8.5" fill="#094DFF"/>
+        <circle cx="19.5" cy="67.5" r="3.5" fill="#FFF"/>
+    </g>
+</svg>
