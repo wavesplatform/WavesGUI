@@ -15,7 +15,8 @@
         </div>
     </div>
 
-    <div class="warning-plate__text" w-i18n="warningPlate.notification"></div>
+    <div ng-if="!$ctrl.migrationSuccess" class="warning-plate__text" w-i18n="warningPlate.notification"></div>
+    <div ng-if="$ctrl.migrationSuccess" class="warning-plate__text" w-i18n="warningPlate.info"></div>
 
     <div class="warning-plate__button" ng-class="{'info': $ctrl.migrationSuccess}" ng-click="$ctrl.showMovingModal()"
          w-i18n="warningPlate.startMoving"></div>
