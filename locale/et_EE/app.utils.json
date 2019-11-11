@@ -918,6 +918,11 @@
                 "saveSeedButton": "Save the SEED phrase",
                 "title": "Kuidas Kaitsta End Andmepüüdjate Eest"
             }
+        },
+        "unsuccessfulMigration": {
+            "checkbox": "Do not show again",
+            "title": "Unsuccessful Migration!",
+            "understand": "Ma saan aru"
         }
     },
     "modals": {

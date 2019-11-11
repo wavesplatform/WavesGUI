@@ -6,11 +6,14 @@
         "description": {
             "enterPass": "输入您的帐户密码或",
             "goBack": "回来",
-            "unlock": "解锁您的帐户。您可以稍后返回此步骤"
+            "goBackExchange": "go back",
+            "unlock": "解锁您的帐户。您可以稍后返回此步骤",
+            "unlockExchange": "You need to enter a password to transfer your account to [waves.exchange](https://waves.exchange/)"
         },
         "headers": {
             "unlock": "解锁您的帐户",
-            "unlockAccount": "解锁帐户"
+            "unlockAccount": "解锁帐户",
+            "unlockExchange": "Unlock Accounts"
         },
         "subtitle": {
             "account": "帐户",

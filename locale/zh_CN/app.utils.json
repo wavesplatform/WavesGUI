@@ -918,6 +918,11 @@
                 "saveSeedButton": "保存SEED短语",
                 "title": "如何防止网络钓鱼攻击"
             }
+        },
+        "unsuccessfulMigration": {
+            "checkbox": "Do not show again",
+            "title": "Unsuccessful Migration!",
+            "understand": "我了解"
         }
     },
     "modals": {
