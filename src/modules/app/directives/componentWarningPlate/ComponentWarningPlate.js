@@ -28,7 +28,7 @@
             /**
              * @type {boolean}
              */
-            hasAccounts = false;
+            canMoveAccounts = false;
             /**
              * @type {boolean}
              */
@@ -39,13 +39,16 @@
             newDexLink = WavesApp.network.wavesExchangeLink;
 
             constructor() {
-                this._initHasAccounts();
+                this._initCanMoveAccounts();
                 this._initMigrationSuccess();
 
                 storage.change.on(() => {
                     this._initMigrationSuccess();
-                    this._initHasAccounts();
+                    this._initCanMoveAccounts();
                 });
+
+                user.loginSignal.on(this._initCanMoveAccounts, this);
+                user.logoutSignal.on(this._initCanMoveAccounts, this);
 
                 utils.startTimer({ year: 2019, month: 12, day: 2, hours: 15 }, this._setTime.bind(this), 1000);
             }
@@ -76,15 +79,15 @@
             /**
              * @private
              */
-            _initHasAccounts() {
+            _initCanMoveAccounts() {
                 Promise.all([
                     user.getFilteredUserList(),
                     user.getMultiAccountData()
                 ]).then(([userList, multiAccountData]) => {
-                    if (multiAccountData || (userList && userList.length)) {
-                        this.hasAccounts = true;
+                    if ((multiAccountData && user.isAuthorised) || (userList && userList.length)) {
+                        this.canMoveAccounts = true;
                     } else {
-                        this.hasAccounts = false;
+                        this.canMoveAccounts = false;
                     }
                     $scope.$apply();
                 });
