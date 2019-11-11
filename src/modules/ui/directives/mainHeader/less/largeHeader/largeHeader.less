@@ -300,11 +300,23 @@
 }
 
 @media screen and (max-width: 860px) {
-  .main-header__header {
-    .top-menu,
-    .header-logout,
-    .buttons-wrapper {
-      display: none;
+  .main-header {
+    &__header {
+      .top-menu,
+      .header-logout,
+      .buttons-wrapper {
+        display: none;
+      }
+    }
+
+    &_new-user {
+      top: 56px;
+
+      &.fixed {
+        .main-header__header {
+          top: 56px;
+        }
+      }
     }
   }
 
