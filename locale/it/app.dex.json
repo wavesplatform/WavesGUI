@@ -200,6 +200,7 @@
                 "noMarkets": "Nessun mercato in base ai criteri di ricerca"
             },
             "price": "Prezzo",
+            "vol": "Vol",
             "volume": "Volume"
         }
     },
