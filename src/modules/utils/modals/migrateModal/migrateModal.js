@@ -76,12 +76,12 @@
 
                 if (WavesApp.isDesktop()) {
                     return new ds.connect.HttpConnectProvider({
-                        port: 8888,
-                        url: 'http://localhost:8888/connect',
+                        port: WavesApp.network.migration.desktopPort,
+                        url: WavesApp.network.migration.desktopUrl,
                         origins
                     });
                 } else {
-                    const childWindow = window.open('https://localhost:8080/migration');
+                    const childWindow = window.open(WavesApp.network.migration.webUrl);
 
                     return new ds.connect.PostMessageConnectProvider({
                         win: childWindow,
