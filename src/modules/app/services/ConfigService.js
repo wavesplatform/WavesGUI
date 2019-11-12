@@ -26,7 +26,7 @@
                 super();
                 this.change = this.service.change;
                 this.configReadyPromise = this.service.configReady;
-                this.configReady = createPoll(this, this.service.fetchConfig, () => null, 30000);
+                this.configReady = createPoll(this, () => this.service.fetchConfig(), () => null, 30000);
             }
 
             /**
