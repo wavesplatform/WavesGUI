@@ -28,7 +28,7 @@
   "feeConfigUrl": "https://raw.githubusercontent.com/wavesplatform/waves-client-config/master/fee.json",
   "migration": {
     "webUrl": "https://localhost:8080/migration",
-    "desktopUrl": "http://localhost:8888/connect",
+    "desktopUrl": "https://localhost:8888/connect",
     "desktopPort": 8888
   },
   "WESTNetworkByte": "F",
