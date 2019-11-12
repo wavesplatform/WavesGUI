@@ -9,7 +9,7 @@
      * @param {Storage} storage
      * @return {ComponentWarningPlate}
      */
-    const controller = function ($scope, modalManager, utils, user, storage) {
+    const controller = function ($scope, modalManager, utils, user, storage, configService) {
 
         class ComponentWarningPlate {
 
@@ -37,6 +37,7 @@
              * @type {string}
              */
             newDexLink = WavesApp.network.wavesExchangeLink;
+            isDesktop = WavesApp.isDesktop();
 
             constructor() {
                 this._initCanMoveAccounts();
@@ -51,6 +52,8 @@
                 user.logoutSignal.on(this._initCanMoveAccounts, this);
 
                 utils.startTimer({ year: 2019, month: 12, day: 2, hours: 15 }, this._setTime.bind(this), 1000);
+                
+                this._getDistUrl();
             }
 
             showMovingModal() {
@@ -102,6 +105,12 @@
                     $scope.$apply();
                 });
             }
+            _getDistUrl() {
+                configService.configReadyPromise.then(() => {
+                    const urls = configService.get('DESKTOP_URLS');
+                    this.distUrl = new URL(urls[WavesApp.platform]);
+                });
+            }
 
         }
 
@@ -109,7 +118,7 @@
 
     };
 
-    controller.$inject = ['$scope', 'modalManager', 'utils', 'user', 'storage'];
+    controller.$inject = ['$scope', 'modalManager', 'utils', 'user', 'storage', 'configService'];
 
     angular.module('app').component('wWarningPlate', {
         templateUrl: 'modules/app/directives/componentWarningPlate/componentWarningPlate.html',
