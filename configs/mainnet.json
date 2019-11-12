@@ -32,7 +32,8 @@
     "desktopPort": 8888
   },
   "migrationOrigins": [
-    "https://localhost:8080"
+    "https://localhost:8080",
+    "https://10.56.0.244:8000"
   ],
   "WESTNetworkByte": "V",
   "tokenrating": "https://tokenrating.wavesexplorer.com",
@@ -69,5 +70,5 @@
     { "ticker": "Monero", "id": "5WvPKSJXzVE2orvbkJ8wsQmmQKqTv9sGBPksV4adViw3"},
     { "ticker": "ZEC", "id": "BrjUWjndUanm5VsJkbUip8VRYy6LWJePtxya3FNv4TQa"}
   ],
-  "wavesExchangeLink": "https://localhost:8080"
+  "wavesExchangeLink": "https://10.56.0.244:8000"
 }
