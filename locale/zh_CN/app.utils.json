@@ -918,6 +918,11 @@
                 "saveSeedButton": "保存SEED短语",
                 "title": "如何防止网络钓鱼攻击"
             }
+        },
+        "unsuccessfulMigration": {
+            "checkbox": "Do not show again",
+            "title": "Unsuccessful Migration!",
+            "understand": "我了解"
         }
     },
     "modals": {
@@ -1007,6 +1012,11 @@
         }
     },
     "warningPlate": {
+        "day": "d",
+        "dexMoves": "We are moving soon! Stay with us at",
+        "hour": "h",
+        "min": "m",
+        "notification": "We're moving from Waves DEX to Waves Exchange. Hurry up to move your accounts!",
         "startMoving": "Start moving"
     }
 }
