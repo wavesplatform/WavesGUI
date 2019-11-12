@@ -13,8 +13,18 @@
      * @param {BalanceWatcher} balanceWatcher
      * @return {Assets}
      */
-    const controller = function (waves, assetsData, $scope, utils, Base,
-                                 user, modalManager, createPoll, balanceWatcher) {
+    const controller = function (
+        waves,
+        assetsData,
+        $scope,
+        utils,
+        Base,
+        user,
+        modalManager,
+        createPoll,
+        balanceWatcher,
+        storage
+    ) {
 
         const { date } = require('ts-utils');
         const ds = require('data-service');
@@ -94,6 +104,10 @@
 
             constructor() {
                 super($scope);
+
+                storage.load('hideTokenomicaToast').then((flag) => {
+                    this.toastTokenomikaVisible = !flag;
+                });
 
                 this.options.axes.x.tickFormat = (date) => {
                     if (this.chartMode === 'hour' || this.chartMode === 'day') {
@@ -404,6 +418,12 @@
                 return hasYear ? tsUtils.date('DD.MM.YYYY')(date) : tsUtils.date('DD.MM')(date);
             }
 
+            hideTokenomicaToast() {
+                storage.save('hideTokenomicaToast', true).then(() => {
+                    this.toastTokenomikaVisible = false;
+                });
+            }
+
         }
 
         return new Assets();
@@ -418,7 +438,8 @@
         'user',
         'modalManager',
         'createPoll',
-        'balanceWatcher'
+        'balanceWatcher',
+        'storage'
     ];
 
     angular.module('app.wallet.assets')
