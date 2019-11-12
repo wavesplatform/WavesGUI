@@ -21,6 +21,11 @@
              * @type {Array|null}
              */
             legacyUserList = null;
+            /**
+             * @type {Array}
+             * @private
+             */
+            _onLoginHandlers = [];
 
             constructor() {
                 super($scope);
@@ -38,13 +43,16 @@
                     }
                 });
 
+                this._onLoginHandlers.push(this._showMigrateModal);
+
                 user.onLogin().then(() => {
-                    storage.load('notAutoOpenMigrationModal').then((notAutoOpenMigrationModal) => {
-                        if (!notAutoOpenMigrationModal) {
-                            modalManager.showMigrateModal();
-                        }
-                    });
+                    this._onLoginHandlers.forEach((handler) => handler());
                 });
+            }
+
+            $onDestroy() {
+                super.$onDestroy();
+                this._onLoginHandlers = [];
             }
 
             onLogin() {
@@ -102,6 +110,14 @@
                     this.showPasswordError = false;
                 }
             }
+
+            _showMigrateModal = () => {
+                storage.load('notAutoOpenMigrationModal').then((notAutoOpenMigrationModal) => {
+                    if (!notAutoOpenMigrationModal) {
+                        modalManager.showMigrateModal();
+                    }
+                });
+            };
 
         }
 
