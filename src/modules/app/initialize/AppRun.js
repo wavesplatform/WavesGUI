@@ -3,6 +3,10 @@
 (function () {
     'use strict';
 
+    const onContentLoad = new Promise((resolve) => {
+        document.addEventListener('DOMContentLoaded', resolve);
+    });
+
     const { Money } = require('@waves/data-entities');
     const { libs } = require('@waves/waves-transactions');
     const { base64Encode, blake2b, stringToBytes } = libs.crypto;
@@ -56,6 +60,7 @@
 
     LOADER.addProgress(PROGRESS_MAP.RUN_SCRIPT);
     WavesApp.state = 'initApp';
+
     /**
      * @param {$rootScope.Scope} $rootScope
      * @param {User} user
@@ -129,66 +134,95 @@
             _unavailable = false;
 
             constructor() {
-                configService.configReadyPromise.then(() => {
-                    const identityImg = require('identity-img');
+                const identityImg = require('identity-img');
 
-                    LOADER.addProgress(PROGRESS_MAP.APP_RUN);
+                LOADER.addProgress(PROGRESS_MAP.APP_RUN);
 
-                    /**
-                     * List of css class on body (from current state)
-                     * @type {Array<string>}
-                     */
-                    this.activeClasses = [];
-                    /**
-                     * @type {ModalRouter}
-                     * @private
-                     */
-                    this._modalRouter = new ModalRouter();
+                /**
+                 * List of css class on body (from current state)
+                 * @type {Array<string>}
+                 */
+                this.activeClasses = [];
+                /**
+                 * @type {ModalRouter}
+                 * @private
+                 */
+                this._modalRouter = new ModalRouter();
 
-                    /**
-                     * Configure library generation avatar by address
-                     */
-                    identityImg.config({ rows: 8, cells: 8 });
+                /**
+                 * Configure library generation avatar by address
+                 */
+                identityImg.config({ rows: 8, cells: 8 });
 
-                    this._setHandlers();
-                    this._stopLoader();
-                    this._initializeLogin();
-                    this._initializeOutLinks();
-                    this._openMigrationModal();
+                this._stopLoader();
+                this._setHandlers();
+                this._initializeLogin();
+                this._initializeOutLinks();
+                this._openMigrationModal();
 
-                    if (WavesApp.isDesktop()) {
-                        window.listenMainProcessEvent((type, url) => {
-                            const parts = utils.parseElectronUrl(url);
-                            const path = parts.path.replace(/\/$/, '') || parts.path;
+                if (WavesApp.isDesktop()) {
+                    window.listenMainProcessEvent((type, url) => {
+                        const parts = utils.parseElectronUrl(url);
+                        const path = parts.path.replace(/\/$/, '') || parts.path;
 
-                            if (path) {
-                                const noLogin = path === '/' || WavesApp.stateTree.where({ noLogin: true })
-                                    .some(item => {
-                                        const url = item.get('url') || item.id;
-                                        return path === url;
-                                    });
+                        if (path) {
+                            const noLogin = path === '/' || WavesApp.stateTree.where({ noLogin: true })
+                                .some(item => {
+                                    const url = item.get('url') || item.id;
+                                    return path === url;
+                                });
 
-                                if (noLogin) {
-                                    location.hash = `#!${path}${parts.search}`;
-                                } else {
-                                    user.onLogin().then(() => {
-                                        setTimeout(() => {
-                                            location.hash = `#!${path}${parts.search}`;
-                                        }, 1000);
-                                    });
-                                }
+                            if (noLogin) {
+                                location.hash = `#!${path}${parts.search}`;
+                            } else {
+                                user.onLogin().then(() => {
+                                    setTimeout(() => {
+                                        location.hash = `#!${path}${parts.search}`;
+                                    }, 1000);
+                                });
                             }
-                        });
-                    }
+                        }
+                    });
+                }
 
-                    if (configService.get('DEXW_LOCKED') && $state.current.name !== 'migration') {
-                        $state.go('migration');
-                    } else {
-                        $state.go('signIn');
-                    }
+                if (configService.get('DEXW_LOCKED') && $state.current.name !== 'migration') {
+                    $state.go('migration');
+                } else {
+                    $state.go('signIn');
+                }
 
-                });
+
                 $rootScope.WavesApp = WavesApp;
+            }
+
+            static getLoadImagePromise(length) {
+                return function (path) {
+                    return new Promise(resolve => {
+                        const img = new Image();
+                        const apply = () => {
+                            LOADER.addProgress(PROGRESS_MAP.IMAGES_LOADED / length);
+                            resolve();
+                        };
+
+                        img.onload = apply;
+                        img.onerror = () => {
+                            console.warn(`Can't load image! "${path}"`);
+                            apply();
+                        };
+                        img.src = path;
+                    });
+                };
+            }
+
+            static _getUrlFromState(state) {
+                return (
+                    WavesApp
+                        .stateTree
+                        .getPath(state.name.split('.').slice(-1)[0])
+                        .filter((id) => !WavesApp.stateTree.find(id).get('abstract'))
+                        .map((id) => WavesApp.stateTree.find(id).get('url') || id)
+                        .reduce((url, id) => `${url}/${id}`, '')
+                );
             }
 
             _initTryDesktop() {
@@ -208,9 +242,9 @@
                             return Promise.resolve(true);
                         default:
                             return Promise.resolve(true);
-                            // return modalManager.showTryDesktopModal()
-                            //     .then(() => this._runDesktop())
-                            //     .catch(() => true);
+                        // return modalManager.showTryDesktopModal()
+                        //     .then(() => this._runDesktop())
+                        //     .catch(() => true);
                     }
                 });
             }
@@ -758,36 +792,6 @@
                     });
             }
 
-            static getLoadImagePromise(length) {
-                return function (path) {
-                    return new Promise(resolve => {
-                        const img = new Image();
-                        const apply = () => {
-                            LOADER.addProgress(PROGRESS_MAP.IMAGES_LOADED / length);
-                            resolve();
-                        };
-
-                        img.onload = apply;
-                        img.onerror = () => {
-                            console.warn(`Can't load image! "${path}"`);
-                            apply();
-                        };
-                        img.src = path;
-                    });
-                };
-            }
-
-            static _getUrlFromState(state) {
-                return (
-                    WavesApp
-                        .stateTree
-                        .getPath(state.name.split('.').slice(-1)[0])
-                        .filter((id) => !WavesApp.stateTree.find(id).get('abstract'))
-                        .map((id) => WavesApp.stateTree.find(id).get('url') || id)
-                        .reduce((url, id) => `${url}/${id}`, '')
-                );
-            }
-
         }
 
         return new AppRun();
@@ -813,8 +817,12 @@
         'whatsNew'
     ];
 
-    angular.module('app')
-        .run(run);
+    angular.module('app').run(run);
+
+    const { utils } = require('data-service');
+    Promise.all([onContentLoad, (new utils.ConfigService(WavesApp)).configReady]).then(() => {
+        angular.bootstrap(document.querySelector('html'), ['app']);
+    });
 })();
 
 /**
