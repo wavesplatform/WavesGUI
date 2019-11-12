@@ -31,6 +31,9 @@
     "desktopUrl": "http://localhost:8888/connect",
     "desktopPort": 8888
   },
+  "migrationOrigins": [
+    "https://localhost:8080"
+  ],
   "WESTNetworkByte": "V",
   "tokenrating": "https://tokenrating.wavesexplorer.com",
   "assets": {
