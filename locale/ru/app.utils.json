@@ -918,6 +918,11 @@
                 "saveSeedButton": "Сохраните SEED",
                 "title": "Как защититься от фишинга"
             }
+        },
+        "unsuccessfulMigration": {
+            "checkbox": "Do not show again",
+            "title": "Unsuccessful Migration!",
+            "understand": "Я понял"
         }
     },
     "modals": {
