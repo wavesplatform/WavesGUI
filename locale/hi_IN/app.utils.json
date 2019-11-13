@@ -918,6 +918,11 @@
                 "saveSeedButton": "Save the SEED phrase",
                 "title": "फिशर्स से खुद की सुरक्षा कैसे करें"
             }
+        },
+        "unsuccessfulMigration": {
+            "checkbox": "Do not show again",
+            "title": "Unsuccessful Migration!",
+            "understand": "मैं समझा"
         }
     },
     "modals": {

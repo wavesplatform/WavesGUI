@@ -6,11 +6,14 @@
         "description": {
             "enterPass": "Masukkan kata sandi akun Anda atau",
             "goBack": "kembali",
-            "unlock": "Buka kunci akun Anda. Anda dapat kembali ke langkah ini nanti"
+            "goBackExchange": "go back",
+            "unlock": "Buka kunci akun Anda. Anda dapat kembali ke langkah ini nanti",
+            "unlockExchange": "You need to enter a password to transfer your account to [waves.exchange](https://waves.exchange/)"
         },
         "headers": {
             "unlock": "Buka kunci akun Anda",
-            "unlockAccount": "Membuka akun"
+            "unlockAccount": "Membuka akun",
+            "unlockExchange": "Unlock Accounts"
         },
         "subtitle": {
             "account": "Akun",

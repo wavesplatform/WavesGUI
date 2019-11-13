@@ -918,6 +918,11 @@
                 "saveSeedButton": "Save the SEED phrase",
                 "title": "피싱으로부터 자신을 보호하는 방법"
             }
+        },
+        "unsuccessfulMigration": {
+            "checkbox": "Do not show again",
+            "title": "Unsuccessful Migration!",
+            "understand": "모두 이해했습니다"
         }
     },
     "modals": {

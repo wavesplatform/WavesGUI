@@ -6,11 +6,14 @@
         "description": {
             "enterPass": "Wprowadź swoje hasło do konta lub",
             "goBack": "powrót",
-            "unlock": "Odblokuj swoje konta. Możesz wrócić do tego kroku później."
+            "goBackExchange": "go back",
+            "unlock": "Odblokuj swoje konta. Możesz wrócić do tego kroku później.",
+            "unlockExchange": "You need to enter a password to transfer your account to [waves.exchange](https://waves.exchange/)"
         },
         "headers": {
             "unlock": "Odblokuj swoje konta",
-            "unlockAccount": "Odblokuj konto"
+            "unlockAccount": "Odblokuj konto",
+            "unlockExchange": "Unlock Accounts"
         },
         "subtitle": {
             "account": "Konto",

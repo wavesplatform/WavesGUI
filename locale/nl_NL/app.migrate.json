@@ -6,11 +6,14 @@
         "description": {
             "enterPass": "Voer uw accountwachtwoord of in",
             "goBack": "Ga terug",
-            "unlock": "Ontgrendel uw accounts. U kunt later naar deze stap terugkeren"
+            "goBackExchange": "go back",
+            "unlock": "Ontgrendel uw accounts. U kunt later naar deze stap terugkeren",
+            "unlockExchange": "You need to enter a password to transfer your account to [waves.exchange](https://waves.exchange/)"
         },
         "headers": {
             "unlock": "Ontgrendel uw accounts",
-            "unlockAccount": "Account ontgrendelen"
+            "unlockAccount": "Account ontgrendelen",
+            "unlockExchange": "Unlock Accounts"
         },
         "subtitle": {
             "account": "Account",

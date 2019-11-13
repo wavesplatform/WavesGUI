@@ -918,6 +918,11 @@
                 "saveSeedButton": "Save the SEED phrase",
                 "title": "Jak uchronić się przed phishingiem"
             }
+        },
+        "unsuccessfulMigration": {
+            "checkbox": "Do not show again",
+            "title": "Unsuccessful Migration!",
+            "understand": "Rozumiem"
         }
     },
     "modals": {

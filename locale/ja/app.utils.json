@@ -918,6 +918,11 @@
                 "saveSeedButton": "Save the SEED phrase",
                 "title": "あなたを詐欺師から守る方法"
             }
+        },
+        "unsuccessfulMigration": {
+            "checkbox": "Do not show again",
+            "title": "Unsuccessful Migration!",
+            "understand": "理解しました"
         }
     },
     "modals": {
