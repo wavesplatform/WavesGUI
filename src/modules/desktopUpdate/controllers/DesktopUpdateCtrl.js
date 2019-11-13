@@ -2,6 +2,13 @@
     'use strict';
 
     const ds = require('data-service');
+    const STATES = [
+        'askDownload',
+        'downloading',
+        'installAndRun',
+        'success',
+        'fail'
+    ];
 
     /**
      * @param {ng.IScope} $scope
@@ -11,7 +18,7 @@
     const controller = ($scope, $state, configService) => {
         class DesktopUpdateCtrl {
 
-            step = 0;
+            state = 'askDownload';
             progress = 0;
             error = null;
             isDownloading = false;
@@ -27,6 +34,7 @@
                 const [fileName] = url.pathname.split('/').slice(-1);
 
                 this.isDownloading = true;
+                this.state = 'downloading';
 
                 ds.utils.downloadFile(url, (progress) => {
                     this.progress = Math.ceil(progress);
@@ -36,7 +44,8 @@
                         fileName,
                         fileContent: content
                     }).then(() => {
-                        this._nextStep();
+                        // @TODO вернуть
+                        // this.state = 'installAndRun';
                         this.isDownloading = false;
                         $scope.$digest();
                     }).catch((e) => {
@@ -61,12 +70,12 @@
                 return new URL(urls[WavesApp.platform]);
             }
 
-            _nextStep() {
-                this.step = this.step + 1;
-            }
-
             _resetProgress() {
                 this.progress = 0;
+            }
+
+            _toWelcome() {
+                $state.go('welcome');
             }
 
         }

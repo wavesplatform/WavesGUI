@@ -1,0 +1,25 @@
+@import (reference) 'config';
+
+.progress-bar {
+  &__item {
+   &.active {
+     color: @color-submit-500;
+   }
+    &.done {
+      background-color: @color-submit-500;
+    }
+  }
+}
+
+.download-bar {
+  height: 100%;
+  box-shadow: 2px 2px 5px 0 rgba(31, 90, 246, 0.25);
+  background-color: @color-submit-500;
+  &__wrapper {
+    height: 8px;
+    width: 440px;
+    display: flex;
+    justify-content: flex-start;
+    border-radius: 4px;
+  }
+}
