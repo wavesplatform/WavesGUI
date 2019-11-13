@@ -302,6 +302,12 @@
                 "warningText": "Controlla se il tuo wallet o exchange utilizza smart contract per trasferire ETH. Non accettiamo questo tipo di transazioni e non ci sarà possibile rimborsarle. L'importo trasferito andrà perduto.",
                 "warningTitle": "Per favore, non inviare ETH da smart contracts! Non inviare token ERC20! Accettiamo esclusivamente Ethereum."
             },
+            "wavesGatewayUSDT": {
+                "warningMinAmountText": "If you will send less than {{minAmount, BigNumber}} {{assetTicker}}, you will lose that money.",
+                "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}, the maximum amount of deposit is {{maxAmount}} {{assetTicker}}",
+                "warningText": "Check if your wallet or exchange uses smart-contracts to withdraw Tether USD. We do not accept such transactions and can’t refund them. You will lose that money",
+                "warningTitle": "This is ERC20 USDT deposit address. Send only USDT to this deposit address. Sending any other coin or token to this address may result in the loss of your deposit. Please do not deposit USDT from smart contracts!"
+            },
             "wavesGatewayVST": {
                 "helpDescrText": "Una volta che la transazione sarà confermata, il gateway processerà il trasferimento di WEST in favore di un token nel tuo account Waves.",
                 "helpDescrTitle": "Inserisci questo indirizzo nel tuo client WEST o nel tuo wallet",
@@ -912,6 +918,11 @@
                 "saveSeedButton": "Salva la tua frase SEED",
                 "title": "Come proteggersi dai Phishers"
             }
+        },
+        "unsuccessfulMigration": {
+            "checkbox": "Do not show again",
+            "title": "Unsuccessful Migration!",
+            "understand": "Ho capito"
         }
     },
     "modals": {
@@ -999,5 +1010,8 @@
         "byte": {
             "help": "Byte restanti: {{bytes}}"
         }
+    },
+    "warningPlate": {
+        "startMoving": "Start moving"
     }
 }

@@ -4,6 +4,8 @@
     'use strict';
 
     const { Money } = require('@waves/data-entities');
+    const { libs } = require('@waves/waves-transactions');
+    const { base64Encode, blake2b, stringToBytes } = libs.crypto;
 
     const locationHref = location.href;
     const i18next = require('i18next');
@@ -352,6 +354,7 @@
                 });
 
                 user.loginSignal.on(() => {
+                    analytics.addDefaultParams({ auuid: base64Encode(blake2b(stringToBytes(user.address))) });
                     userNotification.destroyAll();
                     i18nextReady.then(() => {
                         this._updateUserNotifications();

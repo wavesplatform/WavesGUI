@@ -302,6 +302,12 @@
                 "warningText": "Kontrollige, kas teie rahakott või börs kasutab ETH-i väljavõtmiseks smart-kontrakte. Me ei aktsepteeri selliseid tehinguid ja ei saa neid tagasi maksta. Te kaotate selle raha.",
                 "warningTitle": "Palun ärge tehke sissemakset ETH smart-kontrakrtidelt! Ärge tehkse sissemakseid ERC20 tokenites! Ainult Ethereum on lubatud."
             },
+            "wavesGatewayUSDT": {
+                "warningMinAmountText": "If you will send less than {{minAmount, BigNumber}} {{assetTicker}}, you will lose that money.",
+                "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}, the maximum amount of deposit is {{maxAmount}} {{assetTicker}}",
+                "warningText": "Check if your wallet or exchange uses smart-contracts to withdraw Tether USD. We do not accept such transactions and can’t refund them. You will lose that money",
+                "warningTitle": "This is ERC20 USDT deposit address. Send only USDT to this deposit address. Sending any other coin or token to this address may result in the loss of your deposit. Please do not deposit USDT from smart contracts!"
+            },
             "wavesGatewayVST": {
                 "helpDescrText": "Once the transaction is confirmed, the gateway will process the transfer of WEST to a token in your Waves account.",
                 "helpDescrTitle": "Enter this address into your WEST client or wallet",
@@ -912,6 +918,11 @@
                 "saveSeedButton": "Save the SEED phrase",
                 "title": "Kuidas Kaitsta End Andmepüüdjate Eest"
             }
+        },
+        "unsuccessfulMigration": {
+            "checkbox": "Do not show again",
+            "title": "Unsuccessful Migration!",
+            "understand": "Ma saan aru"
         }
     },
     "modals": {
@@ -999,5 +1010,8 @@
         "byte": {
             "help": "Baite vasakul: {{bytes}}"
         }
+    },
+    "warningPlate": {
+        "startMoving": "Start moving"
     }
 }

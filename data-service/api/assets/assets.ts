@@ -69,7 +69,7 @@ export function getAssetFromNode(assetId: string): Promise<Asset> {
         return Promise.resolve(wavesAsset);
     }
 
-    return request<INodeAssetData>({ url: `${configGet('node')}/assets/details/${assetId}` })
+    return request<INodeAssetInfo>({ url: `${configGet('node')}/assets/details/${assetId}` })
         .then((data) => new Asset({
             id: data.assetId,
             name: data.name,
@@ -77,9 +77,9 @@ export function getAssetFromNode(assetId: string): Promise<Asset> {
             height: data.issueHeight,
             precision: data.decimals,
             quantity: data.quantity,
-            hasScript: !!data.script,
+            hasScript: data.scripted,
             reissuable: data.reissuable,
-            minSponsoredFee: data.minSponsoredFee,
+            minSponsoredFee: data.minSponsoredAssetFee,
             sender: data.issuer,
             timestamp: new Date(data.issueTimestamp)
         }));
@@ -264,4 +264,18 @@ export interface INodeAssetData {
     quantity: string | number;
     reissuable: boolean;
     script: string | null;
+}
+
+export interface INodeAssetInfo {
+    assetId: string;
+    issueHeight: number;
+    issueTimestamp: number;
+    issuer: string;
+    name: string;
+    description: string;
+    decimals: number;
+    reissuable: boolean;
+    quantity: number;
+    scripted: boolean;
+    minSponsoredAssetFee: number | string;
 }

@@ -302,6 +302,12 @@
                 "warningText": "あなたのウォレットと取引所がスマートコントラクトを用いて、ETHを引出していないか、確認してください。私たちはそのような形式のトランザクションを受け入れておらず、返金することもできません。あなたはあなたの資金を失います。",
                 "warningTitle": "ETHをスマートコントラクトからデポジットしないでください。また、ERC20トークンもデポジットしないでください。"
             },
+            "wavesGatewayUSDT": {
+                "warningMinAmountText": "If you will send less than {{minAmount, BigNumber}} {{assetTicker}}, you will lose that money.",
+                "warningMinAmountTitle": "The minimum amount of deposit is {{minAmount, BigNumber}} {{assetTicker}}, the maximum amount of deposit is {{maxAmount}} {{assetTicker}}",
+                "warningText": "Check if your wallet or exchange uses smart-contracts to withdraw Tether USD. We do not accept such transactions and can’t refund them. You will lose that money",
+                "warningTitle": "This is ERC20 USDT deposit address. Send only USDT to this deposit address. Sending any other coin or token to this address may result in the loss of your deposit. Please do not deposit USDT from smart contracts!"
+            },
             "wavesGatewayVST": {
                 "helpDescrText": "トランザクションが承認されると、ゲートウェイはWESTの送信を進め、あなたのWavesアカウントにトークンが反映されます。",
                 "helpDescrTitle": "このアドレスをWESTクライアント、またはウォレットに入力してください",
@@ -912,6 +918,11 @@
                 "saveSeedButton": "Save the SEED phrase",
                 "title": "あなたを詐欺師から守る方法"
             }
+        },
+        "unsuccessfulMigration": {
+            "checkbox": "Do not show again",
+            "title": "Unsuccessful Migration!",
+            "understand": "理解しました"
         }
     },
     "modals": {
@@ -999,5 +1010,8 @@
         "byte": {
             "help": "Bytes 残 : {{bytes}}"
         }
+    },
+    "warningPlate": {
+        "startMoving": "Start moving"
     }
 }

@@ -1,0 +1,129 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+
+.toaster-tokenomica {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    justify-content: space-between;
+    background: @color-black;
+    padding: 25px 32px;
+    width: 100%;
+    z-index: 5;
+    transform: translateY(0);
+    transition: transform 0.2s;
+  
+    &__link {
+      display: flex;
+      flex: 1 0;
+      justify-content: space-between;
+      align-items: center;
+    }
+  
+    &__logo {
+      background: @logo-tokenomica-icon center no-repeat;
+      background-size: 100%;
+      width: 184px;
+      height: 40px;
+      flex-shrink: 0;
+      margin-right: 16px;
+    }
+  
+    &__text {
+      font-size: 20px;
+      color: @color-white;
+      line-height: 18px;
+    }
+  
+    &__text-wrapper {
+      display: flex;
+      flex: 1 0;
+      justify-content: space-between;
+      align-items: center;
+      margin-left: 80px;
+    }
+  
+    &__button {
+      button {
+        border-radius: 0;
+      }
+  
+      .button__content {
+        font-size: 20px;
+        font-weight: bold;
+      }
+    }
+  
+    &__close {
+      display: flex;
+      align-items: center;
+      margin-left: 36px;
+  
+      &-icon {
+        background: @close-tokenomica-icon center no-repeat;
+        border: 0;
+        width: 16px;
+        height: 16px;
+  
+        &:hover {
+          opacity: .5;
+        }
+      }
+    }
+  
+    &.hidden-toaster {
+      transform: translateY(100%);
+    }
+  
+    @media screen and (max-width: 768px) {
+      padding: 24px;
+      border-radius: 16px 16px 0 0;
+      align-items: flex-start;
+  
+      &__link {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+  
+      &__logo {
+        margin: 0 0 16px 0;
+        width: 109px;
+        height: 24px;
+      }
+  
+      &__text-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+        margin-left: 0;
+      }
+  
+      &__text {
+        font-size: 14px;
+        margin: 0 0 16px 0;
+        line-height: 20px;
+        width: 100%;
+      }
+  
+      &__button {
+        width: 100%;
+  
+        .button {
+          width: 100%;
+        }
+  
+        .button__content {
+          font-size: 16px;
+        }
+      }
+  
+      &__close {
+        margin: -6px;
+      }
+    }
+}
+
+.toaster_tokenomica_visible {
+    display: flex;
+}
