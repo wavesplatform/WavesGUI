@@ -52,7 +52,7 @@
                 user.logoutSignal.on(this._initCanMoveAccounts, this);
 
                 utils.startTimer({ year: 2019, month: 12, day: 2, hours: 15 }, this._setTime.bind(this), 1000);
-                
+
                 this._getDistUrl();
             }
 
@@ -87,7 +87,10 @@
                     user.getFilteredUserList(),
                     user.getMultiAccountData()
                 ]).then(([userList, multiAccountData]) => {
-                    if ((multiAccountData && user.isAuthorised) || (userList && userList.length)) {
+                    if (
+                        (multiAccountData && user.isAuthorised) ||
+                        (userList && userList.length && !multiAccountData)
+                    ) {
                         this.canMoveAccounts = true;
                     } else {
                         this.canMoveAccounts = false;
