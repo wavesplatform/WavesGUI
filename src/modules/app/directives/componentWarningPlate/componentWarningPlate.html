@@ -41,3 +41,6 @@
     <div class="warning-plate__text"><span w-i18n="warningPlate.dexMoves"></span><a target="_blank" rel="noopener noreferrer" href="{{::$ctrl.newDexLink}}">waves.exchange</a></div>
 </div>
 
+<div ng-if="!$ctrl.canMoveAccounts && $ctrl.isDesktop" class="warning-plate__content warning-plate__content_no-user info" w-i18n-ns="app.utils">
+    <div class="warning-plate__text"><a target="_blank" rel="noopener noreferrer" href="{{::$ctrl.distUrl}}">Download app</a></div>
+</div>
