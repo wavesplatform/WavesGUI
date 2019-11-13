@@ -33,6 +33,7 @@
 
         const tsUtils = require('ts-utils');
         const ds = require('data-service');
+        const { pickBy, hasIn } = require('ramda');
         const { Money } = require('@waves/data-entities');
         const analytics = require('@waves/event-sender');
 
@@ -340,7 +341,11 @@
              */
             saveMultiAccountUser(user, userHash) {
                 if (user.settings) {
-                    user.settings = { ...user.settings, encryptionRounds: undefined };
+                    // case: unlock user from userList
+                    delete user.settings.encryptionRounds;
+                    user.settings = pickBy(
+                        (value, key) => hasIn(key, defaultSettings.create().getDefaultSettings())
+                    )(user.settings);
                 }
 
                 return storage.load('multiAccountUsers')

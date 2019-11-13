@@ -193,6 +193,10 @@
                 return Object.prototype.hasOwnProperty.call(this.commonDefaults, start);
             }
 
+            getDefaultSettings() {
+                return this.defaults;
+            }
+
         }
 
         return {
