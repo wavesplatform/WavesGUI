@@ -29,7 +29,12 @@
   "migration": {
     "webUrl": "https://localhost:8080/migration",
     "desktopUrl": "https://localhost:8888/connect",
-    "desktopPort": 8888
+    "desktopPort": 8888,
+    "origins": [
+      "https://client.wavesplatform.com",
+      "https://dex.wavesplatform.com",
+      "https://localhost:8080"
+    ]
   },
   "migrationOrigins": [
     "http://wallet-stage1.waves.exchange",
