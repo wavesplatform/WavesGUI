@@ -69,8 +69,7 @@
                         fileName,
                         fileContent: content
                     }).then(() => {
-                        // @TODO вернуть
-                        // this.state = 'installAndRun';
+                        this.state = 'installAndRun';
                         this.isDownloading = false;
                         $scope.$digest();
                     }).catch((e) => {
@@ -84,6 +83,7 @@
                         $scope.$digest();
                     });
                 }).catch((e) => {
+                    console.log('%c e', 'color: #e5b6ed', e);
                     this.error = String(e);
                     $scope.$digest();
                 });
