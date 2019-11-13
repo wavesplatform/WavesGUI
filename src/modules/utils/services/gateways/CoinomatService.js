@@ -2,6 +2,7 @@
     'use strict';
 
     const GATEWAYS = {
+        [WavesApp.defaultAssets.BTC]: { waves: 'WBTC', gateway: 'BTC' },
         [WavesApp.defaultAssets.BSV]: { waves: 'WBSV', gateway: 'BSV' },
         [WavesApp.defaultAssets.LTC]: { waves: 'WLTC', gateway: 'LTC' },
         [WavesApp.defaultAssets.ZEC]: { waves: 'WZEC', gateway: 'ZEC' },
@@ -90,7 +91,7 @@
             getSupportMap(asset) {
                 if (GATEWAYS[asset.id]) {
                     return {
-                        deposit: true,
+                        deposit: asset.id !== WavesApp.defaultAssets.BTC,
                         withdraw: true,
                         errorAddressMessage: true
                     };
