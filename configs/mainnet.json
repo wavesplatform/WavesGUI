@@ -27,13 +27,12 @@
   "featuresConfigUrl": "https://raw.githubusercontent.com/wavesplatform/waves-client-config/master/config.json",
   "feeConfigUrl": "https://raw.githubusercontent.com/wavesplatform/waves-client-config/master/fee.json",
   "migration": {
-    "webUrl": "https://10.56.0.244:8000/migration",
-    "desktopUrl": "http://localhost:8888/connect",
+    "webUrl": "http://wallet-stage1.waves.exchange/migration",
+    "desktopUrl": "http://wallet-stage1.waves.exchange/connect",
     "desktopPort": 8888
   },
   "migrationOrigins": [
-    "https://localhost:8080",
-    "https://10.56.0.244:8000"
+    "http://wallet-stage1.waves.exchange"
   ],
   "WESTNetworkByte": "V",
   "tokenrating": "https://tokenrating.wavesexplorer.com",
@@ -70,5 +69,5 @@
     { "ticker": "Monero", "id": "5WvPKSJXzVE2orvbkJ8wsQmmQKqTv9sGBPksV4adViw3"},
     { "ticker": "ZEC", "id": "BrjUWjndUanm5VsJkbUip8VRYy6LWJePtxya3FNv4TQa"}
   ],
-  "wavesExchangeLink": "https://10.56.0.244:8000"
+  "wavesExchangeLink": "http://wallet-stage1.waves.exchange"
 }
