@@ -32,6 +32,7 @@
     "desktopPort": 8888
   },
   "migrationOrigins": [
+    "http://wallet-stage1.waves.exchange",
     "https://localhost:8080"
   ],
   "WESTNetworkByte": "V",
