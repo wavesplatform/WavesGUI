@@ -15,9 +15,12 @@
      * @param {*} $state
      * @param {*} configService
      */
-    const controller = ($scope, $state, configService) => {
+    const controller = ($scope, $state, configService, exportStorageService, $log, storage, user) => {
         class DesktopUpdateCtrl {
 
+            /**
+             * @type {'askDownload' | 'downloading' | 'installAndRun' | 'success' | 'fail' }
+             */
             state = 'askDownload';
             progress = 0;
             error = null;
@@ -25,8 +28,30 @@
 
             constructor() {
                 if (!WavesApp.isDesktop()) {
-                    $state.go('/');
+                    $state.go(user.getActiveState('wallet'));
                 }
+
+                const connectProvider = this._getConnectProvider();
+
+                exportStorageService.export({
+                    provider: connectProvider,
+                    attempts: 10,
+                    timeout: 1000
+                });
+
+                exportStorageService.onData().then(result => {
+                    if (result.payload === 'ok') {
+                        $log.log('done');
+                        this.state = 'success';
+                        $scope.$apply();
+
+                        return storage.save('migrationSuccess', true);
+                    } else {
+                        this.state = 'fail';
+
+                        return storage.save('migrationSuccess', false);
+                    }
+                });
             }
 
             download() {
@@ -74,8 +99,23 @@
                 this.progress = 0;
             }
 
-            _toWelcome() {
-                $state.go('welcome');
+            _toHome() {
+                $state.go(user.getActiveState('wallet'));
+            }
+
+            /**
+             * @returns {ConnectProvider}
+             */
+            _getConnectProvider() {
+                const origins = WavesApp.isProduction() ?
+                    WavesApp.network.migrationOrigins :
+                    '*';
+
+                return new ds.connect.HttpConnectProvider({
+                    port: WavesApp.network.migration.desktopPort,
+                    url: WavesApp.network.migration.desktopUrl,
+                    origins
+                });
             }
 
         }
@@ -83,7 +123,7 @@
         return new DesktopUpdateCtrl();
     };
 
-    controller.$inject = ['$scope', '$state', 'configService'];
+    controller.$inject = ['$scope', '$state', 'configService', 'exportStorageService', '$log' , 'storage', 'user'];
 
     angular.module('app.desktopUpdate').controller('DesktopUpdateCtrl', controller);
 })();

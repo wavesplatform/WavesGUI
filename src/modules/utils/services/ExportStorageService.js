@@ -40,7 +40,7 @@
 
         export({ provider, attempts, timeout }) {
             const message = JSON.stringify({ event: 'connect' });
-            console.log(provider);
+
             provider.send(message, {
                 event: 'data',
                 attempts,

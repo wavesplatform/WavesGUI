@@ -22,7 +22,15 @@
              */
             step = 0;
 
-            export() {
+            moving() {
+                if (WavesApp.isDesktop()) {
+                    $state.go('desktopUpdate');
+                } else {
+                    this._export()
+                }
+            }
+
+            _export() {
                 const connectProvider = this._getConnectProvider();
 
                 exportStorageService.export({

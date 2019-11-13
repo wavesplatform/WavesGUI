@@ -2,28 +2,32 @@
 
 <div class="main-container movable" w-i18n-ns="app.migration">
     <div class="main-container-wrapper">
-        <div class="get-started-content">
+        <div class="return-button" ng-click="$ctrl._toHome()" >
+            <div class="return-button__arrow">s</div>
+            <div class="return-button__text" w-i18n="desktopUpgrade.return"></div>
+        </div>
+        <div class="center">
             <div class="progress-bar">
                 <div class="progress-bar__item done"
                      ng-class="{ 'active': $ctrl.state === 'askDownload' || $ctrl.state === 'downloading' }">
-                    <div>1</div>
-                    <div w-i18n="desktopUpgrade.barDownload"></div>
+                    <div class="progress-bar__item-number">1</div>
+                    <div class="progress-bar__item-text" w-i18n="desktopUpgrade.barDownload"></div>
                 </div>
                 <div class="progress-bar__item"
                      ng-class="{
                      'active': $ctrl.state === 'installAndRun' || $ctrl.state === 'downloading',
                      'done': $ctrl.state === 'success' || $ctrl.state === 'fail'
                      }">
-                    <div>2</div>
-                    <div w-i18n="desktopUpgrade.barInstall"></div>
+                    <div class="progress-bar__item-number">2</div>
+                    <div class="progress-bar__item-text" w-i18n="desktopUpgrade.barInstall"></div>
                 </div>
                 <div class="progress-bar__item"
                      ng-class="{
-                     'success': $ctrl.state === 'success',
+                     'done': $ctrl.state === 'success',
                      'fail': $ctrl.state === 'fail'
                      }">
-                    <div>3</div>
-                    <div w-i18n="desktopUpgrade.barDone"></div>
+                    <div class="progress-bar__item-number">3</div>
+                    <div class="progress-bar__item-text" w-i18n="desktopUpgrade.barDone"></div>
                 </div>
             </div>
             <div class="text-center">
@@ -31,32 +35,30 @@
                 <div ng-if="$ctrl.state === 'askDownload'">
                     <h3 w-i18n="desktopUpgrade.haveYouDownloaded"></h3>
                     <div class="buttons-wrapper">
-                        <w-button class="big submit" on-click="$ctrl.state = 'installAndRun'">
+                        <w-button class="big" on-click="$ctrl.state = 'installAndRun'">
                             <span w-i18n="desktopUpgrade.downloaded"></span>
                         </w-button>
-                        <w-button class="big" on-click="$ctrl.download()">
+                        <w-button class="big submit" on-click="$ctrl.download()">
                             <span w-i18n="desktopUpgrade.wantDownload"></span>
                         </w-button>
                     </div>
                 </div>
 
                 <div ng-if="$ctrl.state === 'downloading'">
-                    <w-step>
                         <h3 w-i18n="desktopUpgrade.pleaseWait"></h3>
                         <div class="download-bar__wrapper">
                             <div class="download-bar" ng-style="{'width': $ctrl.progress + '%'}"></div>
                         </div>
-                    </w-step>
                 </div>
 
                 <div ng-if="$ctrl.state === 'installAndRun'">
                     <h3 w-i18n="desktopUpgrade.installAndRun"></h3>
 
                     <div class="buttons-wrapper">
-                        <w-button class="big" on-click="$ctrl.step = 0">
+                        <w-button class="big" on-click="$ctrl.state = 'askDownload'">
                             <span w-i18n="desktopUpgrade.backToPrevious"></span>
                         </w-button>
-                        <w-button class="big submit" on-click="$ctrl.step = 0">
+                        <w-button class="big submit" on-click="$ctrl.state = 'fail'">
                             <span w-i18n="desktopUpgrade.yesIHave"></span>
                         </w-button>
                     </div>
@@ -65,7 +67,7 @@
                 <div ng-if="$ctrl.state === 'success'">
                     <h3 w-i18n="desktopUpgrade.almostThere"></h3>
                     <div class="basic-500" w-i18n="desktopUpgrade.toFinish"></div>
-                    <w-button class="big submit" on-click="$ctrl._toWelcome()">
+                    <w-button class="big submit" on-click="$ctrl._toHome()">
                         <span w-i18n="desktopUpgrade.iUnderstand"></span>
                     </w-button>
                 </div>
