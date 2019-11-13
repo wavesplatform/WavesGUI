@@ -185,13 +185,6 @@
                     });
                 }
 
-                if (configService.get('DEXW_LOCKED') && $state.current.name !== 'migration') {
-                    $state.go('migration');
-                } else {
-                    $state.go('signIn');
-                }
-
-
                 $rootScope.WavesApp = WavesApp;
             }
 
@@ -415,7 +408,7 @@
                 const START_STATES = WavesApp.stateTree.where({ noLogin: true })
                     .map((item) => WavesApp.stateTree.getPath(item.id).join('.'));
 
-                const DEXW_LOCKED_STATES = ['migration', 'signIn'];
+                const DEXW_LOCKED_STATES = ['migration'];
 
                 const offInitialTransitions = $transitions.onStart({}, transition => {
                     const DEXW_LOCKED = configService.get('DEXW_LOCKED');

@@ -30,17 +30,17 @@ export class ConfigService {
 
     protected wavesApp: any;
 
-    protected _instance: ConfigService | null = null;
+    protected static _instance: ConfigService | void;
 
     public change = new Signal() as Signal<string>;
 
     public configReady: Promise<any>;
 
     constructor(wavesApp: any) {
-        if (this._instance) {
-            return this._instance;
+        if (ConfigService._instance) {
+            return ConfigService._instance;
         }
-        this._instance = this;
+        ConfigService._instance = this;
         this.wavesApp = wavesApp;
         this.configReady = this.fetchConfig();
     }
