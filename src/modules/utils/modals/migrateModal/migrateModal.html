@@ -1,32 +1,33 @@
-<div class="migrate-modal">
+<div class="migrate-modal" w-i18n-ns="app.migrate">
     <div class="btn icon-close" ng-click="$ctrl.cancel()"></div>
     <w-step-by-step active-step="$ctrl.step">
 
         <w-step>
             <div class="migrate-modal__image migrate-modal__image_moving"></div>
-            <h3 class="migrate-modal__title">We are moving</h3>
+            <h3 class="migrate-modal__title" w-i18n="migrate.modalTitle.moving"></h3>
             <div class="migrate-modal__text">
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iusto tempore ea hic quam quidem reprehenderit dolorum dolore maiores, quaerat, delectus excepturi aut, eligendi laborum. Aspernatur repellat dolorum atque dolore ipsa.</p>
-                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                <p w-i18n="migrate.modalDesc.firstPart"></p>
+                <p w-i18n="migrate.modalDesc.secondPart"></p>
+                <p w-i18n="migrate.modalDesc.thirdPart"></p>
             </div>
             <div class="buttons-wrapper">
                 <w-button class="big" on-click="$ctrl.cancel()">
-                    <span>Cancel</span>
+                    <span w-i18n="migrate.modalButton.cancel"></span>
                 </w-button>
                 <w-button class="submit big" on-click="$ctrl.export()">
-                    <span>Start moving</span>
+                    <span w-i18n="migrate.modalButton.moving"></span>
                 </w-button>
             </div>
         </w-step>
 
         <w-step>
             <div class="migrate-modal__image migrate-modal__image_directed"></div>
-            <h3 class="migrate-modal__title">You have been redirected to
+            <h3 class="migrate-modal__title"><span w-i18n="migrate.modalTitle.redirected"></span>
                 <a class="migrate-modal__link" href="https://waves.exchange/" target="_blank"
                 rel="noopener noreferrer">waves.exchange</a>
             </h3>
             <div class="migrate-modal__text migrate-modal__text_directed">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+                <p w-i18n="migrate.modalDesc.redirected"></p>
             </div>
         </w-step>
 
