@@ -83,7 +83,6 @@
                         $scope.$digest();
                     });
                 }).catch((e) => {
-                    console.log('%c e', 'color: #e5b6ed', e);
                     this.error = String(e);
                     $scope.$digest();
                 });
