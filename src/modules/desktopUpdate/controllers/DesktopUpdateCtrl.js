@@ -2,13 +2,6 @@
     'use strict';
 
     const ds = require('data-service');
-    const STATES = [
-        'askDownload',
-        'downloading',
-        'installAndRun',
-        'success',
-        'fail'
-    ];
 
     /**
      * @param {ng.IScope} $scope
