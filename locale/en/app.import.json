@@ -9,7 +9,7 @@
             "emptyList": "There are no accounts for import in the uploaded file",
             "importFailed": "Failed to import keystore file",
             "noChosen": "No file chosen",
-            "selectAccount": "Select account",
+            "selectAccount": "Choose accounts",
             "selectAccountDesc": "Please select account or",
             "selectAll": "Select all",
             "unselectAll": "Unselect all",
