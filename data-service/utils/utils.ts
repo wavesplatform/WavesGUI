@@ -1,9 +1,11 @@
-import { IAssetPair, IHash } from '../interface';
-import { WAVES_ID } from '@waves/signature-adapter';
-import { Asset, Money, AssetPair, OrderPrice } from '@waves/data-entities';
-import { BigNumber } from '@waves/bignumber';
-import { get } from '../api/assets/assets';
-import { get as configGet, timeDiff } from '../config';
+import {IAssetPair, IHash} from '../interface';
+import {WAVES_ID} from '@waves/signature-adapter';
+import {Asset, Money, AssetPair, OrderPrice} from '@waves/data-entities';
+import {BigNumber} from '@waves/bignumber';
+import {get} from '../api/assets/assets';
+import {get as configGet, timeDiff} from '../config';
+
+export * from './ConfigService';
 
 export function normalizeTime(time: number): number;
 export function normalizeTime(time: Date): Date;
@@ -34,7 +36,7 @@ export function priceMoneyFactory(money: string | number | BigNumber, pair: Asse
 export function normalizeAssetPair(assetPair: IAssetPair): IAssetPair {
     const priceAsset = normalizeAssetId(assetPair.priceAsset);
     const amountAsset = normalizeAssetId(assetPair.amountAsset);
-    return { priceAsset, amountAsset };
+    return {priceAsset, amountAsset};
 }
 
 export function normalizeUrl(url: string): string {
@@ -154,7 +156,7 @@ export function defer<T>(): TDefer<T> {
         resolve = res;
         reject = rej;
     });
-    return { resolve, reject, promise };
+    return {resolve, reject, promise};
 }
 
 export function stringifyJSON(data: any): string {

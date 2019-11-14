@@ -918,6 +918,11 @@
                 "saveSeedButton": "Save the SEED phrase",
                 "title": "あなたを詐欺師から守る方法"
             }
+        },
+        "unsuccessfulMigration": {
+            "checkbox": "Do not show again",
+            "title": "Unsuccessful Migration!",
+            "understand": "理解しました"
         }
     },
     "modals": {
@@ -1007,6 +1012,11 @@
         }
     },
     "warningPlate": {
+        "day": "d",
+        "dexMoves": "We are moving soon! Stay with us at",
+        "hour": "h",
+        "min": "m",
+        "notification": "We're moving from Waves DEX to Waves Exchange. Hurry up to move your accounts!",
         "startMoving": "Start moving"
     }
 }

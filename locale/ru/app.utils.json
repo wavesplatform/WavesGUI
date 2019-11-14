@@ -918,6 +918,11 @@
                 "saveSeedButton": "Сохраните SEED",
                 "title": "Как защититься от фишинга"
             }
+        },
+        "unsuccessfulMigration": {
+            "checkbox": "Do not show again",
+            "title": "Unsuccessful Migration!",
+            "understand": "Я понял"
         }
     },
     "modals": {
@@ -1007,6 +1012,11 @@
         }
     },
     "warningPlate": {
+        "day": "д",
+        "dexMoves": "We are moving soon! Stay with us at",
+        "hour": "ч",
+        "min": "м",
+        "notification": "We're moving from Waves DEX to Waves Exchange. Hurry up to move your accounts!",
         "startMoving": "Start moving"
     }
 }
