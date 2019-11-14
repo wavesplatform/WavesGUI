@@ -945,6 +945,9 @@
     },
     "Unpin_utils": "Odpiąć",
     "utils": {
+        "migrationError": "An error occured during migration. Your accounts have not been moved. Please try again.",
+        "privacyPolicy": "I have read and agree with the [Privacy Policy](https://wavesplatform.com/files/docs/Privacy_Policy_SW.pdf).",
+        "termsAgreement": "I have read and agree with the [Terms and Conditions](https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf).",
         "whatsNew": {
             "body": {
                 "1_0_0": "{span.line} [1. Klient Waves został zwolniony z wersji beta.] {span.line} [2. Możesz teraz przypinać i odpinać wszelkie zasoby na stronie głównej.] {span.line} [3. Dodano tryb nocny.] {span.line} [4. Możesz teraz łatwo zaimportować wszystkie konta ze starego klienta.] {span.line} [5. Drobne poprawki błędów.]",

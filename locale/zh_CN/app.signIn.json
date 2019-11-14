@@ -17,7 +17,9 @@
             "importantDesc": "如果您尚未保存种子短语或私钥，则您将无法恢复对帐户的访问权限。"
         },
         "password": {
-            "forgot": "忘记密码了？"
+            "forgot": "忘记密码了？",
+            "overwrite": "Overwrite accounts",
+            "overwriteDescription": "Erase all existing accounts from this device"
         },
         "signIn": "登录",
         "welcomeBack": "欢迎回来"

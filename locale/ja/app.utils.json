@@ -945,6 +945,9 @@
     },
     "Unpin_utils": "ピン留めをやめる",
     "utils": {
+        "migrationError": "An error occured during migration. Your accounts have not been moved. Please try again.",
+        "privacyPolicy": "I have read and agree with the [Privacy Policy](https://wavesplatform.com/files/docs/Privacy_Policy_SW.pdf).",
+        "termsAgreement": "I have read and agree with the [Terms and Conditions](https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf).",
         "whatsNew": {
             "body": {
                 "1_0_0": "{span.line}[1. Wavesクライアントはベータ版から卒業しました。]{span.line}[2. メインページにアセットをピンできるようになりました。]{span.line}[3. 夜モードが追加されました。]{span.line}[4. 旧クライアントから全てのアカウント情報を簡単にインポートできるようになりました。]{span.line}[5. マイナーバグを修正しました。]",

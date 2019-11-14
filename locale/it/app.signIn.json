@@ -17,7 +17,9 @@
             "importantDesc": "Se non avrai salvato la frase Seed o la chiave privata, non sarai in grado di recuperare l'accesso al tuo account."
         },
         "password": {
-            "forgot": "Hai dimenticato la password?"
+            "forgot": "Hai dimenticato la password?",
+            "overwrite": "Overwrite accounts",
+            "overwriteDescription": "Erase all existing accounts from this device"
         },
         "signIn": "Accedi",
         "welcomeBack": "Ben tornato!"

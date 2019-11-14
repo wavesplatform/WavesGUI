@@ -945,6 +945,9 @@
     },
     "Unpin_utils": "Unpin",
     "utils": {
+        "migrationError": "An error occured during migration. Your accounts have not been moved. Please try again.",
+        "privacyPolicy": "I have read and agree with the [Privacy Policy](https://wavesplatform.com/files/docs/Privacy_Policy_SW.pdf).",
+        "termsAgreement": "I have read and agree with the [Terms and Conditions](https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf).",
         "whatsNew": {
             "body": {
                 "1_0_0": "{span.line} [1. Der Waves Client ist aus der Betaversion herausgekommen.] {span.line} [2. Sie können nun alle Assets auf der Hauptseite fixieren und entfernen.] {span.line} [3. Nachtmodus hinzugefügt.] {span.line} [4. Sie können jetzt einfach alle ihre Konten vom alten Client importieren.] {span.line} [5. Kleinere Fehlerbehebungen.]",

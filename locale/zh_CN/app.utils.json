@@ -945,6 +945,9 @@
     },
     "Unpin_utils": "卸下",
     "utils": {
+        "migrationError": "An error occured during migration. Your accounts have not been moved. Please try again.",
+        "privacyPolicy": "I have read and agree with the [Privacy Policy](https://wavesplatform.com/files/docs/Privacy_Policy_SW.pdf).",
+        "termsAgreement": "I have read and agree with the [Terms and Conditions](https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf).",
         "whatsNew": {
             "body": {
                 "1_0_0": "{span.line} [1。 波浪币客戶已经退出测试版。] {span.line} [2。您现在可以将任何资产固定和取消固定在主页面。] {span.line} [3。添加了夜间模式。] {span.line} [4。您现在可以轻松地从旧客户端导入所有帐户。] {span.line} [5。修正了一些小错误。]",

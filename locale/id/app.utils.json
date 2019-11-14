@@ -945,6 +945,9 @@
     },
     "Unpin_utils": "Lepas semat",
     "utils": {
+        "migrationError": "An error occured during migration. Your accounts have not been moved. Please try again.",
+        "privacyPolicy": "I have read and agree with the [Privacy Policy](https://wavesplatform.com/files/docs/Privacy_Policy_SW.pdf).",
+        "termsAgreement": "I have read and agree with the [Terms and Conditions](https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf).",
         "whatsNew": {
             "body": {
                 "1_0_0": "{span.line} [1. Klien Waves telah keluar dari beta.] {span.line} [2. Anda sekarang dapat menyematkan dan melepas setiap aset ke halaman utama.] {span.line} [3. Modus malam ditambahkan.] {span.line} [4. Anda sekarang dapat mengimpor semua akun Anda dari Klien lama dengan mudah.] {span.line} [5. Perbaikan bug kecil.]",

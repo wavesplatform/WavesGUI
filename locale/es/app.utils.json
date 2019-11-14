@@ -945,6 +945,9 @@
     },
     "Unpin_utils": "Desprender",
     "utils": {
+        "migrationError": "An error occured during migration. Your accounts have not been moved. Please try again.",
+        "privacyPolicy": "I have read and agree with the [Privacy Policy](https://wavesplatform.com/files/docs/Privacy_Policy_SW.pdf).",
+        "termsAgreement": "I have read and agree with the [Terms and Conditions](https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf).",
         "whatsNew": {
             "body": {
                 "1_0_0": "{span.line}[1. Waves Client salió de beta.] {span.line} [2. Ahora puede anclar y desanclar cualquier activo en la página principal.] {span.line} [3. Modo nocturno agregado.] {span.line} [4. Ahora puede importar todas sus cuentas desde el antiguo cliente fácilmente.] {span.line} [5. Correcciones de errores menores.]",

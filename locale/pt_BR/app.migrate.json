@@ -3,12 +3,17 @@
         "btn": {
             "unlock": "Unlock"
         },
+        "desc": {
+            "almostFinish": "To finish the migration of your accounts, accept the new Terms and Conditions and Privacy Policy.",
+            "enterPassword": "Please enter your password from [waves.exchange](https://waves.exchange) to continue",
+            "onePassword": "Please create one password for all your accounts. Sign into accounts and switch between them easily."
+        },
         "description": {
             "enterPass": "Enter your account password or",
             "goBack": "return back",
             "goBackExchange": "go back",
             "unlock": "Unlock your accounts. You can return to this step later",
-            "unlockExchange": "You need to enter a password to transfer your account to [waves.exchange](https://waves.exchange/)"
+            "unlockExchange": "To finish the migration, please complete the authorization process by unlocking an account from the old application and signing in, or creating a new account, or importing it."
         },
         "headers": {
             "unlock": "Unlock your accounts",
@@ -29,10 +34,16 @@
             "moving": "We are moving!",
             "redirected": "You have been redirected to"
         },
+        "signIn": "Sign in",
         "subtitle": {
             "account": "Account",
             "pending": "Pending unlock",
+            "pendingExchange": "To unlock, select an account from the list",
             "unlocked": "Successfully unlocked"
+        },
+        "title": {
+            "almostThere": "Almost there...",
+            "protectAccount": "Protect accounts"
         }
     }
 }
