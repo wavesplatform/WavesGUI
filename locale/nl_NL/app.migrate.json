@@ -15,20 +15,6 @@
             "unlockAccount": "Account ontgrendelen",
             "unlockExchange": "Unlock Accounts"
         },
-        "modalButton": {
-            "cancel": "Cancel",
-            "moving": "Start moving"
-        },
-        "modalDesc": {
-            "firstPart": "To offer users a better experience and wider range of tools, we are moving from Waves DEX to [Waves Exchange](https://waves.exchange). ",
-            "redirected": "Please go there to complete the miration process.",
-            "secondPart": "On December 2, 2019 Waves DEX will stop operating! To continue trading you have to move your accounts to Waves Exchange. We strongly recommend that you do this in advance.",
-            "thirdPart": "The moving is fast, easy, and, of course, absolutely secure. "
-        },
-        "modalTitle": {
-            "moving": "We are moving!",
-            "redirected": "You have been redirected to"
-        },
         "subtitle": {
             "account": "Account",
             "pending": "In afwachting van ontgrendelen",
