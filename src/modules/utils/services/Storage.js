@@ -222,14 +222,15 @@
 
                 if (WavesApp.isDesktop() && version && migration.lte(version, '1.4.0')) {
                     setTimeout(() => {
-                        $('.ui-view.ui-view_main').hide();
-                        const showError = () => {
-                            $injector.get('notification').error({
-                                title: { literal: 'error.updateClient.title' },
-                                body: { literal: 'error.updateClient.body' }
-                            }, -1).then(showError);
-                        };
-                        showError();
+                        // $('.ui-view.ui-view_main').hide();
+                        // const showError = () => {
+                        //     $injector.get('notification').error({
+                        //         title: { literal: 'error.updateClient.title' },
+                        //         body: { literal: 'error.updateClient.body' }
+                        //     }, -1).then(showError);
+                        // };
+                        // showError();
+                        $injector.get('$state').go('desktopUpdate');
                     }, 2000);
                     this._activeWrite = $q.defer();
                     return this;

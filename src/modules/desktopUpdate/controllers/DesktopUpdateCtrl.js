@@ -5,10 +5,15 @@
 
     /**
      * @param {ng.IScope} $scope
+     * @param {*} exportStorageService
+     * @param {$log} $log
+     * @param {Storage} storage
+     * @param {User} user
+     * @param {*} migration
      * @param {*} $state
      * @param {*} configService
      */
-    const controller = ($scope, $state, configService, exportStorageService, $log, storage, user) => {
+    const controller = ($scope, $state, configService, exportStorageService, $log, storage, user, migration) => {
         class DesktopUpdateCtrl {
 
             /**
@@ -18,18 +23,34 @@
             progress = 0;
             error = null;
             isDownloading = false;
+            _oldDesktop = false;
+            _hasAccounts = false;
 
             constructor() {
                 if (!WavesApp.isDesktop()) {
                     $state.go(user.getActiveState('wallet'));
                 }
 
+                const version = navigator.userAgent.replace(/.*?waves-(client|dex)\/(\d+\.\d+\.\d+).*/g, '$2');
+                this._oldDesktop = migration.lte(version, '1.4.0');
+                this._showMoving = !this._oldDesktop;
+
+                storage.load('userList').then(list => {
+                    if (list.length > 0) {
+                        this._hasAccounts = true;
+                    }
+                });
+
+                this._export();
+            }
+
+            _export() {
                 const connectProvider = this._getConnectProvider();
 
                 exportStorageService.export({
                     provider: connectProvider,
                     attempts: 10,
-                    timeout: 1000
+                    timeout: 15000
                 });
 
                 exportStorageService.onData().then(result => {
@@ -95,6 +116,10 @@
                 $state.go(user.getActiveState('wallet'));
             }
 
+            _toMigration() {
+                this._showMoving = true;
+            }
+
             /**
              * @returns {ConnectProvider}
              */
@@ -115,7 +140,7 @@
         return new DesktopUpdateCtrl();
     };
 
-    controller.$inject = ['$scope', '$state', 'configService', 'exportStorageService', '$log' , 'storage', 'user'];
+    controller.$inject = ['$scope', '$state', 'configService', 'exportStorageService', '$log', 'storage', 'user', 'migration'];
 
     angular.module('app.desktopUpdate').controller('DesktopUpdateCtrl', controller);
 })();

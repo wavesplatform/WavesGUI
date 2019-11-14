@@ -1,10 +1,36 @@
 <div class="main-container movable" w-i18n-ns="app.migration">
     <div class="main-container-wrapper">
-        <div class="return-button" ng-click="$ctrl._toHome()" >
+        <div class="center" ng-if="$ctrl._oldDesktop && !$ctrl._showMoving">
+            <div>
+                <div class="migrate-modal__image migrate-modal__image_moving"></div>
+                <h3 class="migrate-modal__title" w-i18n="migrate.modalTitle.moving"></h3>
+                <div class="migrate-modal__text">
+                    <p w-i18n="migrate.modalDesc.firstPart"></p>
+                    <p w-i18n="migrate.modalDesc.secondPart"></p>
+                    <p w-i18n="migrate.modalDesc.thirdPart"></p>
+                </div>
+                <w-button ng-if="!$ctrl._hasAccounts" class="submit big" on-click="$ctrl.download()">
+                    <span w-i18n="migrate.modalButton.download"></span>
+                </w-button>
+                <w-button ng-if="$ctrl._hasAccounts" class="submit big" on-click="$ctrl._toMigration()">
+                    <span w-i18n="migrate.modalButton.moving"></span>
+                </w-button>
+
+                <div ng-if="$ctrl.state === 'downloading'">
+                    <h3 w-i18n="desktopUpgrade.pleaseWait"></h3>
+                    <div class="download-bar__wrapper">
+                        <div class="download-bar" ng-style="{'width': $ctrl.progress + '%'}"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div ng-if="$ctrl._showMoving && !$ctrl._oldDesktop" class="return-button" ng-click="$ctrl._toHome()">
             <div class="return-button__arrow">s</div>
             <div class="return-button__text" w-i18n="desktopUpgrade.return"></div>
         </div>
-        <div class="center">
+        <div class="center" ng-if="$ctrl._showMoving">
             <div class="progress-bar">
                 <div class="progress-bar__item done"
                      ng-class="{ 'active': $ctrl.state === 'askDownload' || $ctrl.state === 'downloading' }">
@@ -43,10 +69,10 @@
                 </div>
 
                 <div ng-if="$ctrl.state === 'downloading'">
-                        <h3 w-i18n="desktopUpgrade.pleaseWait"></h3>
-                        <div class="download-bar__wrapper">
-                            <div class="download-bar" ng-style="{'width': $ctrl.progress + '%'}"></div>
-                        </div>
+                    <h3 w-i18n="desktopUpgrade.pleaseWait"></h3>
+                    <div class="download-bar__wrapper">
+                        <div class="download-bar" ng-style="{'width': $ctrl.progress + '%'}"></div>
+                    </div>
                 </div>
 
                 <div ng-if="$ctrl.state === 'installAndRun'">

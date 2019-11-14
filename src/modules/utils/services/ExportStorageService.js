@@ -38,6 +38,12 @@
             return this._dataPromise;
         }
 
+        /**
+         * @type public
+         * @param provider
+         * @param attempts
+         * @param timeout
+         */
         export({ provider, attempts, timeout }) {
             const message = JSON.stringify({ event: 'connect' });
 
