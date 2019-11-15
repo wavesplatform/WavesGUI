@@ -716,6 +716,14 @@
                 });
             }
 
+            showMigrateFAQ() {
+                return this._getModal({
+                    id: 'migrate-faq',
+                    controller: 'MigrateFaqCtrl',
+                    contentUrl: 'modules/utils/modals/migrateFaq/migrateFaq.html'
+                });
+            }
+
             /**
              * @param {IDialogOptions} options
              * @return {Promise}

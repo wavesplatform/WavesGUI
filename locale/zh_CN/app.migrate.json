@@ -1,12 +1,12 @@
 {
     "migrate": {
-        "achievementDesc": "You've successfully migrated your accounts. To thank you \nfor completing the process, we're rewarding all your accounts \n(with at least one transaction made before December 2, 2019) \nwith glowing avatars!",
-        "achievmentTitle": "Congratulations!",
+        "achievementDesc": "您已成功迁移帐户。谢谢你\n为完成此过程，我们将奖励您的所有帐户\n （在2019年12月2日之前完成至少一笔交易） \n发光的化身！",
+        "achievementTitle": "恭喜你！",
         "btn": {
             "unlock": "解锁"
         },
         "desc": {
-            "almostFinish": "To finish the migration of your accounts, accept the new Terms and Conditions and Privacy Policy.",
+            "almostFinish": "要完成帐户的迁移，请接受新的条款和条件以及隐私权政策。",
             "enterPassword": "Please enter your password from [waves.exchange](https://waves.exchange) to continue",
             "onePassword": "Please create one password for all your accounts. Sign into accounts and switch between them easily."
         },
@@ -40,7 +40,7 @@
         "subtitle": {
             "account": "帐户",
             "pending": "待解锁",
-            "pendingExchange": "To unlock, select an account from the list",
+            "pendingExchange": "要解锁，请从列表中选择一个帐户",
             "unlocked": "成功解锁"
         },
         "title": {

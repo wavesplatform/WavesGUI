@@ -1,7 +1,7 @@
 {
     "migrate": {
         "achievementDesc": "You've successfully migrated your accounts. To thank you \nfor completing the process, we're rewarding all your accounts \n(with at least one transaction made before December 2, 2019) \nwith glowing avatars!",
-        "achievmentTitle": "Congratulations!",
+        "achievementTitle": "Congratulations!",
         "btn": {
             "unlock": "Unlock"
         },

@@ -945,7 +945,7 @@
     },
     "Unpin_utils": "卸下",
     "utils": {
-        "migrationError": "An error occured during migration. Your accounts have not been moved. Please try again.",
+        "migrationError": "迁移期间发生错误。您的帐户尚未移动。请再试一次。",
         "privacyPolicy": "I have read and agree with the [Privacy Policy](https://wavesplatform.com/files/docs/Privacy_Policy_SW.pdf).",
         "termsAgreement": "I have read and agree with the [Terms and Conditions](https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf).",
         "whatsNew": {
