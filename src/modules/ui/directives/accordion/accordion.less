@@ -1,0 +1,58 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+
+.accordion {
+  &__list {
+    padding: 0;
+    margin: 40px 0;
+    list-style-type: none;
+  }
+
+  &__item {
+    margin-bottom: 10px;
+  }
+
+  &__title {
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 500;
+  }
+
+  &__arrow {
+    background: @expand-icon no-repeat center 5px;
+    width: 10px;
+    height: 18px;
+    z-index: 10;
+    transition: transform 0.3s;
+    opacity: .5;
+
+    &.up {
+      transform: rotate(-180deg);
+      opacity: 1;
+    }
+  }
+}
+
+.accordion__item {
+  &-text {
+    transition: max-height 0.3s;
+    max-height: 400px;
+    font-size: 15px;
+    font-weight: 500;
+    color: @color-basic-300;
+    padding: 2px 16px;
+    overflow: auto;
+
+    &.ng-hide {
+      max-height: 0;
+    }
+  }
+
+  &-title {
+    border-radius: @border-radius;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
