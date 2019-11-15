@@ -1,42 +1,27 @@
-let controller = new AbortController();
-let signal = controller.signal;
+const xhr = new XMLHttpRequest();
 
 export async function downloadFile (url: string, progressCb?: (progress: number, size?: number) => void): Promise<Uint8Array> {
-    const response = await fetch(url, { signal });
-    const contentLength = Number(response.headers.get('Content-Length') || response.headers.get('content-length')) || 0;
-    const reader = response.body.getReader();
-    let receivedLength = 0;
-    let chunks = [];
+    return new Promise(resolve => {
+        xhr.open('GET', url, true);
+        xhr.responseType = "blob";
 
-    while(true) {
-        const { done, value } = await reader.read();
+        xhr.onprogress = (event) => {
+            if (typeof progressCb === 'function') {
+                progressCb(event.total ? event.loaded / event.total * 100 : 0, event.loaded);
+            }
+        };
 
-        if (done) {
-            progressCb(100);
-            break;
-        }
+        // @ts-ignore
+        xhr.onload = function (req: XMLHttpRequest): any {
+            const blob = req.response;
+            resolve(blob);
+        };
 
-        chunks.push(value);
-        receivedLength += value.length;
+        xhr.send();
+    });
 
-        if (typeof progressCb === 'function') {
-            progressCb(contentLength ? receivedLength / contentLength * 100 : 0, receivedLength);
-        }
-    }
-
-    let chunksAll = new Uint8Array(receivedLength);
-    let position = 0;
-
-    for(let chunk of chunks) {
-        chunksAll.set(chunk, position);
-        position += chunk.length;
-    }
-
-    return chunksAll;
 }
 
 export function abortDownloading (): void {
-    controller.abort();
-    controller = new AbortController();
-    signal = controller.signal;
+    xhr.abort();
 }
