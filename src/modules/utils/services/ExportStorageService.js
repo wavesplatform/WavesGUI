@@ -86,9 +86,9 @@
                     this._onDataReject();
                 }
             })
-            .catch(error => {
-                this._onConnectReject(error);
-            });
+                .catch(error => {
+                    this._onConnectReject(error);
+                });
         }
 
         destroy() {

@@ -157,7 +157,16 @@
         return new DesktopUpdateCtrl();
     };
 
-    controller.$inject = ['$scope', '$state', 'configService', 'exportStorageService', '$log', 'storage', 'user', 'migration'];
+    controller.$inject = [
+        '$scope',
+        '$state',
+        'configService',
+        'exportStorageService',
+        '$log',
+        'storage',
+        'user',
+        'migration'
+    ];
 
     angular.module('app.desktopUpdate').controller('DesktopUpdateCtrl', controller);
 })();

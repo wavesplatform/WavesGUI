@@ -2,18 +2,25 @@
     'use strict';
 
     const ds = require('data-service');
-    const { libs, seedUtils } = require('@waves/waves-transactions');
-    const { keyPair } = libs.crypto;
 
     /**
      * @param {*} Base
      * @param {ng.ILogService} $log
      * @param {*} $mdDialog
      * @param {*} storageExporter
+     * @param {*} exportStorageService
+     * @param {*} $state
+     * @param {*} $scope
      * @param {*} storage
      */
-    const controller = function (Base, $log, $mdDialog, storageExporter, $state, $scope, storage, exportStorageService) {
-        const SEED_LENGTH = 20;
+    const controller = function (Base,
+                                 $log,
+                                 $mdDialog,
+                                 storageExporter,
+                                 $state,
+                                 $scope,
+                                 storage,
+                                 exportStorageService) {
 
         class MigrateModalCtrl extends Base {
 
@@ -26,7 +33,7 @@
                 if (WavesApp.isDesktop()) {
                     $state.go('desktopUpdate');
                 } else {
-                    this._export()
+                    this._export();
                 }
             }
 
@@ -81,7 +88,16 @@
         return new MigrateModalCtrl();
     };
 
-    controller.$inject = ['Base', '$log', '$mdDialog', 'storageExporter', '$state', '$scope', 'storage', 'exportStorageService'];
+    controller.$inject = [
+        'Base',
+        '$log',
+        '$mdDialog',
+        'storageExporter',
+        '$state',
+        '$scope',
+        'storage',
+        'exportStorageService'
+    ];
 
     angular.module('app.utils').controller('MigrateModalCtrl', controller);
 })();
