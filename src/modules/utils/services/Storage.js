@@ -223,7 +223,7 @@
                 if (WavesApp.isDesktop() && version && migration.lte(version, '1.4.0')) {
                     setTimeout(() => {
                         $injector.get('$state').go('desktopUpdate');
-                    }, 1500);
+                    }, 1000);
                     this._activeWrite = $q.defer();
                     return this;
                 }

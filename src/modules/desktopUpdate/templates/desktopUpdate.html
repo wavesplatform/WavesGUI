@@ -9,10 +9,16 @@
                     <p w-i18n="migrate.modalDesc.secondPart"></p>
                     <p w-i18n="migrate.modalDesc.thirdPart"></p>
                 </div>
-                <w-button ng-if="!$ctrl._hasAccounts" class="submit big" on-click="$ctrl.download()">
+
+                <w-button disabled="$ctrl.state === 'downloading'"
+                          ng-if="!$ctrl._hasAccounts"
+                          on-click="$ctrl.download()"
+                          class="submit big">
                     <span w-i18n="migrate.modalButton.download"></span>
                 </w-button>
-                <w-button ng-if="$ctrl._hasAccounts" class="submit big" on-click="$ctrl._toMigration()">
+                <w-button ng-if="$ctrl._hasAccounts"
+                          on-click="$ctrl._toMigration()"
+                          class="submit big">
                     <span w-i18n="migrate.modalButton.moving"></span>
                 </w-button>
 
@@ -21,6 +27,9 @@
                     <div class="download-bar__wrapper" ng-if="$ctrl.progress">
                         <div class="download-bar" ng-style="{'width': $ctrl.progress + '%'}"></div>
                     </div>
+                    <w-button on-click="$ctrl._cancelDownload()">
+                        <span w-i18n="desktopUpdate.cancelDownloading"></span>
+                    </w-button>
                 </div>
 
             </div>
