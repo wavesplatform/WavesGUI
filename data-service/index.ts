@@ -3,7 +3,7 @@ import { DataManager } from './classes/DataManager';
 import * as configApi from './config';
 import * as sign from './sign';
 import * as utilsModule from './utils/utils';
-import { downloadFile } from './utils/DownloadFile';
+import { downloadFile, abortDownloading } from './utils/DownloadFile';
 import { request } from './utils/request';
 import { IFetchOptions } from './utils/request';
 import * as wavesDataEntitiesModule from '@waves/data-entities';
@@ -32,7 +32,7 @@ export const wavesDataEntities = {
 export const api = { ...apiMethods };
 export const dataManager = new DataManager();
 export const config = { ...configApi };
-export const utils = { ...utilsModule, downloadFile };
+export const utils = { ...utilsModule, downloadFile, abortDownloading };
 export const signature = {
     ...sign
 };

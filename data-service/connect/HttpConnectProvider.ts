@@ -3,7 +3,7 @@ import { request } from '../utils/request';
 import { delay } from '../utils/utils';
 import { ConnectProvider } from './ConnectProvider';
 
-interface HttpConnectProviderOptioins {
+interface HttpConnectProviderOptions {
     port: number;
     url: string;
     ttl?: number;
@@ -20,7 +20,7 @@ export class HttpConnectProvider implements ConnectProvider {
     private active = true;
     private server: Server;
 
-    constructor(private options: HttpConnectProviderOptioins) {}
+    constructor(private options: HttpConnectProviderOptions) {}
 
     public async send<T>(data: string, options: SendOptions = {}): Promise<T> {
         this.checkActive();

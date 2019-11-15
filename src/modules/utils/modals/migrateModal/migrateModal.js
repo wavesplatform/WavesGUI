@@ -64,7 +64,7 @@
              */
             _getConnectProvider() {
                 const origins = WavesApp.isProduction() ?
-                    WavesApp.network.migrationOrigins :
+                    WavesApp.network.migration.origins :
                     '*';
 
                 const childWindow = window.open(WavesApp.network.migration.webUrl);

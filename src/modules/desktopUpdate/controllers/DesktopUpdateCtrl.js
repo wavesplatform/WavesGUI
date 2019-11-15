@@ -25,6 +25,7 @@
             isDownloading = false;
             _oldDesktop = false;
             _hasAccounts = false;
+            _isCanceled = null;
 
             constructor() {
                 if (!WavesApp.isDesktop()) {
@@ -49,8 +50,8 @@
 
                 exportStorageService.export({
                     provider: connectProvider,
-                    attempts: 10,
-                    timeout: 15000
+                    attempts: 50,
+                    timeout: 20000
                 });
 
                 exportStorageService.onData().then(result => {
@@ -69,6 +70,7 @@
             }
 
             download() {
+                this._isCanceled = false;
                 const url = this._getDistUrl();
                 const [fileName] = url.pathname.split('/').slice(-1);
 
@@ -88,6 +90,7 @@
                         $scope.$digest();
                     }).catch((e) => {
                         if (e.message === 'Cancel') {
+                            this.state = 'askDownload';
                             this._resetProgress();
                         } else {
                             this.error = String(e);
@@ -125,7 +128,7 @@
              */
             _getConnectProvider() {
                 const origins = WavesApp.isProduction() ?
-                    WavesApp.network.migrationOrigins :
+                    WavesApp.network.migration.origins :
                     '*';
 
                 return new ds.connect.HttpConnectProvider({
@@ -133,6 +136,20 @@
                     url: WavesApp.network.migration.desktopUrl,
                     origins
                 });
+            }
+
+            _tryAgain() {
+                this.state = 'askDownload';
+                exportStorageService.destroy();
+                this._export();
+            }
+
+            _cancelDownload() {
+                this._isCanceled = true;
+                this.state = 'askDownload';
+                this._resetProgress();
+                ds.utils.abortDownloading();
+                $scope.$digest();
             }
 
         }

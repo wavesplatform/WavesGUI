@@ -17,8 +17,8 @@
                 </w-button>
 
                 <div ng-if="$ctrl.state === 'downloading'">
-                    <h3 w-i18n="desktopUpgrade.pleaseWait"></h3>
-                    <div class="download-bar__wrapper">
+                    <h3 w-i18n="desktopUpdate.pleaseWait"></h3>
+                    <div class="download-bar__wrapper" ng-if="$ctrl.progress">
                         <div class="download-bar" ng-style="{'width': $ctrl.progress + '%'}"></div>
                     </div>
                 </div>
@@ -28,14 +28,14 @@
 
         <div ng-if="$ctrl._showMoving && !$ctrl._oldDesktop" class="return-button" ng-click="$ctrl._toHome()">
             <div class="return-button__arrow">s</div>
-            <div class="return-button__text" w-i18n="desktopUpgrade.return"></div>
+            <div class="return-button__text" w-i18n="desktopUpdate.return"></div>
         </div>
         <div class="center" ng-if="$ctrl._showMoving">
             <div class="progress-bar">
                 <div class="progress-bar__item done"
                      ng-class="{ 'active': $ctrl.state === 'askDownload' || $ctrl.state === 'downloading' }">
                     <div class="progress-bar__item-number">1</div>
-                    <div class="progress-bar__item-text" w-i18n="desktopUpgrade.barDownload"></div>
+                    <div class="progress-bar__item-text" w-i18n="desktopUpdate.barDownload"></div>
                 </div>
                 <div class="progress-bar__item"
                      ng-class="{
@@ -43,7 +43,7 @@
                      'done': $ctrl.state === 'success' || $ctrl.state === 'fail'
                      }">
                     <div class="progress-bar__item-number">2</div>
-                    <div class="progress-bar__item-text" w-i18n="desktopUpgrade.barInstall"></div>
+                    <div class="progress-bar__item-text" w-i18n="desktopUpdate.barInstall"></div>
                 </div>
                 <div class="progress-bar__item"
                      ng-class="{
@@ -51,58 +51,61 @@
                      'fail': $ctrl.state === 'fail'
                      }">
                     <div class="progress-bar__item-number">3</div>
-                    <div class="progress-bar__item-text" w-i18n="desktopUpgrade.barDone"></div>
+                    <div class="progress-bar__item-text" w-i18n="desktopUpdate.barDone"></div>
                 </div>
             </div>
             <div class="text-center">
 
                 <div ng-if="$ctrl.state === 'askDownload'">
-                    <h3 w-i18n="desktopUpgrade.haveYouDownloaded"></h3>
+                    <h3 w-i18n="desktopUpdate.haveYouDownloaded"></h3>
                     <div class="buttons-wrapper">
                         <w-button class="big" on-click="$ctrl.state = 'installAndRun'">
-                            <span w-i18n="desktopUpgrade.downloaded"></span>
+                            <span w-i18n="desktopUpdate.downloaded"></span>
                         </w-button>
                         <w-button class="big submit" on-click="$ctrl.download()">
-                            <span w-i18n="desktopUpgrade.wantDownload"></span>
+                            <span w-i18n="desktopUpdate.wantDownload"></span>
                         </w-button>
                     </div>
                 </div>
 
                 <div ng-if="$ctrl.state === 'downloading'">
-                    <h3 w-i18n="desktopUpgrade.pleaseWait"></h3>
+                    <h3 w-i18n="desktopUpdate.pleaseWait"></h3>
                     <div class="download-bar__wrapper">
                         <div class="download-bar" ng-style="{'width': $ctrl.progress + '%'}"></div>
                     </div>
+                    <w-button on-click="$ctrl._cancelDownload()">
+                        <span w-i18n="desktopUpdate.cancelDownloading"></span>
+                    </w-button>
                 </div>
 
                 <div ng-if="$ctrl.state === 'installAndRun'">
-                    <h3 w-i18n="desktopUpgrade.installAndRun"></h3>
+                    <h3 w-i18n="desktopUpdate.installAndRun"></h3>
 
                     <div class="buttons-wrapper">
                         <w-button class="big" on-click="$ctrl.state = 'askDownload'">
-                            <span w-i18n="desktopUpgrade.backToPrevious"></span>
+                            <span w-i18n="desktopUpdate.backToPrevious"></span>
                         </w-button>
                         <w-button class="big submit" on-click="$ctrl.state = 'fail'">
-                            <span w-i18n="desktopUpgrade.yesIHave"></span>
+                            <span w-i18n="desktopUpdate.yesIHave"></span>
                         </w-button>
                     </div>
                 </div>
 
                 <div ng-if="$ctrl.state === 'success'">
-                    <h3 w-i18n="desktopUpgrade.almostThere"></h3>
-                    <div class="basic-500" w-i18n="desktopUpgrade.toFinish"></div>
-                    <w-button class="big submit" on-click="$ctrl._toHome()">
-                        <span w-i18n="desktopUpgrade.iUnderstand"></span>
+                    <h3 w-i18n="desktopUpdate.almostThere"></h3>
+                    <div class="basic-500" w-i18n="desktopUpdate.toFinish"></div>
+                    <w-button ng-if="!$ctrl._oldDesktop" class="big submit" on-click="$ctrl._toHome()">
+                        <span w-i18n="desktopUpdate.iUnderstand"></span>
                     </w-button>
                 </div>
 
                 <div ng-if="$ctrl.state === 'fail'">
-                    <h3 w-i18n="desktopUpgrade.fail"></h3>
-                    <div class="basic-500" w-i18n="desktopUpgrade.failText"></div>
-                    <w-button class="big submit" on-click="$ctrl.state = 'askDownload'">
-                        <span w-i18n="desktopUpgrade.tryAgain"></span>
+                    <h3 w-i18n="desktopUpdate.fail"></h3>
+                    <div class="basic-500" w-i18n="desktopUpdate.failText"></div>
+                    <w-button class="big submit" on-click="$ctrl._tryAgain()">
+                        <span w-i18n="desktopUpdate.tryAgain"></span>
                     </w-button>
-                    <div class="basic-500" w-i18n="desktopUpgrade.lookAtFAQ"></div>
+                    <div class="basic-500" w-i18n="desktopUpdate.lookAtFAQ"></div>
                 </div>
 
             </div>

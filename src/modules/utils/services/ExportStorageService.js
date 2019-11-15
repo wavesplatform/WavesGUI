@@ -15,6 +15,11 @@
         _onConnectReject = noop;
         _onDataResolve = noop;
         _onDataReject = noop;
+        /**
+         * @type {ConnectProvider}
+         * @private
+         */
+        _provider = null;
 
         constructor(storageExporter) {
             this._storageExporter = storageExporter;
@@ -45,9 +50,10 @@
          * @param timeout
          */
         export({ provider, attempts, timeout }) {
+            this._provider = provider;
             const message = JSON.stringify({ event: 'connect' });
 
-            provider.send(message, {
+            this._provider.send(message, {
                 event: 'data',
                 attempts,
                 timeout,
@@ -65,7 +71,7 @@
                     privateKey,
                     publicKeyTo
                 ).then((data) => {
-                    return provider.send(JSON.stringify({
+                    return this._provider.send(JSON.stringify({
                         event: 'data',
                         payload: {
                             publicKey,
@@ -83,6 +89,12 @@
             .catch(error => {
                 this._onConnectReject(error);
             });
+        }
+
+        destroy() {
+            if (this._provider) {
+                this._provider.destroy();
+            }
         }
 
     }

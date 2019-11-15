@@ -1,5 +1,8 @@
+let controller = new AbortController();
+let signal = controller.signal;
+
 export async function downloadFile (url: string, progressCb?: (progress: number, size?: number) => void): Promise<Uint8Array> {
-    const response = await fetch(url);
+    const response = await fetch(url, { signal });
     const contentLength = Number(response.headers.get('Content-Length') || response.headers.get('content-length')) || 0;
     const reader = response.body.getReader();
     let receivedLength = 0;
@@ -32,3 +35,8 @@ export async function downloadFile (url: string, progressCb?: (progress: number,
     return chunksAll;
 }
 
+export function abortDownloading (): void {
+    controller.abort();
+    controller = new AbortController();
+    signal = controller.signal;
+}
