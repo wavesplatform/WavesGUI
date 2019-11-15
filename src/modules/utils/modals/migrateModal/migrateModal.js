@@ -8,18 +8,21 @@
      * @param {ng.ILogService} $log
      * @param {*} $mdDialog
      * @param {*} storageExporter
+     * @param {*} exportStorageService
+     * @param {*} $state
+     * @param {*} $scope
      * @param {*} storage
      */
-    const controller = function (
-        Base,
-        $log,
-        $mdDialog,
-        storageExporter,
-        $state,
-        $scope,
-        storage,
-        exportStorageService
-    ) {
+
+    const controller = function (Base,
+                                 $log,
+                                 $mdDialog,
+                                 storageExporter,
+                                 $state,
+                                 $scope,
+                                 storage,
+                                 exportStorageService) {
+
         class MigrateModalCtrl extends Base {
 
             /**
