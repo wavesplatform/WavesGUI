@@ -37,7 +37,7 @@
                 this._showMoving = !this._oldDesktop;
 
                 storage.load('userList').then(list => {
-                    if (list.length > 0) {
+                    if (list && list.length > 0) {
                         this._hasAccounts = true;
                     }
                 });
