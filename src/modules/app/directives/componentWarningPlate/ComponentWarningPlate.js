@@ -41,7 +41,14 @@
              * @type {string}
              */
             newDexLink = WavesApp.network.wavesExchangeLink;
+            /**
+             * @type {boolean}
+             */
             isDesktop = WavesApp.isDesktop();
+            /**
+             * @type {boolean}
+             */
+            isOldDesktop = utils.isVersionLte('1.4.0');
 
             constructor() {
                 this._initCanMoveAccounts();
@@ -93,7 +100,10 @@
                     user.getFilteredUserList(),
                     user.getMultiAccountData()
                 ]).then(([userList, multiAccountData]) => {
-                    if ((multiAccountData && user.isAuthorised) || (userList && userList.length)) {
+                    if (
+                        (multiAccountData && user.isAuthorised) ||
+                        (userList && userList.length && !multiAccountData)
+                    ) {
                         this.canMoveAccounts = true;
                     } else {
                         this.canMoveAccounts = false;

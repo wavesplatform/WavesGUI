@@ -5,6 +5,7 @@
         "barDone": "done",
         "barDownload": "download",
         "barInstall": "install and run",
+        "cancelDownloading": "Cancel download",
         "connectSupport": "If that did not help, then contact the Waves.Exchange support.",
         "downloaded": "yes",
         "fail": "fail",
@@ -15,6 +16,7 @@
         "lookAtFAQ1": "If you did everything properly and keep getting the Fail result, then take a look at the",
         "lookAtFAQ2": "You might find the answer there.",
         "oops": "Oops! Something went wrong...",
+        "pleaseWait": "Downloading...",
         "return": "return",
         "toFinish": "To finish the migration of your accounts, you have to go to the new application and complete the authorization process.",
         "tryAgain": "Try again"

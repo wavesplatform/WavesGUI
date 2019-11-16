@@ -3,7 +3,7 @@
 
     const analytics = require('@waves/event-sender');
 
-    const controller = function (Base, $scope, $element, utils, storage) {
+    const controller = function (Base, $scope, $element, utils, storage, modalManager, $state) {
 
         class FooterCtrl extends Base {
 
@@ -36,6 +36,7 @@
 
             constructor() {
                 super();
+                this._isDesktopUpdate = $state.current.name === 'desktopUpdate';
                 this.hovered = false;
 
                 this.mobileAppLink = navigator.userAgent.match(/iPhone|iPad|iPod/i) ?
@@ -73,12 +74,16 @@
                 storage.save(this._toasterMobilesStorageKey, true);
             }
 
+            showFAQ() {
+                modalManager.showMigrateFAQ();
+            }
+
         }
 
         return new FooterCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', '$element', 'utils', 'storage'];
+    controller.$inject = ['Base', '$scope', '$element', 'utils', 'storage', 'modalManager', '$state'];
 
     angular.module('app.ui').component('wFooter', {
         templateUrl: 'modules/ui/directives/footer/footer.html',

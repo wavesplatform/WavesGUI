@@ -2,18 +2,25 @@
     'use strict';
 
     const ds = require('data-service');
-    const { libs, seedUtils } = require('@waves/waves-transactions');
-    const { keyPair } = libs.crypto;
 
     /**
      * @param {*} Base
      * @param {ng.ILogService} $log
      * @param {*} $mdDialog
      * @param {*} storageExporter
+     * @param {*} exportStorageService
+     * @param {*} $state
+     * @param {*} $scope
      * @param {*} storage
      */
-    const controller = function (Base, $log, $mdDialog, storageExporter, $scope, storage) {
-        const SEED_LENGTH = 20;
+    const controller = function (Base,
+                                 $log,
+                                 $mdDialog,
+                                 storageExporter,
+                                 $state,
+                                 $scope,
+                                 storage,
+                                 exportStorageService) {
 
         class MigrateModalCtrl extends Base {
 
@@ -22,35 +29,24 @@
              */
             step = 0;
 
-            export() {
+            moving() {
+                if (WavesApp.isDesktop()) {
+                    $state.go('desktopUpdate');
+                } else {
+                    this._export();
+                }
+            }
+
+            _export() {
                 const connectProvider = this._getConnectProvider();
-                const message = JSON.stringify({ event: 'connect' });
 
-                connectProvider.send(message, {
-                    event: 'data',
-                    attempts: 3,
-                    timeout: 10000
-                }).then((result) => {
-                    if (!result || result.event !== 'connect') {
-                        throw new Error(`Message event is not valid: ${result.event}`);
-                    }
+                exportStorageService.export({
+                    provider: connectProvider,
+                    attempts: 20,
+                    timeout: 2000
+                });
 
-                    const publicKeyTo = result.payload;
-                    const { publicKey, privateKey } = keyPair(seedUtils.generateNewSeed(SEED_LENGTH));
-
-                    return storageExporter.export(
-                        privateKey,
-                        publicKeyTo
-                    ).then((data) => {
-                        return connectProvider.send(JSON.stringify({
-                            event: 'data',
-                            payload: {
-                                publicKey,
-                                data
-                            }
-                        }), { event: 'data' });
-                    });
-                }).then((result) => {
+                exportStorageService.onData().then(result => {
                     if (result.payload === 'ok') {
                         $log.log('done');
                         this.step++;
@@ -62,8 +58,6 @@
 
                         return storage.save('migrationSuccess', false);
                     }
-                }).catch((e) => {
-                    $log.error(e);
                 });
             }
 
@@ -77,24 +71,16 @@
              */
             _getConnectProvider() {
                 const origins = WavesApp.isProduction() ?
-                    WavesApp.network.migrationOrigins :
+                    WavesApp.network.migration.origins :
                     '*';
 
-                if (WavesApp.isDesktop()) {
-                    return new ds.connect.HttpConnectProvider({
-                        port: WavesApp.network.migration.desktopPort,
-                        url: WavesApp.network.migration.desktopUrl,
-                        origins
-                    });
-                } else {
-                    const childWindow = window.open(WavesApp.network.migration.webUrl);
+                const childWindow = window.open(WavesApp.network.migration.webUrl);
 
-                    return new ds.connect.PostMessageConnectProvider({
-                        win: childWindow,
-                        mode: 'export',
-                        origins
-                    });
-                }
+                return new ds.connect.PostMessageConnectProvider({
+                    win: childWindow,
+                    mode: 'export',
+                    origins
+                });
             }
 
         }
@@ -102,7 +88,16 @@
         return new MigrateModalCtrl();
     };
 
-    controller.$inject = ['Base', '$log', '$mdDialog', 'storageExporter', '$scope', 'storage'];
+    controller.$inject = [
+        'Base',
+        '$log',
+        '$mdDialog',
+        'storageExporter',
+        '$state',
+        '$scope',
+        'storage',
+        'exportStorageService'
+    ];
 
     angular.module('app.utils').controller('MigrateModalCtrl', controller);
 })();
