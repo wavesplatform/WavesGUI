@@ -28,8 +28,8 @@
 
                 connectProvider.send(message, {
                     event: 'data',
-                    attempts: 3,
-                    timeout: 10000
+                    attempts: 15,
+                    timeout: 3000
                 }).then((result) => {
                     if (!result || result.event !== 'connect') {
                         throw new Error(`Message event is not valid: ${result.event}`);
