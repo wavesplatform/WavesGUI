@@ -1,35 +1,123 @@
-<w-main-header class="main-header"></w-main-header>
-
-<div class="main-container movable">
+<div class="main-container movable" w-i18n-ns="app.migration">
     <div class="main-container-wrapper">
-        <div class="get-started-content">
-            <w-step-by-step active-step="$ctrl.step">
-                <w-step>
-                    <div class="text-center">
-                        <h3>Update App</h3>
+        <div class="center" ng-if="$ctrl._oldDesktop && !$ctrl._showMoving">
+            <div>
+                <div class="migrate-modal__image migrate-modal__image_moving"></div>
+                <h3 class="migrate-modal__title" w-i18n="migrate.modalTitle.moving"></h3>
+                <div class="migrate-modal__text">
+                    <p w-i18n="migrate.modalDesc.firstPart"></p>
+                    <p w-i18n="migrate.modalDesc.secondPart"></p>
+                    <p w-i18n="migrate.modalDesc.thirdPart"></p>
+                </div>
 
-                        <div ng-if="$ctrl.progress && $ctrl.progress < 100">{{$ctrl.progress}} %</div>
-                        <div ng-if="$ctrl.error" class="error">{{$ctrl.error}}</div>
+                <w-button disabled="$ctrl.state === 'downloading'"
+                          ng-if="!$ctrl._hasAccounts"
+                          on-click="$ctrl.download()"
+                          class="submit big">
+                    <span w-i18n="migrate.modalButton.download"></span>
+                </w-button>
+                <w-button ng-if="$ctrl._hasAccounts"
+                          on-click="$ctrl._toMigration()"
+                          class="submit big">
+                    <span w-i18n="migrate.modalButton.moving"></span>
+                </w-button>
 
-                        <w-button
-                            class="big submit"
-                            ng-class="{pending: $ctrl.isDownloading}"
-                            disabled="$ctrl.isDownloading"
-                            on-click="$ctrl.download()"
-                        >
-                            <span w-i18n="download"></span>
+                <div ng-if="$ctrl.state === 'downloading'">
+                    <h3 w-i18n="desktopUpdate.pleaseWait"></h3>
+                    <div class="download-bar__wrapper" ng-if="$ctrl.progress">
+                        <div class="download-bar" ng-style="{'width': $ctrl.progress + '%'}"></div>
+                    </div>
+                    <w-button on-click="$ctrl._cancelDownload()">
+                        <span w-i18n="desktopUpdate.cancelDownloading"></span>
+                    </w-button>
+                </div>
+
+            </div>
+        </div>
+
+        <div ng-if="$ctrl._showMoving && !$ctrl._oldDesktop" class="return-button" ng-click="$ctrl._toHome()">
+            <div class="return-button__arrow">s</div>
+            <div class="return-button__text" w-i18n="desktopUpdate.return"></div>
+        </div>
+        <div class="center" ng-if="$ctrl._showMoving">
+            <div class="progress-bar">
+                <div class="progress-bar__item done"
+                     ng-class="{ 'active': $ctrl.state === 'askDownload' || $ctrl.state === 'downloading' }">
+                    <div class="progress-bar__item-number">1</div>
+                    <div class="progress-bar__item-text" w-i18n="desktopUpdate.barDownload"></div>
+                </div>
+                <div class="progress-bar__item"
+                     ng-class="{
+                     'active': $ctrl.state === 'installAndRun' || $ctrl.state === 'downloading',
+                     'done': $ctrl.state === 'success' || $ctrl.state === 'fail'
+                     }">
+                    <div class="progress-bar__item-number">2</div>
+                    <div class="progress-bar__item-text" w-i18n="desktopUpdate.barInstall"></div>
+                </div>
+                <div class="progress-bar__item"
+                     ng-class="{
+                     'done': $ctrl.state === 'success',
+                     'fail': $ctrl.state === 'fail'
+                     }">
+                    <div class="progress-bar__item-number">3</div>
+                    <div class="progress-bar__item-text" w-i18n="desktopUpdate.barDone"></div>
+                </div>
+            </div>
+            <div class="text-center">
+
+                <div ng-if="$ctrl.state === 'askDownload'">
+                    <h3 w-i18n="desktopUpdate.haveYouDownloaded"></h3>
+                    <div class="buttons-wrapper">
+                        <w-button class="big" on-click="$ctrl.state = 'installAndRun'">
+                            <span w-i18n="desktopUpdate.downloaded"></span>
+                        </w-button>
+                        <w-button class="big submit" on-click="$ctrl.download()">
+                            <span w-i18n="desktopUpdate.wantDownload"></span>
                         </w-button>
                     </div>
-                </w-step>
+                </div>
 
-                <w-step>
-                    <div class="text-center">
-                        <h3>Install App</h3>
-
-                        <div>Then we'll continue</div>
+                <div ng-if="$ctrl.state === 'downloading'">
+                    <h3 w-i18n="desktopUpdate.pleaseWait"></h3>
+                    <div class="download-bar__wrapper">
+                        <div class="download-bar" ng-style="{'width': $ctrl.progress + '%'}"></div>
                     </div>
-                </w-step>
-            </w-step-by-step>
+                    <w-button on-click="$ctrl._cancelDownload()">
+                        <span w-i18n="desktopUpdate.cancelDownloading"></span>
+                    </w-button>
+                </div>
+
+                <div ng-if="$ctrl.state === 'installAndRun'">
+                    <h3 w-i18n="desktopUpdate.installAndRun"></h3>
+
+                    <div class="buttons-wrapper">
+                        <w-button class="big" on-click="$ctrl.state = 'askDownload'">
+                            <span w-i18n="desktopUpdate.backToPrevious"></span>
+                        </w-button>
+                        <w-button class="big submit" on-click="$ctrl.state = 'fail'">
+                            <span w-i18n="desktopUpdate.yesIHave"></span>
+                        </w-button>
+                    </div>
+                </div>
+
+                <div ng-if="$ctrl.state === 'success'">
+                    <h3 w-i18n="desktopUpdate.almostThere"></h3>
+                    <div class="basic-500" w-i18n="desktopUpdate.toFinish"></div>
+                    <w-button ng-if="!$ctrl._oldDesktop" class="big submit" on-click="$ctrl._toHome()">
+                        <span w-i18n="desktopUpdate.iUnderstand"></span>
+                    </w-button>
+                </div>
+
+                <div ng-if="$ctrl.state === 'fail'">
+                    <h3 w-i18n="desktopUpdate.fail"></h3>
+                    <div class="basic-500" w-i18n="desktopUpdate.failText"></div>
+                    <w-button class="big submit" on-click="$ctrl._tryAgain()">
+                        <span w-i18n="desktopUpdate.tryAgain"></span>
+                    </w-button>
+                    <div class="basic-500" w-i18n="desktopUpdate.lookAtFAQ"></div>
+                </div>
+
+            </div>
         </div>
     </div>
 </div>

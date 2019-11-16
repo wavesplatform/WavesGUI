@@ -473,7 +473,10 @@
                                 this._modalRouter.initialize();
                             });
 
-                            const offInnerTransitions = this._onInnerTransitions(START_STATES, DEXW_LOCKED_STATES);
+                            const offInnerTransitions = this._onInnerTransitions(
+                                START_STATES.filter(state => state !== 'desktopUpdate'),
+                                DEXW_LOCKED_STATES
+                            );
 
                             user.logoutSignal.once(() => {
                                 offInnerTransitions();

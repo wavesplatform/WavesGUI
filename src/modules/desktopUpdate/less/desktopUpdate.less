@@ -1,0 +1,88 @@
+@import (reference) 'config';
+
+.return-button {
+  float: left;
+  display: flex;
+  cursor: pointer;
+  &__arrow {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    background-color: rgba(31, 90, 246, 0.06);
+  }
+  &__text {
+    font-size: 13px;
+    color: @color-submit-500;
+  }
+}
+
+.progress-bar {
+  display: flex;
+  align-items: center;
+
+  &__item {
+    &-number {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      width: 20px;
+      height: 20px;
+      border: solid 2px @color-basic-500;
+      border-radius: 50%;
+      &::after {
+        content: '';
+        position: absolute;
+        width: 120px;
+        height: 2px;
+        background-color: @color-basic-100;
+        top: 7px;
+        left: 20px;
+      }
+    }
+
+    &.active {
+      color: @color-submit-500;
+
+      .progress-bar__item-number,
+      .progress-bar__item-text {
+        border: solid 2px @color-submit-500;
+      }
+    }
+
+    &.done {
+      .progress-bar__item-number {
+        &::after {
+          content: '';
+          width: 120px;
+          height: 2px;
+          background-color: @color-basic-100;
+        }
+      }
+
+      .progress-bar__item-number,
+      .progress-bar__item-text {
+        color: @color-submit-500;
+        border: solid 2px @color-submit-500;
+      }
+    }
+
+    &.fail {
+      background-color: red;
+    }
+  }
+}
+
+.download-bar {
+  height: 100%;
+  box-shadow: 2px 2px 5px 0 rgba(31, 90, 246, 0.25);
+  background-color: @color-submit-500;
+
+  &__wrapper {
+    height: 8px;
+    width: 440px;
+    display: flex;
+    justify-content: flex-start;
+    border-radius: 4px;
+  }
+}
