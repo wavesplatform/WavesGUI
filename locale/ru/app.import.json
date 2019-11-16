@@ -9,7 +9,7 @@
             "emptyList": "В загруженном файле нет аккаунтов для импорта",
             "importFailed": "Не удалось импортировать keytore файл",
             "noChosen": "Файл не выбран",
-            "selectAccount": "Выберите аккаунт",
+            "selectAccount": "Выберите аккаунты",
             "selectAccountDesc": "Пожалуйста, выберите аккаунт или",
             "selectAll": "Выбрать все",
             "unselectAll": "Отменить все",

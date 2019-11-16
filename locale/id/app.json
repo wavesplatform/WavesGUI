@@ -2,7 +2,8 @@
     "back": "Kembali ke halaman utama",
     "button": {
         "cancel": "Batalkan",
-        "continue": "Lanjutkan"
+        "continue": "Lanjutkan",
+        "signIn": "Sign in"
     },
     "confirmTransaction": {
         "notPermitted": {

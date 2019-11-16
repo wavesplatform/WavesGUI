@@ -945,6 +945,9 @@
     },
     "Unpin_utils": "Sblocca",
     "utils": {
+        "migrationError": "Oops! Your accounts are safe but haven't been moved. Please try again.",
+        "privacyPolicy": "I have read and agree with the [Privacy Policy](https://wavesplatform.com/files/docs/Privacy_Policy_SW.pdf).",
+        "termsAgreement": "I have read and agree with the [Terms and Conditions](https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf).",
         "whatsNew": {
             "body": {
                 "1_0_0": "{span.line}[1. Il client Waves esce dalla fase beta.]{span.line}[2. È ora possibile fissare e sbloccare qualunque asset sulla pagina principale.]{span.line}[3. Aggiunta la modalità notturna.]{span.line}[4. È ora possibile importare tutti gli account dal vecchio client in maniera semplice.]{span.line}[5. Bug fix minori.]",
@@ -1016,7 +1019,8 @@
         "dexMoves": "We are moving soon! Stay with us at",
         "hour": "h",
         "min": "m",
-        "notification": "We're moving from Waves DEX to Waves Exchange. Hurry up to move your accounts!",
+        "notification": "We're moving from Waves DEX to Waves.Exchange. Don't forget to move your accounts!",
+        "sec": "s",
         "startMoving": "Start moving"
     }
 }

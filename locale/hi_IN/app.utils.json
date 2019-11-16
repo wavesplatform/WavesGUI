@@ -945,6 +945,9 @@
     },
     "Unpin_utils": "अनपिन",
     "utils": {
+        "migrationError": "Oops! Your accounts are safe but haven't been moved. Please try again.",
+        "privacyPolicy": "I have read and agree with the [Privacy Policy](https://wavesplatform.com/files/docs/Privacy_Policy_SW.pdf).",
+        "termsAgreement": "I have read and agree with the [Terms and Conditions](https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf).",
         "whatsNew": {
             "body": {
                 "1_0_0": "{span.line} [1। वेव्स क्लाइंट बीटा से बाहर आ गया है।] {span.line} [2 अब आप किसी भी संपत्ति को मुख्य पृष्ठ पर पिन और अनपिन कर सकते हैं।] {span.line} [3 रात मोड जोड़ा गया।] {span.line} [4 अब आप अपने सभी खातों को पुराने ग्राहक से आसानी से आयात कर सकते हैं।] {span.line} [5 छोटे सुधार।]",
@@ -1016,7 +1019,8 @@
         "dexMoves": "We are moving soon! Stay with us at",
         "hour": "h",
         "min": "m",
-        "notification": "We're moving from Waves DEX to Waves Exchange. Hurry up to move your accounts!",
+        "notification": "We're moving from Waves DEX to Waves.Exchange. Don't forget to move your accounts!",
+        "sec": "s",
         "startMoving": "Start moving"
     }
 }
