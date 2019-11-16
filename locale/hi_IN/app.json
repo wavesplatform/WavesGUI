@@ -2,7 +2,8 @@
     "back": "मुख्य पेज पर वापस जाएं",
     "button": {
         "cancel": "रद्द करें",
-        "continue": "जारी रखें"
+        "continue": "जारी रखें",
+        "signIn": "Sign in"
     },
     "confirmTransaction": {
         "notPermitted": {

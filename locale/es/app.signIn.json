@@ -17,7 +17,9 @@
             "importantDesc": "Si no ha guardado la frase SEED o la clave privada, no podrá recuperar el acceso a su cuenta."
         },
         "password": {
-            "forgot": "¿Olvidó su contraseña?"
+            "forgot": "¿Olvidó su contraseña?",
+            "overwrite": "Overwrite accounts",
+            "overwriteDescription": "Erase all existing accounts from this device"
         },
         "signIn": "Iniciar sesión",
         "welcomeBack": "¡Bienvenido de nuevo!"

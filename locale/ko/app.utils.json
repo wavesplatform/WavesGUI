@@ -945,6 +945,9 @@
     },
     "Unpin_utils": "즐겨찾기 해제",
     "utils": {
+        "migrationError": "Oops! Your accounts are safe but haven't been moved. Please try again.",
+        "privacyPolicy": "I have read and agree with the [Privacy Policy](https://wavesplatform.com/files/docs/Privacy_Policy_SW.pdf).",
+        "termsAgreement": "I have read and agree with the [Terms and Conditions](https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf).",
         "whatsNew": {
             "body": {
                 "1_0_0": "{span.line}[1. Waves Client 정식 버전 출시.]{span.line}[2. 메인 페이지에서 즐겨찾는 자산 등록 및 해제 가능.]{span.line}[3. 나이트 모드 추가.]{span.line}[4. 구 버전의 클라이언트에서 계정 불러오기 가능.]{span.line}[5. 기타 버그 픽스.]",
@@ -1013,10 +1016,12 @@
     },
     "warningPlate": {
         "day": "d",
-        "dexMoves": "We are moving soon! Stay with us at",
+        "dexMoves": "We are moving soon! Stay with us at [Waves.Exchange](https://waves.exchange)",
         "hour": "h",
+        "info": "We're moving from Waves DEX to Waves Exchange. Do you want to move your accounts again?",
         "min": "m",
-        "notification": "We're moving from Waves DEX to Waves Exchange. Hurry up to move your accounts!",
+        "notification": "We're moving from Waves DEX to Waves.Exchange. Don't forget to move your accounts!",
+        "sec": "s",
         "startMoving": "Start moving"
     }
 }

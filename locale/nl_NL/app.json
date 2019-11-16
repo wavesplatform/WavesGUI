@@ -2,7 +2,8 @@
     "back": "Terug naar de hoofdpagina",
     "button": {
         "cancel": "Annuleer",
-        "continue": "Ga verder"
+        "continue": "Ga verder",
+        "signIn": "Sign in"
     },
     "confirmTransaction": {
         "notPermitted": {

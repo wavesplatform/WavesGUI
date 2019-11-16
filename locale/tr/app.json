@@ -2,7 +2,8 @@
     "back": "Ana sayfaya dön",
     "button": {
         "cancel": "İptal",
-        "continue": "Devam"
+        "continue": "Devam",
+        "signIn": "Sign in"
     },
     "confirmTransaction": {
         "notPermitted": {

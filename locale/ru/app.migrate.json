@@ -1,38 +1,74 @@
 {
+    "desktopUpdate": {
+        "almostThere": "Еще немного...",
+        "backToPrevious": "Back to previous",
+        "barDone": "готово",
+        "barDownload": "Скачать",
+        "barInstall": "установить и запустить",
+        "connectSupport": "Если это не поможет, обратитесь в техподдержку Waves.Exchange.",
+        "downloaded": "да",
+        "fail": "ошибка",
+        "failText": "Убедитесь, что вы установили и запустили новое приложение Waves.Exchange.",
+        "haveYouDownloaded": "Вы уже загрузили новое десктопное приложение для Waves.Exchange?",
+        "installAndRun": "Установите и запустите приложение. Уже сделали это?",
+        "iUnderstand": "Понятно",
+        "lookAtFAQ1": "Если вы все сделали правильно, но по-прежнему получаете сообщение об ошибке, обратитесь к ",
+        "lookAtFAQ2": "Возможно, вы найдете ответ там.",
+        "oops": "Ой! Что-то пошло не так...",
+        "return": "вернуться",
+        "toFinish": "Чтобы завершить процесс миграции, необходимо открыть новое приложение и пройти авторизацию.",
+        "tryAgain": "Try again"
+    },
     "migrate": {
+        "achievementDesc": "Вы успешно перенесли свои аккаунты.  В благодарность за завершение процесса миграции мы дарим всем вашим аккаунтам (с хотя бы одной транзакцией до 2 декабря 2019) по сверкающему аватару!",
+        "achievementTitle": "Поздравляем!",
         "btn": {
             "unlock": "Разблокировать"
         },
+        "continue": "Продолжить",
+        "desc": {
+            "almostFinish": "To finish the migration of your accounts, accept the new Terms and Conditions and Privacy Policy.",
+            "enterPassword": "Please enter your password from [waves.exchange](https://waves.exchange) to continue",
+            "onePassword": "Создайте один пароль для всех своих учетных записей. Входите в учетные записи и легко переключайтесь между ними."
+        },
         "description": {
-            "enterPass": "Введите пароль от вашего аккаунта или",
+            "enterPass": "Введите пароль от аккаунта или",
             "goBack": "вернитесь назад",
-            "goBackExchange": "go back",
+            "goBackExchange": "вернитесь назад",
             "unlock": "Разблокируйте аккаунты. Вы можете вернуться к этому шагу позже",
-            "unlockExchange": "You need to enter a password to transfer your account to [waves.exchange](https://waves.exchange/)"
+            "unlockExchange": "Чтобы завершить миграцию, выполните авторизацию, разблокировав аккаунт из старого приложения и выполнив вход, создав новый аккаунт или импортировав его."
         },
         "headers": {
             "unlock": "Разблокируйте аккаунты",
             "unlockAccount": "Разблокируйте аккаунт",
-            "unlockExchange": "Unlock Accounts"
+            "unlockAccountExchange": "Разблокировать аккаунт",
+            "unlockExchange": "Разблокируйте аккаунты"
         },
         "modalButton": {
-            "cancel": "Cancel",
-            "moving": "Start moving"
+            "cancel": "Отмена",
+            "moving": "Начать миграцию"
         },
         "modalDesc": {
-            "firstPart": "To offer users a better experience and wider range of tools, we are moving from Waves DEX to [Waves Exchange](https://waves.exchange). ",
-            "redirected": "Please go there to complete the miration process.",
-            "secondPart": "On December 2, 2019 Waves DEX will stop operating! To continue trading you have to move your accounts to Waves Exchange. We strongly recommend that you do this in advance.",
-            "thirdPart": "The moving is fast, easy, and, of course, absolutely secure. "
+            "firstPart": "Чтобы улучшить пользовательский опыт и предложить более широкий набор инструментов, биржа переезжает с Waves DEX на Waves.Exchange.",
+            "redirected": "Убедитесь, что вы успешно завершили процесс миграции на Waves.Exchange. После его завершения вы увидите соответствующее сообщение.",
+            "secondPart": "Waves DEX прекратит работу 2 декабря 2019. Чтобы продолжить торговлю, нужно перенести свои аккаунты на новую биржу. Мы настоятельно рекомендуем сделать это заранее.",
+            "thirdPart": "Процесс миграции – быстрый, простой и абсолютно безопасный."
         },
         "modalTitle": {
-            "moving": "We are moving!",
-            "redirected": "You have been redirected to"
+            "moving": "Мы переезжаем!",
+            "redirected": "Вы были перенаправлены на"
         },
+        "signIn": "Войти",
         "subtitle": {
-            "account": "Адрес/ Название аккаунта",
+            "account": "Аккаунт",
             "pending": "Ожидают разблокировки",
+            "pendingExchange": "Выберите аккаунт для разблокировки",
+            "pendingUnlockingExchange": "Ожидают разблокировки",
             "unlocked": "Разблокированы"
+        },
+        "title": {
+            "almostThere": "Almost there...",
+            "protectAccount": "\tЗащитите аккаунты"
         }
     }
 }

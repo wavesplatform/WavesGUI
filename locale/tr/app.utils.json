@@ -945,6 +945,9 @@
     },
     "Unpin_utils": "Pini kaldır",
     "utils": {
+        "migrationError": "Oops! Your accounts are safe but haven't been moved. Please try again.",
+        "privacyPolicy": "I have read and agree with the [Privacy Policy](https://wavesplatform.com/files/docs/Privacy_Policy_SW.pdf).",
+        "termsAgreement": "I have read and agree with the [Terms and Conditions](https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf).",
         "whatsNew": {
             "body": {
                 "1_0_0": "{span.line}[1. The Waves Client has come out of beta.]{span.line}[2. You can now pin and unpin any assets to the main page.]{span.line}[3. Night mode added.]{span.line}[4. You can now import all your accounts from the old Client easily.]{span.line}[5. Minor bug fixes.]",
@@ -1013,10 +1016,12 @@
     },
     "warningPlate": {
         "day": "d",
-        "dexMoves": "We are moving soon! Stay with us at",
+        "dexMoves": "We are moving soon! Stay with us at [Waves.Exchange](https://waves.exchange)",
         "hour": "h",
+        "info": "We're moving from Waves DEX to Waves Exchange. Do you want to move your accounts again?",
         "min": "m",
-        "notification": "We're moving from Waves DEX to Waves Exchange. Hurry up to move your accounts!",
+        "notification": "We're moving from Waves DEX to Waves.Exchange. Don't forget to move your accounts!",
+        "sec": "s",
         "startMoving": "Start moving"
     }
 }

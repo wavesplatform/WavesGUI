@@ -2,7 +2,8 @@
     "back": "戻る",
     "button": {
         "cancel": "キャンセル",
-        "continue": "次へ"
+        "continue": "次へ",
+        "signIn": "Sign in"
     },
     "confirmTransaction": {
         "notPermitted": {

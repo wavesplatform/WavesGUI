@@ -2,7 +2,8 @@
     "back": "메인 페이지로 돌아가기",
     "button": {
         "cancel": "취소",
-        "continue": "계속"
+        "continue": "계속",
+        "signIn": "Sign in"
     },
     "confirmTransaction": {
         "notPermitted": {

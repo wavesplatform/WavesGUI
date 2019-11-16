@@ -2,7 +2,8 @@
     "back": "Mine tagasi",
     "button": {
         "cancel": "Tühista",
-        "continue": "Jätka"
+        "continue": "Jätka",
+        "signIn": "Sign in"
     },
     "confirmTransaction": {
         "notPermitted": {

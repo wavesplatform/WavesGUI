@@ -17,7 +17,9 @@
             "importantDesc": "Als u de SEED of privésleutel niet hebt opgeslagen, kunt u de toegang tot uw account niet herstellen."
         },
         "password": {
-            "forgot": "Uw wachtwoord vergeten?"
+            "forgot": "Uw wachtwoord vergeten?",
+            "overwrite": "Overwrite accounts",
+            "overwriteDescription": "Erase all existing accounts from this device"
         },
         "signIn": "Aanmelden",
         "welcomeBack": "Welkom terug!"

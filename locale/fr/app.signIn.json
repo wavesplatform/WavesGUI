@@ -17,7 +17,9 @@
             "importantDesc": "If you have not saved the Seed phrase or Private key, then you will not be able to recover access to your account."
         },
         "password": {
-            "forgot": "Forgot your password?"
+            "forgot": "Forgot your password?",
+            "overwrite": "Overwrite accounts",
+            "overwriteDescription": "Erase all existing accounts from this device"
         },
         "signIn": "Sign in",
         "welcomeBack": "Welcome Back!"

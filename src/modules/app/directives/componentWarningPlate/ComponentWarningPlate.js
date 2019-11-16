@@ -26,6 +26,10 @@
              */
             minutes = 0;
             /**
+             * @type {number}
+             */
+            seconds = 0;
+            /**
              * @type {boolean}
              */
             canMoveAccounts = false;
@@ -52,7 +56,7 @@
                 user.logoutSignal.on(this._initCanMoveAccounts, this);
 
                 utils.startTimer({ year: 2019, month: 12, day: 2, hours: 15 }, this._setTime.bind(this), 1000);
-                
+
                 this._getDistUrl();
             }
 
@@ -68,6 +72,8 @@
                 this.days = this._to2Digest(last.days);
                 this.hours = this._to2Digest(last.hours);
                 this.minutes = this._to2Digest(last.minutes);
+                this.seconds = this._to2Digest(last.seconds);
+                utils.safeApply($scope);
             }
 
             /**
