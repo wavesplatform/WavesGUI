@@ -33,7 +33,7 @@
     "origins": [
       "https://client.wavesplatform.com",
       "https://dex.wavesplatform.com",
-      "https://wallet-stage4.wvserveices.com"
+      "https://wallet-stage1.waves.exchange"
     ]
   },
   "WESTNetworkByte": "V",
