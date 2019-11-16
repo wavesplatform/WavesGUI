@@ -218,9 +218,8 @@
                 this._isNewDefer = $q.defer();
                 this._canWrite = $q.defer();
                 this._activeWrite = Promise.resolve();
-                const version = navigator.userAgent.replace(/.*?waves-(client|dex)\/(\d+\.\d+\.\d+).*/g, '$2');
 
-                if (WavesApp.isDesktop() && version && migration.lte(version, '1.4.0')) {
+                if (WavesApp.isDesktop() && utils.isVersionLte('1.4.0')) {
                     setTimeout(() => {
                         $injector.get('$state').go('desktopUpdate');
                     }, 1000);
