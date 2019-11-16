@@ -9,7 +9,7 @@
      * @param {$log} $log
      * @param {Storage} storage
      * @param {User} user
-     * @param {*} migration
+     * @param {*} utils
      * @param {*} $state
      * @param {*} configService
      * @param {*} modalManager
@@ -21,7 +21,7 @@
                         $log,
                         storage,
                         user,
-                        migration,
+                        utils,
                         modalManager) => {
         class DesktopUpdateCtrl {
 
@@ -41,8 +41,7 @@
                     $state.go(user.getActiveState('wallet'));
                 }
 
-                const version = navigator.userAgent.replace(/.*?waves-(client|dex)\/(\d+\.\d+\.\d+).*/g, '$2');
-                this._oldDesktop = migration.lte(version, '1.4.0');
+                this._oldDesktop = utils.isVersionLte('1.4.0');
                 this._showMoving = !this._oldDesktop;
 
                 storage.load('userList').then(list => {
@@ -178,7 +177,7 @@
         '$log',
         'storage',
         'user',
-        'migration',
+        'utils',
         'modalManager'
     ];
 
