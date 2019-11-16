@@ -8,18 +8,23 @@
     "signIn": {
         "btn": {
             "cancel": "Annulla",
+            "overwrite": "Overwrite",
             "restore": "Resetta tutto"
         },
         "enterPass": "Inserisci la tua password per continuare",
+        "or": "OR",
         "passForgot": {
             "attention": "Attenzione!",
             "description": "Se dimentichi la tua password, dovrai ripristinare i tuoi account dai rispettivi SEED e settare una nuova password.",
-            "importantDesc": "Se non avrai salvato la frase Seed o la chiave privata, non sarai in grado di recuperare l'accesso al tuo account."
+            "descriptionExchange": "You are about to erase all existing on Waves.Exchange accounts from this device. This action will not affect your Waves DEX accounts.",
+            "importantDesc": "Se non avrai salvato la frase Seed o la chiave privata, non sarai in grado di recuperare l'accesso al tuo account.",
+            "importantDescEx": "This action is irreversible! If you have not saved the Seed phrase or private key, then you will not be able to recover access to your Waves.Exchange accounts.",
+            "importantDescExchange": "This action is irreversible! If you have not saved the Seed phrase or private key, then you will not be able to recover access to your Waves.Exchange accounts."
         },
         "password": {
             "forgot": "Hai dimenticato la password?",
             "overwrite": "Overwrite accounts",
-            "overwriteDescription": "Erase all existing accounts from this device"
+            "overwriteDescription": "Erase all Waves.Exchange accounts from this device"
         },
         "signIn": "Accedi",
         "welcomeBack": "Ben tornato!"
