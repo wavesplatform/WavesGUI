@@ -48,7 +48,7 @@
             /**
              * @type {boolean}
              */
-            isOldDesktop = utils.isVersionLte('1.4.0');
+            isOldDesktop = this.isDesktop && utils.isVersionLte('1.4.0');
 
             constructor() {
                 this._initCanMoveAccounts();
