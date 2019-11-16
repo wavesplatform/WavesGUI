@@ -9,11 +9,11 @@
      * @param {$log} $log
      * @param {Storage} storage
      * @param {User} user
-     * @param {*} migration
+     * @param {*} utils
      * @param {*} $state
      * @param {*} configService
      */
-    const controller = ($scope, $state, configService, exportStorageService, $log, storage, user, migration) => {
+    const controller = ($scope, $state, configService, exportStorageService, $log, storage, user, utils) => {
         class DesktopUpdateCtrl {
 
             /**
@@ -32,8 +32,7 @@
                     $state.go(user.getActiveState('wallet'));
                 }
 
-                const version = navigator.userAgent.replace(/.*?waves-(client|dex)\/(\d+\.\d+\.\d+).*/g, '$2');
-                this._oldDesktop = migration.lte(version, '1.4.0');
+                this._oldDesktop = utils.isVersionLte('1.4.0');
                 this._showMoving = !this._oldDesktop;
 
                 storage.load('userList').then(list => {
@@ -165,7 +164,7 @@
         '$log',
         'storage',
         'user',
-        'migration'
+        'utils'
     ];
 
     angular.module('app.desktopUpdate').controller('DesktopUpdateCtrl', controller);

@@ -37,7 +37,14 @@
              * @type {string}
              */
             newDexLink = WavesApp.network.wavesExchangeLink;
+            /**
+             * @type {boolean}
+             */
             isDesktop = WavesApp.isDesktop();
+            /**
+             * @type {boolean}
+             */
+            isOldDesktop = utils.isVersionLte('1.4.0');
 
             constructor() {
                 this._initCanMoveAccounts();

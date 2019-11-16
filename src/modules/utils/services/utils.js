@@ -213,9 +213,10 @@
      * @param {$q} $q
      * @param {Moment} Moment
      * @param {$injector} $injector
+     * @param {*} migration
      * @return {app.utils}
      */
-    const factory = function ($q, Moment, $injector) {
+    const factory = function ($q, Moment, $injector, migration) {
         const base58ToBytes = base58Decode;
         const bytesToBase58 = base58Encode;
 
@@ -2007,6 +2008,12 @@
                 }
 
                 loop();
+            },
+
+            isVersionLte(version) {
+                const currentVersion = navigator.userAgent.replace(/.*?waves-(client|dex)\/(\d+\.\d+\.\d+).*/g, '$2');
+
+                return currentVersion && migration.lte(currentVersion, version);
             }
         };
 
@@ -2241,7 +2248,7 @@
         return utils;
     };
 
-    factory.$inject = ['$q', 'Moment', '$injector'];
+    factory.$inject = ['$q', 'Moment', '$injector', 'migration'];
 
     angular.module('app.utils')
         .factory('utils', factory);
