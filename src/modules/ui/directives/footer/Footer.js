@@ -75,7 +75,7 @@
             }
 
             showFAQ() {
-                modalManager.showMigrateFAQ()
+                modalManager.showMigrateFAQ();
             }
 
         }

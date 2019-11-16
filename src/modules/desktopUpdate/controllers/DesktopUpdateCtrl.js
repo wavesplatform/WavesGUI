@@ -12,8 +12,17 @@
      * @param {*} migration
      * @param {*} $state
      * @param {*} configService
+     * @param {*} modalManager
      */
-    const controller = ($scope, $state, configService, exportStorageService, $log, storage, user, migration) => {
+    const controller = ($scope,
+                        $state,
+                        configService,
+                        exportStorageService,
+                        $log,
+                        storage,
+                        user,
+                        migration,
+                        modalManager) => {
         class DesktopUpdateCtrl {
 
             /**
@@ -152,6 +161,10 @@
                 $scope.$digest();
             }
 
+            showFAQ() {
+                modalManager.showMigrateFAQ();
+            }
+
         }
 
         return new DesktopUpdateCtrl();
@@ -165,7 +178,8 @@
         '$log',
         'storage',
         'user',
-        'migration'
+        'migration',
+        'modalManager'
     ];
 
     angular.module('app.desktopUpdate').controller('DesktopUpdateCtrl', controller);
