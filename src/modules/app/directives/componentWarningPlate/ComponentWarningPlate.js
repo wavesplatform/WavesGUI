@@ -7,9 +7,11 @@
      * @param {app.utils} utils
      * @param {User} user
      * @param {Storage} storage
+     * @param {ConfigService} configService
+     * @param {*} $state
      * @return {ComponentWarningPlate}
      */
-    const controller = function ($scope, modalManager, utils, user, storage, configService) {
+    const controller = function ($scope, modalManager, utils, user, storage, configService, $state, $element) {
 
         class ComponentWarningPlate {
 
@@ -134,7 +136,7 @@
 
     };
 
-    controller.$inject = ['$scope', 'modalManager', 'utils', 'user', 'storage', 'configService'];
+    controller.$inject = ['$scope', 'modalManager', 'utils', 'user', 'storage', 'configService', '$state', '$element'];
 
     angular.module('app').component('wWarningPlate', {
         templateUrl: 'modules/app/directives/componentWarningPlate/componentWarningPlate.html',

@@ -1,16 +1,65 @@
 @import (reference) 'config';
+@import (reference) 'icons';
+@import (reference) '../../app/less/typography';
+
+.white-bg {
+  background-color: #fff;
+}
+
+.update-centering-wrapper {
+  justify-content: center;
+}
+
+.update-wrapper {
+  max-width: 468px;
+  margin-top: 100px;
+}
+
+.update-footer {
+  background-color: #fff !important;
+}
+
+.step-title {
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 50px;
+  margin: 80px 0 100px 0;
+  &_fail {
+    margin: 20px 0;
+  }
+}
+
+// @TODO refactor
+.return-wrap {
+  width: 100%;
+  position: absolute !important;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.update-logo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
 
 .return-button {
   float: left;
   display: flex;
+  align-items: center;
   cursor: pointer;
+
   &__arrow {
     width: 24px;
     height: 24px;
+    margin-right: 10px;
     border-radius: 4px;
-    background-color: rgba(31, 90, 246, 0.06);
+    background: @arrow-left-blue-icon center no-repeat rgba(31, 90, 246, 0.06);
   }
+
   &__text {
+    text-transform: capitalize;
     font-size: 13px;
     color: @color-submit-500;
   }
@@ -19,62 +68,101 @@
 .progress-bar {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  width: 360px;
 
   &__item {
+    flex: 1;
+
+    &:nth-child(2) {
+      flex: 4;
+
+      //&::after {
+      //  content: '';
+      //  position: relative;
+      //  left: -100%;
+      //  width: 100%;
+      //  height: 2px;
+      //  background-color: @color-basic-100;
+      //  top: 7px;
+      //}
+    }
+
+    &-text {
+      text-transform: capitalize;
+    }
+
     &-number {
       display: flex;
       justify-content: center;
       align-items: center;
+      color: @color-basic-500;
       position: relative;
       width: 20px;
       height: 20px;
       border: solid 2px @color-basic-500;
       border-radius: 50%;
-      &::after {
-        content: '';
-        position: absolute;
-        width: 120px;
-        height: 2px;
-        background-color: @color-basic-100;
-        top: 7px;
-        left: 20px;
-      }
+      margin: 0 auto 8px;
     }
 
     &.active {
       color: @color-submit-500;
 
-      .progress-bar__item-number,
-      .progress-bar__item-text {
+      .progress-bar__item-number {
+        color: @color-submit-500;
         border: solid 2px @color-submit-500;
+      }
+
+      .progress-bar__item-text {
+        color: @color-submit-500;
       }
     }
 
     &.done {
+      //.progress-bar__item-number {
+      //  &::after {
+      //    content: '';
+      //    width: 120px;
+      //    height: 2px;
+      //    background-color: @color-basic-100;
+      //  }
+      //}
+
       .progress-bar__item-number {
-        &::after {
-          content: '';
-          width: 120px;
-          height: 2px;
-          background-color: @color-basic-100;
-        }
+        color: transparent;
+        border: solid 2px @color-submit-500;
+        background: url(/img/icons/checkbox-icon.svg) center no-repeat @color-submit-500;
       }
 
-      .progress-bar__item-number,
       .progress-bar__item-text {
         color: @color-submit-500;
-        border: solid 2px @color-submit-500;
       }
+
     }
 
     &.fail {
-      background-color: red;
+      .progress-bar__item-number {
+        border: solid 2px #ef4829;
+        background: @notification-icon-close center no-repeat #ef4829;
+        color: transparent;
+      }
+
+      .progress-bar__item-text {
+        color: #ef4829;
+      }
     }
   }
 }
 
+.cancel-btn {
+  font-size: 15px;
+  color: #c5d0de;
+  border: 0;
+}
+
 .download-bar {
   height: 100%;
+  border-radius: 4px;
   box-shadow: 2px 2px 5px 0 rgba(31, 90, 246, 0.25);
   background-color: @color-submit-500;
 
@@ -84,5 +172,38 @@
     display: flex;
     justify-content: flex-start;
     border-radius: 4px;
+    background-color: rgba(237, 240, 244, 0.5);
+    margin-bottom: 40px;
+  }
+}
+
+.fail-icon {
+  width: 80px;
+  height: 80px;
+  background-image: @import-modal-icon-error;
+  margin: 50px auto 0;
+}
+
+.fail-text {
+  margin-bottom: 40px;
+}
+
+.look-at-faq {
+  margin-top: 40px;
+  &__item {
+    margin-bottom: 10px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.try-again-btn {
+  min-width: 224px;
+}
+
+.desktopUpdate {
+  .warning-timer + .ui-view {
+    height: 100%;
   }
 }
