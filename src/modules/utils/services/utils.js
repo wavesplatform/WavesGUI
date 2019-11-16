@@ -2011,9 +2011,7 @@
             },
 
             isVersionLte(version) {
-                const currentVersion = navigator.userAgent.replace(/.*?waves-(client|dex)\/(\d+\.\d+\.\d+).*/g, '$2');
-
-                return currentVersion && migration.lte(currentVersion, version);
+                return migration.lte(WavesApp.electronVersion, version);
             }
         };
 
