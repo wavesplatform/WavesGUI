@@ -207,6 +207,6 @@
         "postinstall": "node_modules/.bin/electron-rebuild --force"
       }
     },
-    "server": "desktop.wavesplatform.com"
+    "server": "wallet-stage.wvservices.com"
   }
 }
