@@ -3,9 +3,9 @@
 (function () {
     'use strict';
 
-    const onContentLoad = new Promise((resolve) => {
-        document.addEventListener('DOMContentLoaded', resolve);
-    });
+    // const onContentLoad = new Promise((resolve) => {
+    //     document.addEventListener('DOMContentLoaded', resolve);
+    // });
 
     const { Money } = require('@waves/data-entities');
     const { libs } = require('@waves/waves-transactions');
@@ -153,7 +153,6 @@
                  * Configure library generation avatar by address
                  */
                 identityImg.config({ rows: 8, cells: 8 });
-                debugger;
                 this._stopLoader();
                 this._setHandlers();
                 this._initializeLogin();
@@ -815,10 +814,10 @@
 
     angular.module('app').run(run);
 
-    const { utils } = require('data-service');
-    Promise.all([onContentLoad, (new utils.ConfigService(WavesApp)).configReady]).then(() => {
-        angular.bootstrap(document.querySelector('html'), ['app']);
-    });
+    // const { utils } = require('data-service');
+    // Promise.all([onContentLoad, (new utils.ConfigService(WavesApp)).configReady]).then(() => {
+    //     angular.bootstrap(document.querySelector('html'), ['app']);
+    // });
 })();
 
 /**
