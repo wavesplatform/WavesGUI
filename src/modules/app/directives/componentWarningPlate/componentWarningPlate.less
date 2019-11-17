@@ -102,7 +102,7 @@ w-warning-plate {
   z-index: 11;
   display: block;
 
-  &+ .ui-view {
+  & + .ui-view {
     height: calc(100% ~"- 40px");
 
     .main-header_new-user {
@@ -117,6 +117,17 @@ w-warning-plate {
   }
 }
 
+body.desktopUpdate:not(.web) {
+  .warning-timer {
+    & + .ui-view {
+      height: 100%;
+      @media screen and (max-width: 860px) {
+        height: 100%;
+      }
+    }
+  }
+}
+
 @media screen and (max-width: 860px) {
   w-warning-plate {
     .warning-plate {
@@ -126,10 +137,10 @@ w-warning-plate {
         padding: 12px;
         flex-wrap: wrap;
         transition: all .2s;
-        
+
         &_no-user {
           justify-content: flex-start;
-  
+
           .warning-plate__text {
             max-width: none;
             margin: 0;
@@ -170,12 +181,12 @@ w-warning-plate {
   }
 
   .warning-timer_active {
-    &+ .ui-view {
+    & + .ui-view {
       height: calc(100% ~"- 72px");
 
       .main-header_new-user {
         top: 72px;
-  
+
         &.fixed {
           .main-header__header {
             top: 72px;

@@ -7,11 +7,12 @@
 }
 
 .update-centering-wrapper {
+  align-items: center;
   justify-content: center;
 }
 
 .update-wrapper {
-  max-width: 468px;
+  max-width: 470px;
   margin-top: 100px;
 }
 
@@ -58,6 +59,12 @@
   display: flex;
   align-items: center;
   cursor: pointer;
+  &:hover {
+    .return-button__arrow {
+      transition: 0.3s;
+      background-color: @input-toggle-bg-hover;
+    }
+  }
 
   &__arrow {
     width: 24px;
@@ -94,11 +101,6 @@
       .progress-bar__item-number:after {
         display: none;
       }
-    }
-
-
-    &-text {
-      text-transform: capitalize;
     }
 
     &-number {
@@ -175,6 +177,10 @@
   color: #c5d0de;
   border: 0;
   cursor: pointer;
+  transition: 0.3s;
+  &:hover {
+    color: @footer-select-bg-hover;
+  }
 }
 
 .download-bar {
@@ -221,8 +227,20 @@
   min-width: 224px;
 }
 
-.desktopUpdate {
-  .warning-timer + .ui-view {
-    height: 100%;
-  }
+.margin-top {
+  margin-top: 10px;
 }
+
+.downloading-text {
+  text-align: left;
+  font-size: 15px;
+}
+
+
+//.warning-timer + .ui-view {
+//  height: 100%;
+//}
+//
+//body.desktop:not(.web) .main-container {
+//  min-height: 100%;
+//}

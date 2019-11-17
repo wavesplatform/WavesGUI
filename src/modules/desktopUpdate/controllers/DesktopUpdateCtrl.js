@@ -158,7 +158,6 @@
                 this.state = 'askDownload';
                 this._resetProgress();
                 ds.utils.abortDownloading();
-                $scope.$digest();
             }
 
             showFAQ() {
