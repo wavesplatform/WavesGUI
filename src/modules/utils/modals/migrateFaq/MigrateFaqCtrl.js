@@ -3,21 +3,14 @@
 
     const controller = function (Base, $scope) {
 
-        const FAQ_ITEMS = [
+        const { range } = require('ramda');
+
+        const FAQ_ITEMS = range(1, 24).map(i => (
             {
-                title: 'faq.migration.title1',
-                text: 'faq.migration.text1',
-                isOpen: true
-            },
-            {
-                title: 'faq.migration.title2',
-                text: 'faq.migration.text2'
-            },
-            {
-                title: 'faq.migration.title3',
-                text: 'faq.migration.text3'
+                title: `faq.title${i}`,
+                text: `faq.text${i}`
             }
-        ];
+        ));
 
         class MigrateFaqCtrl extends Base {
 

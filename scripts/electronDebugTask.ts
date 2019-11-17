@@ -20,7 +20,7 @@ export function createElectronDebugTask(): TaskFunction {
             });
 
             Object.assign(targetPackage, meta.electron.defaults);
-            targetPackage.server = 'localhost:8080';
+            targetPackage.server = 'localhost:8081';
 
             return writeFile(join(root, 'package.json'), JSON.stringify(targetPackage));
         };

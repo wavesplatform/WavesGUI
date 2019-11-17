@@ -95,6 +95,7 @@
                     }).then(() => {
                         this.state = 'installAndRun';
                         this.isDownloading = false;
+                        this._resetProgress();
                         $scope.$digest();
                     }).catch((e) => {
                         if (e.message === 'Cancel') {
