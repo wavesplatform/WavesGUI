@@ -2,7 +2,6 @@
     'use strict';
 
     const config = function ($urlRouterProvider, $stateProvider, $locationProvider, $compileProvider) {
-        const TransportU2F = WavesApp.isWeb() ? require('@ledgerhq/hw-transport-u2f') : window.TransportNodeHid;
         const tsUtils = require('ts-utils');
         const { BigNumber } = require('@waves/bignumber');
         const ds = require('data-service');
@@ -87,6 +86,8 @@
             }
 
             _initAdapters() {
+                const TransportU2F = WavesApp.isWeb() ? require('@ledgerhq/hw-transport-u2f') : window.TransportNodeHid;
+
                 ds.signAdapters.adapterList.forEach((Adapter) => Adapter.initOptions({
                     networkCode: WavesApp.network.code.charCodeAt(0),
                     openTimeout: WavesApp.sign.openTimeout,
