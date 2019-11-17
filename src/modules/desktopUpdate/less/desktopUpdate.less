@@ -24,9 +24,18 @@
   font-weight: 500;
   line-height: 50px;
   margin: 80px 0 100px 0;
+
   &_fail {
     margin: 20px 0;
   }
+
+  &_success {
+    margin-bottom: 20px;
+  }
+}
+
+.to-finish {
+  margin-bottom: 90px;
 }
 
 // @TODO refactor
@@ -71,22 +80,22 @@
   justify-content: space-between;
   width: 360px;
 
+
   &__item {
+    position: relative;
     flex: 1;
+
 
     &:nth-child(2) {
       flex: 4;
-
-      //&::after {
-      //  content: '';
-      //  position: relative;
-      //  left: -100%;
-      //  width: 100%;
-      //  height: 2px;
-      //  background-color: @color-basic-100;
-      //  top: 7px;
-      //}
     }
+
+    &:last-child {
+      .progress-bar__item-number:after {
+        display: none;
+      }
+    }
+
 
     &-text {
       text-transform: capitalize;
@@ -94,15 +103,27 @@
 
     &-number {
       display: flex;
+      background: #fff;
       justify-content: center;
       align-items: center;
       color: @color-basic-500;
       position: relative;
       width: 20px;
       height: 20px;
-      border: solid 2px @color-basic-500;
+      border: solid 2px @color-basic-100;
       border-radius: 50%;
       margin: 0 auto 8px;
+
+      //@TODO kostyil'
+      &::after {
+        content: '';
+        position: absolute;
+        width: 135px;
+        height: 2px;
+        background-color: @color-basic-100;
+        top: 7px;
+        left: 18px;
+      }
     }
 
     &.active {
@@ -116,18 +137,10 @@
       .progress-bar__item-text {
         color: @color-submit-500;
       }
+
     }
 
     &.done {
-      //.progress-bar__item-number {
-      //  &::after {
-      //    content: '';
-      //    width: 120px;
-      //    height: 2px;
-      //    background-color: @color-basic-100;
-      //  }
-      //}
-
       .progress-bar__item-number {
         color: transparent;
         border: solid 2px @color-submit-500;
@@ -138,6 +151,9 @@
         color: @color-submit-500;
       }
 
+      .progress-bar__item-number:after {
+        background-color: @color-submit-500;
+      }
     }
 
     &.fail {
@@ -158,6 +174,7 @@
   font-size: 15px;
   color: #c5d0de;
   border: 0;
+  cursor: pointer;
 }
 
 .download-bar {
@@ -190,15 +207,17 @@
 
 .look-at-faq {
   margin-top: 40px;
+
   &__item {
     margin-bottom: 10px;
+
     &:last-child {
       margin-bottom: 0;
     }
   }
 }
 
-.try-again-btn {
+.big-btn {
   min-width: 224px;
 }
 

@@ -27,7 +27,7 @@
   "featuresConfigUrl": "https://raw.githubusercontent.com/wavesplatform/waves-client-config/master/config.json",
   "feeConfigUrl": "https://raw.githubusercontent.com/wavesplatform/waves-client-config/master/fee.json",
   "migration": {
-    "webUrl": "https://localhost:8080/migration",
+    "webUrl": "https://wallet-stage1.waves.exchange",
     "desktopUrl": "https://localhost:8888/connect",
     "desktopPort": 8888,
     "origins": [

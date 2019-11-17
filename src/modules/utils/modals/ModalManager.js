@@ -720,7 +720,9 @@
                 return this._getModal({
                     id: 'migrate-faq',
                     controller: 'MigrateFaqCtrl',
-                    contentUrl: 'modules/utils/modals/migrateFaq/migrateFaq.html'
+                    contentUrl: 'modules/utils/modals/migrateFaq/migrateFaq.html',
+                    title: 'FAQ',
+                    ns: 'app.migrate'
                 });
             }
 

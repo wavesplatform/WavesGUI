@@ -5,16 +5,17 @@ export async function downloadFile (url: string, progressCb?: (progress: number,
         xhr.open('GET', url, true);
         xhr.responseType = "blob";
 
-        xhr.onprogress = (event) => {
+        xhr.onprogress = (event): void => {
             if (typeof progressCb === 'function') {
                 progressCb(event.total ? event.loaded / event.total * 100 : 0, event.loaded);
             }
         };
 
-        // @ts-ignore
-        xhr.onload = function (req: XMLHttpRequest): any {
-            const blob = req.response;
-            resolve(blob);
+
+        xhr.onload = (): void => {
+            new Response(xhr.response).arrayBuffer().then(buffer => {
+                resolve(new Uint8Array(buffer));
+            })
         };
 
         xhr.send();
