@@ -33,6 +33,15 @@
                 });
             }
 
+            /**
+             * @param item
+             */
+            toggleOpen(item) {
+                this.items.forEach(element => {
+                    element.isOpen = element === item && !element.isOpen;
+                });
+            }
+
         }
 
         return new Accordion();

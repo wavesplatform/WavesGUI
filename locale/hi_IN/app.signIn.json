@@ -16,7 +16,7 @@
         "passForgot": {
             "attention": "Attention!",
             "description": "To recover the password, you need to reset all accounts, set a new password, import each account from the Seed phrase or via Private key.",
-            "descriptionExchange": "You are about to erase all existing on Waves.Exchange accounts from this device. This action will not affect your Waves DEX accounts.",
+            "descriptionExchange": "You are about to overwrite all existing on Waves.Exchange accounts from this device. This action will not affect your Waves DEX accounts.",
             "importantDesc": "If you have not saved the Seed phrase or Private key, then you will not be able to recover access to your account.",
             "importantDescEx": "This action is irreversible! If you have not saved the Seed phrase or private key, then you will not be able to recover access to your Waves.Exchange accounts.",
             "importantDescExchange": "This action is irreversible! If you have not saved the Seed phrase or private key, then you will not be able to recover access to your Waves.Exchange accounts."
@@ -24,7 +24,7 @@
         "password": {
             "forgot": "Forgot your password?",
             "overwrite": "Overwrite accounts",
-            "overwriteDescription": "Erase all Waves.Exchange accounts from this device"
+            "overwriteDescription": "Overwrite all Waves.Exchange accounts on this device"
         },
         "signIn": "Sign in",
         "welcomeBack": "Welcome Back!"

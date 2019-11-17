@@ -16,7 +16,7 @@
         "passForgot": {
             "attention": "Let op!",
             "description": "Om het wachtwoord te herstellen, moet u alle accounts opnieuw instellen, een nieuw wachtwoord instellen, elk account importeren via de SEED of via de privésleutel.",
-            "descriptionExchange": "You are about to erase all existing on Waves.Exchange accounts from this device. This action will not affect your Waves DEX accounts.",
+            "descriptionExchange": "You are about to overwrite all existing on Waves.Exchange accounts from this device. This action will not affect your Waves DEX accounts.",
             "importantDesc": "Als u de SEED of privésleutel niet hebt opgeslagen, kunt u de toegang tot uw account niet herstellen.",
             "importantDescEx": "This action is irreversible! If you have not saved the Seed phrase or private key, then you will not be able to recover access to your Waves.Exchange accounts.",
             "importantDescExchange": "This action is irreversible! If you have not saved the Seed phrase or private key, then you will not be able to recover access to your Waves.Exchange accounts."
@@ -24,7 +24,7 @@
         "password": {
             "forgot": "Uw wachtwoord vergeten?",
             "overwrite": "Overwrite accounts",
-            "overwriteDescription": "Erase all Waves.Exchange accounts from this device"
+            "overwriteDescription": "Overwrite all Waves.Exchange accounts on this device"
         },
         "signIn": "Aanmelden",
         "welcomeBack": "Welkom terug!"
