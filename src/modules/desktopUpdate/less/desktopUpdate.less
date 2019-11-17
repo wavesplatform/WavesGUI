@@ -59,6 +59,12 @@
   display: flex;
   align-items: center;
   cursor: pointer;
+  &:hover {
+    .return-button__arrow {
+      transition: 0.3s;
+      background-color: @input-toggle-bg-hover;
+    }
+  }
 
   &__arrow {
     width: 24px;
@@ -171,6 +177,10 @@
   color: #c5d0de;
   border: 0;
   cursor: pointer;
+  transition: 0.3s;
+  &:hover {
+    color: @footer-select-bg-hover;
+  }
 }
 
 .download-bar {
