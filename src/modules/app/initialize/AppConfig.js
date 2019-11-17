@@ -88,15 +88,21 @@
             _initAdapters() {
                 const TransportU2F = WavesApp.isWeb() ? require('@ledgerhq/hw-transport-u2f') : window.TransportNodeHid;
 
-                ds.signAdapters.adapterList.forEach((Adapter) => Adapter.initOptions({
-                    networkCode: WavesApp.network.code.charCodeAt(0),
-                    openTimeout: WavesApp.sign.openTimeout,
-                    listenTimeout: WavesApp.sign.listenTimeout,
-                    exchangeTimeout: WavesApp.sign.exchangeTimeout,
-                    debug: !WavesApp.isProduction(),
-                    transport: TransportU2F && TransportU2F.default,
-                    extension: () => typeof Waves === 'undefined' ? null : Waves
-                }));
+                ds.signAdapters.adapterList.forEach((Adapter) => {
+                    try {
+                        Adapter.initOptions({
+                            networkCode: WavesApp.network.code.charCodeAt(0),
+                            openTimeout: WavesApp.sign.openTimeout,
+                            listenTimeout: WavesApp.sign.listenTimeout,
+                            exchangeTimeout: WavesApp.sign.exchangeTimeout,
+                            debug: !WavesApp.isProduction(),
+                            transport: TransportU2F && TransportU2F.default,
+                            extension: () => typeof Waves === 'undefined' ? null : Waves
+                        });
+                    } catch (e) {
+                        return null;
+                    }
+                });
             }
 
             /**
