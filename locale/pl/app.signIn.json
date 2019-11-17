@@ -16,7 +16,7 @@
         "passForgot": {
             "attention": "Uwaga!",
             "description": "Jeśli zapomnisz hasła, musisz przywrócić wszystkie konta z ich SEED i ustawić nowe hasło.",
-            "descriptionExchange": "You are about to delete all existing on Waves.Exchange accounts from this device. This action will not affect your Waves DEX accounts.",
+            "descriptionExchange": "You are about to delete all of your Waves.Exchange accounts from this device. This action will not affect your Waves DEX accounts.",
             "importantDesc": "If you have not saved the Seed phrase or Private key, then you will not be able to recover access to your account.",
             "importantDescEx": "This action is irreversible! If you have not saved the Seed phrase or private key, then you will not be able to recover access to your Waves.Exchange accounts.",
             "importantDescExchange": "This action is irreversible! If you have not saved the Seed phrase or private key, then you will not be able to recover access to your Waves.Exchange accounts."
