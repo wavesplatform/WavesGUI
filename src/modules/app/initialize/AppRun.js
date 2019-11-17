@@ -814,7 +814,10 @@
 
     angular.module('app').run(run);
 
-    // const { utils } = require('data-service');
+    const { utils } = require('data-service');
+    (new utils.ConfigService(WavesApp)).configReady.then(() => {
+        $(() => angular.bootstrap(document.querySelector('html'), ['app']));
+    });
     // Promise.all([onContentLoad, (new utils.ConfigService(WavesApp)).configReady]).then(() => {
     //     angular.bootstrap(document.querySelector('html'), ['app']);
     // });
