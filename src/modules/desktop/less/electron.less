@@ -2,6 +2,7 @@
 @import (reference) "icons";
 @import (reference) '../../app/less/typography';
 
+
 body.desktop:not(.web) {
   w-web-only {
     &:empty {
@@ -180,6 +181,21 @@ body.desktop:not(.web) {
     .section-wrapper {
       padding-left: 20px;
       padding-right: 20px;
+    }
+  }
+}
+
+
+
+body.desktopUpdate:not(.web) {
+  .main-container {
+    min-height: 100vh;
+
+    &-wrapper {
+      min-height: auto;
+      @media screen and (max-height: 768px) {
+        min-height: 700px;
+      }
     }
   }
 }

@@ -95,10 +95,22 @@ w-warning-plate {
   }
 }
 
+body.desktopUpdate:not(.web) {
+  .warning-timer {
+    & + .ui-view {
+      height: 100%;
+      @media screen and (max-width: 860px) {
+        height: 100%;
+      }
+    }
+  }
+}
+
 .warning-timer {
   position: relative;
   z-index: 11;
-  &+ .ui-view {
+
+  & + .ui-view {
     height: calc(100% ~"- 40px");
   }
 }
@@ -112,10 +124,10 @@ w-warning-plate {
         padding: 12px;
         flex-wrap: wrap;
         transition: all .2s;
-        
+
         &_no-user {
           justify-content: flex-start;
-  
+
           .warning-plate__text {
             max-width: none;
             margin: 0;
@@ -156,7 +168,7 @@ w-warning-plate {
   }
 
   .warning-timer {
-    &+ .ui-view {
+    & + .ui-view {
       height: calc(100% ~"- 72px");
     }
   }
