@@ -1,6 +1,9 @@
 <div ng-if="!$ctrl.isOldDesktop">
-    <div ng-if="$ctrl.canMoveAccounts" class="warning-plate__content" ng-class="{'info': $ctrl.migrationSuccess}"
-        w-i18n-ns="app.utils">
+    <div ng-if="$ctrl.canMoveAccounts"
+         class="warning-plate__content"
+         ng-class="{'info': $ctrl.migrationSuccess}"
+         w-i18n-ns="app.utils">
+
         <div class="warning-plate__timer">
             <div>
                 <span class="warning-plate__timer-value">{{$ctrl.days}}</span>

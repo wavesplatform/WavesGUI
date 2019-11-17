@@ -30,7 +30,7 @@
         "continue": "Продолжить",
         "desc": {
             "almostFinish": "To finish the migration of your accounts, accept the new Terms and Conditions and Privacy Policy.",
-            "enterPassword": "Please enter your password from [waves.exchange](https://waves.exchange) to continue",
+            "enterPassword": "Для продолжения миграции введите пароль учетной записи в Waves.Exchange.",
             "onePassword": "Создайте один пароль для всех своих учетных записей. Входите в учетные записи и легко переключайтесь между ними."
         },
         "description": {
@@ -69,7 +69,7 @@
             "unlocked": "Разблокированы"
         },
         "title": {
-            "almostThere": "Almost there...",
+            "almostThere": "Еще немного...",
             "protectAccount": "\tЗащитите аккаунты"
         }
     }

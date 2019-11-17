@@ -30,7 +30,7 @@
         "continue": "Continue",
         "desc": {
             "almostFinish": "要完成帐户的迁移，请接受新的条款和条件以及隐私权政策。",
-            "enterPassword": "Please enter your password from [waves.exchange](https://waves.exchange) to continue",
+            "enterPassword": "Enter your Waves.Exchange password to continue the migration.",
             "onePassword": "Create one password for all your accounts. Sign into accounts and switch between them easily."
         },
         "description": {

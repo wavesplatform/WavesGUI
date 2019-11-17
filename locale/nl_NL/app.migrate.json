@@ -30,7 +30,7 @@
         "continue": "Continue",
         "desc": {
             "almostFinish": "To finish the migration of your accounts, accept the new Terms and Conditions and Privacy Policy.",
-            "enterPassword": "Please enter your password from [waves.exchange](https://waves.exchange) to continue",
+            "enterPassword": "Enter your Waves.Exchange password to continue the migration.",
             "onePassword": "Create one password for all your accounts. Sign into accounts and switch between them easily."
         },
         "description": {
