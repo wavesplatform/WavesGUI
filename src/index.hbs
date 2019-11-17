@@ -11,8 +11,8 @@
     <script>
         function cacheRound(minutes) {
             var ms = minutes * 60 * 1000;
-            const ts = Date.now();
-            const mod = ts % ms;
+            var ts = Date.now();
+            var mod = ts % ms;
             return mod * ms;
         }
 
