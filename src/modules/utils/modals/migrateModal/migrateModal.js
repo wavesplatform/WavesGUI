@@ -41,6 +41,8 @@
             _export() {
                 const connectProvider = this._getConnectProvider();
 
+                this.step = this.step + 1;
+
                 exportStorageService.export({
                     provider: connectProvider,
                     attempts: 20,
@@ -49,13 +51,15 @@
 
                 exportStorageService.onData().then(result => {
                     if (result.payload === 'ok') {
+                        this.step = this.step + 1;
                         $log.log('done');
-                        this.step++;
                         $scope.$apply();
 
                         return storage.save('migrationSuccess', true);
                     } else {
+                        this.step = this.step - 1;
                         $log.log('fail', result);
+                        $scope.$apply();
 
                         return storage.save('migrationSuccess', false);
                     }

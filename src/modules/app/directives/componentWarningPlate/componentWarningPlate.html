@@ -1,4 +1,4 @@
-<div ng-if="!$ctrl.isOldDesktop">
+<div ng-if="$ctrl.isVisible && !$ctrl.isOldDesktop">
     <div ng-if="$ctrl.canMoveAccounts"
          class="warning-plate__content"
          ng-class="{'info': $ctrl.migrationSuccess}"
@@ -59,8 +59,5 @@
             <span class="warning-plate__text-icon warning-plate__text-icon_circle"></span>
             <span w-i18n="warningPlate.dexMoves"></span>
         </div>
-    </div>
-    <div ng-if="!$ctrl.canMoveAccounts && $ctrl.isDesktop" class="warning-plate__content warning-plate__content_no-user info" w-i18n-ns="app.utils">
-        <div class="warning-plate__text"><a target="_blank" rel="noopener noreferrer" ng-href="{{::$ctrl.distUrl}}">Download app</a></div>
     </div>
 </div>
