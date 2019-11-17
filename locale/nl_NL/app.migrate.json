@@ -6,7 +6,7 @@
         "barDownload": "download",
         "barInstall": "install and run",
         "cancelDownloading": "Cancel download",
-        "connectSupport": "If that did not help, then contact the Waves.Exchange support.",
+        "connectSupport": "If that did not help, then contact the [Waves.Exchange support](https://support.waves.exchange/).",
         "downloaded": "yes",
         "fail": "fail",
         "failText": "Please make sure that you have installed and run the new Waves.Exchange application.",

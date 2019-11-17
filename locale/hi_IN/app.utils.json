@@ -922,7 +922,7 @@
         "unsuccessfulMigration": {
             "checkbox": "Don't show this again",
             "description": "You have started the account migration from Waves DEX to this exchange, but it hasn't been finished. Your accounts haven't been moved. Go back to Waves DEX and start the process from the beginning.",
-            "title": "Unsuccessful Migration!",
+            "title": "Unfinished Migration",
             "understand": "मैं समझा"
         }
     },

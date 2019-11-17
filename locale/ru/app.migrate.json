@@ -1,12 +1,12 @@
 {
     "desktopUpdate": {
         "almostThere": "Еще немного...",
-        "backToPrevious": "Back to previous",
+        "backToPrevious": "Назад",
         "barDone": "готово",
         "barDownload": "Скачать",
         "barInstall": "установить и запустить",
         "cancelDownloading": "Отменить загрузку",
-        "connectSupport": "Если это не поможет, обратитесь в техподдержку Waves.Exchange.",
+        "connectSupport": "Если это не поможет, обратитесь в [техподдержку Waves.Exchange.](https://support.waves.exchange/)",
         "downloaded": "да",
         "fail": "ошибка",
         "failText": "Убедитесь, что вы установили и запустили новое приложение Waves.Exchange.",
