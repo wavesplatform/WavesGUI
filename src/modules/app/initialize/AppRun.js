@@ -153,7 +153,7 @@
                  * Configure library generation avatar by address
                  */
                 identityImg.config({ rows: 8, cells: 8 });
-
+                debugger;
                 this._stopLoader();
                 this._setHandlers();
                 this._initializeLogin();
