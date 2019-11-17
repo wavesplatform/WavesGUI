@@ -17,6 +17,12 @@ w-warning-plate {
       &.info {
         background: @color-submit-300;
       }
+
+      &_no-user {
+        .warning-plate__text {
+          margin-right: auto;
+        }
+      }
     }
 
     &__button {
@@ -30,8 +36,9 @@ w-warning-plate {
       justify-content: center;
       align-items: center;
       line-height: 13px;
-      width: 82px;
+      min-width: 82px;
       height: 22px;
+      margin-right: auto;
 
       &.info {
         color: @color-submit-300;
@@ -39,12 +46,25 @@ w-warning-plate {
     }
 
     &__text {
-      margin: 0 15px 0 20px;
+      margin: 0 15px 0 auto;
+      display: flex;
+      align-items: center;
 
       a {
         color: #fff;
         text-decoration: underline;
         margin-left: 3px;
+      }
+
+      &-icon {
+        background: @warning-icon-700;
+        height: 14px;
+        width: 14px;
+        margin-right: 10px;
+
+        &_circle {
+          background: @info-icon-300;
+        }
       }
     }
 
@@ -87,9 +107,9 @@ w-warning-plate {
   w-warning-plate {
     .warning-plate {
       &__content {
-        height: 56px;
+        height: 72px;
         justify-content: space-between;
-        padding: 10px 12px;
+        padding: 12px;
         flex-wrap: wrap;
         transition: all .2s;
         
@@ -97,7 +117,8 @@ w-warning-plate {
           justify-content: flex-start;
   
           .warning-plate__text {
-            width: auto;
+            max-width: none;
+            margin: 0;
           }
         }
       }
@@ -105,10 +126,25 @@ w-warning-plate {
 
       &__text {
         text-align: left;
-        margin-right: 0;
+        margin-left: 0;
+        margin-right: 10px;
         font-size: 13px;
-        order: 3;
-        width: 100%;
+        max-width: calc(100% ~"- 94px");
+        line-height: 16px;
+
+        &-icon {
+          display: none;
+        }
+      }
+
+      &__timer {
+        display: none;
+      }
+
+      &__button {
+        margin: 3px 0;
+        height: 42px;
+        width: 84px;
       }
     }
   }
@@ -121,7 +157,7 @@ w-warning-plate {
 
   .warning-timer {
     &+ .ui-view {
-      height: calc(100% ~"- 56px");
+      height: calc(100% ~"- 72px");
     }
   }
 }

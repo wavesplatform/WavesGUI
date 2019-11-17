@@ -213,9 +213,10 @@
      * @param {$q} $q
      * @param {Moment} Moment
      * @param {$injector} $injector
+     * @param {*} migration
      * @return {app.utils}
      */
-    const factory = function ($q, Moment, $injector) {
+    const factory = function ($q, Moment, $injector, migration) {
         const base58ToBytes = base58Decode;
         const bytesToBase58 = base58Encode;
 
@@ -2007,6 +2008,10 @@
                 }
 
                 loop();
+            },
+
+            isVersionLte(version) {
+                return migration.lte(WavesApp.electronVersion, version);
             }
         };
 
@@ -2241,7 +2246,7 @@
         return utils;
     };
 
-    factory.$inject = ['$q', 'Moment', '$injector'];
+    factory.$inject = ['$q', 'Moment', '$injector', 'migration'];
 
     angular.module('app.utils')
         .factory('utils', factory);

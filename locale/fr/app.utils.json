@@ -920,7 +920,8 @@
             }
         },
         "unsuccessfulMigration": {
-            "checkbox": "Do not show again",
+            "checkbox": "Don't show this again",
+            "description": "You have started the account migration from Waves DEX to this exchange, but it hasn't been finished. Your accounts haven't been moved. Go back to Waves DEX and start the process from the beginning.",
             "title": "Unsuccessful Migration!",
             "understand": "Je comprends"
         }
@@ -945,9 +946,12 @@
     },
     "Unpin_utils": "Désépingler",
     "utils": {
-        "migrationError": "An error occured during migration. Your accounts have not been moved. Please try again.",
+        "migrationError": "Oops! Your accounts are safe but haven't been moved. Please try again.",
         "privacyPolicy": "I have read and agree with the [Privacy Policy](https://wavesplatform.com/files/docs/Privacy_Policy_SW.pdf).",
+        "privacyPolicyText": "Privacy Policy",
         "termsAgreement": "I have read and agree with the [Terms and Conditions](https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf).",
+        "termsAgreementText": "Terms and Conditions",
+        "termsAssign": "I have read and agree with the",
         "whatsNew": {
             "body": {
                 "1_0_0": "{span.line}[1. Le client Waves est sorti de la version bêta.]{span.line}[2. Vous pouvez maintenant épingler et désépingler n'importe quels actifs sur la page principale.]{span.line}[3. Mode nuit ajouté.]{span.line}[4. Vous pouvez maintenant importer facilement tous vos comptes depuis votre ancien client.]{span.line}[5. Correction de bugs mineurs.]",
@@ -1016,10 +1020,12 @@
     },
     "warningPlate": {
         "day": "d",
-        "dexMoves": "We are moving soon! Stay with us at",
+        "dexMoves": "We are moving soon! Stay with us at [Waves.Exchange](https://waves.exchange)",
         "hour": "h",
+        "info": "We're moving from Waves DEX to Waves Exchange. Do you want to move your accounts again?",
         "min": "m",
-        "notification": "We're moving from Waves DEX to Waves Exchange. Hurry up to move your accounts!",
+        "notification": "We're moving from Waves DEX to Waves.Exchange. Don't forget to move your accounts!",
+        "sec": "s",
         "startMoving": "Start moving"
     }
 }

@@ -40,13 +40,6 @@
       "https://localhost:8080"
     ]
   },
-  "migrationOrigins": [
-    "https://wallet-stage1.waves.exchange",
-    "https://wallet-stage2.waves.exchange",
-    "https://wallet-stage3.waves.exchange",
-    "https://wallet-stage4.waves.exchange",
-    "https://localhost:8080"
-  ],
   "WESTNetworkByte": "V",
   "tokenrating": "https://tokenrating.wavesexplorer.com",
   "assets": {

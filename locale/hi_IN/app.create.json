@@ -45,7 +45,7 @@
             "withBlockchain": "Get Started with Blockchain"
         },
         "import": "इम्पोर्ट खाते",
-        "importDescription": "via Seed phrase, Ledger or Keeper",
+        "importDescription": "via Seed or private key, Ledger, Keystore File",
         "protect": "अपने खाते को किसी पासवर्ड से सुरक्षित करें या",
         "protectYourAccount": "अपना खाता सुरक्षित करें",
         "restore": "कोई खाता रीस्टोर करें",

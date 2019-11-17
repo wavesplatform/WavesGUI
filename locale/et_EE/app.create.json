@@ -45,7 +45,7 @@
             "withBlockchain": "Get Started with Blockchain"
         },
         "import": "Importige kontod",
-        "importDescription": "via Seed phrase, Ledger or Keeper",
+        "importDescription": "via Seed or private key, Ledger, Keystore File",
         "protect": "Kaitske oma kontot parooliga või",
         "protectYourAccount": "Kaitske Oma Kontot",
         "restore": "taasta konto",

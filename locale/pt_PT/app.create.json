@@ -45,7 +45,7 @@
             "withBlockchain": "Get Started with Blockchain"
         },
         "import": "Import accounts",
-        "importDescription": "via Seed phrase, Ledger or Keeper",
+        "importDescription": "via Seed or private key, Ledger, Keystore File",
         "protect": "Protect your account with a password or",
         "protectYourAccount": "Protect Your Account",
         "restore": "restore an account",

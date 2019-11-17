@@ -7,9 +7,11 @@
      * @param {app.utils} utils
      * @param {User} user
      * @param {Storage} storage
+     * @param {ConfigService} configService
+     * @param {*} $state
      * @return {ComponentWarningPlate}
      */
-    const controller = function ($scope, modalManager, utils, user, storage, configService) {
+    const controller = function ($scope, modalManager, utils, user, storage, configService, $state, $element) {
 
         class ComponentWarningPlate {
 
@@ -26,6 +28,10 @@
              */
             minutes = 0;
             /**
+             * @type {number}
+             */
+            seconds = 0;
+            /**
              * @type {boolean}
              */
             canMoveAccounts = false;
@@ -37,7 +43,14 @@
              * @type {string}
              */
             newDexLink = WavesApp.network.wavesExchangeLink;
+            /**
+             * @type {boolean}
+             */
             isDesktop = WavesApp.isDesktop();
+            /**
+             * @type {boolean}
+             */
+            isOldDesktop = this.isDesktop && utils.isVersionLte('1.4.0');
 
             constructor() {
                 this._initCanMoveAccounts();
@@ -68,6 +81,8 @@
                 this.days = this._to2Digest(last.days);
                 this.hours = this._to2Digest(last.hours);
                 this.minutes = this._to2Digest(last.minutes);
+                this.seconds = this._to2Digest(last.seconds);
+                utils.safeApply($scope);
             }
 
             /**
@@ -121,7 +136,7 @@
 
     };
 
-    controller.$inject = ['$scope', 'modalManager', 'utils', 'user', 'storage', 'configService'];
+    controller.$inject = ['$scope', 'modalManager', 'utils', 'user', 'storage', 'configService', '$state', '$element'];
 
     angular.module('app').component('wWarningPlate', {
         templateUrl: 'modules/app/directives/componentWarningPlate/componentWarningPlate.html',

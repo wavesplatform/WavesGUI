@@ -2,7 +2,8 @@
     "back": "Перейти на главную",
     "button": {
         "cancel": "Отмена",
-        "continue": "Продолжить"
+        "continue": "Продолжить",
+        "signIn": "Войти"
     },
     "confirmTransaction": {
         "notPermitted": {

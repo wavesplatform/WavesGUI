@@ -2,7 +2,8 @@
     "back": "Retour",
     "button": {
         "cancel": "Annuler",
-        "continue": "Continuer"
+        "continue": "Continuer",
+        "signIn": "Sign in"
     },
     "confirmTransaction": {
         "notPermitted": {
