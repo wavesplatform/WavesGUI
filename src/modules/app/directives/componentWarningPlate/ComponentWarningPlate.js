@@ -8,9 +8,10 @@
      * @param {app.utils} utils
      * @param {User} user
      * @param {Storage} storage
+     * @param {ng.IAugmentedJQuery} $element
      * @return {ComponentWarningPlate}
      */
-    const controller = function ($scope, $transitions, modalManager, utils, user, storage) {
+    const controller = function ($scope, $transitions, modalManager, utils, user, storage, $element) {
 
         class ComponentWarningPlate {
 
@@ -119,6 +120,7 @@
                     } else {
                         this.canMoveAccounts = false;
                     }
+                    $element.toggleClass('warning-timer_active', this.canMoveAccounts);
                     $scope.$apply();
                 });
             }
@@ -139,7 +141,7 @@
 
     };
 
-    controller.$inject = ['$scope', '$transitions', 'modalManager', 'utils', 'user', 'storage'];
+    controller.$inject = ['$scope', '$transitions', 'modalManager', 'utils', 'user', 'storage', '$element'];
 
     angular.module('app').component('wWarningPlate', {
         templateUrl: 'modules/app/directives/componentWarningPlate/componentWarningPlate.html',
