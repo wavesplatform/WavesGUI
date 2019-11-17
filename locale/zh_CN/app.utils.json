@@ -920,7 +920,8 @@
             }
         },
         "unsuccessfulMigration": {
-            "checkbox": "Do not show again",
+            "checkbox": "Don't show this again",
+            "description": "You have started the account migration from Waves DEX to this exchange, but it hasn't been finished. Your accounts haven't been moved. Go back to Waves DEX and start the process from the beginning.",
             "title": "Unsuccessful Migration!",
             "understand": "我了解"
         }
@@ -947,7 +948,10 @@
     "utils": {
         "migrationError": "迁移期间发生错误。您的帐户尚未移动。请再试一次。",
         "privacyPolicy": "I have read and agree with the [Privacy Policy](https://wavesplatform.com/files/docs/Privacy_Policy_SW.pdf).",
+        "privacyPolicyText": "Privacy Policy",
         "termsAgreement": "I have read and agree with the [Terms and Conditions](https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf).",
+        "termsAgreementText": "Terms and Conditions",
+        "termsAssign": "I have read and agree with the",
         "whatsNew": {
             "body": {
                 "1_0_0": "{span.line} [1。 波浪币客戶已经退出测试版。] {span.line} [2。您现在可以将任何资产固定和取消固定在主页面。] {span.line} [3。添加了夜间模式。] {span.line} [4。您现在可以轻松地从旧客户端导入所有帐户。] {span.line} [5。修正了一些小错误。]",
@@ -1018,7 +1022,7 @@
         "day": "d",
         "dexMoves": "We are moving soon! Stay with us at [Waves.Exchange](https://waves.exchange)",
         "hour": "h",
-        "info": "We're moving from Waves DEX to Waves Exchange. Do you want to move your accounts again?",
+        "info": "We're moving from Waves DEX to Waves.Exchange. Do you want to move your accounts again?",
         "min": "m",
         "notification": "We're moving from Waves DEX to Waves.Exchange. Don't forget to move your accounts!",
         "sec": "s",
