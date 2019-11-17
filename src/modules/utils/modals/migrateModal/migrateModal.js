@@ -22,6 +22,8 @@
                                  storage,
                                  exportStorageService) {
 
+        const analytics = require('@waves/event-sender');
+
         class MigrateModalCtrl extends Base {
 
             /**
@@ -30,6 +32,11 @@
             step = 0;
 
             moving() {
+                analytics.send({
+                    name: 'Start migration',
+                    target: 'all'
+                });
+
                 if (WavesApp.isDesktop()) {
                     $state.go('desktopUpdate');
                 } else {
@@ -54,8 +61,18 @@
                         $log.log('done');
                         $scope.$apply();
 
+                        analytics.send({
+                            name: 'End migration',
+                            target: 'all'
+                        });
+
                         return storage.save('migrationSuccess', true);
                     } else {
+                        analytics.send({
+                            name: 'Bad migration',
+                            target: 'all'
+                        });
+
                         this.step = this.step - 1;
                         $log.log('fail', result);
                         $scope.$apply();
@@ -66,6 +83,10 @@
             }
 
             cancel() {
+                analytics.send({
+                    name: 'Cancel migration',
+                    target: 'all'
+                });
                 $mdDialog.cancel();
                 storage.save('notAutoOpenMigrationModal', true);
             }
