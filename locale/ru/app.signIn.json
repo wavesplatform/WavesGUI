@@ -24,7 +24,7 @@
         "password": {
             "forgot": "Забыли пароль?",
             "overwrite": "Перезаписать аккаунты",
-            "overwriteDescription": "Стереть аккаунты Waves.Exchange с этого устройства"
+            "overwriteDescription": "Перезаписать учетные записи Waves.Exchange на этом устройстве"
         },
         "signIn": "Войти",
         "welcomeBack": "С возвращением!"

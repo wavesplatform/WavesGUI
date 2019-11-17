@@ -24,7 +24,7 @@
         "password": {
             "forgot": "lupa kata sandi Anda?",
             "overwrite": "Overwrite accounts",
-            "overwriteDescription": "Erase all Waves.Exchange accounts from this device"
+            "overwriteDescription": "Overwrite all Waves.Exchange accounts on this device"
         },
         "signIn": "Masuk",
         "welcomeBack": "Selamat datang kembali!"
