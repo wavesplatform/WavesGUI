@@ -9,6 +9,11 @@
 
         class ChangeLanguage extends Base {
 
+            /**
+             * @type {boolean}
+             */
+            upDirection = false;
+
             constructor() {
                 super();
                 /**
@@ -63,7 +68,8 @@
 
     angular.module('app.ui').component('wChangeLanguage', {
         bindings: {
-            onChange: '&'
+            onChange: '&',
+            upDirection: '<'
         },
         templateUrl: 'modules/ui/directives/changeLanguage/changeLanguage.html',
         transclude: false,
