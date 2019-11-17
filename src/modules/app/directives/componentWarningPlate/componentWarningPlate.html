@@ -55,7 +55,10 @@
                 <span w-i18n="warningPlate.sec"> s </span>
             </div>
         </div>
-        <div class="warning-plate__text"><span w-i18n="warningPlate.dexMoves"></span></div>
+        <div class="warning-plate__text">
+            <span class="warning-plate__text-icon warning-plate__text-icon_circle"></span>
+            <span w-i18n="warningPlate.dexMoves"></span>
+        </div>
     </div>
     <div ng-if="!$ctrl.canMoveAccounts && $ctrl.isDesktop" class="warning-plate__content warning-plate__content_no-user info" w-i18n-ns="app.utils">
         <div class="warning-plate__text"><a target="_blank" rel="noopener noreferrer" ng-href="{{::$ctrl.distUrl}}">Download app</a></div>
