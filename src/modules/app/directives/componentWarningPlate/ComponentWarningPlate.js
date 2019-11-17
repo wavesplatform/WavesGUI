@@ -3,15 +3,14 @@
 
     /**
      * @param {*} $scope
+     * @param {*} $transitions
      * @param {ModalManager} modalManager
      * @param {app.utils} utils
      * @param {User} user
      * @param {Storage} storage
-     * @param {ConfigService} configService
-     * @param {*} $state
      * @return {ComponentWarningPlate}
      */
-    const controller = function ($scope, modalManager, utils, user, storage, configService, $state, $element) {
+    const controller = function ($scope, $transitions, modalManager, utils, user, storage) {
 
         class ComponentWarningPlate {
 
@@ -51,6 +50,10 @@
              * @type {boolean}
              */
             isOldDesktop = this.isDesktop && utils.isVersionLte('1.4.0');
+            /**
+             * @type {boolean}
+             */
+            isVisible = true;
 
             constructor() {
                 this._initCanMoveAccounts();
@@ -66,7 +69,13 @@
 
                 utils.startTimer({ year: 2019, month: 12, day: 2, hours: 15 }, this._setTime.bind(this), 1000);
 
-                this._getDistUrl();
+                $transitions.onSuccess({ to: 'desktopUpdate' }, () => {
+                    this.isVisible = false;
+                });
+
+                $transitions.onSuccess({ from: 'desktopUpdate' }, () => {
+                    this.isVisible = true;
+                });
             }
 
             showMovingModal() {
@@ -123,12 +132,6 @@
                     $scope.$apply();
                 });
             }
-            _getDistUrl() {
-                configService.configReadyPromise.then(() => {
-                    const urls = configService.get('DESKTOP_URLS');
-                    this.distUrl = new URL(urls[WavesApp.platform]);
-                });
-            }
 
         }
 
@@ -136,7 +139,7 @@
 
     };
 
-    controller.$inject = ['$scope', 'modalManager', 'utils', 'user', 'storage', 'configService', '$state', '$element'];
+    controller.$inject = ['$scope', '$transitions', 'modalManager', 'utils', 'user', 'storage'];
 
     angular.module('app').component('wWarningPlate', {
         templateUrl: 'modules/app/directives/componentWarningPlate/componentWarningPlate.html',
