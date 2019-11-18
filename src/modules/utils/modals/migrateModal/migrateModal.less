@@ -27,7 +27,8 @@
 
 	&__text {
 		color: @color-basic-500;
-		margin-bottom: 30px;
+		margin-bottom: 20px;
+		font-size: 15px;
 
 		&_directed {
 			text-align: center;
@@ -38,5 +39,22 @@
 	&__link {
 		text-align: center;
 		display: block;
+	}
+
+	&__plate {
+		display: flex;
+		padding: 16px;
+		border-radius: 4px;
+		border: dashed 1px #dae1e9;
+		margin-bottom: 30px;
+		&-icon {
+			width: 40px;
+			height: 40px;
+			background: url('/img/icons/lock-40-basic-200.svg') center no-repeat;
+			margin-right: 10px;
+		}
+		&-text {
+			color: @changeLang-border-footer;
+		}
 	}
 }

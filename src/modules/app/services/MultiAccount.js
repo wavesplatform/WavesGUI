@@ -131,7 +131,9 @@
             return this.isSignedIn ?
                 Object.entries(multiAccountUsers || {}).map(([userHash, user]) => {
                     const _user = _users[userHash];
-
+                    if (!_user) {
+                        return null;
+                    }
                     return {
                         ...user,
                         userType: _user.userType,
@@ -143,7 +145,7 @@
                         address: buildAddress({ publicKey: _user.publicKey }, String.fromCharCode(_user.networkByte)),
                         hash: userHash
                     };
-                }).sort((a, b) => b.lastLogin - a.lastLogin) :
+                }).filter(Boolean).sort((a, b) => b.lastLogin - a.lastLogin) :
                 [];
         }
 
