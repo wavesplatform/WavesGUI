@@ -89,7 +89,7 @@
                             }
                         }
                     });
-                    const content = '{migrationError: !!window.location.href.includes(\'error\') }';
+                    const content = '{migrationError: !window.location.href.includes(\'http://localhost:8888\') }';
                     win.eval(`window.opener.postMessage(${content}, '*')`);
                 });
             }
