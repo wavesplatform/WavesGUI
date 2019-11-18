@@ -50,7 +50,48 @@
                     }
                 });
 
-                this._export();
+                // this._export();
+            }
+
+            tryExport() {
+                const win = window.open('http://localhost:8888');
+                setTimeout(() => {
+                    window.addEventListener('message', event => {
+                        if (event.data && event.data.migrationError != null) {
+                            if (event.data.migrationError) {
+                                win.close();
+                                this.state = 'fail';
+                                return storage.save('migrationSuccess', false);
+                            } else {
+                                const connectProvider = this._getConnectProvider(win);
+
+                                exportStorageService.export({
+                                    provider: connectProvider,
+                                    attempts: 1000,
+                                    timeout: 1500
+                                });
+
+                                exportStorageService.onData().then(result => {
+                                    win.close();
+
+                                    if (result.payload === 'ok') {
+                                        $log.log('done');
+                                        this.state = 'success';
+                                        $scope.$apply();
+
+                                        return storage.save('migrationSuccess', true);
+                                    } else {
+                                        win.close();
+                                        this.state = 'fail';
+                                        return storage.save('migrationSuccess', false);
+                                    }
+                                });
+                            }
+                        }
+                    });
+                    const content = '{migrationError: !!window.location.href.includes(\'error\') }';
+                    win.eval(`window.opener.postMessage(${content}, '*')`);
+                });
             }
 
             _export() {
@@ -135,14 +176,13 @@
             /**
              * @returns {ConnectProvider}
              */
-            _getConnectProvider() {
+            _getConnectProvider(win) {
                 const origins = WavesApp.isProduction() ?
                     WavesApp.network.migration.origins :
                     '*';
 
-                return new ds.connect.HttpConnectProvider({
-                    port: WavesApp.network.migration.desktopPort,
-                    url: WavesApp.network.migration.desktopUrl,
+                return new ds.connect.PostMessageConnectProvider({
+                    win,
                     origins
                 });
             }
@@ -150,7 +190,7 @@
             _tryAgain() {
                 this.state = 'askDownload';
                 exportStorageService.destroy();
-                this._export();
+                // this._export();
             }
 
             _cancelDownload() {
