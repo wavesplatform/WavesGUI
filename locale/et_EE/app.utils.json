@@ -1026,6 +1026,6 @@
         "min": "m",
         "notification": "We're moving from Waves DEX to Waves.Exchange. Don't forget to move your accounts!",
         "sec": "s",
-        "startMoving": "Start moving"
+        "startMoving": "Safe moving"
     }
 }
