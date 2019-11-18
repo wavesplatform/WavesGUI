@@ -8,7 +8,7 @@
     "signIn": {
         "btn": {
             "cancel": "取消",
-            "overwrite": "Delete",
+            "overwrite": "Overwrite",
             "restore": "重置所有"
         },
         "enterPass": "请输入您的密码以继续",
@@ -23,8 +23,8 @@
         },
         "password": {
             "forgot": "忘记密码了？",
-            "overwrite": "Delete accounts",
-            "overwriteDescription": "Erase all Waves.Exchange accounts on this device"
+            "overwrite": "Overwrite accounts",
+            "overwriteDescription": "Overwrite all Waves.Exchange accounts on this device"
         },
         "signIn": "登录",
         "welcomeBack": "欢迎回来"

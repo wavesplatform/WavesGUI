@@ -8,7 +8,7 @@
     "signIn": {
         "btn": {
             "cancel": "Batalkan",
-            "overwrite": "Delete",
+            "overwrite": "Overwrite",
             "restore": "Reset all"
         },
         "enterPass": "Silakan masukkan kata sandi Anda untuk melanjutkan",
@@ -23,8 +23,8 @@
         },
         "password": {
             "forgot": "lupa kata sandi Anda?",
-            "overwrite": "Delete accounts",
-            "overwriteDescription": "Erase all Waves.Exchange accounts on this device"
+            "overwrite": "Overwrite accounts",
+            "overwriteDescription": "Overwrite all Waves.Exchange accounts on this device"
         },
         "signIn": "Masuk",
         "welcomeBack": "Selamat datang kembali!"

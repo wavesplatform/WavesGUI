@@ -8,7 +8,7 @@
     "signIn": {
         "btn": {
             "cancel": "Отменить",
-            "overwrite": "Удалить",
+            "overwrite": "Перезаписать",
             "restore": "Сбросить все"
         },
         "enterPass": "Введите пароль, чтобы продолжить",
@@ -23,8 +23,8 @@
         },
         "password": {
             "forgot": "Забыли пароль?",
-            "overwrite": "Удалить аккаунты",
-            "overwriteDescription": "Стереть аккаунты Waves.Exchange на этом устройстве"
+            "overwrite": "Перезаписать аккаунты",
+            "overwriteDescription": "Перезаписать все Waves.Exchange аккаунты "
         },
         "signIn": "Войти",
         "welcomeBack": "С возвращением!"
