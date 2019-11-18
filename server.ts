@@ -86,7 +86,7 @@ function createSimpleServer({ port = 8000 }) {
     console.log(`https://${ip}:${port}`);
 }
 
-createMyServer(args.port || 8080);
+createMyServer(args.port || 8081);
 
 if (args.startSimple) {
     createSimpleServer(args);

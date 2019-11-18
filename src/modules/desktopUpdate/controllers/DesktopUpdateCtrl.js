@@ -50,7 +50,34 @@
                     }
                 });
 
-                this._export();
+                // this._export();
+            }
+
+            tryExport() {
+                const win = window.open('http://localhost:8888');
+                setTimeout(() => {
+                    const connectProvider = this._getConnectProvider(win);
+
+                    exportStorageService.export({
+                        provider: connectProvider,
+                        attempts: 100,
+                        timeout: 10000
+                    });
+
+                    exportStorageService.onData().then(result => {
+                        if (result.payload === 'ok') {
+                            $log.log('done');
+                            this.state = 'success';
+                            $scope.$apply();
+
+                            return storage.save('migrationSuccess', true);
+                        } else {
+                            this.state = 'fail';
+
+                            return storage.save('migrationSuccess', false);
+                        }
+                    });
+                });
             }
 
             _export() {
@@ -135,14 +162,13 @@
             /**
              * @returns {ConnectProvider}
              */
-            _getConnectProvider() {
+            _getConnectProvider(win) {
                 const origins = WavesApp.isProduction() ?
                     WavesApp.network.migration.origins :
                     '*';
 
-                return new ds.connect.HttpConnectProvider({
-                    port: WavesApp.network.migration.desktopPort,
-                    url: WavesApp.network.migration.desktopUrl,
+                return new ds.connect.PostMessageConnectProvider({
+                    win,
                     origins
                 });
             }
@@ -150,7 +176,7 @@
             _tryAgain() {
                 this.state = 'askDownload';
                 exportStorageService.destroy();
-                this._export();
+                // this._export();
             }
 
             _cancelDownload() {
