@@ -177,9 +177,7 @@
              * @returns {ConnectProvider}
              */
             _getConnectProvider(win) {
-                const origins = WavesApp.isProduction() ?
-                    WavesApp.network.migration.origins :
-                    '*';
+                const origins = '*';
 
                 return new ds.connect.PostMessageConnectProvider({
                     win,
