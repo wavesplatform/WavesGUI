@@ -61,7 +61,11 @@ export class PostMessageConnectProvider implements ConnectProvider {
     }
 
     public destroy(): void {
-        this.bus.destroy();
+        try {
+            this.bus.destroy();
+        } catch (e) {
+
+        }
         this.active = false;
     }
 
