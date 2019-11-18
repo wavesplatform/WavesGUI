@@ -8,7 +8,7 @@
     "signIn": {
         "btn": {
             "cancel": "Anuluj",
-            "overwrite": "Delete",
+            "overwrite": "Overwrite",
             "restore": "Reset all"
         },
         "enterPass": "Wprowadź swoje hasło, aby kontynuować.",
@@ -23,8 +23,8 @@
         },
         "password": {
             "forgot": "Zapomniałeś swoje hasło?",
-            "overwrite": "Delete accounts",
-            "overwriteDescription": "Erase all Waves.Exchange accounts on this device"
+            "overwrite": "Overwrite accounts",
+            "overwriteDescription": "Overwrite all Waves.Exchange accounts on this device"
         },
         "signIn": "Zaloguj się",
         "welcomeBack": "Witamy z powrotem!"
