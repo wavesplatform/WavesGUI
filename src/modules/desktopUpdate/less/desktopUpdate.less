@@ -104,18 +104,24 @@
       }
     }
 
+    &-text {
+      color: @color-basic-500;
+    }
+
     &-number {
       display: flex;
       background: #fff;
       justify-content: center;
       align-items: center;
-      color: @color-basic-500;
+      color: @color-basic-100;
       position: relative;
       width: 20px;
       height: 20px;
       border: solid 2px @color-basic-100;
       border-radius: 50%;
       margin: 0 auto 8px;
+      font-size: 12px;
+      font-weight: 500;
 
       //@TODO kostyil'
       &::after {
