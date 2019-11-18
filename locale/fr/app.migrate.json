@@ -17,7 +17,7 @@
         "iUnderstand": "I understand",
         "lookAtFAQ1": "If you did everything properly and keep getting the Fail result, then take a look at the",
         "lookAtFAQ2": "You might find the answer there.",
-        "movingText": "{div}[To offer users a better experience and wider range of tools, the exchange is moving from Waves DEX to Waves.Exchange.]\n{div}[Waves DEX will stop operating on December 2, 2019. To continue trading you have to move your accounts to the new exchange. We strongly recommend that you do this in advance.]\n{div}[The moving is fast, easy, and absolutely secure.]",
+        "movingText": "{div.margin-bottom}[To offer users a better experience and wider range of tools, the exchange is moving from Waves DEX to Waves.Exchange.]\n{div.margin-bottom}[Waves DEX will stop operating on December 2, 2019. To continue trading you have to move your accounts to the new exchange. We strongly recommend that you do this in advance.]\n{div.margin-bottom}[The moving is fast, easy, and absolutely secure.]",
         "oops": "Oops! Something went wrong...",
         "pleaseWait": "Downloading...",
         "return": "return",
@@ -110,6 +110,7 @@
         },
         "modalTitle": {
             "moving": "We're moving!",
+            "plate": "Don’t worry! All of your tokens, seed phrases and passwords are safe.",
             "redirected": "You have been redirected to"
         },
         "signIn": "Sign in",

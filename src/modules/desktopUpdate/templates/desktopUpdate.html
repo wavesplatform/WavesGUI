@@ -19,7 +19,11 @@
                             <h3 class="migrate-modal__title margin-2" w-i18n="migrate.modalTitle.moving"></h3>
 
                             <div ng-if="$ctrl._hasAccounts" class="basic-500 margin-3 downloading-text">
-                                <div w-i18n="desktopUpdate.movingText"></div>
+                                <div class="margin-2" w-i18n="desktopUpdate.movingText"></div>
+                                <div class="migrate-modal__plate">
+                                    <div class="migrate-modal__plate-icon"></div>
+                                    <div class="migrate-modal__plate-text headline-3" w-i18n="migrate.modalTitle.plate"></div>
+                                </div>
                             </div>
 
                             <div ng-if="!$ctrl._hasAccounts" class="basic-500 margin-3 downloading-text">
