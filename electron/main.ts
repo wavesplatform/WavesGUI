@@ -36,7 +36,7 @@ class Main implements IMain {
     public bridge: Bridge;
     private ctxMenuList: Array<Menu> = [];
     private initializeUrl: string = '';
-    private hasDevTools: boolean = false;
+    private hasDevTools: boolean = true;
     private dataPromise: Promise<IMetaJSON>;
     private lastLoadedVersion: string;
     private readonly pack: IPackageJSON;

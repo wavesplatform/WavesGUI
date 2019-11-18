@@ -50,6 +50,12 @@
          * @param timeout
          */
         export({ provider, attempts, timeout }) {
+            this._dataPromise = new Promise((resolve, reject) => {
+                this._onDataResolve = resolve;
+                this._onDataReject = reject;
+            });
+            this.destroy();
+
             this._provider = provider;
             const message = JSON.stringify({ event: 'connect' });
 
