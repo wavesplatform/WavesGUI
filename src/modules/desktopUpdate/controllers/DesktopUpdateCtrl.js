@@ -56,31 +56,39 @@
             tryExport() {
                 const win = window.open('http://localhost:8888');
                 setTimeout(() => {
-                    const connectProvider = this._getConnectProvider(win);
-
-                    exportStorageService.export({
-                        provider: connectProvider,
-                        attempts: 1000,
-                        timeout: 500
-                    });
-
-                    exportStorageService.onData().then(result => {
-                        win.close();
-
-                        if (result.payload === 'ok') {
-                            $log.log('done');
-                            this.state = 'success';
-                            $scope.$apply();
-
-                            return storage.save('migrationSuccess', true);
-                        } else {
+                    window.addEventListener('message', event => {
+                        if (event.data.migrationError) {
                             win.close();
-
                             this.state = 'fail';
-
                             return storage.save('migrationSuccess', false);
+                        } else {
+                            const connectProvider = this._getConnectProvider(win);
+
+                            exportStorageService.export({
+                                provider: connectProvider,
+                                attempts: 1000,
+                                timeout: 500
+                            });
+
+                            exportStorageService.onData().then(result => {
+                                win.close();
+
+                                if (result.payload === 'ok') {
+                                    $log.log('done');
+                                    this.state = 'success';
+                                    $scope.$apply();
+
+                                    return storage.save('migrationSuccess', true);
+                                } else {
+                                    win.close();
+                                    this.state = 'fail';
+                                    return storage.save('migrationSuccess', false);
+                                }
+                            });
                         }
                     });
+                    const content = '{migrationError: !!window.location.href.includes(\'error\') }';
+                    win.eval(`window.opener.postMessage(${content}, '*')`);
                 });
             }
 
