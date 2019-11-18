@@ -79,6 +79,10 @@ w-warning-plate {
       height: 22px;
       font-family: @font-roboto-medium;
 
+      @media screen and (max-width: 930px) {
+        display: none;
+      }
+
       &::before {
         content: "";
         display: block;
