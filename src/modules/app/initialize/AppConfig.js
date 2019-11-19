@@ -143,7 +143,8 @@
                                     tsUtils.notContains('app.fromBackup'),
                                     tsUtils.notContains('app.wallet'),
                                     tsUtils.notContains('app.stand'),
-                                    tsUtils.notContains('app.switch')
+                                    tsUtils.notContains('app.switch'),
+                                    tsUtils.notContains('app.desktopUpdate')
                                 )
                             ),
                         fallbackLng: 'en',
