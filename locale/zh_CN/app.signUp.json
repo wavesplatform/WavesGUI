@@ -6,7 +6,7 @@
             "onePassword": "为您的所有帐户设置一个密码",
             "protect": "保护您的帐户",
             "protectDesc": "为您的所有帐户设置一个密码",
-            "protectPass": "创建一个密码"
+            "protectPass": "创建密码"
         },
         "password": {
             "notMatch": "密码不匹配"

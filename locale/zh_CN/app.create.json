@@ -45,7 +45,7 @@
             "withBlockchain": "开始使用区块链"
         },
         "import": "导入帐户",
-        "importDescription": "通过种子短语，分类帐或Keeper",
+        "importDescription": "通过种子或私钥，分类帐，密钥库文件",
         "protect": "使用密码来保护您的帐户或",
         "protectYourAccount": "保护您的帐号",
         "restore": "恢复帐户",

@@ -8,23 +8,23 @@
     "signIn": {
         "btn": {
             "cancel": "取消",
-            "overwrite": "Overwrite",
+            "overwrite": "覆写",
             "restore": "重置所有"
         },
         "enterPass": "请输入您的密码以继续",
-        "or": "OR",
+        "or": "或",
         "passForgot": {
             "attention": "注意！",
             "description": "要恢复密码，您需要重置所有帐户，设置新密码，从种子短语或私钥导入每个帐户。",
-            "descriptionExchange": "You are about to delete all of your Waves.Exchange accounts from this device. This action will not affect your Waves DEX accounts.",
+            "descriptionExchange": "您将要从此设备删除所有Waves.Exchange帐户。此操作不会影响您的Waves DEX帐户。",
             "importantDesc": "如果您尚未保存种子短语或私钥，则您将无法恢复对帐户的访问权限。",
-            "importantDescEx": "This action is irreversible! If you have not saved the Seed phrase or private key, then you will not be able to recover access to your Waves.Exchange accounts.",
-            "importantDescExchange": "This action is irreversible! If you have not saved the Seed phrase or private key, then you will not be able to recover access to your Waves.Exchange accounts."
+            "importantDescEx": "这个动作是不可逆的！如果尚未保存种子短语或私钥，则将无法恢复对Waves.Exchange帐户的访问。",
+            "importantDescExchange": "这个动作是不可逆的！如果尚未保存种子短语或私钥，则将无法恢复对Waves.Exchange帐户的访问。"
         },
         "password": {
             "forgot": "忘记密码了？",
-            "overwrite": "Overwrite accounts",
-            "overwriteDescription": "Overwrite all Waves.Exchange accounts on this device"
+            "overwrite": "覆写帐户",
+            "overwriteDescription": "覆盖此设备上的所有Waves.Exchange帐户"
         },
         "signIn": "登录",
         "welcomeBack": "欢迎回来"
