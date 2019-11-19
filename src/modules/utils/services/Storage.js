@@ -28,7 +28,8 @@
                     .then(data => addNewGateway(data, WavesApp.defaultAssets.BNT));
             },
             '1.4.0': storage => migrateCommonSettings(storage),
-            '1.4.6': storage => fixMigrateCommonSettings(storage)
+            '1.4.6': storage => fixMigrateCommonSettings(storage),
+            '1.4.15': storage => fixUndefined(storage)
         };
 
         const { Signal } = require('ts-utils');
@@ -170,8 +171,8 @@
                 }
 
                 return Promise.all([
-                    storage.save('multiAccountUsers', multiAccountUsers),
-                    storage.save('userList', userList)
+                    multiAccountUsers ? storage.save('multiAccountUsers', multiAccountUsers) : Promise.resolve(),
+                    userList ? storage.save('userList', userList) : Promise.resolve()
                 ]);
 
             });
@@ -202,6 +203,18 @@
                 return Promise.all([
                     storage.save('multiAccountSettings', commonSettings.getSettings().common),
                     storage.save('userList', userList)
+                ]);
+            });
+        }
+
+        function fixUndefined(storage) {
+            return Promise.all([
+                storage.load('userList'),
+                storage.load('multiAccountUsers')
+            ]).then(([userList, multiAccountUsers]) => {
+                return Promise.all([
+                    userList === 'undefined' ? storage.save('userList', '') : Promise.resolve(),
+                    multiAccountUsers === 'undefined' ? storage.save('multiAccountUsers', '') : Promise.resolve()
                 ]);
             });
         }
