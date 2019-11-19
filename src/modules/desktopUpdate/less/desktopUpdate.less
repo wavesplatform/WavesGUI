@@ -60,10 +60,10 @@
   display: flex;
   align-items: center;
   cursor: pointer;
+  
   &:hover {
     .return-button__arrow {
-      transition: 0.3s;
-      background-color: @input-toggle-bg-hover;
+      background-color: rgba(31, 90, 246, 0.15);
     }
   }
 
@@ -72,6 +72,7 @@
     height: 24px;
     margin-right: 10px;
     border-radius: 4px;
+    transition: 0.3s;
     background: @arrow-left-blue-icon center no-repeat rgba(31, 90, 246, 0.06);
   }
 
@@ -121,7 +122,7 @@
       border-radius: 50%;
       margin: 0 auto 8px;
       font-size: 12px;
-      font-weight: 500;
+      font-family: @font-roboto-medium;
 
       //@TODO kostyil'
       &::after {
@@ -136,15 +137,15 @@
     }
 
     &.active {
-      color: @color-submit-500;
+      color: @color-submit-400;
 
       .progress-bar__item-number {
-        color: @color-submit-500;
-        border: solid 2px @color-submit-500;
+        color: @color-submit-400;
+        border: solid 2px @color-submit-400;
       }
 
       .progress-bar__item-text {
-        color: @color-submit-500;
+        color: @color-submit-400;
       }
 
     }
