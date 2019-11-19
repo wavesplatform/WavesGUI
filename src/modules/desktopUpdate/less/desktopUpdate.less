@@ -3,7 +3,7 @@
 @import (reference) '../../app/less/typography';
 
 .white-bg {
-  background-color: #fff;
+  background-color: @color-white;
 }
 
 .update-centering-wrapper {
@@ -17,7 +17,7 @@
 }
 
 .update-footer {
-  background-color: #fff !important;
+  background-color: @color-white !important;
 }
 
 .step-title {
@@ -110,7 +110,7 @@
 
     &-number {
       display: flex;
-      background: #fff;
+      background: @color-white;
       justify-content: center;
       align-items: center;
       color: @color-basic-100;
@@ -167,13 +167,13 @@
 
     &.fail {
       .progress-bar__item-number {
-        border: solid 2px #ef4829;
-        background: @notification-icon-close center no-repeat #ef4829;
+        border: solid 2px @color-error-500;
+        background: @notification-icon-close center no-repeat @color-error-500;
         color: transparent;
       }
 
       .progress-bar__item-text {
-        color: #ef4829;
+        color: @color-error-500;
       }
     }
   }
@@ -181,7 +181,7 @@
 
 .cancel-btn {
   font-size: 15px;
-  color: #c5d0de;
+  color: @color-basic-300;
   border: 0;
   cursor: pointer;
   transition: 0.3s;
