@@ -94,7 +94,7 @@
                     <div ng-if="$ctrl.state === 'askDownload'">
                         <div class="step-title" w-i18n="desktopUpdate.haveYouDownloaded"></div>
                         <div class="buttons-wrapper">
-                            <w-button class="big" on-click="$ctrl.state = 'installAndRun'">
+                            <w-button class="big" on-click="$ctrl._toInstallAndRun()">
                                 <span class='capitalize' w-i18n="desktopUpdate.downloaded"></span>
                             </w-button>
                             <w-button class="big submit" on-click="$ctrl.download()">
@@ -114,14 +114,34 @@
                     </div>
 
                     <div ng-if="$ctrl.state === 'installAndRun'">
-                        <div class="step-title" w-i18n="desktopUpdate.installAndRun"></div>
+                        <div ng-class="{ visible: $ctrl._showSteps }" class="step-title step-title_first">
+                            <span class="basic-100">1</span>
+                            <span w-i18n="desktopUpdate.install"></span>
+                        </div>
+                        <div ng-class="{ visible: $ctrl._showSteps }" class="step-title step-title_second">
+                            <span class="basic-100">2</span>
+                            <span w-i18n="desktopUpdate.run"></span>
+                        </div>
 
                         <div class="buttons-wrapper">
-                            <w-button class="big" on-click="$ctrl.state = 'askDownload'">
+                            <w-button class="big big-btn margin-right-2" on-click="$ctrl._askDownload()">
                                 <span w-i18n="desktopUpdate.backToPrevious"></span>
                             </w-button>
-                            <w-button class="big submit" on-click="$ctrl.tryExport()">
-                                <span class='capitalize' w-i18n="desktopUpdate.downloaded"></span>
+                            <w-button disabled="$ctrl._timer > 0" class="big submit relative big-btn" on-click="$ctrl.tryExport()">
+                                <div ng-if="$ctrl._timer > 0" class="circular-wrapper">
+                                    <div class="circular">
+                                        <svg class="circular-progress" width="28" height="28" viewBox="0 0 28 28">
+                                            <circle cx="14" cy="14" r="10" fill="none" stroke="#b8cbfa"
+                                                    stroke-width="4"/>
+                                            <circle class="circular-progress__value" cx="14" cy="14" r="10" fill="none"
+                                                    stroke="#fff" stroke-width="4"/>
+                                        </svg>
+                                    </div>
+                                    <span class="circular-timer">{{$ctrl._timer}}</span>
+                                    <span w-i18n="{{$ctrl.getPlural()}}"></span>
+                                </div>
+                                <span ng-if="$ctrl._timer === 0" class="capitalize" w-i18n="desktopUpdate.downloaded"></span>
+
                             </w-button>
                         </div>
                     </div>

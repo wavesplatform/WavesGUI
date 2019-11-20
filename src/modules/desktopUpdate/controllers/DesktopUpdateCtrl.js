@@ -35,6 +35,8 @@
             _oldDesktop = false;
             _hasAccounts = false;
             _isCanceled = null;
+            _showSteps = false;
+            _timer = 10;
 
             constructor() {
                 if (!WavesApp.isDesktop()) {
@@ -49,8 +51,6 @@
                         this._hasAccounts = true;
                     }
                 });
-
-                // this._export();
             }
 
             tryExport() {
@@ -94,30 +94,6 @@
                 });
             }
 
-            _export() {
-                const connectProvider = this._getConnectProvider();
-
-                exportStorageService.export({
-                    provider: connectProvider,
-                    attempts: 100,
-                    timeout: 10000
-                });
-
-                exportStorageService.onData().then(result => {
-                    if (result.payload === 'ok') {
-                        $log.log('done');
-                        this.state = 'success';
-                        $scope.$apply();
-
-                        return storage.save('migrationSuccess', true);
-                    } else {
-                        this.state = 'fail';
-
-                        return storage.save('migrationSuccess', false);
-                    }
-                });
-            }
-
             download() {
                 this._isCanceled = false;
                 const url = this._getDistUrl();
@@ -135,6 +111,9 @@
                         fileContent: content
                     }).then(() => {
                         this.state = 'installAndRun';
+                        setTimeout(() => {
+                            this._showSteps = true;
+                        }, 10);
                         this.isDownloading = false;
                         this._resetProgress();
                         $scope.$digest();
@@ -173,6 +152,39 @@
                 this._showMoving = true;
             }
 
+            _toInstallAndRun() {
+                this.state = 'installAndRun';
+                this._timer = 10;
+
+                let timerId;
+
+                const tick = () => {
+                    if (this._timer > 0) {
+                        this._decreaseTimer();
+                        if (timerId) {
+                            window.clearTimeout(timerId);
+                        }
+                        timerId = setTimeout(tick, 1000);
+                    } else {
+                        window.clearTimeout(timerId);
+                    }
+                };
+
+                tick();
+
+
+                const otherTimer = setTimeout(() => {
+                    this._showSteps = true;
+                    window.clearInterval(otherTimer);
+                }, 10);
+
+            }
+
+            _askDownload() {
+                this.state = 'askDownload';
+                this._showSteps = false;
+            }
+
             /**
              * @returns {ConnectProvider}
              */
@@ -187,8 +199,9 @@
 
             _tryAgain() {
                 this.state = 'askDownload';
+                this._showSteps = false;
+                this._timer = 10;
                 exportStorageService.destroy();
-                // this._export();
             }
 
             _cancelDownload() {
@@ -200,6 +213,24 @@
 
             showFAQ() {
                 modalManager.showMigrateFAQ();
+            }
+
+            _decreaseTimer() {
+                this._timer = this._timer - 1;
+            }
+
+            // @TODO сделать плюризацию
+            getPlural() {
+                switch (this._timer) {
+                    case 1:
+                        return 'desktopUpdate.seconds1';
+                    case 2:
+                    case 3:
+                    case 4:
+                        return 'desktopUpdate.seconds234';
+                    default:
+                        return 'desktopUpdate.seconds';
+                }
             }
 
         }
