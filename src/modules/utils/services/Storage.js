@@ -11,8 +11,16 @@
      * @param {StorageDataConverter} storageDataConverter
      * @param {$injector} $injector
      */
-    const factory = function ($q, utils, migration, state, storageSelect, defaultSettings, storageDataConverter,
-                              $injector) {
+    const factory = function (
+        $q,
+        utils,
+        migration,
+        state,
+        storageSelect,
+        defaultSettings,
+        storageDataConverter,
+        $injector
+    ) {
 
         const usedStorage = storageSelect();
 
@@ -32,7 +40,7 @@
             '1.4.15': storage => fixUndefined(storage)
         };
 
-        const { Signal } = require('ts-utils');
+        const { Signal, isObject } = require('ts-utils');
 
         function newTerms(storage) {
             return storage.load('userList').then(users => {
@@ -212,9 +220,37 @@
                 storage.load('userList'),
                 storage.load('multiAccountUsers')
             ]).then(([userList, multiAccountUsers]) => {
+                const deleteUndefinedFromObject = (obj) => Array.from('undefined').forEach((_x, i) => {
+                    delete obj[i];
+                });
+
+                const deleteUndefinedFromArray = (arr) => {
+                    const tmp = Object.create(null);
+
+                    for (const k in arr) {
+                        if (isNaN(k)) {
+                            tmp[k] = arr[k];
+                        }
+                    }
+
+                    return tmp;
+                };
+
+                if (isObject(userList)) {
+                    deleteUndefinedFromObject(userList);
+                } else if (Array.isArray(userList)) {
+                    userList = deleteUndefinedFromArray(userList);
+                }
+
+                if (isObject(multiAccountUsers)) {
+                    deleteUndefinedFromObject(multiAccountUsers);
+                } else if (Array.isArray(multiAccountUsers)) {
+                    multiAccountUsers = deleteUndefinedFromArray(multiAccountUsers);
+                }
+
                 return Promise.all([
-                    userList === 'undefined' ? storage.save('userList', '') : Promise.resolve(),
-                    multiAccountUsers === 'undefined' ? storage.save('multiAccountUsers', '') : Promise.resolve()
+                    storage.save('userList', userList === 'undefined' ? '' : userList),
+                    storage.save('multiAccountUsers', multiAccountUsers === 'undefined' ? '' : multiAccountUsers)
                 ]);
             });
         }
