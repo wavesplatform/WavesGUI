@@ -127,7 +127,7 @@
     "errorBlocks": {
         "title": "Er is iets misgegaan…"
     },
-    "importSuccess": "Account Importing from the Keystore File was successful",
+    "importSuccess": "Account importeren uit het Keystore-bestand is geslaagd",
     "modal": {
         "assetInfo": {
             "gateway_ui": "GATEWAY"
@@ -197,7 +197,7 @@
             "true": "VOLTOOID"
         },
         "headers": {
-            "activeLeasing": "momenteel actief",
+            "activeLeasing": "Nu actief",
             "burn": "{{name}} Token geburnt",
             "cancel-leasing": "Geannuleerde lease",
             "canceled": "Geannuleerd",

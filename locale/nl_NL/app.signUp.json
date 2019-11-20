@@ -11,6 +11,6 @@
         "password": {
             "notMatch": "Wachtwoorden komen niet overeen"
         },
-        "termsAgreement": "Ik heb de [Algemene voorwaarden](https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf) gelezen en ga hiermee akkoord."
+        "termsAgreement": "Ik heb de [Algemene voorwaarden] (https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf), [Privacybeleid] (https://wavesplatform.com/files/docs/Privacy_Policy_SW.pdf) gelezen en ga hiermee akkoord )."
     }
 }
