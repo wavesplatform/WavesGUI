@@ -26,6 +26,9 @@
         "pleaseWait": "Downloading...",
         "return": "return",
         "run": "Run the installed application",
+        "seconds": "seconds",
+        "seconds1": "second",
+        "seconds234": "seconds",
         "signInAndMove": "Sign in & Start moving",
         "toFinish": "To finish the migration of your accounts, you have to go to the new application and complete the authorization process.",
         "tryAgain": "Try again"

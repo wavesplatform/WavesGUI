@@ -26,6 +26,9 @@
         "pleaseWait": "正在下载...",
         "return": "返回",
         "run": "Run the installed application",
+        "seconds": "seconds",
+        "seconds1": "second",
+        "seconds234": "seconds",
         "signInAndMove": "Sign in & Start moving",
         "toFinish": "要完成帐户的迁移，您必须转到新应用程序并完成授权过程。",
         "tryAgain": "再试一次"
