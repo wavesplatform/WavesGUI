@@ -35,6 +35,7 @@
             _oldDesktop = false;
             _hasAccounts = false;
             _isCanceled = null;
+            downloadDone = false;
 
             constructor() {
                 if (!WavesApp.isDesktop()) {
@@ -136,6 +137,7 @@
                     }).then(() => {
                         this.state = 'installAndRun';
                         this.isDownloading = false;
+                        this.downloadDone = true;
                         this._resetProgress();
                         $scope.$digest();
                     }).catch((e) => {
@@ -147,10 +149,12 @@
                         }
 
                         this.isDownloading = false;
+                        this.downloadDone = false;
                         $scope.$digest();
                     });
                 }).catch((e) => {
                     this.error = String(e);
+                    this.downloaded = false;
                     $scope.$digest();
                 });
             }
@@ -195,6 +199,7 @@
                 this._isCanceled = true;
                 this.state = 'askDownload';
                 this._resetProgress();
+                this.downloadDone = false;
                 ds.utils.abortDownloading();
             }
 

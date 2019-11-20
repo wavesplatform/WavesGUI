@@ -920,10 +920,10 @@
             }
         },
         "unsuccessfulMigration": {
-            "checkbox": "Don't show this again",
-            "description": "You have started the account migration from Waves DEX to this exchange, but it hasn't been finished. Your accounts haven't been moved. Go back to Waves DEX and start the process from the beginning.",
-            "title": "Unfinished Migration",
-            "understand": "我了解"
+            "checkbox": "不再显示",
+            "description": "您已开始将帐户从Waves DEX迁移到此交换，但尚未完成。您的帐户尚未移动。返回Waves DEX并从头开始该过程。",
+            "title": "未完成的迁移",
+            "understand": "我明白"
         }
     },
     "modals": {
@@ -946,12 +946,12 @@
     },
     "Unpin_utils": "卸下",
     "utils": {
-        "migrationError": "迁移期间发生错误。您的帐户尚未移动。请再试一次。",
-        "privacyPolicy": "I have read and agree with the [Privacy Policy](https://wavesplatform.com/files/docs/Privacy_Policy_SW.pdf).",
-        "privacyPolicyText": "Privacy Policy",
-        "termsAgreement": "I have read and agree with the [Terms and Conditions](https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf).",
-        "termsAgreementText": "Terms and Conditions",
-        "termsAssign": "I have read and agree with the",
+        "migrationError": "糟糕！您的帐户是安全的，但尚未转移。请再试一次。",
+        "privacyPolicy": "我已阅读并同意[隐私权政策]（https://wavesplatform.com/files/docs/Privacy_Policy_SW.pdf）。",
+        "privacyPolicyText": "隐私政策",
+        "termsAgreement": "我已阅读并同意[条款和条件]（https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf）。",
+        "termsAgreementText": "条款和细则",
+        "termsAssign": "我已阅读并同意",
         "whatsNew": {
             "body": {
                 "1_0_0": "{span.line} [1。 波浪币客戶已经退出测试版。] {span.line} [2。您现在可以将任何资产固定和取消固定在主页面。] {span.line} [3。添加了夜间模式。] {span.line} [4。您现在可以轻松地从旧客户端导入所有帐户。] {span.line} [5。修正了一些小错误。]",
@@ -1020,12 +1020,12 @@
     },
     "warningPlate": {
         "day": "d",
-        "dexMoves": "We are moving soon! Stay with us at [Waves.Exchange](https://waves.exchange)",
+        "dexMoves": "我们即将搬家！和我们一起在[Waves.Exchange]（https://waves.exchange）",
         "hour": "h",
-        "info": "We're moving from Waves DEX to Waves.Exchange. Do you want to move your accounts again?",
+        "info": "我们正在从Waves DEX迁移到Waves.Exchange。您是否要再次移动帐户？",
         "min": "m",
-        "notification": "We're moving from Waves DEX to Waves.Exchange. Don't forget to move your accounts!",
+        "notification": "我们正在从Waves DEX迁移到Waves.Exchange。不要忘记移动您的帐户！",
         "sec": "s",
-        "startMoving": "Safe moving"
+        "startMoving": "安全移动"
     }
 }

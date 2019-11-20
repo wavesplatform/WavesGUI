@@ -19,7 +19,7 @@
         "candleChart": {
             "error": "{div}[De grafiek kan niet worden gedownload.] {div}[Als u deze grafiek in uw toepassing wilt gebruiken, stuur dan een verzoek naar [tradingview.com](https://tradingview.com)]"
         },
-        "charts": "charts",
+        "charts": "grafieken",
         "createOrder": {
             "1day": "1 dag",
             "1hour": "1 uur",
@@ -33,21 +33,21 @@
             "buy": "Kopen",
             "createOrderNotPermitted": "Orders zijn tijdelijk niet beschikbaar.",
             "errors": {
-                "amountMax": "Max Amount - ",
-                "amountMin": "Min Amount - ",
+                "amountMax": "Max. Aantal -",
+                "amountMin": "Min. Aantal -",
                 "balance": "Niet genoeg {{name}}",
                 "precision": "Maximum aantal decimalen van {{precision}} overschreden",
-                "priceMax": "Max Price - ",
-                "priceMin": "Min Price - ",
+                "priceMax": "Max Prijs -",
+                "priceMin": "Min Prijs -",
                 "required": "Verplicht veld"
             },
             "expiration": "Vervalt",
             "fee": "Tarief {{fee}} WAVES",
             "hasScript": "Annuleer [script](https://docs.wavesplatform.com/en/waves-client/advanced_features/script_transaction.html) om te handelen",
             "last": "Laatste",
-            "limit": "Limit Order",
-            "market": "Market Order",
-            "marketPriceField": "Price",
+            "limit": "Limiet order",
+            "market": "Marktorder",
+            "marketPriceField": "Prijs",
             "matcherFee": "Transactiekosten",
             "notifications": {
                 "error": {
@@ -71,12 +71,12 @@
             "priceField": "Limiet prijs",
             "sell": "verkoop",
             "spread": "spreiding",
-            "stopPriceField": "Stop price",
-            "stopPriceHelp": "This is an automatic buy or sell order at a predetermined price",
+            "stopPriceField": "Stop prijs",
+            "stopPriceHelp": "Dit is een automatische koop- of verkooporder tegen een vooraf bepaalde prijs",
             "total": "Totaal"
         },
         "createorder": {
-            "yourBalance": "Your balance"
+            "yourBalance": "Uw saldo"
         },
         "demo": {
             "createAccount": "Maak een nieuw account aan",
@@ -244,12 +244,12 @@
             "all": "Alles",
             "btc": "Btc",
             "eth": "ETH",
-            "history": "history",
+            "history": "Geschiedenis",
             "myBalance": "Mijn balans",
             "myTradeHistory": "Mijn handelsgeschiedenis",
             "openOrders": "Mijn openstaande orders",
             "OrderHistory": "Mijn handelsgeschiedenis",
-            "trade": "Trade",
+            "trade": "Handel",
             "tradeHistory": "Handelsgeschiedenis",
             "waves": "Waves"
         }
