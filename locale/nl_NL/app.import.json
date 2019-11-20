@@ -1,28 +1,28 @@
 {
     "back": "Terug naar de hoofdpagina",
     "backupFile": {
-        "back": "go back",
-        "enterPasswordDescription": "Please enter your password or",
-        "helper": "You need to enter the password, which you used for the accounts exporting",
+        "back": "ga terug",
+        "enterPasswordDescription": "Voer uw wachtwoord in of",
+        "helper": "U moet het wachtwoord invoeren dat u hebt gebruikt voor het exporteren van accounts",
         "import": {
             "accounts": "Accounts",
-            "emptyList": "There are no accounts for import in the uploaded file",
-            "importFailed": "Failed to import keystore file",
-            "noChosen": "No file chosen",
-            "selectAccount": "Choose accounts",
-            "selectAccountDesc": "Please select account or",
-            "selectAll": "Select all",
-            "unselectAll": "Unselect all",
-            "wrongPassword": "Wrong password!"
+            "emptyList": "Er zijn geen accounts voor import in het geüploade bestand",
+            "importFailed": "Kan keystore-bestand niet importeren",
+            "noChosen": "Geen bestand gekozen",
+            "selectAccount": "Kies accounts",
+            "selectAccountDesc": "Selecteer een account of",
+            "selectAll": "Selecteer alles",
+            "unselectAll": "Deselecteer alles",
+            "wrongPassword": "Verkeerd wachtwoord!"
         },
-        "importFromFile": "Import account from Keystore File",
-        "importFromFileDescription": "Choose your JSON file and click Import or",
-        "name": "Keystore File",
-        "next": "Continue",
-        "password": "Password",
-        "selectFileBtn": "Choose file"
+        "importFromFile": "Account importeren uit Keystore-bestand",
+        "importFromFileDescription": "Kies uw JSON-bestand en klik op Importeren of",
+        "name": "Keystore-bestand",
+        "next": "Doorgaan",
+        "password": "Wachtwoord",
+        "selectFileBtn": "Kies bestand"
     },
-    "backupFileDescription": "Import account from Keystore File",
+    "backupFileDescription": "Account importeren uit Keystore-bestand",
     "import": {
         "signIn": "Inloggen"
     },
@@ -37,7 +37,7 @@
     "seedAndKey": {
         "name": "SEED of sleutel"
     },
-    "seedAndKeyDescription": "Account importeren vanuit een back-up SEED of privésleutel",
+    "seedAndKeyDescription": "Account importeren vanuit een SEED- of privésleutel",
     "selectButton": "Selecteer",
     "wavesClient": "Waves Client",
     "wavesClientDescription": "Account importeren van Waves Client",

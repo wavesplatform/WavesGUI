@@ -3,7 +3,7 @@
     "button": {
         "cancel": "取消",
         "continue": "继续",
-        "signIn": "Sign in"
+        "signIn": "登入"
     },
     "confirmTransaction": {
         "notPermitted": {
