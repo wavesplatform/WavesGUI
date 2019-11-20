@@ -5,6 +5,9 @@
 	&__image {
 		background-size: 100% 100%;
 		margin: 62px auto 20px;
+		width: 100px;
+		height: 100px;
+		background: @migrate-congratulations-icon;
 
 		&_moving {
 			background: @moving-icon;
@@ -55,6 +58,24 @@
 		}
 		&-text {
 			color: @color-basic-700;
+		}
+	}
+
+	&__steps {
+		text-align: left;
+		display: inline-flex;
+		flex-direction: column;
+	}
+
+	&__step {
+		color: @color-basic-700;
+	}
+
+	&__link {
+		margin-top: 20px;
+
+		a {
+			display: block;
 		}
 	}
 }
