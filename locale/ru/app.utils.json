@@ -920,9 +920,10 @@
             }
         },
         "unsuccessfulMigration": {
-            "checkbox": "Do not show again",
-            "title": "Unsuccessful Migration!",
-            "understand": "Я понял"
+            "checkbox": "Больше не показывать",
+            "description": "Вы начали процесс миграции с Waves DEX на эту биржу, но не завершили его. Ваши аккаунты не были перенесены. Вам нужно вернуться на Waves DEX и начать процесс сначала.",
+            "title": "Незавершенная миграция",
+            "understand": "Понятно"
         }
     },
     "modals": {
@@ -945,6 +946,12 @@
     },
     "Unpin_utils": "Открепить",
     "utils": {
+        "migrationError": "Ой! Ваши аккаунты в безопасности, но не были перемещены. Пожалуйста, попробуйте еще раз.",
+        "privacyPolicy": "Ознакомлен(а) и согласен(сна) с [Политикой конфиденциальности].(https://wavesplatform.com/files/docs/Privacy_Policy_SW.pdf).",
+        "privacyPolicyText": "Политикой конфиденциальности",
+        "termsAgreement": "Ознакомлен(а) и согласен(сна) с [Условиями предоставления услуг].(https://wavesplatform.com/files/docs/Waves_terms_and_conditions.pdf).",
+        "termsAgreementText": "Условиями предоставления услуг",
+        "termsAssign": "Ознакомлен(а) и согласен(сна) с",
         "whatsNew": {
             "body": {
                 "1_0_0": "{span.line}[1. The Waves Client has come out of beta.]{span.line}[2. You can now pin and unpin any assets to the main page.]{span.line}[3. Night mode added.]{span.line}[4. You can now import all your accounts from the old Client easily.]{span.line}[5. Minor bug fixes.]",
@@ -1012,6 +1019,13 @@
         }
     },
     "warningPlate": {
-        "startMoving": "Start moving"
+        "day": "д",
+        "dexMoves": "Мы скоро переезжаем! Оставайтесь с нами на [Waves.Exchange](https://waves.exchange)",
+        "hour": "ч",
+        "info": "Мы переезжаем с Waves DEX на Waves.Exchange. Вы хотите снова перенести свои аккаунты?",
+        "min": "м",
+        "notification": "Мы переезжаем с Waves DEX на Waves.Exchange. Не забудьте перенести свои аккаунты!",
+        "sec": "с",
+        "startMoving": "Безопасный переезд"
     }
 }

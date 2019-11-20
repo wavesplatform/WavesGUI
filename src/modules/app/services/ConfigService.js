@@ -1,133 +1,46 @@
 (function () {
     'use strict';
 
-
-    const { fetch } = require('data-service');
-    const { Signal, getPaths, get, clone } = require('ts-utils');
-    const { BigNumber } = require('@waves/bignumber');
+    const { utils } = require('data-service');
+    const BaseConfigService = utils.ConfigService;
 
 
     const factory = function (Base, createPoll) {
 
         class ConfigService extends Base {
 
-            /**
-             * @type {ConfigService.IConfig}
-             * @private
-             */
-            _config = Object.create(null);
-            /**
-             * @type {ConfigService.IFeeConfig}
-             * @private
-             */
-            _feeConfig = Object.create(null);
-            /**
-             * @type {Signal<string>}
-             */
-            change = new Signal();
+            change;
             /**
              * @type Promise<IConfig>
              */
             configReady;
+            /**
+             * @type Promise<void>
+             */
+            configReadyPromise;
+
+            service = new BaseConfigService(WavesApp);
 
 
             constructor() {
                 super();
-                this.configReady = createPoll(this, this._getConfig, this._setConfig, 30000);
-                createPoll(this, this._getFeeConfig, this._setFeeConfig, 30000);
+                this.change = this.service.change;
+                this.configReadyPromise = this.service.configReady;
+                this.configReady = createPoll(this, () => this.service.fetchConfig(), () => null, 30000);
             }
 
             /**
              * @param {string} path
              */
             get(path) {
-                return clone(get(this._config, path));
+                return this.service.getConfig(path);
             }
 
             /**
              * @return {ConfigService.IFeeConfig}
              */
             getFeeConfig() {
-                return clone(this._feeConfig);
-            }
-
-            /**
-             * @return {Promise<ConfigService.IConfig>}
-             * @private
-             */
-            _getConfig() {
-                return fetch(WavesApp.network.featuresConfigUrl)
-                    .then(data => {
-                        if (typeof data === 'string') {
-                            return JSON.parse(data);
-                        }
-                        return data;
-                    })
-                    .catch(() => Promise.resolve(WavesApp.network.featuresConfig));
-            }
-
-            /**
-             * @return {Promise<ConfigService.IFeeConfig>}
-             * @private
-             */
-            _getFeeConfig() {
-                return fetch(WavesApp.network.feeConfigUrl)
-                    .then(WavesApp.parseJSON)
-                    .then(ConfigService._parseFeeConfig)
-                    .catch(() => Promise.resolve(WavesApp.network.feeConfig));
-            }
-
-            /**
-             * @param {ConfigService.IFeeConfig} config
-             * @private
-             */
-            _setFeeConfig(config) {
-                this._feeConfig = config;
-            }
-
-            /**
-             * @param {ConfigService.IConfig} config
-             * @private
-             */
-            _setConfig(config) {
-                const myConfig = this._config;
-                this._config = config;
-
-                ConfigService._getDifferencePaths(myConfig, config)
-                    .forEach(path => this.change.dispatch(String(path)));
-            }
-
-            /**
-             * @param {object} previous
-             * @param {object} next
-             * @return {string[]}
-             * @private
-             */
-            static _getDifferencePaths(previous, next) {
-                const paths = getPaths(next);
-                return paths
-                    .filter(path => get(previous, path) !== get(next, path))
-                    .map(String);
-            }
-
-            /**
-             * @param data
-             * @return {*}
-             * @private
-             */
-            static _parseFeeConfig(data) {
-                switch (typeof data) {
-                    case 'number':
-                    case 'string':
-                        return new BigNumber(data);
-                    case 'object':
-                        Object.entries(data).forEach(([key, value]) => {
-                            data[key] = ConfigService._parseFeeConfig(value);
-                        });
-                        return data;
-                    default:
-                        return data;
-                }
+                return this.service.getFeeConfig();
             }
 
         }

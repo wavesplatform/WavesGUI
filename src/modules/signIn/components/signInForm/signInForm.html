@@ -1,0 +1,36 @@
+<form name="$ctrl.form" ng-submit="$ctrl.onSubmit()" novalidate>
+    <w-input-container class="margin-4">
+        <div class="left body-2 margin-05">
+            <span w-i18n="userList.password"></span>
+        </div>
+
+        <w-show-hide-password>
+            <w-input
+                name="password"
+                type="password"
+                class="big no-validate no-icon"
+                ng-model="$ctrl.password"
+                ng-change="$ctrl.onPasswordChange()"
+                required
+                w-autofocus>
+            </w-input>
+        </w-show-hide-password>
+
+        <div class="like-input-error" ng-if="$ctrl.showPasswordError">
+            <span class="error active" w-i18n="password.error"></span>
+        </div>
+    </w-input-container>
+
+    <w-button disabled="$ctrl.form.$invalid" class="submit long big">
+        <div class="full-width" w-i18n="signIn.signIn"></div>
+    </w-button>
+
+    <div class="margin-top-2">
+        <w-analytics event="'Forgot Password'">
+            <a class="body-2 basic-500"
+                ng-click="$ctrl.showForgotPasswordModal()"
+                w-i18n="signIn.password.forgot"
+            ></a>
+        </w-analytics>
+    </div>
+</form>

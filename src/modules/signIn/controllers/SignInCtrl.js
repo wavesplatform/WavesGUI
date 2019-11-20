@@ -1,4 +1,4 @@
-(function () {
+(() => {
     'use strict';
 
     const analytics = require('@waves/event-sender');
@@ -8,81 +8,66 @@
      * @param {ng.IScope} $scope
      * @param {*} $state
      * @param {User} user
-     * @param {MultiAccount} multiAccount
      * @param {ModalManager} modalManager
+     * @param {ConfigService} configService
+     * @param {Storage} storage
      * @returns {SignInCtrl}
      */
-    const controller = function (Base, $scope, $state, user, multiAccount, modalManager) {
+    const controller = function (Base, $scope, $state, user, modalManager, configService, storage) {
 
         class SignInCtrl extends Base {
 
             /**
-             * @type {string}
-             */
-            password = '';
-            /**
-             * @type {ng.IFormController|null}
-             */
-            loginForm = null;
-            /**
-             * @type {string}
-             */
-            multiAccountData = '';
-            /**
-             * @type {string}
-             */
-            multiAccountHash = '';
-            /**
              * @type {Array|null}
              */
             legacyUserList = null;
+            /**
+             * @type {Array}
+             * @private
+             */
+            _onLoginHandlers = [];
 
             constructor() {
                 super($scope);
-
-                this.observe('password', this._updatePassword);
 
                 analytics.send({ name: 'Onboarding Sign In Show', target: 'ui', params: { from: 'sign-in' } });
 
                 Promise.all([
                     user.getMultiAccountData(),
-                    user.getMultiAccountHash(),
                     user.getFilteredUserList()
-                ]).then(([multiAccountData, multiAccountHash, userList]) => {
+                ]).then(([multiAccountData, userList]) => {
                     if (!multiAccountData) {
                         $state.go('signUp');
                     } else {
-                        this.multiAccountData = multiAccountData;
-                        this.multiAccountHash = multiAccountHash;
                         this.legacyUserList = userList;
                     }
                 });
+
+                this._onLoginHandlers.push(this._showMigrateModal);
+
+                user.onLogin().then(() => {
+                    this._onLoginHandlers.forEach((handler) => handler());
+                });
             }
 
-            onSubmit() {
-                this.showPasswordError = false;
+            $onDestroy() {
+                super.$onDestroy();
+                this._onLoginHandlers = [];
+            }
 
-                multiAccount.signIn(
-                    this.multiAccountData,
-                    this.password,
-                    undefined,
-                    this.multiAccountHash
-                ).then(
-                    () => Promise.all([
-                        user.getMultiAccountUsers(),
-                        user.getMultiAccountSettings()
-                    ]),
-                    () => {
-                        this._showPasswordError();
-                        return Promise.reject();
-                    }
-                ).then(([multiAccountUsers, commonSettings]) => {
+            onLogin() {
+                Promise.all([
+                    user.getMultiAccountUsers(),
+                    user.getMultiAccountSettings()
+                ]).then(([multiAccountUsers, commonSettings]) => {
                     const [firstUser] = multiAccountUsers;
 
                     user.setMultiAccountSettings(commonSettings);
 
                     if (firstUser) {
-                        this._login(firstUser);
+                        user.login(firstUser).then(() => {
+                            user.goToActiveState();
+                        });
                     } else if (this.legacyUserList && this.legacyUserList.length) {
                         $state.go('migrate');
                     } else {
@@ -93,6 +78,10 @@
                 });
             }
 
+            onResetPassword() {
+                $state.go('signUp');
+            }
+
             showForgotPasswordModal() {
                 modalManager.showForgotPasswordModal().then(() => {
                     $state.go('signUp');
@@ -101,7 +90,13 @@
 
             _login(userData) {
                 user.login(userData).then(() => {
-                    user.goToActiveState();
+                    const DEXW_LOCKED = configService.get('DEXW_LOCKED');
+
+                    if (DEXW_LOCKED) {
+                        $state.go('migration');
+                    } else {
+                        user.goToActiveState();
+                    }
                 });
             }
 
@@ -116,12 +111,20 @@
                 }
             }
 
+            _showMigrateModal = () => {
+                storage.load('notAutoOpenMigrationModal').then((notAutoOpenMigrationModal) => {
+                    if (!notAutoOpenMigrationModal) {
+                        modalManager.showMigrateModal();
+                    }
+                });
+            };
+
         }
 
         return new SignInCtrl();
     };
 
-    controller.$inject = ['Base', '$scope', '$state', 'user', 'multiAccount', 'modalManager'];
+    controller.$inject = ['Base', '$scope', '$state', 'user', 'modalManager', 'configService', 'storage'];
 
     angular.module('app.signIn').controller('SignInCtrl', controller);
 })();

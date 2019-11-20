@@ -6,7 +6,7 @@
             "onePassword": "One password for all your accounts",
             "protect": "Protect Your Accounts",
             "protectDesc": "Set a single password for all your accounts",
-            "protectPass": "Create a password"
+            "protectPass": "Create password"
         },
         "password": {
             "notMatch": "Password does not match"

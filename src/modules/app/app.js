@@ -110,6 +110,7 @@
         'app.restore',
         'app.saveSeed',
         'app.desktop',
+        'app.desktopUpdate',
         'app.ledger',
         'app.keeper',
         'app.fromBackup',
@@ -118,7 +119,8 @@
         'app.dex',
         'app.tokens',
         'app.unavailable',
-        'app.stand'
+        'app.stand',
+        'app.migration'
     ]);
 })();
 

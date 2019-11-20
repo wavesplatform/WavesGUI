@@ -31,6 +31,8 @@
             '1.4.6': storage => fixMigrateCommonSettings(storage)
         };
 
+        const { Signal } = require('ts-utils');
+
         function newTerms(storage) {
             return storage.load('userList').then(users => {
                 const needShowNewTerms = (users || []).some((user) => {
@@ -206,24 +208,21 @@
 
         class Storage {
 
+            /**
+             * @type {Signal<string>}
+             */
+            change = new Signal();
+
             constructor() {
                 usedStorage.init();
                 this._isNewDefer = $q.defer();
                 this._canWrite = $q.defer();
                 this._activeWrite = Promise.resolve();
-                const version = navigator.userAgent.replace(/.*?waves-(client|dex)\/(\d+\.\d+\.\d+).*/g, '$2');
 
-                if (WavesApp.isDesktop() && version && migration.lte(version, '1.4.0')) {
+                if (WavesApp.isDesktop() && utils.isVersionLte('1.4.0')) {
                     setTimeout(() => {
-                        $('.ui-view.ui-view_main').hide();
-                        const showError = () => {
-                            $injector.get('notification').error({
-                                title: { literal: 'error.updateClient.title' },
-                                body: { literal: 'error.updateClient.body' }
-                            }, -1).then(showError);
-                        };
-                        showError();
-                    }, 2000);
+                        $injector.get('$state').go('desktopUpdate');
+                    }, 1000);
                     this._activeWrite = $q.defer();
                     return this;
                 }
@@ -253,7 +252,12 @@
 
             save(key, value) {
                 return this._canWrite.promise.then(() => {
-                    this._activeWrite = this._activeWrite.then(() => utils.when(usedStorage.write(key, value)));
+                    this._activeWrite = this._activeWrite
+                        .then(() => utils.when(usedStorage.write(key, value)))
+                        .then((data) => {
+                            this.change.dispatch();
+                            return data;
+                        });
                     return this._activeWrite;
                 });
             }

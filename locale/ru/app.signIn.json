@@ -8,16 +8,23 @@
     "signIn": {
         "btn": {
             "cancel": "Отменить",
+            "overwrite": "Перезаписать",
             "restore": "Сбросить все"
         },
         "enterPass": "Введите пароль, чтобы продолжить",
+        "or": "ИЛИ",
         "passForgot": {
             "attention": "Внимание!",
             "description": "Для восстановления пароля вы должны сбросить все аккаунты, установить новый пароль, импортировать каждый аккаунт из секретной фразы (SEED) или по приватному ключу.",
-            "importantDesc": "Если вы не сохранили SEED фразу или приватный ключ, вам не удастся восстановить доступ к аккаунту."
+            "descriptionExchange": "Вы собираетесь удалить все ваши Waves.Exchange аккаунты с этого устройства.  Это действие не затронет ваши Waves DEX аккаунты.",
+            "importantDesc": "Если вы не сохранили SEED фразу или приватный ключ, вам не удастся восстановить доступ к аккаунту.",
+            "importantDescEx": "Это действие невозможно отменить! Если вы не сохранили свою сид-фразу или приватный ключ, вы не сможете восстановить доступ к своим аккаунтам на Waves.Exchange.",
+            "importantDescExchange": "This action is irreversible! If you have not saved the Seed phrase or private key, then you will not be able to recover access to your Waves.Exchange accounts."
         },
         "password": {
-            "forgot": "Забыли пароль?"
+            "forgot": "Забыли пароль?",
+            "overwrite": "Перезаписать аккаунты",
+            "overwriteDescription": "Перезаписать все Waves.Exchange аккаунты "
         },
         "signIn": "Войти",
         "welcomeBack": "С возвращением!"

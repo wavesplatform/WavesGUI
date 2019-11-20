@@ -708,6 +708,24 @@
                 });
             }
 
+            showMigrateModal() {
+                return this._getModal({
+                    id: 'migrate-modal',
+                    controller: 'MigrateModalCtrl',
+                    contentUrl: 'modules/utils/modals/migrateModal/migrateModal.html'
+                });
+            }
+
+            showMigrateFAQ() {
+                return this._getModal({
+                    id: 'migrate-faq',
+                    controller: 'MigrateFaqCtrl',
+                    contentUrl: 'modules/utils/modals/migrateFaq/migrateFaq.html',
+                    title: 'FAQ',
+                    ns: 'app.migrate'
+                });
+            }
+
             /**
              * @param {IDialogOptions} options
              * @return {Promise}

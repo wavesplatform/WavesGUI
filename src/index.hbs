@@ -1,7 +1,7 @@
 <!-- See the LICENSE file at https://github.com/wavesplatform/WavesGUI/blob/master/LICENSE. Removal or modification of this copyright notice is prohibited. -->
 
 <!DOCTYPE html>
-<html ng-app="app">
+<html>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
@@ -11,8 +11,8 @@
     <script>
         function cacheRound(minutes) {
             var ms = minutes * 60 * 1000;
-            const ts = Date.now();
-            const mod = ts % ms;
+            var ts = Date.now();
+            var mod = ts % ms;
             return mod * ms;
         }
 
@@ -350,7 +350,9 @@
                     feeConfigUrl: config.feeConfigUrl,
                     tokenrating: config.network.tokenrating,
                     featuresConfig: config.network.featuresConfig,
-                    feeConfig: config.network.feeConfig
+                    feeConfig: config.network.feeConfig,
+                    wavesExchangeLink: config.network.wavesExchangeLink,
+                    migration: config.network.migration,
                 },
                 defaultAssets: {
                     WAVES: 'WAVES',
@@ -521,6 +523,8 @@
 <div class="notifications notifications-top">
     <w-container-alert-notification type="userNotification"></w-container-alert-notification>
 </div>
+
+<w-warning-plate class="warning-timer"></w-warning-plate>
 
 <div class="app-preloader">
     <div class="progress"></div>
@@ -721,6 +725,22 @@
                     id: 'desktop',
                     data: {
                         noLogin: true,
+                        views: [{ name: 'main' }]
+                    }
+                },
+                {
+                    id: 'desktopUpdate',
+                    data: {
+                        url: '/desktop-update',
+                        noLogin: true,
+                        views: [{ name: 'main' }]
+                    }
+                },
+                {
+                    id: 'migration',
+                    data: {
+                        noLogin: true,
+                        url: '/migration',
                         views: [{ name: 'main' }]
                     }
                 },

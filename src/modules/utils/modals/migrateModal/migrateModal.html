@@ -1,0 +1,42 @@
+<div class="migrate-modal" w-i18n-ns="app.migrate">
+    <div class="btn icon-close" ng-click="$ctrl.cancel()"></div>
+    <w-step-by-step active-step="$ctrl.step">
+
+        <w-step>
+            <div class="migrate-modal__image migrate-modal__image_moving"></div>
+            <h3 class="migrate-modal__title" w-i18n="migrate.modalTitle.moving"></h3>
+            <div class="migrate-modal__text">
+                <p w-i18n="migrate.modalDesc.firstPart"></p>
+                <p w-i18n="migrate.modalDesc.secondPart"></p>
+                <p w-i18n="migrate.modalDesc.thirdPart"></p>
+            </div>
+            <div class="migrate-modal__plate">
+                <div class="migrate-modal__plate-icon"></div>
+                <div class="migrate-modal__plate-text headline-3" w-i18n="migrate.modalTitle.plate"></div>
+            </div>
+            <div class="buttons-wrapper">
+                <w-button class="big" on-click="$ctrl.cancel()">
+                    <span w-i18n="migrate.modalButton.cancel"></span>
+                </w-button>
+                <w-button class="submit big" on-click="$ctrl.moving()" w-modal-close>
+                    <span w-i18n="migrate.modalButton.moving"></span>
+                </w-button>
+            </div>
+        </w-step>
+
+        <w-step>
+            <w-loader class="loader"></w-loader>
+        </w-step>
+
+        <w-step>
+            <div class="migrate-modal__image migrate-modal__image_directed"></div>
+            <h3 class="migrate-modal__title"><span w-i18n="migrate.modalTitle.redirected"></span>
+                <div class="migrate-modal__link">Waves.Exchange</div>
+            </h3>
+            <div class="migrate-modal__text migrate-modal__text_directed">
+                <p w-i18n="migrate.modalDesc.redirected"></p>
+            </div>
+        </w-step>
+
+    </w-step-by-step>
+</div>

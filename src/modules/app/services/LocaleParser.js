@@ -4,7 +4,7 @@
     const factory = function () {
 
         const AVAILABLE_TAGS = ['div', 'span'];
-        const AVAILABLE_URL_PROTOCOLS = ['http:', 'https:', 'mailto:'];
+        const AVAILABLE_URL_PROTOCOLS = ['http:', 'https:', 'mailto:', 'tg:'];
 
         class LocaleParser {
 

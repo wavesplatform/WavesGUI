@@ -1,0 +1,203 @@
+@import (reference) 'config';
+@import (reference) "icons";
+
+w-warning-plate {
+  .warning-plate {
+    display: block;
+
+    &__content {
+      display: flex;
+      flex-direction: row;
+      background: @color-warning-600;
+      height: 40px;
+      justify-content: center;
+      color: #fff;
+      font-size: 15px;
+      line-height: 20px;
+      padding: 9px;
+
+      &.info {
+        background: @color-submit-300;
+      }
+
+      &_no-user {
+        .warning-plate__text {
+          margin-right: auto;
+        }
+      }
+    }
+
+    &__button {
+      cursor: pointer;
+      border-radius: 4px;
+      background-color: #fff;
+      color: @color-warning-600;
+      padding: 4px 10px;
+      font-size: 13px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      line-height: 13px;
+      min-width: 82px;
+      height: 22px;
+      margin-right: auto;
+      font-weight: bold;
+
+      &.info {
+        color: @color-submit-300;
+      }
+    }
+
+    &__text {
+      margin: 0 15px 0 auto;
+      display: flex;
+      align-items: center;
+
+      a {
+        color: #fff;
+        text-decoration: underline;
+        margin-left: 3px;
+      }
+
+      &-icon {
+        background: @warning-icon-700;
+        height: 14px;
+        width: 14px;
+        margin-right: 10px;
+
+        &_circle {
+          background: @info-icon-300;
+        }
+      }
+    }
+
+    &__timer {
+      display: flex;
+      flex-direction: row;
+      padding-left: 20px;
+      position: relative;
+      align-items: center;
+      height: 22px;
+      font-family: @font-roboto-medium;
+
+      @media screen and (max-width: 1000px) {
+        display: none;
+      }
+
+      &::before {
+        content: "";
+        display: block;
+        height: 14px;
+        width: 14px;
+        position: absolute;
+        top: 4px;
+        left: 0;
+        background: @timer-icon;
+      }
+
+      &-value {
+        margin-left: 3px;
+      }
+    }
+  }
+}
+
+.warning-timer_active {
+  position: relative;
+  z-index: 11;
+  display: block;
+
+  & + .ui-view {
+    height: calc(100% ~"- 40px");
+
+    .main-header_new-user {
+      top: 40px;
+
+      &.fixed {
+        .main-header__header {
+          top: 40px;
+        }
+      }
+    }
+  }
+}
+
+body.desktopUpdate:not(.web) {
+  .warning-timer {
+    & + .ui-view {
+      height: 100%;
+      @media screen and (max-width: 860px) {
+        height: 100%;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 860px) {
+  w-warning-plate {
+    .warning-plate {
+      &__content {
+        height: 72px;
+        justify-content: space-between;
+        padding: 10px;
+        flex-wrap: wrap;
+        transition: all .2s;
+
+        &_no-user {
+          justify-content: flex-start;
+
+          .warning-plate__text {
+            max-width: none;
+            margin: 0;
+          }
+        }
+      }
+
+
+      &__text {
+        text-align: left;
+        margin-left: 0;
+        margin-right: 10px;
+        font-size: 13px;
+        max-width: calc(100% ~"- 94px");
+        line-height: 16px;
+
+        &-icon {
+          display: none;
+        }
+      }
+
+      &__timer {
+        display: none;
+      }
+
+      &__button {
+        margin: 3px 0;
+        height: 42px;
+        width: 84px;
+      }
+    }
+  }
+
+  .menu-is-shown {
+    .warning-plate__content {
+      transform: translateX(-261px);
+    }
+  }
+
+  .warning-timer_active {
+    & + .ui-view {
+      height: calc(100% ~"- 72px");
+
+      .main-header_new-user {
+        top: 72px;
+
+        &.fixed {
+          .main-header__header {
+            top: 72px;
+          }
+        }
+      }
+    }
+  }
+}

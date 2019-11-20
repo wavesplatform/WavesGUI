@@ -105,8 +105,9 @@
             constructor() {
                 super($scope);
 
-                storage.load('hideTokenomicaToast').then((flag) => {
-                    this.toastTokenomikaVisible = !flag;
+                storage.load('hideTokenomicaToast').then(() => {
+                    // this.toastTokenomikaVisible = !flag;
+                    this.toastTokenomikaVisible = false; // выключено на вермя миграции
                 });
 
                 this.options.axes.x.tickFormat = (date) => {

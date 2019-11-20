@@ -3,6 +3,7 @@ import { DataManager } from './classes/DataManager';
 import * as configApi from './config';
 import * as sign from './sign';
 import * as utilsModule from './utils/utils';
+import { downloadFile, abortDownloading } from './utils/DownloadFile';
 import { request } from './utils/request';
 import { IFetchOptions } from './utils/request';
 import * as wavesDataEntitiesModule from '@waves/data-entities';
@@ -17,6 +18,8 @@ import * as signatureAdapters from '@waves/signature-adapter';
 import { SIGN_TYPE, isValidAddress as utilsIsValidAddress } from '@waves/signature-adapter';
 import { TTimeType } from './utils/utils';
 import { IUserData } from './sign';
+import { HttpConnectProvider } from './connect/HttpConnectProvider';
+import { PostMessageConnectProvider } from './connect/PostMessageConnectProvider';
 
 export { getAdapterByType, getAvailableList } from '@waves/signature-adapter';
 export { Seed } from './classes/Seed';
@@ -29,9 +32,13 @@ export const wavesDataEntities = {
 export const api = { ...apiMethods };
 export const dataManager = new DataManager();
 export const config = { ...configApi };
-export const utils = { ...utilsModule };
+export const utils = { ...utilsModule, downloadFile, abortDownloading };
 export const signature = {
     ...sign
+};
+export const connect = {
+    HttpConnectProvider,
+    PostMessageConnectProvider
 };
 
 export const signAdapters = signatureAdapters;

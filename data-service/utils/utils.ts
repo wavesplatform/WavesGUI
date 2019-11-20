@@ -1,9 +1,11 @@
-import { IAssetPair, IHash } from '../interface';
-import { WAVES_ID } from '@waves/signature-adapter';
-import { Asset, Money, AssetPair, OrderPrice } from '@waves/data-entities';
-import { BigNumber } from '@waves/bignumber';
-import { get } from '../api/assets/assets';
-import { get as configGet, timeDiff } from '../config';
+import {IAssetPair, IHash} from '../interface';
+import {WAVES_ID} from '@waves/signature-adapter';
+import {Asset, Money, AssetPair, OrderPrice} from '@waves/data-entities';
+import {BigNumber} from '@waves/bignumber';
+import {get} from '../api/assets/assets';
+import {get as configGet, timeDiff} from '../config';
+
+export * from './ConfigService';
 
 export function normalizeTime(time: number): number;
 export function normalizeTime(time: Date): Date;
@@ -34,7 +36,7 @@ export function priceMoneyFactory(money: string | number | BigNumber, pair: Asse
 export function normalizeAssetPair(assetPair: IAssetPair): IAssetPair {
     const priceAsset = normalizeAssetId(assetPair.priceAsset);
     const amountAsset = normalizeAssetId(assetPair.amountAsset);
-    return { priceAsset, amountAsset };
+    return {priceAsset, amountAsset};
 }
 
 export function normalizeUrl(url: string): string {
@@ -154,7 +156,7 @@ export function defer<T>(): TDefer<T> {
         resolve = res;
         reject = rej;
     });
-    return { resolve, reject, promise };
+    return {resolve, reject, promise};
 }
 
 export function stringifyJSON(data: any): string {
@@ -183,3 +185,60 @@ export function getTransferFeeList() {
         .filter(item => item.balance.getTokens().gt(1.005) || item.isMy)
         .map(item => item.fee);
 }
+
+export const delay = (timeout: number) => new Promise(resolve => setTimeout(resolve, timeout));
+
+export const isNativeFunction = (function () {
+    const toString = Object.prototype.toString;
+
+    // Используется для разложения на составляющие декомпилированного
+    // исходного кода функции
+    const fnToString = Function.prototype.toString;
+
+    // Используется для определения конструкторов среды (Safari > 4;
+    // по сути, предназначено специально для типизированных массивов)
+    const reHostCtor = /^\[object .+?Constructor\]$/;
+
+    // Составление регулярного выражения на основе часто употребляемого
+    // нативного метода в качестве шаблона.
+    // Выбираем `Object#toString`, так как вполне вероятно, что он ещё не задействован.
+    const reNative = RegExp('^' +
+        // Применяем `Object#toString` к строке
+        String(toString)
+        // Избавляемся от любых специальных символов регулярных выражений
+            .replace(/[.*+?^${}()|[\]\/\\]/g, '\\$&')
+            // Заменяем упоминания `toString` на `.*?`, чтобы сохранить обобщённый вид шаблона.
+            // Заменяем `for ...` и тому подобное для поддержки окружений вроде Rhino,
+            // которые добавляют дополнительную информацию, такую как арность метода.
+            .replace(/toString|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
+    );
+
+    function isNative(value: any) {
+        const type = typeof value;
+        return type == 'function'
+            // Используем `Function#toString`, чтобы обойти собственный метод
+            // `toString` самого значения и избежать ложного результата.
+            ? reNative.test(fnToString.call(value))
+            // На всякий случай выполняем проверку на наличие объектов среды, так
+            // как некоторые окружения могут представлять компоненты вроде
+            // типизированных массивов как методы DOM, что может не соответствовать
+            // нормальному нативному паттерну.
+            : (value && type == 'object' && reHostCtor.test(toString.call(value))) || false;
+    }
+
+    return isNative;
+})();
+
+
+export const isNativeNotBound = (value: any) => {
+
+    if (!value || typeof value.name !== 'string') {
+        return false;
+    }
+
+    if (!isNativeFunction(value)) {
+        return false;
+    }
+
+    return value.name.indexOf('bound') === -1;
+};

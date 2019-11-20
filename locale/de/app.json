@@ -2,7 +2,8 @@
     "back": "Zurück zur Hauptseite",
     "button": {
         "cancel": "Abbrechen",
-        "continue": "Weiter"
+        "continue": "Weiter",
+        "signIn": "Sign in"
     },
     "confirmTransaction": {
         "notPermitted": {

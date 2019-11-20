@@ -1,0 +1,258 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+@import (reference) '../../app/less/typography';
+
+.white-bg {
+  background-color: @color-white;
+}
+
+.update-centering-wrapper {
+  align-items: center;
+  justify-content: center;
+}
+
+.update-wrapper {
+  max-width: 470px;
+  margin-top: 100px;
+}
+
+.update-footer {
+  background-color: @color-white !important;
+}
+
+.step-title {
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 50px;
+  margin: 80px 0 100px 0;
+
+  &_fail {
+    margin: 20px 0;
+  }
+
+  &_success {
+    margin-bottom: 20px;
+  }
+}
+
+.to-finish {
+  margin-bottom: 90px;
+}
+
+// @TODO refactor
+.return-wrap {
+  width: 100%;
+  position: absolute !important;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: @color-white;
+}
+
+.update-logo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.return-button {
+  float: left;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  
+  &:hover {
+    .return-button__arrow {
+      background-color: rgba(31, 90, 246, 0.15);
+    }
+  }
+
+  &__arrow {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+    border-radius: 4px;
+    transition: 0.3s;
+    background: @arrow-left-blue-icon center no-repeat rgba(31, 90, 246, 0.06);
+  }
+
+  &__text {
+    text-transform: capitalize;
+    font-size: 13px;
+    color: @color-submit-500;
+  }
+}
+
+.progress-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 360px;
+
+
+  &__item {
+    position: relative;
+    flex: 1;
+
+
+    &:nth-child(2) {
+      flex: 4;
+    }
+
+    &:last-child {
+      .progress-bar__item-number:after {
+        display: none;
+      }
+    }
+
+    &-text {
+      color: @color-basic-500;
+    }
+
+    &-number {
+      display: flex;
+      background: @color-white;
+      justify-content: center;
+      align-items: center;
+      color: @color-basic-100;
+      position: relative;
+      width: 20px;
+      height: 20px;
+      border: solid 2px @color-basic-100;
+      border-radius: 50%;
+      margin: 0 auto 8px;
+      font-size: 12px;
+      font-family: @font-roboto-medium;
+
+      //@TODO kostyil'
+      &::after {
+        content: '';
+        position: absolute;
+        width: 135px;
+        height: 2px;
+        background-color: @color-basic-100;
+        top: 7px;
+        left: 18px;
+      }
+    }
+
+    &.active {
+      color: @color-submit-400;
+
+      .progress-bar__item-number {
+        color: @color-submit-400;
+        border: solid 2px @color-submit-400;
+      }
+
+      .progress-bar__item-text {
+        color: @color-submit-400;
+      }
+
+    }
+
+    &.done {
+      .progress-bar__item-number {
+        color: transparent;
+        border: solid 2px @color-submit-500;
+        background: url(/img/icons/checkbox-icon.svg) center no-repeat @color-submit-500;
+      }
+
+      .progress-bar__item-text {
+        color: @color-submit-500;
+      }
+
+      .progress-bar__item-number:after {
+        background-color: @color-submit-500;
+      }
+    }
+
+    &.fail {
+      .progress-bar__item-number {
+        border: solid 2px @color-error-500;
+        background: @notification-icon-close center no-repeat @color-error-500;
+        color: transparent;
+      }
+
+      .progress-bar__item-text {
+        color: @color-error-500;
+      }
+    }
+  }
+}
+
+.cancel-btn {
+  font-size: 15px;
+  color: @color-basic-300;
+  border: 0;
+  cursor: pointer;
+  transition: 0.3s;
+  &:hover {
+    color: @footer-select-bg-hover;
+  }
+}
+
+.download-bar {
+  height: 100%;
+  border-radius: 4px;
+  box-shadow: 2px 2px 5px 0 rgba(31, 90, 246, 0.25);
+  background-color: @color-submit-500;
+
+  &__wrapper {
+    height: 8px;
+    width: 440px;
+    display: flex;
+    justify-content: flex-start;
+    border-radius: 4px;
+    background-color: rgba(237, 240, 244, 0.5);
+    margin-bottom: 40px;
+  }
+}
+
+.fail-icon {
+  width: 80px;
+  height: 80px;
+  background-image: @import-modal-icon-error;
+  margin: 50px auto 0;
+}
+
+.fail-text {
+  margin-bottom: 40px;
+}
+
+.look-at-faq {
+  margin-top: 40px;
+
+  &__item {
+    margin-bottom: 10px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.big-btn {
+  min-width: 224px;
+}
+
+.margin-top {
+  margin-top: 10px;
+}
+
+.margin-bottom {
+  margin-top: 10px;
+}
+
+.downloading-text {
+  text-align: left;
+  font-size: 15px;
+}
+
+
+//.warning-timer + .ui-view {
+//  height: 100%;
+//}
+//
+//body.desktop:not(.web) .main-container {
+//  min-height: 100%;
+//}

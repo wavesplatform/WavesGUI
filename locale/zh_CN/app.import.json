@@ -9,7 +9,7 @@
             "emptyList": "在上传的文件中没有要导入的帐户",
             "importFailed": "导入密钥库文件失败",
             "noChosen": "没有选中任何文件",
-            "selectAccount": "选择帐号",
+            "selectAccount": "选择帐户",
             "selectAccountDesc": "请选择帐户或",
             "selectAll": "全选",
             "unselectAll": "全部取消选择",

@@ -1,0 +1,11 @@
+<ul class="accordion__list">
+    <li class="accordion__item" ng-repeat="item in $ctrl._accordeonItems track by $index">
+        <h4 class="accordion__item-title" ng-click="$ctrl.toggleOpen(item)">
+            <span class="accordion__title" w-i18n="{{::item.title}}"></span>
+            <span class="accordion__arrow" ng-class="{'up' : item.isOpen}"></span>
+        </h4>
+        <div class="accordion__item-text" ng-show="item.isOpen">
+            <div w-i18n="{{::item.text}}"></div>
+        </div>
+    </li>
+</ul>

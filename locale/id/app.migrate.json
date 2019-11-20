@@ -1,24 +1,135 @@
 {
+    "desktopUpdate": {
+        "almostThere": "Almost there...",
+        "backToPrevious": "Back to previous",
+        "barDone": "Done",
+        "barDownload": "Download",
+        "barInstall": "Install and run",
+        "barSuccess": "Success",
+        "cancelDownloading": "Cancel download",
+        "connectSupport": "If that did not help, then contact the Waves.Exchange [support](https://support.waves.exchange/).",
+        "downloaded": "yes",
+        "downloadText": "{div}[To offer users a better experience and wider range of tools, the exchange is moving from Waves DEX to Waves.Exchange.]\n{div.margin-top}[Waves DEX will stop operating on December 2, 2019. To continue trading you have to download the new desktop application.]",
+        "fail": "Fail",
+        "failText": "Please make sure that you have installed and run the new Waves.Exchange application.",
+        "haveYouDownloaded": "Have you already downloaded the new Waves.Exchange desktop application?",
+        "installAndRun": "Install and run the application. Have you done it?",
+        "iUnderstand": "I understand",
+        "lookAtFAQ1": "If you did everything properly and keep getting the Fail result, then take a look at the",
+        "lookAtFAQ2": "You might find the answer there.",
+        "movingText": "{div.margin-bottom}[To offer users a better experience and wider range of tools, the exchange is moving from Waves DEX to Waves.Exchange.]\n{div.margin-bottom}[Waves DEX will stop operating on December 2, 2019. To continue trading you have to move your accounts to the new exchange. We strongly recommend that you do this in advance.]\n{div.margin-bottom}[The moving is fast, easy, and absolutely secure.]",
+        "oops": "Oops! Something went wrong...",
+        "pleaseWait": "Downloading...",
+        "return": "return",
+        "toFinish": "To finish the migration of your accounts, you have to go to the new application and complete the authorization process.",
+        "tryAgain": "Try again"
+    },
+    "faq": {
+        "attention": {
+            "text": "{div.margin-top-1}[The migration process for web wallets is ONLY available from the web domain [https://dex.wavesplatform.com](https://dex.wavesplatform.com/) and [https://client.wavesplatform.com](https://client.wavesplatform.com/). To complete migration for the desktop client you have to use the Waves DEX desktop application you have already installed.]\n\n{div.margin-top-1}[Do not use any other domains for migration, do not input your seed phrases and/or private keys anywhere, and do not download any other clients aside from the software indicated for the migration process from your current Waves DEX client. The migration process does not require you to input your seed phrases and/or private keys anywhere. Waves Platform or Waves.Exchange employees will never ask you to provide any kind of personal information, including private keys and/or seed phrases.]\n\n{div.margin-top-1}[The migration process is absolutely free, and it will not affect any gateways, which will process all transactions as normal. You do not need to pay or send any tokens to anyone to complete migration.]",
+            "title": "ATTENTION!!! "
+        },
+        "goHome": "Go to HomePage",
+        "text1": "Waves DEX is transforming into a new product, Waves.Exchange. Don’t worry! All of your tokens, seed phrases and passwords are completely safe.",
+        "text10": "{div.margin-bottom}[If you are using the old apps, you will NO LONGER BE ABLE TO:]\n{div.line}[- Create accounts]\n{div.line}[- Have access to the Waves DEX interface]\n{div.line}[- View your portfolio]\n{div.line}[- Make transactions of any kind: transfer, issue or burn tokens, lease WAVES or cancel leasing]\n{div.line}[- Use any gateways]\n\n{div.margin-bottom}[As of December 2, 2019, you will be able to enjoy this functionality with Waves.Exchange apps.]\n\n{div.margin-bottom}[However, with the old apps, you will STILL BE ABLE TO:]\n\n{div.line}[- Log into your accounts]\n{div.line}{div.line}[- Initiate the process of migration to Waves.Exchange]\n{div.line}[- Create a local backup of your seed phrases]\n\n{div.margin-top}[If you still have questions, you can send a message to our [official Telegram group](https://t.me/wavesexchange) or create a ticket on the support page: [https://support.waves.exchange/](https://support.waves.exchange/)]",
+        "text11": "No, never! This will not happen under any circumstances. All seed phrases will still be stored locally on your devices. It is impossible for the exchange to gain access to that storage.",
+        "text12": "Ownership of your tokens is recorded on the Waves blockchain. Tokens stored in your accounts can only be accessed with seed phrases or private keys that will not change after the migration and will not leave your devices. Your assets are completely safe!",
+        "text13": "{div.margin-bottom}[We’ll do our best to ensure the migration process is as smooth as possible for users. Because of changes to the matcher’s address and private key, we won’t be able to move your orders to the new matcher. Therefore, your entire order history will no longer be available. All your completed transactions can still be viewed using Waves Explorer. ]\n\n{div.margin-bottom}[Apart from your order history, all your active orders will be cancelled on December 2. This is a necessary measure caused by the switch to a new matcher. In the case of successful migration, you will still retain:]\n{div.line}[– A set of pinned assets on your dashboard]\n{div.line}[– Saved pairs on the exchange]\n{div.line}[– A list of “hidden” assets]\n{div.line}[– Language preferences]\n{div.line}[– Account information (seed phrases, account names)]\n\n{div.margin-bottom.margin-top}[Please keep in mind that technical work will take place on December 2, upon which access to old apps will be restricted and new apps will be prepared for launch. ]\n\n{div.margin-bottom}[During this work, gateways will process all transactions (deposit and withdrawal) as normal, which will ensure full security and access to your funds.]\n\n{div.margin-top}[You won’t be left without support! You can always send a message to our [official Telegram group](https://t.me/wavesexchange) or create a ticket on the support page: [https://support.waves.exchange/](https://support.waves.exchange/)]",
+        "text14": "{div}[The migration process will take roughly eight hours. During that time, you won’t have full access to your apps. We’d like to remind you that the migration process is scheduled for Monday, December 2, 2019. During the technical work that will take place that day, gateways will process all transactions as normal, which will ensure full security and access to your funds.]\n\n{div}[Support is at hand! You can always send a message to our [official Telegram group](https://t.me/wavesexchange) or create a ticket on the support page: [https://support.waves.exchange/](https://support.waves.exchange/)]",
+        "text15": "On December 2, users will need to log into the Waves mobile app and hit the Update button. The app will be updated to version 2.7.0. The update will be available on Google Play and the App Store before the end of the day on Monday, December 2, 2019.",
+        "text16": "Currently, KYC is only required for deposit/withdrawal of wUSD and wEUR from/to your bank account. At the moment, the team has no plans to introduce KYC for trading or cryptocurrency transactions.",
+        "text17": "The matcher will get a new address and URL, and its private key will change. Due to these changes, users’ open orders at the time of update will automatically be cancelled and transaction histories will become unavailable. Unfortunately, there is no technical means of transferring orders and transaction histories to the new matcher, because each order is sent to the matcher after the user signs it with their private key. Since neither the old or new matcher can access users’ private keys, orders cannot be transferred. We understand that this might be frustrating, but this approach is a feature of the matcher's design that is required to maintain the safety of users’ funds. We apologize for any inconvenience.",
+        "text18": "{div.margin-bottom}[We have done our best to ensure the migration process will be as smooth as possible for users. If you have problems moving your accounts, please start again. To do that, go back to your old web or desktop client, log in with your password and follow the instructions.]\n\n{div.margin-bottom}[Recommendation for browser users: during migration, turn off all browser extensions, since they could impose restrictions, interfering with migration.]\n\n{div.margin-bottom}[Recommendation for desktop client users: turn off your firewall or antivirus software, since they could impose restrictions on port operation, interfering with migration.]\n\n{div.margin-top}[In any case, you will not be left without support! You can always send a message to our [official Telegram group](https://t.me/wavesexchange) or create a ticket on the support page: [https://support.waves.exchange/](https://support.waves.exchange/)]",
+        "text19": "{div.margin-bottom}[Some gateways are operated by the Waves.Exchange team, specifically: $BTC, $ETH, $WEST, $ERGO, $BNT and $USDT.]\n{div.margin-bottom}[Meanwhile, $LTC, $XMR, $DASH, $BCH, $BSV, $Zcash, wUSD and wEUR are temporarily operated by Coinomat.]\n{div.margin-top}[During technical work on December 2, 2019, gateways will process all transactions as normal, which will ensure full security and access to your funds.]",
+        "text2": "This is a new exchange based on Waves DEX’s technology and expertise. For more details, see [this announcement](https://blog.wavesplatform.com/waves-dex-to-be-spun-off-43da9f6e2a91).",
+        "text20": "Your leases will not be cancelled during the migration process. Just as before, users will be able to lease their WAVES to the nodes they choose, using Waves.Exchange’s leasing interface, and collect interest of up to 7% per year.",
+        "text21": "The launch of the USDT (ERC-20) gateway will have no impact on the operation of wUSD and wEUR. Users will be able to continue trading them as they wish.",
+        "text22": "The new addresses belong to the Waves gateway (not Coinomat). We will constantly be improving these gateways, making transfers faster and more convenient for users.",
+        "text23": "We understand that the migration process may bring some inconvenience for users, so we have prepared a nice surprise! All users who have successfully moved their accounts to the new exchange will receive a glittering avatar, displayed in the app. To receive this, you will need to complete the migration of your accounts from Waves DEX to Waves.Exchange by December 2, and have at least one outgoing transaction of any type in each account to qualify.",
+        "text24": "We plan to add support for all languages previously available on Waves DEX soon.",
+        "text3": "Waves.Exchange is developed and run by part of the Waves DEX team, in collaboration with new developers from the Waves community.",
+        "text4": "The migration signifies a new phase in the development of the exchange, the main priority of which will now be user experience. In addition to focusing on the community’s requests, the new team will concentrate on building new trading tools and comprehensive promotion of the product, which was difficult under the previous arrangement.",
+        "text5": "Migration has already begun. As of November 18, 2019, you can move your accounts to the new service. To do that, you’ll need to update Waves DEX’s web version and/or run a desktop app, log into your account and follow the instructions.",
+        "text6": "Yes. This will be the new way to access all of the familiar and convenient tools of the Waves trading ecosystem – including web and desktop apps, mobile apps and the exchange – plus new features and upgrades to the service.",
+        "text7": "The new exchange’s launch is scheduled for December 2, 2019.",
+        "text8": "We want to give Waves DEX users enough time to prepare for using the new exchange, so that their access to the service is uninterrupted. We hope that the two-week period will be sufficient for the majority of users to complete the migration process.",
+        "text9": "Yes, migration of accounts will also be possible after the launch of Waves.Exchange. However, as of December 2, 2019, some restrictions will apply to Waves DEX’s old apps.",
+        "title1": "What’s going on?",
+        "title10": "What restrictions will apply to Waves DEX apps as of December 2, 2019?",
+        "title11": "Will the new exchange have access to my seed phrases?",
+        "title12": "What will happen to my tokens?",
+        "title13": "What problems might users face due to the migration?",
+        "title14": "How long will technical work take on December 2?",
+        "title15": "How can I update my mobile app?",
+        "title16": "Do you plan on introducing KYC procedures? ",
+        "title17": "What changes will the matcher undergo?",
+        "title18": "What if I have any problems or questions during the migration process?",
+        "title19": "What will happen to gateway tokens?",
+        "title2": "What is Waves.Exchange?",
+        "title20": "Will leasing still be available after migration? Will leases be cancelled during the migration process?",
+        "title21": "Will Tether USD (USDT) replace wUSD and wEUR?",
+        "title22": "Why have the gateway addresses for receiving BTC and ETH been changed?",
+        "title23": "Why so complicated?",
+        "title24": "Are there plans to expand language support for the interface of the new exchange?",
+        "title3": "Who is in charge of developing the new exchange?",
+        "title4": "Why is Waves DEX moving to Waves.Exchange?",
+        "title5": "When will migration begin?",
+        "title6": "Is migration mandatory?",
+        "title7": "When will Waves.Exchange be launched?",
+        "title8": "Why did the migration process begin two weeks prior to launch?",
+        "title9": "Will it be possible to move accounts after the launch of Waves.Exchange?"
+    },
     "migrate": {
+        "achievementDesc": "You’ve successfully migrated your accounts. To thank you for completing the process, we’re rewarding all your accounts (with at least one outgoing transaction made before December 2, 2019) with glittering avatars!",
+        "achievementTitle": "Congratulations!",
         "btn": {
             "unlock": "Membuka kunci"
+        },
+        "continue": "Continue",
+        "desc": {
+            "almostFinish": "To finish the migration of your accounts, accept the new Terms and Conditions and Privacy Policy.",
+            "enterPassword": "Enter your Waves.Exchange password to continue the migration.",
+            "onePassword": "Create one password for all your accounts. Sign into accounts and switch between them easily."
         },
         "description": {
             "enterPass": "Masukkan kata sandi akun Anda atau",
             "goBack": "kembali",
             "goBackExchange": "go back",
             "unlock": "Buka kunci akun Anda. Anda dapat kembali ke langkah ini nanti",
-            "unlockExchange": "You need to enter a password to transfer your account to [waves.exchange](https://waves.exchange/)"
+            "unlockExchange": "To finish the migration, complete the authorization process by unlocking an account from the old application and signing in, or creating a new account, or importing it."
         },
         "headers": {
             "unlock": "Buka kunci akun Anda",
             "unlockAccount": "Membuka akun",
-            "unlockExchange": "Unlock Accounts"
+            "unlockAccountExchange": "Unlock your account",
+            "unlockExchange": "Unlock your accounts"
         },
+        "modalButton": {
+            "cancel": "Cancel",
+            "moving": "Start moving"
+        },
+        "modalDesc": {
+            "firstPart": "To offer users a better experience and wider range of tools, the exchange is moving from Waves DEX to Waves.Exchange.",
+            "redirected": "Make sure that you have successfully completed the migration process at Waves.Exchange. Once it is done, you will see the corresponding message.",
+            "secondPart": "Waves DEX will stop operating on December 2, 2019. To continue trading you should move your accounts to the new exchange. We strongly recommend that you do this in advance.",
+            "thirdPart": "The migration process is fast, easy and absolutely secure."
+        },
+        "modalTitle": {
+            "moving": "We're moving!",
+            "plate": "Don’t worry! All of your tokens, seed phrases and passwords are safe.",
+            "redirected": "You have been redirected to"
+        },
+        "signIn": "Sign in",
         "subtitle": {
             "account": "Akun",
             "pending": "Buka kunci tertunda",
+            "pendingExchange": "To unlock, select an account from the list",
+            "pendingUnlockingExchange": "Pending unlocking",
             "unlocked": "Berhasil dibuka"
+        },
+        "title": {
+            "almostThere": "Almost there...",
+            "protectAccount": "Protect your accounts"
         }
     }
 }

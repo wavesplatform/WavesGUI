@@ -95,6 +95,7 @@
       & + .main-header {
         &__header {
           position: fixed;
+          top: 40px;
         }
       }
     }
@@ -164,7 +165,6 @@
     position: fixed;
     z-index: 10;
     width: 100%;
-    top: 0;
     left: 0;
 
     .main-header__header::after {
@@ -174,6 +174,7 @@
 
     &.fixed .main-header__header {
       position: fixed;
+      top: 0;
 
       &::after {
         opacity: 1;
@@ -298,11 +299,23 @@
 }
 
 @media screen and (max-width: 860px) {
-  .main-header__header {
-    .top-menu,
-    .header-logout,
-    .buttons-wrapper {
-      display: none;
+  .main-header {
+    &__header {
+      .top-menu,
+      .header-logout,
+      .buttons-wrapper {
+        display: none;
+      }
+    }
+
+    &_new-user {
+      top: 0;
+
+      &.fixed {
+        .main-header__header {
+          top: 0;
+        }
+      }
     }
   }
 

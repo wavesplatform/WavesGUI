@@ -1,24 +1,135 @@
 {
+    "desktopUpdate": {
+        "almostThere": "快好了...",
+        "backToPrevious": "返回上一个",
+        "barDone": "完成了",
+        "barDownload": "下载",
+        "barInstall": "安装并运行",
+        "barSuccess": "成功",
+        "cancelDownloading": "取消下载",
+        "connectSupport": "如果这样做没有帮助，请联系Waves.Exchange [support]（https://support.waves.exchange/）。",
+        "downloaded": "是",
+        "downloadText": "{div} [为了向用户提供更好的体验和更广泛的工具，该交易所正从Waves DEX转向Waves.Exchange。] \n {div.margin-top} [Waves DEX将于2019年12月2日停止运行。要继续交易，您必须下载新的桌面应用程序。]",
+        "fail": "失败",
+        "failText": "请确保您已经安装并运行新的Waves.Exchange应用程序。",
+        "haveYouDownloaded": "您是否已经下载了新的Waves.Exchange桌面应用程序？",
+        "installAndRun": "安装并运行该应用程序。你做完了吗？",
+        "iUnderstand": "我明白",
+        "lookAtFAQ1": "如果您正确执行了所有操作并继续获得失败结果，请查看",
+        "lookAtFAQ2": "您可能在那里找到答案。",
+        "movingText": "{div.margin-bottom} [为了向用户提供更好的体验和更广泛的工具，该交易所正在从Waves DEX转向Waves.Exchange。] \n {div.margin-bottom} [Waves DEX将于2019年12月2日停止运行。要继续交易，您必须将帐户移至新交易所。我们强烈建议您提前进行此操作。] \n {div.margin-bottom} [这种移动是快速，容易且绝对安全的。]",
+        "oops": "糟糕！出问题了...",
+        "pleaseWait": "正在下载...",
+        "return": "返回",
+        "toFinish": "要完成帐户的迁移，您必须转到新应用程序并完成授权过程。",
+        "tryAgain": "再试一次"
+    },
+    "faq": {
+        "attention": {
+            "text": "{div.margin-top-1} [仅可从网络域[https://dex.wavesplatform.com]（https://dex.wavesplatform.com/）和[https： //client.wavesplatform.com](https://client.wavesplatform.com/）。要完成桌面客户端的迁移，您必须使用已经安装的Waves DEX桌面应用程序。] \n\n {div.margin-top-1} [请勿使用任何其他域进行迁移，请勿在任何地方输入您的种子短语和/或私钥，也不要从您的迁移过程中指定的软件中下载任何其他客户端当前的Waves DEX客户端。迁移过程不需要您在任何地方输入种子短语和/或私钥。 Waves Platform或Waves.Exchange员工绝不会要求您提供任何类型的个人信息，包括私钥和/或种子短语。] \n\n {div.margin-top-1} [迁移过程是完全免费的，并且不会影响任何网关，因为网关将正常处理所有事务。您无需支付任何费用或将令牌发送给任何人即可完成迁移。]",
+            "title": "注意！！！"
+        },
+        "goHome": "去首页",
+        "text1": "Waves DEX正在转变为新产品Waves.Exchange。不用担心您所有的令牌，种子短语和密码都是完全安全的。",
+        "text10": "{div.margin-bottom} [如果您使用的是旧版应用，则将无法再进行以下操作：] \n {div.line} [-创建帐户] \n {div.line} [-可以访问Waves DEX界面] \n {div.line} [-查看您的投资组合] \n {div.line} [-进行任何类型的交易：转让，发行或刻录令牌，租赁WAVES或取消租赁] \n {div.line} [-使用任何网关] \n\n {div.margin-bottom} [自2019年12月2日起，您将可以使用Waves.Exchange应用程序享受此功能。] \n\n {div.margin-bottom} [但是，使用旧版应用程序，您仍然可以：] \n\n {div.line} [-登录您的帐户] \n {div.line} [ {div.line} [-启动向Waves.Exchange的迁移过程] \n {div.line} [-为种子词组创建本地备份] \n\n {div.margin-top} [如果仍有疑问，您可以将消息发送到我们的[官方电报组]（https://t.me/wavesexchange）或在支持页面上创建{div.margin-top} ：[https：/ /support.waves.exchange/](https://support.waves.exchange/）]",
+        "text11": "没有,永不！在任何情况下都不会发生这种情况。所有种子短语仍将存储在本地设备上。交易所不可能访问该存储。",
+        "text12": "您的代币的所有权记录在Waves区块链上。只能使用种子短语或私钥访问存储在您帐户中的令牌，这些种子短语或私钥在迁移后不会更改并且不会离开您的设备。您的资产是完全安全的！",
+        "text13": "{div.margin-bottom} [我们将尽最大努力确保迁移过程对用户来说尽可能顺利。由于匹配者地址和私钥的更改，我们将无法将您的订单移至新匹配者。因此，您的整个订单历史记录将不再可用。您仍然可以使用Waves Explorer查看所有已完成的交易。 ] \n\n {div.margin-bottom} [除了您的订单历史记录之外，所有有效订单都会在12月2日被取消。这是由于切换到新匹配器而引起的必要措施。在成功迁移的情况下，您仍将保留：] \n {div.line} [–仪表板上的一组固定资产] \n {div.line} [–在交易所保存的对] \n {div.line} [–“隐藏”资产列表] \n {div.line} [–语言首选项] \n {div.line} [–帐户信息（种子短语，帐户名）] \n\n {div.margin-bottom.margin-top} [请注意，技术工作将于12月2日进行，届时将限制对旧应用程序的访问，并准备启动新应用程序。 ] \n\n {div.margin-bottom} [在此过程中，网关将正常处理所有交易（存款和取款），这将确保完全的安全性和对您资金的访问。] \n\n {div.margin-top} [您将不会失去支持！您可以随时向我们的[官方电报组]（https://t.me/wavesexchange）发送消息，也可以在支持页面上创建故障单：[https://support.waves.exchange/](https:// support.waves.exchange/）]",
+        "text14": "{div} [迁移过程大约需要八个小时。在此期间，您将无法完全访问您的应用。我们谨在此提醒您，迁移过程计划于2019年12月2日星期一进行。在当天进行的技术工作中，网关将正常处理所有交易，这将确保完全的安全性并访问您的资金。] \n\n {div} [支持随时可用！您可以随时向我们的[官方电报组]（https://t.me/wavesexchange）发送消息，也可以在支持页面上创建故障单：[https://support.waves.exchange/](https:// support.waves.exchange/）]",
+        "text15": "在12月2日，用户将需要登录Waves移动应用并点击“更新”按钮。该应用程序将更新到版本2.7.0。该更新将在2019年12月2日星期一结束之前在Google Play和App Store上提供。",
+        "text16": "目前，只有在您的银行帐户中存入/提取wUSD和wEUR时才需要KYC。目前，该团队尚无计划引入KYC进行交易或加密货币交易。",
+        "text17": "匹配器将获得一个新的地址和URL，并且其私钥将更改。由于这些更改，更新时用户的未结订单将自动取消，并且交易历史记录将变得不可用。不幸的是，没有将订单和交易历史记录转移到新匹配器的技术手段，因为每个订单都是在用户使用其私钥对其进行签名后发送给匹配器的。由于旧匹配者或新匹配者都无法访问用户的私钥，因此无法转移订单。我们知道这可能令人沮丧，但是这种方法是匹配器设计的一个功能，它是维护用户资金安全所必需的。很抱歉给您带来不便。",
+        "text18": "{div.margin-bottom} [我们已尽力确保迁移过程对用户来说尽可能顺利。如果您在移动帐户时遇到问题，请重新开始。为此，请返回旧的Web或桌面客户端，使用密码登录并按照说明进行操作。] \n\n {div.margin-bottom} [针对浏览器用户的建议：在迁移期间，请关闭所有浏览器扩展，因为它们可能会施加限制，从而干扰迁移。] \n\n {div.margin-bottom} [针对桌面客户端用户的建议：关闭防火墙或防病毒软件，因为它们可能会限制端口操作，从而干扰迁移。] \n\n {div.margin-top} [在任何情况下，您都会得到支持！您可以随时向我们的[官方电报组]（https://t.me/wavesexchange）发送消息，也可以在支持页面上创建故障单：[https://support.waves.exchange/](https:// support.waves.exchange/）]",
+        "text19": "{div.margin-bottom} [某些网关由Waves.Exchange团队操作，特别是：$ BTC，$ ETH，$ WEST，$ ERGO，$ BNT和$ USDT。] \n {div.margin-bottom} [同时，$ LTC，$ XMR，$ DASH，$ BCH，$ BSV，$ Zcash，wUSD和wEUR由Coinomat临时运营。] \n {div.margin-top} [在2019年12月2日的技术工作期间，网关将正常处理所有交易，这将确保完全的安全性和对您资金的访问。]",
+        "text2": "这是基于Waves DEX的技术和专业知识的新交易所。有关更多详细信息，请参见[此公告]（https://blog.wavesplatform.com/waves-dex-to-be-spun-off-43da9f6e2a91）。",
+        "text20": "在迁移过程中，您的租约不会被取消。和以前一样，用户将能够使用Waves.Exchange的租赁界面将其WAVES租赁到他们选择的节点上，并每年收取高达7％的利息。",
+        "text21": "USDT（ERC-20）网关的启动不会对wUSD和wEUR的运行产生影响。用户将能够继续根据需要进行交易。",
+        "text22": "新地址属于Waves网关（不是Coinomat）。我们将不断改进这些网关，使用户传输更快，更方便。",
+        "text23": "我们了解迁移过程可能给用户带来一些不便，因此我们准备了一个惊喜！成功将其帐户移至新交易所的所有用户都将收到一个闪烁的头像，显示在应用程序中。为此，您需要在12月2日之前完成从Waves DEX到Waves.Exchange的帐户迁移，并且每个帐户中至少有一个任何类型的支出交易都符合资格。",
+        "text24": "我们计划很快增加对Waves DEX先前可用的所有语言的支持。",
+        "text3": "Waves.Exchange由Waves DEX团队的一部分开发和运行，与Waves社区的新开发人员合作。",
+        "text4": "迁移标志着交易所发展的一个新阶段，现在的主要重点是用户体验。除了关注社区的要求外，新团队还将专注于构建新的交易工具和产品的全面推广，而这在以前的安排中是困难的。",
+        "text5": "迁移已经开始。自2019年11月18日起，您可以将帐户移至新服务。为此，您需要更新Waves DEX的网络版本和/或运行桌面应用程序，登录到您的帐户并按照说明进行操作。",
+        "text6": "是。这将是访问Waves交易生态系统中所有熟悉且方便的工具（包括Web和桌面应用程序，移动应用程序和交易所）以及新功能和服务升级的新方法。",
+        "text7": "新交易所将于2019年12月2日启动。",
+        "text8": "我们希望给Waves DEX用户足够的时间为使用新的交换做准备，以使他们对服务的访问不中断。我们希望两周的时间足以使大多数用户完成迁移过程。",
+        "text9": "是的，在Waves.Exchange启动后，也可以迁移帐户。但是，自2019年12月2日起，某些限制将适用于Waves DEX的旧应用程序。",
+        "title1": "这是怎么回事？",
+        "title10": "自2019年12月2日起，Waves DEX应用程序将受到哪些限制？",
+        "title11": "新交易所可以访问我的种子短语吗？",
+        "title12": "我的代币将如何处理？",
+        "title13": "由于迁移，用户可能会遇到什么问题？",
+        "title14": "12月2日技术工作需要多长时间？",
+        "title15": "如何更新我的移动应用程序？",
+        "title16": "您打算引入KYC程序吗？",
+        "title17": "匹配器将发生什么变化？",
+        "title18": "如果在迁移过程中遇到任何问题或疑问该怎么办？",
+        "title19": "网关代币会发生什么？",
+        "title2": "什么是Waves.Exchange？",
+        "title20": "迁移后，租赁是否仍然可用？迁移过程中会取消租约吗？",
+        "title21": "Tether USD（USDT）会取代wUSD和wEUR吗？",
+        "title22": "为什么接收BTC和ETH的网关地址已更改？",
+        "title23": "为什么这么复杂？",
+        "title24": "是否有计划扩展对新交易所接口的语言支持？",
+        "title3": "谁负责开发新交易所？",
+        "title4": "Waves DEX为什么要迁移到Waves.Exchange？",
+        "title5": "何时开始迁移？",
+        "title6": "迁移是强制性的吗？",
+        "title7": "Waves.Exchange何时启动？",
+        "title8": "为什么迁移过程要在启动前两周开始？",
+        "title9": "Waves.Exchange启动后是否可以移动帐户？"
+    },
     "migrate": {
+        "achievementDesc": "您已成功迁移帐户。为了感谢您完成此过程，我们将使用闪闪发光的头像奖励您的所有帐户（至少有一笔在2019年12月2日之前进行的支出交易）！",
+        "achievementTitle": "恭喜你！",
         "btn": {
             "unlock": "解锁"
+        },
+        "continue": "继续",
+        "desc": {
+            "almostFinish": "要完成帐户的迁移，请接受新的条款和条件以及隐私权政策。",
+            "enterPassword": "输入您的Waves.Exchange密码以继续迁移。",
+            "onePassword": "为您的所有帐户创建一个密码。登录帐户并轻松切换。"
         },
         "description": {
             "enterPass": "输入您的帐户密码或",
             "goBack": "回来",
-            "goBackExchange": "go back",
+            "goBackExchange": "返回",
             "unlock": "解锁您的帐户。您可以稍后返回此步骤",
-            "unlockExchange": "You need to enter a password to transfer your account to [waves.exchange](https://waves.exchange/)"
+            "unlockExchange": "要完成迁移，请通过从旧应用程序中解锁帐户并登录，创建新帐户或导入来完成授权过程。"
         },
         "headers": {
             "unlock": "解锁您的帐户",
             "unlockAccount": "解锁帐户",
-            "unlockExchange": "Unlock Accounts"
+            "unlockAccountExchange": "解锁您的帐户",
+            "unlockExchange": "解锁您的帐户"
         },
+        "modalButton": {
+            "cancel": "取消",
+            "moving": "开始移动"
+        },
+        "modalDesc": {
+            "firstPart": "为了向用户提供更好的体验和更广泛的工具，该交易所正从Waves DEX转向Waves.Exchange。",
+            "redirected": "确保您已成功完成Waves.Exchange的迁移过程。完成后，您将看到相应的消息。",
+            "secondPart": "Waves DEX将于2019年12月2日停止运营。要继续交易，您应该将帐户移至新交易所。强烈建议您提前进行此操作。",
+            "thirdPart": "迁移过程快速，轻松且绝对安全。"
+        },
+        "modalTitle": {
+            "moving": "我们要搬家了！",
+            "plate": "不用担心您所有的代币，种子短语和密码都是安全的。",
+            "redirected": "您已被重定向到"
+        },
+        "signIn": "登入",
         "subtitle": {
             "account": "帐户",
             "pending": "待解锁",
-            "unlocked": "成功解锁"
+            "pendingExchange": "要解锁，请从列表中选择一个帐户",
+            "pendingUnlockingExchange": "待解锁",
+            "unlocked": "已解锁"
+        },
+        "title": {
+            "almostThere": "快好了...",
+            "protectAccount": "保护您的帐户"
         }
     }
 }

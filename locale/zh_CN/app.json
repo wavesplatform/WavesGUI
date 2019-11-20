@@ -2,7 +2,8 @@
     "back": "返回主页",
     "button": {
         "cancel": "取消",
-        "continue": "继续"
+        "continue": "继续",
+        "signIn": "登入"
     },
     "confirmTransaction": {
         "notPermitted": {

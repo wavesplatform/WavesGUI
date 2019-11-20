@@ -26,6 +26,11 @@
   "origin": "https://testnet.wavesplatform.com",
   "featuresConfigUrl": "https://raw.githubusercontent.com/wavesplatform/waves-client-config/master/testnet.config.json",
   "feeConfigUrl": "https://raw.githubusercontent.com/wavesplatform/waves-client-config/master/fee.json",
+  "migration": {
+    "webUrl": "https://localhost:8080/migration",
+    "desktopUrl": "https://localhost:8888/connect",
+    "desktopPort": 8888
+  },
   "WESTNetworkByte": "S",
   "tokenrating": "https://dev.voting.wavesplatform.com",
   "assets": {
@@ -53,5 +58,6 @@
     { "ticker": "USD", "id": "HETgTyfn5grcHWGRKHi7p3hvMB4QxWVrPD8Fnfi9tfD9"},
     { "ticker": "EUR", "id": "EqZfxiqYKkByP42hqNsvuPdXxVYMHaQDwfKgFnAz5D1x"},
     { "ticker": "CNY", "id": "8CfhN5MmaiAW1kCG5tDXasVTSafJP8cf6TZqbPRkNGxQ"}
-  ]
+  ],
+  "wavesExchangeLink": "https://waves.exchange"
 }

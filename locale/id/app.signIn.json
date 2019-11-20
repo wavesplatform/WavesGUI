@@ -8,16 +8,23 @@
     "signIn": {
         "btn": {
             "cancel": "Batalkan",
+            "overwrite": "Overwrite",
             "restore": "Reset all"
         },
         "enterPass": "Silakan masukkan kata sandi Anda untuk melanjutkan",
+        "or": "OR",
         "passForgot": {
             "attention": "Perhatian!",
             "description": "Jika Anda lupa kata sandi, Anda harus mengembalikan semua akun Anda dari SEED mereka dan menetapkan kata sandi baru.",
-            "importantDesc": "If you have not saved the Seed phrase or Private key, then you will not be able to recover access to your account."
+            "descriptionExchange": "You are about to delete all of your Waves.Exchange accounts from this device. This action will not affect your Waves DEX accounts.",
+            "importantDesc": "If you have not saved the Seed phrase or Private key, then you will not be able to recover access to your account.",
+            "importantDescEx": "This action is irreversible! If you have not saved the Seed phrase or private key, then you will not be able to recover access to your Waves.Exchange accounts.",
+            "importantDescExchange": "This action is irreversible! If you have not saved the Seed phrase or private key, then you will not be able to recover access to your Waves.Exchange accounts."
         },
         "password": {
-            "forgot": "lupa kata sandi Anda?"
+            "forgot": "lupa kata sandi Anda?",
+            "overwrite": "Overwrite accounts",
+            "overwriteDescription": "Overwrite all Waves.Exchange accounts on this device"
         },
         "signIn": "Masuk",
         "welcomeBack": "Selamat datang kembali!"

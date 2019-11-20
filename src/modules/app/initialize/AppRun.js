@@ -3,6 +3,10 @@
 (function () {
     'use strict';
 
+    // const onContentLoad = new Promise((resolve) => {
+    //     document.addEventListener('DOMContentLoaded', resolve);
+    // });
+
     const { Money } = require('@waves/data-entities');
     const { libs } = require('@waves/waves-transactions');
     const { base64Encode, blake2b, stringToBytes } = libs.crypto;
@@ -56,6 +60,7 @@
 
     LOADER.addProgress(PROGRESS_MAP.RUN_SCRIPT);
     WavesApp.state = 'initApp';
+
     /**
      * @param {$rootScope.Scope} $rootScope
      * @param {User} user
@@ -148,11 +153,11 @@
                  * Configure library generation avatar by address
                  */
                 identityImg.config({ rows: 8, cells: 8 });
-
-                this._setHandlers();
                 this._stopLoader();
+                this._setHandlers();
                 this._initializeLogin();
                 this._initializeOutLinks();
+                this._openMigrationModal();
 
                 if (WavesApp.isDesktop()) {
                     window.listenMainProcessEvent((type, url) => {
@@ -182,6 +187,36 @@
                 $rootScope.WavesApp = WavesApp;
             }
 
+            static getLoadImagePromise(length) {
+                return function (path) {
+                    return new Promise(resolve => {
+                        const img = new Image();
+                        const apply = () => {
+                            LOADER.addProgress(PROGRESS_MAP.IMAGES_LOADED / length);
+                            resolve();
+                        };
+
+                        img.onload = apply;
+                        img.onerror = () => {
+                            console.warn(`Can't load image! "${path}"`);
+                            apply();
+                        };
+                        img.src = path;
+                    });
+                };
+            }
+
+            static _getUrlFromState(state) {
+                return (
+                    WavesApp
+                        .stateTree
+                        .getPath(state.name.split('.').slice(-1)[0])
+                        .filter((id) => !WavesApp.stateTree.find(id).get('abstract'))
+                        .map((id) => WavesApp.stateTree.find(id).get('url') || id)
+                        .reduce((url, id) => `${url}/${id}`, '')
+                );
+            }
+
             _initTryDesktop() {
                 if (multiAccount.isSignedIn || !isDesktop || WavesApp.isDesktop()) {
                     return Promise.resolve(true);
@@ -198,9 +233,10 @@
                         case 'web':
                             return Promise.resolve(true);
                         default:
-                            return modalManager.showTryDesktopModal()
-                                .then(() => this._runDesktop())
-                                .catch(() => true);
+                            return Promise.resolve(true);
+                        // return modalManager.showTryDesktopModal()
+                        //     .then(() => this._runDesktop())
+                        //     .catch(() => true);
                     }
                 });
             }
@@ -371,11 +407,19 @@
                 const START_STATES = WavesApp.stateTree.where({ noLogin: true })
                     .map((item) => WavesApp.stateTree.getPath(item.id).join('.'));
 
+                const DEXW_LOCKED_STATES = ['migration'];
+
                 const offInitialTransitions = $transitions.onStart({}, transition => {
+                    const DEXW_LOCKED = configService.get('DEXW_LOCKED');
+
                     const toState = transition.to();
                     const fromState = transition.from();
                     const params = transition.params();
                     let tryDesktop;
+
+                    if (DEXW_LOCKED && DEXW_LOCKED_STATES.indexOf(toState.name) === -1) {
+                        return $state.target('migration');
+                    }
 
                     if (START_STATES.indexOf(toState.name) === -1) {
                         if (fromState.name === 'unavailable') {
@@ -428,7 +472,10 @@
                                 this._modalRouter.initialize();
                             });
 
-                            const offInnerTransitions = this._onInnerTransitions(START_STATES);
+                            const offInnerTransitions = this._onInnerTransitions(
+                                START_STATES.filter(state => state !== 'desktopUpdate'),
+                                DEXW_LOCKED_STATES
+                            );
 
                             user.logoutSignal.once(() => {
                                 offInnerTransitions();
@@ -438,12 +485,17 @@
                 });
             }
 
-            _onInnerTransitions(START_STATES) {
+            _onInnerTransitions(START_STATES, DEXW_LOCKED_STATES) {
                 return $transitions.onStart({}, transition => {
                     const toState = transition.to();
                     const { custom } = transition.options();
+                    const DEXW_LOCKED = configService.get('DEXW_LOCKED');
 
-                    if (START_STATES.indexOf(toState.name) !== -1 && !custom.logout) {
+                    if (DEXW_LOCKED && DEXW_LOCKED_STATES.indexOf(toState.name) === -1) {
+                        return $state.target('migration');
+                    }
+
+                    if (START_STATES.indexOf(toState.name) !== -1 && !custom.logout && !DEXW_LOCKED) {
                         return false;
                     } else {
                         state.signals.changeRouterStateStart.dispatch(transition);
@@ -713,41 +765,26 @@
             /**
              * @private
              */
+            _openMigrationModal() {
+                Promise.all([
+                    user.getMultiAccountData(),
+                    user.getFilteredUserList(),
+                    storage.load('notAutoOpenMigrationModal')
+                ]).then(([multiAccountData, userList, notAutoOpenMigrationModal]) => {
+                    if (!notAutoOpenMigrationModal && !multiAccountData && userList && userList.length) {
+                        modalManager.showMigrateModal();
+                    }
+                });
+            }
+
+            /**
+             * @private
+             */
             _getImagesReadyPromise() {
                 return $.ajax({ url: `/img/images-list.json?v=${WavesApp.version}`, dataType: 'json' })
                     .then((list) => {
                         return Promise.all(list.map(AppRun.getLoadImagePromise(list.length)));
                     });
-            }
-
-            static getLoadImagePromise(length) {
-                return function (path) {
-                    return new Promise(resolve => {
-                        const img = new Image();
-                        const apply = () => {
-                            LOADER.addProgress(PROGRESS_MAP.IMAGES_LOADED / length);
-                            resolve();
-                        };
-
-                        img.onload = apply;
-                        img.onerror = () => {
-                            console.warn(`Can't load image! "${path}"`);
-                            apply();
-                        };
-                        img.src = path;
-                    });
-                };
-            }
-
-            static _getUrlFromState(state) {
-                return (
-                    WavesApp
-                        .stateTree
-                        .getPath(state.name.split('.').slice(-1)[0])
-                        .filter((id) => !WavesApp.stateTree.find(id).get('abstract'))
-                        .map((id) => WavesApp.stateTree.find(id).get('url') || id)
-                        .reduce((url, id) => `${url}/${id}`, '')
-                );
             }
 
         }
@@ -775,8 +812,15 @@
         'whatsNew'
     ];
 
-    angular.module('app')
-        .run(run);
+    angular.module('app').run(run);
+
+    const { utils } = require('data-service');
+    (new utils.ConfigService(WavesApp)).configReady.then(() => {
+        $(() => angular.bootstrap(document.querySelector('html'), ['app']));
+    });
+    // Promise.all([onContentLoad, (new utils.ConfigService(WavesApp)).configReady]).then(() => {
+    //     angular.bootstrap(document.querySelector('html'), ['app']);
+    // });
 })();
 
 /**
