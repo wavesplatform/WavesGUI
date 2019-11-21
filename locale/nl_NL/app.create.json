@@ -2,12 +2,12 @@
     "backupSeed": {
         "back": "terug",
         "copySeed": "kopieer ze",
-        "description": "Please be careful and never input your SEED into other clients, because your account will be compromised and you will lose all of your funds. You should only use the official Waves clients.",
+        "description": "Wees voorzichtig en voer uw SEED nooit in bij andere clients, want als uw account wordt gecompromitteerd verliest u al uw geld. Gebruik alleen de officiële Waves-clients.",
         "needConfirm": "U bevestigt deze zin op het volgende scherm.",
         "ok": "Ik heb het opgeschreven",
         "or": "of",
         "saveSecret": "Bewaar back-up regel",
-        "seedPhrase": "Seed Phrase",
+        "seedPhrase": "SEED regel",
         "warn": "Omdat alleen u uw geld beheert, moet u uw back-up regel bewaren voor het geval deze app wordt verwijderd of",
         "writeSeed": "Noteer deze 15 woorden zorgvuldig",
         "yourSeed": "Uw backup regel"
@@ -45,7 +45,7 @@
             "withBlockchain": "Begin met Blockchain"
         },
         "import": "Importeer accounts",
-        "importDescription": "via back-up regel, Ledger of Waves Keeper",
+        "importDescription": "via Seed of private key, Ledger, Keystore File",
         "protect": "Beveilig uw account met een wachtwoord of",
         "protectYourAccount": "Beveilig uw account",
         "restore": "bestaand account terug zetten",
@@ -68,7 +68,7 @@
         "backup": "Maak nu een backup",
         "description": "U moet uw geheime regel (backup regel) opslaan. Dit is cruciaal om in uw account te komen.",
         "modal": {
-            "descriptionP1": "Waves Platform waarschuwt u voor de steeds vaker terugkerende scam en phishing aanvallen. Fraudeurs verbergen hun malware in eigen versies van Waves software uit en beloven bonussen en korting om gebruikers te lokken hun credentials in te voeren.",
+            "descriptionP1": "Waves Exchange waarschuwt u voor de steeds vaker terugkerende scam en phishing aanvallen. Fraudeurs verbergen hun malware in eigen versies van Waves software uit en beloven bonussen en korting om gebruikers te lokken hun credentials in te voeren.",
             "descriptionP2": "Kijk uit voor deze scams en voer nooit uw SEED bij deze clients in. Uw account is dan gecompromitteerd en u raakt de gehele inhoud van uw account kwijt.",
             "descriptionP3": "Gebruik enkel de officiële Waves client.",
             "ok": "Ik begrijp het",
@@ -79,7 +79,7 @@
         "title": "Geen Backup, Geen Geld"
     },
     "seed": {
-        "copyToClipboard": "Copy to clipboard",
-        "saveToFile": "Save as file"
+        "copyToClipboard": "Kopieer naar klembord",
+        "saveToFile": "Opslaan als bestand"
     }
 }
