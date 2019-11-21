@@ -294,6 +294,7 @@
                                 });
                         } else {
                             this._isNewDefer.resolve(version);
+                            this.save('lastVersion', WavesApp.version);
                             return Promise.resolve();
                         }
                     });
