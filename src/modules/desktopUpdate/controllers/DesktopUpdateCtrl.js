@@ -45,6 +45,8 @@
             isOldDesktop = false;
             hasUserList = false;
             _isCanceled = null;
+            _showSteps = false;
+            _timer = 10;
             downloadDone = false;
 
             constructor() {
@@ -177,6 +179,9 @@
                         fileContent: content
                     }).then(() => {
                         this.state = 'installAndRun';
+                        setTimeout(() => {
+                            this._showSteps = true;
+                        }, 10);
                         this.isDownloading = false;
                         this.downloadDone = true;
                         this._resetProgress();
@@ -218,6 +223,39 @@
                 this._showMoving = true;
             }
 
+            _toInstallAndRun() {
+                this.state = 'installAndRun';
+                this._timer = 10;
+
+                let timerId;
+
+                const tick = () => {
+                    if (this._timer > 0) {
+                        this._decreaseTimer();
+                        if (timerId) {
+                            window.clearTimeout(timerId);
+                        }
+                        timerId = setTimeout(tick, 1000);
+                    } else {
+                        window.clearTimeout(timerId);
+                    }
+                };
+
+                tick();
+
+
+                const otherTimer = setTimeout(() => {
+                    this._showSteps = true;
+                    window.clearInterval(otherTimer);
+                }, 10);
+
+            }
+
+            _askDownload() {
+                this.state = 'askDownload';
+                this._showSteps = false;
+            }
+
             /**
              * @returns {ConnectProvider}
              */
@@ -232,6 +270,8 @@
 
             tryAgain() {
                 this.state = 'askDownload';
+                this._showSteps = false;
+                this._timer = 10;
                 exportStorageService.destroy();
             }
 
@@ -245,6 +285,24 @@
 
             showFAQ() {
                 modalManager.showMigrateFAQ();
+            }
+
+            _decreaseTimer() {
+                this._timer = this._timer - 1;
+            }
+
+            // @TODO сделать плюризацию
+            getPlural() {
+                switch (this._timer) {
+                    case 1:
+                        return 'desktopUpdate.seconds1';
+                    case 2:
+                    case 3:
+                    case 4:
+                        return 'desktopUpdate.seconds234';
+                    default:
+                        return 'desktopUpdate.seconds';
+                }
             }
 
         }
