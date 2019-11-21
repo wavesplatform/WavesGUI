@@ -407,7 +407,7 @@
                 const START_STATES = WavesApp.stateTree.where({ noLogin: true })
                     .map((item) => WavesApp.stateTree.getPath(item.id).join('.'));
 
-                const DEXW_LOCKED_STATES = ['migration'];
+                const DEXW_LOCKED_STATES = ['welcome'];
 
                 const offInitialTransitions = $transitions.onStart({}, transition => {
                     const DEXW_LOCKED = configService.get('DEXW_LOCKED');
@@ -418,7 +418,7 @@
                     let tryDesktop;
 
                     if (DEXW_LOCKED && DEXW_LOCKED_STATES.indexOf(toState.name) === -1) {
-                        return $state.target('migration');
+                        return $state.target(DEXW_LOCKED_STATES[0]);
                     }
 
                     if (START_STATES.indexOf(toState.name) === -1) {
@@ -492,7 +492,7 @@
                     const DEXW_LOCKED = configService.get('DEXW_LOCKED');
 
                     if (DEXW_LOCKED && DEXW_LOCKED_STATES.indexOf(toState.name) === -1) {
-                        return $state.target('migration');
+                        return $state.target(DEXW_LOCKED_STATES[0]);
                     }
 
                     if (START_STATES.indexOf(toState.name) !== -1 && !custom.logout && !DEXW_LOCKED) {

@@ -1,0 +1,17 @@
+<div ng-switch="$ctrl.isDesktop">
+    <div ng-switch-when="true">
+        <div ng-switch="$ctrl.userType">
+            <div ng-switch-when="old">Old Desktop</div>
+            <div ng-switch-when="new">New Desktop</div>
+            <div ng-switch-when="multiAccount">MultiAccount Desktop</div>
+        </div>
+    </div>
+
+    <div ng-switch-when="false">
+        <div ng-switch="$ctrl.userType">
+            <div ng-switch-when="old">Old Web</div>
+            <div ng-switch-when="new">New Web</div>
+            <div ng-switch-when="multiAccount">MultiAccount Web</div>
+        </div>
+    </div>
+</div>

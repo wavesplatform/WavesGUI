@@ -12,6 +12,7 @@
      * @param {JQuery} $element
      * @param {Waves} waves
      * @param {Matcher} matcher
+     * @param {ConfigService} configService
      * @return {WelcomeCtrl}
      */
     const controller = function (
@@ -24,7 +25,8 @@
         $element,
         ChartFactory,
         storage,
-        matcher
+        matcher,
+        configService
     ) {
 
         const ds = require('data-service');
@@ -124,6 +126,8 @@
 
             constructor() {
                 super($scope);
+
+                this.locked = configService.get('DEXW_LOCKED');
 
                 this._initDeviceTypes();
 
@@ -293,7 +297,8 @@
         '$element',
         'ChartFactory',
         'storage',
-        'matcher'
+        'matcher',
+        'configService'
     ];
 
     angular.module('app.welcome')
