@@ -37,7 +37,7 @@
             },
             '1.4.0': storage => migrateCommonSettings(storage),
             '1.4.6': storage => fixMigrateCommonSettings(storage),
-            '1.4.15': storage => fixUndefined(storage)
+            '1.4.16': storage => fixUndefined(storage)
         };
 
         const { Signal, isObject } = require('ts-utils');
@@ -279,7 +279,6 @@
                 this.load('lastVersion')
                     .then((version) => {
                         this._canWrite.resolve();
-                        this.save('lastVersion', WavesApp.version);
                         state.lastOpenVersion = version;
 
                         if (version) {
@@ -287,6 +286,7 @@
                             return utils.chainCall(versions.map((version) => MIGRATION_MAP[version].bind(null, this)))
                                 .then(() => {
                                     this._isNewDefer.resolve(version);
+                                    this.save('lastVersion', WavesApp.version);
                                 });
                         } else {
                             this._isNewDefer.resolve(version);
