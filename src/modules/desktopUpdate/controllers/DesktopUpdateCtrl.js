@@ -47,6 +47,7 @@
             _isCanceled = null;
             _showSteps = false;
             _timer = 10;
+            downloadDone = false;
 
             constructor() {
                 if (!WavesApp.isDesktop()) {
@@ -182,6 +183,7 @@
                             this._showSteps = true;
                         }, 10);
                         this.isDownloading = false;
+                        this.downloadDone = true;
                         this._resetProgress();
                         $scope.$digest();
                     }).catch((e) => {
@@ -193,10 +195,12 @@
                         }
 
                         this.isDownloading = false;
+                        this.downloadDone = false;
                         $scope.$digest();
                     });
                 }).catch((e) => {
                     this.error = String(e);
+                    this.downloaded = false;
                     $scope.$digest();
                 });
             }
@@ -275,6 +279,7 @@
                 this._isCanceled = true;
                 this.state = 'askDownload';
                 this._resetProgress();
+                this.downloadDone = false;
                 ds.utils.abortDownloading();
             }
 
