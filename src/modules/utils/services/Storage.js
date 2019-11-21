@@ -249,8 +249,12 @@
                 }
 
                 return Promise.all([
-                    storage.save('userList', userList === 'undefined' ? '' : userList),
-                    storage.save('multiAccountUsers', multiAccountUsers === 'undefined' ? '' : multiAccountUsers)
+                    userList ?
+                        storage.save('userList', userList === 'undefined' ? '' : userList) :
+                        Promise.resolve(),
+                    multiAccountUsers ?
+                        storage.save('multiAccountUsers', multiAccountUsers === 'undefined' ? '' : multiAccountUsers) :
+                        Promise.resolve()
                 ]);
             });
         }
