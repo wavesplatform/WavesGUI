@@ -6,23 +6,27 @@
     /**
      * @param {ng.IScope} $scope
      * @param {*} exportStorageService
-     * @param {$log} $log
+     * @param {ng.ILogService} $log
      * @param {Storage} storage
      * @param {User} user
      * @param {*} utils
      * @param {*} $state
      * @param {*} configService
      * @param {*} modalManager
+     * @param {*} multiAccount
      */
-    const controller = ($scope,
-                        $state,
-                        configService,
-                        exportStorageService,
-                        $log,
-                        storage,
-                        user,
-                        utils,
-                        modalManager) => {
+    const controller = (
+        $scope,
+        $state,
+        configService,
+        exportStorageService,
+        $log,
+        storage,
+        user,
+        utils,
+        modalManager,
+        multiAccount
+    ) => {
         class DesktopUpdateCtrl {
 
             /**
@@ -32,8 +36,14 @@
             progress = 0;
             error = null;
             isDownloading = false;
-            _oldDesktop = false;
-            _hasAccounts = false;
+            multiAccountData = null;
+            multiAccountHash = null;
+            hasMultiAccount = false;
+            signInForm = null;
+            password = '';
+            showPasswordError = false;
+            isOldDesktop = false;
+            hasUserList = false;
             _isCanceled = null;
             _showSteps = false;
             _timer = 10;
@@ -43,13 +53,22 @@
                     $state.go(user.getActiveState('wallet'));
                 }
 
-                this._oldDesktop = utils.isVersionLte('1.4.0');
-                this._showMoving = !this._oldDesktop;
+                this.isOldDesktop = utils.isVersionLte('1.4.0');
+                this._showMoving = !this.isOldDesktop;
 
                 storage.load('userList').then(list => {
                     if (list && list.length > 0) {
-                        this._hasAccounts = true;
+                        this.hasUserList = true;
                     }
+                });
+
+                Promise.all([
+                    user.getMultiAccountData(),
+                    user.getMultiAccountHash()
+                ]).then(([multiAccountData, multiAccountHash]) => {
+                    this.multiAccountData = multiAccountData;
+                    this.multiAccountHash = multiAccountHash;
+                    this.hasMultiAccount = !!multiAccountData;
                 });
             }
 
@@ -91,6 +110,54 @@
                     });
                     const content = '{migrationError: !window.location.href.includes(\'http://localhost:8888\') }';
                     win.eval(`window.opener.postMessage(${content}, '*')`);
+                });
+            }
+
+            signInAndExport() {
+                if (this.signInForm.$invalid) {
+                    return;
+                }
+
+                this.showPasswordError = false;
+
+                multiAccount.signIn(
+                    this.multiAccountData,
+                    this.password,
+                    undefined,
+                    this.multiAccountHash
+                ).then(() => {
+                    this.toMigration();
+                }).catch(() => {
+                    this.password = '';
+                    this.showPasswordError = true;
+                });
+            }
+
+            onPasswordChange() {
+                this.showPasswordError = false;
+            }
+
+            _export() {
+                const connectProvider = this._getConnectProvider();
+
+                exportStorageService.export({
+                    provider: connectProvider,
+                    attempts: 100,
+                    timeout: 10000
+                });
+
+                exportStorageService.onData().then(result => {
+                    if (result.payload === 'ok') {
+                        $log.log('done');
+                        this.state = 'success';
+                        $scope.$apply();
+
+                        return storage.save('migrationSuccess', true);
+                    } else {
+                        this.state = 'fail';
+
+                        return storage.save('migrationSuccess', false);
+                    }
                 });
             }
 
@@ -144,11 +211,11 @@
                 this.progress = 0;
             }
 
-            _toHome() {
+            toHome() {
                 $state.go(user.getActiveState('wallet'));
             }
 
-            _toMigration() {
+            toMigration() {
                 this._showMoving = true;
             }
 
@@ -197,14 +264,14 @@
                 });
             }
 
-            _tryAgain() {
+            tryAgain() {
                 this.state = 'askDownload';
                 this._showSteps = false;
                 this._timer = 10;
                 exportStorageService.destroy();
             }
 
-            _cancelDownload() {
+            cancelDownload() {
                 this._isCanceled = true;
                 this.state = 'askDownload';
                 this._resetProgress();
@@ -247,7 +314,8 @@
         'storage',
         'user',
         'utils',
-        'modalManager'
+        'modalManager',
+        'multiAccount'
     ];
 
     angular.module('app.desktopUpdate').controller('DesktopUpdateCtrl', controller);
