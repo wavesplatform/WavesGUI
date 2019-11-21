@@ -238,8 +238,6 @@
 
                 if (isObject(userList)) {
                     deleteUndefinedFromObject(userList);
-                } else if (Array.isArray(userList)) {
-                    userList = deleteUndefinedFromArray(userList);
                 }
 
                 if (isObject(multiAccountUsers)) {
