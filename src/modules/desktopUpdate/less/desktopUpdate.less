@@ -294,6 +294,11 @@
 
 .circular-timer {
   margin-right: 4px;
+  &__text {
+    min-width: 70px;
+    display: inline-block;
+    text-align: left;
+  }
 }
 
 .circular-progress {
@@ -303,6 +308,7 @@
     stroke-dashoffset: 62.8;
     animation: circular-progress;
     animation-duration: 10s;
+    animation-timing-function: linear;
   }
 }
 
