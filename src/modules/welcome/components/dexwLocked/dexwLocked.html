@@ -8,12 +8,15 @@
     </div>
 
     <div ng-switch-when="false">
-        <div ng-switch="$ctrl.userType">
+        <div ng-switch="$ctrl.userType" class="main-container">
             <div ng-switch-when="old">Old Web</div>
-            <div ng-switch-when="new">
-                <div>
-                    <div>Sorry, we are no longer working</div>
-                    <a href="{{::$ctrl.wavesExchangeLink}}" target="_blank" rel="noopener noreferrer">Waves.Exchange</a>
+            <div ng-switch-when="new" class="new-user">
+                <div class="new-user__container">
+                    <div class="new-user__img"></div>
+                    <h3 class="new-user__title">Sorry, we are no longer working</h3>
+                    <div class="new-user__desc">To offer users a better experience and wider range of tools, the exchange moved from Waves DEX to
+                            <a href="{{::$ctrl.wavesExchangeLink}}" target="_blank" rel="noopener noreferrer">Waves.Exchange</a>.
+                            </div>
                 </div>
             </div>
             <div ng-switch-when="multiAccount">MultiAccount Web</div>
