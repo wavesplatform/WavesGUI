@@ -103,7 +103,6 @@
         'app.ui',
         'app.welcome',
         'app.switch',
-        'app.restore',
         'app.desktop',
         'app.desktopUpdate',
         'app.ledger',
