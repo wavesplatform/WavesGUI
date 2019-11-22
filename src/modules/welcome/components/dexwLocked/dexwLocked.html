@@ -10,7 +10,12 @@
     <div ng-switch-when="false">
         <div ng-switch="$ctrl.userType">
             <div ng-switch-when="old">Old Web</div>
-            <div ng-switch-when="new">New Web</div>
+            <div ng-switch-when="new">
+                <div>
+                    <div>Sorry, we are no longer working</div>
+                    <a href="{{::$ctrl.wavesExchangeLink}}" target="_blank" rel="noopener noreferrer">Waves.Exchange</a>
+                </div>
+            </div>
             <div ng-switch-when="multiAccount">MultiAccount Web</div>
         </div>
     </div>

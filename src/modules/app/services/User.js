@@ -313,7 +313,7 @@
              */
             getMultiAccountUsersCount() {
                 return storage.load('multiAccountUsers').then(users => {
-                    return Object.keys(users).length;
+                    return users ? Object.keys(users).length : 0;
                 });
             }
 

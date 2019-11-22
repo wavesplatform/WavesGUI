@@ -13,6 +13,10 @@
          * @type {'new' | 'old' | 'multiAccount'}
          */
         userType = 'new';
+        /**
+         * @type {string}
+         */
+        wavesExchangeLink = WavesApp.network.wavesExchangeLink;
 
         constructor($scope, user) {
             this.$scope = $scope;
@@ -22,12 +26,12 @@
         $onInit() {
             this.isDesktop = WavesApp.isDesktop();
             Promise.all([
-                this.user.getMultiAccountUsers(),
+                this.user.getMultiAccountUsersCount(),
                 this.user.getFilteredUserList()
-            ]).then(([multiAccountUsers, userList]) => {
-                if (userList && userList.length && (!multiAccountUsers || multiAccountUsers.length === 0)) {
+            ]).then(([multiAccountCount, userList]) => {
+                if (userList && userList.length && multiAccountCount === 0) {
                     this.userType = 'old';
-                } else if (multiAccountUsers && multiAccountUsers.length) {
+                } else if (multiAccountCount) {
                     this.userType = 'multiAccount';
                 } else {
                     this.userType = 'new';
