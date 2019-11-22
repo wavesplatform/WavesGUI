@@ -178,10 +178,7 @@
                         fileName,
                         fileContent: content
                     }).then(() => {
-                        this.state = 'installAndRun';
-                        setTimeout(() => {
-                            this._showSteps = true;
-                        }, 10);
+                        this._toInstallAndRun();
                         this.isDownloading = false;
                         this.downloadDone = true;
                         this._resetProgress();
