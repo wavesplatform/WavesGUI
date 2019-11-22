@@ -102,7 +102,6 @@
         'app.utils',
         'app.ui',
         'app.welcome',
-        'app.migrate',
         'app.switch',
         'app.create',
         'app.restore',
