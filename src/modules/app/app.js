@@ -102,8 +102,6 @@
         'app.utils',
         'app.ui',
         'app.welcome',
-        'app.signUp',
-        'app.signIn',
         'app.migrate',
         'app.switch',
         'app.create',
