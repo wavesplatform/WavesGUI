@@ -80,5 +80,10 @@
   "GATEWAYS_SOON": [
     "5dJj4Hn9t2Ve3tRpNGirUHy4yBK6qdJRAJYV21yPPuGz"
   ],
-  "DEXW_LOCKED": false
+  "DEXW_LOCKED": false,
+  "SHUTDOWN_NOTIFICATION_TIMERS": [
+    { "start":  "2019-11-01T15:00:00+0300", "end": "2019-11-01T15:01:00+0300", "action": "showShutdownFirstModal" },
+    { "start":  "2019-11-02T08:00:00+0300", "end": "2019-11-02T08:01:00+0300", "action": "showShutdownSecondModal" },
+    { "start":  "2019-11-02T10:00:00+0300", "action": "showShutdownLastModal" }
+  ]
 }
