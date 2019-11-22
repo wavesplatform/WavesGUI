@@ -105,7 +105,6 @@
         'app.switch',
         'app.create',
         'app.restore',
-        'app.saveSeed',
         'app.desktop',
         'app.desktopUpdate',
         'app.ledger',
