@@ -238,8 +238,6 @@
 
                 if (isObject(userList)) {
                     deleteUndefinedFromObject(userList);
-                } else if (Array.isArray(userList)) {
-                    userList = deleteUndefinedFromArray(userList);
                 }
 
                 if (isObject(multiAccountUsers)) {
@@ -294,6 +292,7 @@
                                 });
                         } else {
                             this._isNewDefer.resolve(version);
+                            this.save('lastVersion', WavesApp.version);
                             return Promise.resolve();
                         }
                     });
