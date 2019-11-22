@@ -9,7 +9,16 @@
 
     <div ng-switch-when="false">
         <div ng-switch="$ctrl.userType">
-            <div ng-switch-when="old">Old Web</div>
+            <div ng-switch-when="old">
+                <div>Sorry, we are no longer working</div>
+                <a href="{{::$ctrl.wavesExchangeLink}}" target="_blank" rel="noopener noreferrer">Waves.Exchange</a>
+                <w-button
+                        class="submit long big"
+                        on-click="$ctrl.moving()"
+                >
+                    <span>Start moving</span>
+                </w-button>
+            </div>
 
             <div ng-switch-when="new">
                 <div>
