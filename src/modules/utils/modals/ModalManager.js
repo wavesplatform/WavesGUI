@@ -756,22 +756,18 @@
             }
 
             showShutdownFirstModal() {
-                localStorage.setItem('shutdownFirstShown', true);
                 return this._getModal({
                     id: 'shutdownFirstModal',
                     templateUrl: 'modules/utils/modals/shutdownFirst/shutdownFirst.html',
-                    controller: 'ShutdownFirstCtrl',
                     clickOutsideToClose: false,
                     escapeToClose: false
                 });
             }
 
             showShutdownSecondModal() {
-                localStorage.setItem('shutdownSecondShown', true);
                 return this._getModal({
                     id: 'shutdownSecondModal',
                     templateUrl: 'modules/utils/modals/shutdownSecond/shutdownSecond.html',
-                    controller: 'ShutdownSecondCtrl',
                     clickOutsideToClose: false,
                     escapeToClose: false
                 });

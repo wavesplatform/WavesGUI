@@ -1,8 +1,13 @@
-<md-dialog w-i18n-ns="app.utils" aria-label="modal">
+<md-dialog w-i18n-ns="app.migrate" aria-label="modal" class="modal-shutdown-notification">
     <md-dialog-content>
-        <w-button class="submit long big" on-click="$ctrl.confirm()">
-            <span>modal day before</span>
-            <!-- <span w-i18n="modal.termsAccept.body.ok"></span> -->
+        <i class="modal-shutdown-notification__icon"></i>
+        <h3 w-i18n="modals.shutdownNotificationFirst.title" class="basic-700 modal-shutdown-notification__title"></h3>
+
+        <div class="basic-700 migrate-modal__plate modal-shutdown-notification__plate migrate-modal__plate-text" w-i18n="modals.shutdownNotificationFirst.message1"></div>
+        <div class="basic-500 body-2 margin-2 modal-shutdown-notification__message" w-i18n="modals.shutdownNotificationFirst.message2"></div>
+
+        <w-button class="submit big modal-shutdown-notification__submit" w-modal-hide>
+            <span w-i18n="modals.shutdownNotificationFirst.submit"></span>
         </w-button>
     </md-dialog-content>
 </md-dialog>

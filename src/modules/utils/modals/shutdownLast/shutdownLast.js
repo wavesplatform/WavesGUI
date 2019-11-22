@@ -6,7 +6,7 @@
         class ShutdownLastCtrl extends Base {
 
             confirm() {
-                window.history.go(0);
+                window.location.reload();
                 $mdDialog.hide();
             }
 

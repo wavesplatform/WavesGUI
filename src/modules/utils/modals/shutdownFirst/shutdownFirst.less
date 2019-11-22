@@ -1,0 +1,41 @@
+@import (reference) "config";
+@import (reference) "../../../app/less/app-icons.less";
+@import (reference) "../../../app/less/typography.less";
+
+.modal-shutdown-notification {
+    padding-top: 40px;
+    text-align: center;
+
+    &__plate {
+        margin-bottom: 20px;
+        font-weight: 700;
+    }
+
+    &__title {
+        font-family: @font-roboto-regular;
+        margin-top: 0;
+        margin-bottom: 20px;
+    }
+
+    &__message {
+        margin-bottom: 30px;
+        text-align: left;
+
+        &_last {
+            text-align: center;
+        }
+    }
+
+    &__icon {
+        .icon-script-warning;
+
+        &_last {
+            .icon-move-on;
+            margin-bottom: 20px;
+        }
+    }
+
+    &__submit {
+        min-width: 224px;
+    }
+}
