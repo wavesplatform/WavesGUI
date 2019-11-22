@@ -118,7 +118,13 @@ function parseCookie(header = ''): IRequestData {
     return { platform, connection, build } as IRequestData;
 }
 
+const headers = (req, res, next) => {
+    //res.setHeader('content-security-policy', "default-src * 'unsafe-inline' 'unsafe-eval' data: blob: http: https: ;  frame-src http://localhost:8888");
+    next();
+};
+
 const handlers = [
+    headers,
     coinomat,
     wavesClientConfig,
     handler as any
