@@ -10,13 +10,34 @@
     <div ng-switch-when="false">
         <div ng-switch="$ctrl.userType">
             <div ng-switch-when="old">Old Web</div>
+
             <div ng-switch-when="new">
                 <div>
                     <div>Sorry, we are no longer working</div>
                     <a href="{{::$ctrl.wavesExchangeLink}}" target="_blank" rel="noopener noreferrer">Waves.Exchange</a>
                 </div>
             </div>
-            <div ng-switch-when="multiAccount">MultiAccount Web</div>
+
+            <div ng-switch-when="multiAccount">
+                <w-step-by-step active-step="$ctrl.step">
+                    <w-step>
+                        <div>Sorry, we are no longer working</div>
+                        <a href="{{::$ctrl.wavesExchangeLink}}" target="_blank" rel="noopener noreferrer">Waves Exchange</a>
+                        <w-sign-in-form
+                                on-success="$ctrl.onSign()"
+                                can-reset-password="false"
+                        ></w-sign-in-form>
+                    </w-step>
+
+                    <w-step>
+                        <w-loader class="loader"></w-loader>
+                    </w-step>
+
+                    <w-step>
+                        <div>Waves.Exchange redirected</div>
+                    </w-step>
+                </w-step-by-step>
+            </div>
         </div>
     </div>
 </div>

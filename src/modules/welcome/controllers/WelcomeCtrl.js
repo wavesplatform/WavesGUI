@@ -127,7 +127,7 @@
             constructor() {
                 super($scope);
 
-                this.locked = configService.get('DEXW_LOCKED');
+                this.locked = !!configService.get('DEXW_LOCKED');
 
                 this._initDeviceTypes();
 

@@ -53,6 +53,8 @@
                     this.legacyUserList = userList;
                 }
             });
+
+            this.canResetPassword = this.canResetPassword !== undefined ? this.canResetPassword : true;
         }
 
         onSubmit() {
@@ -98,7 +100,8 @@
         controller: SignInFormCtrl,
         bindings: {
             onSuccess: '&',
-            onResetPassword: '&'
+            onResetPassword: '&',
+            canResetPassword: '<'
         }
     });
 })();
