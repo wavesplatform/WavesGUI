@@ -111,12 +111,12 @@
 
     controller.$inject = ['SeedBase', 'seedService', '$element', 'user', 'utils'];
 
-    angular.module('app.create').component('wSeedRead', {
+    angular.module('app.ui').component('wSeedRead', {
         bindings: {
             type: '@',
             seed: '@'
         },
         controller: controller,
-        templateUrl: 'modules/create/directives/seed/seed.html'
+        templateUrl: 'modules/ui/directives/seed/seed.html'
     });
 })();

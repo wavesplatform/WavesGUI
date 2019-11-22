@@ -11,7 +11,7 @@
 
     factory.$inject = [];
 
-    angular.module('app.create').factory('seedService', factory);
+    angular.module('app.ui').factory('seedService', factory);
 })();
 
 /**

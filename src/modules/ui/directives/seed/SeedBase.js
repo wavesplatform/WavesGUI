@@ -105,5 +105,5 @@
 
     factory.$inject = ['Base', '$q'];
 
-    angular.module('app.create').factory('SeedBase', factory);
+    angular.module('app.ui').factory('SeedBase', factory);
 })();

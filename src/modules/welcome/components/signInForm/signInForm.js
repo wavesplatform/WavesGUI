@@ -53,6 +53,8 @@
                     this.legacyUserList = userList;
                 }
             });
+
+            this.canResetPassword = this.canResetPassword !== undefined ? this.canResetPassword : true;
         }
 
         onSubmit() {
@@ -93,12 +95,13 @@
 
     }
 
-    angular.module('app.signIn').component('wSignInForm', {
-        templateUrl: 'modules/signIn/components/signInForm/signInForm.html',
+    angular.module('app.welcome').component('wSignInForm', {
+        templateUrl: 'modules/welcome/components/signInForm/signInForm.html',
         controller: SignInFormCtrl,
         bindings: {
             onSuccess: '&',
-            onResetPassword: '&'
+            onResetPassword: '&',
+            canResetPassword: '<'
         }
     });
 })();

@@ -524,8 +524,6 @@
     <w-container-alert-notification type="userNotification"></w-container-alert-notification>
 </div>
 
-<w-warning-plate class="warning-timer"></w-warning-plate>
-
 <div class="app-preloader">
     <div class="progress"></div>
     <div class="preloader-wrapper">
@@ -615,33 +613,10 @@
             id: 'root',
             children: [
                 {
-                    id: 'signUp',
-                    data: {
-                        url: '/sign-up',
-                        noLogin: true,
-                        views: [{ name: 'main' }]
-                    }
-                },
-                {
-                    id: 'signIn',
-                    data: {
-                        url: '/sign-in',
-                        noLogin: true,
-                        views: [{ name: 'main' }]
-                    }
-                },
-                {
                     id: 'switch',
                     data: {
                         url: '/switch',
                         noLogin: true,
-                        views: [{ name: 'main' }]
-                    }
-                },
-                {
-                    id: 'migrate',
-                    data: {
-                        url: '/migrate?id',
                         views: [{ name: 'main' }]
                     }
                 },
@@ -657,26 +632,6 @@
                     data: {
                         url: '/',
                         noLogin: true,
-                        views: [{ name: 'main' }]
-                    }
-                },
-                {
-                    id: 'saveSeed',
-                    data: {
-                        url: '/save-seed',
-                        views: [{ name: 'main' }]
-                    }
-                },
-                // {
-                //     id: 'sessions',
-                //     data: {
-                //         noLogin: true,
-                //         views: [{ name: 'main' }]
-                //     }
-                // },
-                {
-                    id: 'create',
-                    data: {
                         views: [{ name: 'main' }]
                     }
                 },

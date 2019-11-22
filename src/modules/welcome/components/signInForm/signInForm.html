@@ -25,7 +25,7 @@
         <div class="full-width" w-i18n="signIn.signIn"></div>
     </w-button>
 
-    <div class="margin-top-2">
+    <div ng-if="$ctrl.canResetPassword" class="margin-top-2">
         <w-analytics event="'Forgot Password'">
             <a class="body-2 basic-500"
                 ng-click="$ctrl.showForgotPasswordModal()"

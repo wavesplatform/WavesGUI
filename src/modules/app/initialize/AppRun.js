@@ -407,7 +407,10 @@
                 const START_STATES = WavesApp.stateTree.where({ noLogin: true })
                     .map((item) => WavesApp.stateTree.getPath(item.id).join('.'));
 
-                const DEXW_LOCKED_STATES = ['welcome'];
+                const DEXW_LOCKED_STATES = [
+                    'welcome',
+                    'desktopUpdate'
+                ];
 
                 const offInitialTransitions = $transitions.onStart({}, transition => {
                     const DEXW_LOCKED = configService.get('DEXW_LOCKED');
