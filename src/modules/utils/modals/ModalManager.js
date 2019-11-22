@@ -774,8 +774,7 @@
                     templateUrl: 'modules/utils/modals/shutdownSecond/shutdownSecond.html',
                     controller: 'ShutdownSecondCtrl',
                     clickOutsideToClose: false,
-                    escapeToClose: false,
-                    hasBackdrop: false
+                    escapeToClose: false
                 });
             }
 
@@ -785,8 +784,7 @@
                     templateUrl: 'modules/utils/modals/shutdownLast/shutdownLast.html',
                     controller: 'ShutdownLastCtrl',
                     clickOutsideToClose: false,
-                    escapeToClose: false,
-                    hasBackdrop: true
+                    escapeToClose: false
                 });
             }
 
