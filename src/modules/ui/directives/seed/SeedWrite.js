@@ -226,7 +226,7 @@
 
     controller.$inject = ['SeedBase', '$element', 'seedService', '$scope', 'createPromise'];
 
-    angular.module('app.create').component('wSeedWrite', {
+    angular.module('app.ui').component('wSeedWrite', {
         bindings: {
             seed: '@',
             onFulfilled: '&',
