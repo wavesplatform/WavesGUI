@@ -3,11 +3,10 @@
 
     /**
      * @param {Node} node
-     * @param {WavesUtils} wavesUtils
      * @param {app.utils} utils
      * @return {Waves}
      */
-    const factory = function (node, wavesUtils, utils) {
+    const factory = function (node, utils) {
 
         class Waves {
 
@@ -16,10 +15,6 @@
                  * @type {Node}
                  */
                 this.node = node;
-                /**
-                 * @type {WavesUtils}
-                 */
-                this.utils = wavesUtils;
             }
 
         }
@@ -27,7 +22,7 @@
         return utils.bind(new Waves());
     };
 
-    factory.$inject = ['node', 'wavesUtils', 'utils'];
+    factory.$inject = ['node', 'utils'];
 
     angular.module('app').factory('waves', factory);
 })();

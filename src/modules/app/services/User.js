@@ -258,20 +258,6 @@
                 return list.includes(value);
             }
 
-            getDefaultUserSettings(settings) {
-                const { common } = this._settings.getSettings();
-
-                return defaultSettings.create({ ...settings }, { ...common });
-            }
-
-            /**
-             * @param {*} user
-             * @return {DefaultSettings}
-             */
-            getSettingsByUser(user) {
-                return this.getDefaultUserSettings(user.settings);
-            }
-
             /**
              * @param {string} name
              * @param {*} value

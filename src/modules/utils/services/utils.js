@@ -211,12 +211,11 @@
 
     /**
      * @param {$q} $q
-     * @param {Moment} Moment
      * @param {$injector} $injector
      * @param {*} migration
      * @return {app.utils}
      */
-    const factory = function ($q, Moment, $injector, migration) {
+    const factory = function ($q, $injector, migration) {
         const base58ToBytes = base58Decode;
         const bytesToBase58 = base58Encode;
 
@@ -818,19 +817,6 @@
                 return new Promise((resolve) => {
                     promiseLike.then(getCallback(true, resolve), getCallback(false, resolve));
                 });
-            },
-
-            /**
-             * @name app.utils#moment
-             * @param {Date | number | string | Moment} [date]
-             * @param {string} [pattern]
-             * @return {Moment}
-             */
-            moment(date, pattern) {
-                if (date instanceof Moment) {
-                    return date.clone(pattern);
-                }
-                return new Moment(date, pattern);
             },
 
             /**
@@ -2091,7 +2077,7 @@
         return utils;
     };
 
-    factory.$inject = ['$q', 'Moment', '$injector', 'migration'];
+    factory.$inject = ['$q', '$injector', 'migration'];
 
     angular.module('app.utils')
         .factory('utils', factory);

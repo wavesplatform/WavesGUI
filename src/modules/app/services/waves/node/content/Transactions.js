@@ -7,10 +7,9 @@
      * @param {Aliases} aliases
      * @param {app.utils.decorators} decorators
      * @param {BaseNodeComponent} BaseNodeComponent
-     * @param {Matcher} matcher
      * @return {Transactions}
      */
-    const factory = function (user, utils, aliases, decorators, BaseNodeComponent, matcher) {
+    const factory = function (user, utils, aliases, decorators, BaseNodeComponent) {
 
         const tsUtils = require('ts-utils');
         const R = require('ramda');
@@ -101,18 +100,6 @@
             listAlways() {
                 return utils.whenAll([this.listUtx(), this.list()])
                     .then(([utxTxList, txList]) => utxTxList.concat(txList));
-            }
-
-            /**
-             * @param {ExchangeTxFilters} prams
-             * @param {IGetExchangeOptions} [options]
-             * @returns {Promise<IExchange[]>}
-             */
-            getExchangeTxList(prams, options) {
-                return ds.api.transactions.getExchangeTxList({
-                    matcher: matcher.currentMatcherAddress,
-                    ...prams
-                }, options);
             }
 
             createTransaction(txData) {
@@ -298,7 +285,7 @@
         return utils.bind(new Transactions());
     };
 
-    factory.$inject = ['user', 'utils', 'aliases', 'decorators', 'BaseNodeComponent', 'matcher'];
+    factory.$inject = ['user', 'utils', 'aliases', 'decorators', 'BaseNodeComponent'];
 
     angular.module('app')
         .factory('transactions', factory);

@@ -6,8 +6,6 @@
     // const onContentLoad = new Promise((resolve) => {
     //     document.addEventListener('DOMContentLoaded', resolve);
     // });
-
-    const { Money } = require('@waves/data-entities');
     const { libs } = require('@waves/waves-transactions');
     const { base64Encode, blake2b, stringToBytes } = libs.crypto;
 
@@ -70,8 +68,6 @@
      * @param {State} state
      * @param {ModalManager} modalManager
      * @param {Storage} storage
-     * @param {BalanceWatcher} balanceWatcher
-     * @param {Matcher} matcher
      * @param {INotification} notification
      * @param {app.utils.decorators} decorators
      * @param {MultiAccount} multiAccount
@@ -89,8 +85,6 @@
         state,
         modalManager,
         storage,
-        balanceWatcher,
-        matcher,
         notification,
         decorators,
         multiAccount,
@@ -389,8 +383,6 @@
                         clearInterval(this._notifyTimer);
                         this._notifyTimer = setInterval(() => this._updateUserNotifications(), 10000);
                     });
-
-                    balanceWatcher.change.once(this._onBalanceChange, this);
                 });
             }
 
@@ -496,41 +488,6 @@
                 });
             }
 
-            _onBalanceChange() {
-                if (user.getSetting('hasBackup')) {
-                    return;
-                }
-
-                const balance = balanceWatcher.getBalance();
-                const pairs = Object.entries(balance).reduce((acc, [assetId, asset]) => {
-                    if (asset.toTokens() !== '0') {
-                        acc.push([assetId, WavesApp.defaultAssets.USD]);
-                    }
-
-                    return acc;
-                }, []);
-
-                if (pairs.length === 0) {
-                    return;
-                }
-
-                Promise.all([
-                    ds.api.assets.get(WavesApp.defaultAssets.USD),
-                    ds.api.matchers.getRates(matcher.currentMatcherAddress, pairs)
-                ]).then(([usdAsset, rates]) => {
-                    const usd = rates.data.reduce((acc, rate) => {
-                        const amountAsset = balance[rate.amountAsset];
-                        const amountAssetInUsd = amountAsset.convertTo(usdAsset, rate.data.rate);
-
-                        return acc.add(amountAssetInUsd);
-                    }, new Money(0, usdAsset));
-
-                    if (usd.gte(usd.cloneWithTokens(1))) {
-                        this._initializeBackupWarning();
-                    }
-                });
-            }
-
             /**
              * @return Promise
              * @private
@@ -543,69 +500,6 @@
 
                     return Promise.resolve();
                 });
-            }
-
-            /**
-             * @param {object} [scope]
-             * @param {boolean} scope.closeByModal
-             * @private
-             */
-            @decorators.scope({ closeByModal: false })
-            _initializeBackupWarning(scope) {
-                const id = '_hasBackupId';
-
-                if (!notification.has(id)) {
-                    const changeModalsHandler = (modal) => {
-                        scope.closeByModal = true;
-                        notification.remove(id);
-                        scope.closeByModal = false;
-
-                        modal.catch(() => null)
-                            .then(() => {
-                                if (!user.getSetting('hasBackup')) {
-                                    this._initializeBackupWarning();
-                                }
-                            });
-                    };
-
-                    modalManager.openModal.once(changeModalsHandler);
-
-                    analytics.send({ name: 'Create Save Phrase Show', target: 'ui' });
-
-                    notification.error({
-                        id,
-                        ns: 'app.utils',
-                        title: {
-                            literal: 'notification.backup.title'
-                        },
-                        body: {
-                            literal: 'notification.backup.body'
-                        },
-                        action: {
-                            literal: 'notification.backup.action',
-                            callback: () => {
-                                analytics.send({ name: 'Create Save Phrase Yes Click', target: 'ui' });
-                                modalManager.showSeedBackupModal();
-                            }
-                        },
-                        onClose: () => {
-                            analytics.send({ name: 'Create Save Phrase No Click', target: 'ui' });
-
-                            notification.remove(id);
-
-                            if (scope.closeByModal || user.getSetting('hasBackup')) {
-                                return null;
-                            }
-
-                            modalManager.openModal.off(changeModalsHandler);
-
-                            const stop = $transitions.onSuccess({}, () => {
-                                stop();
-                                this._initializeBackupWarning();
-                            });
-                        }
-                    }, -1);
-                }
             }
 
             /**
@@ -773,8 +667,6 @@
         'state',
         'modalManager',
         'storage',
-        'balanceWatcher',
-        'matcher',
         'notification',
         'decorators',
         'multiAccount',
