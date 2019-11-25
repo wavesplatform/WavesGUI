@@ -13,20 +13,17 @@
         class ShutdownService extends Base {
 
             /**
+             * @private
+             */
+            _timeOutTimerId;
+
+            /**
              * @public
              */
             run() {
-                let timeOutTimerId;
-                const tick = () => {
-                    this._handleTimers(this._getTimers());
-                    if (timeOutTimerId) {
-                        window.clearTimeout(timeOutTimerId);
-                    }
-                    timeOutTimerId = setTimeout(() => tick(), 1000);
-                };
-
-                tick();
-
+                this._handleTimers(this._getTimers());
+                window.clearTimeout(this._timeOutTimerId);
+                this._timeOutTimerId = setTimeout(() => this.run(), 1000);
             }
 
             /**
@@ -34,7 +31,7 @@
              * @private
              */
             _getTimers() {
-                return configService.get('SHUTDOWN_NOTIFICATION_TIMERS');
+                return configService.get('SHUTDOWN_NOTIFICATION_TIMERS') || [];
             }
 
             /**
@@ -53,11 +50,9 @@
                             sessionStorage.setItem(timer.action, 'true');
                             modalManager[timer.action]();
                         }
-
                     }
                 });
             }
-
 
         }
 
