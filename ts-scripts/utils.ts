@@ -1,14 +1,14 @@
 import { getType } from 'mime';
 import { exec, spawn } from 'child_process';
 import { readdirSync, readFileSync, statSync, unlink } from 'fs';
-import { join, relative, extname, dirname } from 'path';
-import { IPackageJSON, IMetaJSON, TBuild, TConnection, TPlatform, IConfItem } from './interface';
-import { readFile, readJSON, readJSONSync, createWriteStream, mkdirp } from 'fs-extra';
+import { dirname, extname, join, relative } from 'path';
+import { IConfItem, IMetaJSON, IPackageJSON, TBuild, TConnection, TPlatform } from './interface';
+import { createWriteStream, mkdirp, readFile, readJSON, readJSONSync } from 'fs-extra';
 import { compile } from 'handlebars';
 import { transform } from 'babel-core';
 import { render } from 'less';
 import { minify } from 'html-minifier';
-import { get, ServerResponse, IncomingMessage, request } from 'https';
+import { get, IncomingMessage, request, ServerResponse } from 'https';
 import { Http2ServerRequest, Http2ServerResponse } from 'http2';
 import { serialize } from 'cookie';
 
@@ -371,26 +371,16 @@ export async function getInitScript(
                 WavesApp.device = new MobileDetect(navigator.userAgent);
 
                 (function () {
-                    var wrapper = require('worker-wrapper');
-
-                    var worker = wrapper.create({
-                        libs: ['/node_modules/@waves/parse-json-bignumber/dist/parse-json-bignumber.min.js?v' + WavesApp.version]
-                    });
-
-                    worker.process(function () {
-                        (self as any).parse = parseJsonBignumber().parse;
-                    });
 
                     var stringify = parseJsonBignumber({
-                        parse: (data: string) => new BigNumber(data),
                         stringify: (data) => data.toFixed(),
                         isInstance: (data) => BigNumber.isBigNumber(data)
                     }).stringify;
 
-                    WavesApp.parseJSON = function (str) {
-                        return worker.process(function (str) {
-                            return parse(str);
-                        }, str);
+                    var reg = new RegExp(`(?!\\\\)"(\\w+)":\\s*(\\d{14,})`, 'g');
+
+                    WavesApp.parseJSON = function (json) {
+                        return JSON.parse(json.replace(reg, `"$1":"$2"`));
                     };
 
                     WavesApp.stringifyJSON = function () {
@@ -477,7 +467,7 @@ export async function getInitScript(
             };
 
 
-            config.platform = function() {
+            config.platform = function () {
                 const userAgent = navigator.userAgent;
                 const platform = navigator.platform;
                 const macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'];
@@ -485,12 +475,18 @@ export async function getInitScript(
                 const iosPlatforms = ['iPhone', 'iPad', 'iPod'];
 
                 switch (true) {
-                    case (macosPlatforms.indexOf(platform) !== -1): return 'mac';
-                    case (iosPlatforms.indexOf(platform) !== -1): return 'ios';
-                    case (windowsPlatforms.indexOf(platform) !== -1): return 'win';
-                    case (/Android/.test(userAgent)): return 'android';
-                    case (/Linux/.test(platform)): return 'linux';
-                    default: return 'linux';
+                    case (macosPlatforms.indexOf(platform) !== -1):
+                        return 'mac';
+                    case (iosPlatforms.indexOf(platform) !== -1):
+                        return 'ios';
+                    case (windowsPlatforms.indexOf(platform) !== -1):
+                        return 'win';
+                    case (/Android/.test(userAgent)):
+                        return 'android';
+                    case (/Linux/.test(platform)):
+                        return 'linux';
+                    default:
+                        return 'linux';
                 }
             };
 
@@ -872,7 +868,7 @@ export function loadLocales(path: string, options?: object): Promise<void> {
                         get(url, (res) => {
                             res.pipe(file);
                             res.on('end', () => {
-                                console.log(zipPath)
+                                console.log(zipPath);
                                 extract(zipPath, { dir: `${path}/` }, error => {
                                     if (error) {
                                         reject(error);
