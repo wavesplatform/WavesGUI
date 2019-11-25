@@ -105,7 +105,6 @@
         'app.switch',
         'app.desktopUpdate',
         'app.unavailable',
-        'app.stand',
         'app.migration'
     ]);
 })();
