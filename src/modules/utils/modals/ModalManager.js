@@ -54,7 +54,6 @@
 
                 state.signals.changeRouterStateStart.on(this.closeModals, this);
                 user.logoutSignal.on(this.closeModals, this);
-                window._mm = this;
             }
 
             /**

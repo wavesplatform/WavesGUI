@@ -160,6 +160,7 @@
                 this._initializeLogin();
                 this._initializeOutLinks();
                 this._openMigrationModal();
+                this._setShutdownService();
 
                 if (WavesApp.isDesktop()) {
                     window.listenMainProcessEvent((type, url) => {
@@ -405,7 +406,6 @@
                     });
 
                     balanceWatcher.change.once(this._onBalanceChange, this);
-                    this._setShutdownService();
                 });
             }
 

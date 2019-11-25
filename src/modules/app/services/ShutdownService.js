@@ -16,7 +16,17 @@
              * @public
              */
             run() {
-                createPoll(this, this._getDates, this._handleDates, 1000);
+                let timerId;
+                const tick = () => {
+                    this._handleDates(this._getDates());
+                    if (timerId) {
+                        window.clearInterval(timerId);
+                    }
+                    timerId = setTimeout(() => tick(), 1000);
+                };
+
+                tick();
+
             }
 
             /**
@@ -33,6 +43,7 @@
              */
             _handleDates(timers) {
                 const now = Date.now();
+
                 timers.forEach(timer => {
                     const start = new Date(timer.start).getTime();
                     const end = timer.end ? new Date(timer.end).getTime() : Date.now();
