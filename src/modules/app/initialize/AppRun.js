@@ -75,7 +75,6 @@
      * @param {INotification} notification
      * @param {app.utils.decorators} decorators
      * @param {MultiAccount} multiAccount
-     * @param {ModalRouter} ModalRouter
      * @param {ConfigService} configService
      * @param {INotification} userNotification
      * @return {AppRun}
@@ -95,7 +94,6 @@
         notification,
         decorators,
         multiAccount,
-        ModalRouter,
         configService,
         userNotification
     ) {
@@ -143,11 +141,6 @@
                  * @type {Array<string>}
                  */
                 this.activeClasses = [];
-                /**
-                 * @type {ModalRouter}
-                 * @private
-                 */
-                this._modalRouter = new ModalRouter();
 
                 /**
                  * Configure library generation avatar by address
@@ -157,7 +150,6 @@
                 this._setHandlers();
                 this._initializeLogin();
                 this._initializeOutLinks();
-                this._openMigrationModal();
 
                 if (WavesApp.isDesktop()) {
                     window.listenMainProcessEvent((type, url) => {
@@ -471,9 +463,7 @@
 
                             i18next.changeLanguage(user.getSetting('lng'));
 
-                            this._initializeTermsAccepted().then(() => {
-                                this._modalRouter.initialize();
-                            });
+                            this._initializeTermsAccepted();
 
                             const offInnerTransitions = this._onInnerTransitions(
                                 START_STATES.filter(state => state !== 'desktopUpdate'),
@@ -768,21 +758,6 @@
             /**
              * @private
              */
-            _openMigrationModal() {
-                Promise.all([
-                    user.getMultiAccountData(),
-                    user.getFilteredUserList(),
-                    storage.load('notAutoOpenMigrationModal')
-                ]).then(([multiAccountData, userList, notAutoOpenMigrationModal]) => {
-                    if (!notAutoOpenMigrationModal && !multiAccountData && userList && userList.length) {
-                        modalManager.showMigrateModal();
-                    }
-                });
-            }
-
-            /**
-             * @private
-             */
             _getImagesReadyPromise() {
                 return $.ajax({ url: `/img/images-list.json?v=${WavesApp.version}`, dataType: 'json' })
                     .then((list) => {
@@ -809,7 +784,6 @@
         'notification',
         'decorators',
         'multiAccount',
-        'ModalRouter',
         'configService',
         'userNotification',
         'whatsNew'
