@@ -16,13 +16,13 @@
              * @public
              */
             run() {
-                let timerId;
+                let timeOutTimerId;
                 const tick = () => {
-                    this._handleDates(this._getDates());
-                    if (timerId) {
-                        window.clearInterval(timerId);
+                    this._handleTimers(this._getTimers());
+                    if (timeOutTimerId) {
+                        window.clearInterval(timeOutTimerId);
                     }
-                    timerId = setTimeout(() => tick(), 1000);
+                    timeOutTimerId = setTimeout(() => tick(), 1000);
                 };
 
                 tick();
@@ -33,7 +33,7 @@
              * @return {*}
              * @private
              */
-            _getDates() {
+            _getTimers() {
                 return configService.get('SHUTDOWN_NOTIFICATION_TIMERS');
             }
 
@@ -41,7 +41,7 @@
              * @param {[{ start: string, end: ?string, action: string }]} timers
              * @private
              */
-            _handleDates(timers) {
+            _handleTimers(timers) {
                 const now = Date.now();
 
                 timers.forEach(timer => {
