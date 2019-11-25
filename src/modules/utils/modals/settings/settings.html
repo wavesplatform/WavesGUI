@@ -12,12 +12,6 @@
                 <span w-i18n="modal.settings.security.title"></span>
             </div>
         </w-responsive-menu-item>
-        <w-responsive-menu-item value="network">
-            <div class="menu-item network icon-settings-network">
-                <i></i>
-                <span w-i18n="modal.settings.network.title" class="icon"></span>
-            </div>
-        </w-responsive-menu-item>
         <w-responsive-menu-item value="info">
             <div class="menu-item info icon-settings-info">
                 <i></i>
@@ -29,13 +23,6 @@
     <div class="settings-content">
         <w-step-by-step active-step="$ctrl.tab">
             <w-step step-id="general" class="general">
-
-<!--                <w-web-only>-->
-<!--                    <div class="checkbox-input settings-content__checkbox">-->
-<!--                        <w-checkbox-submit class="checkbox-submit" id="openLinkViaWeb" ng-model="$ctrl.openLinkViaWeb"></w-checkbox-submit>-->
-<!--                        <label class="checkbox-input__label" for="openLinkViaWeb" w-i18n="modal.settings.general.openLinkViaWeb"></label>-->
-<!--                    </div>-->
-<!--                </w-web-only>-->
 
                 <div class="checkbox-input settings-content__checkbox">
                     <w-checkbox-submit class="checkbox-submit" id="advancedMode" ng-model="$ctrl.advancedMode"></w-checkbox-submit>
@@ -89,11 +76,6 @@
                             </w-option>
                         </w-select>
                     </div>
-                </div>
-
-                <div class="row flex-row row-style solid-border">
-                    <div class="footnote-1 basic-500" w-i18n="modal.settings.general.blockHeight"></div>
-                    <div><span class="label">{{$ctrl.blockHeight}}</span></div>
                 </div>
             </w-step>
 
@@ -181,150 +163,6 @@
                     </div>
                 </div>
 
-                <div class="row flex-row row-style solid-border text-right">
-                    <div class="footnote basic-500" w-i18n="modal.settings.account"></div>
-                    <div>
-                        <a class="label link error-400" ng-click="$ctrl.showDeleteAccountModal()" w-modal-close>
-                            <span w-i18n="modal.settings.deleteAccount"></span>
-                        </a>
-                    </div>
-                </div>
-
-            </w-step>
-
-            <w-step step-id="network" class="network">
-                <div class="row margin-1">
-                    <div class="footnote-1 basic-500 label">
-                        <span w-i18n="modal.settings.network.nodeAddress"></span>
-                        <a class="settings-copy" w-copy="$ctrl.node" w-i18n="modal.settings.network.copy"></a>
-                    </div>
-                    <div class="data-field">
-                        <w-input ng-model="$ctrl.node" ng-blur="$ctrl.onBlurSetting('node')"></w-input>
-                    </div>
-                </div>
-
-                <div class="row margin-1">
-                    <div class="footnote-1 basic-500 label">
-                        <span w-i18n="modal.settings.network.matcherAddress"></span>
-                        <a class="settings-copy" w-copy="$ctrl.matcher" w-i18n="modal.settings.network.copy"></a>
-                    </div>
-                    <div class="data-field">
-                        <w-input ng-model="$ctrl.matcher" ng-blur="$ctrl.onBlurSetting('matcher')"></w-input>
-                    </div>
-                </div>
-
-                <div class="row margin-1 asset-verification">
-                    <div class="footnote-1 basic-500 label">
-                        <span w-i18n="modal.settings.network.dataProvider"></span>
-                        <a class="settings-copy"
-                           w-copy="$ctrl.assetsOracleTmp"
-                           w-i18n="modal.settings.network.copy"></a>
-                    </div>
-                    <div class="data-field has-helper">
-
-                        <w-help-icon class="info" ng-if="!$ctrl.oracleError && $ctrl.oracleWavesData">
-                            <div class="flex">
-                                <div>
-                                    <div class="data-provider-name basic-700">
-                                        {{$ctrl.oracleWavesData.name}}
-                                    </div>
-                                    <div class="data-provider-id basic-500">
-                                        {{$ctrl.oracleWaves}}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="data-provider-info help-icon__row">
-                                            <span>
-                                                {{$ctrl.oracleWavesData.description.en}}
-                                            </span>
-                            </div>
-                            <div class="help-icon__row">
-                                <a target="_blank" rel="noopener noreferrer" href="{{$ctrl.oracleWavesData.link}}"
-                                   w-i18n="modal.settings.network.showMore"></a>
-                            </div>
-                        </w-help-icon>
-
-                        <form novalidate name="dataProvider">
-                            <w-input-container class="relative">
-                                <w-input name="dataProviderInput"
-                                         w-validate
-                                         w-validator-custom="{{!$ctrl.oracleError}}"
-                                         ng-model="$ctrl.assetsOracleTmp"></w-input>
-                                <div class="input-state"
-                                     ng-class="{pending: $ctrl.oraclePending, success: $ctrl.oracleSuccess}">
-                                    <div class="input-state__icon">
-                                        <svg class="animate" width="10px" height="10px" viewBox="0 0 10 10"
-                                             version="1.1" xmlns="http://www.w3.org/2000/svg"
-                                             xmlns:xlink="http://www.w3.org/1999/xlink">
-                                            <g id="Icon/10/check-submit300" stroke="none" stroke-width="1" fill="none"
-                                               fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
-                                                <polyline id="Path" stroke="#1F5AF6" stroke-width="1.5"
-                                                          points="2.38 5.16363636 4.01636364 6.8 7.61636364 3.2"></polyline>
-                                            </g>
-                                        </svg>
-                                    </div>
-                                </div>
-                                <w-input-error message="custom">
-                                    <span w-i18n="modal.settings.network.dataProviderInvalid"></span>
-                                </w-input-error>
-                            </w-input-container>
-                        </form>
-                    </div>
-                </div>
-
-                <div class="row margin-1 asset-api">
-                    <div class="footnote-1 basic-500 label">
-                        <span w-i18n="modal.settings.network.apiAddress"></span>
-                        <a class="settings-copy" w-copy="$ctrl.api" w-i18n="modal.settings.network.copy"></a>
-                    </div>
-                    <div class="data-field has-helper">
-                        <w-input ng-model="$ctrl.api" ng-blur="$ctrl.onBlurSetting('api')"></w-input>
-                        <w-help-icon>
-                            <div class="help-icon__row headline-3" w-i18n="modal.settings.network.apiAddressHelp"></div>
-                        </w-help-icon>
-                    </div>
-                </div>
-
-                <div class="row margin-1 asset-filter">
-                    <div class="footnote-1 basic-500 label">
-                        <span w-i18n="modal.settings.network.assetNameFilter"></span>
-                        <a class="settings-copy" w-copy="$ctrl.tokensNameListUrl" w-i18n="modal.settings.network.copy"></a>
-                    </div>
-
-                    <div class="data-field has-helper">
-                        <w-input ng-model="$ctrl.tokensNameListUrl"></w-input>
-                        <w-help-icon class="info">
-                            <div class="help-icon__row headline-3" w-i18n="modal.settings.network.assetNameFilterHelp"></div>
-                        </w-help-icon>
-                    </div>
-                </div>
-
-                <div class="row margin-1 asset-name-filter">
-                    <div class="footnote-1 basic-500 label">
-                        <span w-i18n="modal.settings.network.spamFilter"></span>
-                        <a class="settings-copy" w-copy="$ctrl.scamListUrl" w-i18n="modal.settings.network.copy"></a>
-                    </div>
-
-                    <div class="data-field has-helper">
-                        <w-input ng-model="$ctrl.scamListUrl"></w-input>
-                        <w-help-icon class="info">
-                            <div class="help-icon__row headline-3" w-i18n="modal.settings.network.spamListHelp"></div>
-                        </w-help-icon>
-                    </div>
-                </div>
-
-                <div class="margin-3 margin-top-2">
-                    <div class="checkbox-input">
-                        <w-checkbox-submit class="checkbox-submit" id="spamFilterToggle" ng-model="$ctrl.dontShowSpam"></w-checkbox-submit>
-                        <label class="checkbox-input__label" for="spamFilterToggle" w-i18n="modal.settings.network.dontShowSpamCheckboxDescr"></label>
-                    </div>
-                </div>
-
-                <div class="margin-4">
-                    <w-button class="interface bordered" on-click="$ctrl.setNetworkDefault()">
-                        <span w-i18n="modal.settings.setDefault"></span>
-                    </w-button>
-                </div>
             </w-step>
 
             <w-step step-id="info" class="info">

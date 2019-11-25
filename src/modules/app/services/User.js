@@ -393,13 +393,7 @@
             }
 
             initScriptInfoPolling() {
-                clearTimeout(this._scriptInfoPollTimeoutId);
-                this._scriptInfoPollTimeoutId = setTimeout(() => {
-                    if (this._scriptInfoPoll) {
-                        this._scriptInfoPoll.destroy();
-                    }
-                    this._scriptInfoPoll = new Poll(() => this.updateScriptAccountData(), () => null, 10000);
-                }, 30000);
+                this.updateScriptAccountData();
             }
 
             /**
@@ -416,21 +410,7 @@
             }
 
             goToActiveState() {
-                if (!this.initRouteState) {
-                    $state.go(this.getActiveState('welcome'));
-                }
-            }
-
-            /**
-             * @param {string} name
-             * @param {string} params
-             */
-            setInitRouteState(name, params) {
-                if (this.initRouteState) {
-                    return;
-                }
-                this.initRouteState = true;
-                this.loginSignal.once(() => $state.go(name, params));
+                $state.go(this.getActiveState('welcome'));
             }
 
             /**

@@ -249,9 +249,6 @@
                                 <div class="mobile-menu__account-address">{{::user.address}}</div>
                             </div>
                         </div>
-                        <w-analytics event="'Remove Switch Account Successfully Unlocked'">
-                            <div class="mobile-menu__account-remove icon-remove-user icon-close" ng-click="$ctrl.deleteUser(user)"></div>
-                        </w-analytics>
                     </div>
                     <div ng-if="$ctrl.userListLocked.length" class="mobile-menu__account-unlock">
                         <span w-i18n="welcome.accountList.locked"></span>
@@ -272,9 +269,6 @@
                                 <div class="mobile-menu__account-address">{{::user.address}}</div>
                             </div>
                         </div>
-                        <w-analytics event="'Remove Switch Account Pending Unlock'">
-                            <div class="mobile-menu__account-remove icon-remove-user icon-close" ng-click="$ctrl.deleteUser(user)"></div>
-                        </w-analytics>
                     </div>
                 </li>
                 <li class="mobile-menu__item mobile-menu__item_logout" w-toggle-class="expanded show-accounts">

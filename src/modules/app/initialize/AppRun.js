@@ -220,9 +220,6 @@
                             return Promise.resolve(true);
                         default:
                             return Promise.resolve(true);
-                        // return modalManager.showTryDesktopModal()
-                        //     .then(() => this._runDesktop())
-                        //     .catch(() => true);
                     }
                 });
             }
@@ -414,7 +411,6 @@
                         }
 
                         if (!multiAccount.isSignedIn) {
-                            user.setInitRouteState(toState.name, params);
                             return $state.target(START_STATES[0]);
                         }
                     }
