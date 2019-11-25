@@ -6,13 +6,11 @@
      * @param {app.utils} utils
      * @param {app.utils.decorators} decorators
      * @param {Transactions} transactions
-     * @param {Matcher} matcher
      * @return {WavesUtils}
      */
-    const factory = function (assets, utils, decorators, transactions, matcher) {
+    const factory = function (assets, utils, decorators, transactions) {
 
         const ds = require('data-service');
-        const entities = require('@waves/data-entities');
         const { BigNumber } = require('@waves/bignumber');
         const {
             flatten, pipe, map,
@@ -119,81 +117,6 @@
                             }, []);
                         });
                 }
-            }
-
-            /**
-             * @param {string|Asset} assetFrom
-             * @param {string|Asset} assetTo
-             * @return {Promise<BigNumber | Number>}
-             */
-            @decorators.cachable(60)
-            getChange(assetFrom, assetTo) {
-                const idFrom = WavesUtils.toId(assetFrom);
-                const idTo = WavesUtils.toId(assetTo);
-
-                if (idFrom === idTo) {
-                    return Promise.resolve(new BigNumber(0));
-                }
-
-                return this._getChange(idFrom, idTo);
-            }
-
-            /**
-             * @param pair
-             * @returns {Promise<string>}
-             */
-            getVolume(pair) {
-                return this._getVolume(pair, matcher.currentMatcherAddress);
-            }
-
-            /**
-             * @param pair
-             * @param {string} currentMatcherAddress
-             * @returns {Promise<string>}
-             */
-            @decorators.cachable(60)
-            _getVolume(pair, currentMatcherAddress) {
-                return ds.api.pairs.info(currentMatcherAddress, [pair])
-                    .then((data) => {
-                        const [pair = {}] = data.filter(Boolean);
-                        return pair && String(pair.volume) || '0';
-                    });
-            }
-
-            /**
-             * @param {string} from
-             * @param {string} to
-             * @return {Promise<Number>}
-             * @private
-             */
-            _getChange(from, to) {
-                const getChange = (open, close) => {
-                    if (open.eq(0)) {
-                        return new BigNumber(0);
-                    } else {
-                        return close.sub(open).div(open).mul(100).roundTo(2);
-                    }
-                };
-
-                return ds.api.pairs.get(from, to)
-                    .then(pair => ds.api.pairs.info(matcher.currentMatcherAddress, [pair])
-                        .then(([data]) => {
-
-                            if (!data || data.status === 'error') {
-                                return 0;
-                            }
-
-                            const open = data.firstPrice || new entities.Money(0, pair.priceAsset);
-                            const close = data.lastPrice || new entities.Money(0, pair.priceAsset);
-                            const change24 = Number(getChange(open.getTokens(), close.getTokens()).toFixed());
-
-                            if (pair.amountAsset.id === from) {
-                                return change24;
-                            } else {
-                                return -change24;
-                            }
-                        }))
-                    .catch(() => 0);
             }
 
             /**
@@ -333,7 +256,7 @@
         return new WavesUtils();
     };
 
-    factory.$inject = ['assets', 'utils', 'decorators', 'transactions', 'matcher'];
+    factory.$inject = ['assets', 'utils', 'decorators', 'transactions'];
 
     angular.module('app')
         .factory('wavesUtils', factory);

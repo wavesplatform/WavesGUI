@@ -3,12 +3,11 @@
 
     /**
      * @param {Node} node
-     * @param {Matcher} matcher
      * @param {WavesUtils} wavesUtils
      * @param {app.utils} utils
      * @return {Waves}
      */
-    const factory = function (node, matcher, wavesUtils, utils) {
+    const factory = function (node, wavesUtils, utils) {
 
         class Waves {
 
@@ -17,10 +16,6 @@
                  * @type {Node}
                  */
                 this.node = node;
-                /**
-                 * @type {Matcher}
-                 */
-                this.matcher = matcher;
                 /**
                  * @type {WavesUtils}
                  */
@@ -32,7 +27,7 @@
         return utils.bind(new Waves());
     };
 
-    factory.$inject = ['node', 'matcher', 'wavesUtils', 'utils'];
+    factory.$inject = ['node', 'wavesUtils', 'utils'];
 
     angular.module('app').factory('waves', factory);
 })();

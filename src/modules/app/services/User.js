@@ -164,10 +164,6 @@
                 return this.currentUser ? this.currentUser.publicKey : null;
             }
 
-            get matcherSign() {
-                return this.currentUser ? this.currentUser.matcherSign : null;
-            }
-
             /**
              * @type {boolean}
              */
@@ -349,7 +345,6 @@
                         [userHash]: { // TODO map user settings to a new schema
                             name: user.name,
                             settings: user.settings,
-                            matcherSign: user.matcherSign,
                             lastLogin: user.lastLogin
                         }
                     }));
@@ -717,18 +712,6 @@
             }
 
             /**
-             * @returns {Promise<{signature: string, timestamp: number}>}
-             */
-            addMatcherSign() {
-                return utils.signUserOrders({
-                    matcherSign: this.matcherSign
-                }).then(matcherSign => {
-                    this.currentUser.matcherSign = matcherSign;
-                    ds.app.addMatcherSign(matcherSign.timestamp, matcherSign.signature);
-                });
-            }
-
-            /**
              * @private
              */
             _resetFields() {
@@ -772,7 +755,6 @@
              * @param {string} userData.hash
              * @param {string} [userData.id]
              * @param {string} [userData.publicKey]
-             * @param {string} [userData.matcherSign]
              * @param {object} [userData.settings]
              * @return {Promise}
              * @private
@@ -786,7 +768,6 @@
                     publicKey: userData.publicKey,
                     userType: userData.userType,
                     settings: userData.settings,
-                    matcherSign: userData.matcherSign,
                     lastLogin: Date.now()
                 };
 
@@ -813,14 +794,10 @@
 
                 ds.app.login(userData);
 
-                return this.addMatcherSign()
-                    .catch(() => Promise.resolve())
-                    .then(() => {
-                        this.changeTheme(this._settings.get('theme'));
-                        this.changeCandle();
+                this.changeTheme(this._settings.get('theme'));
+                this.changeCandle();
 
-                        return this.saveMultiAccountUser(this.currentUser, this.currentUser.hash);
-                    })
+                return this.saveMultiAccountUser(this.currentUser, this.currentUser.hash)
                     .then(() => this._logoutTimer())
                     .then(() => this.updateScriptAccountData())
                     .then(() => this.loginSignal.dispatch())
@@ -945,5 +922,4 @@
  * @property {string} userType
  * @property {number} lastLogin
  * @property {object} settings
- * @property {object} matcherSign
  */
