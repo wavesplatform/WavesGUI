@@ -105,7 +105,6 @@
         'app.switch',
         'app.desktop',
         'app.desktopUpdate',
-        'app.import',
         'app.wallet',
         'app.dex',
         'app.tokens',
