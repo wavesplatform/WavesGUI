@@ -25,10 +25,13 @@
          * @type {string}
          */
         wavesExchangeLink = WavesApp.network.wavesExchangeLink;
+
         /**
-         * @type {number}
+         * @return {boolean}
          */
-        step = 0;
+        get isAuthorised() {
+            return this.user.isAuthorised;
+        }
 
         constructor($scope, $state, user, exportStorageService, storage) {
             this.$scope = $scope;
@@ -74,7 +77,6 @@
                 })
                 .then(() => {
                     this.$scope.$apply();
-                    this.moving();
                 })
                 .catch(() => {
                     return null;
@@ -97,8 +99,6 @@
         _export() {
             const connectProvider = this._getConnectProvider();
 
-            this.step = this.step + 1;
-
             this.exportStorageService.export({
                 provider: connectProvider,
                 attempts: 20,
@@ -107,7 +107,6 @@
 
             this.exportStorageService.onData().then(result => {
                 if (result.payload === 'ok') {
-                    this.step = this.step + 1;
                     this.$scope.$apply();
 
                     analytics.send({
@@ -122,7 +121,6 @@
                         target: 'all'
                     });
 
-                    this.step = this.step - 1;
                     this.$scope.$apply();
 
                     return this.storage.save('migrationSuccess', false);
