@@ -377,10 +377,10 @@ export async function getInitScript(
                         isInstance: (data) => BigNumber.isBigNumber(data)
                     }).stringify;
 
-                    var reg = new RegExp(`(?!\\\\)"(\\w+)":\\s*(\\d{14,})`, 'g');
+                    var reg = new RegExp('((?!\\\\)"\\w+"):\\s*(-?[\\d|\\.]{14,})', 'g');
 
                     WavesApp.parseJSON = function (json) {
-                        return JSON.parse(json.replace(reg, `"$1":"$2"`));
+                        return JSON.parse(json.replace(reg, `$1:"$2"`));
                     };
 
                     WavesApp.stringifyJSON = function () {
