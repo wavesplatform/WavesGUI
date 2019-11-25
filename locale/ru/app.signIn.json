@@ -27,9 +27,6 @@
             "overwriteDescription": "Перезаписать все Waves.Exchange аккаунты "
         },
         "signIn": "Войти",
-        "startMoving": {
-            "button": "Sign in & Start moving"
-        },
         "welcomeBack": "С возвращением!"
     },
     "userList": {

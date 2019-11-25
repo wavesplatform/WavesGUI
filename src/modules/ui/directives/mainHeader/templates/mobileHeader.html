@@ -84,21 +84,6 @@
                     </div>
                 </a>
             </li>
-            <li w-toggle-class="expanded" class="mobile-menu__item">
-                <a ui-sref="main.dex"
-                   ng-click="$ctrl.removeBodyClass()"
-                   w-i18n="welcome.exchange"
-                   class="mobile-menu__link"></a>
-            </li>
-            <li w-toggle-class="show-wallet" class="mobile-menu__item">
-                <a href="#" class="mobile-menu__link mobile-menu__link_has-child" w-i18n="welcome.wallet"
-                   w-toggle-class="mobile-menu-inner-expanded"></a>
-            </li>
-            <li w-toggle-class="expanded" class="mobile-menu__item">
-                <a ng-click="$ctrl.removeBodyClass()"
-                   ui-sref="main.tokens" w-i18n="welcome.createToken"
-                   class="mobile-menu__link"></a>
-            </li>
             <li w-toggle-class="expanded" ng-click="$ctrl.logout()" class="mobile-menu__item mobile-menu__item_logout">
                 <a ng-click="$ctrl.removeBodyClass()"
                    class="mobile-menu__link mobile-menu__link_logout"
@@ -291,15 +276,6 @@
                             <div class="mobile-menu__account-remove icon-remove-user icon-close" ng-click="$ctrl.deleteUser(user)"></div>
                         </w-analytics>
                     </div>
-                </li>
-                <li class="mobile-menu__item mobile-menu__item_add" w-toggle-class="expanded show-accounts">
-                    <w-analytics event="'Add Account'">
-                        <a ui-sref="create"
-                            class="mobile-menu__link mobile-menu__link_add"
-                            w-i18n="userList.addNew"
-                            ng-click="$ctrl.removeBodyClass()"
-                        ></a>
-                    </w-analytics>
                 </li>
                 <li class="mobile-menu__item" w-toggle-class="expanded show-accounts">
                     <a class="mobile-menu__link mobile-menu__link_logout"

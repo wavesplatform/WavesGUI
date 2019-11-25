@@ -27,9 +27,6 @@
             "overwriteDescription": "Overwrite all Waves.Exchange accounts on this device"
         },
         "signIn": "Iniciar sesión",
-        "startMoving": {
-            "button": "Sign in & Start moving"
-        },
         "welcomeBack": "¡Bienvenido de nuevo!"
     },
     "userList": {

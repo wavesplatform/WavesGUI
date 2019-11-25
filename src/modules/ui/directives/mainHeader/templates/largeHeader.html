@@ -1,33 +1,7 @@
 <span class="logo logo-header" ng-if="$ctrl.isLogined"></span>
 <a class="logo logo-header" ng-if="!$ctrl.isLogined" href="/"></a>
 
-<w-change-language class="change-language_header"></w-change-language>
-
-<nav class="top-menu" ng-if="$ctrl.isLogined">
-    <a class="top-menu__link top-menu__link-dex" ui-sref="main.dex" w-i18n="welcome.exchange"></a>
-    <div class="top-menu__link dropdown-toggler">
-        <a class="dropdown-toggler__btn" w-i18n="welcome.wallet"></a>
-        <div class="main-header__dropdown dropdown">
-            <a class="dropdown__link dropdown__link_assets" ui-sref="main.wallet.assets">
-                <i class="dropdown__icon dropdown__icon_dashboard icon-18"></i>
-                <span  class="dropdown__text" w-i18n="welcome.dashboard"></span>
-            </a>
-            <a class="dropdown__link dropdown__link_portfolio" ui-sref="main.wallet.portfolio">
-                <i class="dropdown__icon dropdown__icon_portfolio icon-18"></i>
-                <span  class="dropdown__text" w-i18n="welcome.portfolio"></span>
-            </a>
-            <a class="dropdown__link dropdown__link_transactions" ui-sref="main.wallet.transactions">
-                <i class="dropdown__icon dropdown__icon_transactions icon-18"></i>
-                <span  class="dropdown__text" w-i18n="welcome.transactions"></span>
-            </a>
-            <a class="dropdown__link dropdown__link_leasing" ui-sref="main.wallet.leasing">
-                <i class="dropdown__icon dropdown__icon_leasing icon-18"></i>
-                <span  class="dropdown__text" w-i18n="welcome.leasing"></span>
-            </a>
-        </div>
-    </div>
-    <a class="top-menu__link top-menu__link-tokens" ui-sref="main.tokens" w-i18n="welcome.createToken"></a>
-</nav>
+<w-change-language class="change-language_header" ng-if="!$ctrl.isLogined"></w-change-language>
 
 <w-click-outside on-click-outside="$ctrl.closeDropdown()" ng-if="$ctrl.isLogined">
     <div class="main-header__user {{SELECTORS.MAIN_HEADER_USER}}">
@@ -189,11 +163,6 @@
                                     ></div>
                                 </w-analytics>
                             </div>
-                        </div>
-                        <div class="switch-accounts__add-wrapper">
-                            <w-analytics event="'Add Account'">
-                                <a ui-sref="create" w-i18n="userList.addNew" class="switch-accounts__add"></a>
-                            </w-analytics>
                         </div>
                     </div>
                 </div>

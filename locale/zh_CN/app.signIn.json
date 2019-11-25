@@ -27,9 +27,6 @@
             "overwriteDescription": "覆盖此设备上的所有Waves.Exchange帐户"
         },
         "signIn": "登录",
-        "startMoving": {
-            "button": "Sign in & Start moving"
-        },
         "welcomeBack": "欢迎回来"
     },
     "userList": {
