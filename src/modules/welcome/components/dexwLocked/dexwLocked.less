@@ -1,7 +1,9 @@
 @import (reference) 'config';
 @import (reference) 'icons';
 
-.new-user {
+.new-user,
+.multiAccount,
+.old-user {
 	padding: 40px;
 	text-align: center;
 	width: 540px;
@@ -23,6 +25,41 @@
 	&__desc {
 		color: @color-basic-500;
 		line-height: 20px;
+	}
+}
+
+.new-user {
+	&__desc {
 		padding: 0 40px;
+	}
+}
+
+.multiAccount {
+	&__desc {
+		text-align: left;
+		margin-bottom: 20px;
+	}
+}
+
+.old-user {
+	&__desc {
+		text-align: left;
+		margin-bottom: 30px;
+	}
+}
+
+.userType-container  {
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+div.dexw-locked {
+	width: 100%;
+	height: calc(100% ~"- 60px");
+
+	@media screen and (max-width: 860px) {
+		height: calc(100% ~"- 40px");
 	}
 }

@@ -4,17 +4,20 @@
 
 .footer {
   display: block;
-  background: @footer-background;
 
   &__wrap {
-    max-width: 1440px;
     color: @color-basic-600;
-    display: flex;
-    padding: 60px 80px;
-    font-size: 15px;
+    padding: 20px;
+    font-size: 13px;
     margin: 0 auto;
     position: relative;
     z-index: 1;
+  }
+
+  &-action {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
   &__title {
@@ -67,59 +70,59 @@
   }
 }
 
-@media screen and (max-width: 1340px) {
-  .footer__wrap {
-    padding: 40px;
-  }
-}
+// @media screen and (max-width: 1340px) {
+//   .footer__wrap {
+//     padding: 40px;
+//   }
+// }
 
-@media screen and (max-width: 1174px) {
-  .footer__right {
-    padding-left: 0;
-  }
-}
+// @media screen and (max-width: 1174px) {
+//   .footer__right {
+//     padding-left: 0;
+//   }
+// }
 
-@media screen and (max-width: 1024px) {
-  .footer__right-item {
-    margin-left: 20px;
-  }
-}
+// @media screen and (max-width: 1024px) {
+//   .footer__right-item {
+//     margin-left: 20px;
+//   }
+// }
 
 @media screen and (max-width: 860px) {
   .footer {
     &__wrap {
-      padding: 40px 40px 0;
+      padding: 12px 16px;
       font-size: 13px;
       flex-direction: column;
 
     }
 
-    &__title {
-      margin-bottom: 20px;
-      font-size: 11px;
-    }
+    // &__title {
+    //   margin-bottom: 20px;
+    //   font-size: 11px;
+    // }
 
-    &__right {
-      flex-wrap: wrap;
-      width: 100%;
+    // &__right {
+    //   flex-wrap: wrap;
+    //   width: 100%;
 
-      &-item {
-        flex-basis: 50%;
-        margin: 30px 0 0;
-      }
-    }
+    //   &-item {
+    //     flex-basis: 50%;
+    //     margin: 30px 0 0;
+    //   }
+    // }
   }
 }
 
-@media screen and (max-width: 480px) {
-  .footer {
-    &__wrap {
-      padding-left: 20px;
-      padding-right: 20px;
-    }
+// @media screen and (max-width: 480px) {
+//   .footer {
+//     &__wrap {
+//       padding-left: 20px;
+//       padding-right: 20px;
+//     }
 
-    &__link_support {
-      margin-bottom: 24px;
-    }
-  }
-}
+//     &__link_support {
+//       margin-bottom: 24px;
+//     }
+//   }
+// }

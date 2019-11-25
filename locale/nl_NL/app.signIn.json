@@ -27,6 +27,9 @@
             "overwriteDescription": "Overschrijf alle Waves.Exchange-accounts op dit apparaat"
         },
         "signIn": "Aanmelden",
+        "startMoving": {
+            "button": "Sign in & Start moving"
+        },
         "welcomeBack": "Welkom terug!"
     },
     "userList": {

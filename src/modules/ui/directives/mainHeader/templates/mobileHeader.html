@@ -1,14 +1,15 @@
 <span class="logo logo-header" ng-if="$ctrl.isLogined"></span>
 <a class="logo logo-header" ng-if="!$ctrl.isLogined" href="/"></a>
 
-<div class="main-header__mobile-toggler" ng-click="$ctrl.onMobileTogglerClick()">
+<div class="main-header__mobile-toggler" ng-click="$ctrl.onMobileTogglerClick()" ng-if="$ctrl.isLogined">
     <span></span>
 </div>
 
+<w-change-language class="change-language_header" ng-if="!$ctrl.isLogined"></w-change-language>
 <div class="main-header__mobile-fader" w-toggle-class="expanded" ng-click="$ctrl.onMobileFaderClick()"></div>
-<nav class="mobile-menu">
+<nav class="mobile-menu" ng-if="$ctrl.isLogined">
     <div class="mobile-menu__wrapper">
-        <ul class="mobile-menu__list" ng-if="!$ctrl.isLogined">
+        <!-- <ul class="mobile-menu__list" ng-if="!$ctrl.isLogined">
             <li class="mobile-menu__item">
                 <a ui-sref="welcome" ng-click="$ctrl.removeBodyClass()"
                    class="mobile-menu__link mobile-menu__link_main" w-i18n="welcome.mainPage"></a>
@@ -61,9 +62,9 @@
                     ng-if="!$ctrl.hasMultiAccount"
                     ui-sref="signUp" w-i18n="welcome.createAccount"></a>
             </li>
-        </ul>
+        </ul> -->
 
-        <ul class="mobile-menu__list" ng-if="$ctrl.isLogined">
+        <ul class="mobile-menu__list">
             <li w-toggle-class="show-aliases" class="mobile-menu__item">
                 <a class="mobile-menu__link mobile-menu__link_has-child mobile-menu__link_has-user-address"
                    w-toggle-class="mobile-menu-inner-expanded"

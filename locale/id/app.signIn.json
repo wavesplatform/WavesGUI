@@ -27,6 +27,9 @@
             "overwriteDescription": "Overwrite all Waves.Exchange accounts on this device"
         },
         "signIn": "Masuk",
+        "startMoving": {
+            "button": "Sign in & Start moving"
+        },
         "welcomeBack": "Selamat datang kembali!"
     },
     "userList": {
