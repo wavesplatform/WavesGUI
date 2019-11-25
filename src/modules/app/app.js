@@ -104,7 +104,6 @@
         'app.welcome',
         'app.switch',
         'app.desktopUpdate',
-        'app.wallet',
         'app.dex',
         'app.tokens',
         'app.unavailable',
