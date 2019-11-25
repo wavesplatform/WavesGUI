@@ -32,7 +32,6 @@
 		padding: 16px;
 		border-radius: 4px;
 		border: dashed 1px @color-basic-200;
-		margin-bottom: 30px;
 		
 		&-icon {
 			width: 40px;
@@ -50,19 +49,18 @@
 .new-user {
 	&__desc {
 		padding: 0 40px;
+		margin-bottom: 20px;
 	}
 }
 
+.old-user,
 .multiAccount {
 	&__desc {
 		text-align: left;
 		margin-bottom: 20px;
 	}
-}
 
-.old-user {
-	&__desc {
-		text-align: left;
+	&__plate {
 		margin-bottom: 30px;
 	}
 }
@@ -77,7 +75,10 @@
 
 div.dexw-locked {
 	width: 100%;
-	height: calc(100% ~"- 60px");
+	min-height: calc(100% ~"- 60px");
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 @media screen and (max-width: 860px) {
@@ -103,6 +104,12 @@ div.dexw-locked {
 	}
 
 	div.dexw-locked {
-		height: calc(100% ~"- 40px");
+		min-height: calc(100% ~"- 40px");
+	}
+}
+
+@media screen and (max-height: 700px) {
+	div.dexw-locked {
+		height: auto;
 	}
 }
