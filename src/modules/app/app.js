@@ -104,7 +104,6 @@
         'app.welcome',
         'app.switch',
         'app.desktopUpdate',
-        'app.tokens',
         'app.unavailable',
         'app.stand',
         'app.migration'
