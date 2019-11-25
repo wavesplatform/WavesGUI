@@ -19,10 +19,18 @@
                 createPoll(this, this._getDates, this._handleDates, 1000);
             }
 
+            /**
+             * @return {*}
+             * @private
+             */
             _getDates() {
                 return configService.get('SHUTDOWN_NOTIFICATION_TIMERS');
             }
 
+            /**
+             * @param {[{ start: string, end: ?string, action: string }]} timers
+             * @private
+             */
             _handleDates(timers) {
                 const now = Date.now();
                 timers.forEach(timer => {
