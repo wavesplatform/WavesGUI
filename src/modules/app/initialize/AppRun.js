@@ -160,7 +160,7 @@
                 this._initializeLogin();
                 this._initializeOutLinks();
                 this._openMigrationModal();
-                this._setShutdownService();
+                shutdownService.run();
 
                 if (WavesApp.isDesktop()) {
                     window.listenMainProcessEvent((type, url) => {
@@ -249,10 +249,6 @@
                 $state.go('desktop');
 
                 return false;
-            }
-
-            _setShutdownService() {
-                shutdownService.run();
             }
 
             /**
