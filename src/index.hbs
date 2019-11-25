@@ -666,23 +666,6 @@
                     },
                     children: [
                         {
-                            id: 'wallet',
-                            data: {
-                                views: [{
-                                    name: 'mainContent',
-                                    noController: true,
-                                    template: '<ui-view name="content" class="ui-view"></ui-view>'
-                                }],
-                                redirectTo: 'main.wallet.assets'
-                            },
-                            children: [
-                                { id: 'assets', data: { views: [{ name: 'content' }] } },
-                                { id: 'portfolio', data: { views: [{ name: 'content' }] } },
-                                { id: 'transactions', data: { views: [{ name: 'content' }] } },
-                                { id: 'leasing', data: { views: [{ name: 'content' }] } }
-                            ]
-                        },
-                        {
                             id: 'dex',
                             data: {
                                 url: '/dex?assetId1&assetId2',
