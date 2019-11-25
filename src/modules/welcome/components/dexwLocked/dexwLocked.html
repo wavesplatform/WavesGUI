@@ -44,33 +44,32 @@
             </div>
 
             <div ng-switch-when="multiAccount" class="multiAccount">
-                <w-step-by-step active-step="$ctrl.step">
-                    <w-step>
-                        <div class="multiAccount__img"></div>
-                        <h3 class="multiAccount__title">Sorry, we are no longer working</h3>
-                        <div class="multiAccount__desc">
-                            <p>To offer users a better experience and wider range of tools, the exchange has moved from Waves DEX to <a href="{{::$ctrl.wavesExchangeLink}}" target="_blank" rel="noopener noreferrer">Waves Exchange</a>.</p>
-                            <p>To continue trading you have to move your accounts to the new exchange. We strongly recommend that you do this ASAP.</p>
-                            <p>The moving is fast, easy, and, of course, absolutely secure.</p>
-                        </div>
-                        <div class="multiAccount__plate" w-i18n-ns="app.migrate">
-                            <div class="multiAccount__plate-icon"></div>
-                            <div class="multiAccount__plate-text" w-i18n="migrate.modalTitle.plate"></div>
-                        </div>
-                        <w-sign-in-form
-                                on-success="$ctrl.onSign()"
-                                can-reset-password="false"
-                        ></w-sign-in-form>
-                    </w-step>
-                    
-                    <w-step>
-                        <w-loader class="loader"></w-loader>
-                    </w-step>
-                    <w-step>
-                        <div>Waves.Exchange redirected</div>
-                    </w-step>
+                <div ng-if="!$ctrl.isAuthorised">
+                    <div class="multiAccount__img"></div>
+                    <h3 class="multiAccount__title">Sorry, we are no longer working</h3>
+                    <div class="multiAccount__desc">
+                        <p>To offer users a better experience and wider range of tools, the exchange has moved from Waves DEX to <a href="{{::$ctrl.wavesExchangeLink}}" target="_blank" rel="noopener noreferrer">Waves Exchange</a>.</p>
+                        <p>To continue trading you have to move your accounts to the new exchange. We strongly recommend that you do this ASAP.</p>
+                        <p>The moving is fast, easy, and, of course, absolutely secure.</p>
+                    </div>
+                    <div class="multiAccount__plate" w-i18n-ns="app.migrate">
+                        <div class="multiAccount__plate-icon"></div>
+                        <div class="multiAccount__plate-text" w-i18n="migrate.modalTitle.plate"></div>
+                    </div>
+                    <w-sign-in-form
+                            on-success="$ctrl.onSign()"
+                            can-reset-password="false"
+                    ></w-sign-in-form>
+                </div>
 
-                </w-step-by-step>
+                <div ng-if="$ctrl.isAuthorised">
+                    <w-button
+                            class="submit long big"
+                            on-click="$ctrl.moving()"
+                    >
+                        <span>Moving</span>
+                    </w-button>
+                </div>
             </div>
         </div>
     </div>
