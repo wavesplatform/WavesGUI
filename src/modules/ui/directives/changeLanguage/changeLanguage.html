@@ -1,5 +1,5 @@
-<w-select ng-model="$ctrl.active" up-direction="$ctrl.upDirection" class="select select_change-lang select__no-user-select">
-    <w-option ng-repeat="lng in $ctrl.list" value="::lng.code">
+<w-select ng-model="$ctrl.active" hide-active="false" up-direction="$ctrl.upDirection" class="select select_change-lang select__no-user-select">
+    <w-option ng-repeat="lng in $ctrl.list.slice(0, 2)" value="::lng.code">
         <div class="lng-item lng-{{ ::lng.code }}"><span class="lng-content">{{ ::lng.name }}</span></div>
     </w-option>
 </w-select>

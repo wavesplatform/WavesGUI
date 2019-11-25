@@ -1,5 +1,5 @@
-<div ng-switch="$ctrl.isDesktop">
-    <div ng-switch-when="true">
+<div ng-switch="$ctrl.isDesktop" class="width-100 height-100">
+    <div ng-switch-when="true" class="dexw-locked">
         <div ng-switch="$ctrl.userType">
             <div ng-switch-when="old">Old Desktop</div>
             <div ng-switch-when="new">New Desktop</div>
@@ -7,11 +7,16 @@
         </div>
     </div>
 
-    <div ng-switch-when="false">
-        <div ng-switch="$ctrl.userType" class="main-container">
-            <div ng-switch-when="old">
-                <div>Sorry, we are no longer working</div>
-                <a href="{{::$ctrl.wavesExchangeLink}}" target="_blank" rel="noopener noreferrer">Waves.Exchange</a>
+    <div ng-switch-when="false" class="dexw-locked">
+        <div ng-switch="$ctrl.userType" class="userType-container">
+            <div ng-switch-when="old" class="old-user">
+                <div class="old-user__img"></div>
+                <h3 class="old-user__title">Sorry, we are no longer working</h3>
+                <div class="old-user__desc">
+                    <p>To offer users a better experience and wider range of tools, the exchange has moved from Waves DEX to <a href="{{::$ctrl.wavesExchangeLink}}" target="_blank" rel="noopener noreferrer">Waves Exchange</a>.</p>
+                    <p>To continue trading you have to move your accounts to the new exchange. We strongly recommend that you do this ASAP.</p>
+                    <p>The moving is fast, easy, and, of course, absolutely secure.</p>
+                </div>
                 <w-button
                         class="submit long big"
                         on-click="$ctrl.moving()"
@@ -30,11 +35,16 @@
                 </div>
             </div>
 
-            <div ng-switch-when="multiAccount">
+            <div ng-switch-when="multiAccount" class="multiAccount">
                 <w-step-by-step active-step="$ctrl.step">
                     <w-step>
-                        <div>Sorry, we are no longer working</div>
-                        <a href="{{::$ctrl.wavesExchangeLink}}" target="_blank" rel="noopener noreferrer">Waves Exchange</a>
+                        <div class="multiAccount__img"></div>
+                        <h3 class="multiAccount__title">Sorry, we are no longer working</h3>
+                        <div class="multiAccount__desc">
+                            <p>To offer users a better experience and wider range of tools, the exchange has moved from Waves DEX to <a href="{{::$ctrl.wavesExchangeLink}}" target="_blank" rel="noopener noreferrer">Waves Exchange</a>.</p>
+                            <p>To continue trading you have to move your accounts to the new exchange. We strongly recommend that you do this ASAP.</p>
+                            <p>The moving is fast, easy, and, of course, absolutely secure.</p>
+                        </div>
                         <w-sign-in-form
                                 on-success="$ctrl.onSign()"
                                 can-reset-password="false"
@@ -52,4 +62,5 @@
             </div>
         </div>
     </div>
+    <w-footer></w-footer>
 </div>
