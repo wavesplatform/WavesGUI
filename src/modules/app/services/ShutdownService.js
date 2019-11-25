@@ -20,7 +20,7 @@
                 const tick = () => {
                     this._handleTimers(this._getTimers());
                     if (timeOutTimerId) {
-                        window.clearInterval(timeOutTimerId);
+                        window.clearTimeout(timeOutTimerId);
                     }
                     timeOutTimerId = setTimeout(() => tick(), 1000);
                 };
