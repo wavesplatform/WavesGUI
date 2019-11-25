@@ -189,7 +189,8 @@
              * @public
              */
             logout() {
-                user.logout('signIn');
+                this.closeDropdown();
+                user.logout('switch');
             }
 
             /**

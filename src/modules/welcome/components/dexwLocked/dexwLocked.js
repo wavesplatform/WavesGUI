@@ -56,7 +56,29 @@
         }
 
         onSign() {
-            this.moving();
+            Promise.all([
+                this.user.getMultiAccountUsers(),
+                this.user.getMultiAccountSettings()
+            ])
+                .then(([multiAccountUsers, commonSettings]) => {
+                    const [firstUser] = multiAccountUsers;
+
+                    this.user.setMultiAccountSettings(commonSettings);
+
+                    if (firstUser) {
+                        return this.user.login(firstUser);
+                    } else {
+                        return Promise.resolve();
+                    }
+
+                })
+                .then(() => {
+                    this.$scope.$apply();
+                    this.moving();
+                })
+                .catch(() => {
+                    return null;
+                });
         }
 
         moving() {
