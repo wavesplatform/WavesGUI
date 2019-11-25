@@ -2,8 +2,26 @@
     <div ng-switch-when="true" class="dexw-locked">
         <div ng-switch="$ctrl.userType">
             <div ng-switch-when="old">Old Desktop</div>
+
             <div ng-switch-when="new">New Desktop</div>
-            <div ng-switch-when="multiAccount">MultiAccount Desktop</div>
+
+            <div ng-switch-when="multiAccount">
+                <div ng-if="!$ctrl.isAuthorised">
+                    <w-sign-in-form
+                        on-success="$ctrl.onSign()"
+                        can-reset-password="false"
+                    ></w-sign-in-form>
+                </div>
+
+                <div ng-if="$ctrl.isAuthorised">
+                    <w-button
+                            class="submit long big"
+                            on-click="$ctrl.moving()"
+                    >
+                        <span>Moving</span>
+                    </w-button>
+                </div>
+            </div>
         </div>
     </div>
 

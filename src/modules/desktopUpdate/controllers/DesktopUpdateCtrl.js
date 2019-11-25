@@ -207,7 +207,7 @@
             }
 
             toHome() {
-                $state.go(user.getActiveState('wallet'));
+                $state.go(user.getActiveState('welcome'));
             }
 
             toMigration() {
