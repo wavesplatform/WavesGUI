@@ -274,10 +274,6 @@
                 }, 4100);
             }
 
-            showScriptModal() {
-                modalManager.showScriptModal();
-            }
-
             showPasswordModal() {
                 modalManager.showPasswordModal();
             }

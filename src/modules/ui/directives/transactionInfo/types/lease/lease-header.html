@@ -1,8 +1,0 @@
-<div class="txinfo__lead">
-    <h3 class="basic-700"
-        w-i18n="transaction.amounts.{{::$ctrl.typeName}}"
-        params="{amount: $ctrl.transaction.amount.toFormat(), name: $ctrl.transaction.amount.asset.name}"></h3>
-    <div class="body-2 basic-500 margin-05" ng-if="$ctrl.needShowMirror">≈ {{::$ctrl.mirrorBalance.toFormat()}}
-        {{::$ctrl.mirrorBalance.asset.name}}
-    </div>
-</div>

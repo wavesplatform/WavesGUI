@@ -231,15 +231,6 @@
                 return $templateRequest(url);
             }
 
-            showScriptModal() {
-                return this._getModal({
-                    id: 'script-modal',
-                    contentUrl: 'modules/utils/modals/script/script.html',
-                    controller: 'ScriptModalCtrl',
-                    title: 'modal.script.setScript'
-                });
-            }
-
             showPasswordModal() {
                 return this._getModal({
                     id: 'password-modal',
@@ -308,14 +299,6 @@
                 });
             }
 
-            showTutorialModals() {
-                return this._getModal({
-                    id: 'tutorial-modals',
-                    templateUrl: 'modules/utils/modals/tutorialModals/tutorialModals.html',
-                    controller: 'TutorialModalsCtrl'
-                });
-            }
-
             showSeedBackupModal() {
                 const api = ds.signature.getSignatureApi();
 
@@ -374,28 +357,6 @@
                     },
                     contentUrl: 'modules/utils/modals/accountInfo/account-info.modal.html',
                     mod: 'account-info'
-                });
-            }
-
-            showTransactionInfo(transactionId) {
-                return this._getModal({
-                    id: 'transaction-info',
-                    ns: 'app.ui',
-                    controller: 'TransactionInfoCtrl',
-                    templateUrl: 'modules/utils/modals/transactionInfo/transaction-info.modal.html',
-                    mod: 'transaction-info',
-                    locals: { transactionId }
-                });
-            }
-
-            showConfirmTx(signable, analyticsText) {
-                return this._getModal({
-                    id: 'confirm-tx',
-                    mod: 'confirm-tx',
-                    ns: 'app.ui',
-                    locals: { signable, analyticsText },
-                    controller: 'ConfirmTxCtrl',
-                    contentUrl: 'modules/utils/modals/confirmTx/confirmTx.modal.html'
                 });
             }
 

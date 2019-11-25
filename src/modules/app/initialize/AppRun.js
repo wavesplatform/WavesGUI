@@ -525,12 +525,6 @@
                         return acc.add(amountAssetInUsd);
                     }, new Money(0, usdAsset));
 
-                    if (usd.gte(usd.cloneWithTokens(100))) {
-                        modalManager.showTutorialModals();
-
-                        return;
-                    }
-
                     if (usd.gte(usd.cloneWithTokens(1))) {
                         this._initializeBackupWarning();
                     }
