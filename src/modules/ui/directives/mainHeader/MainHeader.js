@@ -12,7 +12,6 @@
 
     /**
      * @param Base
-     * @param {stateManager} stateManager
      * @param {ModalManager} modalManager
      * @param {app.utils} utils
      * @param {ng.IScope} $scope
@@ -26,7 +25,6 @@
      */
     const controller = function (
         Base,
-        stateManager,
         modalManager,
         user,
         $state,
@@ -494,7 +492,6 @@
 
     controller.$inject = [
         'Base',
-        'stateManager',
         'modalManager',
         'user',
         '$state',
