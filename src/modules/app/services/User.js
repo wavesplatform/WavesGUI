@@ -436,7 +436,7 @@
 
             goToActiveState() {
                 if (!this.initRouteState) {
-                    $state.go(this.getActiveState('wallet'));
+                    $state.go(this.getActiveState('welcome'));
                 }
             }
 
@@ -804,12 +804,6 @@
 
                 this._settings = defaultSettings.create(this.currentUser.settings, commonSettings);
                 this._settings.change.on(() => this._onChangeSettings());
-
-                const states = WavesApp.stateTree.find('main').getChildren();
-                this._stateList = states.map((baseTree) => {
-                    const id = baseTree.id;
-                    return new UserRouteState('main', id, this._settings.get(`${id}.activeState`));
-                });
 
                 Object.keys(WavesApp.network).forEach((key) => {
                     ds.config.set(key, this._settings.get(`network.${key}`));

@@ -12,7 +12,6 @@
 
     /**
      * @param Base
-     * @param {stateManager} stateManager
      * @param {ModalManager} modalManager
      * @param {app.utils} utils
      * @param {ng.IScope} $scope
@@ -26,7 +25,6 @@
      */
     const controller = function (
         Base,
-        stateManager,
         modalManager,
         user,
         $state,
@@ -191,7 +189,8 @@
              * @public
              */
             logout() {
-                user.logout('signIn');
+                this.closeDropdown();
+                user.logout('switch');
             }
 
             /**
@@ -494,7 +493,6 @@
 
     controller.$inject = [
         'Base',
-        'stateManager',
         'modalManager',
         'user',
         '$state',

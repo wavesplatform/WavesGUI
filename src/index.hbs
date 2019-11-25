@@ -636,40 +636,6 @@
                     }
                 },
                 {
-                    id: 'ledger',
-                    data: {
-                        url: '/import/ledger',
-                        views: [{ name: 'main' }]
-                    }
-                },
-                {
-                    id: 'keeper',
-                    data: {
-                        url: '/import/waveskeeper',
-                        views: [{ name: 'main' }]
-                    }
-                },
-                {
-                    id: 'import',
-                    data: {
-                        views: [{ name: 'main' }]
-                    }
-                },
-                {
-                    id: 'stand',
-                    data: {
-                        noLogin: true,
-                        views: [{ name: 'main' }]
-                    }
-                },
-                {
-                    id: 'desktop',
-                    data: {
-                        noLogin: true,
-                        views: [{ name: 'main' }]
-                    }
-                },
-                {
                     id: 'desktopUpdate',
                     data: {
                         url: '/desktop-update',
@@ -684,56 +650,6 @@
                         url: '/migration',
                         views: [{ name: 'main' }]
                     }
-                },
-                {
-                    id: 'main',
-                    data: {
-                        abstract: true,
-                        views: [{ name: 'main', templateUrl: 'modules/app/templates/main.html' }]
-                    },
-                    children: [
-                        {
-                            id: 'wallet',
-                            data: {
-                                views: [{
-                                    name: 'mainContent',
-                                    noController: true,
-                                    template: '<ui-view name="content" class="ui-view"></ui-view>'
-                                }],
-                                redirectTo: 'main.wallet.assets'
-                            },
-                            children: [
-                                { id: 'assets', data: { views: [{ name: 'content' }] } },
-                                { id: 'portfolio', data: { views: [{ name: 'content' }] } },
-                                { id: 'transactions', data: { views: [{ name: 'content' }] } },
-                                { id: 'leasing', data: { views: [{ name: 'content' }] } }
-                            ]
-                        },
-                        {
-                            id: 'dex',
-                            data: {
-                                url: '/dex?assetId1&assetId2',
-                                reloadOnSearch: false,
-                                views: [{ name: 'mainContent' }]
-                            }
-                        },
-                        {
-                            id: 'dex-demo',
-                            data: {
-                                noLogin: true,
-                                controller: 'Dex',
-                                url: '/dex-demo?assetId1&assetId2',
-                                reloadOnSearch: false,
-                                views: [{ name: 'mainContent', templateUrl: 'modules/dex/templates/dex.html' }]
-                            }
-                        },
-                        {
-                            id: 'tokens',
-                            data: {
-                                views: [{ name: 'mainContent' }]
-                            }
-                        }
-                    ]
                 }
             ]
         });

@@ -103,16 +103,8 @@
         'app.ui',
         'app.welcome',
         'app.switch',
-        'app.desktop',
         'app.desktopUpdate',
-        'app.ledger',
-        'app.keeper',
-        'app.import',
-        'app.wallet',
-        'app.dex',
-        'app.tokens',
         'app.unavailable',
-        'app.stand',
         'app.migration'
     ]);
 })();
