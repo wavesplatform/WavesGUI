@@ -6,7 +6,7 @@
 .old-user {
 	padding: 40px;
 	text-align: center;
-	width: 540px;
+	max-width: 540px;
 	background: @color-white;
 	border-radius: @border-radius;
 
@@ -26,24 +26,41 @@
 		color: @color-basic-500;
 		line-height: 20px;
 	}
+
+	&__plate {
+		display: flex;
+		padding: 16px;
+		border-radius: 4px;
+		border: dashed 1px @color-basic-200;
+		
+		&-icon {
+			width: 40px;
+			height: 40px;
+			background: @migrate-lock-icon center no-repeat;
+			margin-right: 10px;
+		}
+
+		&-text {
+			color: @color-basic-700;
+		}
+	}
 }
 
 .new-user {
 	&__desc {
 		padding: 0 40px;
+		margin-bottom: 20px;
 	}
 }
 
+.old-user,
 .multiAccount {
 	&__desc {
 		text-align: left;
 		margin-bottom: 20px;
 	}
-}
 
-.old-user {
-	&__desc {
-		text-align: left;
+	&__plate {
 		margin-bottom: 30px;
 	}
 }
@@ -53,13 +70,46 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	padding: 16px;
 }
 
 div.dexw-locked {
 	width: 100%;
-	height: calc(100% ~"- 60px");
+	min-height: calc(100% ~"- 60px");
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
 
-	@media screen and (max-width: 860px) {
-		height: calc(100% ~"- 40px");
+@media screen and (max-width: 860px) {
+	.new-user,
+	.multiAccount,
+	.old-user {
+		padding: 40px 16px;
+
+		&__title {
+			font-size: 17px;
+		}
+
+		&__desc {
+			font-size: 12px;
+			padding: 0;
+		}
+
+		&__img {
+			width: 80px;
+			height: 80px;
+			background-size: 100% 100%;
+		}
+	}
+
+	div.dexw-locked {
+		min-height: calc(100% ~"- 40px");
+	}
+}
+
+@media screen and (max-height: 700px) {
+	div.dexw-locked {
+		height: auto;
 	}
 }

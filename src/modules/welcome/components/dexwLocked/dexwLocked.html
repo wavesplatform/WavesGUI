@@ -17,6 +17,10 @@
                     <p>To continue trading you have to move your accounts to the new exchange. We strongly recommend that you do this ASAP.</p>
                     <p>The moving is fast, easy, and, of course, absolutely secure.</p>
                 </div>
+                <div class="old-user__plate" w-i18n-ns="app.migrate">
+                    <div class="old-user__plate-icon"></div>
+                    <div class="old-user__plate-text" w-i18n="migrate.modalTitle.plate"></div>
+                </div>
                 <w-button
                         class="submit long big"
                         on-click="$ctrl.moving()"
@@ -32,6 +36,10 @@
                     <div class="new-user__desc">To offer users a better experience and wider range of tools, the exchange moved from Waves DEX to
                         <a href="{{::$ctrl.wavesExchangeLink}}" target="_blank" rel="noopener noreferrer">Waves.Exchange</a>.
                     </div>
+                    <div class="new-user__plate" w-i18n-ns="app.migrate">
+                        <div class="new-user__plate-icon"></div>
+                        <div class="new-user__plate-text" w-i18n="migrate.modalTitle.plate"></div>
+                    </div>
                 </div>
             </div>
 
@@ -45,19 +53,23 @@
                             <p>To continue trading you have to move your accounts to the new exchange. We strongly recommend that you do this ASAP.</p>
                             <p>The moving is fast, easy, and, of course, absolutely secure.</p>
                         </div>
+                        <div class="multiAccount__plate" w-i18n-ns="app.migrate">
+                            <div class="multiAccount__plate-icon"></div>
+                            <div class="multiAccount__plate-text" w-i18n="migrate.modalTitle.plate"></div>
+                        </div>
                         <w-sign-in-form
                                 on-success="$ctrl.onSign()"
                                 can-reset-password="false"
                         ></w-sign-in-form>
                     </w-step>
-
+                    
                     <w-step>
                         <w-loader class="loader"></w-loader>
                     </w-step>
-
                     <w-step>
                         <div>Waves.Exchange redirected</div>
                     </w-step>
+
                 </w-step-by-step>
             </div>
         </div>
