@@ -78,6 +78,7 @@
      * @param {ModalRouter} ModalRouter
      * @param {ConfigService} configService
      * @param {INotification} userNotification
+     * @param {ShutdownService} shutdownService
      * @return {AppRun}
      */
     // eslint-disable-next-line max-params
@@ -97,7 +98,8 @@
         multiAccount,
         ModalRouter,
         configService,
-        userNotification
+        userNotification,
+        shutdownService
     ) {
 
         const phone = WavesApp.device.phone();
@@ -246,6 +248,10 @@
                 $state.go('desktop');
 
                 return false;
+            }
+
+            _setShutdownService() {
+                shutdownService.run();
             }
 
             /**
@@ -399,6 +405,7 @@
                     });
 
                     balanceWatcher.change.once(this._onBalanceChange, this);
+                    this._setShutdownService();
                 });
             }
 
@@ -809,6 +816,7 @@
         'ModalRouter',
         'configService',
         'userNotification',
+        'shutdownService',
         'whatsNew'
     ];
 
