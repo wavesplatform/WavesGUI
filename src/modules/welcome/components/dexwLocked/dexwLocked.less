@@ -5,7 +5,6 @@
 .multiAccount,
 .old-user {
 	padding: 40px;
-	text-align: center;
 	max-width: 540px;
 	background: @color-white;
 	border-radius: @border-radius;
@@ -20,6 +19,7 @@
 	&__title {
 		margin-bottom: 20px;
 		color: @color-basic-700;
+		text-align: center;
 	}
 
 	&__desc {
@@ -32,8 +32,10 @@
 		padding: 16px;
 		border-radius: 4px;
 		border: dashed 1px @color-basic-200;
+		font-family: @font-roboto-medium;
 		
 		&-icon {
+			min-width: 40px;
 			width: 40px;
 			height: 40px;
 			background: @migrate-lock-icon center no-repeat;
@@ -48,15 +50,20 @@
 
 .new-user {
 	&__desc {
-		padding: 0 40px;
 		margin-bottom: 20px;
+	}
+
+	&:not(.new-user_desktop) {
+		&__desc {
+			padding: 0 40px;
+			text-align: center;
+		}
 	}
 }
 
 .old-user,
 .multiAccount {
 	&__desc {
-		text-align: left;
 		margin-bottom: 20px;
 	}
 
@@ -82,6 +89,12 @@ div.dexw-locked {
 }
 
 @media screen and (max-width: 860px) {
+	div.dexw-locked {
+		min-height: calc(100% ~"- 40px");
+	}
+}
+
+@media screen and (max-width: 480px) {
 	.new-user,
 	.multiAccount,
 	.old-user {
@@ -101,10 +114,11 @@ div.dexw-locked {
 			height: 80px;
 			background-size: 100% 100%;
 		}
-	}
 
-	div.dexw-locked {
-		min-height: calc(100% ~"- 40px");
+		&__plate {
+			padding: 12px;
+			align-items: center;
+		}
 	}
 }
 
