@@ -41,6 +41,8 @@
          */
         class ModalManager {
 
+            _waitPromise = Promise.resolve();
+
             constructor() {
                 /**
                  * @type {Signal<Promise>}
@@ -709,11 +711,11 @@
             }
 
             showMigrateModal() {
-                return this._getModal({
+                return this._waitPromise.finally(() => this._getModal({
                     id: 'migrate-modal',
                     controller: 'MigrateModalCtrl',
                     contentUrl: 'modules/utils/modals/migrateModal/migrateModal.html'
-                });
+                }));
             }
 
             showMigrateFAQ() {
@@ -756,31 +758,31 @@
             }
 
             showShutdownFirstModal() {
-                return this._getModal({
+                return this._waitPromise.finally(() => this._getModal({
                     id: 'shutdownFirstModal',
                     templateUrl: 'modules/utils/modals/shutdownFirst/shutdownFirst.html',
                     clickOutsideToClose: false,
                     escapeToClose: false
-                });
+                }));
             }
 
             showShutdownSecondModal() {
-                return this._getModal({
+                return this._waitPromise.finally(() => this._getModal({
                     id: 'shutdownSecondModal',
                     templateUrl: 'modules/utils/modals/shutdownSecond/shutdownSecond.html',
                     clickOutsideToClose: false,
                     escapeToClose: false
-                });
+                }));
             }
 
             showShutdownLastModal() {
-                return this._getModal({
+                return this._waitPromise.finally(() => this._getModal({
                     id: 'shutdownLastModal',
                     templateUrl: 'modules/utils/modals/shutdownLast/shutdownLast.html',
                     controller: 'ShutdownLastCtrl',
                     clickOutsideToClose: false,
                     escapeToClose: false
-                });
+                }));
             }
 
 
@@ -848,7 +850,7 @@
                     });
 
                 modalPromise.catch(e => e);
-
+                this._waitPromise = modalPromise;
                 return modalPromise;
             }
 
