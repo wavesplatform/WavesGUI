@@ -49,7 +49,7 @@ function tryParseError(error: string): string | object {
 }
 
 function addDefaultRequestParams(url: string, options: IFetchOptions = Object.create(null)): IFetchOptions {
-    if (url.indexOf(get('node')) === 0 && isEmpty(options.credentials) && options.method !== 'POST') {
+    if (url.indexOf(get('node')) === 0 && isEmpty(options.credentials)) {
         options.credentials = 'include';
     }
     return options;
