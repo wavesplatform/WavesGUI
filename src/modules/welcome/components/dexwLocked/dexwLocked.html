@@ -6,12 +6,13 @@
             <div ng-switch-when="new">
                 <div class="old-user__img"></div>
                 <h3 class="old-user__title">We are no longer working</h3>
-                <w-button
-                        class="submit long big"
-                        on-click="$ctrl.download()"
-                >
-                    <span>Download</span>
-                </w-button>
+                <a target="_blank" rel="noopener noreferrer" href="https://wavesplatform.com/technology/wallet">
+                    <w-button
+                            class="submit long big"
+                    >
+                        <span>Download</span>
+                    </w-button>
+                </a>
             </div>
 
             <div ng-switch-when="multiAccount">
