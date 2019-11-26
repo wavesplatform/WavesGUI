@@ -393,13 +393,7 @@
             }
 
             initScriptInfoPolling() {
-                clearTimeout(this._scriptInfoPollTimeoutId);
-                this._scriptInfoPollTimeoutId = setTimeout(() => {
-                    if (this._scriptInfoPoll) {
-                        this._scriptInfoPoll.destroy();
-                    }
-                    this._scriptInfoPoll = new Poll(() => this.updateScriptAccountData(), () => null, 10000);
-                }, 30000);
+                this.updateScriptAccountData();
             }
 
             /**
@@ -416,21 +410,7 @@
             }
 
             goToActiveState() {
-                if (!this.initRouteState) {
-                    $state.go(this.getActiveState('welcome'));
-                }
-            }
-
-            /**
-             * @param {string} name
-             * @param {string} params
-             */
-            setInitRouteState(name, params) {
-                if (this.initRouteState) {
-                    return;
-                }
-                this.initRouteState = true;
-                this.loginSignal.once(() => $state.go(name, params));
+                $state.go(this.getActiveState('welcome'));
             }
 
             /**
@@ -525,29 +505,21 @@
                 ds.app.logOut();
                 clearTimeout(this._scriptInfoPollTimeoutId);
 
-                if (this._scriptInfoPoll) {
-                    this._scriptInfoPoll.destroy();
+                if (!isSwitch) {
+                    if (WavesApp.isDesktop()) {
+                        transfer('reload');
+                    } else {
+                        window.location.reload();
+                    }
+                    return;
+                }
+                this._resetFields();
+
+                if (isSwitch) {
+                    $state.go(stateName || '');
                 }
 
-                if (stateName) {
-                    this._resetFields();
-
-                    if (isSwitch) {
-                        $state.go(stateName);
-                    }
-
-                    this.logoutSignal.dispatch({});
-
-                    if (!isSwitch) {
-                        this.changeTheme(themes.getDefaultTheme(), { dontSave: true });
-                        multiAccount.signOut();
-                        $state.go(stateName, undefined, { custom: { logout: true } });
-                    }
-                } else if (WavesApp.isDesktop()) {
-                    transfer('reload');
-                } else {
-                    window.location.reload();
-                }
+                this.logoutSignal.dispatch({});
             }
 
             resetAll() {

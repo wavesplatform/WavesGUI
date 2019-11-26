@@ -1,5 +1,4 @@
-<span class="logo logo-header" ng-if="$ctrl.isLogined"></span>
-<a class="logo logo-header" ng-if="!$ctrl.isLogined" href="/"></a>
+<a class="logo logo-header" href="/"></a>
 
 <w-change-language class="change-language_header" ng-if="!$ctrl.isLogined"></w-change-language>
 
@@ -135,9 +134,6 @@
                                         <div class="switch-accounts__address body-3">{{::user.address}}</div>
                                     </div>
                                 </div>
-                                <w-analytics event="'Remove Switch Account Successfully Unlocked'">
-                                    <div class="switch-accounts__remove icon-remove-user icon-close" ng-click="$ctrl.deleteUser(user)"></div>
-                                </w-analytics>
                             </div>
                             <div ng-if="$ctrl.userListLocked.length" class="switch-accounts__unlock">
                                 <span w-i18n="welcome.accountList.locked"></span>
@@ -157,11 +153,6 @@
                                         <div class="switch-accounts__address">{{::user.address}}</div>
                                     </div>
                                 </div>
-                                <w-analytics event="'Remove Switch Account Pending Unlock'">
-                                    <div class="switch-accounts__remove icon-remove-user icon-close"
-                                         ng-click="$ctrl.deleteUser(user)"
-                                    ></div>
-                                </w-analytics>
                             </div>
                         </div>
                     </div>

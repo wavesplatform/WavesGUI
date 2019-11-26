@@ -215,6 +215,7 @@
 
             constructor() {
                 usedStorage.init();
+                this._memStore = {};
                 this._isNewDefer = $q.defer();
                 this._canWrite = $q.defer();
                 this._activeWrite = Promise.resolve();
@@ -253,7 +254,10 @@
             save(key, value) {
                 return this._canWrite.promise.then(() => {
                     this._activeWrite = this._activeWrite
-                        .then(() => utils.when(usedStorage.write(key, value)))
+                        .then(() => {
+                            this._memStore[key] = value;
+                            return value;
+                        })
                         .then((data) => {
                             this.change.dispatch();
                             return data;
@@ -263,11 +267,18 @@
             }
 
             load(key) {
-                return utils.when(usedStorage.read(key));
+                return utils.when((() => {
+                    if (this._memStore[key]) {
+                        return Promise.resolve(this._memStore[key]);
+                    }
+                    return usedStorage.read(key);
+                })());
             }
 
             clear() {
-                return this._canWrite.promise.then(() => utils.when(usedStorage.clear()));
+                return this._canWrite.promise.then(() => utils.when(() => {
+                    this._memStore = {};
+                }));
             }
 
         }

@@ -5,7 +5,7 @@
     const BaseConfigService = utils.ConfigService;
 
 
-    const factory = function (Base, createPoll) {
+    const factory = function (Base) {
 
         class ConfigService extends Base {
 
@@ -26,7 +26,6 @@
                 super();
                 this.change = this.service.change;
                 this.configReadyPromise = this.service.configReady;
-                this.configReady = createPoll(this, () => this.service.fetchConfig(), () => null, 30000);
             }
 
             /**
@@ -48,7 +47,7 @@
         return new ConfigService();
     };
 
-    factory.$inject = ['Base', 'createPoll'];
+    factory.$inject = ['Base'];
 
     angular.module('app').factory('configService', factory);
 })();

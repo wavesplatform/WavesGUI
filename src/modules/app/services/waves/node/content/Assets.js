@@ -13,7 +13,7 @@
      * @param {IPollCreate} createPoll
      * @return {Assets}
      */
-    const factory = function (BaseNodeComponent, utils, user, decorators, createPoll) {
+    const factory = function (BaseNodeComponent, utils, user, decorators) {
 
         class Assets extends BaseNodeComponent {
 
@@ -146,23 +146,15 @@
              * @return {Promise<IBalanceDetails[]>}
              */
             userBalances() {
-                return ds.dataManager.getBalances();
+                return Promise.resolve([]);
             }
 
             giveMyScamBack() {
                 user.scam = Object.create(null);
-                if (this._pollScam) {
-                    this._pollScam.destroy();
-                    this._pollScam = null;
-                }
             }
 
             giveMyTokensNameBack() {
                 user.tokensName = Object.create(null);
-                if (this._pollTokensNames) {
-                    this._pollTokensNames.destroy();
-                    this._pollTokensNames = null;
-                }
             }
 
             stopScam() {
@@ -170,7 +162,6 @@
                  * @type {Poll}
                  * @private
                  */
-                this._pollScam = createPoll(this, this._getScamAssetList, this._setScamAssetList, 15000);
             }
 
             tokensNameList() {
@@ -178,32 +169,8 @@
                  * @type {Poll}
                  * @private
                  */
-                this._pollTokensNames = createPoll(
-                    this,
-                    this._getTokensNameList,
-                    hash => user.setTokensNameList(hash),
-                    20000
-                );
             }
 
-            /**
-             * @return {Promise<Object.<string, boolean>>}
-             * @private
-             */
-            _getTokensNameList() {
-                return ds.fetch(`${user.getSetting('tokensNameListUrl')}?${WavesApp.version}-${Date.now()}`)
-                    .then((text) => {
-                        const papa = require('papaparse');
-                        const hash = Object.create(null);
-                        papa.parse(text).data.forEach(([id]) => {
-                            if (id) {
-                                hash[id] = true;
-                            }
-                        });
-                        return hash;
-                    })
-                    .catch(() => Object.create(null));
-            }
 
             /**
              * @private
@@ -272,8 +239,7 @@
         'BaseNodeComponent',
         'utils',
         'user',
-        'decorators',
-        'createPoll'
+        'decorators'
     ];
 
     angular.module('app')
