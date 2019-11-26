@@ -1,7 +1,25 @@
 <div ng-switch="$ctrl.isDesktop" class="width-100 height-100">
     <div ng-switch-when="true" class="dexw-locked">
         <div ng-switch="$ctrl.userType">
-            <div ng-switch-when="old">Old Desktop</div>
+            <div ng-switch-when="old" class="old-user">
+                <div class="old-user__img"></div>
+                <h3 class="old-user__title">Sorry, we are no longer working</h3>
+                <div class="old-user__desc">
+                    <p>To offer users a better experience and wider range of tools, the exchange has moved from Waves DEX to <a href="{{::$ctrl.wavesExchangeLink}}" target="_blank" rel="noopener noreferrer">Waves Exchange</a>.</p>
+                    <p>To continue trading you have to move your accounts to the new exchange. We strongly recommend that you do this ASAP.</p>
+                    <p>The moving is fast, easy, and, of course, absolutely secure.</p>
+                </div>
+                <div class="old-user__plate" w-i18n-ns="app.migrate">
+                    <div class="old-user__plate-icon"></div>
+                    <div class="old-user__plate-text" w-i18n="migrate.modalTitle.plate"></div>
+                </div>
+                <w-button
+                        class="submit long big"
+                        on-click="$ctrl.moving()"
+                >
+                    <span>Start moving</span>
+                </w-button>
+            </div>
 
             <div ng-switch-when="new">
                 <div class="old-user__img"></div>
