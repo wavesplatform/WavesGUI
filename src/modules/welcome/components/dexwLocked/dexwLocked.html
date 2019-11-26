@@ -1,15 +1,14 @@
-<div ng-switch="$ctrl.isDesktop" class="width-100 height-100">
+<div ng-switch="$ctrl.isDesktop" class="width-100 height-100" w-i18n-ns="app.migrate">
     <div ng-switch-when="true" class="dexw-locked" ng-class="{'dexw-locked_authorised' : $ctrl.isAuthorised}">
         <div ng-switch="$ctrl.userType">
             <div ng-switch-when="old" class="old-user old-user_desktop">
                 <div class="old-user__img"></div>
-                <h3 class="old-user__title">Sorry, we are no longer working</h3>
+                <h3 class="old-user__title" w-i18n="dexLocked.title"></h3>
                 <div class="old-user__desc">
-                    <p>To offer users a better experience and wider range of tools, the exchange has moved from Waves DEX to <a href="{{::$ctrl.wavesExchangeLink}}" target="_blank" rel="noopener noreferrer">Waves Exchange</a>.</p>
-                    <p>To continue trading you have to move your accounts to the new exchange. We strongly recommend that you do this ASAP.</p>
-                    <p>The moving is fast, easy, and, of course, absolutely secure.</p>
+                    <p w-i18n="desktopLocked.newUser.desc"></p>
+                    <p w-i18n="dexLocked.oldUser.desc"></p>
                 </div>
-                <div class="old-user__plate" w-i18n-ns="app.migrate">
+                <div class="old-user__plate">
                     <div class="old-user__plate-icon"></div>
                     <div class="old-user__plate-text" w-i18n="migrate.modalTitle.plate"></div>
                 </div>
@@ -17,32 +16,31 @@
                         class="submit long big"
                         on-click="$ctrl.moving()"
                 >
-                    <span>Start moving</span>
+                    <span w-i18n="migrate.modalButton.moving"></span>
                 </w-button>
             </div>
             <div ng-switch-when="new" class="new-user new-user_desktop">
                 <div class="new-user__img"></div>
-                <h3 class="new-user__title">Sorry, we are no longer working</h3>
-                <div class="new-user__desc">To offer users a better experience and wider range of tools, the exchange moved from Waves DEX to
-                    <a href="{{::$ctrl.wavesExchangeLink}}" target="_blank" rel="noopener noreferrer">Waves.Exchange</a>.
+                <h3 class="new-user__title" w-i18n="dexLocked.title"></h3>
+                <div class="new-user__desc">
+                    <p w-i18n="desktopLocked.newUser.desc"></p>
+                    <p w-i18n="desktopLocked.newUser.secondDesc"></p>
                 </div>
                 <a target="_blank" rel="noopener noreferrer" href="https://wavesplatform.com/technology/wallet">
                     <w-button
                             class="submit long big"
                     >
-                        <span>Download</span>
+                        <span w-i18n="desktopUpdate.download"></span>
                     </w-button>
                 </a>
             </div>
             <div ng-switch-when="multiAccount" class="multiAccount multiAccount_desktop">
                 <div class="multiAccount__img"></div>
-                <h3 class="multiAccount__title">Sorry, we are no longer working</h3>
+                <h3 class="multiAccount__title" w-i18n="dexLocked.title"></h3>
                 <div class="multiAccount__desc">
-                    <p ng-if="!$ctrl.isAuthorised">To offer users a better experience and wider range of tools, the exchange has moved from Waves DEX to <a href="{{::$ctrl.wavesExchangeLink}}" target="_blank" rel="noopener noreferrer">Waves Exchange</a>.</p>
-                    <p>To continue trading you have to move your accounts to the new exchange. We strongly recommend that you do this ASAP.</p>
-                    <p ng-if="!$ctrl.isAuthorised">The moving is fast, easy, and, of course, absolutely secure.</p>
-                </div>
-                <div class="multiAccount__plate" w-i18n-ns="app.migrate">
+                    <p w-i18n="dexLocked.oldUser.desc"></p>
+                    <p w-i18n="dexLocked.multiAccount.desc" ng-if="!$ctrl.isAuthorised"></p>
+                <div class="multiAccount__plate">
                     <div class="multiAccount__plate-icon"></div>
                     <div class="multiAccount__plate-text" w-i18n="migrate.modalTitle.plate"></div>
                 </div>
@@ -58,9 +56,10 @@
                             class="submit long big"
                             on-click="$ctrl.moving()"
                     >
-                        <span>Moving</span>
+                        <span w-i18n="migrate.modalButton.moving"></span>
                     </w-button>
                 </div>
+            </div>
             </div>
         </div>
     </div>
@@ -69,13 +68,9 @@
         <div ng-switch="$ctrl.userType" class="userType-container">
             <div ng-switch-when="old" class="old-user">
                 <div class="old-user__img"></div>
-                <h3 class="old-user__title">Sorry, we are no longer working</h3>
-                <div class="old-user__desc">
-                    <p>To offer users a better experience and wider range of tools, the exchange has moved from Waves DEX to <a href="{{::$ctrl.wavesExchangeLink}}" target="_blank" rel="noopener noreferrer">Waves Exchange</a>.</p>
-                    <p>To continue trading you have to move your accounts to the new exchange. We strongly recommend that you do this ASAP.</p>
-                    <p>The moving is fast, easy, and, of course, absolutely secure.</p>
-                </div>
-                <div class="old-user__plate" w-i18n-ns="app.migrate">
+                <h3 class="old-user__title" w-i18n="dexLocked.title"></h3>
+                <div class="old-user__desc" w-i18n="dexLocked.oldUser.desc"></div>
+                <div class="old-user__plate">
                     <div class="old-user__plate-icon"></div>
                     <div class="old-user__plate-text" w-i18n="migrate.modalTitle.plate"></div>
                 </div>
@@ -83,27 +78,24 @@
                         class="submit long big"
                         on-click="$ctrl.moving()"
                 >
-                    <span>Start moving</span>
+                    <span w-i18n="migrate.modalButton.moving"></span>
                 </w-button>
             </div>
 
             <div ng-switch-when="new" class="new-user">
                 <div class="new-user__img"></div>
-                <h3 class="new-user__title">Sorry, we are no longer working</h3>
-                <div class="new-user__desc">To offer users a better experience and wider range of tools, the exchange moved from Waves DEX to
-                    <a href="{{::$ctrl.wavesExchangeLink}}" target="_blank" rel="noopener noreferrer">Waves.Exchange</a>.
-                </div>
+                <h3 class="new-user__title" w-i18n="dexLocked.title"></h3>
+                <div class="new-user__desc" w-i18n="dexLocked.newUser.desc"></div>
             </div>
 
             <div ng-switch-when="multiAccount" class="multiAccount">
                 <div class="multiAccount__img"></div>
-                <h3 class="multiAccount__title">Sorry, we are no longer working</h3>
+                <h3 class="multiAccount__title" w-i18n="dexLocked.title"></h3>
                 <div class="multiAccount__desc">
-                    <p ng-if="!$ctrl.isAuthorised">To offer users a better experience and wider range of tools, the exchange has moved from Waves DEX to <a href="{{::$ctrl.wavesExchangeLink}}" target="_blank" rel="noopener noreferrer">Waves Exchange</a>.</p>
-                    <p>To continue trading you have to move your accounts to the new exchange. We strongly recommend that you do this ASAP.</p>
-                    <p ng-if="!$ctrl.isAuthorised">The moving is fast, easy, and, of course, absolutely secure.</p>
+                    <p w-i18n="dexLocked.oldUser.desc"></p>
+                    <p w-i18n="dexLocked.multiAccount.desc" ng-if="!$ctrl.isAuthorised"></p>
                 </div>
-                <div class="multiAccount__plate" w-i18n-ns="app.migrate">
+                <div class="multiAccount__plate">
                     <div class="multiAccount__plate-icon"></div>
                     <div class="multiAccount__plate-text" w-i18n="migrate.modalTitle.plate"></div>
                 </div>
@@ -119,7 +111,7 @@
                             class="submit long big"
                             on-click="$ctrl.moving()"
                     >
-                        <span>Moving</span>
+                        <span w-i18n="migrate.modalButton.moving"></span>
                     </w-button>
                 </div>
             </div>
