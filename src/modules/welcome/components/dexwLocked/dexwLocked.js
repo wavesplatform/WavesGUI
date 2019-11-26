@@ -96,6 +96,10 @@
             }
         }
 
+        download() {
+            // console.info('download');
+        }
+
         _export() {
             const connectProvider = this._getConnectProvider();
 

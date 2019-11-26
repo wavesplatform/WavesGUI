@@ -3,7 +3,16 @@
         <div ng-switch="$ctrl.userType">
             <div ng-switch-when="old">Old Desktop</div>
 
-            <div ng-switch-when="new">New Desktop</div>
+            <div ng-switch-when="new">
+                <div class="old-user__img"></div>
+                <h3 class="old-user__title">We are no longer working</h3>
+                <w-button
+                        class="submit long big"
+                        on-click="$ctrl.download()"
+                >
+                    <span>Download</span>
+                </w-button>
+            </div>
 
             <div ng-switch-when="multiAccount">
                 <div ng-if="!$ctrl.isAuthorised">
