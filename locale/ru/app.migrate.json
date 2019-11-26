@@ -10,6 +10,7 @@
         "congratulations": "Поздравляем!",
         "congratulationsText": "Вы успешно скачали новое приложение. Чтобы начать использовать приложение, просто выполните следующие действия:",
         "connectSupport": "Если это не поможет, обратитесь в [техподдержку](https://support.waves.exchange/) Waves.Exchange.",
+        "download": "Скачать",
         "downloaded": "да",
         "downloadText": "{div}[Чтобы улучшить пользовательский опыт и предложить более широкий набор инструментов, биржа переезжает с Waves DEX на Waves.Exchange.]\n{div.margin-top}[Waves DEX прекратит работу 2 декабря 2019. Чтобы продолжить торговлю, нужно скачать новое десктопное приложение.]",
         "fail": "Ошибка",
@@ -20,9 +21,11 @@
         "iUnderstand": "Понятно",
         "lookAtFAQ1": "Если вы все сделали правильно, но по-прежнему получаете сообщение об ошибке, обратитесь к ",
         "lookAtFAQ2": "Возможно, вы найдете ответ там.",
-        "movingText": "{div.margin-bottom}[Чтобы улучшить пользовательский опыт и предложить более широкий набор инструментов, биржа переезжает с Waves DEX на Waves.Exchange.]\n{div.margin-bottom}[Waves DEX прекратит работу 2 декабря 2019. Чтобы продолжить торговлю, нужно перенести свои аккаунты на новую биржу. Мы настоятельно рекомендуем сделать это заранее.]\n{div}[Процесс миграции – быстрый, простой и абсолютно безопасный.",
+        "movingText": "{div.margin-bottom}[Чтобы улучшить пользовательский опыт и предложить более широкий набор инструментов, биржа переезжает с Waves DEX на Waves.Exchange.]\n{div.margin-bottom}[Waves DEX прекратит работу 2 декабря 2019. Чтобы продолжить торговлю, нужно перенести свои аккаунты на новую биржу. Мы настоятельно рекомендуем сделать это заранее.]\n{div.margin-bottom}[Процесс миграции – быстрый, простой и абсолютно безопасный.",
         "oldApplication": "Текущая версия вашего приложения устарела. Если хотите торговать сейчас (до 2 декабря 2019 года), вы можете скачать актуальную версию десктопного приложения Waves DEX с [официального сайта](https://dex.wavesplatform.com).",
         "oops": "Ой! Что-то пошло не так...",
+        "password": "Пароль",
+        "passwordError": "Неправильный пароль!",
         "pleaseWait": "Загрузка...",
         "return": "вернуться",
         "run": "Запустите установленное приложение",
@@ -139,6 +142,25 @@
         "title": {
             "almostThere": "Еще немного...",
             "protectAccount": "\tЗащитите аккаунты"
+        }
+    },
+    "modals": {
+        "shutdownNotificationFirst": {
+            "message1": "Waves DEX will stop operating on December 2, 2019",
+            "message2": "To proceed to work with the exchange, you have to move your accounts to the new Waves.Exchange. We strongly recommend that you do this ASAP. The moving is fast, easy, and absolutely secure.",
+            "submit": "I understand",
+            "title": "One day left!"
+        },
+        "shutdownNotificationLast": {
+            "message1": "Waves DEX is no longer working. The exchange moved to Waves.Exchange. Don't worry! You are still able to move your accounts from Waves DEX to Waves.Exchange. Thank you for the good times!",
+            "submit": "I understand",
+            "title": "Time to move on!"
+        },
+        "shutdownNotificationSecond": {
+            "message1": "Waves DEX will stop operating in two hours.",
+            "message2": "To proceed to work with the exchange, you have to move your accounts to the new Waves.Exchange. We strongly recommend that you do this ASAP. The moving is fast, easy, and absolutely secure.",
+            "submit": "I understand",
+            "title": "Two hours left!"
         }
     }
 }
