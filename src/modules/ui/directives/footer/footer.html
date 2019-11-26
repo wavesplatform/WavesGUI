@@ -8,22 +8,19 @@
             <span ng-if="$ctrl._isDesktopUpdate" class="footer-action footnote-1 submit-400 pointer" ng-click="$ctrl.showFAQ()">FAQ</span>
         </div>
     </w-desktop-only>
-    <div class="footer-action">
-       <a ng-if="!$ctrl._isDesktopUpdate" class="submit-400" target="_blank" rel="noopener noreferrer"
-          href="https://support.wavesplatform.com" w-analytics event="'Footer Support Click'" w-i18n="welcome.support"></a>
-      <div class="footer__left-item" w-i18n="welcome.copyright"></div>
-    </div>
-    <!-- <div class="footer__left">
-        <w-web-only>
-            <a class="footer__logo logo logo_footer margin-2" href="https://wavesplatform.com" target="_blank" rel="noopener noreferrer"></a>
-            <div class="footer__left-item margin-2" w-i18n="welcome.broughtBy"></div>
-        </w-web-only>
-        <div class="footer__left-item margin-1" w-i18n="welcome.copyright"></div>
-        <w-web-only>
-            <a class="footer__link footer__link_support" w-i18n="welcome.mailto" target="_blank" rel="noopener noreferrer" href="https://support.wavesplatform.com"></a>
-        </w-web-only>
-        <w-change-language w-web-only-class="web-footer-language" up-direction="true"></w-change-language>
-    </div> -->
+    <w-web-only>
+      <div class="footer-action">
+         <a ng-if="!$ctrl._isDesktopUpdate" class="submit-400" target="_blank" rel="noopener noreferrer"
+            href="https://support.wavesplatform.com" w-analytics event="'Footer Support Click'" w-i18n="welcome.support"></a>
+         <div class="footer__left-item" w-i18n="welcome.copyright"></div>
+      </div>
+    </w-web-only>
+    <w-desktop-only>
+      <div class="footer__left">
+         <div class="footer__left-item margin-1" w-i18n="welcome.copyright"></div>
+         <w-change-language w-web-only-class="web-footer-language" up-direction="true"></w-change-language>
+      </div>
+    </w-desktop-only>
     <!-- <w-web-only>
         <div class="footer__right">
             <div class="footer__right-item">

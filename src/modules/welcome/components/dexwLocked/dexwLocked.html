@@ -1,9 +1,66 @@
 <div ng-switch="$ctrl.isDesktop" class="width-100 height-100">
-    <div ng-switch-when="true" class="dexw-locked">
+    <div ng-switch-when="true" class="dexw-locked" ng-class="{'dexw-locked_authorised' : $ctrl.isAuthorised}">
         <div ng-switch="$ctrl.userType">
-            <div ng-switch-when="old">Old Desktop</div>
-            <div ng-switch-when="new">New Desktop</div>
-            <div ng-switch-when="multiAccount">MultiAccount Desktop</div>
+            <div ng-switch-when="old" class="old-user old-user_desktop">
+                <div class="old-user__img"></div>
+                <h3 class="old-user__title">Sorry, we are no longer working</h3>
+                <div class="old-user__desc">
+                    <p>To offer users a better experience and wider range of tools, the exchange has moved from Waves DEX to <a href="{{::$ctrl.wavesExchangeLink}}" target="_blank" rel="noopener noreferrer">Waves Exchange</a>.</p>
+                    <p>To continue trading you have to move your accounts to the new exchange. We strongly recommend that you do this ASAP.</p>
+                    <p>The moving is fast, easy, and, of course, absolutely secure.</p>
+                </div>
+                <div class="old-user__plate" w-i18n-ns="app.migrate">
+                    <div class="old-user__plate-icon"></div>
+                    <div class="old-user__plate-text" w-i18n="migrate.modalTitle.plate"></div>
+                </div>
+                <w-button
+                        class="submit long big"
+                        on-click="$ctrl.moving()"
+                >
+                    <span>Start moving</span>
+                </w-button>
+            </div>
+            <div ng-switch-when="new" class="new-user new-user_desktop">
+                <div class="new-user__container">
+                    <div class="new-user__img"></div>
+                    <h3 class="new-user__title">Sorry, we are no longer working</h3>
+                    <div class="new-user__desc">To offer users a better experience and wider range of tools, the exchange moved from Waves DEX to
+                        <a href="{{::$ctrl.wavesExchangeLink}}" target="_blank" rel="noopener noreferrer">Waves.Exchange</a>.
+                    </div>
+                    <div class="new-user__plate" w-i18n-ns="app.migrate">
+                        <div class="new-user__plate-icon"></div>
+                        <div class="new-user__plate-text" w-i18n="migrate.modalTitle.plate"></div>
+                    </div>
+                </div>
+            </div>
+            <div ng-switch-when="multiAccount" class="multiAccount multiAccount_desktop">
+                <div class="multiAccount__img"></div>
+                <h3 class="multiAccount__title">Sorry, we are no longer working</h3>
+                <div class="multiAccount__desc">
+                    <p ng-if="!$ctrl.isAuthorised">To offer users a better experience and wider range of tools, the exchange has moved from Waves DEX to <a href="{{::$ctrl.wavesExchangeLink}}" target="_blank" rel="noopener noreferrer">Waves Exchange</a>.</p>
+                    <p>To continue trading you have to move your accounts to the new exchange. We strongly recommend that you do this ASAP.</p>
+                    <p ng-if="!$ctrl.isAuthorised">The moving is fast, easy, and, of course, absolutely secure.</p>
+                </div>
+                <div class="multiAccount__plate" w-i18n-ns="app.migrate">
+                    <div class="multiAccount__plate-icon"></div>
+                    <div class="multiAccount__plate-text" w-i18n="migrate.modalTitle.plate"></div>
+                </div>
+                <div ng-if="!$ctrl.isAuthorised">
+                    <w-sign-in-form
+                            on-success="$ctrl.onSign()"
+                            can-reset-password="false"
+                    ></w-sign-in-form>
+                </div>
+
+                <div ng-if="$ctrl.isAuthorised">
+                    <w-button
+                            class="submit long big"
+                            on-click="$ctrl.moving()"
+                    >
+                        <span>Moving</span>
+                    </w-button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -44,18 +101,18 @@
             </div>
 
             <div ng-switch-when="multiAccount" class="multiAccount">
+                <div class="multiAccount__img"></div>
+                <h3 class="multiAccount__title">Sorry, we are no longer working</h3>
+                <div class="multiAccount__desc">
+                    <p ng-if="!$ctrl.isAuthorised">To offer users a better experience and wider range of tools, the exchange has moved from Waves DEX to <a href="{{::$ctrl.wavesExchangeLink}}" target="_blank" rel="noopener noreferrer">Waves Exchange</a>.</p>
+                    <p>To continue trading you have to move your accounts to the new exchange. We strongly recommend that you do this ASAP.</p>
+                    <p ng-if="!$ctrl.isAuthorised">The moving is fast, easy, and, of course, absolutely secure.</p>
+                </div>
+                <div class="multiAccount__plate" w-i18n-ns="app.migrate">
+                    <div class="multiAccount__plate-icon"></div>
+                    <div class="multiAccount__plate-text" w-i18n="migrate.modalTitle.plate"></div>
+                </div>
                 <div ng-if="!$ctrl.isAuthorised">
-                    <div class="multiAccount__img"></div>
-                    <h3 class="multiAccount__title">Sorry, we are no longer working</h3>
-                    <div class="multiAccount__desc">
-                        <p>To offer users a better experience and wider range of tools, the exchange has moved from Waves DEX to <a href="{{::$ctrl.wavesExchangeLink}}" target="_blank" rel="noopener noreferrer">Waves Exchange</a>.</p>
-                        <p>To continue trading you have to move your accounts to the new exchange. We strongly recommend that you do this ASAP.</p>
-                        <p>The moving is fast, easy, and, of course, absolutely secure.</p>
-                    </div>
-                    <div class="multiAccount__plate" w-i18n-ns="app.migrate">
-                        <div class="multiAccount__plate-icon"></div>
-                        <div class="multiAccount__plate-text" w-i18n="migrate.modalTitle.plate"></div>
-                    </div>
                     <w-sign-in-form
                             on-success="$ctrl.onSign()"
                             can-reset-password="false"
@@ -73,5 +130,5 @@
             </div>
         </div>
     </div>
-    <w-footer></w-footer>
+    <w-footer ng-class="{'footer_no-authorised' : !$ctrl.isAuthorised}"></w-footer>
 </div>
