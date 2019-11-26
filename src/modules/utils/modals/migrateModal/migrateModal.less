@@ -1,0 +1,81 @@
+@import (reference) 'config';
+@import (reference) "icons";
+
+.migrate-modal {
+	&__image {
+		background-size: 100% 100%;
+		margin: 62px auto 20px;
+		width: 100px;
+		height: 100px;
+		background: @migrate-congratulations-icon;
+
+		&_moving {
+			background: @moving-icon;
+			width: 90px;
+			height: 90px;
+		}
+
+		&_directed {
+			background: @directed-icon;
+			width: 100px;
+			height: 100px;
+		}
+	}
+
+	&__title {
+		text-align: center;
+		font-family: @font-roboto-medium;
+		color: @color-basic-700;
+	}
+
+	&__text {
+		color: @color-basic-500;
+		margin-bottom: 20px;
+		font-size: 15px;
+
+		&_directed {
+			text-align: center;
+			padding: 0 10px;
+		}
+	}
+
+	&__link {
+		text-align: center;
+		display: block;
+	}
+
+	&__plate {
+		display: flex;
+		padding: 16px;
+		border-radius: 4px;
+		border: dashed 1px @color-basic-200;
+		margin-bottom: 30px;
+		&-icon {
+			width: 40px;
+			height: 40px;
+			background: @migrate-lock-icon center no-repeat;
+			margin-right: 10px;
+		}
+		&-text {
+			color: @color-basic-700;
+		}
+	}
+
+	&__steps {
+		text-align: left;
+		display: inline-flex;
+		flex-direction: column;
+	}
+
+	&__step {
+		color: @color-basic-700;
+	}
+
+	&__link {
+		margin-top: 20px;
+
+		a {
+			display: block;
+		}
+	}
+}

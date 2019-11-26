@@ -11,8 +11,16 @@
      * @param {StorageDataConverter} storageDataConverter
      * @param {$injector} $injector
      */
-    const factory = function ($q, utils, migration, state, storageSelect, defaultSettings, storageDataConverter,
-                              $injector) {
+    const factory = function (
+        $q,
+        utils,
+        migration,
+        state,
+        storageSelect,
+        defaultSettings,
+        storageDataConverter,
+        $injector
+    ) {
 
         const usedStorage = storageSelect();
 
@@ -28,10 +36,11 @@
                     .then(data => addNewGateway(data, WavesApp.defaultAssets.BNT));
             },
             '1.4.0': storage => migrateCommonSettings(storage),
-            '1.4.6': storage => fixMigrateCommonSettings(storage)
+            '1.4.6': storage => fixMigrateCommonSettings(storage),
+            '1.4.16': storage => fixUndefined(storage)
         };
 
-        const { Signal } = require('ts-utils');
+        const { Signal, isObject } = require('ts-utils');
 
         function newTerms(storage) {
             return storage.load('userList').then(users => {
@@ -170,8 +179,8 @@
                 }
 
                 return Promise.all([
-                    storage.save('multiAccountUsers', multiAccountUsers),
-                    storage.save('userList', userList)
+                    multiAccountUsers ? storage.save('multiAccountUsers', multiAccountUsers) : Promise.resolve(),
+                    userList ? storage.save('userList', userList) : Promise.resolve()
                 ]);
 
             });
@@ -206,6 +215,48 @@
             });
         }
 
+        function fixUndefined(storage) {
+            return Promise.all([
+                storage.load('userList'),
+                storage.load('multiAccountUsers')
+            ]).then(([userList, multiAccountUsers]) => {
+                const deleteUndefinedFromObject = (obj) => Array.from('undefined').forEach((_x, i) => {
+                    delete obj[i];
+                });
+
+                const deleteUndefinedFromArray = (arr) => {
+                    const tmp = Object.create(null);
+
+                    for (const k in arr) {
+                        if (isNaN(k)) {
+                            tmp[k] = arr[k];
+                        }
+                    }
+
+                    return tmp;
+                };
+
+                if (isObject(userList)) {
+                    deleteUndefinedFromObject(userList);
+                }
+
+                if (isObject(multiAccountUsers)) {
+                    deleteUndefinedFromObject(multiAccountUsers);
+                } else if (Array.isArray(multiAccountUsers)) {
+                    multiAccountUsers = deleteUndefinedFromArray(multiAccountUsers);
+                }
+
+                return Promise.all([
+                    userList ?
+                        storage.save('userList', userList === 'undefined' ? '' : userList) :
+                        Promise.resolve(),
+                    multiAccountUsers ?
+                        storage.save('multiAccountUsers', multiAccountUsers === 'undefined' ? '' : multiAccountUsers) :
+                        Promise.resolve()
+                ]);
+            });
+        }
+
         class Storage {
 
             /**
@@ -231,7 +282,6 @@
                 this.load('lastVersion')
                     .then((version) => {
                         this._canWrite.resolve();
-                        this.save('lastVersion', WavesApp.version);
                         state.lastOpenVersion = version;
 
                         if (version) {
@@ -239,9 +289,11 @@
                             return utils.chainCall(versions.map((version) => MIGRATION_MAP[version].bind(null, this)))
                                 .then(() => {
                                     this._isNewDefer.resolve(version);
+                                    this.save('lastVersion', WavesApp.version);
                                 });
                         } else {
                             this._isNewDefer.resolve(version);
+                            this.save('lastVersion', WavesApp.version);
                             return Promise.resolve();
                         }
                     });

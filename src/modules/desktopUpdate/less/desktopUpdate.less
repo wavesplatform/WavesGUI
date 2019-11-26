@@ -60,7 +60,7 @@
   display: flex;
   align-items: center;
   cursor: pointer;
-  
+
   &:hover {
     .return-button__arrow {
       background-color: rgba(31, 90, 246, 0.15);
@@ -248,6 +248,84 @@
   font-size: 15px;
 }
 
+.step-title {
+  &.ng-hide {
+    opacity: 0;
+  }
+}
+
+.step-title_first {
+  position: relative;
+  top: -20px;
+  opacity: 0;
+  transition: all linear 0.3s;
+  margin: 80px auto 10px;
+  text-align: left;
+}
+
+.step-title_second {
+  position: relative;
+  top: -20px;
+  opacity: 0;
+  transition: all linear 0.3s 2s;
+  margin: 0 auto 100px;
+  text-align: left;
+}
+
+.step-title {
+  &.visible {
+    top: 0;
+    opacity: 1;
+  }
+}
+
+.circular {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.circular-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.circular-timer {
+  margin-right: 4px;
+  &__text {
+    min-width: 70px;
+    display: inline-block;
+    text-align: left;
+  }
+}
+
+.circular-progress {
+  transform: rotate(-90deg);
+  &__value {
+    stroke-dasharray: 62.8;
+    stroke-dashoffset: 62.8;
+    animation: circular-progress;
+    animation-duration: 10s;
+    animation-timing-function: linear;
+  }
+}
+
+@keyframes circular-progress {
+  from {
+    stroke-dashoffset: 62.8;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.downloading-info {
+  width: 428px;
+  margin: auto;
+  font-size: 12px;
+}
 
 //.warning-timer + .ui-view {
 //  height: 100%;
