@@ -10,6 +10,7 @@
         "congratulations": "Congratulations!",
         "congratulationsText": "You have successfully downloaded the new application. To start using the application, simply do the following:",
         "connectSupport": "If that did not help, then contact the Waves.Exchange [support](https://support.waves.exchange/).",
+        "download": "Download",
         "downloaded": "yes",
         "downloadText": "{div}[To offer users a better experience and wider range of tools, the exchange is moving from Waves DEX to Waves.Exchange.]\n{div.margin-top}[Waves DEX will stop operating on December 2, 2019. To continue trading you have to download the new desktop application.]",
         "fail": "Fail",
@@ -23,6 +24,8 @@
         "movingText": "{div.margin-bottom}[To offer users a better experience and wider range of tools, the exchange is moving from Waves DEX to Waves.Exchange.]\n{div.margin-bottom}[Waves DEX will stop operating on December 2, 2019. To continue trading you have to move your accounts to the new exchange. We strongly recommend that you do this in advance.]\n{div.margin-bottom}[The moving is fast, easy, and absolutely secure.]",
         "oldApplication": "Your current application is too old. If you want to trade just right now (before December 2, 2019), you can download our latest Waves DEX desktop application from the [official website](https://dex.wavesplatform.com).",
         "oops": "Oops! Something went wrong...",
+        "password": "Password",
+        "passwordError": "Wrong Password!",
         "pleaseWait": "Downloading...",
         "return": "return",
         "run": "Run the installed application",
@@ -143,19 +146,19 @@
     },
     "modals": {
         "shutdownNotificationFirst": {
-            "message1": "Waves DEX will stop operating on December 2, 2019",
-            "message2": "To proceed to work with the exchange, you have to move your accounts to the new Waves.Exchange. We strongly recommend that you do this ASAP. The moving is fast, easy, and absolutely secure.",
+            "message1": "Waves DEX will cease operating on December 2, 2019.",
+            "message2": "To continue using the exchange, you should move your accounts to the new Waves.Exchange. We strongly recommend that you do this ASAP. The migration process is fast, easy, and absolutely secure.",
             "submit": "I understand",
             "title": "One day left!"
         },
         "shutdownNotificationLast": {
-            "message1": "Waves DEX is no longer working. The exchange moved to Waves.Exchange. Don't worry! You are still able to move your accounts from Waves DEX to Waves.Exchange. Thank you for the good times!",
+            "message1": "Waves DEX is no longer working. The exchange has moved to Waves.Exchange. \nDon’t worry – you can still move your accounts to the new service.\nThank for the good times!",
             "submit": "I understand",
             "title": "Time to move on!"
         },
         "shutdownNotificationSecond": {
-            "message1": "Waves DEX will stop operating in two hours.",
-            "message2": "To proceed to work with the exchange, you have to move your accounts to the new Waves.Exchange. We strongly recommend that you do this ASAP. The moving is fast, easy, and absolutely secure.",
+            "message1": "Waves DEX will cease operating in two hours.",
+            "message2": "To continue using the exchange, you should move your accounts to the new Waves.Exchange. We strongly recommend that you do this ASAP. The migration process is fast, easy, and absolutely secure.",
             "submit": "I understand",
             "title": "Two hours left!"
         }

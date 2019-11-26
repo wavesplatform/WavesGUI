@@ -10,6 +10,7 @@
         "congratulations": "恭喜你！",
         "congratulationsText": "您已经成功下载了新应用程序。要开始使用该应用程序，只需执行以下操作：",
         "connectSupport": "如果这样做没有帮助，请联系Waves.Exchange [support]（https://support.waves.exchange/）。",
+        "download": "Download",
         "downloaded": "是",
         "downloadText": "{div} [为了向用户提供更好的体验和更广泛的工具，该交易所正从Waves DEX转向Waves.Exchange。] \n {div.margin-top} [Waves DEX将于2019年12月2日停止运行。要继续交易，您必须下载新的桌面应用程序。]",
         "fail": "失败",
@@ -23,6 +24,8 @@
         "movingText": "{div.margin-bottom} [为了向用户提供更好的体验和更广泛的工具，该交易所正在从Waves DEX转向Waves.Exchange。] \n {div.margin-bottom} [Waves DEX将于2019年12月2日停止运行。要继续交易，您必须将帐户移至新交易所。我们强烈建议您提前进行此操作。] \n {div.margin-bottom} [这种移动是快速，容易且绝对安全的。]",
         "oldApplication": "您当前的应用程序太旧了。如果您想立即交易（2019年12月2日之前），则可以从[官方网站]（https://dex.wavesplatform.com）下载我们最新的Waves DEX桌面应用程序。",
         "oops": "糟糕！出问题了...",
+        "password": "Password",
+        "passwordError": "Wrong Password!",
         "pleaseWait": "正在下载...",
         "return": "返回",
         "run": "运行已安装的应用程序",
@@ -43,13 +46,13 @@
         "text10": "{div.margin-bottom} [如果您使用的是旧版应用，则将无法再进行以下操作：] \n {div.line} [-创建帐户] \n {div.line} [-可以访问Waves DEX界面] \n {div.line} [-查看您的投资组合] \n {div.line} [-进行任何类型的交易：转让，发行或刻录令牌，租赁WAVES或取消租赁] \n {div.line} [-使用任何网关] \n\n {div.margin-bottom} [自2019年12月2日起，您将可以使用Waves.Exchange应用程序享受此功能。] \n\n {div.margin-bottom} [但是，使用旧版应用程序，您仍然可以：] \n\n {div.line} [-登录您的帐户] \n {div.line}[-启动向Waves.Exchange的迁移过程] \n {div.line} [-为种子词组创建本地备份] \n\n {div.margin-top} [如果仍有疑问，您可以将消息发送到我们的[官方电报组]（https://t.me/wavesexchange）或在支持页面上创建{div.margin-top} ：[https：/ /support.waves.exchange/](https://support.waves.exchange/）]",
         "text11": "没有,永不！在任何情况下都不会发生这种情况。所有种子短语仍将存储在本地设备上。交易所不可能访问该存储。",
         "text12": "您的代币的所有权记录在Waves区块链上。只能使用种子短语或私钥访问存储在您帐户中的令牌，这些种子短语或私钥在迁移后不会更改并且不会离开您的设备。您的资产是完全安全的！",
-        "text13": "{div.margin-bottom} [我们将尽最大努力确保迁移过程对用户来说尽可能顺利。由于匹配者地址和私钥的更改，我们将无法将您的订单移至新匹配者。因此，您的整个订单历史记录将不再可用。您仍然可以使用Waves Explorer查看所有已完成的交易。 ] \n\n {div.margin-bottom} [除了您的订单历史记录之外，所有有效订单都会在12月2日被取消。这是由于切换到新匹配器而引起的必要措施。在成功迁移的情况下，您仍将保留：] \n {div.line} [–仪表板上的一组固定资产] \n {div.line} [–在交易所保存的对] \n {div.line} [–“隐藏”资产列表] \n {div.line} [–语言首选项] \n {div.line} [–帐户信息（种子短语，帐户名）] \n\n {div.margin-bottom.margin-top} [请注意，技术工作将于12月2日进行，届时将限制对旧应用程序的访问，并准备启动新应用程序。 ] \n\n {div.margin-bottom} [在此过程中，网关将正常处理所有交易（存款和取款），这将确保完全的安全性和对您资金的访问。] \n\n {div.margin-top} [您将不会失去支持！您可以随时向我们的[官方电报组]（https://t.me/wavesexchange）发送消息，也可以在支持页面上创建故障单：[https://support.waves.exchange/](https:// support.waves.exchange/）]",
-        "text14": "{div} [迁移过程大约需要八个小时。在此期间，您将无法完全访问您的应用。我们谨在此提醒您，迁移过程计划于2019年12月2日星期一进行。在当天进行的技术工作中，网关将正常处理所有交易，这将确保完全的安全性并访问您的资金。] \n\n {div} [支持随时可用！您可以随时向我们的[官方电报组]（https://t.me/wavesexchange）发送消息，也可以在支持页面上创建故障单：[https://support.waves.exchange/](https:// support.waves.exchange/）]",
+        "text13": "{div.margin-bottom}[我们将尽最大努力确保迁移过程对用户来说尽可能顺利。由于匹配者地址和私钥的更改，我们将无法将您的订单移至新匹配者。因此，您的整个订单历史记录将不再可用。您仍然可以使用Waves Explorer查看所有已完成的交易。 ] \n\n {div.margin-bottom}[除了您的订单历史记录之外，所有有效订单都会在12月2日被取消。这是由于切换到新匹配器而引起的必要措施。在成功迁移的情况下，您仍将保留：] \n {div.line}[–仪表板上的一组固定资产] \n {div.line}[–在交易所保存的对] \n {div.line}[–“隐藏”资产列表] \n {div.line}[–语言首选项] \n {div.line}[–帐户信息（种子短语，帐户名）] \n\n {div.margin-bottom.margin-top}[请注意，技术工作将于12月2日进行，届时将限制对旧应用程序的访问，并准备启动新应用程序。 ] \n\n {div.margin-bottom}[在此过程中，网关将正常处理所有交易（存款和取款），这将确保完全的安全性和对您资金的访问。] \n\n {div.margin-top}[您将不会失去支持！您可以随时向我们的[官方电报组]（https://t.me/wavesexchange）发送消息，也可以在支持页面上创建故障单：[https://support.waves.exchange/](https:// support.waves.exchange/）]",
+        "text14": "{div}[迁移过程大约需要八个小时。在此期间，您将无法完全访问您的应用。我们谨在此提醒您，迁移过程计划于2019年12月2日星期一进行。在当天进行的技术工作中，网关将正常处理所有交易，这将确保完全的安全性并访问您的资金。] \n\n {div}[支持随时可用！您可以随时向我们的[官方电报组]（https://t.me/wavesexchange）发送消息，也可以在支持页面上创建故障单：[https://support.waves.exchange/](https:// support.waves.exchange/）]",
         "text15": "在12月2日，用户将需要登录Waves移动应用并点击“更新”按钮。该应用程序将更新到版本2.7.0。该更新将在2019年12月2日星期一结束之前在Google Play和App Store上提供。",
         "text16": "目前，只有在您的银行帐户中存入/提取wUSD和wEUR时才需要KYC。目前，该团队尚无计划引入KYC进行交易或加密货币交易。",
         "text17": "匹配器将获得一个新的地址和URL，并且其私钥将更改。由于这些更改，更新时用户的未结订单将自动取消，并且交易历史记录将变得不可用。不幸的是，没有将订单和交易历史记录转移到新匹配器的技术手段，因为每个订单都是在用户使用其私钥对其进行签名后发送给匹配器的。由于旧匹配者或新匹配者都无法访问用户的私钥，因此无法转移订单。我们知道这可能令人沮丧，但是这种方法是匹配器设计的一个功能，它是维护用户资金安全所必需的。很抱歉给您带来不便。",
         "text18": "{div.margin-bottom} [我们已尽力确保迁移过程对用户来说尽可能顺利。如果您在移动帐户时遇到问题，请重新开始。为此，请返回旧的Web或桌面客户端，使用密码登录并按照说明进行操作。] \n\n {div.margin-bottom} [针对浏览器用户的建议：在迁移期间，请关闭所有浏览器扩展，因为它们可能会施加限制，从而干扰迁移。] \n\n {div.margin-bottom} [针对桌面客户端用户的建议：关闭防火墙或防病毒软件，因为它们可能会限制端口操作，从而干扰迁移。] \n\n {div.margin-top} [在任何情况下，您都会得到支持！您可以随时向我们的[官方电报组]（https://t.me/wavesexchange）发送消息，也可以在支持页面上创建故障单：[https://support.waves.exchange/](https:// support.waves.exchange/）]",
-        "text19": "{div.margin-bottom} [某些网关由Waves.Exchange团队操作，特别是：$ BTC，$ ETH，$ WEST，$ ERGO，$ BNT和$ USDT。] \n {div.margin-bottom} [同时，$ LTC，$ XMR，$ DASH，$ BCH，$ BSV，$ Zcash，wUSD和wEUR由Coinomat临时运营。] \n {div.margin-top} [在2019年12月2日的技术工作期间，网关将正常处理所有交易，这将确保完全的安全性和对您资金的访问。]",
+        "text19": "{div.margin-bottom}[某些网关由Waves.Exchange团队操作，特别是：$ BTC，$ ETH，$ WEST，$ ERGO，$ BNT和$ USDT。] \n {div.margin-bottom}[同时，$ LTC，$ XMR，$ DASH，$ BCH，$ BSV，$ Zcash，wUSD和wEUR由Coinomat临时运营。] \n {div.margin-top}[在2019年12月2日的技术工作期间，网关将正常处理所有交易，这将确保完全的安全性和对您资金的访问。]",
         "text2": "这是基于Waves DEX的技术和专业知识的新交易所。有关更多详细信息，请参见[此公告]（https://blog.wavesplatform.com/waves-dex-to-be-spun-off-43da9f6e2a91）。",
         "text20": "在迁移过程中，您的租约不会被取消。和以前一样，用户将能够使用Waves.Exchange的租赁界面将其WAVES租赁到他们选择的节点上，并每年收取高达7％的利息。",
         "text21": "USDT（ERC-20）网关的启动不会对wUSD和wEUR的运行产生影响。用户将能够继续根据需要进行交易。",
@@ -143,19 +146,19 @@
     },
     "modals": {
         "shutdownNotificationFirst": {
-            "message1": "Waves DEX will stop operating on December 2, 2019",
-            "message2": "To proceed to work with the exchange, you have to move your accounts to the new Waves.Exchange. We strongly recommend that you do this ASAP. The moving is fast, easy, and absolutely secure.",
+            "message1": "Waves DEX will cease operating on December 2, 2019.",
+            "message2": "To continue using the exchange, you should move your accounts to the new Waves.Exchange. We strongly recommend that you do this ASAP. The migration process is fast, easy, and absolutely secure.",
             "submit": "I understand",
             "title": "One day left!"
         },
         "shutdownNotificationLast": {
-            "message1": "Waves DEX is no longer working. The exchange moved to Waves.Exchange. Don't worry! You are still able to move your accounts from Waves DEX to Waves.Exchange. Thank you for the good times!",
+            "message1": "Waves DEX is no longer working. The exchange has moved to Waves.Exchange. \nDon’t worry – you can still move your accounts to the new service.\nThank for the good times!",
             "submit": "I understand",
             "title": "Time to move on!"
         },
         "shutdownNotificationSecond": {
-            "message1": "Waves DEX will stop operating in two hours.",
-            "message2": "To proceed to work with the exchange, you have to move your accounts to the new Waves.Exchange. We strongly recommend that you do this ASAP. The moving is fast, easy, and absolutely secure.",
+            "message1": "Waves DEX will cease operating in two hours.",
+            "message2": "To continue using the exchange, you should move your accounts to the new Waves.Exchange. We strongly recommend that you do this ASAP. The migration process is fast, easy, and absolutely secure.",
             "submit": "I understand",
             "title": "Two hours left!"
         }
