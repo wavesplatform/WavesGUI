@@ -1,4 +1,10 @@
 {
+    "desktopLocked": {
+        "newUser": {
+            "desc": "To offer users a better experience and wider range of tools, the exchange moved from Waves DEX to Waves.Exchange.",
+            "secondDesc": "To continue using the exchange, you should download the new desktop application."
+        }
+    },
     "desktopUpdate": {
         "almostThere": "快好了...",
         "backToPrevious": "返回上一个",
@@ -35,6 +41,18 @@
         "signInAndMove": "登录并开始移动",
         "toFinish": "要完成帐户的迁移，您必须转到新应用程序并完成授权过程。",
         "tryAgain": "再试一次"
+    },
+    "dexLocked": {
+        "multiAccount": {
+            "desc": "To start migrating, please sign in."
+        },
+        "newUser": {
+            "desc": "To offer users a better experience and wider range of tools, the exchange has moved from Waves DEX to Waves.Exchange."
+        },
+        "oldUser": {
+            "desc": "To continue working with your existing accounts, assets and the exchange, you should move your accounts to the new Waves.Exchange. We strongly recommend that you do this ASAP. The migration process is fast, easy, and absolutely secure."
+        },
+        "title": "We’re no longer operating this service"
     },
     "faq": {
         "attention": {
@@ -147,7 +165,7 @@
     "modals": {
         "shutdownNotificationFirst": {
             "message1": "Waves DEX will cease operating on December 2, 2019.",
-            "message2": "To continue using the exchange, you should move your accounts to the new Waves.Exchange. We strongly recommend that you do this ASAP. The migration process is fast, easy, and absolutely secure.",
+            "message2": "To continue working with your existing accounts, assets and the exchange, you should move your accounts to the new Waves.Exchange. We strongly recommend that you do this ASAP. The migration process is fast, easy, and absolutely secure.",
             "submit": "I understand",
             "title": "One day left!"
         },
@@ -158,7 +176,7 @@
         },
         "shutdownNotificationSecond": {
             "message1": "Waves DEX will cease operating in two hours.",
-            "message2": "To continue using the exchange, you should move your accounts to the new Waves.Exchange. We strongly recommend that you do this ASAP. The migration process is fast, easy, and absolutely secure.",
+            "message2": "To continue working with your existing accounts, assets and the exchange, you should move your accounts to the new Waves.Exchange. We strongly recommend that you do this ASAP. The migration process is fast, easy, and absolutely secure.",
             "submit": "I understand",
             "title": "Two hours left!"
         }

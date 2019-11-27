@@ -3,7 +3,7 @@
     "button": {
         "cancel": "Annuler",
         "continue": "Continuer",
-        "signIn": "Sign in"
+        "signIn": "Identifiez-vous"
     },
     "confirmTransaction": {
         "notPermitted": {
