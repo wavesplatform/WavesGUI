@@ -102,13 +102,12 @@
                     <p w-i18n="desktopLocked.newUser.desc"></p>
                     <p w-i18n="desktopLocked.newUser.secondDesc"></p>
                 </div>
-                <a target="_blank" rel="noopener noreferrer" href="https://wavesplatform.com/technology/wallet">
-                    <w-button
-                            class="submit long big"
-                    >
-                        <span w-i18n="desktopUpdate.download"></span>
-                    </w-button>
-                </a>
+                <w-button
+                        class="submit long big"
+                        on-click="$ctrl.moving()"
+                >
+                    <span w-i18n="desktopUpdate.download"></span>
+                </w-button>
             </div>
             <div ng-switch-when="multiAccount" class="multiAccount multiAccount_desktop">
                 <div class="multiAccount__img">
@@ -262,7 +261,6 @@
                         <img class="poof" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/43033/poof.svg" alt="" />
                         <div class="sign">
                         <svg width="32px" height="86px" viewBox="0 0 32 86" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                            <!-- Generator: Sketch 60.1 (88133) - https://sketch.com -->
                             <title>sign2</title>
                             <desc>Created with Sketch.</desc>
                             <g id="sign2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -275,7 +273,10 @@
                         </div>
                 </div>
                 <h3 class="new-user__title" w-i18n="dexLocked.title"></h3>
-                <div class="new-user__desc" w-i18n="dexLocked.newUser.desc"></div>
+                <div class="new-user__desc">
+                    <div w-i18n="dexLocked.newUser.desc"></div>
+                    <a href="{{::$ctrl.wavesExchangeLink}}" target="_blank" rel="noopener noreferrer">Waves.Exchange</a>.
+                </div>
             </div>
 
             <div ng-switch-when="multiAccount" class="multiAccount">
@@ -306,7 +307,6 @@
                         <img class="poof" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/43033/poof.svg" alt="" />
                         <div class="sign">
                         <svg width="32px" height="86px" viewBox="0 0 32 86" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                            <!-- Generator: Sketch 60.1 (88133) - https://sketch.com -->
                             <title>sign2</title>
                             <desc>Created with Sketch.</desc>
                             <g id="sign2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">

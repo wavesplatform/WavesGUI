@@ -47,7 +47,7 @@
             "desc": "To start migrating, please sign in."
         },
         "newUser": {
-            "desc": "To offer users a better experience and wider range of tools, the exchange has moved from Waves DEX to Waves.Exchange."
+            "desc": "To offer users a better experience and wider range of tools, the exchange has moved from Waves DEX to"
         },
         "oldUser": {
             "desc": "To continue working with your existing accounts, assets and the exchange, you should move your accounts to the new Waves.Exchange. We strongly recommend that you do this ASAP. The migration process is fast, easy, and absolutely secure."
