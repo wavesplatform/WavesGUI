@@ -3,7 +3,11 @@
         <div class="main-container-wrapper update-centering-wrapper">
 
             <div class="footer__wrap return-wrap">
-                <div ng-if="$ctrl._showMoving && !$ctrl.isOldDesktop" class="return-button" ng-click="$ctrl.toHome()">
+                <div
+                    ng-if="$ctrl._showMoving && !$ctrl.isOldDesktop && $ctrl.hasAccount"
+                    class="return-button"
+                    ng-click="$ctrl.toHome()"
+                >
                     <div class="return-button__arrow"></div>
                     <div class="return-button__text" w-i18n="desktopUpdate.return"></div>
                 </div>
@@ -12,7 +16,7 @@
             </div>
 
             <div class="center">
-                <div class="update-wrapper" ng-if="$ctrl.isOldDesktop && !$ctrl._showMoving">
+                <div class="update-wrapper" ng-if="$ctrl.isOldDesktop && !$ctrl._showMoving && $ctrl.hasAccount">
                     <div ng-if="$ctrl.state !== 'downloading'">
                         <div ng-if="!$ctrl.downloadDone">
                             <div class="migrate-modal__image migrate-modal__image_moving"></div>
@@ -114,9 +118,9 @@
                             <span class='cancel-btn' w-i18n="desktopUpdate.cancelDownloading"></span>
                         </div>
                     </div>
-            </div>
+                </div>
 
-                <div class="center update-wrapper" ng-if="$ctrl._showMoving">
+                <div class="center update-wrapper" ng-if="$ctrl._showMoving && $ctrl.hasAccount">
                 <div class="progress-bar">
                     <div class="progress-bar__item active"
                          ng-class="{ 'done': $ctrl.state !== 'askDownload' && $ctrl.state !== 'downloading' }">
@@ -229,6 +233,18 @@
 
                 </div>
             </div>
+
+                <div class="center update-wrapper" ng-if="$ctrl._showMoving && !$ctrl.hasAccount">
+                    <div ng-if="$ctrl.state === 'downloading'">
+                        <div class="step-title" w-i18n="desktopUpdate.pleaseWait"></div>
+                        <div class="download-bar__wrapper">
+                            <div class="download-bar" ng-style="{'width': $ctrl.progress + '%'}"></div>
+                        </div>
+                        <div class='cancel-btn' ng-click="$ctrl.cancelDownloadAndGoWelcome()">
+                            <span class='cancel-btn' w-i18n="desktopUpdate.cancelDownloading"></span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <w-footer class="footer update-footer"></w-footer>
