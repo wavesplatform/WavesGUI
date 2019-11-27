@@ -10,10 +10,10 @@
 	border-radius: @border-radius;
 
 	&__img {
+		position: relative;
 		height: 100px;
-		width: 100px;
-		background: @dex-closed-icon;
 		margin: 0 auto 20px;
+		overflow: hidden;
 	}
 
 	&__title {
@@ -110,14 +110,18 @@ div.dexw-locked {
 		}
 
 		&__img {
-			width: 80px;
-			height: 80px;
-			background-size: 100% 100%;
+			width: 256px;
 		}
 
 		&__plate {
 			padding: 12px;
 			align-items: center;
+		}
+	}
+
+	.new-user:not(.new-user_desktop) {
+		.new-user__desc {
+			padding: 0;
 		}
 	}
 }

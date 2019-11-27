@@ -2,7 +2,45 @@
     <div ng-switch-when="true" class="dexw-locked" ng-class="{'dexw-locked_authorised' : $ctrl.isAuthorised}">
         <div ng-switch="$ctrl.userType">
             <div ng-switch-when="old" class="old-user old-user_desktop">
-                <div class="old-user__img"></div>
+                <div class="old-user__img">
+                    <div class="scene">
+                        <div class="car">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="90" height="90" viewBox="0 0 90 90">
+                                <g fill="none" fill-rule="evenodd">
+                                    <path fill="#DFE8FF" fill-rule="nonzero" d="M61.5 65H5.03c-1.942 0-3.53-1.53-3.53-3.4V17.4c0-1.87 1.588-3.4 3.53-3.4h52.94c1.942 0 3.53 1.53 3.53 3.4V65z"/>
+                                    <rect width="42" height="15" x="10.5" y="30.5" fill="#CAD9FF" rx="1"/>
+                                    <rect width="12" height="9" x="10.5" y="48.5" fill="#CAD9FF" rx="1"/>
+                                    <rect width="12" height="9" x="25.5" y="48.5" fill="#CAD9FF" rx="1"/>
+                                    <rect width="12" height="9" x="40.5" y="48.5" fill="#CAD9FF" rx="1"/>
+                                    <path fill="#1F5AF6" d="M3.5 14h56a2 2 0 0 1 2 2v8.5h-60V16a2 2 0 0 1 2-2z"/>
+                                    <circle cx="7.125" cy="19.25" r="1.875" fill="#CCDAFF"/>
+                                    <circle cx="13.125" cy="19.25" r="1.875" fill="#CCDAFF" opacity=".5"/>
+                                    <circle cx="19.125" cy="19.25" r="1.875" fill="#CCDAFF" opacity=".1"/>
+                                    <path fill="#3E73FF" fill-rule="nonzero" d="M61.5 35h7.286C78.804 35 87 42.5 87 51.667V65H61.5V35z"/>
+                                    <path fill="#FFF" fill-rule="nonzero" d="M67.5 53.808V39.962h1.73c6.75 0 12.116 5.365 12.116 12.115v1.73H67.5z"/>
+                                    <path fill="#094DFF" fill-rule="nonzero" d="M87.404 70H2.596C1.212 70 0 68.833 0 67.5S1.212 65 2.596 65h84.808C88.788 65 90 66.167 90 67.5S88.788 70 87.404 70zM83 57h4v5h-4a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1z"/>
+                                    <circle cx="72.5" cy="67.5" r="8.5" fill="#094DFF"/>
+                                    <circle cx="72.5" cy="67.5" r="3.5" fill="#FFF"/>
+                                    <circle cx="19.5" cy="67.5" r="8.5" fill="#094DFF"/>
+                                    <circle cx="19.5" cy="67.5" r="3.5" fill="#FFF"/>
+                                </g>
+                            </svg>
+                        </div>
+                        <img class="poof" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/43033/poof.svg" alt="" />
+                        <div class="sign">
+                        <svg width="32px" height="86px" viewBox="0 0 32 86" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <!-- Generator: Sketch 60.1 (88133) - https://sketch.com -->
+                            <title>sign2</title>
+                            <desc>Created with Sketch.</desc>
+                            <g id="sign2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                <path d="M22.627417,0 L9.372583,0 L0,9.372583 L0,22.627417 L9.372583,32 L22.627417,32 L32,22.627417 L32,9.372583 L22.627417,0 Z M21.799,2 L30,10.201 L30,21.798 L21.798,30 L10.201,30 L2,21.799 L2,10.2 L10.2,2 L21.799,2 Z" id="Polygon" fill="#DAE1E9" fill-rule="nonzero"></path>
+                                <path d="M16,30 C16.5522847,30 17,30.4477153 17,31 L17,83 C17,83.5522847 16.5522847,84 16,84 C15.4477153,84 15,83.5522847 15,83 L15,31 C15,30.4477153 15.4477153,30 16,30 Z" id="Rectangle" fill="#DAE1E9"></path>
+                                <polygon id="Rectangle" fill="#1F5AF6" points="16 6 26 16 16 26 6 16"></polygon>
+                            </g>
+                        </svg>
+                        </div>
+                        </div>
+                </div>
                 <h3 class="old-user__title" w-i18n="dexLocked.title"></h3>
                 <div class="old-user__desc">
                     <p w-i18n="desktopLocked.newUser.desc"></p>
@@ -20,7 +58,45 @@
                 </w-button>
             </div>
             <div ng-switch-when="new" class="new-user new-user_desktop">
-                <div class="new-user__img"></div>
+                <div class="new-user__img">
+                    <div class="scene">
+                        <div class="car">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="90" height="90" viewBox="0 0 90 90">
+                                <g fill="none" fill-rule="evenodd">
+                                    <path fill="#DFE8FF" fill-rule="nonzero" d="M61.5 65H5.03c-1.942 0-3.53-1.53-3.53-3.4V17.4c0-1.87 1.588-3.4 3.53-3.4h52.94c1.942 0 3.53 1.53 3.53 3.4V65z"/>
+                                    <rect width="42" height="15" x="10.5" y="30.5" fill="#CAD9FF" rx="1"/>
+                                    <rect width="12" height="9" x="10.5" y="48.5" fill="#CAD9FF" rx="1"/>
+                                    <rect width="12" height="9" x="25.5" y="48.5" fill="#CAD9FF" rx="1"/>
+                                    <rect width="12" height="9" x="40.5" y="48.5" fill="#CAD9FF" rx="1"/>
+                                    <path fill="#1F5AF6" d="M3.5 14h56a2 2 0 0 1 2 2v8.5h-60V16a2 2 0 0 1 2-2z"/>
+                                    <circle cx="7.125" cy="19.25" r="1.875" fill="#CCDAFF"/>
+                                    <circle cx="13.125" cy="19.25" r="1.875" fill="#CCDAFF" opacity=".5"/>
+                                    <circle cx="19.125" cy="19.25" r="1.875" fill="#CCDAFF" opacity=".1"/>
+                                    <path fill="#3E73FF" fill-rule="nonzero" d="M61.5 35h7.286C78.804 35 87 42.5 87 51.667V65H61.5V35z"/>
+                                    <path fill="#FFF" fill-rule="nonzero" d="M67.5 53.808V39.962h1.73c6.75 0 12.116 5.365 12.116 12.115v1.73H67.5z"/>
+                                    <path fill="#094DFF" fill-rule="nonzero" d="M87.404 70H2.596C1.212 70 0 68.833 0 67.5S1.212 65 2.596 65h84.808C88.788 65 90 66.167 90 67.5S88.788 70 87.404 70zM83 57h4v5h-4a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1z"/>
+                                    <circle cx="72.5" cy="67.5" r="8.5" fill="#094DFF"/>
+                                    <circle cx="72.5" cy="67.5" r="3.5" fill="#FFF"/>
+                                    <circle cx="19.5" cy="67.5" r="8.5" fill="#094DFF"/>
+                                    <circle cx="19.5" cy="67.5" r="3.5" fill="#FFF"/>
+                                </g>
+                            </svg>
+                        </div>
+                        <img class="poof" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/43033/poof.svg" alt="" />
+                        <div class="sign">
+                            <svg width="32px" height="86px" viewBox="0 0 32 86" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <!-- Generator: Sketch 60.1 (88133) - https://sketch.com -->
+                                <title>sign2</title>
+                                <desc>Created with Sketch.</desc>
+                                <g id="sign2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <path d="M22.627417,0 L9.372583,0 L0,9.372583 L0,22.627417 L9.372583,32 L22.627417,32 L32,22.627417 L32,9.372583 L22.627417,0 Z M21.799,2 L30,10.201 L30,21.798 L21.798,30 L10.201,30 L2,21.799 L2,10.2 L10.2,2 L21.799,2 Z" id="Polygon" fill="#DAE1E9" fill-rule="nonzero"></path>
+                                    <path d="M16,30 C16.5522847,30 17,30.4477153 17,31 L17,83 C17,83.5522847 16.5522847,84 16,84 C15.4477153,84 15,83.5522847 15,83 L15,31 C15,30.4477153 15.4477153,30 16,30 Z" id="Rectangle" fill="#DAE1E9"></path>
+                                    <polygon id="Rectangle" fill="#1F5AF6" points="16 6 26 16 16 26 6 16"></polygon>
+                                </g>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
                 <h3 class="new-user__title" w-i18n="dexLocked.title"></h3>
                 <div class="new-user__desc">
                     <p w-i18n="desktopLocked.newUser.desc"></p>
@@ -35,7 +111,45 @@
                 </a>
             </div>
             <div ng-switch-when="multiAccount" class="multiAccount multiAccount_desktop">
-                <div class="multiAccount__img"></div>
+                <div class="multiAccount__img">
+                    <div class="scene">
+                        <div class="car">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="90" height="90" viewBox="0 0 90 90">
+                                <g fill="none" fill-rule="evenodd">
+                                    <path fill="#DFE8FF" fill-rule="nonzero" d="M61.5 65H5.03c-1.942 0-3.53-1.53-3.53-3.4V17.4c0-1.87 1.588-3.4 3.53-3.4h52.94c1.942 0 3.53 1.53 3.53 3.4V65z"/>
+                                    <rect width="42" height="15" x="10.5" y="30.5" fill="#CAD9FF" rx="1"/>
+                                    <rect width="12" height="9" x="10.5" y="48.5" fill="#CAD9FF" rx="1"/>
+                                    <rect width="12" height="9" x="25.5" y="48.5" fill="#CAD9FF" rx="1"/>
+                                    <rect width="12" height="9" x="40.5" y="48.5" fill="#CAD9FF" rx="1"/>
+                                    <path fill="#1F5AF6" d="M3.5 14h56a2 2 0 0 1 2 2v8.5h-60V16a2 2 0 0 1 2-2z"/>
+                                    <circle cx="7.125" cy="19.25" r="1.875" fill="#CCDAFF"/>
+                                    <circle cx="13.125" cy="19.25" r="1.875" fill="#CCDAFF" opacity=".5"/>
+                                    <circle cx="19.125" cy="19.25" r="1.875" fill="#CCDAFF" opacity=".1"/>
+                                    <path fill="#3E73FF" fill-rule="nonzero" d="M61.5 35h7.286C78.804 35 87 42.5 87 51.667V65H61.5V35z"/>
+                                    <path fill="#FFF" fill-rule="nonzero" d="M67.5 53.808V39.962h1.73c6.75 0 12.116 5.365 12.116 12.115v1.73H67.5z"/>
+                                    <path fill="#094DFF" fill-rule="nonzero" d="M87.404 70H2.596C1.212 70 0 68.833 0 67.5S1.212 65 2.596 65h84.808C88.788 65 90 66.167 90 67.5S88.788 70 87.404 70zM83 57h4v5h-4a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1z"/>
+                                    <circle cx="72.5" cy="67.5" r="8.5" fill="#094DFF"/>
+                                    <circle cx="72.5" cy="67.5" r="3.5" fill="#FFF"/>
+                                    <circle cx="19.5" cy="67.5" r="8.5" fill="#094DFF"/>
+                                    <circle cx="19.5" cy="67.5" r="3.5" fill="#FFF"/>
+                                </g>
+                            </svg>
+                        </div>
+                        <img class="poof" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/43033/poof.svg" alt="" />
+                        <div class="sign">
+                        <svg width="32px" height="86px" viewBox="0 0 32 86" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <!-- Generator: Sketch 60.1 (88133) - https://sketch.com -->
+                            <title>sign2</title>
+                            <desc>Created with Sketch.</desc>
+                            <g id="sign2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                <path d="M22.627417,0 L9.372583,0 L0,9.372583 L0,22.627417 L9.372583,32 L22.627417,32 L32,22.627417 L32,9.372583 L22.627417,0 Z M21.799,2 L30,10.201 L30,21.798 L21.798,30 L10.201,30 L2,21.799 L2,10.2 L10.2,2 L21.799,2 Z" id="Polygon" fill="#DAE1E9" fill-rule="nonzero"></path>
+                                <path d="M16,30 C16.5522847,30 17,30.4477153 17,31 L17,83 C17,83.5522847 16.5522847,84 16,84 C15.4477153,84 15,83.5522847 15,83 L15,31 C15,30.4477153 15.4477153,30 16,30 Z" id="Rectangle" fill="#DAE1E9"></path>
+                                <polygon id="Rectangle" fill="#1F5AF6" points="16 6 26 16 16 26 6 16"></polygon>
+                            </g>
+                        </svg>
+                        </div>
+                        </div>
+                </div>
                 <h3 class="multiAccount__title" w-i18n="dexLocked.title"></h3>
                 <div class="multiAccount__desc">
                     <p w-i18n="dexLocked.oldUser.desc"></p>
@@ -67,7 +181,45 @@
     <div ng-switch-when="false" class="dexw-locked">
         <div ng-switch="$ctrl.userType" class="userType-container">
             <div ng-switch-when="old" class="old-user">
-                <div class="old-user__img"></div>
+                <div class="old-user__img">
+                    <div class="scene">
+                        <div class="car">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="90" height="90" viewBox="0 0 90 90">
+                                <g fill="none" fill-rule="evenodd">
+                                    <path fill="#DFE8FF" fill-rule="nonzero" d="M61.5 65H5.03c-1.942 0-3.53-1.53-3.53-3.4V17.4c0-1.87 1.588-3.4 3.53-3.4h52.94c1.942 0 3.53 1.53 3.53 3.4V65z"/>
+                                    <rect width="42" height="15" x="10.5" y="30.5" fill="#CAD9FF" rx="1"/>
+                                    <rect width="12" height="9" x="10.5" y="48.5" fill="#CAD9FF" rx="1"/>
+                                    <rect width="12" height="9" x="25.5" y="48.5" fill="#CAD9FF" rx="1"/>
+                                    <rect width="12" height="9" x="40.5" y="48.5" fill="#CAD9FF" rx="1"/>
+                                    <path fill="#1F5AF6" d="M3.5 14h56a2 2 0 0 1 2 2v8.5h-60V16a2 2 0 0 1 2-2z"/>
+                                    <circle cx="7.125" cy="19.25" r="1.875" fill="#CCDAFF"/>
+                                    <circle cx="13.125" cy="19.25" r="1.875" fill="#CCDAFF" opacity=".5"/>
+                                    <circle cx="19.125" cy="19.25" r="1.875" fill="#CCDAFF" opacity=".1"/>
+                                    <path fill="#3E73FF" fill-rule="nonzero" d="M61.5 35h7.286C78.804 35 87 42.5 87 51.667V65H61.5V35z"/>
+                                    <path fill="#FFF" fill-rule="nonzero" d="M67.5 53.808V39.962h1.73c6.75 0 12.116 5.365 12.116 12.115v1.73H67.5z"/>
+                                    <path fill="#094DFF" fill-rule="nonzero" d="M87.404 70H2.596C1.212 70 0 68.833 0 67.5S1.212 65 2.596 65h84.808C88.788 65 90 66.167 90 67.5S88.788 70 87.404 70zM83 57h4v5h-4a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1z"/>
+                                    <circle cx="72.5" cy="67.5" r="8.5" fill="#094DFF"/>
+                                    <circle cx="72.5" cy="67.5" r="3.5" fill="#FFF"/>
+                                    <circle cx="19.5" cy="67.5" r="8.5" fill="#094DFF"/>
+                                    <circle cx="19.5" cy="67.5" r="3.5" fill="#FFF"/>
+                                </g>
+                            </svg>
+                        </div>
+                        <img class="poof" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/43033/poof.svg" alt="" />
+                        <div class="sign">
+                        <svg width="32px" height="86px" viewBox="0 0 32 86" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <!-- Generator: Sketch 60.1 (88133) - https://sketch.com -->
+                            <title>sign2</title>
+                            <desc>Created with Sketch.</desc>
+                            <g id="sign2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                <path d="M22.627417,0 L9.372583,0 L0,9.372583 L0,22.627417 L9.372583,32 L22.627417,32 L32,22.627417 L32,9.372583 L22.627417,0 Z M21.799,2 L30,10.201 L30,21.798 L21.798,30 L10.201,30 L2,21.799 L2,10.2 L10.2,2 L21.799,2 Z" id="Polygon" fill="#DAE1E9" fill-rule="nonzero"></path>
+                                <path d="M16,30 C16.5522847,30 17,30.4477153 17,31 L17,83 C17,83.5522847 16.5522847,84 16,84 C15.4477153,84 15,83.5522847 15,83 L15,31 C15,30.4477153 15.4477153,30 16,30 Z" id="Rectangle" fill="#DAE1E9"></path>
+                                <polygon id="Rectangle" fill="#1F5AF6" points="16 6 26 16 16 26 6 16"></polygon>
+                            </g>
+                        </svg>
+                        </div>
+                        </div>
+                </div>
                 <h3 class="old-user__title" w-i18n="dexLocked.title"></h3>
                 <div class="old-user__desc" w-i18n="dexLocked.oldUser.desc"></div>
                 <div class="old-user__plate">
@@ -83,13 +235,89 @@
             </div>
 
             <div ng-switch-when="new" class="new-user">
-                <div class="new-user__img"></div>
+                <div class="new-user__img">
+                    <div class="scene">
+                        <div class="car">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="90" height="90" viewBox="0 0 90 90">
+                                <g fill="none" fill-rule="evenodd">
+                                    <path fill="#DFE8FF" fill-rule="nonzero" d="M61.5 65H5.03c-1.942 0-3.53-1.53-3.53-3.4V17.4c0-1.87 1.588-3.4 3.53-3.4h52.94c1.942 0 3.53 1.53 3.53 3.4V65z"/>
+                                    <rect width="42" height="15" x="10.5" y="30.5" fill="#CAD9FF" rx="1"/>
+                                    <rect width="12" height="9" x="10.5" y="48.5" fill="#CAD9FF" rx="1"/>
+                                    <rect width="12" height="9" x="25.5" y="48.5" fill="#CAD9FF" rx="1"/>
+                                    <rect width="12" height="9" x="40.5" y="48.5" fill="#CAD9FF" rx="1"/>
+                                    <path fill="#1F5AF6" d="M3.5 14h56a2 2 0 0 1 2 2v8.5h-60V16a2 2 0 0 1 2-2z"/>
+                                    <circle cx="7.125" cy="19.25" r="1.875" fill="#CCDAFF"/>
+                                    <circle cx="13.125" cy="19.25" r="1.875" fill="#CCDAFF" opacity=".5"/>
+                                    <circle cx="19.125" cy="19.25" r="1.875" fill="#CCDAFF" opacity=".1"/>
+                                    <path fill="#3E73FF" fill-rule="nonzero" d="M61.5 35h7.286C78.804 35 87 42.5 87 51.667V65H61.5V35z"/>
+                                    <path fill="#FFF" fill-rule="nonzero" d="M67.5 53.808V39.962h1.73c6.75 0 12.116 5.365 12.116 12.115v1.73H67.5z"/>
+                                    <path fill="#094DFF" fill-rule="nonzero" d="M87.404 70H2.596C1.212 70 0 68.833 0 67.5S1.212 65 2.596 65h84.808C88.788 65 90 66.167 90 67.5S88.788 70 87.404 70zM83 57h4v5h-4a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1z"/>
+                                    <circle cx="72.5" cy="67.5" r="8.5" fill="#094DFF"/>
+                                    <circle cx="72.5" cy="67.5" r="3.5" fill="#FFF"/>
+                                    <circle cx="19.5" cy="67.5" r="8.5" fill="#094DFF"/>
+                                    <circle cx="19.5" cy="67.5" r="3.5" fill="#FFF"/>
+                                </g>
+                            </svg>
+                        </div>
+                        <img class="poof" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/43033/poof.svg" alt="" />
+                        <div class="sign">
+                        <svg width="32px" height="86px" viewBox="0 0 32 86" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <!-- Generator: Sketch 60.1 (88133) - https://sketch.com -->
+                            <title>sign2</title>
+                            <desc>Created with Sketch.</desc>
+                            <g id="sign2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                <path d="M22.627417,0 L9.372583,0 L0,9.372583 L0,22.627417 L9.372583,32 L22.627417,32 L32,22.627417 L32,9.372583 L22.627417,0 Z M21.799,2 L30,10.201 L30,21.798 L21.798,30 L10.201,30 L2,21.799 L2,10.2 L10.2,2 L21.799,2 Z" id="Polygon" fill="#DAE1E9" fill-rule="nonzero"></path>
+                                <path d="M16,30 C16.5522847,30 17,30.4477153 17,31 L17,83 C17,83.5522847 16.5522847,84 16,84 C15.4477153,84 15,83.5522847 15,83 L15,31 C15,30.4477153 15.4477153,30 16,30 Z" id="Rectangle" fill="#DAE1E9"></path>
+                                <polygon id="Rectangle" fill="#1F5AF6" points="16 6 26 16 16 26 6 16"></polygon>
+                            </g>
+                        </svg>
+                        </div>
+                        </div>
+                </div>
                 <h3 class="new-user__title" w-i18n="dexLocked.title"></h3>
                 <div class="new-user__desc" w-i18n="dexLocked.newUser.desc"></div>
             </div>
 
             <div ng-switch-when="multiAccount" class="multiAccount">
-                <div class="multiAccount__img"></div>
+                <div class="multiAccount__img">
+                    <div class="scene">
+                        <div class="car">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="90" height="90" viewBox="0 0 90 90">
+                                <g fill="none" fill-rule="evenodd">
+                                    <path fill="#DFE8FF" fill-rule="nonzero" d="M61.5 65H5.03c-1.942 0-3.53-1.53-3.53-3.4V17.4c0-1.87 1.588-3.4 3.53-3.4h52.94c1.942 0 3.53 1.53 3.53 3.4V65z"/>
+                                    <rect width="42" height="15" x="10.5" y="30.5" fill="#CAD9FF" rx="1"/>
+                                    <rect width="12" height="9" x="10.5" y="48.5" fill="#CAD9FF" rx="1"/>
+                                    <rect width="12" height="9" x="25.5" y="48.5" fill="#CAD9FF" rx="1"/>
+                                    <rect width="12" height="9" x="40.5" y="48.5" fill="#CAD9FF" rx="1"/>
+                                    <path fill="#1F5AF6" d="M3.5 14h56a2 2 0 0 1 2 2v8.5h-60V16a2 2 0 0 1 2-2z"/>
+                                    <circle cx="7.125" cy="19.25" r="1.875" fill="#CCDAFF"/>
+                                    <circle cx="13.125" cy="19.25" r="1.875" fill="#CCDAFF" opacity=".5"/>
+                                    <circle cx="19.125" cy="19.25" r="1.875" fill="#CCDAFF" opacity=".1"/>
+                                    <path fill="#3E73FF" fill-rule="nonzero" d="M61.5 35h7.286C78.804 35 87 42.5 87 51.667V65H61.5V35z"/>
+                                    <path fill="#FFF" fill-rule="nonzero" d="M67.5 53.808V39.962h1.73c6.75 0 12.116 5.365 12.116 12.115v1.73H67.5z"/>
+                                    <path fill="#094DFF" fill-rule="nonzero" d="M87.404 70H2.596C1.212 70 0 68.833 0 67.5S1.212 65 2.596 65h84.808C88.788 65 90 66.167 90 67.5S88.788 70 87.404 70zM83 57h4v5h-4a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1z"/>
+                                    <circle cx="72.5" cy="67.5" r="8.5" fill="#094DFF"/>
+                                    <circle cx="72.5" cy="67.5" r="3.5" fill="#FFF"/>
+                                    <circle cx="19.5" cy="67.5" r="8.5" fill="#094DFF"/>
+                                    <circle cx="19.5" cy="67.5" r="3.5" fill="#FFF"/>
+                                </g>
+                            </svg>
+                        </div>
+                        <img class="poof" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/43033/poof.svg" alt="" />
+                        <div class="sign">
+                        <svg width="32px" height="86px" viewBox="0 0 32 86" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <!-- Generator: Sketch 60.1 (88133) - https://sketch.com -->
+                            <title>sign2</title>
+                            <desc>Created with Sketch.</desc>
+                            <g id="sign2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                <path d="M22.627417,0 L9.372583,0 L0,9.372583 L0,22.627417 L9.372583,32 L22.627417,32 L32,22.627417 L32,9.372583 L22.627417,0 Z M21.799,2 L30,10.201 L30,21.798 L21.798,30 L10.201,30 L2,21.799 L2,10.2 L10.2,2 L21.799,2 Z" id="Polygon" fill="#DAE1E9" fill-rule="nonzero"></path>
+                                <path d="M16,30 C16.5522847,30 17,30.4477153 17,31 L17,83 C17,83.5522847 16.5522847,84 16,84 C15.4477153,84 15,83.5522847 15,83 L15,31 C15,30.4477153 15.4477153,30 16,30 Z" id="Rectangle" fill="#DAE1E9"></path>
+                                <polygon id="Rectangle" fill="#1F5AF6" points="16 6 26 16 16 26 6 16"></polygon>
+                            </g>
+                        </svg>
+                        </div>
+                        </div>
+                </div>
                 <h3 class="multiAccount__title" w-i18n="dexLocked.title"></h3>
                 <div class="multiAccount__desc">
                     <p w-i18n="dexLocked.oldUser.desc"></p>

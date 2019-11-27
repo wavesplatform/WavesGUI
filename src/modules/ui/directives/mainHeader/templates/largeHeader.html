@@ -1,6 +1,5 @@
-<a class="logo logo-header" href="/"></a>
-
-<w-change-language class="change-language_header" ng-if="!$ctrl.isLogined"></w-change-language>
+<span class="logo logo-header" ng-if="$ctrl.isLogined"></span>
+<a class="logo logo-header" ng-if="!$ctrl.isLogined" href="/"></a>
 
 <w-click-outside on-click-outside="$ctrl.closeDropdown()" ng-if="$ctrl.isLogined">
     <div class="main-header__user {{SELECTORS.MAIN_HEADER_USER}}">

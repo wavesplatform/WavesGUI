@@ -5,196 +5,197 @@
 
 body.desktop:not(.web) {
   w-web-only {
-    &:empty {
-      display: none;
-    }
-  }
-
-  .change-language_header {
-      display: none;
+		&:empty {
+			display: none;
+		}
   }
 
   .dexw-locked {
-      background: @color-white;
+		background: @color-white;
 
-      &_authorised {
-          background: transparent;
-      }
-  }
+		&_authorised {
+			background: transparent;
+		}
+	}
+	
+	.welcome-container {
+		padding: 20px 0;
+	}
 
   .import-modal__blocks-wrapper {
-    flex-direction: column;
-    max-width: @getStartedContentWidth;
-    margin: auto;
-    margin-top: 40px;
+		flex-direction: column;
+		max-width: @getStartedContentWidth;
+		margin: auto;
+		margin-top: 40px;
   }
 
   .import-modal__block {
-    padding: 20px;
-    margin: 0 0 10px;
-    display: flex;
-    flex-direction: row;
+		padding: 20px;
+		margin: 0 0 10px;
+		display: flex;
+		flex-direction: row;
   }
 
   .import-modal__icon {
-    margin: 0;
-    width: 40px;
-    height: 40px;
+		margin: 0;
+		width: 40px;
+		height: 40px;
   }
 
   .import-modal__content {
-    text-align: left;
-    margin-left: 20px;
+		text-align: left;
+		margin-left: 20px;
 
-    &-title {
-      margin-bottom: 4px;
-    }
+		&-title {
+			margin-bottom: 4px;
+		}
   }
 
   ui-view[name="main"] {
-    display: flex;
-    flex-direction: column;
+		display: flex;
+		flex-direction: column;
   }
 
   .main-container {
-    min-height: calc(100vh ~'- 136px');
+		min-height: calc(100vh ~'- 136px');
 
-    &-wrapper {
-      min-height: auto;
-      @media screen and (max-height: 768px) {
-        min-height: 700px;
-      }
-    }
+		&-wrapper {
+			min-height: auto;
+
+			@media screen and (max-height: 768px) {
+				min-height: 700px;
+			}
+		}
   }
 
   div.wrapper {
-    display: flex;
-    flex-direction: column;
-    background: @color-white;
+		display: flex;
+		flex-direction: column;
+		background: @color-white;
   }
 
   .section-contest {
-    display: none;
+		display: none;
   }
 
   .footer {
-    background: @color-info-50;
-    width: 100%;
+	background: @color-info-50;
+	width: 100%;
 
-    &__wrap {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px;
-      color: @color-basic-500;
-      font-size: 13px;
-    }
+		&__wrap {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-between;
+			padding: 12px;
+			color: @color-basic-500;
+			font-size: 13px;
+		}
 
-    &__left {
-      margin-left: auto;
-      flex-direction: row-reverse;
-      display: flex;
-      align-items: center;
+		&__left {
+			margin-left: auto;
+			flex-direction: row-reverse;
+			display: flex;
+			align-items: center;
 
-      &-item {
-        white-space: nowrap;
-        .footnote-1();
-        color: @color-basic-500;
-        margin-left: 15px;
-        margin-bottom: 0;
-      }
-    }
+			&-item {
+				white-space: nowrap;
+				.footnote-1();
+				color: @color-basic-500;
+				margin-left: 15px;
+				margin-bottom: 0;
+			}
+		}
 
-    &-actions {
-      display: flex;
-    }
+		&-actions {
+			display: flex;
+		}
 
-    &-action {
-      align-items: center;
-      display: inline-flex;
+		&-action {
+			align-items: center;
+			display: inline-flex;
 
-      &:not(:first-child) {
-        margin-left: 10px;
+			&:not(:first-child) {
+				margin-left: 10px;
 
-        &:before {
-          content: '';
-          height: 14px;
-          width: 1px;
-          margin-right: 10px;
-          background: @color-basic-300;
-        }
-      }
-    }
+				&:before {
+					content: '';
+					height: 14px;
+					width: 1px;
+					margin-right: 10px;
+					background: @color-basic-300;
+				}
+			}
+		}
 
-    &-copyright {
-      white-space: nowrap;
-      .footnote-1();
-      color: @color-basic-500;
-      margin-left: 15px;
-      margin-bottom: 0;
-    }
+		&-copyright {
+			white-space: nowrap;
+			.footnote-1();
+			color: @color-basic-500;
+			margin-left: 15px;
+			margin-bottom: 0;
+		}
 
-    .select .select__wrap .select__title {
-      background: transparent;
+		.select .select__wrap .select__title {
+			background: transparent;
 
-      &:after {
-        width: 10px;
-        height: 10px;
-        background: @select-arrow-icon;
-      }
-    }
+			&:after {
+				width: 10px;
+				height: 10px;
+				background: @select-arrow-icon;
+			}
+		}
 
-    .lng-item span {
-      color: @color-basic-700;
-    }
+		.lng-item span {
+			color: @color-basic-700;
+		}
   }
 
   .section-welcome {
-    padding: 40px 0;
-    height: auto;
-    min-height: calc(~'100%' - 76px);
-    margin: auto;
-    display: flex;
+		padding: 40px 0;
+		height: auto;
+		min-height: calc(~'100%' - 76px);
+		margin: auto;
+		display: flex;
 
-    .dex-screenshot {
-      display: none;
-    }
+		.dex-screenshot {
+			display: none;
+		}
 
-    .left-side {
-      max-width: 600px;
-      display: flex;
-      flex-direction: column;
-      text-align: center;
-      align-items: center;
-      margin: auto;
-    }
+		.left-side {
+			max-width: 600px;
+			display: flex;
+			flex-direction: column;
+			text-align: center;
+			align-items: center;
+			margin: auto;
+		}
 
-    .welcome-text {
-      font-size: 38px;
-    }
+		.welcome-text {
+			font-size: 38px;
+		}
 
-    &__wrapper {
-      justify-content: center;
-      text-align: center;
-    }
+		&__wrapper {
+			justify-content: center;
+			text-align: center;
+		}
   }
 
   &.welcome {
-    .footer_no-authorised {
-      background: @color-white;
-    }
+		.footer_no-authorised {
+			background: @color-white;
+		}
   }
 
   a.logo-header {
-    margin: auto;
+		margin: auto;
   }
 
   @media screen and (max-width: 1440px) {
-    .section-wrapper {
-      padding-left: 20px;
-      padding-right: 20px;
-    }
+		.section-wrapper {
+			padding-left: 20px;
+			padding-right: 20px;
+		}
   }
 }
 
@@ -202,15 +203,15 @@ body.desktop:not(.web) {
 
 body.desktopUpdate:not(.web) {
   .main-container {
-    min-height: 100vh;
+		min-height: 100vh;
 
-    &-wrapper {
+		&-wrapper {
 			min-height: auto;
 			background: @color-white;
 			
-      @media screen and (max-height: 768px) {
-        min-height: 700px;
-      }
-    }
+			@media screen and (max-height: 768px) {
+				min-height: 700px;
+			}
+		}
   }
 }

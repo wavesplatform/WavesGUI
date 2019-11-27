@@ -1,0 +1,142 @@
+@import (reference) 'config';
+@import (reference) 'icons';
+
+.scene{
+  position:absolute; 
+  width:400px;
+  height: 160px;
+  top: -50px;
+  left:50%;
+  overflow:hidden;
+  transform: translateX(-50%);
+  &:after{
+    content:" ";
+    left:0;
+    top:0;
+    bottom:0;
+    width:100px;
+    background: @moving-gradient-left;
+    position:absolute;
+    z-index: 99999;
+  }
+  &:before{
+    content:" ";
+    right:0;
+    top:0;
+    bottom:0;
+    width:100px;
+    background: @moving-gradient-right;
+    position:absolute;
+    z-index: 99999;
+  }
+  em{
+    display:none;
+    position:absolute;
+    bottom:20px;
+    left:55px;
+    right:0;
+    text-align:center;
+    font-style:normal;
+    // font-family:Proxima Nova;
+    color:#0bb4a6;
+    letter-spacing:0.2em;
+  }
+}
+
+.car{
+  position:absolute;
+  top:10px;
+  left:50%;
+  z-index:900;
+  margin-left:-30px;
+  animation: peel 4s ease-in-out forwards infinite, bump 0.2s linear infinite;
+}
+
+.poof{
+  position:absolute;
+  top:110px; 
+  left:160px;
+  margin-left:-30px;
+  opacity:0;
+  animation: poof 4s ease-in-out forwards infinite;
+}
+
+.sign{
+  position:absolute;
+  right:-40px;
+  top:58px;
+  z-index:100;
+  animation: sign 4s ease-in-out forwards infinite;
+}
+
+@keyframes sign {
+  0% {
+    right:-40px;
+  }
+  30% {
+    right:80px; 
+  }
+  70% {
+    right:80px;
+  }
+  100% {
+    right:100%;
+  }
+}
+
+@keyframes peel {
+  0% {
+    transform: rotate(0deg);
+  }
+  70% {
+    transform: rotate(0deg); 
+  }
+  73% {
+    transform: rotate(-9deg);
+  }
+  95% {
+    transform: rotate(-9deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes poof {
+  0% {
+    opacity:0;
+    transform: scale(1.0);
+  }
+  70% {
+    opacity:0;
+    left:170px;
+    transform: scale(1.0);
+  }
+  76% {
+    opacity:1;
+    transform: scale(1.3);
+    left:160px;
+  }
+  95% {
+    opacity:0;
+  }
+  100% {
+    opacity:0;
+    transform: scale(1.3);
+  }
+}
+
+@keyframes bump {
+  0% {
+    top:70px;
+  }
+  50% {
+    top:70px;
+  }
+  60% {
+    top:69px;
+  }
+  100% {
+    top:70px;
+  }
+}

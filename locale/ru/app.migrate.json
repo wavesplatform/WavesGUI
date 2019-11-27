@@ -43,7 +43,7 @@
         "tryAgain": "Попробовать ещё раз"
     },
     "dexLocked": {
-        "multiAcccount": {
+        "multiAccount": {
             "desc": "Чтобы начать миграцию, войдите в свой аккаунт. "
         },
         "newUser": {

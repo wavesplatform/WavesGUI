@@ -43,7 +43,7 @@
         "tryAgain": "Réessayez"
     },
     "dexLocked": {
-        "multiAcccount": {
+        "multiAccount": {
             "desc": "Pour commencer la migration, veuillez vous connecter."
         },
         "newUser": {
