@@ -36,7 +36,7 @@
                                     <form name="$ctrl.signInForm" ng-submit="$ctrl.signInAndExport()">
                                         <w-input-container class="margin-4">
                                             <div class="text-left body-2 margin-05">
-                                                <span w-i18n-ns="app.signIn" w-i18n="userList.password"></span>
+                                                <span w-i18n="desktopUpdate.password"></span>
                                             </div>
 
                                             <w-show-hide-password>
@@ -52,7 +52,7 @@
                                             </w-show-hide-password>
 
                                             <div class="like-input-error" ng-if="$ctrl.showPasswordError">
-                                                <span class="error active" w-i18n-ns="app.signIn" w-i18n="password.error"></span>
+                                                <span class="error active" w-i18n="desktopUpdate.passwordError"></span>
                                             </div>
                                         </w-input-container>
 
@@ -73,7 +73,7 @@
                                         on-click="$ctrl.download()"
                                         class="submit big big-btn"
                                     >
-                                        <span w-i18n-ns="app.welcome" w-i18n="welcome.download"></span>
+                                        <span w-i18n="desktopUpdate.download"></span>
                                     </w-button>
 
                                     <w-button
@@ -158,7 +158,7 @@
                                 <span class='capitalize' w-i18n="desktopUpdate.downloaded"></span>
                             </w-button>
                             <w-button class="big submit" on-click="$ctrl.download()">
-                                <span class='capitalize' w-i18n-ns="app.welcome" w-i18n="welcome.download"></span>
+                                <span class='capitalize' w-i18n="desktopUpdate.download"></span>
                             </w-button>
                         </div>
                     </div>
@@ -175,11 +175,11 @@
 
                     <div ng-if="$ctrl.state === 'installAndRun'">
                         <div ng-class="{ visible: $ctrl._showSteps }" class="step-title step-title_first">
-                            <span class="basic-100">1</span>
+                            <span class="basic-100">1. </span>
                             <span w-i18n="desktopUpdate.install"></span>
                         </div>
                         <div ng-class="{ visible: $ctrl._showSteps }" class="step-title step-title_second">
-                            <span class="basic-100">2</span>
+                            <span class="basic-100">2. </span>
                             <span w-i18n="desktopUpdate.run"></span>
                         </div>
 

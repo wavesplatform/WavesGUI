@@ -164,21 +164,21 @@
     },
     "modals": {
         "shutdownNotificationFirst": {
-            "message1": "Waves DEX cessera de fonctionner le 2 décembre 2019",
-            "message2": "Pour continuer à travailler avec l'échange, vous devez déplacer vos comptes vers le nouveau Waves.Exchange. Nous vous recommandons fortement de le faire dès que possible. Le déménagement est rapide, facile et absolument sécurisé.",
-            "submit": "Je comprends",
-            "title": "Il reste un jour !"
+            "message1": "Waves DEX will stop operating on December 2, 2019",
+            "message2": "To proceed to work with the exchange, you have to move your accounts to the new Waves.Exchange. We strongly recommend that you do this ASAP. The moving is fast, easy, and absolutely secure.",
+            "submit": "I understand",
+            "title": "One day left!"
         },
         "shutdownNotificationLast": {
-            "message1": "Waves DEX ne fonctionne plus. L'échange est passé à Waves.Exchange. Ne vous inquiétez pas - vous pouvez toujours déplacer vos comptes vers le nouveau service. Merci pour les bons moments !",
-            "submit": "Je comprends.",
-            "title": "Il est temps de passer à autre chose !"
+            "message1": "Waves DEX is no longer working. The exchange moved to Waves.Exchange. Don't worry! You are still able to move your accounts from Waves DEX to Waves.Exchange. Thank you for the good times!",
+            "submit": "I understand",
+            "title": "Time to move on!"
         },
         "shutdownNotificationSecond": {
-            "message1": "Waves DEX cessera de fonctionner dans deux heures.",
-            "message2": "Pour continuer à travailler avec l'échange, vous devez déplacer vos comptes vers le nouveau Waves.Exchange. Nous vous recommandons fortement de le faire dès que possible. Le déménagement est rapide, facile et absolument sécurisé.",
-            "submit": "Je comprends",
-            "title": "Il reste deux heures !"
+            "message1": "Waves DEX will stop operating in two hours.",
+            "message2": "To proceed to work with the exchange, you have to move your accounts to the new Waves.Exchange. We strongly recommend that you do this ASAP. The moving is fast, easy, and absolutely secure.",
+            "submit": "I understand",
+            "title": "Two hours left!"
         }
     }
 }
