@@ -1,4 +1,10 @@
 {
+    "desktopLocked": {
+        "newUser": {
+            "desc": "Чтобы улучшить пользовательский опыт и предложить более широкий набор инструментов, биржа переехала с Waves DEX на Waves.Exchange.",
+            "secondDesc": "Чтобы продолжить пользоваться биржей, нужно скачать новое десктопное приложение."
+        }
+    },
     "desktopUpdate": {
         "almostThere": "Еще немного...",
         "backToPrevious": "Назад",
@@ -35,6 +41,18 @@
         "signInAndMove": "Войти и начать миграцию",
         "toFinish": "Чтобы завершить процесс миграции, необходимо открыть новое приложение и пройти авторизацию.",
         "tryAgain": "Попробовать ещё раз"
+    },
+    "dexLocked": {
+        "multiAccount": {
+            "desc": "Чтобы начать миграцию, войдите в свой аккаунт. "
+        },
+        "newUser": {
+            "desc": "Чтобы улучшить пользовательский опыт и предложить более широкий набор инструментов, биржа переехала с Waves DEX на Waves.Exchange."
+        },
+        "oldUser": {
+            "desc": "Если Вы хотите продолжить работать со своими аккаунтами, токенами и биржей, перенесите свои аккаунты на Waves.Exchange. Настоятельно рекомендуем сделать это как можно скорее. Процесс миграции – быстрый, простой и абсолютно безопасный."
+        },
+        "title": "Мы больше не поддерживаем этот сервис"
     },
     "faq": {
         "attention": {
@@ -146,21 +164,21 @@
     },
     "modals": {
         "shutdownNotificationFirst": {
-            "message1": "Waves DEX will stop operating on December 2, 2019",
-            "message2": "To proceed to work with the exchange, you have to move your accounts to the new Waves.Exchange. We strongly recommend that you do this ASAP. The moving is fast, easy, and absolutely secure.",
-            "submit": "I understand",
-            "title": "One day left!"
+            "message1": "Waves DEX прекратит работу 2 декабря 2019 года.",
+            "message2": "Если Вы хотите продолжить использовать биржу, перенесите свои аккаунты на Waves.Exchange. Настоятельно рекомендуем сделать это как можно скорее. Процесс миграции – быстрый, простой и абсолютно безопасный.",
+            "submit": "Больше не показывать",
+            "title": "Остался один день!"
         },
         "shutdownNotificationLast": {
-            "message1": "Waves DEX is no longer working. The exchange moved to Waves.Exchange. Don't worry! You are still able to move your accounts from Waves DEX to Waves.Exchange. Thank you for the good times!",
-            "submit": "I understand",
-            "title": "Time to move on!"
+            "message1": "Waves DEX больше не работает. Биржа переехала на Waves.Exchange. \nНе волнуйтесь, Вы все еще можете перенести свои аккаунты на новую биржу. \nСпасибо за хорошие времена!",
+            "submit": "Больше не показывать",
+            "title": "Время переехать!"
         },
         "shutdownNotificationSecond": {
-            "message1": "Waves DEX will stop operating in two hours.",
-            "message2": "To proceed to work with the exchange, you have to move your accounts to the new Waves.Exchange. We strongly recommend that you do this ASAP. The moving is fast, easy, and absolutely secure.",
-            "submit": "I understand",
-            "title": "Two hours left!"
+            "message1": "Waves DEX прекратит работу через два часа.",
+            "message2": "Если Вы хотите продолжить использовать биржу, перенесите свои аккаунты на Waves.Exchange. Настоятельно рекомендуем сделать это как можно скорее. Процесс миграции – быстрый, простой и абсолютно безопасный.",
+            "submit": "Больше не показывать",
+            "title": "Осталось два часа!"
         }
     }
 }

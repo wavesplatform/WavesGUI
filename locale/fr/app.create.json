@@ -28,7 +28,7 @@
         "avatarUnique": "Cet avatar est unique. Vous ne pourrez pas le changer plus tard.",
         "choose": "Choisissez l'avatar de votre adresse",
         "create": "Créer un nouveau compte",
-        "createAccount": "Create a new account",
+        "createAccount": "Créer un nouveau compte",
         "createDescription": "Rapide et gratuit",
         "createNewAccount": "Choisissez votre avatar",
         "description": {
@@ -45,7 +45,7 @@
             "withBlockchain": "Get Started with Blockchain"
         },
         "import": "Importer des comptes",
-        "importDescription": "via une Phrase Secrète (SEED), Ledger ou Keeper",
+        "importDescription": "via Seed ou clé privée, Ledger, fichier Keystore",
         "protect": "Protéger votre compte avec un mot de passe ou",
         "protectYourAccount": "Protéger votre compte",
         "restore": "Restaurez un compte",

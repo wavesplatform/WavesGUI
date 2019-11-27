@@ -1,4 +1,10 @@
 {
+    "desktopLocked": {
+        "newUser": {
+            "desc": "Om gebruikers een betere ervaring en een breder scala aan tools te bieden, is de uitwisseling verplaatst van Waves DEX naar Waves.Exchange.",
+            "secondDesc": "Als u de exchange wilt blijven gebruiken, moet u de nieuwe desktoptoepassing downloaden."
+        }
+    },
     "desktopUpdate": {
         "almostThere": "Bijna daar ...",
         "backToPrevious": "Terug naar vorige",
@@ -24,8 +30,8 @@
         "movingText": "{div.margin-bottom} [Om gebruikers een betere ervaring en een breder scala aan tools te bieden, verhuist de exchange van Waves DEX naar Waves.Exchange.] \n {div.margin-bottom} [Waves DEX stopt met werken op 2 december 2019. Om door te gaan met handelen moet u uw accounts verplaatsen naar de nieuwe uitwisseling. We raden u ten zeerste aan dit van tevoren te doen.] \n {div.margin-bottom} [Het verplaatsen gaat snel, gemakkelijk en absoluut veilig.]",
         "oldApplication": "Uw huidige applicatie is te oud. Als u nu meteen wilt handelen (vóór 2 december 2019), kunt u onze nieuwste Waves DEX-desktopapplicatie downloaden van de [officiële website](https://dex.wavesplatform.com).",
         "oops": "Oeps! Er ging iets mis...",
-        "password": "Password",
-        "passwordError": "Wrong Password!",
+        "password": "Wachtwoord",
+        "passwordError": "Onjuist wachtwoord!",
         "pleaseWait": "Downloaden ...",
         "return": "Ga terug",
         "run": "Voer de geïnstalleerde applicatie uit",
@@ -35,6 +41,18 @@
         "signInAndMove": "Aanmelden & Verhuizen",
         "toFinish": "Om de migratie van uw accounts te voltooien, moet u naar de nieuwe applicatie gaan en het autorisatieproces voltooien.",
         "tryAgain": "Probeer opnieuw"
+    },
+    "dexLocked": {
+        "multiAccount": {
+            "desc": "Meld u aan om te beginnen met migreren."
+        },
+        "newUser": {
+            "desc": "Om gebruikers een betere ervaring en een breder scala aan tools te bieden, is de exchange  verplaatst van Waves DEX naar Waves.Exchange."
+        },
+        "oldUser": {
+            "desc": "Als u wilt blijven werken met uw bestaande accounts, funds en de exchange, moet u uw accounts verplaatsen naar de nieuwe Waves.Exchange. We raden u ten zeerste aan dit zo snel mogelijk te doen. Het migratieproces is snel, eenvoudig en absoluut veilig."
+        },
+        "title": "We gebruiken deze service niet meer"
     },
     "faq": {
         "attention": {
@@ -147,18 +165,18 @@
     "modals": {
         "shutdownNotificationFirst": {
             "message1": "Waves DEX stopt met werken op 2 december 2019",
-            "message2": "Om met de exchange te kunnen werken, moet u uw accounts naar de nieuwe Waves.Exchange verplaatsen. We raden u ten zeerste aan dit zo snel mogelijk te doen. Het verplaatsen gaat snel, gemakkelijk en is absoluut veilig.",
+            "message2": "Om te blijven werken met uw bestaande accounts, funds en de exchange, moet deze verplaatsen naar de nieuwe Waves.Exchange. Wij raden u ten zeerste aan doen deze zo snel mogelijk. De migratie proces is snel, eenvoudig en absoluut veilig.",
             "submit": "Ik begrijp het",
             "title": "Nog een dag!"
         },
         "shutdownNotificationLast": {
-            "message1": "Waves DEX werkt niet meer. De exchange is verplaatst naar Waves.Exchange.",
+            "message1": "Waves DEX werkt niet meer. De exchange is verplaatst naar Waves.Exchange. \nMaak je geen zorgen - je kunt je accounts nog steeds naar de nieuwe service verplaatsen. \nBedankt voor de mooie tijden!",
             "submit": "Ik begrijp het",
             "title": "Tijd om verder te gaan!"
         },
         "shutdownNotificationSecond": {
             "message1": "Waves DEX stopt over twee uur met werken.",
-            "message2": "Om met de exchange te kunnen werken, moet u uw accounts naar de nieuwe Waves.Exchange verplaatsen. We raden u ten zeerste aan dit zo snel mogelijk te doen. Het verplaatsen gaat snel, gemakkelijk en is absoluut veilig.",
+            "message2": "Als u wilt blijven werken met uw bestaande accounts, funds en de exchange, moet u uw accounts verplaatsen naar de nieuwe Waves.Exchange. We raden u ten zeerste aan dit zo snel mogelijk te doen. Het migratieproces is snel, eenvoudig en absoluut veilig.",
             "submit": "Ik begrijp het",
             "title": "Nog twee uur!"
         }
