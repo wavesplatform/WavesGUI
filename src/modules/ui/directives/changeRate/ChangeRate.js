@@ -34,6 +34,10 @@
                  */
                 this.date = null;
                 /**
+                 * @type {number}
+                 */
+                this.precision = null;
+                /**
                  * @type {Poll}
                  */
                 this.poll = null;
@@ -46,7 +50,7 @@
 
                 waves.node.assets.getAsset(user.getSetting('baseAssetId'))
                     .then((mirror) => {
-                        this.mirror = mirror;
+                        this.mirror = { ...mirror };
 
                         if (!this.noUpdate) {
                             this.poll = createPoll(this, this._getRate, 'rate', this.interval, { $scope });
@@ -87,11 +91,12 @@
     angular.module('app.ui').component('wChangeRate', {
         bindings: {
             assetId: '<',
+            precision: '<',
             noUpdate: '@',
             interval: '@',
             date: '@'
         },
-        template: '<span w-nice-number="$ctrl.rate" precision="$ctrl.mirror.precision" class="z-top"></span>',
+        template: '<span w-nice-number="$ctrl.rate" precision="$ctrl.precision || $ctrl.mirror.precision" class="z-top"></span>',
         transclude: false,
         controller
     });

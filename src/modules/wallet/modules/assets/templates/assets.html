@@ -29,7 +29,7 @@
                              value="::asset.id">
                         <span class="radio__name">{{::asset.name}}<span class="radio__dot">•</span></span>
                         <span class="radio__symb">$</span>
-                        <w-change-rate asset-id="::asset.id"></w-change-rate>
+                        <w-change-rate asset-id="::asset.id" precision="$ctrl.toPrecision"></w-change-rate>
                     </w-radio>
                 </w-radio-wrap>
 
@@ -62,7 +62,7 @@
         <div class="chart-info">
             <div class="rate">
                 <h1>
-                    $&nbsp;<w-change-rate asset-id="$ctrl.activeChartAssetId"></w-change-rate>
+                    $&nbsp;<w-change-rate asset-id="$ctrl.activeChartAssetId" precision="$ctrl.toPrecision"></w-change-rate>
                 </h1>
                 <div class="tag-1 info-500">
                     <span w-i18n="price" params="{currency: $ctrl.activeChartBalance.asset.name.toUpperCase()}"></span>

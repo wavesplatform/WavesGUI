@@ -99,6 +99,7 @@
              */
             theme = 'default';
 
+            toPrecision = 2;
             dateToHours = date('hh:mm');
             dateToDates = date('DD/MM');
 
@@ -318,8 +319,8 @@
                     .then(([precision, values]) => {
                         const first = values[0].rate;
                         const last = values[values.length - 1].rate;
-                        this.change = (last - first).toFixed(precision);
-                        this.changePercent = ((last - first) / first * 100).toFixed(precision);
+                        this.change = (last - first).toFixed(this.toPrecision);
+                        this.changePercent = ((last - first) / first * 100).toFixed(this.toPrecision);
                         return ({
                             rate: values
                         });
