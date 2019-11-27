@@ -40,7 +40,7 @@
                     network: WavesApp.network,
                     oracleWaves: WavesApp.oracles.waves,
                     dontShowSpam: true,
-                    logoutAfterMin: 5,
+                    logoutAfterMin: 0.001,
                     termsAccepted: true,
                     needReadNewTerms: false,
                     closedNotification: [],
@@ -48,7 +48,7 @@
                     scamListUrl: WavesApp.network.scamListUrl,
                     tokensNameListUrl: WavesApp.network.tokensNameListUrl,
                     tradeWithScriptAssets: false,
-                    baseAssetId: WavesApp.defaultAssets.USD,
+                    baseAssetId: WavesApp.defaultAssets['USD-N'],
                     events: Object.create(null)
                 };
                 /**
