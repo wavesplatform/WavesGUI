@@ -27,11 +27,12 @@
   "featuresConfigUrl": "https://raw.githubusercontent.com/wavesplatform/waves-client-config/master/config.json",
   "feeConfigUrl": "https://raw.githubusercontent.com/wavesplatform/waves-client-config/master/fee.json",
   "migration": {
-    "webUrl": "https://waves.exchange/migration",
+    "webUrl": "https://wallet-stage-htz-nbg1-1.waves.exchange/migration",
     "desktopUrl": "http://localhost:8888/connect",
     "desktopPort": 8888,
     "origins": [
-      "https://waves.exchange"
+      "https://waves.exchange",
+      "https://wallet-stage-htz-nbg1-1.waves.exchange/"
     ]
   },
   "WESTNetworkByte": "V",
