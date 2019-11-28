@@ -1,5 +1,7 @@
-<span class="logo logo-header" ng-if="$ctrl.isLogined"></span>
-<a class="logo logo-header" ng-if="!$ctrl.isLogined" href="/"></a>
+<div class="logo logo-header" ng-switch="$ctrl.isLogined">
+    <span ng-switch-when="true"></span>
+    <a ng-switch-when="false" href="/"></a>
+</div>
 
 <div class="main-header__mobile-toggler" ng-click="$ctrl.onMobileTogglerClick()" ng-if="$ctrl.isLogined">
     <span></span>
