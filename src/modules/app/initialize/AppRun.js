@@ -667,8 +667,7 @@
         'decorators',
         'multiAccount',
         'configService',
-        'userNotification',
-        'whatsNew'
+        'userNotification'
     ];
 
     angular.module('app').run(run);
