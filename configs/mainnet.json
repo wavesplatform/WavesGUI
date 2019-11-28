@@ -32,7 +32,7 @@
     "desktopPort": 8888,
     "origins": [
       "https://waves.exchange",
-      "https://wallet-stage-htz-nbg1-1.waves.exchange/"
+      "https://wallet-stage-htz-nbg1-1.waves.exchange"
     ]
   },
   "WESTNetworkByte": "V",
