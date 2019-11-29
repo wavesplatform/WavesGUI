@@ -44,7 +44,6 @@
             signInForm = null;
             password = '';
             showPasswordError = false;
-            isOldDesktop = false;
             hasUserList = false;
             _isCanceled = null;
             _showSteps = false;
@@ -57,9 +56,6 @@
                 if (!WavesApp.isDesktop()) {
                     $state.go(user.getActiveState('wallet'));
                 }
-
-                this.isOldDesktop = utils.isVersionLte('1.4.0');
-                this._showMoving = !this.isOldDesktop;
 
                 Promise.all([
                     user.getMultiAccountData(),
@@ -138,9 +134,7 @@
                     this.password,
                     undefined,
                     this.multiAccountHash
-                ).then(() => {
-                    this.toMigration();
-                }).catch(() => {
+                ).catch(() => {
                     this.password = '';
                     this.showPasswordError = true;
                 });
@@ -226,10 +220,6 @@
 
             toHome() {
                 $state.go('welcome');
-            }
-
-            toMigration() {
-                this._showMoving = true;
             }
 
             _toInstallAndRun() {
