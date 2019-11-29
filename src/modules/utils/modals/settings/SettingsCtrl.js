@@ -3,7 +3,6 @@
 
     const ds = require('data-service');
     const { libs } = require('@waves/waves-transactions');
-    const { path } = require('ramda');
     const analytics = require('@waves/event-sender');
 
     /**
@@ -22,7 +21,6 @@
                                  $scope,
                                  waves,
                                  user,
-                                 createPoll,
                                  $templateRequest,
                                  utils,
                                  storage,
@@ -85,7 +83,6 @@
             supportLinkName = WavesApp.network.support.replace(/^https?:\/\//, '');
             blockHeight = 0;
             assetsOracleTmp = '';
-            oracleWavesData = path(['oracle'], ds.dataManager.getOracleData('oracleWaves'));
             oracleError = false;
             oraclePending = false;
             oracleSuccess = false;
@@ -101,20 +98,10 @@
 
                 this.isScript = user.hasScript();
                 this.syncSettings({
-                    node: 'network.node',
-                    matcher: 'network.matcher',
-                    api: 'network.api',
                     logoutAfterMin: 'logoutAfterMin',
-                    scamListUrl: 'scamListUrl',
-                    tokensNameListUrl: 'tokensNameListUrl',
-                    dontShowSpam: 'dontShowSpam',
                     theme: 'theme',
-                    candle: 'candle',
-                    oracleWaves: 'oracleWaves'
-
+                    candle: 'candle'
                 });
-
-                this.assetsOracleTmp = this.oracleWaves;
 
                 storage.load('openClientMode').then(mode => {
                     this.openClientMode = mode;
@@ -131,68 +118,6 @@
                     );
                 });
 
-                this.observe('oracleWaves', () => {
-                    ds.config.set('oracleWaves', this.oracleWaves);
-                    this.assetsOracleTmp = this.oracleWaves;
-                });
-
-                this.observe('assetsOracleTmp', () => {
-                    const address = this.assetsOracleTmp;
-                    this.oraclePending = true;
-                    ds.api.data.getOracleData(address)
-                        .then(data => {
-                            if (data.oracle) {
-                                this.oracleWavesData = data.oracle;
-                                ds.config.set('oracleWaves', address);
-                                this.oracleWaves = this.assetsOracleTmp;
-                                this.oracleError = false;
-                                this.oracleSuccess = true;
-                                setTimeout(() => {
-                                    this.oracleSuccess = false;
-                                    $scope.$apply();
-                                }, 1500);
-                            }
-                        })
-                        .catch(() => {
-                            this.oracleError = true;
-                        })
-                        .then(() => {
-                            this.oraclePending = false;
-                            $scope.$apply();
-                        });
-                });
-
-                // this.observe('candle', () => {
-                //     user.changeCandle(this.candle);
-                // });
-
-                this.observe('dontShowSpam', () => {
-                    const dontShowSpam = this.dontShowSpam;
-                    user.setSetting('dontShowSpam', dontShowSpam);
-                });
-
-                this.observe('scamListUrl', () => {
-                    ds.config.setConfig({
-                        scamListUrl: this.scamListUrl
-                    });
-                    waves.node.assets.stopScam();
-                });
-
-                this.observe('tokensNameListUrl', () => {
-                    ds.config.setConfig({
-                        tokensNameListUrl: this.tokensNameListUrl
-                    });
-                    waves.node.assets.tokensNameList();
-                });
-
-                this.observe(['node', 'matcher', 'api'], () => {
-                    ds.config.setConfig({
-                        node: this.node,
-                        matcher: this.matcher,
-                        api: this.api
-                    });
-                });
-
                 this.observe('shownSeed', () => {
                     // analytics.push('Settings', `Settings.ShowSeed.${WavesApp.type}`);
                 });
@@ -200,11 +125,6 @@
                 this.observe('shownKey', () => {
                     // analytics.push('Settings', `Settings.ShowKeyPair.${WavesApp.type}`);
                 });
-
-                createPoll(this, waves.node.height, (height) => {
-                    this.blockHeight = height;
-                    $scope.$digest();
-                }, 5000);
 
                 const catchProcessor = method => {
                     try {
@@ -246,17 +166,6 @@
                 // analytics.push('Settings', `Settings.ChangeLanguage.${WavesApp.type}`, language);
             }
 
-            setNetworkDefault() {
-                this.node = WavesApp.network.node;
-                this.matcher = WavesApp.network.matcher;
-                this.dontShowSpam = true;
-                this.scamListUrl = WavesApp.network.scamListUrl;
-                this.tokensNameListUrl = WavesApp.network.tokensNameListUrl;
-                this.oracleWaves = WavesApp.oracles.waves;
-                this.assetsOracleTmp = this.oracleWaves;
-                this.api = WavesApp.network.api;
-            }
-
             showExportAccountModal() {
                 return modalManager.showExportAccount();
             }
@@ -272,10 +181,6 @@
                 setTimeout(() => {
                     document.body.removeChild(loaderEl);
                 }, 4100);
-            }
-
-            showScriptModal() {
-                modalManager.showScriptModal();
             }
 
             showPasswordModal() {
@@ -300,7 +205,6 @@
         '$scope',
         'waves',
         'user',
-        'createPoll',
         '$templateRequest',
         'utils',
         'storage',

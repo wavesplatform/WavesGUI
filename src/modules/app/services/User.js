@@ -164,10 +164,6 @@
                 return this.currentUser ? this.currentUser.publicKey : null;
             }
 
-            get matcherSign() {
-                return this.currentUser ? this.currentUser.matcherSign : null;
-            }
-
             /**
              * @type {boolean}
              */
@@ -262,20 +258,6 @@
                 return list.includes(value);
             }
 
-            getDefaultUserSettings(settings) {
-                const { common } = this._settings.getSettings();
-
-                return defaultSettings.create({ ...settings }, { ...common });
-            }
-
-            /**
-             * @param {*} user
-             * @return {DefaultSettings}
-             */
-            getSettingsByUser(user) {
-                return this.getDefaultUserSettings(user.settings);
-            }
-
             /**
              * @param {string} name
              * @param {*} value
@@ -313,7 +295,7 @@
              */
             getMultiAccountUsersCount() {
                 return storage.load('multiAccountUsers').then(users => {
-                    return Object.keys(users).length;
+                    return users ? Object.keys(users).length : 0;
                 });
             }
 
@@ -349,7 +331,6 @@
                         [userHash]: { // TODO map user settings to a new schema
                             name: user.name,
                             settings: user.settings,
-                            matcherSign: user.matcherSign,
                             lastLogin: user.lastLogin
                         }
                     }));
@@ -412,13 +393,7 @@
             }
 
             initScriptInfoPolling() {
-                clearTimeout(this._scriptInfoPollTimeoutId);
-                this._scriptInfoPollTimeoutId = setTimeout(() => {
-                    if (this._scriptInfoPoll) {
-                        this._scriptInfoPoll.destroy();
-                    }
-                    this._scriptInfoPoll = new Poll(() => this.updateScriptAccountData(), () => null, 10000);
-                }, 30000);
+                this.updateScriptAccountData();
             }
 
             /**
@@ -435,21 +410,7 @@
             }
 
             goToActiveState() {
-                if (!this.initRouteState) {
-                    $state.go(this.getActiveState('wallet'));
-                }
-            }
-
-            /**
-             * @param {string} name
-             * @param {string} params
-             */
-            setInitRouteState(name, params) {
-                if (this.initRouteState) {
-                    return;
-                }
-                this.initRouteState = true;
-                this.loginSignal.once(() => $state.go(name, params));
+                $state.go(this.getActiveState('welcome'));
             }
 
             /**
@@ -544,29 +505,21 @@
                 ds.app.logOut();
                 clearTimeout(this._scriptInfoPollTimeoutId);
 
-                if (this._scriptInfoPoll) {
-                    this._scriptInfoPoll.destroy();
+                if (!isSwitch) {
+                    if (WavesApp.isDesktop()) {
+                        transfer('reload');
+                    } else {
+                        window.location.reload();
+                    }
+                    return;
+                }
+                this._resetFields();
+
+                if (isSwitch) {
+                    $state.go(stateName || '');
                 }
 
-                if (stateName) {
-                    this._resetFields();
-
-                    if (isSwitch) {
-                        $state.go(stateName);
-                    }
-
-                    this.logoutSignal.dispatch({});
-
-                    if (!isSwitch) {
-                        this.changeTheme(themes.getDefaultTheme(), { dontSave: true });
-                        multiAccount.signOut();
-                        $state.go(stateName, undefined, { custom: { logout: true } });
-                    }
-                } else if (WavesApp.isDesktop()) {
-                    transfer('reload');
-                } else {
-                    window.location.reload();
-                }
+                this.logoutSignal.dispatch({});
             }
 
             resetAll() {
@@ -717,18 +670,6 @@
             }
 
             /**
-             * @returns {Promise<{signature: string, timestamp: number}>}
-             */
-            addMatcherSign() {
-                return utils.signUserOrders({
-                    matcherSign: this.matcherSign
-                }).then(matcherSign => {
-                    this.currentUser.matcherSign = matcherSign;
-                    ds.app.addMatcherSign(matcherSign.timestamp, matcherSign.signature);
-                });
-            }
-
-            /**
              * @private
              */
             _resetFields() {
@@ -772,7 +713,6 @@
              * @param {string} userData.hash
              * @param {string} [userData.id]
              * @param {string} [userData.publicKey]
-             * @param {string} [userData.matcherSign]
              * @param {object} [userData.settings]
              * @return {Promise}
              * @private
@@ -786,7 +726,6 @@
                     publicKey: userData.publicKey,
                     userType: userData.userType,
                     settings: userData.settings,
-                    matcherSign: userData.matcherSign,
                     lastLogin: Date.now()
                 };
 
@@ -805,12 +744,6 @@
                 this._settings = defaultSettings.create(this.currentUser.settings, commonSettings);
                 this._settings.change.on(() => this._onChangeSettings());
 
-                const states = WavesApp.stateTree.find('main').getChildren();
-                this._stateList = states.map((baseTree) => {
-                    const id = baseTree.id;
-                    return new UserRouteState('main', id, this._settings.get(`${id}.activeState`));
-                });
-
                 Object.keys(WavesApp.network).forEach((key) => {
                     ds.config.set(key, this._settings.get(`network.${key}`));
                 });
@@ -819,14 +752,10 @@
 
                 ds.app.login(userData);
 
-                return this.addMatcherSign()
-                    .catch(() => Promise.resolve())
-                    .then(() => {
-                        this.changeTheme(this._settings.get('theme'));
-                        this.changeCandle();
+                this.changeTheme(this._settings.get('theme'));
+                this.changeCandle();
 
-                        return this.saveMultiAccountUser(this.currentUser, this.currentUser.hash);
-                    })
+                return this.saveMultiAccountUser(this.currentUser, this.currentUser.hash)
                     .then(() => this._logoutTimer())
                     .then(() => this.updateScriptAccountData())
                     .then(() => this.loginSignal.dispatch())
@@ -951,5 +880,4 @@
  * @property {string} userType
  * @property {number} lastLogin
  * @property {object} settings
- * @property {object} matcherSign
  */

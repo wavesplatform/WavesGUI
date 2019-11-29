@@ -6,8 +6,6 @@
     // const onContentLoad = new Promise((resolve) => {
     //     document.addEventListener('DOMContentLoaded', resolve);
     // });
-
-    const { Money } = require('@waves/data-entities');
     const { libs } = require('@waves/waves-transactions');
     const { base64Encode, blake2b, stringToBytes } = libs.crypto;
 
@@ -70,12 +68,9 @@
      * @param {State} state
      * @param {ModalManager} modalManager
      * @param {Storage} storage
-     * @param {BalanceWatcher} balanceWatcher
-     * @param {Matcher} matcher
      * @param {INotification} notification
      * @param {app.utils.decorators} decorators
      * @param {MultiAccount} multiAccount
-     * @param {ModalRouter} ModalRouter
      * @param {ConfigService} configService
      * @param {INotification} userNotification
      * @return {AppRun}
@@ -90,12 +85,9 @@
         state,
         modalManager,
         storage,
-        balanceWatcher,
-        matcher,
         notification,
         decorators,
         multiAccount,
-        ModalRouter,
         configService,
         userNotification
     ) {
@@ -143,11 +135,6 @@
                  * @type {Array<string>}
                  */
                 this.activeClasses = [];
-                /**
-                 * @type {ModalRouter}
-                 * @private
-                 */
-                this._modalRouter = new ModalRouter();
 
                 /**
                  * Configure library generation avatar by address
@@ -157,7 +144,6 @@
                 this._setHandlers();
                 this._initializeLogin();
                 this._initializeOutLinks();
-                this._openMigrationModal();
 
                 if (WavesApp.isDesktop()) {
                     window.listenMainProcessEvent((type, url) => {
@@ -234,9 +220,6 @@
                             return Promise.resolve(true);
                         default:
                             return Promise.resolve(true);
-                        // return modalManager.showTryDesktopModal()
-                        //     .then(() => this._runDesktop())
-                        //     .catch(() => true);
                     }
                 });
             }
@@ -397,8 +380,6 @@
                         clearInterval(this._notifyTimer);
                         this._notifyTimer = setInterval(() => this._updateUserNotifications(), 10000);
                     });
-
-                    balanceWatcher.change.once(this._onBalanceChange, this);
                 });
             }
 
@@ -407,18 +388,21 @@
                 const START_STATES = WavesApp.stateTree.where({ noLogin: true })
                     .map((item) => WavesApp.stateTree.getPath(item.id).join('.'));
 
-                const DEXW_LOCKED_STATES = ['migration'];
+                const DEXW_LOCKED_STATES = [
+                    'welcome',
+                    'desktopUpdate',
+                    'switch'
+                ];
 
                 const offInitialTransitions = $transitions.onStart({}, transition => {
-                    const DEXW_LOCKED = configService.get('DEXW_LOCKED');
 
                     const toState = transition.to();
                     const fromState = transition.from();
                     const params = transition.params();
                     let tryDesktop;
 
-                    if (DEXW_LOCKED && DEXW_LOCKED_STATES.indexOf(toState.name) === -1) {
-                        return $state.target('migration');
+                    if (DEXW_LOCKED_STATES.indexOf(toState.name) === -1) {
+                        return $state.target(DEXW_LOCKED_STATES[0]);
                     }
 
                     if (START_STATES.indexOf(toState.name) === -1) {
@@ -427,7 +411,6 @@
                         }
 
                         if (!multiAccount.isSignedIn) {
-                            user.setInitRouteState(toState.name, params);
                             return $state.target(START_STATES[0]);
                         }
                     }
@@ -468,9 +451,7 @@
 
                             i18next.changeLanguage(user.getSetting('lng'));
 
-                            this._initializeTermsAccepted().then(() => {
-                                this._modalRouter.initialize();
-                            });
+                            this._initializeTermsAccepted();
 
                             const offInnerTransitions = this._onInnerTransitions(
                                 START_STATES.filter(state => state !== 'desktopUpdate'),
@@ -488,58 +469,11 @@
             _onInnerTransitions(START_STATES, DEXW_LOCKED_STATES) {
                 return $transitions.onStart({}, transition => {
                     const toState = transition.to();
-                    const { custom } = transition.options();
-                    const DEXW_LOCKED = configService.get('DEXW_LOCKED');
 
-                    if (DEXW_LOCKED && DEXW_LOCKED_STATES.indexOf(toState.name) === -1) {
-                        return $state.target('migration');
-                    }
-
-                    if (START_STATES.indexOf(toState.name) !== -1 && !custom.logout && !DEXW_LOCKED) {
-                        return false;
+                    if (DEXW_LOCKED_STATES.indexOf(toState.name) === -1) {
+                        return $state.target(DEXW_LOCKED_STATES[0]);
                     } else {
                         state.signals.changeRouterStateStart.dispatch(transition);
-                    }
-                });
-            }
-
-            _onBalanceChange() {
-                if (user.getSetting('hasBackup')) {
-                    return;
-                }
-
-                const balance = balanceWatcher.getBalance();
-                const pairs = Object.entries(balance).reduce((acc, [assetId, asset]) => {
-                    if (asset.toTokens() !== '0') {
-                        acc.push([assetId, WavesApp.defaultAssets.USD]);
-                    }
-
-                    return acc;
-                }, []);
-
-                if (pairs.length === 0) {
-                    return;
-                }
-
-                Promise.all([
-                    ds.api.assets.get(WavesApp.defaultAssets.USD),
-                    ds.api.matchers.getRates(matcher.currentMatcherAddress, pairs)
-                ]).then(([usdAsset, rates]) => {
-                    const usd = rates.data.reduce((acc, rate) => {
-                        const amountAsset = balance[rate.amountAsset];
-                        const amountAssetInUsd = amountAsset.convertTo(usdAsset, rate.data.rate);
-
-                        return acc.add(amountAssetInUsd);
-                    }, new Money(0, usdAsset));
-
-                    if (usd.gte(usd.cloneWithTokens(100))) {
-                        modalManager.showTutorialModals();
-
-                        return;
-                    }
-
-                    if (usd.gte(usd.cloneWithTokens(1))) {
-                        this._initializeBackupWarning();
                     }
                 });
             }
@@ -556,69 +490,6 @@
 
                     return Promise.resolve();
                 });
-            }
-
-            /**
-             * @param {object} [scope]
-             * @param {boolean} scope.closeByModal
-             * @private
-             */
-            @decorators.scope({ closeByModal: false })
-            _initializeBackupWarning(scope) {
-                const id = '_hasBackupId';
-
-                if (!notification.has(id)) {
-                    const changeModalsHandler = (modal) => {
-                        scope.closeByModal = true;
-                        notification.remove(id);
-                        scope.closeByModal = false;
-
-                        modal.catch(() => null)
-                            .then(() => {
-                                if (!user.getSetting('hasBackup')) {
-                                    this._initializeBackupWarning();
-                                }
-                            });
-                    };
-
-                    modalManager.openModal.once(changeModalsHandler);
-
-                    analytics.send({ name: 'Create Save Phrase Show', target: 'ui' });
-
-                    notification.error({
-                        id,
-                        ns: 'app.utils',
-                        title: {
-                            literal: 'notification.backup.title'
-                        },
-                        body: {
-                            literal: 'notification.backup.body'
-                        },
-                        action: {
-                            literal: 'notification.backup.action',
-                            callback: () => {
-                                analytics.send({ name: 'Create Save Phrase Yes Click', target: 'ui' });
-                                modalManager.showSeedBackupModal();
-                            }
-                        },
-                        onClose: () => {
-                            analytics.send({ name: 'Create Save Phrase No Click', target: 'ui' });
-
-                            notification.remove(id);
-
-                            if (scope.closeByModal || user.getSetting('hasBackup')) {
-                                return null;
-                            }
-
-                            modalManager.openModal.off(changeModalsHandler);
-
-                            const stop = $transitions.onSuccess({}, () => {
-                                stop();
-                                this._initializeBackupWarning();
-                            });
-                        }
-                    }, -1);
-                }
             }
 
             /**
@@ -765,21 +636,6 @@
             /**
              * @private
              */
-            _openMigrationModal() {
-                Promise.all([
-                    user.getMultiAccountData(),
-                    user.getFilteredUserList(),
-                    storage.load('notAutoOpenMigrationModal')
-                ]).then(([multiAccountData, userList, notAutoOpenMigrationModal]) => {
-                    if (!notAutoOpenMigrationModal && !multiAccountData && userList && userList.length) {
-                        modalManager.showMigrateModal();
-                    }
-                });
-            }
-
-            /**
-             * @private
-             */
             _getImagesReadyPromise() {
                 return $.ajax({ url: `/img/images-list.json?v=${WavesApp.version}`, dataType: 'json' })
                     .then((list) => {
@@ -801,15 +657,11 @@
         'state',
         'modalManager',
         'storage',
-        'balanceWatcher',
-        'matcher',
         'notification',
         'decorators',
         'multiAccount',
-        'ModalRouter',
         'configService',
-        'userNotification',
-        'whatsNew'
+        'userNotification'
     ];
 
     angular.module('app').run(run);

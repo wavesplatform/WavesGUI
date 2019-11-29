@@ -21,8 +21,6 @@
         'alias',
         'address',
         'wavesAddress',
-        'outerBlockchains',
-        'anyAddress',
         'pattern',
         'custom'
     ];
@@ -207,12 +205,6 @@
                                 case 'integer':
                                     this._validators[name] = this._createIntegerValidator(name);
                                     break;
-                                case 'anyAddress':
-                                    this._validators[name] = this._createAnyAddressValidator(name);
-                                    break;
-                                case 'outerBlockchains':
-                                    this._validators[name] = this._createOuterBlockchainsValidator(name);
-                                    break;
                                 case 'pattern':
                                     this._validators[name] = this._createPatternValidator(name);
                                     break;
@@ -272,54 +264,6 @@
                                     }
                                 }
                             };
-                        }
-
-                        _createOuterBlockchainsValidator(name) {
-
-                            let value = null;
-
-                            const validator = {
-                                name,
-                                value: null,
-                                handler: function (address) {
-                                    return validateService.outerBlockchains(address, validator.value);
-                                }
-                            };
-
-                            Object.defineProperty(validator, 'value', {
-                                get: () => value,
-                                set: (data) => {
-                                    value = Validate._toAssetId(data);
-                                }
-                            });
-
-                            this._listenValidatorChanges(name, validator);
-
-                            return validator;
-                        }
-
-                        _createAnyAddressValidator(name) {
-
-                            let value = null;
-
-                            const validator = {
-                                name,
-                                value: null,
-                                handler: function (address) {
-                                    return validateService.anyAddress(address, validator.value);
-                                }
-                            };
-
-                            Object.defineProperty(validator, 'value', {
-                                get: () => value,
-                                set: (data) => {
-                                    value = Validate._toAssetId(data);
-                                }
-                            });
-
-                            this._listenValidatorChanges(name, validator);
-
-                            return validator;
                         }
 
                         _createCompareValidator(name) {

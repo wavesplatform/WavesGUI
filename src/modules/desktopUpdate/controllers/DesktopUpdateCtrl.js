@@ -14,6 +14,7 @@
      * @param {*} configService
      * @param {*} modalManager
      * @param {*} multiAccount
+     * @param {Base} Base
      */
     const controller = (
         $scope,
@@ -25,9 +26,10 @@
         user,
         utils,
         modalManager,
-        multiAccount
+        multiAccount,
+        Base
     ) => {
-        class DesktopUpdateCtrl {
+        class DesktopUpdateCtrl extends Base {
 
             /**
              * @type {'askDownload' | 'downloading' | 'installAndRun' | 'success' | 'fail' }
@@ -42,34 +44,40 @@
             signInForm = null;
             password = '';
             showPasswordError = false;
-            isOldDesktop = false;
             hasUserList = false;
             _isCanceled = null;
             _showSteps = false;
             _timer = 10;
             downloadDone = false;
+            hasAccount = false;
 
             constructor() {
+                super();
                 if (!WavesApp.isDesktop()) {
                     $state.go(user.getActiveState('wallet'));
                 }
 
-                this.isOldDesktop = utils.isVersionLte('1.4.0');
-                this._showMoving = !this.isOldDesktop;
-
-                storage.load('userList').then(list => {
-                    if (list && list.length > 0) {
-                        this.hasUserList = true;
-                    }
-                });
-
                 Promise.all([
                     user.getMultiAccountData(),
-                    user.getMultiAccountHash()
-                ]).then(([multiAccountData, multiAccountHash]) => {
+                    user.getMultiAccountHash(),
+                    user.getFilteredUserList()
+                ]).then(([multiAccountData, multiAccountHash, userList]) => {
                     this.multiAccountData = multiAccountData;
                     this.multiAccountHash = multiAccountHash;
                     this.hasMultiAccount = !!multiAccountData;
+                    if (userList && userList.length > 0) {
+                        this.hasUserList = true;
+                    }
+                    this.hasAccount = this.hasMultiAccount || this.hasUserList;
+
+                    if (!this.hasAccount) {
+                        this.download();
+                        this.observe('state', () => {
+                            if (this.state !== 'downloading') {
+                                $state.go('welcome');
+                            }
+                        });
+                    }
                 });
             }
 
@@ -126,9 +134,7 @@
                     this.password,
                     undefined,
                     this.multiAccountHash
-                ).then(() => {
-                    this.toMigration();
-                }).catch(() => {
+                ).catch(() => {
                     this.password = '';
                     this.showPasswordError = true;
                 });
@@ -178,10 +184,7 @@
                         fileName,
                         fileContent: content
                     }).then(() => {
-                        this.state = 'installAndRun';
-                        setTimeout(() => {
-                            this._showSteps = true;
-                        }, 10);
+                        this._toInstallAndRun();
                         this.isDownloading = false;
                         this.downloadDone = true;
                         this._resetProgress();
@@ -216,11 +219,7 @@
             }
 
             toHome() {
-                $state.go(user.getActiveState('wallet'));
-            }
-
-            toMigration() {
-                this._showMoving = true;
+                $state.go('welcome');
             }
 
             _toInstallAndRun() {
@@ -283,12 +282,18 @@
                 ds.utils.abortDownloading();
             }
 
+            cancelDownloadAndGoWelcome() {
+                this.cancelDownload();
+                $state.go('welcome');
+            }
+
             showFAQ() {
                 modalManager.showMigrateFAQ();
             }
 
             _decreaseTimer() {
                 this._timer = this._timer - 1;
+                $scope.$apply();
             }
 
             // @TODO сделать плюризацию
@@ -320,7 +325,8 @@
         'user',
         'utils',
         'modalManager',
-        'multiAccount'
+        'multiAccount',
+        'Base'
     ];
 
     angular.module('app.desktopUpdate').controller('DesktopUpdateCtrl', controller);

@@ -211,12 +211,11 @@
 
     /**
      * @param {$q} $q
-     * @param {Moment} Moment
      * @param {$injector} $injector
      * @param {*} migration
      * @return {app.utils}
      */
-    const factory = function ($q, Moment, $injector, migration) {
+    const factory = function ($q, $injector, migration) {
         const base58ToBytes = base58Decode;
         const bytesToBase58 = base58Encode;
 
@@ -818,19 +817,6 @@
                 return new Promise((resolve) => {
                     promiseLike.then(getCallback(true, resolve), getCallback(false, resolve));
                 });
-            },
-
-            /**
-             * @name app.utils#moment
-             * @param {Date | number | string | Moment} [date]
-             * @param {string} [pattern]
-             * @return {Moment}
-             */
-            moment(date, pattern) {
-                if (date instanceof Moment) {
-                    return date.clone(pattern);
-                }
-                return new Moment(date, pattern);
             },
 
             /**
@@ -1751,90 +1737,6 @@
             },
 
             /**
-             * @name app.utils#createOrder
-             * @param {app.utils.IOrderData} data
-             * @return {Promise}
-             */
-            createOrder(data) {
-                const timestamp = ds.utils.normalizeTime(Date.now());
-                /**
-                 * @type {INotification}
-                 */
-                const notification = $injector.get('notification');
-                /**
-                 * @type {ModalManager}
-                 */
-                const modalManager = $injector.get('modalManager');
-                /**
-                 * @type {User}
-                 */
-                const user = $injector.get('user');
-                /**
-                 * @type {boolean}
-                 */
-                const isAdvancedMode = user.getSetting('advancedMode');
-
-                const hasCustomFee = data.matcherFee.asset.id && data.matcherFee.asset.id !== 'WAVES';
-
-                /**
-                 * @type {number | undefined}
-                 */
-                const version = (hasCustomFee && 3) || 2;
-
-                const signableData = {
-                    type: SIGN_TYPE.CREATE_ORDER,
-                    data: { ...data, version, timestamp }
-                };
-
-                const onError = data => {
-                    if (data && data.error && data.isScriptError) {
-                        notification.error({
-                            ns: 'app.dex',
-                            title: {
-                                literal: 'directives.createOrder.notifications.error.title'
-                            },
-                            body: {
-                                literal: `directives.createOrder.notifications.error.${data.error}`,
-                                params: data.params ? data.params : {}
-                            }
-                        }, -1);
-                    } else {
-                        notification.error({
-                            ns: 'app.dex',
-                            title: {
-                                literal: 'directives.createOrder.notifications.error.title'
-                            },
-                            body: {
-                                literal: data && data.message || data
-                            }
-                        }, -1);
-                    }
-
-
-                    return Promise.reject(data);
-                };
-
-                return utils.createSignable(signableData)
-                    .then(signable => {
-                        return utils.signMatcher(signable)
-                            .then(signable => signable.getDataForApi())
-                            .then(ds.createOrder)
-                            .catch(data => {
-                                const isScriptError = this.checkIsScriptError(data.error);
-
-                                if (!isAdvancedMode || !isScriptError) {
-                                    return Promise.reject({ ...data, isScriptError });
-                                }
-
-                                return modalManager.showConfirmTx(signable, false)
-                                    .then(ds.createOrder, () => null);
-                            });
-                    })
-                    .catch(onError);
-
-            },
-
-            /**
              * @name app.utils#createSignable
              * @param {*} data
              * @return {Promise<Signable>}
@@ -1842,39 +1744,6 @@
             createSignable(data) {
                 try {
                     return Promise.resolve(ds.signature.getSignatureApi().makeSignable(data));
-                } catch (e) {
-                    return Promise.reject(e);
-                }
-            },
-
-            /**
-             * @name app.utils#signUserOrders
-             * @param {{[matcherSign]: {[timestamp]: number, [timestamp]: number}}} data
-             * @return {Promise<{signature: string, timestamp: number}>}
-             */
-            signUserOrders(data) {
-                try {
-                    const dayForwardTime = ds.app.getTimeStamp(1, 'day');
-                    const lastSignedTs = path(['matcherSign', 'timestamp'], data);
-                    const isNeedSign = !lastSignedTs || lastSignedTs - dayForwardTime < 0;
-
-                    if (!isNeedSign) {
-                        return Promise.resolve(data.matcherSign);
-                    }
-
-                    const timestamp = ds.app.getTimeStamp(
-                        WavesApp.matcherSignInterval.count,
-                        WavesApp.matcherSignInterval.timeType
-                    );
-
-                    const signable = ds.signature.getSignatureApi().makeSignable({
-                        type: SIGN_TYPE.MATCHER_ORDERS,
-                        data: { timestamp }
-                    });
-
-                    return utils.signMatcher(signable)
-                        .then(signable => signable.getSignature())
-                        .then(signature => ({ signature, timestamp }));
                 } catch (e) {
                     return Promise.reject(e);
                 }
@@ -1909,44 +1778,6 @@
                         ))
                     )
                     .catch(() => false);
-            },
-
-            /**
-             * @name app.utils#sign
-             * @param {Signable} signable
-             * @param {any} anyData
-             * @return {Promise<Signable>}
-             */
-            signMatcher(signable, anyData = null) {
-                /**
-                 * @type {User}
-                 */
-                const user = $injector.get('user');
-                /**
-                 * @type {ModalManager}
-                 */
-                const modalManager = $injector.get('modalManager');
-
-                if (user.userType === 'seed' || user.userType === 'privateKey') {
-                    return signable.addMyProof()
-                        .then(() => signable);
-                }
-
-                const getError = (user, error) => {
-                    if (user.userType === 'wavesKeeper' && error &&
-                        error.code === 5 && error.msg.includes('another active account')) {
-                        return { error: 'sign-user-error', userType: user.userType };
-                    }
-
-                    return { error: 'sign-error', userType: user.userType };
-                };
-
-                const signByDeviceLoop = () => modalManager.showSignByDevice(signable, anyData)
-                    .catch((e) => modalManager.showSignDeviceError(getError(user, e))
-                        .then(signByDeviceLoop))
-                    .catch(() => Promise.reject({ message: 'Your sign is not confirmed!' }));
-
-                return signByDeviceLoop();
             },
 
             /**
@@ -2246,7 +2077,7 @@
         return utils;
     };
 
-    factory.$inject = ['$q', 'Moment', '$injector', 'migration'];
+    factory.$inject = ['$q', '$injector', 'migration'];
 
     angular.module('app.utils')
         .factory('utils', factory);

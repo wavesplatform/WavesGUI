@@ -1,8 +1,0 @@
-<div class="txinfo__lead">
-    <h3 ng-if="!$ctrl.voteObject.rating" class="basic-700" w-i18n="transaction.headers.data"></h3>
-    <div ng-if="$ctrl.voteObject.rating" class="center txinfo__rating">
-        <w-rating-stars rating="$ctrl.voteObject.rating" size="'xl'"></w-rating-stars>
-        <h3 class="basic-700 margin-top-2 vote-token-h3">{{$ctrl.voteObject.assetName}}</h3>
-        <div class="body-2 basic-500">{{$ctrl.voteObject.assetId}}</div>
-    </div>
-</div>
