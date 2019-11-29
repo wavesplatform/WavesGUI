@@ -9,7 +9,6 @@
      * @param {storageSelect} storageSelect
      * @param {DefaultSettings} defaultSettings
      * @param {StorageDataConverter} storageDataConverter
-     * @param {$injector} $injector
      */
     const factory = function (
         $q,
@@ -18,8 +17,7 @@
         state,
         storageSelect,
         defaultSettings,
-        storageDataConverter,
-        $injector
+        storageDataConverter
     ) {
 
         const usedStorage = storageSelect();
@@ -271,14 +269,6 @@
                 this._canWrite = $q.defer();
                 this._activeWrite = Promise.resolve();
 
-                if (WavesApp.isDesktop() && utils.isVersionLte('1.4.0')) {
-                    setTimeout(() => {
-                        $injector.get('$state').go('desktopUpdate');
-                    }, 1000);
-                    this._activeWrite = $q.defer();
-                    return this;
-                }
-
                 this.load('lastVersion')
                     .then((version) => {
                         this._canWrite.resolve();
@@ -341,7 +331,7 @@
     factory.$inject = [
         '$q', 'utils', 'migration',
         'state', 'storageSelect', 'defaultSettings',
-        'storageDataConverter', '$injector'
+        'storageDataConverter'
     ];
 
     angular.module('app.utils')

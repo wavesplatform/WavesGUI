@@ -4,7 +4,7 @@
 
             <div class="footer__wrap return-wrap">
                 <div
-                    ng-if="$ctrl._showMoving && !$ctrl.isOldDesktop && $ctrl.hasAccount"
+                    ng-if="$ctrl.hasAccount"
                     class="return-button"
                     ng-click="$ctrl.toHome()"
                 >
@@ -16,111 +16,7 @@
             </div>
 
             <div class="center">
-                <div class="update-wrapper" ng-if="$ctrl.isOldDesktop && !$ctrl._showMoving && $ctrl.hasAccount">
-                    <div ng-if="$ctrl.state !== 'downloading'">
-                        <div ng-if="!$ctrl.downloadDone">
-                            <div class="migrate-modal__image migrate-modal__image_moving"></div>
-                            <h3 class="migrate-modal__title margin-2" w-i18n="migrate.modalTitle.moving"></h3>
-
-                            <div ng-if="$ctrl.hasUserList || $ctrl.hasMultiAccount" class="basic-500 margin-3 downloading-text">
-                                <div class="margin-2" w-i18n="desktopUpdate.movingText"></div>
-                                <div class="migrate-modal__plate">
-                                    <div class="migrate-modal__plate-icon"></div>
-                                    <div class="migrate-modal__plate-text headline-3"
-                                         w-i18n="migrate.modalTitle.plate"></div>
-                                </div>
-                            </div>
-
-                            <div ng-switch="$ctrl.hasMultiAccount">
-                                <div ng-switch-when="true">
-                                    <form name="$ctrl.signInForm" ng-submit="$ctrl.signInAndExport()">
-                                        <w-input-container class="margin-4">
-                                            <div class="text-left body-2 margin-05">
-                                                <span w-i18n="desktopUpdate.password"></span>
-                                            </div>
-
-                                            <w-show-hide-password>
-                                                <w-input
-                                                    name="password"
-                                                    type="password"
-                                                    class="big no-validate no-icon"
-                                                    ng-model="$ctrl.password"
-                                                    ng-change="$ctrl.onPasswordChange()"
-                                                    required
-                                                    w-autofocus>
-                                                </w-input>
-                                            </w-show-hide-password>
-
-                                            <div class="like-input-error" ng-if="$ctrl.showPasswordError">
-                                                <span class="error active" w-i18n="desktopUpdate.passwordError"></span>
-                                            </div>
-                                        </w-input-container>
-
-                                        <w-button disabled="$ctrl.signInForm.$invalid" class="submit long big">
-                                            <div class="full-width" w-i18n="desktopUpdate.signInAndMove"></div>
-                                        </w-button>
-                                    </form>
-                                </div>
-
-                                <div ng-switch-when="false">
-                                    <div ng-if="!$ctrl.hasUserList" class="basic-500 margin-3 downloading-text">
-                                        <div w-i18n="desktopUpdate.downloadText"></div>
-                                    </div>
-
-                                    <w-button
-                                        disabled="$ctrl.state === 'downloading'"
-                                        ng-if="!$ctrl.hasUserList"
-                                        on-click="$ctrl.download()"
-                                        class="submit big big-btn"
-                                    >
-                                        <span w-i18n="desktopUpdate.download"></span>
-                                    </w-button>
-
-                                    <w-button
-                                        ng-if="$ctrl.hasUserList"
-                                        on-click="$ctrl.toMigration()"
-                                        class="submit big big-btn"
-                                    >
-                                        <span w-i18n="migrate.modalButton.moving"></span>
-                                    </w-button>
-
-                                    <div class="basic-400 downloading-info migrate-modal__link">
-                                        <div w-i18n="desktopUpdate.oldApplication"></div>
-                                    </div>
-                                </div>
-                            </div>
-                    </div>
-
-                        <div ng-if="$ctrl.downloadDone">
-                            <div class="migrate-modal__image migrate-modal__image_congratulations"></div>
-                            <h3 class="migrate-modal__title margin-2" w-i18n="desktopUpdate.congratulations"></h3>
-                            <div class="basic-500 margin-2 body-2" w-i18n="desktopUpdate.congratulationsText"></div>
-                            <div class="migrate-modal__steps margin-3">
-                                <div class="migrate-modal__step margin-2 body-1">
-                                    <span class="basic-500">1.</span>
-                                    <span class="migrate-modal__description" w-i18n="desktopUpdate.install"></span>
-                                </div>
-                                <div class="migrate-modal__step margin-2 body-1">
-                                    <span class="basic-500">2.</span>
-                                    <span class="migrate-modal__description" w-i18n="desktopUpdate.run"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div ng-if="$ctrl.state === 'downloading'">
-                        <h3 class='step-title' w-i18n="desktopUpdate.pleaseWait"></h3>
-                        <div class="download-bar__wrapper">
-                            <div class="download-bar" ng-if="$ctrl.progress"
-                                 ng-style="{'width': $ctrl.progress + '%'}"></div>
-                        </div>
-                        <div class='cancel-btn' ng-click="$ctrl.cancelDownload()">
-                            <span class='cancel-btn' w-i18n="desktopUpdate.cancelDownloading"></span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="center update-wrapper" ng-if="$ctrl._showMoving && $ctrl.hasAccount">
+                <div class="center update-wrapper" ng-if="$ctrl.hasAccount">
                 <div class="progress-bar">
                     <div class="progress-bar__item active"
                          ng-class="{ 'done': $ctrl.state !== 'askDownload' && $ctrl.state !== 'downloading' }">
@@ -209,7 +105,7 @@
                     <div ng-if="$ctrl.state === 'success'">
                         <div class="step-title step-title_success" w-i18n="desktopUpdate.almostThere"></div>
                         <div class="basic-500 to-finish" w-i18n="desktopUpdate.toFinish"></div>
-                        <w-button ng-if="!$ctrl.isOldDesktop" class="big submit big-btn" on-click="$ctrl.toHome()">
+                        <w-button class="big submit big-btn" on-click="$ctrl.toHome()">
                             <span w-i18n="desktopUpdate.iUnderstand"></span>
                         </w-button>
                     </div>
@@ -234,7 +130,7 @@
                 </div>
             </div>
 
-                <div class="center update-wrapper" ng-if="$ctrl._showMoving && !$ctrl.hasAccount">
+                <div class="center update-wrapper" ng-if="!$ctrl.hasAccount">
                     <div ng-if="$ctrl.state === 'downloading'">
                         <div class="step-title" w-i18n="desktopUpdate.pleaseWait"></div>
                         <div class="download-bar__wrapper">
