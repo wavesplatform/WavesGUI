@@ -390,18 +390,18 @@
 
                 const DEXW_LOCKED_STATES = [
                     'welcome',
-                    'desktopUpdate'
+                    'desktopUpdate',
+                    'switch'
                 ];
 
                 const offInitialTransitions = $transitions.onStart({}, transition => {
-                    const DEXW_LOCKED = configService.get('DEXW_LOCKED');
 
                     const toState = transition.to();
                     const fromState = transition.from();
                     const params = transition.params();
                     let tryDesktop;
 
-                    if (DEXW_LOCKED && DEXW_LOCKED_STATES.indexOf(toState.name) === -1) {
+                    if (DEXW_LOCKED_STATES.indexOf(toState.name) === -1) {
                         return $state.target(DEXW_LOCKED_STATES[0]);
                     }
 
@@ -469,15 +469,9 @@
             _onInnerTransitions(START_STATES, DEXW_LOCKED_STATES) {
                 return $transitions.onStart({}, transition => {
                     const toState = transition.to();
-                    const { custom } = transition.options();
-                    const DEXW_LOCKED = configService.get('DEXW_LOCKED');
 
-                    if (DEXW_LOCKED && DEXW_LOCKED_STATES.indexOf(toState.name) === -1) {
+                    if (DEXW_LOCKED_STATES.indexOf(toState.name) === -1) {
                         return $state.target(DEXW_LOCKED_STATES[0]);
-                    }
-
-                    if (START_STATES.indexOf(toState.name) !== -1 && !custom.logout && !DEXW_LOCKED) {
-                        return false;
                     } else {
                         state.signals.changeRouterStateStart.dispatch(transition);
                     }
@@ -667,8 +661,7 @@
         'decorators',
         'multiAccount',
         'configService',
-        'userNotification',
-        'whatsNew'
+        'userNotification'
     ];
 
     angular.module('app').run(run);

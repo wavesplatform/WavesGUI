@@ -1,11 +1,12 @@
-<span class="logo logo-header" ng-if="$ctrl.isLogined"></span>
-<a class="logo logo-header" ng-if="!$ctrl.isLogined" href="/"></a>
+<div class="logo logo-header" ng-switch="$ctrl.isLogined">
+    <span ng-switch-when="true"></span>
+    <a ng-switch-when="false" href="/"></a>
+</div>
 
 <div class="main-header__mobile-toggler" ng-click="$ctrl.onMobileTogglerClick()" ng-if="$ctrl.isLogined">
     <span></span>
 </div>
 
-<w-change-language class="change-language_header" ng-if="!$ctrl.isLogined"></w-change-language>
 <div class="main-header__mobile-fader" w-toggle-class="expanded" ng-click="$ctrl.onMobileFaderClick()"></div>
 <nav class="mobile-menu" ng-if="$ctrl.isLogined">
     <div class="mobile-menu__wrapper">
