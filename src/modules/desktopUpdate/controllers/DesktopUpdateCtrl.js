@@ -96,7 +96,7 @@
                                 exportStorageService.export({
                                     provider: connectProvider,
                                     attempts: 1000,
-                                    timeout: 1500
+                                    timeout: 4000
                                 });
 
                                 exportStorageService.onData().then(result => {
