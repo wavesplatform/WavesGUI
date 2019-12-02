@@ -449,8 +449,6 @@
                                 user.goToActiveState();
                             }
 
-                            i18next.changeLanguage(user.getSetting('lng'));
-
                             this._initializeTermsAccepted();
 
                             const offInnerTransitions = this._onInnerTransitions(

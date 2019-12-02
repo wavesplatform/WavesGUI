@@ -24,16 +24,6 @@
         <w-step-by-step active-step="$ctrl.tab">
             <w-step step-id="general" class="general">
 
-                <div class="checkbox-input settings-content__checkbox">
-                    <w-checkbox-submit class="checkbox-submit" id="advancedMode" ng-model="$ctrl.advancedMode"></w-checkbox-submit>
-                    <label class="checkbox-input__label" for="advancedMode" w-i18n="modal.termsAccept.body.advancedMode"></label>
-                </div>
-
-                <div class="row flex-row row-style unit-select">
-                    <div class="footnote-1 basic-500" w-i18n="modal.settings.general.language"></div>
-                    <w-change-language on-change="$ctrl.onChangeLanguage(language)"></w-change-language>
-                </div>
-
                 <div class="row flex-row row-style unit-select">
                     <div class="footnote-1 basic-500" w-i18n="modal.settings.general.timeout"></div>
                     <div class="select-setting-wrap">

@@ -162,7 +162,6 @@
             }
 
             onChangeLanguage(language) {
-                user.setSetting('lng', language);
                 // analytics.push('Settings', `Settings.ChangeLanguage.${WavesApp.type}`, language);
             }
 

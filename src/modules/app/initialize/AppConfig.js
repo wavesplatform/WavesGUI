@@ -184,7 +184,7 @@
 
                 i18next.on('initialized', () => {
                     const localeData = WavesApp.getLocaleData().separators;
-
+                    const lang = localStorage.getItem('lng') ||  i18next.language;
                     BigNumber.config.set({
                         ROUNDING_MODE: BigNumber.ROUND_MODE.ROUND_DOWN,
                         FORMAT: tsUtils.merge(Object.create(null), BIG_NUMBER_FORMAT, {
@@ -194,7 +194,7 @@
                     });
 
                     if (WavesApp.isDesktop()) {
-                        transfer('setLanguage', i18next.language);
+                        transfer('setLanguage', lang);
                     }
 
                     i18next.on('languageChanged', () => {
