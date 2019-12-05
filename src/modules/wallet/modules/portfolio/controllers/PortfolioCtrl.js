@@ -312,20 +312,7 @@
             }
 
             _addRating(balanceList) {
-                return Promise.all(splitEvery(25, balanceList).map(block => {
-                    return ds.api.rating.getAssetsRating(block.map(balanceItem => balanceItem.asset.id));
-                })).then(list => {
-                    const listHash = utils.toHash(flatten(list), 'assetId');
-                    return balanceList.map(balanceItem => {
-                        balanceItem.rating = listHash[balanceItem.asset.id] ?
-                            listHash[balanceItem.asset.id].rating :
-                            null;
-                        return balanceItem;
-                    });
-                })
-                    .catch(() => {
-                        return balanceList;
-                    });
+                return Promise.resolve(balanceList);
             }
 
             /**
