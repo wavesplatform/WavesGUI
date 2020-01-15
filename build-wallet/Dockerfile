@@ -37,8 +37,6 @@ COPY ./nginx/default.conf /etc/nginx/sites-available/default.conf
 COPY ./info.html /srv/www/info
 COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
 COPY ./files/ /srv/www/WavesGUI/dist/web/mainnet/
-RUN echo > /devops
-RUN mkdir /srv/www/WavesGUI/dist/web/mainnet/.well-known && echo -n > /srv/www/WavesGUI/dist/web/mainnet/.well-known/apple-app-site-associationad
 EXPOSE 80
 
 
