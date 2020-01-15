@@ -19,6 +19,7 @@ RUN npm ci --unsafe-perm && \
     mv ./testnet ./dist/\$platform/testnet  && \
     mv ./stagenet ./dist/\$platform/stagenet
 RUN rm -rf /srv/www/WavesGUI/node_modules/
+COPY ./WavesGUI/build-wallet/files/ /srv/www/WavesGUI/dist/web/mainnet/
 
 FROM nginx:stable-alpine
 ARG web_environment=mainnet
@@ -36,7 +37,7 @@ COPY ./nginx/default.conf /etc/nginx/sites-available/default.conf
 COPY ./info.html /srv/www/info
 COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
 COPY ./files/ /srv/www/WavesGUI/dist/web/mainnet/
-RUN mkdir /srv/www/WavesGUI/dist/web/mainnet/.well-known && echo > /srv/www/WavesGUI/dist/web/mainnet/.well-known/apple-app-site-association
+COPY ./files/.* /srv/www/WavesGUI/dist/web/mainnet/
 EXPOSE 80
 
 CMD ["/bin/sh","-c", "envsubst '\${WEB_ENVIRONMENT}' < /etc/nginx/sites-available/default.conf > /etc/nginx/sites-enabled/\${PLATFORM}-\${WEB_ENVIRONMENT}.conf ; envsubst '\${WEB_ENVIRONMENT}' < /srv/www/info > /srv/www/info.html ; nginx -g 'daemon off;'"]
