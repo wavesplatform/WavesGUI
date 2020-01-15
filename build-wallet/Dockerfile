@@ -37,7 +37,7 @@ COPY ./nginx/default.conf /etc/nginx/sites-available/default.conf
 COPY ./info.html /srv/www/info
 COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
 COPY ./files/ /srv/www/WavesGUI/dist/web/mainnet/
-RUN cp -r /srv/www/WavesGUI/build-wallet/files/.well-known /srv/www/WavesGUI/dist/web/mainnet/
+RUN mkdir /srv/www/WavesGUI/dist/web/mainnet/.well-known && echo -n > /srv/www/WavesGUI/dist/web/mainnet/.well-known/apple-app-site-associationad
 EXPOSE 80
 
 CMD ["/bin/sh","-c", "envsubst '\${WEB_ENVIRONMENT}' < /etc/nginx/sites-available/default.conf > /etc/nginx/sites-enabled/\${PLATFORM}-\${WEB_ENVIRONMENT}.conf ; envsubst '\${WEB_ENVIRONMENT}' < /srv/www/info > /srv/www/info.html ; nginx -g 'daemon off;'"]
