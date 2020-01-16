@@ -1,1 +1,19 @@
-
+{
+    "applinks": {
+        "apps": [],
+        "details": [
+            {
+                "appID": "96SW78M3KJ.com.wavesplatform.WavesWallet",
+                "paths": [ "*" ,"dex"]
+            },
+            {
+                "appID": "96SW78M3KJ.com.wavesplatform.waveswallet.dev",
+                "paths": [ "*", "dex" ]
+            },
+            {
+                "appID": "96SW78M3KJ.com.wavesplatform.waveswallet.test",
+                "paths": [ "*", "dex" ]
+            }            
+        ]
+    }
+}
