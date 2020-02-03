@@ -2,21 +2,10 @@
 
 
 import { app, BrowserWindow, screen, Menu } from 'electron';
-import loggable from './decorators/loggable';
 import { Bridge } from './Bridge';
 import { ISize, IMetaJSON, ILastOpen } from './package';
 import { join } from 'path';
-import {
-    hasProtocol,
-    read,
-    readJSON,
-    removeProtocol,
-    write,
-    writeJSON,
-    parseElectronUrl,
-    changeLanguage,
-    localeReady
-} from './utils';
+import { hasProtocol, read, readJSON, removeProtocol, write, writeJSON, changeLanguage, localeReady } from './utils';
 import { homedir } from 'os';
 import { execSync } from 'child_process';
 import { ARGV_FLAGS, PROTOCOL, MIN_SIZE, FIRST_OPEN_SIZES, META_NAME, GET_MENU_LIST, CONTEXT_MENU } from './constansts';
@@ -124,11 +113,20 @@ class Main implements IMain {
             this.mainWindow = new BrowserWindow(Main.getWindowOptions(meta));
 
             const pack = this.pack;
-            const parts = parseElectronUrl(removeProtocol(this.initializeUrl || argv.find(argument => hasProtocol(argument)) || ''));
-            const path = parts.path === '/' ? '/' : parts.path.replace(/\/$/, '');
-            const url = `${path}${parts.search}${parts.hash}`;
+            const parts = removeProtocol(this.initializeUrl || argv.find(argument => hasProtocol(argument)) || '');
 
-            this.mainWindow.loadURL(`https://${pack.server}/#!${url}`, { 'extraHeaders': 'pragma: no-cache\n' });
+            const getUrl = (): string => {
+                try {
+                    const { URL } = require('url');
+                    const url = new URL('', `https://${pack.server}`);
+                    url.hash = `!${parts}`;
+                    return url.toString();
+                } catch (e) {
+                    return `https://${pack.server}/#`;
+                }
+            };
+
+            this.mainWindow.loadURL(getUrl(), { 'extraHeaders': 'pragma: no-cache\n' });
 
             Main.loadVersion(pack)
                 .catch(() => null)
