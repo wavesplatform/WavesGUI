@@ -1,12 +1,15 @@
 (function () {
     'use strict';
 
+    const { pickBy, hasIn } = require('ramda');
+
     class StorageExporter {
 
         static $inject = [
             '$log',
             'storage',
-            'multiAccount'
+            'multiAccount',
+            'defaultSettings'
         ];
 
         /**
@@ -14,10 +17,11 @@
          * @param {app.utils.Storage} storage
          * @param {app.MultiAccount} multiAccount
          */
-        constructor($log, storage, multiAccount) {
+        constructor($log, storage, multiAccount, defaultSettings) {
             this.$log = $log;
             this.storage = storage;
             this.multiAccount = multiAccount;
+            this.defaultSettings = defaultSettings;
         }
 
         /**
@@ -47,6 +51,13 @@
                 } catch (e) {
                     this.$log.error(`Could not read key "${key}" from storage. Error:`, e);
                 }
+            }
+
+            const predicate = (value, key) => hasIn(key, this.defaultSettings.create().getDefaultSettings());
+
+            for (const user of Object.values(storageData.userList)) {
+                delete user.settings.encryptionRounds;
+                user.settings = pickBy(predicate)(user.settings);
             }
 
             return this.multiAccount.export(privateKeyFrom, publicKeyTo, storageData);
