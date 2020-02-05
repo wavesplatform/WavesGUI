@@ -8,9 +8,7 @@
           name: $ctrl.transaction.amount.asset.name
         }">
         </h3>
-        <span ng-if="$ctrl.isScamAmount"
-              class="status-label-min inactive"
-              w-i18n="transaction.headers.suspicious"></span>
+        <w-asset-status asset-id="$ctrl.transaction.amount.id"></w-asset-status>
     </div>
     <div class="exchange-header-row">
         <div class="body-2 basic-500 margin-05"
@@ -20,8 +18,6 @@
            amount: $ctrl.totalPrice,
            name: $ctrl.transaction.price.asset.name
          }"></div>
-        <span ng-if="$ctrl.isScamPrice"
-              class="status-label-min inactive"
-              w-i18n="transaction.headers.suspicious"></span>
+        <w-asset-status asset-id="$ctrl.transaction.price.id"></w-asset-status>
     </div>
 </div>

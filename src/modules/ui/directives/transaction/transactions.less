@@ -21,58 +21,10 @@
   }
 }
 
-.status-label,
-.status-label-min {
-  width: auto;
-  padding: 4px 11px;
-  border-radius: @border-radius;
-  text-transform: uppercase;
-  color: @color-submit-400;
-  background-color: @color-bluebar-200;
-  margin: 0 0 0 6px;
-  white-space: nowrap;
-
-  &.success,
-  &.confirmed {
-    background: @color-success-50;
-    color: @color-success-400;
-  }
-
-  &.warning,
-  &.unconfirmed {
-    background: rgba(255, 175, 0, 0.1);
-    color: @color-warning-500;
-  }
-
-  &.error,
-  &.cancelled {
-    background: rgba(239, 72, 41, 0.1);
-    color: @color-error-500;
-  }
-
-  &.active {
-    color: @color-submit-400;
-    background-color: @color-bluebar-200;
-  }
-
-  &.inactive {
-    background-color: @asset-label-suspicious;
-    color: @color-black;
-  }
-}
-
 .asset__text {
   .js-stars-container {
     margin-top: 1px;
   }
-}
-
-.status-label-min {
-  .caption-3();
-  padding: 2px 6px;
-  //margin-top: 4px;
-  border-radius: @border-radius / 2;
-  text-transform: uppercase;
 }
 
 w-transaction .transaction {
@@ -84,7 +36,7 @@ w-transaction .transaction {
   align-items: center;
   position: relative;
 
-  .status-label-min {
+  .status-label {
     &.inactive {
       margin-bottom: -1px;
     }
@@ -226,15 +178,6 @@ w-transaction .transaction {
     }
   }
 
-  .status-label-min.inactive {
-    display: none;
-  }
-
-  .spam {
-    .status-label-min.inactive {
-      display: block;
-    }
-  }
 
   .transaction-info {
     display: flex;
@@ -267,10 +210,6 @@ w-transaction .transaction {
         }
 
         .top {
-          .spam-label {
-            display: none;
-          }
-
           .ellipsis {
             max-width: 120px;
           }
@@ -320,7 +259,7 @@ w-transaction .transaction {
             color: @color-accent-100;
           }
 
-          .status-label-min {
+          .status-label {
             display: inline-block;
             top: auto;
             bottom: 3px;
@@ -344,7 +283,7 @@ w-transaction .transaction {
       margin-right: 20px;
     }
 
-    .status-label-min {
+    .status-label {
       right: 40px;
       top: 24px;
       bottom: auto;
@@ -428,7 +367,7 @@ w-transaction .transaction {
         .line-wrapper {
           .line {
             .top {
-              .status-label-min {
+              .status-label {
                 position: absolute;
                 right: 43px;
                 bottom: 44px;
@@ -444,9 +383,10 @@ w-transaction .transaction {
 @media screen and (max-width: 540px) {
   md-dialog {
     w-transaction .transaction {
-      .status-label-min {
+      .status-label {
         right: 10px;
       }
     }
   }
 }
+

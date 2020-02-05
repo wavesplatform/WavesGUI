@@ -13,6 +13,22 @@
 
         class AssetInfoHead extends Base {
 
+            /**
+             * @public
+             * @type string
+             */
+            size = 'medium';
+            /**
+             * @public
+             * @type boolean
+             */
+            onlySpam = false;
+            /**
+             * @public
+             * @type string
+             */
+            assetId;
+
             $postLink() {
                 this._getAssetInfo();
                 this.observe('assetId', this._getAssetInfo);
@@ -50,7 +66,9 @@
             controller: controller,
             templateUrl: 'modules/ui/directives/assetStatus/asset-status.html',
             bindings: {
-                assetId: '<'
+                assetId: '<',
+                size: '<',
+                onlySpam: '<'
             }
         });
 })();

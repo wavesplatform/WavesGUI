@@ -39,6 +39,7 @@
 
             $postLink() {
                 const tx = this.signable.getTxData();
+                this.assetId = tx.assetId;
                 this.typeName = utils.getTransactionTypeName(tx);
                 this.amount = tx.amount.toFormat();
                 this.name = tx.amount.asset.name;
