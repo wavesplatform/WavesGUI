@@ -755,6 +755,39 @@
                 return this._getModal(tsUtils.merge({}, DEFAULT_OPTIONS, options, { contentUrl, controller }));
             }
 
+            showShutdownFirstModal() {
+                localStorage.setItem('shutdownFirstShown', true);
+                return this._getModal({
+                    id: 'shutdownFirstModal',
+                    templateUrl: 'modules/utils/modals/shutdownFirst/shutdownFirst.html',
+                    controller: 'ShutdownFirstCtrl',
+                    clickOutsideToClose: false,
+                    escapeToClose: false
+                });
+            }
+
+            showShutdownSecondModal() {
+                localStorage.setItem('shutdownSecondShown', true);
+                return this._getModal({
+                    id: 'shutdownSecondModal',
+                    templateUrl: 'modules/utils/modals/shutdownSecond/shutdownSecond.html',
+                    controller: 'ShutdownSecondCtrl',
+                    clickOutsideToClose: false,
+                    escapeToClose: false
+                });
+            }
+
+            showShutdownLastModal() {
+                return this._getModal({
+                    id: 'shutdownLastModal',
+                    templateUrl: 'modules/utils/modals/shutdownLast/shutdownLast.html',
+                    controller: 'ShutdownLastCtrl',
+                    clickOutsideToClose: false,
+                    escapeToClose: false
+                });
+            }
+
+
             /**
              * @param {IModalOptions} options
              * @return {$q.resolve}

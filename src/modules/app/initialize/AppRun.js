@@ -78,6 +78,7 @@
      * @param {ModalRouter} ModalRouter
      * @param {ConfigService} configService
      * @param {INotification} userNotification
+     * @param {ShutdownService} shutdownService
      * @return {AppRun}
      */
     // eslint-disable-next-line max-params
@@ -97,7 +98,8 @@
         multiAccount,
         ModalRouter,
         configService,
-        userNotification
+        userNotification,
+        shutdownService
     ) {
 
         const phone = WavesApp.device.phone();
@@ -158,6 +160,7 @@
                 this._initializeLogin();
                 this._initializeOutLinks();
                 this._openMigrationModal();
+                shutdownService.run();
 
                 if (WavesApp.isDesktop()) {
                     window.listenMainProcessEvent((type, url) => {
@@ -809,6 +812,7 @@
         'ModalRouter',
         'configService',
         'userNotification',
+        'shutdownService',
         'whatsNew'
     ];
 
