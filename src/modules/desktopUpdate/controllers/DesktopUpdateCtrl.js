@@ -287,10 +287,6 @@
                 $state.go('welcome');
             }
 
-            showFAQ() {
-                modalManager.showMigrateFAQ();
-            }
-
             _decreaseTimer() {
                 this._timer = this._timer - 1;
                 $scope.$apply();
