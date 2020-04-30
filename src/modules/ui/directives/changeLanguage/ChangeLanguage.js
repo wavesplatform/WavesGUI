@@ -55,6 +55,7 @@
                 const active = this.active;
                 if (active) {
                     i18next.changeLanguage(active);
+                    localStorage.setItem('lng', active);
                     this.onChange({ language: active });
                 }
             }

@@ -85,21 +85,21 @@
              */
             _initialize() {
                 this._waves = $injector.get('waves');
-                this._waves.node.transactions.listUtx()
-                    .then((list) => {
-                        const events = user.getSetting('events');
-                        const utxHash = utils.toHash(list, 'id');
-
-                        Object.keys(events).forEach((id) => {
-                            if (!utxHash[id]) {
-                                this._removeEvent(id, true);
-                            }
-                        });
-
-                        if (list && list.length) {
-                            this._resetPoll();
-                        }
-                    });
+                // this._waves.node.transactions.listUtx()
+                //     .then((list) => {
+                //         const events = user.getSetting('events');
+                //         const utxHash = utils.toHash(list, 'id');
+                //
+                //         Object.keys(events).forEach((id) => {
+                //             if (!utxHash[id]) {
+                //                 this._removeEvent(id, true);
+                //             }
+                //         });
+                //
+                //         if (list && list.length) {
+                //             this._resetPoll();
+                //         }
+                //     });
             }
 
             /**

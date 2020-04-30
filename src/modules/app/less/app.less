@@ -80,7 +80,7 @@ body.ledger,
 body.desktop,
 body.fromBackup {
   .main-container {
-    min-height: calc(100vh ~'- 60px');
+    height: calc(100vh ~'- 60px');
     flex-shrink: 0;
   }
 }
@@ -143,12 +143,11 @@ body.portfolio {
 }
 
 .ui-view {
-  display: block;
+  display: flex;
+  flex-direction: column;
   height: 100%;
-
-  &_main {
-    overflow: auto;
-  }
+  overflow: hidden;
+  overflow-y: auto;
 }
 
 .logo {

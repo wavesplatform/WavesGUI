@@ -1,4 +1,10 @@
 {
+    "desktopLocked": {
+        "newUser": {
+            "desc": "Om gebruikers een betere ervaring en een breder scala aan tools te bieden, is de uitwisseling verplaatst van Waves DEX naar Waves.Exchange.",
+            "secondDesc": "Als u de exchange wilt blijven gebruiken, moet u de nieuwe desktoptoepassing downloaden."
+        }
+    },
     "desktopUpdate": {
         "almostThere": "Bijna daar ...",
         "backToPrevious": "Terug naar vorige",
@@ -35,6 +41,18 @@
         "signInAndMove": "Aanmelden & Verhuizen",
         "toFinish": "Om de migratie van uw accounts te voltooien, moet u naar de nieuwe applicatie gaan en het autorisatieproces voltooien.",
         "tryAgain": "Probeer opnieuw"
+    },
+    "dexLocked": {
+        "multiAccount": {
+            "desc": "Meld u aan om te beginnen met migreren."
+        },
+        "newUser": {
+            "desc": "Om gebruikers een betere ervaring en een breder scala aan tools te bieden, is de exchange  verplaatst van Waves DEX naar Waves.Exchange."
+        },
+        "oldUser": {
+            "desc": "Als u wilt blijven werken met uw bestaande accounts, funds en de exchange, moet u uw accounts verplaatsen naar de nieuwe Waves.Exchange. We raden u ten zeerste aan dit zo snel mogelijk te doen. Het migratieproces is snel, eenvoudig en absoluut veilig."
+        },
+        "title": "We gebruiken deze service niet meer"
     },
     "faq": {
         "attention": {

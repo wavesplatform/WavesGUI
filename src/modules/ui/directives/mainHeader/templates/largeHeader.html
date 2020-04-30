@@ -1,127 +1,7 @@
-<span class="logo logo-header" ng-if="$ctrl.isLogined"></span>
-<a class="logo logo-header" ng-if="!$ctrl.isLogined" href="/"></a>
-
-<w-web-only>
-    <nav class="top-menu" ng-if="!$ctrl.isLogined">
-        <a w-analytics event-target="'ui'"
-           event="'Menu Exchange Click'"
-           event-target="'ui'"
-           class="top-menu__link"
-           ui-sref="main.dex-demo"
-           w-i18n="welcome.exchange">
-        </a>
-        <a w-analytics event-target="'ui'"
-           event="'Menu API Click'"
-           event-target="'ui'"
-           class="top-menu__link"
-           href="https://docs.wavesplatform.com/en/waves-api-and-sdk/dex-api.html"
-           target="_blank"
-           rel="noopener noreferrer"
-           w-i18n="welcome.api">
-        </a>
-        <a w-analytics event-target="'ui'"
-           event="'Menu Help Click'"
-           event-target="'ui'"
-           class="top-menu__link"
-           href="https://docs.wavesplatform.com/en/waves-client/install-waves-client.html"
-           target="_blank"
-           rel="noopener noreferrer"
-           w-i18n="welcome.help">
-        </a>
-        <a w-analytics event-target="'ui'"
-           event="'Menu News Click'"
-           event-target="'ui'"
-           class="top-menu__link"
-           href="https://twitter.com/Waves_DEX"
-           target="_blank"
-           rel="noopener noreferrer"
-           w-i18n="welcome.news"></a>
-        <div class="dropdown-toggler" ng-if="!$ctrl.isDesktop">
-            <span class="dropdown-toggler__btn" w-i18n="welcome.download"></span>
-            <div class="main-header__dropdown dropdown">
-                <a w-analytics
-                   event-target="'ui'"
-                   event="'Menu Download Windows Click'"
-                   href="https://wavesplatform.com/files/WavesDEX-win.zip"
-                   target="_blank"
-                   rel="noopener noreferrer"
-                   class="dropdown__link">
-                    <i class="dropdown__icon dropdown__icon_win icon-24"></i>
-                    <div>
-                        <div w-i18n="welcome.windows"></div>
-                        <div class="footnote-1 basic-500" w-i18n="welcome.windowsDescription"></div>
-                    </div>
-                </a>
-
-                <a w-analytics event-target="'ui'"
-                   event="'Menu Download Mac OS Click'"
-                   href="https://wavesplatform.com/files/WavesDEX-mac.dmg"
-                   target="_blank"
-                   rel="noopener noreferrer"
-                   class="dropdown__link">
-                    <i class="dropdown__icon dropdown__icon_mac icon-24"></i>
-                    <div>
-                        <div w-i18n="welcome.macOs"></div>
-                        <div class="footnote-1 basic-500" w-i18n="welcome.macOsDescription"></div>
-                    </div>
-                </a>
-
-                <a w-analytics event-target="'ui'"
-                   event="'Menu Download Linux Click'"
-                   href="https://wavesplatform.com/files/WavesDEX-linux.deb"
-                   target="_blank"
-                   rel="noopener noreferrer"
-                   class="dropdown__link">
-                    <i class="dropdown__icon dropdown__icon_linux icon-24"></i>
-                    <div>
-                        <div w-i18n="welcome.linux"></div>
-                        <div class="footnote-1 basic-500" w-i18n="welcome.linuxDescription"></div>
-                    </div>
-                </a>
-            </div>
-        </div>
-    </nav>
-</w-web-only>
-
-<nav class="top-menu" ng-if="$ctrl.isLogined">
-    <a class="top-menu__link top-menu__link-dex" ui-sref="main.dex" w-i18n="welcome.exchange"></a>
-    <div class="top-menu__link dropdown-toggler">
-        <a class="dropdown-toggler__btn" w-i18n="welcome.wallet"></a>
-        <div class="main-header__dropdown dropdown">
-            <a class="dropdown__link dropdown__link_assets" ui-sref="main.wallet.assets">
-                <i class="dropdown__icon dropdown__icon_dashboard icon-18"></i>
-                <span  class="dropdown__text" w-i18n="welcome.dashboard"></span>
-            </a>
-            <a class="dropdown__link dropdown__link_portfolio" ui-sref="main.wallet.portfolio">
-                <i class="dropdown__icon dropdown__icon_portfolio icon-18"></i>
-                <span  class="dropdown__text" w-i18n="welcome.portfolio"></span>
-            </a>
-            <a class="dropdown__link dropdown__link_transactions" ui-sref="main.wallet.transactions">
-                <i class="dropdown__icon dropdown__icon_transactions icon-18"></i>
-                <span  class="dropdown__text" w-i18n="welcome.transactions"></span>
-            </a>
-            <a class="dropdown__link dropdown__link_leasing" ui-sref="main.wallet.leasing">
-                <i class="dropdown__icon dropdown__icon_leasing icon-18"></i>
-                <span  class="dropdown__text" w-i18n="welcome.leasing"></span>
-            </a>
-        </div>
-    </div>
-    <a class="top-menu__link top-menu__link-tokens" ui-sref="main.tokens" w-i18n="welcome.createToken"></a>
-</nav>
-
-<w-web-only class="block-right">
-    <div ng-if="!$ctrl.isSignedIn" class="login-buttons buttons-wrapper buttons-wrapper-nowidth">
-        <a class="body-2 submit-400 signIn-hidden" ng-class="{'margin-right-3': !$ctrl.hasMultiAccount}"
-           ng-if="$ctrl.hasMultiAccount" ui-sref="signIn"
-           w-analytics event="'Sign In Click'" event-target="ui"
-           w-i18n="welcome.signIn"></a>
-        <div class="create-hidden">
-            <a class="fake-button submit medium" ui-sref="signUp" ng-if="!$ctrl.hasMultiAccount">
-                <span w-i18n="welcome.createAccount" class="fake-button-content medium submit"></span>
-            </a>
-        </div>
-    </div>
-</w-web-only>
+<div class="logo logo-header" ng-switch="$ctrl.isLogined">
+    <span ng-switch-when="true"></span>
+    <a ng-switch-when="false" href="/"></a>
+</div>
 
 <w-click-outside on-click-outside="$ctrl.closeDropdown()" ng-if="$ctrl.isLogined">
     <div class="main-header__user {{SELECTORS.MAIN_HEADER_USER}}">
@@ -255,9 +135,6 @@
                                         <div class="switch-accounts__address body-3">{{::user.address}}</div>
                                     </div>
                                 </div>
-                                <w-analytics event="'Remove Switch Account Successfully Unlocked'">
-                                    <div class="switch-accounts__remove icon-remove-user icon-close" ng-click="$ctrl.deleteUser(user)"></div>
-                                </w-analytics>
                             </div>
                             <div ng-if="$ctrl.userListLocked.length" class="switch-accounts__unlock">
                                 <span w-i18n="welcome.accountList.locked"></span>
@@ -277,17 +154,7 @@
                                         <div class="switch-accounts__address">{{::user.address}}</div>
                                     </div>
                                 </div>
-                                <w-analytics event="'Remove Switch Account Pending Unlock'">
-                                    <div class="switch-accounts__remove icon-remove-user icon-close"
-                                         ng-click="$ctrl.deleteUser(user)"
-                                    ></div>
-                                </w-analytics>
                             </div>
-                        </div>
-                        <div class="switch-accounts__add-wrapper">
-                            <w-analytics event="'Add Account'">
-                                <a ui-sref="create" w-i18n="userList.addNew" class="switch-accounts__add"></a>
-                            </w-analytics>
                         </div>
                     </div>
                 </div>

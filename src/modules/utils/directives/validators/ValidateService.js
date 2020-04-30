@@ -7,12 +7,11 @@
     /**
      * @param {Waves} waves
      * @param {$q} $q
-     * @param {Object.<string, {function} isValidAddress>} outerBlockchains
      * @param {app.utils} utils
      * @param {User} user
      * @return {ValidateService}
      */
-    const factory = function (waves, $q, outerBlockchains, utils, user) {
+    const factory = function (waves, $q, utils, user) {
 
         const fetchAliases = utils.cache(
             {},
@@ -84,10 +83,6 @@
                 return inputValue.round().eq(inputValue);
             }
 
-            anyAddress(address, assetId) {
-                return this.outerBlockchains(address, assetId) ? true : this.wavesAddress(address);
-            }
-
             /**
              * @param {string} address
              * @param {'no-self'} [value]
@@ -133,20 +128,6 @@
                     return data.map(item => ({ state: item.isValidAlis || item.isAddress, ...item }));
                 });
 
-            }
-
-            outerBlockchains(address, assetId) {
-                if (!address || !assetId) {
-                    return true;
-                }
-
-                const outerChain = outerBlockchains[assetId];
-
-                if (!outerChain) {
-                    return false;
-                }
-
-                return outerChain.isValidAddress(address);
             }
 
             /**
@@ -256,7 +237,7 @@
         return utils.bind(new ValidateService());
     };
 
-    factory.$inject = ['waves', '$q', 'outerBlockchains', 'utils', 'user'];
+    factory.$inject = ['waves', '$q', 'utils', 'user'];
 
     angular.module('app.utils').factory('validateService', factory);
 })();

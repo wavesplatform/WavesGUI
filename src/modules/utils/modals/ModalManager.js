@@ -18,9 +18,6 @@
 
         const tsUtils = require('ts-utils');
         const ds = require('data-service');
-        const { Money } = require('@waves/data-entities');
-        const { SIGN_TYPE } = require('@waves/signature-adapter');
-        const analytics = require('@waves/event-sender');
 
         const DEFAULT_OPTIONS = {
             clickOutsideToClose: true,
@@ -234,15 +231,6 @@
                 return $templateRequest(url);
             }
 
-            showScriptModal() {
-                return this._getModal({
-                    id: 'script-modal',
-                    contentUrl: 'modules/utils/modals/script/script.html',
-                    controller: 'ScriptModalCtrl',
-                    title: 'modal.script.setScript'
-                });
-            }
-
             showPasswordModal() {
                 return this._getModal({
                     id: 'password-modal',
@@ -268,19 +256,6 @@
                 });
             }
 
-            showTryDesktopModal() {
-                analytics.send({ name: 'Onboarding Platform Popup Show', target: 'ui' });
-                return this._getModal({
-                    id: 'try-desktop',
-                    title: '',
-                    contentUrl: 'modules/utils/modals/tryDesktop/tryDesktop.html',
-                    controller: 'TryDesktopCtrl',
-                    clickOutsideToClose: false,
-                    escapeToClose: false,
-                    mod: 'try-desktop-modal'
-                });
-            }
-
             showExportAccount() {
                 return this._getModal({
                     id: 'export-account',
@@ -298,91 +273,6 @@
                     contentUrl: 'modules/utils/modals/pairingWithMobile/pairingWithMobile.html',
                     controller: 'PairingWithMobileCtrl',
                     mod: 'pairing-with-mobile'
-                });
-            }
-
-            /**
-             * @param {Signable} signable
-             * @param anyData
-             * @return {Promise<Signable>}
-             */
-            showSignByDevice(signable, anyData = null) {
-                return this._getModal({
-                    id: 'sign-by-device',
-                    contentUrl: 'modules/utils/modals/signByDevice/signByDevice.html',
-                    controller: 'SignByDeviceCtrl',
-                    locals: { signable, anyData },
-                    clickOutsideToClose: false,
-                    escapeToClose: false
-                });
-            }
-
-            showConfirmOrder(options) {
-                return this._getModal({
-                    id: 'confirm-correct-order',
-                    contentUrl: 'modules/utils/modals/confirmOrder/confirmOrder.html',
-                    controller: 'ConfirmOrderCtrl',
-                    locals: options
-                });
-            }
-
-            /**
-             * @param {Promise} promise
-             * @param {string} type
-             * @return {Promise}
-             */
-            showLoginByDevice(promise, type) {
-                return this._getModal({
-                    id: 'login-by-device',
-                    contentUrl: 'modules/utils/modals/loginByDevice/loginByDevice.html',
-                    controller: 'LoginByDeviceCtrl',
-                    locals: () => ({ promise, type }),
-                    clickOutsideToClose: false,
-                    escapeToClose: false
-                });
-            }
-
-            showSignDeviceError(locals) {
-                return this._getModal({
-                    id: 'error-sign-device',
-                    contentUrl: 'modules/utils/modals/signDeviceError/signDeviceError.html',
-                    controller: 'SignDeviceError',
-                    locals: { ...locals },
-                    clickOutsideToClose: false,
-                    escapeToClose: false
-                });
-            }
-
-            showGatewaySign(search) {
-                return this._getModal({
-                    id: 'gateway-sign-in',
-                    title: '{{$ctrl.titleLiteral}}',
-                    contentUrl: 'modules/utils/modals/gateway/gatewaySign.html',
-                    controller: 'GatewaySignCtrl',
-                    locals: { search },
-                    clickOutsideToClose: false,
-                    escapeToClose: false
-                });
-            }
-
-            showPinAsset() {
-                return this._getModal({
-                    id: 'pin-asset',
-                    title: 'modal.pinAsset.title',
-                    templateUrl: 'modules/utils/modals/pinAsset/pinAsset.html',
-                    controller: 'PinAssetCtrl',
-                    mod: 'pin-asset-modal'
-                });
-            }
-
-            showAssetInfo(asset) {
-                return this._getModal({
-                    id: 'asset-info',
-                    title: 'modal.assetInfo.title',
-                    contentUrl: 'modules/utils/modals/assetInfo/assetInfo.html',
-                    locals: asset,
-                    controller: 'AssetInfoCtrl',
-                    mod: 'm-dialog m-dialog_asset-info'
                 });
             }
 
@@ -409,14 +299,6 @@
                 });
             }
 
-            showTutorialModals() {
-                return this._getModal({
-                    id: 'tutorial-modals',
-                    templateUrl: 'modules/utils/modals/tutorialModals/tutorialModals.html',
-                    controller: 'TutorialModalsCtrl'
-                });
-            }
-
             showSeedBackupModal() {
                 const api = ds.signature.getSignatureApi();
 
@@ -440,17 +322,6 @@
                     controller: 'confirmDeleteUserCtrl',
                     locals: {
                         user
-                    }
-                });
-            }
-
-            showDexScriptedPair(assets) {
-                return this._getModal({
-                    id: 'dex-scripted-pair',
-                    templateUrl: 'modules/utils/modals/dexScriptedPair/dexScriptedPair.html',
-                    controller: 'DexScriptedPairCtrl',
-                    locals: {
-                        assets
                     }
                 });
             }
@@ -486,233 +357,6 @@
                     },
                     contentUrl: 'modules/utils/modals/accountInfo/account-info.modal.html',
                     mod: 'account-info'
-                });
-            }
-
-            /**
-             * @param {object} [data]
-             * @param {string} [data.assetId]
-             * @param {'singleSend'|'massSend'} [data.mode]
-             * @param {string} [data.amount]
-             * @param {string} [data.recipient]
-             * @param {boolean} [data.strict]
-             * @param {string} [data.referrer]
-             * @return {Promise}
-             */
-            showSendAsset(data) {
-                data = data || Object.create(null);
-
-                return this._getModal({
-                    id: 'send-asset',
-                    controller: 'AssetSendCtrl',
-                    templateUrl: 'modules/utils/modals/sendAsset/send.modal.html',
-                    mod: 'modal-send',
-                    locals: {
-                        assetId: data.assetId,
-                        canChooseAsset: !data.assetId,
-                        mode: data.mode,
-                        amount: data.amount,
-                        recipient: data.recipient,
-                        strict: data.strict,
-                        referrer: data.referrer,
-                        attachment: data.attachment
-                    }
-                });
-            }
-
-            /**
-             * @param {Asset} [asset]
-             * @return {Promise}
-             */
-            showReceiveModal(asset) {
-                return this._getModal({
-                    id: 'receive-popup',
-                    locals: { asset },
-                    templateUrl: 'modules/utils/modals/receive/Receive.html',
-                    controller: 'ReceiveCtrl'
-                });
-            }
-
-            /**
-             * @param {User} user
-             * @param {Asset} asset
-             * @return {Promise}
-             */
-            showDepositAsset(user, asset) {
-                return this._getModal({
-                    id: 'deposit-asset',
-                    locals: { address: user.address, asset },
-                    title: 'modal.deposit.title',
-                    titleParams: { assetName: asset.name },
-                    contentUrl: 'modules/utils/modals/depositAsset/deposit-asset.modal.html',
-                    controller: 'DepositAsset',
-                    mod: 'modal-deposit-asset'
-                });
-            }
-
-            /**
-             * @param {User} user
-             * @param {Asset} asset
-             * @return {Promise}
-             */
-            showSepaAsset(user, asset) {
-                return this._getModal({
-                    id: 'sepa-asset',
-                    locals: { address: user.address, asset },
-                    title: 'modal.sepa.title',
-                    titleParams: { assetName: asset.name },
-                    contentUrl: 'modules/utils/modals/sepaAsset/sepa-asset.modal.html',
-                    controller: 'SepaAsset',
-                    mod: 'modal-sepa-asset'
-                });
-            }
-
-            showTransactionInfo(transactionId) {
-                return this._getModal({
-                    id: 'transaction-info',
-                    ns: 'app.ui',
-                    controller: 'TransactionInfoCtrl',
-                    templateUrl: 'modules/utils/modals/transactionInfo/transaction-info.modal.html',
-                    mod: 'transaction-info',
-                    locals: { transactionId }
-                });
-            }
-
-            showAnyTx(tx, analyticsText) {
-                return this._getModal({
-                    id: 'any-tx-modal',
-                    controller: 'AnyTxModalCtrl',
-                    contentUrl: 'modules/utils/modals/anyTxModal/any-tx-modal.html',
-                    title: 'modals.anyTx.title',
-                    locals: { tx, analyticsText }
-                });
-            }
-
-            showStartLeasing() {
-                return this._getModal({
-                    id: 'start-leasing',
-                    ns: 'app.utils',
-                    controller: 'StartLeasingCtrl',
-                    titleContent: '{{$ctrl.title}}',
-                    mod: 'start-leasing',
-                    contentUrl: 'modules/utils/modals/startLeasing/startLeasing.html'
-                });
-            }
-
-            showConfirmTx(signable, analyticsText) {
-                return this._getModal({
-                    id: 'confirm-tx',
-                    mod: 'confirm-tx',
-                    ns: 'app.ui',
-                    locals: { signable, analyticsText },
-                    controller: 'ConfirmTxCtrl',
-                    contentUrl: 'modules/utils/modals/confirmTx/confirmTx.modal.html'
-                });
-            }
-
-            showBurnModal(assetId) {
-                return $injector.get('waves').node.assets.balance(assetId).then(({ available }) => this._getModal({
-                    id: 'token-burn',
-                    mod: 'change-token',
-                    locals: { money: available, txType: 'burn' },
-                    titleContent: '<span w-i18n="modal.token.burn.title" params="{name: $ctrl.asset.name}"></span>',
-                    contentUrl: 'modules/utils/modals/changeToken/change-token-modal.html',
-                    controller: 'TokenChangeModalCtrl'
-                }));
-            }
-
-            showReissueModal(assetId) {
-                return $injector.get('waves').node.assets.balance(assetId).then(({ available }) => this._getModal({
-                    id: 'token-burn',
-                    mod: 'change-token',
-                    locals: { money: available, txType: 'reissue' },
-                    titleContent: '<span w-i18n="modal.token.reissue.title" params="{name: $ctrl.asset.name}"></span>',
-                    contentUrl: 'modules/utils/modals/changeToken/change-token-modal.html',
-                    controller: 'TokenChangeModalCtrl'
-                }));
-            }
-
-            showSponsorshipModal(assetId, isEdit) {
-                const title = isEdit ? 'modal.sponsorship_edit.title' : 'modal.sponsorship.title';
-                return ds.api.assets.get(assetId).then((asset) => {
-                    return this._getModal({
-                        id: 'sponsorship',
-                        mod: 'sponsorship',
-                        locals: { asset, assetId, isCreateSponsored: !isEdit },
-                        titleContent: `<span w-i18n="${title}"></span>`,
-                        controller: 'SponsoredModalCtrl',
-                        contentUrl: 'modules/utils/modals/sponsored/sponsored.html'
-                    });
-                });
-            }
-
-            showSetAssetScriptModal(assetId) {
-                const title = 'modal.setAssetScript.title';
-                return this._getModal({
-                    id: 'setAssetScript',
-                    mod: 'setAssetScript',
-                    locals: assetId,
-                    titleContent: `<span w-i18n="${title}"></span>`,
-                    controller: 'SetAssetScriptModalCtrl',
-                    contentUrl: 'modules/utils/modals/setAssetScript/setAssetScript.html'
-                });
-            }
-
-            showSponsorshipStopModal(assetId) {
-                const waves = $injector.get('waves');
-
-                return Promise.all([
-                    ds.api.assets.get(assetId),
-                    waves.node.getFee({ type: SIGN_TYPE.SPONSORSHIP })
-                ]).then(([asset, fee]) => {
-                    const money = new Money(0, asset);
-                    const tx = waves.node.transactions.createTransaction({
-                        type: SIGN_TYPE.SPONSORSHIP,
-                        assetId,
-                        asset,
-                        minSponsoredAssetFee: money,
-                        fee
-                    });
-                    const signable = ds.signature.getSignatureApi().makeSignable({
-                        type: tx.type,
-                        data: tx
-                    });
-
-                    return this.showConfirmTx(signable);
-                });
-            }
-
-            showImportAccountsModal() {
-                return this._getModal({
-                    id: 'import-accounts',
-                    mod: 'import-accounts',
-                    controller: 'ImportAccountsCtrl',
-                    contentUrl: 'modules/utils/modals/importAccounts/importAccounts.html'
-                });
-            }
-
-            showConfirmLogout() {
-                return this._getModal({
-                    id: 'logout-modal',
-                    contentUrl: 'modules/utils/modals/confirmLogout/confirmLogout.modal.html',
-                    title: ''
-                });
-            }
-
-            showLockPairWarning(amountTicker, priceTicker) {
-                return this._getModal({
-                    id: 'logout-modal',
-                    controller: 'LockPairWarningCtrl',
-                    contentUrl: 'modules/utils/modals/lockPairWarning/lockPairWarning.modal.html',
-                    locals: { amountTicker, priceTicker }
-                });
-            }
-
-            showMigrateModal() {
-                return this._getModal({
-                    id: 'migrate-modal',
-                    controller: 'MigrateModalCtrl',
-                    contentUrl: 'modules/utils/modals/migrateModal/migrateModal.html'
                 });
             }
 

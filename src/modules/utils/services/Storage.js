@@ -9,7 +9,6 @@
      * @param {storageSelect} storageSelect
      * @param {DefaultSettings} defaultSettings
      * @param {StorageDataConverter} storageDataConverter
-     * @param {$injector} $injector
      */
     const factory = function (
         $q,
@@ -18,8 +17,7 @@
         state,
         storageSelect,
         defaultSettings,
-        storageDataConverter,
-        $injector
+        storageDataConverter
     ) {
 
         const usedStorage = storageSelect();
@@ -266,17 +264,10 @@
 
             constructor() {
                 usedStorage.init();
+                this._memStore = {};
                 this._isNewDefer = $q.defer();
                 this._canWrite = $q.defer();
                 this._activeWrite = Promise.resolve();
-
-                if (WavesApp.isDesktop() && utils.isVersionLte('1.4.0')) {
-                    setTimeout(() => {
-                        $injector.get('$state').go('desktopUpdate');
-                    }, 1000);
-                    this._activeWrite = $q.defer();
-                    return this;
-                }
 
                 this.load('lastVersion')
                     .then((version) => {
@@ -305,7 +296,10 @@
             save(key, value) {
                 return this._canWrite.promise.then(() => {
                     this._activeWrite = this._activeWrite
-                        .then(() => utils.when(usedStorage.write(key, value)))
+                        .then(() => {
+                            this._memStore[key] = value;
+                            return value;
+                        })
                         .then((data) => {
                             this.change.dispatch();
                             return data;
@@ -315,11 +309,18 @@
             }
 
             load(key) {
-                return utils.when(usedStorage.read(key));
+                return utils.when((() => {
+                    if (this._memStore[key]) {
+                        return Promise.resolve(this._memStore[key]);
+                    }
+                    return usedStorage.read(key);
+                })());
             }
 
             clear() {
-                return this._canWrite.promise.then(() => utils.when(usedStorage.clear()));
+                return this._canWrite.promise.then(() => utils.when(() => {
+                    this._memStore = {};
+                }));
             }
 
         }
@@ -330,7 +331,7 @@
     factory.$inject = [
         '$q', 'utils', 'migration',
         'state', 'storageSelect', 'defaultSettings',
-        'storageDataConverter', '$injector'
+        'storageDataConverter'
     ];
 
     angular.module('app.utils')

@@ -12,7 +12,6 @@
 
     /**
      * @param Base
-     * @param {stateManager} stateManager
      * @param {ModalManager} modalManager
      * @param {app.utils} utils
      * @param {ng.IScope} $scope
@@ -26,7 +25,6 @@
      */
     const controller = function (
         Base,
-        stateManager,
         modalManager,
         user,
         $state,
@@ -191,7 +189,8 @@
              * @public
              */
             logout() {
-                user.logout('signIn');
+                this.closeDropdown();
+                user.logout('switch');
             }
 
             /**
@@ -352,6 +351,7 @@
                     return;
                 }
                 this.closeDropdown();
+                this.onMobileFaderClick();
                 user.logout('switch', true);
                 user.login(toUser);
                 analytics.send({ name: 'Switch Account' });
@@ -494,7 +494,6 @@
 
     controller.$inject = [
         'Base',
-        'stateManager',
         'modalManager',
         'user',
         '$state',

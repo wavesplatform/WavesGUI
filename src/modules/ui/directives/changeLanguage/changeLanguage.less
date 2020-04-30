@@ -1,77 +1,43 @@
 @import (reference) 'config';
+@import (reference) 'icons';
 
-.web-footer-language {
-  .select {
-    width: 200px;
-    position: relative;
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    font-size: 15px;
-    padding: 0;
-    right: 0;
-    top: 0;
+.footer-language {
+	.select {
+		.select__wrap {
+			&.expanded .select__title {
+				border-radius: 0 0 4px 4px;
+			}
+		}
 
-    .select__wrap {
-      background: @footer-background;
-      line-height: 40px;
-      height: 40px;
-      color: @color-white;
+		&_change-lang {
+			.select__wrap.expanded {
+				.select__title {
+					border: 1px solid @color-basic-200;
+					border-top: 1px solid transparent;
+				}
+			}
+		}
 
-      &.expanded .select__title {
-        border: 1px solid @changeLang-border-footer;
-        border-top: 0 none;
-        border-radius: 0;
+		&__list {
+			border-radius: 4px 4px 0 0;
+		}
+	}
+}
 
-        &::after {
-          transition: .5s;
-          transform: translateY(-50%) rotate(180deg);
-        }
-      }
+@media screen and (max-width: 480px) {
+	.footer-language {
+		.select {
+			&_change-lang {
+				width: 100px;
+			}
 
-    }
+			&__title {
+				padding: 0 15px;
 
-    .select__title {
-      border: 1px solid @changeLang-border-footer;
-      border-radius: 2px;
-      background: none transparent;
-      padding: 0 15px;
-      color: @white-only;
-    }
-
-    &__list {
-      background: @footer-background;
-      border-radius: 4px 4px 0 0;
-      flex-direction: column-reverse;
-      border: 1px solid @changeLang-border-footer;
-      border-bottom: 0 none;
-      box-shadow: none;
-      border-top: 1px solid @color-basic-200;
-      transform: translateY(-100%);
-      margin-top: -39px;
-
-      w-option.active {
-        display: none;
-      }
-
-      .option {
-        transition: .3s;
-        padding: 0 15px;
-        color: @white-only;
-
-        &:hover {
-          background: @footer-select-bg-hover;
-        }
-      }
-    }
-
-    .lng-item {
-      display: flex;
-      align-items: center;
-      font-size: @font-size-control;
-
-      &::before {
-        margin-right: 10px;
-      }
-    }
-  }
+				&::after {
+					right: 4px;
+				}
+			}
+		}
+	}
 }
