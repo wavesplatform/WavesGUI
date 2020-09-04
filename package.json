@@ -130,7 +130,7 @@
     "mobile-detect": "^1.4.1",
     "mousetrap": "1.6.1",
     "ng-i18next": "1.0.5",
-    "papaparse": "4.3.7",
+    "papaparse": "5.2.0",
     "qrcode": "^1.4.2",
     "qrcode-reader": "1.0.4",
     "ramda": "^0.25.0",
