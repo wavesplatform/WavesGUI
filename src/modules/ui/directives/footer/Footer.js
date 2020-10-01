@@ -74,10 +74,6 @@
                 storage.save(this._toasterMobilesStorageKey, true);
             }
 
-            showFAQ() {
-                modalManager.showMigrateFAQ();
-            }
-
         }
 
         return new FooterCtrl();
