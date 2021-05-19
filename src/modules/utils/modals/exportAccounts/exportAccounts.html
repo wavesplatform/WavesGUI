@@ -30,29 +30,10 @@
         </div>
     </div>
 
-
-    <div class="exportAccounts-modal__row exportAccounts-modal__row_pass">
-        <div class="flex">
-            <span class="exportAccounts-modal__password" w-i18n="modal.settings.password"></span>
-            <w-help-icon class="info">
-                <span class="exportAccounts-modal__helper"w-i18n="modal.settings.helperContent"></span>
-            </w-help-icon>
-        </div>
-        <div class="switcher-input" ng-class="{active: $ctrl.needPassword}">
-                <w-checkbox-submit id="need-password"
-                                   name="need-password"
-                                   ng-model="$ctrl.needPassword"
-                                   ng-class="{'checkbox-switcher_active': $ctrl.needPassword}"
-                                   class="checkbox-switcher">
-                </w-checkbox-submit>
-                <label for="need-password" class="switcher-input__label"></label>
-            </div>
-    </div>
-
     <form class="exportAccounts-modal__form" name="$ctrl.form" w-i18n-ns="app.ui" novalidate>
-        <w-input-container class="margin-2" ng-if="$ctrl.needPassword">
+        <w-input-container class="margin-2">
             <div class="left body-2 margin-05">
-                <span w-i18n="password.newPass"></span>
+                <span w-i18n="password.createForSaveAcc"></span>
             </div>
 
             <w-show-hide-password>
@@ -79,9 +60,9 @@
             </w-complexity-meter>
         </w-input-container>
 
-        <w-input-container class="margin-3" ng-if="$ctrl.needPassword">
+        <w-input-container class="margin-3">
             <div class="left body-2 margin-05">
-                <span w-i18n="password.repeat"></span>
+                <span w-i18n="password.confirm"></span>
             </div>
             <w-show-hide-password>
                 <w-input
@@ -95,8 +76,8 @@
                 </w-input>
             </w-show-hide-password>
 
-            <div class="like-input-error" ng-if="$ctrl.form.confirm.$dirty && $ctrl.form.confirm.$error.compare" w-i18n-ns="app.signUp">
-                <span class="error active" w-i18n="signUp.password.notMatch"></span>
+            <div class="like-input-error" ng-if="$ctrl.form.confirm.$dirty && $ctrl.form.confirm.$error.compare">
+                <span class="error active" w-i18n="password.notMatch"></span>
             </div>
         </w-input-container>
 

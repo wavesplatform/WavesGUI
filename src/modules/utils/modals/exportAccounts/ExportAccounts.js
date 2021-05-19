@@ -60,11 +60,6 @@
             /**
              * @type {boolean}
              */
-            needPassword = false;
-
-            /**
-             * @type {boolean}
-             */
             selectIsVisible = true;
             /**
              * @type {Array}
@@ -128,13 +123,11 @@
                     .filter(item => item[1])
                     .map(([address]) => this.userList.find(user => user.address === address));
                 const stringifyUsers = JSON.stringify(users);
-                const saveUsers = !this.needPassword ?
-                    stringifyUsers :
-                    encryptSeed(stringifyUsers, this.password, 10000);
+                const saveUsers = encryptSeed(stringifyUsers, this.password, 10000);
 
                 const saveData = {
-                    encrypted: this.needPassword,
-                    encryptionRounds: this.needPassword ? 10000 : undefined,
+                    encrypted: true,
+                    encryptionRounds: 10000,
                     saveUsers
                 };
 
