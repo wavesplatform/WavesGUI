@@ -156,7 +156,10 @@
         "repeat": "Confirm password",
         "secure": "secure password",
         "title": "Protect Your Account with a New Password",
-        "warn": "easy, add a digit or symbol"
+        "warn": "easy, add a digit or symbol",
+        "createForSaveAcc": "Create Password for Saved Accounts",
+        "confirm": "Confirm Passwords",
+        "notMatch": "Password does not match"
     },
     "qrCodeRead": {
         "closeRead": "Cancel"

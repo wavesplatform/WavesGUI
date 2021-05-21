@@ -50,9 +50,10 @@
             "desc": "To offer users a better experience and wider range of tools, the exchange has moved from Waves DEX to"
         },
         "oldUser": {
-            "desc": "To continue working with your existing accounts, assets and the exchange, you should move your accounts to the new Waves.Exchange. We strongly recommend that you do this ASAP. The migration process is fast, easy, and absolutely secure."
+            "desc": "If you want to continue working with your accounts, tokens, and exchange, please transfer your accounts to Waves.Exchange. To do this, you need to export your account and then import it into Waves.Exchange. This process is completely simple and safe."
         },
-        "title": "We’re no longer operating this service. For additional information please contact [Waves.Exchange](https://waves.exchange/)"
+        "title": "We no longer support this service. For more information contact [Waves.Exchange](https://waves.exchange/)",
+        "export": "Export account"
     },
     "faq": {
         "attention": {
@@ -146,7 +147,7 @@
         },
         "modalTitle": {
             "moving": "We're moving!",
-            "plate": "Don’t worry! All of your tokens, seed phrases and passwords are safe.",
+            "plate": "Don’t worry! All of your tokens, seed phrases, and passwords are safe.",
             "redirected": "You have been redirected to"
         },
         "signIn": "Sign in",

@@ -668,8 +668,8 @@
                 "accounts": "Accounts",
                 "export": "Export",
                 "selectAll": "Select all",
-                "title": "Please select account",
-                "unselectAll": "Unselect all"
+                "title": "Please, select accounts",
+                "unselectAll": "Cancel all"
             },
             "general": {
                 "auto": "Auto",
